@@ -202,11 +202,11 @@
     "examples/ryoshu-local/assets/V038.jpg": "b806284c45f6e7af5f537a7e4fa6aedcfe0f100f912306e44071e57672cb368f",
     "examples/ryoshu-local/assets/V070.jpg": "bbfb2fd3d9444424a314fb5de1036e3865ffecb038680f7a301b32b7063d56f2",
     "examples/ryoshu-local/facts.json": "e2bda039f4efdc2899b737ae92dba4451e64f78587570275c56abe5cdfffcff6",
-    "examples/ryoshu-local/index.html": "75e8d242b803bf82542b76dad3c5e9e83eac86f55254f154a74aa0ea15a8bffb",
+    "examples/ryoshu-local/index.html": "be2af1da2f539eecc94d2757ead27c06593c3366a58f56092546ce3942b25236",
     "examples/ryoshu-local/LICENSE": "6c3b3961e5dba25451125f285f2709dd212cb225f40d8e37ee1a8d48b1587d64",
     "examples/ryoshu-local/samples.json": "4daa246604aa399a8a77327d0bc233148ffd7da7059504bb123d920b021a329c",
     "examples/ryoshu-local/source.zip": "baa319c1cfed0b334eee93ac7193e5635e5b44811b1e18b4967d8e6506439294",
-    "examples/ryoshu-local/START.md": "3f07f72155efff87719807263b21218d3f29c1d942cae761020bd549841426d4",
+    "examples/ryoshu-local/START.md": "fca0ce125dda75bf15d0ce2a95f143eac7dbad0e8eb1b7ab029069cf256e03e4",
     "examples/ryoshu-local/styles.css": "137f8940ae8594cc6286de134b2bbc527320a2208b5022f5011e5af8dd11fc28",
     "examples/ryoshu-local/verification.json": "b1501cc257f53be991905280c1bbc31c15685a2d5e3874b9968271a14054aacd",
     "examples/ryoshu-local/VERIFICATION.md": "dc501bf3a3b807deb4c59018630e3b23fa52c130d0b03cd9ec2b588ec3f49628",
@@ -324,6 +324,22 @@
         "examples/ryoshu-local/facts.json",
         "examples/ryoshu-local/index.html"
       ]
+    },
+    {
+      "date": "2026-10-25",
+      "kind": "ryoshu-v1.3.2-installation-links",
+      "model_inference": false,
+      "scope": "Installation links and current UI copy only. Windows installer, release list and separate v1.3.2 UI/installation evidence linked. Original v1.3.0 OCR metrics, v0.4 Opus film/four samples, facts and archived source ZIP remain unchanged. No new media production or OCR/AI inference.",
+      "changes": {
+        "examples/ryoshu-local/index.html": {
+          "before_sha256": "75e8d242b803bf82542b76dad3c5e9e83eac86f55254f154a74aa0ea15a8bffb",
+          "after_sha256": "be2af1da2f539eecc94d2757ead27c06593c3366a58f56092546ce3942b25236"
+        },
+        "examples/ryoshu-local/START.md": {
+          "before_sha256": "3f07f72155efff87719807263b21218d3f29c1d942cae761020bd549841426d4",
+          "after_sha256": "fca0ce125dda75bf15d0ce2a95f143eac7dbad0e8eb1b7ab029069cf256e03e4"
+        }
+      }
     }
   ],
   "application_update": {
