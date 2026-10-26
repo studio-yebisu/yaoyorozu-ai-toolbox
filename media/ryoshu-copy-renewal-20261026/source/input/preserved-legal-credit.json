@@ -1,0 +1,17 @@
+{
+  "schema": "ryoshu-preserved-legal-literal/1",
+  "slot": "preserved.video_license.credit",
+  "text": "引用元:八百万図AIツールボックス made by studio_yebisu",
+  "source": {
+    "logical_path": "data/cases/ryoshu-local.json",
+    "sha256": "95999d9558c737a82bbad969b48fc810cc4eab525545db2844e416818a086a4c",
+    "json_pointer": "/video_license/credit"
+  },
+  "license_source": {
+    "logical_path": "MEDIA-LICENSE.md",
+    "sha256": "e89dcf032112b1ed503e8e43dfb238b6090f92cad0179081b4e0e8bbb861294c"
+  },
+  "same_literal_as_G0": true,
+  "origin": "pre-existing legal contract; not newly authored operator or Kimi deck copy",
+  "purpose": "Exact burned attribution for new credited32 variants"
+}

@@ -1096,13 +1096,12 @@
     {
       "case_id": "ryoshu-local",
       "orientation": "landscape",
-      "source": "media/ryoshu-local-wide.mp4",
-      "source_sha256": "c5100e7225a21124dd22b0f247b3ea1655f2963a95c1d9ca4e9ca904a9059540",
-      "path": "media/downloads/ryoshu-local-landscape-credited-ja-v3.mp4",
-      "sha256": "26f7538cc9cd14fd8ceb1955f796632fac0bbeb2fa1aeee841afbc73b3746156",
-      "spec": "credit-footer-japanese-brand-v3",
-      "font_sha256": "457b306f719a002f1d037b2a3942f2abfa8a55d7bb109bf8950341a3129adb46",
-      "encoder": "libx264",
+      "source": "media/ryoshu-copy-renewal-20261026/ryoshu-32s-wide.mp4",
+      "source_sha256": "650aa6d35914750e651db1406014c84a12bdcac6cd7e0964fc0563b1fc742585",
+      "path": "media/ryoshu-copy-renewal-20261026/ryoshu-32s-wide-credited-ja.mp4",
+      "sha256": "fc15a7612e4716eafd01eaaae2ce5d4168c3effb61091574d60de065c9f2f3a8",
+      "provenance_path": "media/ryoshu-copy-renewal-20261026/current-provenance.json",
+      "provenance_sha256": "de8421d42ac314e9d58bcfb5726850a34edfdc605b635f3e7abd074496c1a594",
       "width": 1920,
       "height": 1080,
       "duration": 32.0
@@ -1110,13 +1109,12 @@
     {
       "case_id": "ryoshu-local",
       "orientation": "portrait",
-      "source": "media/ryoshu-local.mp4",
-      "source_sha256": "112fe7044dbb602ecfbf13d3e651bab4bc2322b6070b307501f0b4e0e9dfd09e",
-      "path": "media/downloads/ryoshu-local-portrait-credited-ja-v3.mp4",
-      "sha256": "a506f2603dad23a578aa3457bd0f27cd9a0b3d06dc81d55d3a3066fae2d8ec53",
-      "spec": "credit-footer-japanese-brand-v3",
-      "font_sha256": "457b306f719a002f1d037b2a3942f2abfa8a55d7bb109bf8950341a3129adb46",
-      "encoder": "libx264",
+      "source": "media/ryoshu-copy-renewal-20261026/ryoshu-32s-portrait.mp4",
+      "source_sha256": "f5550a1d93e22e5f537aaddb98508657c000ad380778f6584c6c1f0c899b1de7",
+      "path": "media/ryoshu-copy-renewal-20261026/ryoshu-32s-portrait-credited-ja.mp4",
+      "sha256": "2d09995e68d082972194a724d490f7c8560c67d514909b1db34e8222c534dc1b",
+      "provenance_path": "media/ryoshu-copy-renewal-20261026/current-provenance.json",
+      "provenance_sha256": "de8421d42ac314e9d58bcfb5726850a34edfdc605b635f3e7abd074496c1a594",
       "width": 720,
       "height": 1280,
       "duration": 32.0
@@ -1323,5 +1321,35 @@
     "引用元:八百万図AIツールボックス",
     "made by studio_yebisu"
   ],
-  "production": "Local FFmpeg composition; no AI model inference."
+  "production": "Local FFmpeg composition; no AI model inference.",
+  "history_assets": [
+    {
+      "case_id": "ryoshu-local",
+      "orientation": "landscape",
+      "source": "media/ryoshu-local-wide.mp4",
+      "source_sha256": "c5100e7225a21124dd22b0f247b3ea1655f2963a95c1d9ca4e9ca904a9059540",
+      "path": "media/downloads/ryoshu-local-landscape-credited-ja-v3.mp4",
+      "sha256": "26f7538cc9cd14fd8ceb1955f796632fac0bbeb2fa1aeee841afbc73b3746156",
+      "spec": "credit-footer-japanese-brand-v3",
+      "font_sha256": "457b306f719a002f1d037b2a3942f2abfa8a55d7bb109bf8950341a3129adb46",
+      "encoder": "libx264",
+      "width": 1920,
+      "height": 1080,
+      "duration": 32.0
+    },
+    {
+      "case_id": "ryoshu-local",
+      "orientation": "portrait",
+      "source": "media/ryoshu-local.mp4",
+      "source_sha256": "112fe7044dbb602ecfbf13d3e651bab4bc2322b6070b307501f0b4e0e9dfd09e",
+      "path": "media/downloads/ryoshu-local-portrait-credited-ja-v3.mp4",
+      "sha256": "a506f2603dad23a578aa3457bd0f27cd9a0b3d06dc81d55d3a3066fae2d8ec53",
+      "spec": "credit-footer-japanese-brand-v3",
+      "font_sha256": "457b306f719a002f1d037b2a3942f2abfa8a55d7bb109bf8950341a3129adb46",
+      "encoder": "libx264",
+      "width": 720,
+      "height": 1280,
+      "duration": 32.0
+    }
+  ]
 }

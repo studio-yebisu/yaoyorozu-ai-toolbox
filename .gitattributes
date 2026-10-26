@@ -1,0 +1,6 @@
+/.gitattributes -text
+/data/cases/ryoshu-local.json -text
+/data/production/ryoshu-local.json -text
+/data/production/ryoshu-local-current.json -text
+/data/video-downloads.json -text
+/media/ryoshu-copy-renewal-20261026/** -text
