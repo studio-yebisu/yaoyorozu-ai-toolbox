@@ -1,9 +1,9 @@
-# Ryoshuをローカルで試す — v1.3.2
+# Ryoshuをローカルで試す — v1.3.3
 
 この紹介ページは保存済みの架空データを表示し、OCR・AIは実行しません。旧映像と4例はv0.4、100件のOCR・科目判定の実画面と数値はv1.3.0の記録です。
 
 1. [動作要件](https://github.com/studio-yebisu/ryoshu/blob/v1.3.2/docs/REQUIREMENTS.md)と[モデルの条件](https://github.com/studio-yebisu/ryoshu/blob/v1.3.2/THIRD_PARTY.md)を確認します。
-2. [v1.3.2 Windowsインストーラー](https://github.com/studio-yebisu/ryoshu/releases/download/v1.3.2/Ryoshu-1.3.2-windows-x64-setup.exe)を開き、画面に沿って導入します。管理者権限は不要です。[ZIP・リリース一覧](https://github.com/studio-yebisu/ryoshu/releases/tag/v1.3.2)もあります。
+2. [v1.3.3 Windowsインストーラー](https://github.com/studio-yebisu/ryoshu/releases/download/v1.3.3/Ryoshu-1.3.3-windows-x64-setup.exe)を開き、画面に沿って導入します。管理者権限は不要です。[ZIP・リリース一覧](https://github.com/studio-yebisu/ryoshu/releases/tag/v1.3.3)もあります。
 3. スタートメニューの「Ryoshu」を開きます。初回はOllama Windows版を導入し、モデルの利用条件を確認して実行環境・モデルを取得します。Pythonの手動導入は不要です。ブラウザーが開いたら復元用パスワードを設定します。
 4. PDF・画像をまとめて選択またはドロップし、「読み取りを開始」。処理中のファイル・段階・完了と待ち件数が表示されます。原本・文字数字・科目を並べて確認し、画像はクリックで拡大できます。
 5. 科目だけ直すときは科目名をクリックし、「カテゴリー」→「勘定科目」→「変更を保存」。金額・日付・用途などは「詳細を修正」から編集します。
