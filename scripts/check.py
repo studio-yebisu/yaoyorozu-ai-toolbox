@@ -3,6 +3,7 @@ from html.parser import HTMLParser
 import hashlib
 import json
 from check_open_models import check_open_models
+from production_records import check_download_provenance, check_production_artifacts
 from pathlib import Path
 import subprocess
 import re
@@ -85,9 +86,7 @@ def main():
         assert proof['runtime']['status'] == 'passed', 'Resource runtime proof is incomplete'
         assert proof['runtime']['sample_count'] > 0, 'Executed resource has no real sample'
         assert proof.get('artifacts_sha256'), 'Resource artifact hashes missing'
-        for relative, expected in proof['artifacts_sha256'].items():
-            local_file(relative)
-            assert hashlib.sha256((DIST / relative).read_bytes()).hexdigest() == expected, f'Artifact changed since verification: {relative}'
+        check_production_artifacts(DIST, case, proof_path, proof)
     for case in cases:
         assert case['video_license']['id'] == 'LicenseRef-Yaoyorozu-Video-Credit', 'Video reuse conditions missing'
         assert case['video_license']['x_mention'] == '@studio_yebisu', 'Mandatory X attribution missing'
@@ -99,6 +98,7 @@ def main():
             assert asset['source'] == case['video_' + orientation], 'Download was composed from another source'
             assert hashlib.sha256((DIST / asset['source']).read_bytes()).hexdigest() == asset['source_sha256'], 'Playback source changed after watermarking'
             assert hashlib.sha256((DIST / asset['path']).read_bytes()).hexdigest() == asset['sha256'], 'Credited download changed after verification'
+            check_download_provenance(DIST, case, asset)
         for key in ('demo', 'video', 'poster', 'skill', 'samples'):
             local_file(case[key])
         variants = {}
