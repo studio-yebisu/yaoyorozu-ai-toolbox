@@ -49,8 +49,14 @@
     button.querySelector('[data-save-label]').textContent = active ? '保存済み' : 'あとで試す';
   }
 
+  // Re-paint every save button under `scope` (the page by default). Cards cached while detached
+  // miss live updates, so repaint them when they are reattached.
+  function refresh(scope) {
+    for (const button of (scope || document).querySelectorAll('[data-save-id]')) paintButton(button);
+  }
+
   function changed() {
-    for (const button of document.querySelectorAll('[data-save-id]')) paintButton(button);
+    refresh();
     window.dispatchEvent(new CustomEvent('sy:savedchange'));
   }
 
@@ -121,5 +127,5 @@
     if (event.key !== KEY && event.key !== null) return;
     try { saved = readSaved(); changed(); } catch (_) { /* Retain the last confirmed state. */ }
   });
-  window.SY.itemActions = {create, isSaved: id => saved.has(id), savedCount: () => saved.size};
+  window.SY.itemActions = {create, refresh, isSaved: id => saved.has(id), savedCount: () => saved.size};
 })();

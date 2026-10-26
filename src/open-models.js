@@ -363,7 +363,8 @@
   async function load() {
     if (loading) return;
     loading = true;
-    errorEl.hidden = true;
+    // The error box (with its retry button) stays visible while retrying so keyboard focus is not
+    // stranded; a successful build dismisses it below.
     emptyEl.hidden = true;
     list.hidden = false;
     list.setAttribute('aria-busy', 'true');
@@ -389,6 +390,8 @@
       fieldsEl.hidden = true;
       statusEl.textContent = '読み込めませんでした。';
       errorEl.hidden = false;
+    } else {
+      errorEl.hidden = true;
     }
   }
 
@@ -401,7 +404,20 @@
   input.addEventListener('input', () => setState({q: input.value, field: state.field}, 'replace'));
   resetBtn.addEventListener('click', resetAll);
   $('[data-ow-empty-reset]')?.addEventListener('click', resetAll);
-  $('[data-ow-retry]')?.addEventListener('click', load);
+  const owRetry = $('[data-ow-retry]');
+  owRetry?.addEventListener('click', () => {
+    // While retrying, the error box stays visible, so only a successful build — the one case that
+    // hides it — can leave the keyboard stranded; move it to the results section.
+    const restore = document.activeElement === owRetry;
+    load().then(() => {
+      if (!restore || !errorEl.hidden) return;
+      // Hiding the box blurs its button asynchronously: here the active element may still be the
+      // (hidden) retry button, or already the body. Both mean the focus is ours to restore; any
+      // other element means the user moved it, so leave it alone.
+      const active = document.activeElement;
+      if (active === document.body || errorEl.contains(active)) $('#ow-gallery')?.focus({preventScroll: true});
+    });
+  });
 
   window.addEventListener('popstate', () => {
     if (!models.length) return;

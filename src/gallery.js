@@ -191,7 +191,11 @@
     const box = h('div', {class: 'preview-still'});
     if (poster) {
       const img = h('img', {src: poster, alt: meta.title + 'の画像', width: '1280', height: '720', decoding: 'async'});
-      img.addEventListener('error', () => img.remove());
+      // A broken poster must not leave a silent frame behind the dialog.
+      img.addEventListener('error', () => {
+        img.remove();
+        box.append(h('p', {class: 'preview-still-note'}, '画像を読み込めませんでした。'));
+      }, {once: true});
       box.append(img);
     }
     if (message) box.append(h('p', {class: 'preview-still-note'}, message));
@@ -339,7 +343,13 @@
     root.classList.remove('has-preview');
     if (!state) return;
     if (window.scrollX !== state.x || window.scrollY !== state.y) window.scrollTo(state.x, state.y);
-    if (state.invoker && state.invoker.isConnected) state.invoker.focus({preventScroll: true});
+    if (state.invoker && state.invoker.isConnected) {
+      state.invoker.focus({preventScroll: true});
+    } else {
+      // Unsaving inside the dialog can drop the invoking card while 「保存したもの」 is on; land on the gallery.
+      const cases = document.getElementById('cases');
+      if (cases) cases.focus({preventScroll: true});
+    }
   }
 
   window.SY.casePreview = {

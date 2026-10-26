@@ -25,3 +25,13 @@
     max-width: calc(82svh * 9 / 16); margin-inline: auto;
   }
 }
+
+/* A source that fails to load keeps the box truthful: the case poster, else the case name. */
+.adaptive-media .media-fallback {
+  position: absolute; inset: 0; z-index: 2;
+  display: grid; place-items: center; padding: 1rem;
+  background: var(--paper); text-align: center; overflow-wrap: anywhere;
+}
+.adaptive-media .media-fallback img { width: 100%; height: 100%; object-fit: contain; }
+.media-fallback-name { margin: 0; font-family: var(--mincho); font-weight: 700; font-size: 1.25rem; line-height: 1.4; }
+.media-fallback-note { margin: 0; font-size: 0.8125rem; line-height: 1.6; color: var(--ink-soft); }

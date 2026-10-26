@@ -46,9 +46,34 @@
   const galleryQuery = $('[data-gallery-query]');
   const galleryEmpty = $('[data-gallery-empty]');
   const savedFilter = $('[data-saved-only]');
+  const savedToolbar = $('.saved-toolbar');
 
   function updateSavedFilter() {
-    const count = state.loaded ? state.entries.filter(entry => window.SY.itemActions.isSaved(entry.id)).length : window.SY.itemActions.savedCount();
+    // Count saved items that are still present: catalog entries, plus active cases whose save id
+    // (their own case id when no catalog entry points at them) is not already an entry id.
+    // Orphan ids of removed items are not counted, and no entries are invented for them.
+    let count;
+    if (state.loaded) {
+      const saved = window.SY.itemActions;
+      const entryIds = new Set(state.entries.map(entry => entry.id));
+      count = state.entries.filter(entry => saved.isSaved(entry.id)).length;
+      if (Array.isArray(state.cases)) {
+        for (const item of state.cases) {
+          const id = window.SY.likes.caseID(item);
+          if (!entryIds.has(id) && saved.isSaved(id)) count++;
+        }
+      }
+    } else {
+      count = window.SY.itemActions.savedCount();
+    }
+    // Nothing to filter until the first save; keep the bar when the (empty) filter is on so it can be switched off.
+    const hideToolbar = count === 0 && !state.savedOnly;
+    // Hiding the bar while its toggle holds focus (e.g. another tab removed the last save via
+    // storage) would drop focus to the body; park it on the section before the bar disappears.
+    if (hideToolbar && !savedToolbar.hidden && savedToolbar.contains(document.activeElement)) {
+      $('#cases').focus({preventScroll: true});
+    }
+    savedToolbar.hidden = hideToolbar;
     savedFilter.hidden = false;
     savedFilter.setAttribute('aria-pressed', String(state.savedOnly));
     $('[data-saved-count]').textContent = String(count);
@@ -103,13 +128,13 @@
     if (filter.cat !== 'all' && entry.category !== filter.cat) return false;
     if (filter.kind !== 'all' && (filter.kind === 'skill') !== isSkill(entry)) return false;
     if (filter.withCase && !state.caseByEntry[entry.id]) return false;
-    if (state.savedOnly && !window.SY.itemActions.isSaved(entry.id)) return false;
+    if (filter.savedOnly && !window.SY.itemActions.isSaved(entry.id)) return false;
     return terms.every(term => entry._text.includes(term));
   }
 
   // How many entries a filter would give if only `overrides` changed.
   function countWith(overrides, terms) {
-    const filter = {cat: state.cat, kind: state.kind, withCase: state.withCase, ...overrides};
+    const filter = {cat: state.cat, kind: state.kind, withCase: state.withCase, savedOnly: state.savedOnly, ...overrides};
     let total = 0;
     for (const entry of state.entries) if (matches(entry, filter, terms)) total++;
     return total;
@@ -128,7 +153,11 @@
 
   // Rows are built on first display and cached, so hidden pages cost nothing and images load only when shown.
   function rowFor(entry) {
-    if (entry._row) return entry._row;
+    if (entry._row) {
+      // The cached row may have missed storage changes while detached; repaint its save button.
+      window.SY.itemActions.refresh(entry._row);
+      return entry._row;
+    }
     const skill = isSkill(entry);
     const produced = state.caseByEntry[entry.id];
     const image = safeHref(entry.image);
@@ -224,13 +253,13 @@
     catSelect.value = state.cat;
     for (const el of $$('[data-kind-count]')) el.textContent = String(countWith({kind: el.dataset.kindCount}, terms));
     $('[data-case-count]').textContent = casesAvailable ? String(countWith({withCase: true}, terms)) : '—';
-    const narrowed = terms.length > 0 || state.kind !== 'all' || state.withCase;
+    const narrowed = terms.length > 0 || state.kind !== 'all' || state.withCase || state.savedOnly;
     for (const el of $$('[data-field-count]')) {
       const id = el.dataset.fieldCount;
       el.textContent = String(narrowed ? countWith({cat: id}, terms) : (state.totals[id] || 0));
     }
     $('[data-fields-note]').textContent = narrowed
-      ? '数字は、いまのキーワード・種類・動画・デモの絞り込みで当てはまる件数です。'
+      ? '数字は、いまの絞り込み条件で当てはまる件数です。'
       : '数字は掲載している件数です。選ぶと、下のカタログがその分野に絞られます。';
 
     const parts = [];
@@ -321,7 +350,11 @@
 
   // Cards are built once per case. Only the first row loads eagerly; the rest wait until scrolled near.
   function galleryCard(item, index) {
-    if (item._card) return item._card;
+    if (item._card) {
+      // The cached card may have missed storage changes while detached; repaint its save button.
+      window.SY.itemActions.refresh(item._card);
+      return item._card;
+    }
     const skill = skillName(item);
     const title = joinLines(titleLines(item));
     const summary = (item.catalog_entry && item.catalog_entry.summary) || item.summary;
@@ -621,7 +654,8 @@
 
   let firstRun = true;
   async function start() {
-    errorBox.hidden = true;
+    // The error box (with its retry button) stays in place while reloading so keyboard focus
+    // there is never stranded; a successful load dismisses it below.
     empty.hidden = true;
     more.hidden = true;
     status.textContent = 'カタログを読み込んでいます…';
@@ -641,6 +675,7 @@
     syncInputs();
     renderCases();
     if (!catalogOk) return showCatalogError();
+    errorBox.hidden = true;
 
     state.loaded = true;
     $('[data-tally-note]').hidden = Array.isArray(state.cases);
@@ -828,7 +863,20 @@
     });
   }
 
-  $('[data-retry]').addEventListener('click', start);
+  const retryButton = $('[data-retry]');
+  retryButton.addEventListener('click', () => {
+    // While retrying, the error box stays visible, so only a successful load — the one case that
+    // hides it — can leave the keyboard stranded; move it to the catalog section.
+    const restore = document.activeElement === retryButton;
+    start().then(() => {
+      if (!restore || !errorBox.hidden) return;
+      // Hiding the box blurs its button asynchronously: here the active element may still be the
+      // (hidden) retry button, or already the body. Both mean the focus is ours to restore; any
+      // other element means the user moved it, so leave it alone.
+      const active = document.activeElement;
+      if (active === document.body || errorBox.contains(active)) $('#catalog').focus({preventScroll: true});
+    });
+  });
 
   $('[data-cases-retry]').addEventListener('click', async () => {
     showGalleryPlaceholders();
