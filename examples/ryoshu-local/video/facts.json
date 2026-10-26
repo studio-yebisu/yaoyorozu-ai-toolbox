@@ -1,6 +1,6 @@
 {
   "product": "Ryoshu",
-  "subtitle": "領収書OCRとAIによる勘定科目判断アプリ（各種CSV対応）",
+  "subtitle": "領収書の読み取りと勘定科目の候補作り・帳簿・4形式CSVに対応するWindowsアプリ",
   "commit": "5b601be1a3fe3ebdb600d0a53c557917652a876d",
   "links": {
     "github": "https://github.com/studio-yebisu/ryoshu",
@@ -11,23 +11,23 @@
     "license": "https://github.com/studio-yebisu/ryoshu/blob/main/THIRD_PARTY.md"
   },
   "scope": {
-    "runtime": "セットアップ後のOCR・AI判断・SQLite帳簿保存はPC内。領収書を外部OCR/LLMへ送らず、クラウド推論フォールバックなし。",
-    "setup": "初回の依存・OCR重み・約2.5GBのQwenモデル取得はネット接続が必要。",
-    "ocr": "Indra OCR 1.1.2 / CPU",
-    "semantic": "OllamaのローカルQwen3 4B、Q4_K_M / CPU・GPU不要",
-    "catalog": "SQLiteに38科目と14確認条件。",
-    "confirmation": "取り込み後にSQLiteへ未確認の帳簿を自動保存するのが既定。本人はあとから原本・金額・科目・用途・割合・支払元・税区分を確認・修正する。汎用CSVは未確認も出力可、会計ソフト向け仕訳CSVは確認済みを出力。",
+    "runtime": "領収書の読み取り・勘定科目の候補作り・帳簿保存はローカルPC上。画像と内容を外部AIへ送らず、クラウドモデルへの自動切替も行わない。",
+    "setup": "初回準備では実行環境・依存・OCRモデル・約2.5GBのQwenモデルを取得するためネット接続が必要。",
+    "ocr": "Indra OCR 1.1.2が文字と数字を読み取る。",
+    "semantic": "Ollama上のQwen3 4B（qwen3:4b）が勘定科目の候補を作る。専用GPUは不要。",
+    "catalog": "領収書には13カテゴリー・69科目から選び、独自科目も追加できる。",
+    "confirmation": "読み取り結果と科目は候補。原本と照らして利用者が確認・修正し、税務上の最終判断は利用者と税理士が行う。確認済みは利用者の操作状態で税理士の承認ではない。",
     "csv": [
       "汎用CSV",
       "freee振替伝票",
       "MFクラウド仕訳帳",
       "弥生デスクトップ25項目"
     ],
-    "testing": "100種類の架空PDFを取込・OCR・AIへ通した回帰検査。同じ100件を修正にも使用。未知の実物領収書の精度保証ではない。",
-    "limitations": "支出の経費帳と税込仕訳。売上・口座照合・償却・決算/申告書・返金や外貨の仕訳は未対応。",
-    "requirements": "Windows11・64bit、Python3.12またはuv、Ollama、日本語フォント。最低RAM未測定。検証機64GBは最低要件ではない。",
-    "license": "アプリMIT。Indra重みはmodified OpenRAIL-Mで事業規模・資金調達・競合用途等に制限。",
-    "csv_test": "別の架空6件を手動確認した4形式・7行、借貸とも299095円。実会計サービス取込は未実施。"
+    "testing": "固定した架空100件の過去の回帰検証。同じ100件を改善にも使っており、未知の実物領収書での正答率ではない。",
+    "limitations": "支出の記録と確認が対象。売上・口座照合、減価償却、決算・申告書、返金・外貨の仕訳は対象外。実会計サービスへのCSV取込は未検証。",
+    "requirements": "Windows 11 64bit、JavaScriptが使えるブラウザー、Ollama。専用GPU不要、最低RAM未測定。スマホ・LAN共有は対象外。",
+    "license": "アプリのコードはMIT。Indra OCRの重み・Qwen・依存ライブラリは各条件に従う。",
+    "csv_test": "別の架空6件を手動確認した4形式・7行、借貸とも299095円。実会計サービス取込は未実施。書き出したCSVと原本ファイルは暗号化されない通常ファイル。"
   },
   "metrics": {
     "ocr_completed": {

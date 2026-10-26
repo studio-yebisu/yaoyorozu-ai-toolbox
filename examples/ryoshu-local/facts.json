@@ -25,24 +25,24 @@
     "installation": "https://github.com/studio-yebisu/ryoshu/blob/e79394d7349efc15aadb2dc02f6fe381596b407d/docs/INSTALL.md"
   },
   "scope": {
-    "runtime": "PC内でOCR・科目候補を作り、暗号化した帳簿へ保存。v1.3はカテゴリーからの科目選択と一覧からの科目変更に対応。",
-    "setup": "Ollamaのみ利用者が導入。固定Python3.12.15・依存・OCR重み・約2.5GBのQwenモデルを初回に自動取得。",
-    "ocr": "Indra OCR 1.1.2 / CPU",
-    "semantic": "OllamaのローカルQwen3 4B、Q4_K_M / CPU・GPU不要",
-    "catalog": "SQLiteに38科目と15確認条件。",
-    "confirmation": "取り込み後にSQLiteへ未確認の帳簿を自動保存するのが既定。本人はあとから原本・金額・科目・用途・割合・支払元・税区分を確認・修正する。汎用CSVは未確認も出力可、会計ソフト向け仕訳CSVは確認済みを出力。 原本・科目・用途は必ず本人が確認し、税務上の最終判断は税理士に確認する。確認済みは本人の操作であり、税理士の承認・法的適合の証明ではない。",
+    "runtime": "領収書の読み取り・勘定科目の候補作り・帳簿保存はローカルPC上で行い、画像と内容を外部AIへ送らない。結果一覧からカテゴリーと科目を選び直せる。",
+    "setup": "Ollamaは利用者が公式から導入。初回準備ではPython 3.12.15・固定版の依存・OCRモデル・約2.5GBのQwenモデルを取得するためネット接続が必要。",
+    "ocr": "Indra OCR 1.1.2が領収書の文字と数字を読み取る。",
+    "semantic": "Ollama上のQwen3 4B（qwen3:4b）が勘定科目の候補を作る。専用GPUは不要。",
+    "catalog": "領収書には13カテゴリー・69科目から選び、独自科目も追加できる。",
+    "confirmation": "読み取り結果と科目は候補。原本と照らして利用者が確認・修正し、税務上の最終判断は利用者と税理士が行う。確認済みは利用者の操作状態で税理士の承認ではない。汎用CSVは未確認も書き出せる。",
     "csv": [
       "汎用CSV",
       "freee振替伝票",
       "MFクラウド仕訳帳",
       "弥生デスクトップ25項目"
     ],
-    "testing": "100種類の架空PDFを取込・OCR・AIへ通した回帰検査。同じ100件を修正にも使用。未知の実物領収書の精度保証ではない。",
-    "limitations": "支出の経費帳と税込仕訳。売上・口座照合・償却・決算/申告書・返金や外貨の仕訳は未対応。",
-    "requirements": "Windows11・64bit、Ollama、日本語フォント。GPU不要、最低RAM未測定。スマホ/LAN共有は対象外。",
-    "license": "アプリMIT。Indra重みはmodified OpenRAIL-Mで事業規模・資金調達・競合用途等に制限。",
+    "testing": "固定した架空100件の過去の回帰検証。同じ100件を改善にも使っており、未知の実物領収書での正答率ではない。",
+    "limitations": "支出の記録と確認が対象。売上・口座照合、減価償却、決算・申告書、返金・外貨の仕訳は対象外。実会計サービスへのCSV取込は未検証。",
+    "requirements": "Windows 11 64bit、JavaScriptが使えるブラウザー、Ollama。専用GPU不要、最低RAM未測定。スマホ・LAN共有は対象外。",
+    "license": "アプリのコードはMIT。Indra OCRの重み・Qwen・依存ライブラリは各条件に従う。",
     "csv_test": "別の架空6件を手動確認した4形式・7行、借貸とも299095円。実会計サービス取込は未実施。",
-    "storage": "SQLCipher DB、AES-GCM原本/プレビュー、パスワード付き暗号化バックアップ、Windows利用者DPAPI鍵。CSV・書き出した原本は暗号化しない。"
+    "storage": "帳簿DBはSQLCipher、保存済みの原本・プレビュー・暗号化バックアップはAES-256-GCMで保護。鍵はWindowsの利用者ごとに保護する。書き出したCSV・原本ファイルは暗号化されない通常ファイル。"
   },
   "metrics": {
     "total_exact": {

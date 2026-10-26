@@ -72,7 +72,7 @@ const LY=PT?{t:{x:40,y1:62,y2:122,s1:30,s2:44,mw:640,sx:40,sy:176,ss:26,sal:'lef
   shot:[120,545,580,330],shotL:[120,522,20],met:{x:130,y:500,w:630,h:120,gx:660,gy:140,cols:2,fs:60,nx:130,ny:800,nw:1300,ns:24,n2:42,n3:78},
   foot:[80,1032,26,'left',900,1840,1032,18,'right']};
 
-const ST=[['文字を読む','Indra OCR 1.1.2'],['AIが候補','Ollama・Qwen3 4B','CPUで動作・GPU不要'],['すぐ帳簿へ','SQLite・未確認'],['あとで確認','本人が編集'],['CSV出力','4形式']];
+const ST=[['文字と数字を読み取る','Indra OCR 1.1.2'],['勘定科目は候補','Ollama・Qwen3 4B','専用GPUは不要'],['帳簿へ保存','SQLCipher・未確認'],['原本と照合','利用者が修正・確認'],['CSVに書き出す','4形式']];
 const ACT=[[3.4,8.2],[8.8,12.8],[12.8,18],[18,21],[21,24]],CW=[[8,9],[12.4,13.2],[17.6,18.4],[20.8,21.8]];
 const FD=[['日付','2023-11-02'],['支払先','コンビニ みちのく'],['金額','1,760円']];
 const RL=['V001・2023-11-02','コンビニ みちのく','1,760円・消耗品費（候補）'];
@@ -86,19 +86,19 @@ function chip(i,t,fin){const L=LY,s=L.st[i],w=L.cw,h=L.ch,x=s.x-w/2,y=s.y-h/2,a=
     tx(d[1],s.x,s.y+o[1]*h,z[1],c2,600,'center',al,w-24);if(d[2])tx(d[2],s.x,s.y+o[2]*h,z[2],c2,600,'center',al,w-24);});}
 
 function catalog(t,a){if(a<=0)return;const [x,y,w,h]=LY.cat;box(x,y,w,h,16,'#fff',C.forest,2,a,14);
-  if(PT){tx('SQLite 科目カタログ',x+16,y+18,14,C.forest,700,'left',a);tx('38科目・14確認条件',x+16,y+48,26,C.ink,800,'left',a,w-32);}
-  else{tx('SQLite 科目カタログ',x+24,y+34,20,C.forest,700,'left',a);tx('38科目',x+24,y+92,50,C.ink,800,'left',a);tx('14確認条件',x+24,y+150,32,C.ink,800,'left',a);}
+  if(PT){tx('帳簿の勘定科目',x+16,y+18,14,C.forest,700,'left',a);tx('69科目・13カテゴリー',x+16,y+48,26,C.ink,800,'left',a,w-32);}
+  else{tx('帳簿の勘定科目',x+24,y+34,20,C.forest,700,'left',a);tx('69科目',x+24,y+92,50,C.ink,800,'left',a);tx('13カテゴリー',x+24,y+150,32,C.ink,800,'left',a);}
   const hl=ss(10.2,10.6,t),fs=PT?13:18,cy=y+h-(PT?20:40);let cx=x+(PT?16:24);
   ['消耗品費','会議費','通信費','旅費交通費'].forEach((s,i)=>{const tw=mw(s,fs,700)+fs*1.2;if(cx+tw>x+w-10)return;
     box(cx,cy-fs*.8,tw,fs*1.6,fs*.8,'#eef1ea',null,0,a);if(!i)box(cx,cy-fs*.8,tw,fs*1.6,fs*.8,C.amberL,C.amber,2,a*hl);
     tx(s,cx+tw/2,cy,fs,C.ink,700,'center',a);cx+=tw+8;});}
 
 function checklist(t,a){if(a<=0)return;const [x,y,w,h]=LY.chk,s=LY.cs2;box(x,y,w,h,18,'#fff',C.forest,2,a,16);
-  c.save();c.globalAlpha*=a;person(x+30*s,y+32*s,24*s,C.forest);tx('あとで本人が確認',x+62*s,y+32*s,26*s,C.forest,800,'left',1,w-90*s);
+  c.save();c.globalAlpha*=a;person(x+30*s,y+32*s,24*s,C.forest);tx('原本と照らして利用者が確認',x+62*s,y+32*s,26*s,C.forest,800,'left',1,w-90*s);
   ['日付','金額','科目','支払元'].forEach((lb,i)=>{const bx=x+24*s+(i%2)*(w/2),by=y+(88+54*Math.floor(i/2))*s,b=26*s;
     box(bx,by-b/2,b,b,5,'#fff',C.ink,2);tick(bx+b/2,by,b,C.forest,ss(18.6+i*.4,18.9+i*.4,t));
     tx(lb,bx+b+12*s,by,28*s,C.ink,800,'left',1,w/2-b-30*s);});
-  wrap('帳簿の行を開き、空欄は本人が入力・修正',x+24*s,y+186*s,w-48*s,15*s,19*s,C.mute,500,1);
+  wrap('読み取り結果と科目は候補。空欄や誤りを修正',x+24*s,y+186*s,w-48*s,15*s,19*s,C.mute,500,1);
   const p=ss(19.9,20.1,t)*(1-ss(20.2,20.4,t)),bh=46*s,bw=w-48*s,bx=x+24*s,by=y+h-bh-16*s;
   c.save();c.translate(bx+bw/2,by+bh/2);c.scale(1-.04*p,1-.04*p);box(-bw/2,-bh/2,bw,bh,bh/2,ss(20.2,20.4,t)>.5?'#1b463c':C.forest,null);
   tx('確認済みにする',0,0,22*s,'#fff',800,'center',1,bw-20);c.restore();
@@ -110,18 +110,18 @@ function draw(t){
   c.save();c.setTransform(K,0,0,K,OX,OY);
   const L=LY,T=L.t,[ex,ey,ew,eh]=L.enc,fin=ss(28.4,29,t);
   // title
-  tx('Ryoshu',T.x,T.y1,T.s1,C.forest,800);tx('領収書整理アプリ',T.x+mw('Ryoshu',T.s1,800)+16,T.y1+2,T.s1*.5,C.ochre,700);
-  tx('領収書を、完全ローカルで整える。',T.x,T.y2,T.s2,C.ink,800,'left',1,T.mw);
+  tx('Ryoshu',T.x,T.y1,T.s1,C.forest,800);tx('領収書の読み取りと支出帳簿',T.x+mw('Ryoshu',T.s1,800)+16,T.y1+2,T.s1*.5,C.ochre,700);
+  tx('領収書を、原本と照らして整える。',T.x,T.y2,T.s2,C.ink,800,'left',1,T.mw);
   if(!PT){c.fillStyle=C.ochre;c.fillRect(80,222,120,4);}
-  [['OCRもAIも、PCの中で。',ss(3,4,t)*(1-ss(12.4,13.1,t))],['すぐ帳簿へ。確認はあとで。',ss(13.2,14,t)*(1-ss(23.6,24.2,t))],
-   ['CSV→Freee、MFクラウド、弥生などに取り込み。',ss(24.2,25,t)]].forEach(([s,a])=>tx(s,T.sx,T.sy+(1-a)*8,T.ss,C.forest,700,T.sal,a,T.sw));
+  [['読み取りと科目候補はローカルPC上。',ss(3,4,t)*(1-ss(12.4,13.1,t))],['帳簿に残し、原本と照合。',ss(13.2,14,t)*(1-ss(23.6,24.2,t))],
+   ['確認した内容を4形式のCSVへ。',ss(24.2,25,t)]].forEach(([s,a])=>tx(s,T.sx,T.sy+(1-a)*8,T.ss,C.forest,700,T.sal,a,T.sw));
   // persistent PC enclosure
   const q=PT?.5:1,sx=ex+ew/2,sy=ey+eh;c.save();c.fillStyle='#d5dacd';c.beginPath();c.moveTo(sx-60*q,sy);c.lineTo(sx+60*q,sy);
   c.lineTo(sx+80*q,sy+38*q);c.lineTo(sx-80*q,sy+38*q);c.closePath();c.fill();rr(sx-120*q,sy+36*q,240*q,10*q,5*q);c.fill();c.restore();
   box(ex,ey,ew,eh,PT?22:30,'#fcfcf7',C.forest,3,1,26);
-  const [hx,hy,hs,hs2]=L.hdr;tx('このPC',hx,hy,hs,C.forest,800);
-  if(PT)tx('OCR・AI判断・SQLite帳簿保存は、このPCの中で実行',hx,hy+28,hs2,C.mute,600,'left',1,ew-48);
-  else tx('OCR・AI判断・SQLite帳簿保存は、このPCの中で実行',hx+mw('このPC',hs,800)+20,hy,hs2,C.mute,600,'left',1,ew-220);
+  const [hx,hy,hs,hs2]=L.hdr;tx('領収書はローカルPC上で処理',hx,hy,hs,C.forest,800);
+  if(PT)tx('画像と内容を外部AIへ送らず、読み取り・科目候補・帳簿保存を実行',hx,hy+28,hs2,C.mute,600,'left',1,ew-48);
+  else tx('画像と内容を外部AIへ送らず、読み取り・科目候補・帳簿保存を実行',hx+mw('領収書はローカルPC上で処理',hs,800)+20,hy,hs2,C.mute,600,'left',1,ew-220);
   // connectors between stations
   for(let i=0;i<4;i++){const a=L.st[i],b=L.st[i+1],k=ez(CW[i][0],CW[i][1],t);
     const p1=PT?[a.x,a.y+L.ch/2+4]:[a.x+L.cw/2+4,a.y],p2=PT?[b.x,b.y-L.ch/2-4]:[b.x-L.cw/2-4,b.y];
@@ -134,25 +134,25 @@ function draw(t){
   const rw=lerp(L.rw,L.tw,m3),rh=lerp(L.rh,L.th,m3);
   // ledger + reviewed row
   const la=ss(12.8,13.4,t)*(1-ss(23.8,24.3,t));if(la>0){const [x,y,w,h]=L.led,hy2=y+(PT?22:28);box(x,y,w,h,16,'#f1f5ef',C.forest,2,la,12);
-    tx('SQLite 帳簿',x+16,hy2,PT?16:22,C.forest,800,'left',la);tx('保存済み・あとで確認',x+w-16,hy2,PT?13:16,C.mute,600,'right',la);}
+    tx('SQLCipher 帳簿',x+16,hy2,PT?16:22,C.forest,800,'left',la);tx('候補を保存・あとから照合',x+w-16,hy2,PT?13:16,C.mute,600,'right',la);}
   const rk=ez(13.2,14,t)*(1-ss(23.8,24.3,t));if(rk>0){const [x0,y,w,h]=L.row,x=x0-(1-ez(13.2,14,t))*30,z=L.rs,rv=ss(20.2,20.5,t);box(x,y,w,h,10,'#fff',C.amber,2,rk,10);box(x,y,w,h,10,null,C.forest,2.5,rk*rv);box(x,y+8,5,h-16,3,C.amber,null,0,rk);box(x,y+8,5,h-16,3,C.forest,null,0,rk*rv);
     RL.forEach((r,i)=>tx(r,x+L.ro,y+h*(.22+.28*i),z,C.ink,i?800:600,'left',rk,i?w-L.ro-12:w-L.ro-z*3.4-24));
     const bw=z*3.4,bx=x+w-bw-10,by=y+h*.22-z*.7;box(bx,by,bw,z*1.4,z*.7,C.amberL,C.amber,1.5,rk*(1-rv));tx('未確認',bx+bw/2,y+h*.22,z*.7,'#6b4a06',800,'center',rk*(1-rv));
     box(bx,by,bw,z*1.4,z*.7,C.forest,null,0,rk*rv);tx('確認済',bx+bw/2,y+h*.22,z*.7,'#fff',800,'center',rk*rv);
-    tx('保存時は事業割合・支払元を推測しない',x0,y+h+z*1.3,z*.8,C.mute,600,'left',rk,w);tx('汎用CSVは確認前でも出力可（未確認として）',x0,y+h+z*2.5,z*.8,C.forest,700,'left',rk,w);}
+    tx('汎用CSVは未確認の明細も書き出せる',x0,y+h+z*1.3,z*.8,C.mute,600,'left',rk,w);tx('書き出したCSV・原本は暗号化されない通常ファイル',x0,y+h+z*2.5,z*.8,C.forest,700,'left',rk,w);}
   // left-stage panels by phase
   catalog(t,ss(9,9.8,t)*(1-ss(13,13.8,t)));
   const cL=L.catL;link(cL[0],cL[1],cL[2],cL[3],C.ochre,ss(9.6,10.2,t)*(1-ss(13,13.6,t)),[5,7],true,2.5);
   checklist(t,ss(18,18.6,t)*(1-ss(20.9,21.4,t)));
   const sa=ss(21.4,22,t)*(1-ss(23.6,24.3,t));if(sa>0){const [x,y,w,h]=L.shot;box(x,y,w,h,12,'#fff',C.rule,2,sa,16);
-    c.save();c.globalAlpha*=sa;pic(IM['ryoshu-app'],x+8,y+8,w-16,h-16);c.restore();tx('架空データの実画面',L.shotL[0],L.shotL[1],L.shotL[2],C.forest,700,'left',sa);}
-  const M=L.met;tx('架空PDF100件の検証結果',M.x,M.y-(PT?22:26),PT?20:28,C.forest,800,'left',ss(24.3,24.8,t),PT?372:1300);[['金額・円額未確定','97/97'],['日付','99/100'],['店名','86/100'],['暫定科目','47/48']].forEach(([a1,b1],i)=>{const k=ez(24.4+i*.3,25.1+i*.3,t);if(k<=0)return;
+    c.save();c.globalAlpha*=sa;pic(IM['copy-renewal-20261026/results'],x+8,y+8,w-16,h-16);c.restore();tx('架空5件・全件未確認の実画面',L.shotL[0],L.shotL[1],L.shotL[2],C.forest,700,'left',sa);}
+  const M=L.met;tx('v1.3.0・架空100件の回帰検証',M.x,M.y-(PT?22:26),PT?20:28,C.forest,800,'left',ss(24.3,24.8,t),PT?372:1300);[['金額・円額未確定','97/97'],['日付','99/100'],['科目または保留','86/100'],['暫定科目','44/48']].forEach(([a1,b1],i)=>{const k=ez(24.4+i*.3,25.1+i*.3,t);if(k<=0)return;
     const x=M.x+(i%M.cols)*M.gx,y=M.y+Math.floor(i/M.cols)*M.gy+(1-k)*20;box(x,y,M.w,M.h,14,'#fff',C.forest,2,k,10);box(x,y+10,6,M.h-20,3,C.forest,null,0,k);
     tx(a1+b1,x+M.w/2,y+M.h/2,M.fs,C.ink,800,'center',k,M.w-32);});
 
 
-  const na=ss(25.8,26.4,t);wrap('金額は返金3件を除外。同じ100件で改善した回帰検査。',M.nx,M.ny,M.nw,M.ns,M.ns*1.35,C.mute,600,na);
-  tx('原本・期待値・残った誤りを公開',M.nx,M.ny+M.n2,M.ns*1.15,C.forest,800,'left',na,M.nw);tx('固定100件の観測値。未知の領収書での精度ではありません',M.nx,M.ny+M.n3,M.ns*.85,C.mute,500,'left',na,M.nw);
+  const na=ss(25.8,26.4,t);wrap('金額は返金3件を除外。改善にも使った同じ100件の記録。',M.nx,M.ny,M.nw,M.ns,M.ns*1.35,C.mute,600,na);
+  tx('原本・期待値・残った誤りを公開',M.nx,M.ny+M.n2,M.ns*1.15,C.forest,800,'left',na,M.nw);tx('固定100件の過去の観測値。未知の領収書での正答率ではありません',M.nx,M.ny+M.n3,M.ns*.85,C.mute,500,'left',na,M.nw);
   // OCR fields (follow the packet, retract into the row at 18s)
   const fo=1-ss(12.6,13.4,t);FD.forEach(([lb,v],i)=>{const k=ez(5+i*.45,5.9+i*.45,t)*fo;if(k<=0)return;const F=L.fld,
     x=lerp(px-F.w/2,px+rw/2+F.dx,k),y=lerp(py-F.h/2,py-(3*F.h+2*F.g)/2+i*(F.h+F.g),k);
@@ -178,14 +178,14 @@ function draw(t){
   // four CSV sheets fan out from the reviewed row
   const R=L.row,rcx=R[0]+R[2]/2,rcy=R[1]+R[3]/2;SH.forEach((lb,i)=>{const k=ez(21+i*.3,21.9+i*.3,t),a=ss(21+i*.3,21.3+i*.3,t);if(a<=0)return;
     const [x,y,w,h]=L.sh(i);sheet(lerp(rcx-w/2,x,k),lerp(rcy-h/2,y,k),w,h,lb,L.shs,a);});
-  tx('各サービスへの取込は未検証',L.shN[0],L.shN[1],L.shN[2],C.mute,600,'left',ss(22.5,23.2,t),PT?360:300);
+  tx('各会計サービスの実アカウントへの取込は未検証',L.shN[0],L.shN[1],L.shN[2],C.mute,600,'left',ss(22.5,23.2,t),PT?360:300);
   // footer caveat (always legible)
-  const F=L.foot;tx('初回のモデル取得にはネット接続が必要',F[0],F[1],F[2],C.ink,800,F[3],1,F[4]);
-  tx('使い方の図解・架空データ　｜　code MIT・モデル別条件',F[5],F[6],F[7],C.mute,600,F[8],1,F[4]);
+  const F=L.foot;tx('初回準備にはネット接続が必要',F[0],F[1],F[2],C.ink,800,F[3],1,F[4]);
+  tx('結果と科目は候補。税務上の最終判断は利用者と税理士',F[5],F[6],F[7],C.mute,600,F[8],1,F[4]);
   c.restore();}
 
 window.seek=sec=>{const t=cl(Number(sec)||0,0,DUR);draw(t);return t;};
 draw(0);
 const fontsReady=document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve();
-window.motionReady=Promise.all([fontsReady,load('V001','jpg'),load('V004','jpg'),load('V038','jpg'),load('V070','jpg'),load('ryoshu-app','png')]).then(()=>{draw(0);});
+window.motionReady=Promise.all([fontsReady,load('V001','jpg'),load('V004','jpg'),load('V038','jpg'),load('V070','jpg'),load('copy-renewal-20261026/results','jpg')]).then(()=>{draw(0);});
 })();
