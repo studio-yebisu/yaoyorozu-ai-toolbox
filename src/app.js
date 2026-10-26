@@ -646,13 +646,12 @@
   // If the case list could not be read, it goes to the catalog as before.
   $('[data-hero-form]').addEventListener('submit', event => {
     event.preventDefault();
-    Object.assign(state, {q: heroSearch.value, kind: 'all', withCase: false, limit: PAGE_SIZE});
+    Object.assign(state, {q: heroSearch.value, cat: 'all', kind: 'all', withCase: false, limit: PAGE_SIZE});
     search.value = heroSearch.value;
     render();
-    const target = Array.isArray(state.cases) ? '#cases' : '#catalog';
+    const target = '#catalog';
     writeURL(true, target);
     scrollToSection(target); // focus moves to the section, which also closes the software keyboard
-    if (target === '#cases') announce(galleryStatus());
   });
 
   function clearGallery(fields) {
