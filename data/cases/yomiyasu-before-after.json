@@ -125,7 +125,7 @@
     }
   ],
   "license": "MIT",
-  "license_note": "この作例の画面構成・文言・サンプル・映像ソースは 八百万図AIツールボックス の独自制作で、MIT License です。vendor/yomiyasu/ の yomiyasu は上流の MIT License（Copyright (c) 2026 nanaism）で、LICENSE を同梱しています。検査スクリプトに含まれる Unicode 由来のデータには、同梱の UNICODE-LICENSE.txt（Unicode License V3）の通知が適用されます。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "license_note": "この作例の画面構成・文言・サンプル・映像ソースは Yaoyorozu AI ToolBox の独自制作で、MIT License です。vendor/yomiyasu/ の yomiyasu は上流の MIT License（Copyright (c) 2026 nanaism）で、LICENSE を同梱しています。検査スクリプトに含まれる Unicode 由来のデータには、同梱の UNICODE-LICENSE.txt（Unicode License V3）の通知が適用されます。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
   "catalog_entry": {
     "id": "resource-yomiyasu",
     "name": "yomiyasu",
@@ -179,10 +179,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/yomiyasu-before-after-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/yomiyasu-before-after-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/yomiyasu-before-after-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/yomiyasu-before-after-landscape-credited-v4.mp4"
 }

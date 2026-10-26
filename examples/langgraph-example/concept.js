@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス: LangGraph concept map (visual-r1).
+// Yaoyorozu AI ToolBox: LangGraph concept map (visual-r1).
 // One connected picture of what LangGraph is (a Python library), who wrote and who ran this example, and how one
 // fictional request travels as a shared state card through five rule-based Python functions, stops at review, is
 // resumed by a scripted test reply and comes back as a saved record. The browser only reads the frozen files named in

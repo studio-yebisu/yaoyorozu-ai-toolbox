@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス — 3D Asset Server 作例：取得した木箱を three.js で見る表示部。MIT License, Copyright (c) 2026 Studio Yebisu.
+// Yaoyorozu AI ToolBox — 3D Asset Server 作例：取得した木箱を three.js で見る表示部。MIT License, Copyright (c) 2026 Studio Yebisu.
 // 同梱した three 0.180.0（改変なし）の原典の GLTFLoader で、保存済みの5ファイルを読む。
 // 読み込む前に5ファイルすべてのバイト数と SHA-256 を記録と照合し、照合済みのバイトだけを渡す。
 // 代わりの形・サムネイル・外部の画像は使わない。描画は読み込み・カメラ・大きさが変わったときだけで、自動回転はしない。

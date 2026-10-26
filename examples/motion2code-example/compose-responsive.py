@@ -16,7 +16,7 @@ def render(output, portrait):
     labels = [(24, 130, 'REFERENCE'), (24, 640, 'JAPANESE / SVG + GSAP')] if portrait else [
         (32, 136, 'REFERENCE'), (656, 136, 'JAPANESE / SVG + GSAP')]
     labels += [(24 if portrait else 32, 35, 'Motion2Code'),
-               (24 if portrait else 32, 1190 if portrait else 645, '八百万図AIツールボックス')]
+               (24 if portrait else 32, 1190 if portrait else 645, 'Yaoyorozu AI ToolBox')]
     filters = [
         f'color=c=0xf2eee3:s={width}x{height}:r=30:d=20[bg]',
         f'[0:v]fps=30,trim=duration=10,setpts=PTS-STARTPTS,loop=loop=1:size=300:start=0,scale={panel_w}:{panel_h}:force_original_aspect_ratio=decrease:force_divisible_by=2,setsar=1,'

@@ -140,7 +140,7 @@
     }
   ],
   "license": "MIT",
-  "license_note": "この作例の画面構成・文言・架空の記事・映像ソースは 八百万図AIツールボックス の独自制作で、MIT License です。vendor/defuddle/ の Defuddle は上流の MIT License（Copyright (c) 2025 Steph Ango (@kepano)）で、LICENSE を同梱しています。バンドルに含まれる turndown・mathml-to-latex・temml・@xmldom/xmldom の利用条件は、同梱の THIRD_PARTY_NOTICES.txt にまとめています。 元4資料はCRLFのまま保持し、公式LFとはCRLFだけ正規化した内容/Gitblobが一致します。追加の公式src4件は固定Gitblobと全バイト一致。元生成バンドルは原公開の同じバイトを維持しています。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "license_note": "この作例の画面構成・文言・架空の記事・映像ソースは Yaoyorozu AI ToolBox の独自制作で、MIT License です。vendor/defuddle/ の Defuddle は上流の MIT License（Copyright (c) 2025 Steph Ango (@kepano)）で、LICENSE を同梱しています。バンドルに含まれる turndown・mathml-to-latex・temml・@xmldom/xmldom の利用条件は、同梱の THIRD_PARTY_NOTICES.txt にまとめています。 元4資料はCRLFのまま保持し、公式LFとはCRLFだけ正規化した内容/Gitblobが一致します。追加の公式src4件は固定Gitblobと全バイト一致。元生成バンドルは原公開の同じバイトを維持しています。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
   "catalog_entry": {
     "id": "resource-defuddle",
     "name": "Defuddle",
@@ -192,10 +192,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/defuddle-reading-room-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/defuddle-reading-room-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/defuddle-reading-room-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/defuddle-reading-room-landscape-credited-v4.mp4"
 }

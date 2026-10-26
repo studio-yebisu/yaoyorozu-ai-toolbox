@@ -1,4 +1,4 @@
-/* Diagram Design の作例 — 紹介図（八百万図AIツールボックス, MIT）
+/* Diagram Design の作例 — 紹介図（Yaoyorozu AI ToolBox, MIT）
    One connected canvas map: the skill (a book with six tabs) and the request join at one AI writer,
    the same paper becomes HTML with inline SVG, a separate operator checks it and makes SVG/PNG copies,
    and all three reconnect to the saved figure. video/video.js imports the same layouts and drawing.

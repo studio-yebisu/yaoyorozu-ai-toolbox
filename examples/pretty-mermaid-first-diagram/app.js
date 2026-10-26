@@ -1,4 +1,4 @@
-/* Pretty Mermaid の作例 — 八百万図AIツールボックス original (MIT).
+/* Pretty Mermaid の作例 — Yaoyorozu AI ToolBox original (MIT).
    Reads samples.json and shows the files the upstream CLI wrote to assets/. Nothing is rendered or generated in the page. */
 (() => {
   'use strict';

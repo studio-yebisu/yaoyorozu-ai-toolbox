@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス サイト紹介の本編（20秒・1920×1080・60fps・無音）。画面は紹介用に再構成した模式図で、実際の操作の録画ではない。
+// Yaoyorozu AI ToolBox サイト紹介の本編（20秒・1920×1080・60fps・無音）。画面は紹介用に再構成した模式図で、実際の操作の録画ではない。
 // 部品は検証済みの ../components.mjs（SelectionFrame・MaterializeFrame）と表紙の cover()（../lab/lab.mjs）を変えずに使い、
 // 本編用の時刻とデータだけを渡す。画面はすべて seek(t) の純粋関数で、壁時計・乱数・前フレームの積算・CSS アニメーションを使わない。
 // 描画は site/render.py が site/ 全体を使い捨ての根へ写し、入口の HTML だけに <base href="film/"> を入れて行う。
@@ -217,7 +217,7 @@ function cta(t) {
   let s = group(fade(t, 16.45, 0.2), c.cards + c.motion) + c.names.join('') + c.motionName;
   s += group(fade(t, 16.55), rectEl(BUTTON, `rx="24" fill="${face}" stroke="${ink}" stroke-opacity="0.16" stroke-width="2"`));
   s += group(fade(t, 16.55, 0.15) * (1 - fade(t, 17.16, 0.16)), text(176, 160, '作例を見る', { size: 64, weight: 700, fill: teal }));
-  s += rise(t, 16.9, text(176, 250, '八百万図AIツールボックス', { size: 32, weight: 700, fill: teal })
+  s += rise(t, 16.9, text(176, 250, 'Yaoyorozu AI ToolBox', { size: 32, weight: 700, fill: teal })
     + quote(176, 430, '用途から選び、', 96) + quote(176, 556, '作例を見て試す。', 96), 0.2);
   return s + group(fade(t, 16.98, 0.14), text(176, 880, 'studio-yebisu.github.io/studio-yebisu/', { size: 28, opacity: 0.68 }));
 }

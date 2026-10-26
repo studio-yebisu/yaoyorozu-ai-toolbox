@@ -1,4 +1,4 @@
-/* 八百万図AIツールボックス — home page case preview. A native <dialog> for one produced case: its responsive
+/* Yaoyorozu AI ToolBox — home page case preview. A native <dialog> for one produced case: its responsive
    muted video, its local demo framed only on request, and its request text. Load after media.js, before
    app.js. Exposes SY.casePreview.open(item, meta) where meta = {invoker, title, skill, category, href}.
    Nothing here runs AI: the demo pages show samples produced in advance. */
@@ -104,6 +104,7 @@
       caption: h('p', {class: 'preview-caption'}),
       share: h('div', {class: 'preview-share'}),
       summary: h('p', {class: 'preview-summary'}),
+      itemActions: h('div', {class: 'preview-item-actions'}),
       note: h('p', {class: 'preview-note'}, DEMO_NOTE),
       copy: h('button', {type: 'button', class: 'btn btn-ink'}, '依頼文をコピー'),
       demoLink: h('a', {class: 'btn btn-line'}, 'デモを別ページで開く'),
@@ -121,6 +122,7 @@
         ui.summary,
         h('div', {class: 'preview-media'}, ui.switcher, ui.stage, ui.caption),
         h('div', {class: 'preview-info'},
+          ui.itemActions,
           ui.note,
           h('div', {class: 'preview-actions'}, ui.copy, ui.demoLink, ui.readLink),
           ui.hint,
@@ -281,6 +283,7 @@
 
   function fill(item, meta) {
     ui.share.replaceChildren(window.SY.videoShare.create(item));
+    ui.itemActions.replaceChildren(window.SY.itemActions.create(window.SY.likes.caseID(item), meta.skill || meta.title, meta.href));
     ui.meta.replaceChildren(...[
       meta.category ? h('span', {class: 'card-cat'}, meta.category) : null,
       item.updated_on ? h('span', {}, String(item.updated_on) + ' 更新') : null].filter(Boolean));

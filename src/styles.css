@@ -1,4 +1,4 @@
-/* 八百万図AIツールボックス — shared styles for index.html and case.html. System fonts only, no external assets.
+/* Yaoyorozu AI ToolBox — shared styles for index.html and case.html. System fonts only, no external assets.
    Mobile is the base; wider layouts are added at 600px, 900px and 1100px.
    Layout contract (see docs/MOBILE_WEB.md): sticky masthead, fixed bottom bar below 900px,
    safe-area insets on every edge-touching band, 44px touch targets. */
@@ -107,8 +107,8 @@ kbd { font-family: inherit; font-size: 0.85em; padding: 0 0.35em; border: 1px so
 }
 .wordmark {
   display: inline-flex; align-items: center; min-height: 2.75rem;
-  font-family: var(--mincho); font-weight: 700; font-size: 1.25rem; line-height: 1.2;
-  letter-spacing: 0.01em; text-decoration: none;
+  font-family: "Segoe UI", Arial, system-ui, sans-serif; font-weight: 700; font-size: clamp(1rem, 4vw, 1.25rem); line-height: 1.2;
+  letter-spacing: -0.035em; text-decoration: none; white-space: nowrap;
 }
 .masthead-nav { display: none; }
 
@@ -364,7 +364,7 @@ a.entry-case { text-decoration: underline; }
   font-size: 0.9375rem;
 }
 .colophon-main p + p { margin-top: 0.625rem; max-width: 34em; }
-.wordmark-small { font-family: var(--mincho); font-weight: 700; font-size: 1.375rem; }
+.wordmark-small { font-size: 1.25rem; }
 .colophon-updated { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 .colophon-links { display: flex; flex-direction: column; border-top: 1px solid var(--ink); }
 .colophon-links a { display: flex; align-items: center; min-height: 2.75rem; border-bottom: 1px solid var(--rule); text-decoration: none; }

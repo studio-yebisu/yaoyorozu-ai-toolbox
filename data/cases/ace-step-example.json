@@ -160,7 +160,7 @@
     }
   ],
   "license": "Apache-2.0（ACE-Step のソースとモデル）／MIT（この作例）",
-  "license_note": "ACE-Step のソースは Apache License 2.0（Copyright 2025 Timedomain Inc. and stepfun）で、固定版から選んだ16ファイルを vendor/ace-step/ に原文のまま置いています（LICENSE と各ファイルの著作権表示を含む）。この16ファイルだけでは動きません。原典には Hugging Face・StabilityAI・Katherine Crowson などに由来する部分があり、その表示は各ファイルに残しています。モデル ACE-Step/ACE-Step-v1-3.5B は公開・ゲートなしの Apache-2.0 で、モデルカードと公式のハッシュを model-card/ に置き、重み・トークナイザーは同梱していません。PyTorch・Diffusers・Transformers などの依存と実行環境は再配布しておらず、それぞれのライセンスに従います。ページ・図・文章・動画のソースとランナーは 八百万図AIツールボックス の制作（Claude Opus 5.5）で MIT です。生成されたWAVは固定版V1モデルによるAI生成物で、独創性や既存曲との類似は確認していません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "license_note": "ACE-Step のソースは Apache License 2.0（Copyright 2025 Timedomain Inc. and stepfun）で、固定版から選んだ16ファイルを vendor/ace-step/ に原文のまま置いています（LICENSE と各ファイルの著作権表示を含む）。この16ファイルだけでは動きません。原典には Hugging Face・StabilityAI・Katherine Crowson などに由来する部分があり、その表示は各ファイルに残しています。モデル ACE-Step/ACE-Step-v1-3.5B は公開・ゲートなしの Apache-2.0 で、モデルカードと公式のハッシュを model-card/ に置き、重み・トークナイザーは同梱していません。PyTorch・Diffusers・Transformers などの依存と実行環境は再配布しておらず、それぞれのライセンスに従います。ページ・図・文章・動画のソースとランナーは Yaoyorozu AI ToolBox の制作（Claude Opus 5.5）で MIT です。生成されたWAVは固定版V1モデルによるAI生成物で、独創性や既存曲との類似は確認していません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
   "skill_license": "examples/ace-step-example/vendor/ace-step/LICENSE",
   "video_note": "32秒・30fps・無音の構造図の動画です。縦720×1280と横1280×720を別配置で描きます。READMEと依頼の書類が作者AIで実装と入力になり、制作担当の1回の実行で説明文のトークンと、長さ・seedの格子に分かれ、Transformerで整った格子がメルへ、そして保存WAVの実際の包絡の波形へ形を変えて、WAVと設定JSON・再生へ届きます。ナレーション・音声トラックはなく、音楽WAVはデモのプレイヤーで聞けます。制作担当が新図の18スマホ状態・6原典引用・16表示条件・3破損復旧、実WAVのネイティブ終端と3保存返却ファイルの全バイト一致、25素材編集・7場面・任意7.2秒・通常再生、代表/連続コマ、縦横32秒960フレーム無音MP4終端と出荷ソース62PNG一致を別工程で確認しました。人の聴取・音の品質・審美的承認・実機iOSは未確認です。",
   "video_source": "examples/ace-step-example/video/index.html",
@@ -222,10 +222,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/ace-step-example-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/ace-step-example-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/ace-step-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/ace-step-example-landscape-credited-v4.mp4"
 }

@@ -1,6 +1,6 @@
 # 『探しやすくして』を、確かめられる検索にする
 
-Matt Pocock Skills（[mattpocock/skills](https://github.com/mattpocock/skills/tree/49dd158d1076134a641b33efb035946536778336)、固定コミット `49dd158d1076134a641b33efb035946536778336`）の開発スキルを読み、架空の依頼と合成データ6件の検索を直した 八百万図AIツールボックス の作例です。
+Matt Pocock Skills（[mattpocock/skills](https://github.com/mattpocock/skills/tree/49dd158d1076134a641b33efb035946536778336)、固定コミット `49dd158d1076134a641b33efb035946536778336`）の開発スキルを読み、架空の依頼と合成データ6件の検索を直した Yaoyorozu AI ToolBox の作例です。
 
 ## 何に役立つか
 
@@ -101,13 +101,13 @@ README はこの方法で `setup-matt-pocock-skills` も選ぶよう案内して
 
 ## 対象外と限界
 
-- 依頼・データ・既存コードは架空で、合成データは6件です。八百万図AIツールボックス のサイトの検索は変えていません
+- 依頼・データ・既存コードは架空で、合成データは6件です。Yaoyorozu AI ToolBox のサイトの検索は変えていません
 - 利用者への聞き取り、仕様とseamの合意、人による承認はしていません
 - 誤字の許容、同義語、ひらがなとカタカナの同一視、並べ替え・関連度順、一致箇所の強調、型が不正な入力、速度、大きなデータ、サーバー側の検索は扱っていません
 
 ## ライセンス
 
-この作例の画面・文章・依頼文・合成データ・コード・テスト・記録・映像ソースは 八百万図AIツールボックス の独自制作で、MIT License です（`LICENSE`）。
+この作例の画面・文章・依頼文・合成データ・コード・テスト・記録・映像ソースは Yaoyorozu AI ToolBox の独自制作で、MIT License です（`LICENSE`）。
 
 `vendor/matt-pocock-skills/` は Matt Pocock Skills の固定コミット `49dd158` から選んだファイル（README、LICENSE、domain-modeling・codebase-design・tdd・code-review の本文）を変更せずに置いたもので、上流の MIT License（Copyright (c) 2026 Matt Pocock）に従います。上流の画像は使っていません。
 

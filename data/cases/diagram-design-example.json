@@ -29,7 +29,7 @@
     {
       "name": "Diagram Design",
       "source": "https://github.com/cathrynlavery/diagram-design/blob/d97c5c7477e54cee17cfa6459190610da0643a05/skills/diagram-design/SKILL.md",
-      "applied": "固定版のSKILL.md（metadata 2.6）の図の選び方、避けるべき作り方、配色の役割、矢印の6つの規則、量の上限、仕上げ前の確認表を読み、references/ の type-swimlane.md・semantic-patterns.md・style-guide.md・primitives-core.md・layout-budget.md・output-spec.md・export.md と assets/template.html に沿って書いた。semantic-patterns.md の9つの型を確かめ、完了や戻りがあっても主役は担当の間の受け渡しなので、状態遷移の型は使わずスイムレーンを選んだ。依頼の文を事実ごとに分け、工程9・矢印10・段3と上限（9・12・5）に収まったため分割していない。「追加情報を依頼する」は受付の段から出る矢印のラベルにし、「引き継ぐ」と「未解決なら戻す」は受付の工程R3にまとめた。どの文がどの工程・矢印になったかは diagram-data.json に残した。type-swimlane.md のとおり各工程は1つの段だけに置き、矢印は直角で角の半径8、同じ辺の付け根は12px以上離し、関係のない箱の裏を通さず、矢印を先に描いてから箱を描いた。日本語のラベルは style-guide.md の決まりで12pxのゴシック、下地の高さ16px、線から8px離した。強調色は完了のR5と、そこへ進む矢印E09の2か所だけ。配色は 八百万図AIツールボックス のサイトのCSSを役割に当てはめ、Webフォントを読み込まない system の扱いにした。配色と書体の前提を design-profile.md に記録した。viewBox は 0 0 1280 720、SVGの min-width は1280px、外側の枠だけを横にスクロールし、印刷では縮めて収める。SVGの題名・説明・IDの付け方は Accessible SVG contract に従った。SVGは export.md の手順どおり原典の export_svg.py で書き出し、手で書いたSVGファイルは作らない。 原制作の入力/HTML内SVG/原典CLI/実SVGとPNG/12条件は保全し再実行していません。新しい図は指針の中身、AIの執筆と制作担当の実行、正本と派生の構造を示す紹介用で、原の静的図を変更していません。"
+      "applied": "固定版のSKILL.md（metadata 2.6）の図の選び方、避けるべき作り方、配色の役割、矢印の6つの規則、量の上限、仕上げ前の確認表を読み、references/ の type-swimlane.md・semantic-patterns.md・style-guide.md・primitives-core.md・layout-budget.md・output-spec.md・export.md と assets/template.html に沿って書いた。semantic-patterns.md の9つの型を確かめ、完了や戻りがあっても主役は担当の間の受け渡しなので、状態遷移の型は使わずスイムレーンを選んだ。依頼の文を事実ごとに分け、工程9・矢印10・段3と上限（9・12・5）に収まったため分割していない。「追加情報を依頼する」は受付の段から出る矢印のラベルにし、「引き継ぐ」と「未解決なら戻す」は受付の工程R3にまとめた。どの文がどの工程・矢印になったかは diagram-data.json に残した。type-swimlane.md のとおり各工程は1つの段だけに置き、矢印は直角で角の半径8、同じ辺の付け根は12px以上離し、関係のない箱の裏を通さず、矢印を先に描いてから箱を描いた。日本語のラベルは style-guide.md の決まりで12pxのゴシック、下地の高さ16px、線から8px離した。強調色は完了のR5と、そこへ進む矢印E09の2か所だけ。配色は Yaoyorozu AI ToolBox のサイトのCSSを役割に当てはめ、Webフォントを読み込まない system の扱いにした。配色と書体の前提を design-profile.md に記録した。viewBox は 0 0 1280 720、SVGの min-width は1280px、外側の枠だけを横にスクロールし、印刷では縮めて収める。SVGの題名・説明・IDの付け方は Accessible SVG contract に従った。SVGは export.md の手順どおり原典の export_svg.py で書き出し、手で書いたSVGファイルは作らない。 原制作の入力/HTML内SVG/原典CLI/実SVGとPNG/12条件は保全し再実行していません。新しい図は指針の中身、AIの執筆と制作担当の実行、正本と派生の構造を示す紹介用で、原の静的図を変更していません。"
     },
     {
       "name": "Motion Reel",
@@ -44,7 +44,7 @@
     },
     {
       "title": "依頼と既存の配色をAIへ渡す",
-      "body": "架空のよりみちラボの3担当、分かれ道、2本の戻り道、解決確認と対応記録の完了条件を依頼にします。元の八百万図AIツールボックス配色と端末書体はdesign-profile.mdに記録済みです。"
+      "body": "架空のよりみちラボの3担当、分かれ道、2本の戻り道、解決確認と対応記録の完了条件を依頼にします。元のYaoyorozu AI ToolBox配色と端末書体はdesign-profile.mdに記録済みです。"
     },
     {
       "title": "AIが形式を選びHTML内のSVGを書く",
@@ -138,7 +138,7 @@
     }
   ],
   "license": "MIT",
-  "license_note": "この作例の画面構成・図・文言・記録・映像ソースは 八百万図AIツールボックス の独自制作で、MIT License です。vendor/diagram-design/ の SKILL.md・参照資料・ひな形・スクリプトは上流の MIT License（Copyright (c) 2025 Cathryn Lavery）で、LICENSE と原典の THIRD_PARTY_LICENSES.md を同梱しています。図に第三者のアイコンや画像は使っていません。 元289配布はWindowsチェックアウトのままで、公式Gitblobへの照合は8件が生バイト一致、281件がCRLFだけ正規化した内容一致です。第三者通知を保持し、原典のアイコンは作例や新しい図に使っていません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "license_note": "この作例の画面構成・図・文言・記録・映像ソースは Yaoyorozu AI ToolBox の独自制作で、MIT License です。vendor/diagram-design/ の SKILL.md・参照資料・ひな形・スクリプトは上流の MIT License（Copyright (c) 2025 Cathryn Lavery）で、LICENSE と原典の THIRD_PARTY_LICENSES.md を同梱しています。図に第三者のアイコンや画像は使っていません。 元289配布はWindowsチェックアウトのままで、公式Gitblobへの照合は8件が生バイト一致、281件がCRLFだけ正規化した内容一致です。第三者通知を保持し、原典のアイコンは作例や新しい図に使っていません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
   "catalog_entry": {
     "id": "resource-diagram-design",
     "name": "Diagram Design",
@@ -190,10 +190,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/diagram-design-example-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/diagram-design-example-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/diagram-design-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/diagram-design-example-landscape-credited-v4.mp4"
 }

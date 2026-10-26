@@ -332,7 +332,7 @@ function drawFinalCredit(t, W, H, L) {
   const bx = L.tall ? L.m : (W - bw) / 2;
   const by = H - bh - 26 * u;
   panel(bx, by, bw, bh, 12 * u, INK, null);
-  text('素材：Scenario ／ CC BY 4.0・八百万図AIツールボックス', bx + 18 * u, by + 22 * u, 15 * u, PAPER, 'left', 800);
+  text('素材：Scenario ／ CC BY 4.0・Yaoyorozu AI ToolBox', bx + 18 * u, by + 22 * u, 15 * u, PAPER, 'left', 800);
   text('GLB本体は無改変。表示の正規化・照明・カメラは見た目の変更です。', bx + 18 * u, by + 46 * u, 12 * u, 'rgba(242,238,227,0.8)', 'left', 600);
   text('scenario-labs/3d-collection @55b4c002… ／ made by studio_yebisu', bx + 18 * u, by + 72 * u, 11 * u, LIME, 'left', 700);
   ctx.restore();

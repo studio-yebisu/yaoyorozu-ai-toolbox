@@ -1,7 +1,7 @@
-/* 八百万図AIツールボックス — home page. Loads data/catalog.json and data/cases.json (relative paths).
+/* Yaoyorozu AI ToolBox — home page. Loads data/catalog.json and data/cases.json (relative paths).
    Categories come only from catalog.categories (fallback: data/categories.json), so adding or
    removing a category needs no change here.
-   URL contract: ./?q=<words>&kind=skill|support&case=1#<category id | section id>.
+   URL contract: ./?q=<words>&kind=skill|support&case=1&saved=1#<category id | section id>.
    Old links such as #agents still select that field. Picking a field or submitting the top search
    adds a history entry; typing, the select, the gallery chips and the toggles replace the current one.
    The words and the field apply to both the case gallery and the catalog; kind and case only to the
@@ -26,7 +26,7 @@
   const state = {
     entries: [], categoryList: [], categories: table(), totals: table(), caseByEntry: table(),
     cases: undefined, galleryCases: [], loaded: false,
-    q: '', cat: 'all', kind: 'all', withCase: false, limit: PAGE_SIZE
+    q: '', cat: 'all', kind: 'all', withCase: false, savedOnly: false, limit: PAGE_SIZE
   };
 
   const list = $('[data-entries]');
@@ -45,6 +45,14 @@
   const galleryCount = $('[data-gallery-count]');
   const galleryQuery = $('[data-gallery-query]');
   const galleryEmpty = $('[data-gallery-empty]');
+  const savedFilter = $('[data-saved-only]');
+
+  function updateSavedFilter() {
+    const count = state.loaded ? state.entries.filter(entry => window.SY.itemActions.isSaved(entry.id)).length : window.SY.itemActions.savedCount();
+    savedFilter.hidden = false;
+    savedFilter.setAttribute('aria-pressed', String(state.savedOnly));
+    $('[data-saved-count]').textContent = String(count);
+  }
 
   function categoryLabel(id) {
     return (state.categories[id] && state.categories[id].label) || id || '分類なし';
@@ -95,6 +103,7 @@
     if (filter.cat !== 'all' && entry.category !== filter.cat) return false;
     if (filter.kind !== 'all' && (filter.kind === 'skill') !== isSkill(entry)) return false;
     if (filter.withCase && !state.caseByEntry[entry.id]) return false;
+    if (state.savedOnly && !window.SY.itemActions.isSaved(entry.id)) return false;
     return terms.every(term => entry._text.includes(term));
   }
 
@@ -106,7 +115,7 @@
     return total;
   }
 
-  const hasFilters = () => state.cat !== 'all' || state.kind !== 'all' || state.withCase || Boolean(state.q.trim());
+  const hasFilters = () => state.cat !== 'all' || state.kind !== 'all' || state.withCase || state.savedOnly || Boolean(state.q.trim());
 
   /* ---------- Catalog rows ---------- */
 
@@ -142,6 +151,7 @@
       entry.summary ? h('p', {class: 'entry-summary'}, entry.summary) : null,
       entry.use_case ? h('p', {class: 'entry-use'}, h('span', {class: 'entry-use-label'}, '使いどころ'), entry.use_case) : null,
       tags,
+      window.SY.itemActions.create(entry.id, entry.name, entryHref(entry)),
       thumb);
     entry._row = row;
     return row;
@@ -174,6 +184,7 @@
 
   // The words and the field are shared, so every change redraws both lists.
   function render() {
+    updateSavedFilter();
     renderCatalog();
     renderGallery();
   }
@@ -223,6 +234,7 @@
       : '数字は掲載している件数です。選ぶと、下のカタログがその分野に絞られます。';
 
     const parts = [];
+    if (state.savedOnly) parts.push('保存したもの');
     if (state.cat !== 'all') parts.push(categoryLabel(state.cat));
     if (state.kind === 'skill') parts.push('スキル');
     if (state.kind === 'support') parts.push('ツール・モデルなど');
@@ -335,7 +347,8 @@
             'aria-haspopup': window.SY.casePreview && window.SY.casePreview.supported ? 'dialog' : null},
             skill ? h('span', {class: 'gallery-skill'}, skill) : null,
             h('span', {class: 'gallery-title'}, title))),
-        summary ? h('p', {class: 'gallery-summary'}, summary) : null));
+        summary ? h('p', {class: 'gallery-summary'}, summary) : null,
+        window.SY.itemActions.create(window.SY.likes.caseID(item), skill || title, caseHref(item))));
     return item._card;
   }
 
@@ -379,7 +392,8 @@
     if (!Array.isArray(state.cases)) return;
     const terms = termsOf(state.q);
     const total = state.galleryCases.length;
-    const matched = terms.length ? state.galleryCases.filter(item => terms.every(term => caseText(item).includes(term))) : state.galleryCases;
+    const matched = state.galleryCases.filter(item => (!state.savedOnly || window.SY.itemActions.isSaved(window.SY.likes.caseID(item)))
+      && terms.every(term => caseText(item).includes(term)));
     const shown = state.cat === 'all' ? matched : matched.filter(item => item.category === state.cat);
     galleryShown = shown.length;
     gallery.replaceChildren(...shown.map(galleryCard));
@@ -388,7 +402,7 @@
     galleryChips.hidden = !total;
     if (total) renderChips(matched);
 
-    const filtered = terms.length > 0 || state.cat !== 'all';
+    const filtered = terms.length > 0 || state.cat !== 'all' || state.savedOnly;
     galleryCount.replaceChildren(...(filtered
       ? [h('strong', {}, String(shown.length)), '件が該当', h('span', {class: 'gallery-count-total'}, '全' + total + '件中')]
       : [h('strong', {}, String(total)), '件']));
@@ -405,7 +419,9 @@
     galleryEmpty.hidden = shown.length > 0;
     if (!shown.length) {
       const noneInField = state.cat !== 'all' && !state.galleryCases.some(item => item.category === state.cat);
-      $('[data-gallery-empty-detail]').textContent = !total
+      $('[data-gallery-empty-detail]').textContent = state.savedOnly
+        ? 'この条件に合う保存済みの動画・デモはありません。カタログも確認するか、「保存したもの」を外して探せます。'
+        : !total
         ? 'まだ掲載している項目がありません。カタログから探せます。'
         : noneInField
           ? '「' + categoryLabel(state.cat) + '」の動画・デモはまだありません。カタログでは、この分野の項目を探せます。'
@@ -454,6 +470,7 @@
       q: params.get('q') || '',
       kind: KINDS.has(kind) ? kind : 'all',
       withCase: params.get('case') === '1',
+      savedOnly: params.get('saved') === '1',
       cat: categoryFromHash() || 'all',
       limit: PAGE_SIZE
     };
@@ -465,6 +482,7 @@
     if (q) params.set('q', q);
     if (state.kind !== 'all') params.set('kind', state.kind);
     if (state.withCase) params.set('case', '1');
+    if (state.savedOnly) params.set('saved', '1');
     const query = params.toString();
     let hash = location.hash;
     if (state.cat !== 'all') hash = '#' + encodeURIComponent(state.cat);
@@ -573,7 +591,7 @@
     } catch (_) { /* ids are shown instead */ }
   }
 
-  // A catalog entry counts as produced only when a 八百万図AIツールボックス case points to it.
+  // A catalog entry counts as produced only when a Yaoyorozu AI ToolBox case points to it.
   function mapCases() {
     state.caseByEntry = table();
     const cases = state.cases || [];
@@ -646,7 +664,7 @@
   // If the case list could not be read, it goes to the catalog as before.
   $('[data-hero-form]').addEventListener('submit', event => {
     event.preventDefault();
-    Object.assign(state, {q: heroSearch.value, kind: 'all', withCase: false, limit: PAGE_SIZE});
+    Object.assign(state, {q: heroSearch.value, kind: 'all', withCase: false, savedOnly: false, limit: PAGE_SIZE});
     search.value = heroSearch.value;
     render();
     const target = Array.isArray(state.cases) ? '#cases' : '#catalog';
@@ -663,6 +681,22 @@
     writeURL(false, '#cases');
   }
 
+  savedFilter.addEventListener('click', () => {
+    state.savedOnly = !state.savedOnly;
+    state.limit = PAGE_SIZE;
+    render();
+    writeURL(false, '#cases');
+    announce(state.savedOnly ? '保存したものだけを表示しています。' : 'すべての項目を表示しています。');
+  });
+  window.addEventListener('sy:savedchange', () => {
+    updateSavedFilter();
+    if (state.savedOnly) {
+      const previousFocus = document.activeElement;
+      render();
+      if (!previousFocus.isConnected) savedFilter.focus({preventScroll: true});
+    }
+  });
+
   // Gallery: field chips, clearing the words, the way down to the catalog, and opening a card.
   $('#cases').addEventListener('click', event => {
     const chip = event.target.closest('[data-gallery-cat]');
@@ -676,7 +710,7 @@
       return;
     }
     if (event.target.closest('[data-gallery-reset]')) {
-      clearGallery({q: '', cat: 'all'});
+      clearGallery({q: '', cat: 'all', savedOnly: false});
       const all = $('[data-gallery-cat="all"]', galleryChips);
       if (all) all.focus();
       announce('動画・デモの絞り込みを外しました。' + galleryStatus());
@@ -784,7 +818,7 @@
 
   for (const button of $$('[data-reset]')) {
     button.addEventListener('click', () => {
-      Object.assign(state, {q: '', cat: 'all', kind: 'all', withCase: false, limit: PAGE_SIZE});
+      Object.assign(state, {q: '', cat: 'all', kind: 'all', withCase: false, savedOnly: false, limit: PAGE_SIZE});
       search.value = '';
       heroSearch.value = '';
       render();

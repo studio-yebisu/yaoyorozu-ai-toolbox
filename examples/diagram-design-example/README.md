@@ -14,7 +14,7 @@ Diagram Design は、図の選び方・配色・文字・矢印の規則を書�
 | `diagrams/intake.png` | `intake.html` のSVG要素だけをブラウザーで撮影するPNG（下の手順5） |
 | `diagram-data.json` | 工程・矢印・ラベルの位置、依頼の各文と図の対応、仮の条件、確かめる基準 |
 | `samples.json` | 入力（`request.txt` と同じ文字列）と結果の要約 |
-| `design-profile.md` | 図に当てはめた 八百万図AIツールボックス の配色と書体 |
+| `design-profile.md` | 図に当てはめた Yaoyorozu AI ToolBox の配色と書体 |
 | `index.html`・`styles.css`・`app.js` | 結果を見せる画面。`app.js` は経路の切り替えと依頼文のコピーだけ |
 | `video/` | 28秒の解説動画のソース（`index.html`・`scene.js`） |
 | `vendor/diagram-design/` | 原典から選んだファイル（SKILL.md、references/、assets/ のひな形、scripts/、README.md、LICENSE、THIRD_PARTY_LICENSES.md）。変更していません |
@@ -88,7 +88,7 @@ python3 -m http.server 8000   # http://127.0.0.1:8000/index.html
 
 `video/index.html` と `video/scene.js` は Motion Reel（Studio Yebisu、MIT）の時間の契約に沿った、28秒・1280×720・30fps・音声なしのソースです。`window.seek(秒)` が、その時刻の画面だけを描きます。図は `../diagrams/intake.png` を、拡大の位置や経路の番号は `../diagram-data.json` を読み込むので、手順5のあとで作例のフォルダ全体を配信して書き出します。画像やJSONがない・大きさが合わない場合は `motionReady` が失敗し、代わりの図は描きません。
 
-八百万図AIツールボックス のリポジトリをcheckoutし、そのルートから、既存の統合用レンダースクリプトを使います。Node.js・Chrome・FFmpeg・ffprobeと、導入済みMotion Reelのレンダー環境が必要です。
+Yaoyorozu AI ToolBox のリポジトリをcheckoutし、そのルートから、既存の統合用レンダースクリプトを使います。Node.js・Chrome・FFmpeg・ffprobeと、導入済みMotion Reelのレンダー環境が必要です。
 
 ```text
 python scripts/render_case.py diagram-design-example --renderer <motion-reel>/scripts/render.mjs
@@ -110,6 +110,6 @@ python scripts/render_case.py diagram-design-example --renderer <motion-reel>/sc
 
 ## ライセンス
 
-- この作例の画面・図・文言・記録・動画のソースは 八百万図AIツールボックス の独自制作で、MIT License です（`LICENSE`）。
+- この作例の画面・図・文言・記録・動画のソースは Yaoyorozu AI ToolBox の独自制作で、MIT License です（`LICENSE`）。
 - `vendor/diagram-design/` は Diagram Design（cathrynlavery/diagram-design、固定コミット `d97c5c7477e54cee17cfa6459190610da0643a05`）で、上流の MIT License（Copyright (c) 2025 Cathryn Lavery）に従います。`vendor/diagram-design/LICENSE` と、原典が同梱する第三者の利用条件 `THIRD_PARTY_LICENSES.md` をそのまま残しています。
 - 図に第三者のアイコン・画像・フォントは使っていません。

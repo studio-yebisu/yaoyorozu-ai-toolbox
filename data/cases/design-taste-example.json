@@ -177,7 +177,7 @@
     }
   ],
   "license": "MIT",
-  "license_note": "この作例の画面・CSS・JavaScript・文言・記録は 八百万図AIツールボックス の2026年の独自制作で、MIT License（Copyright (c) 2026 Studio Yebisu）です。vendor/design-taste/ の5つの SKILL.md と README は上流の MIT License（Copyright (c) 2026 Mustafa）で、固定コミットのファイルを変更せずに LICENSE とともに同梱しています。書体は利用者の端末のもので、同梱していません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "license_note": "この作例の画面・CSS・JavaScript・文言・記録は Yaoyorozu AI ToolBox の2026年の独自制作で、MIT License（Copyright (c) 2026 Studio Yebisu）です。vendor/design-taste/ の5つの SKILL.md と README は上流の MIT License（Copyright (c) 2026 Mustafa）で、固定コミットのファイルを変更せずに LICENSE とともに同梱しています。書体は利用者の端末のもので、同梱していません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
   "catalog_entry": {
     "id": "resource-design-taste",
     "name": "Design Taste",
@@ -229,10 +229,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/design-taste-example-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/design-taste-example-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/design-taste-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/design-taste-example-landscape-credited-v4.mp4"
 }

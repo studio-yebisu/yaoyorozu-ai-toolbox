@@ -172,7 +172,7 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
@@ -220,6 +220,6 @@
     "verification": "新規100件：金額・円額未確定97/97（返金3件除外）、日付99/100、暫定科目44/48、科目/保留条件86/100。Python256、科目操作8・通常画面28・保護画面10・UX8項目。未見データの精度ではありません。",
     "reviewed_on": "2026-10-23"
   },
-  "video_download_portrait": "media/downloads/ryoshu-local-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/ryoshu-local-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/ryoshu-local-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/ryoshu-local-landscape-credited-v4.mp4"
 }

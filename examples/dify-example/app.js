@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス — Dify 作例ページ（図で読む版）。MIT License, Copyright (c) 2026 Studio Yebisu.
+// Yaoyorozu AI ToolBox — Dify 作例ページ（図で読む版）。MIT License, Copyright (c) 2026 Studio Yebisu.
 // 保存した実行記録を読むだけのページ。分岐をブラウザーで計算し直さず、記録の値（route の判定結果・通った線・
 // 実際のメモ）を1枚の図に描く。データはすべて textContent と SVG の文字で書き、HTML として解釈しない。
 // 図・ページ・このコードは Claude Opus 5.5 が書いた。記録の値は graphon のエンジンが返したもの。

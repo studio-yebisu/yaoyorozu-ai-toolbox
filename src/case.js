@@ -1,4 +1,4 @@
-/* 八百万図AIツールボックス — article page. case.html?id=<case-id> (produced case) or case.html?entry=<catalog-id>
+/* Yaoyorozu AI ToolBox — article page. case.html?id=<case-id> (produced case) or case.html?entry=<catalog-id>
    (catalog item: a source guide, or a pointer to its produced case). Data comes only from relative
    paths under data/. Every value is written as text; links pass through SY.safeHref. */
 (() => {
@@ -164,9 +164,9 @@
 
   function sourceLabel(entry) {
     const id = entry.source_project;
-    if (id === 'curated') return '八百万図AIツールボックス 原典確認済みの紹介';
-    if (!id) return '八百万図AIツールボックス 統合カタログ';
-    return categories[id] ? '八百万図AIツールボックス ' + categoryLabel(id) + 'のカタログ' : String(id);
+    if (id === 'curated') return 'Yaoyorozu AI ToolBox 原典確認済みの紹介';
+    if (!id) return 'Yaoyorozu AI ToolBox 統合カタログ';
+    return categories[id] ? 'Yaoyorozu AI ToolBox ' + categoryLabel(id) + 'のカタログ' : String(id);
   }
 
   function renderFooterCategories(list) {
@@ -187,7 +187,7 @@
   }
 
   function showState(title, body, options = {}) {
-    document.title = title + '｜八百万図AIツールボックス';
+    document.title = title + '｜Yaoyorozu AI ToolBox';
     show(h('div', {class: 'page-state'},
       h('h1', {class: 'empty-title'}, title),
       h('p', {}, body),
@@ -332,7 +332,7 @@
     const samplesUrl = safeHref(item.samples);
     const hasRequest = typeof item.request === 'string' && item.request.trim();
     const skillTitle = skillName(item);
-    document.title = (item.title || item.id) + '｜八百万図AIツールボックス';
+    document.title = (item.title || item.id) + '｜Yaoyorozu AI ToolBox';
 
     let samples = [];
     if (samplesUrl) {
@@ -351,6 +351,7 @@
         h('span', {class: 'card-cat'}, categoryLabel(item.category)),
         entry.kind ? h('span', {}, entry.kind) : null),
       h('h1', {class: 'article-title article-tool-name'}, skillTitle || item.title || item.id),
+      window.SY.itemActions.create(window.SY.likes.caseID(item), item.catalog_entry?.name || item.title, 'case.html?id=' + encodeURIComponent(item.id)),
       overview ? h('p', {class: 'article-overview'}, overview) : null,
       description ? h('p', {class: 'article-lead'}, description) : null,
       demo || hasRequest ? h('div', {class: 'actions'},
@@ -439,7 +440,7 @@
 
   /* ---------- Catalog entry (source guide) ---------- */
 
-  // A catalog entry counts as produced only when a 八百万図AIツールボックス case points to it. If cases.json is
+  // A catalog entry counts as produced only when a Yaoyorozu AI ToolBox case points to it. If cases.json is
   // unreadable, an entry whose guide_url is a case article still links there.
   function caseForEntry(entry, cases) {
     const direct = cases && cases.find(item => item.catalog_entry && item.catalog_entry.id === entry.id);
@@ -451,7 +452,7 @@
   }
 
   function renderEntry(entry, produced) {
-    document.title = (entry.name || entry.id) + '｜八百万図AIツールボックス';
+    document.title = (entry.name || entry.id) + '｜Yaoyorozu AI ToolBox';
     const skill = String(entry.kind || '').trim() === 'スキル';
     const category = categories[entry.category];
     const caseHref = produced ? 'case.html?id=' + encodeURIComponent(produced.id) : null;
@@ -499,6 +500,7 @@
         h('span', {}, categoryLabel(entry.category)),
         stage ? h('span', {class: caseHref ? 'entry-case' : 'stage'}, stage) : null),
       h('h1', {class: 'article-title article-title-entry article-tool-name'}, entry.name || entry.id),
+      window.SY.itemActions.create(entry.id, entry.name, 'case.html?entry=' + encodeURIComponent(entry.id)),
       entry.tagline ? h('p', {class: 'article-overview'}, entry.tagline) : null,
       entry.summary ? h('p', {class: 'article-lead'}, entry.summary) : null,
       h('div', {class: 'actions'},

@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス — OpenHands Agent Canvas 作例ページ。MIT License, Copyright (c) 2026 Studio Yebisu.
+// Yaoyorozu AI ToolBox — OpenHands Agent Canvas 作例ページ。MIT License, Copyright (c) 2026 Studio Yebisu.
 // 保存した実行記録を読むだけのページ。原典の検査をブラウザーで計算し直さず、記録の値をそのまま表示する。
 // データはすべて textContent とテキストノードで書き、HTML として解釈しない（O08 のタグも文字のまま）。
 "use strict";

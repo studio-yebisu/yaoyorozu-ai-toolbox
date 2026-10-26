@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス サイト紹介（20秒・無音）で再利用する2つの部品：SelectionFrame と MaterializeFrame。
+// Yaoyorozu AI ToolBox サイト紹介（20秒・無音）で再利用する2つの部品：SelectionFrame と MaterializeFrame。
 // どちらも「時刻・決まった設定・データ」だけから SVG の文字列や rect を返す純粋関数。
 // DOM、壁時計、乱数、前フレームの積算、CSS アニメーションは使わない。外部ライブラリなし。
 

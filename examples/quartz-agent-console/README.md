@@ -37,7 +37,7 @@ npm run build    # index.html と assets/ を出力
 
 - `vendor/quartz/` は Quartz（MIT License、Copyright (c) 2026 Arlan Marat）です。`vendor/quartz/LICENSE` をそのまま残しています。
 - アイコンは Quartz が読み込む Font Awesome Free（Classic Solid）で、その利用条件に従います。
-- `src/`、`samples.json`、`video/` の画面構成・文言・サンプルは 八百万図AIツールボックス の独自制作で、MIT License です。
+- `src/`、`samples.json`、`video/` の画面構成・文言・サンプルは Yaoyorozu AI ToolBox の独自制作で、MIT License です。
 
 
 ## 概念構造版 visual-r1

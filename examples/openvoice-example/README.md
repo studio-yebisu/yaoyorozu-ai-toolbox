@@ -48,7 +48,7 @@ python render.py --out ../render-wide --width 1280 --height 720
 - OpenVoice: myshell-ai/OpenVoice、74a1d147b17a8c3092dd5430504bd83ef6c7eb23、MIT。原典23ファイルとLICENSEを同梱。
 - OpenVoice V2変換器: 公式myshell-ai/OpenVoiceV2、f36e7edfe1684461a8343844af60babc2efbb727、MIT。config/説明と重みのハッシュを同梱し、約131MBの重み自体は除外。
 - WavMark0.0.3と公式M4869/WavMark、0ad3c7b74f641bddb61f6b85cdf2de0d93a5bfef、MIT。原典ソース15ファイル・LICENSEと重みのハッシュを同梱し、約10MBの重みとcacheは除外。
-- 元の文章・デモUI・映像編集ソースとMotion Reel同梱ツール: 八百万図AIツールボックス、MIT。原音はIrodori-TTSによる独自文章の合成音声です。
+- 元の文章・デモUI・映像編集ソースとMotion Reel同梱ツール: Yaoyorozu AI ToolBox、MIT。原音はIrodori-TTSによる独自文章の合成音声です。
 
 モデル実行履歴全文・認証・私的な統括スキル・巨大重み・cache・venv・node_modulesは配布物に含めません。Opus5.5は作例の実装・最終UI・映像ソースの制作範囲です。音声変換はOpenVoice、原音の合成はIrodori-TTS、承認された最初の図の見本と実行・照合・統合は親エージェントの担当です。
 

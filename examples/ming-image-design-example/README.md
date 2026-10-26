@@ -56,9 +56,9 @@ python run_example.py --request inputs/request.json --output <新しい空の公
 
 ## 同梱しているもの・していないもの
 
-- 自作：ページ（`index.html`・`app.js`・`styles.css`）、解説動画の編集用ソース（`video/`）、匿名クライアント `run_example.py`、依頼（`inputs/`）、実装メモ `implementation.md`、事実の整理（`concept/`）、`SOURCE-NOTES.md`。八百万図AIツールボックス の制作で MIT（`LICENSE`）。
+- 自作：ページ（`index.html`・`app.js`・`styles.css`）、解説動画の編集用ソース（`video/`）、匿名クライアント `run_example.py`、依頼（`inputs/`）、実装メモ `implementation.md`、事実の整理（`concept/`）、`SOURCE-NOTES.md`。Yaoyorozu AI ToolBox の制作で MIT（`LICENSE`）。
 - 原典：`inclusionAI/Ming-Image` @3515cd7 から選んだ6ファイルを原文のまま `vendor/ming/` に置き、元の `LICENSE`（MIT）を保全しています。`vendor/ming/README.md` はモデルの一次資料で、SKILL.mdではありません。
-- 書き出しの補助：`render_visual.py`（このフォルダの直下）と `tools/motion-reel/` の5ファイル（八百万図AIツールボックス・MIT）。npmの依存は同梱していません。
+- 書き出しの補助：`render_visual.py`（このフォルダの直下）と `tools/motion-reel/` の5ファイル（Yaoyorozu AI ToolBox・MIT）。npmの依存は同梱していません。
 - 同梱していないもの：公開Spaceのコード全体（一般的な再配布の条件が見つからないため）、モデルの重み・キャッシュ・環境、認証情報、非公開のログ・ヘッダー・セッションID、全履歴。
 
 ## まだ確かめていないこと

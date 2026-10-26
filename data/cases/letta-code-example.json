@@ -242,10 +242,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/letta-code-example-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/letta-code-example-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/letta-code-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/letta-code-example-landscape-credited-v4.mp4"
 }

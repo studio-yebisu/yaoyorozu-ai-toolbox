@@ -1,6 +1,6 @@
-# Motion Video Kit の作例：八百万図AIツールボックス サイト紹介（20秒・無音）
+# Motion Video Kit の作例：Yaoyorozu AI ToolBox サイト紹介（20秒・無音）
 
-Opus 5.5（claude-opus-5-5）が Motion Video Kit（echris6/motion-video-kit、固定コミット `e4b1c0004080fe6a0deb883631bad5eba1e5f339`）の `business-motion-film` を読み、八百万図AIツールボックス のサイトを紹介する 20秒・1920×1080・60fps・無音の映像を SVG と JavaScript で作った作例です。書き出しには、別途入手した Motion Reel を使います。音・3D・AI生成素材・第三者の映像は使っていません。
+Opus 5.5（claude-opus-5-5）が Motion Video Kit（echris6/motion-video-kit、固定コミット `e4b1c0004080fe6a0deb883631bad5eba1e5f339`）の `business-motion-film` を読み、Yaoyorozu AI ToolBox のサイトを紹介する 20秒・1920×1080・60fps・無音の映像を SVG と JavaScript で作った作例です。書き出しには、別途入手した Motion Reel を使います。音・3D・AI生成素材・第三者の映像は使っていません。
 
 ここに書いたコマンドは再現の手順で、この文書自体は実行結果を示しません。全編の実測値と評価は `review-summary.json` に示します。
 
@@ -73,7 +73,7 @@ bash vendor/motion-video-kit/business-motion-film/scripts/contact-sheet.sh <本�
 ## 限界
 
 - 無音です。原典の `audio.md`・`loudness.sh`・効果音と音楽の工程は行っていません。
-- 2Dのみ。試した範囲は 八百万図AIツールボックス 自身の紹介1本です。
+- 2Dのみ。試した範囲は Yaoyorozu AI ToolBox 自身の紹介1本です。
 - 画面は紹介用に再構成した模式図で、操作の録画ではありません。
 - 原典の28本の参考映像は見ていません。同梱の文章分析（`motion-grammar.md`・`launch-film-notes.md`）だけを読みました。
 - レビューはAIの別担当によるもので、人の承認ではありません。

@@ -18,7 +18,7 @@ git add -- $paths
 if($LASTEXITCODE -ne 0){throw 'Could not stage the publication allowlist.'}
 git diff --cached --quiet
 if($LASTEXITCODE -eq 1){
-  git commit -m "Publish 八百万図AIツールボックス case: $CaseId"
+  git commit -m "Publish Yaoyorozu AI ToolBox case: $CaseId"
   if($LASTEXITCODE -ne 0){throw 'Commit failed.'}
 }
 git push origin HEAD:main

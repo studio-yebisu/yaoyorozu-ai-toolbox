@@ -171,7 +171,7 @@
     }
   ],
   "license": "Apache-2.0（AssetFurnace のソース）／CC0（木箱）／MIT（three.js・この作例）",
-  "license_note": "AssetFurnace（Bingeljell/image-to-3dlab）のソースは Apache License 2.0 で、固定版から選んだ10ファイルを LICENSE と NOTICE とともに vendor/assetfurnace/ に原文のまま置いています。再配布では NOTICE を残し、リポジトリへのリンクを付けます。選択10ファイルはアプリ全体ではありませんが、圧縮CLIはPythonとPillowで単独実行できます。木箱 Wooden Crate 01 は James Ray Cock・Poly Haven の CC0 で、元の5ファイルは以前の作例からの再利用、包装した入力GLBとテクスチャを縮めた出力GLBはそこからの派生ファイルです。three.js 0.180.0 は MIT で、以前の作例から無改変で再利用しています。Blender と Pillow はそれぞれのライセンスで別にインストールした依存で、同梱していません。モデルの重みは使っていません。ページ・図・文章・動画のソースとランナーは 八百万図AIツールボックス の制作（Claude Opus 5.5）で MIT です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "license_note": "AssetFurnace（Bingeljell/image-to-3dlab）のソースは Apache License 2.0 で、固定版から選んだ10ファイルを LICENSE と NOTICE とともに vendor/assetfurnace/ に原文のまま置いています。再配布では NOTICE を残し、リポジトリへのリンクを付けます。選択10ファイルはアプリ全体ではありませんが、圧縮CLIはPythonとPillowで単独実行できます。木箱 Wooden Crate 01 は James Ray Cock・Poly Haven の CC0 で、元の5ファイルは以前の作例からの再利用、包装した入力GLBとテクスチャを縮めた出力GLBはそこからの派生ファイルです。three.js 0.180.0 は MIT で、以前の作例から無改変で再利用しています。Blender と Pillow はそれぞれのライセンスで別にインストールした依存で、同梱していません。モデルの重みは使っていません。ページ・図・文章・動画のソースとランナーは Yaoyorozu AI ToolBox の制作（Claude Opus 5.5）で MIT です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
   "skill_license": "examples/assetfurnace-example/vendor/assetfurnace/LICENSE",
   "video_note": "32秒・30fps・無音の構造図の動画です。縦720×1280と横1280×720を別配置で描きます。原典と依頼が作者AIのジョブになり、制作担当の包装で元の5ファイルが1つのGLBになり、そのGLBが形の12本と実際の画像3枚に分かれ、1024・512・256の上限で候補が縮み、元より小さい時だけ置き換わって、同じ形と一緒に出力GLBへ戻ります。1024上限は縮めず元のJPEGが残ります。3Dは確かめた実GLBの描画で、最後は3つの出力を同じ向きで並べます。ナレーション・音声トラックはありません。制作担当が18スマホ状態・6引用・16表示条件・3破損停止と復旧、実GLB4本の描画と同じカメラの比較、5保存要求と返却5ファイルの全バイト一致、39素材編集・7場面・任意7.2秒・通常32秒再生、代表/連続/contactと縦横32秒960f無音MP4の全デコード/自然終端、出荷ソース62PNG一致を新しく確認。人の審美的承認・実機iOS/VoiceOver・200%拡大・全入力/性能・ゲーム適性は未確認。",
   "video_source": "examples/assetfurnace-example/video/index.html",
@@ -245,10 +245,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/assetfurnace-example-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/assetfurnace-example-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/assetfurnace-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/assetfurnace-example-landscape-credited-v4.mp4"
 }

@@ -71,7 +71,7 @@ def main():
     if not (ROOT / 'index.html').is_file():
         raise SystemExit('Run python scripts/build.py first.')
     server = ThreadingHTTPServer(('127.0.0.1', args.port), partial(Handler, directory=str(ROOT)))
-    print(f'八百万図AIツールボックス preview: http://127.0.0.1:{args.port}/', flush=True)
+    print(f'Yaoyorozu AI ToolBox preview: http://127.0.0.1:{args.port}/', flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
