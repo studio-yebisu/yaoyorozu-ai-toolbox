@@ -7,7 +7,7 @@
   },
   "case_record": {
     "path": "data/cases/ryoshu-local.json",
-    "sha256": "73b9571a616fc9f29a6d3bcaad2b8c5e1db02d4182f360c37d51fd3dc45fe28d"
+    "sha256": "332e744cd133ee55fb3b0fb5ad6cb15c69db25982bb2ffc08a0b96c5a21486c5"
   },
   "artifacts_sha256": {
     "examples/ryoshu-local/video/README.md": "93ad89f67e687acbd34dec38b1a38b66caf327dde5067dc673262e99e616e438",
@@ -20,7 +20,7 @@
     "examples/ryoshu-local/assets/copy-renewal-20261026/processing-progress.jpg": "ef6e5fed24897aeb3c04cb42c840f18050f519b00ba18036d13a29b43012c1d0",
     "media/ryoshu-copy-renewal-20261026/source/input/promo-copy-deck.json": "5f0cf95011c7060563ded6d1e9f5c209c8007c831fa0ee5d00c266a1ff60ccff",
     "media/ryoshu-copy-renewal-20261026/source/studio32.py": "253a244c9be061da9c067d199b53cbe4bab0b8427bc448e88d7ce405f754dfe2",
-    "data/cases/ryoshu-local.json": "73b9571a616fc9f29a6d3bcaad2b8c5e1db02d4182f360c37d51fd3dc45fe28d",
+    "data/cases/ryoshu-local.json": "332e744cd133ee55fb3b0fb5ad6cb15c69db25982bb2ffc08a0b96c5a21486c5",
     "media/ryoshu-copy-renewal-20261026/source/promo94.py": "52845033eb493999a6850d04deac565d2321facf0d1060ce7a14ba7784107de0",
     "media/ryoshu-copy-renewal-20261026/source/common.py": "2d6e235c26271b14943168e24e7d63b1c82625f3134cb705790929b1021f02b7",
     "examples/ryoshu-local/app.js": "1d1cd5e4b319522beb7372bf353c96eea7135f7dd09303f23a89c285c9814652",
@@ -51,7 +51,7 @@
     "media/ryoshu-local-wide.webp": "b6061bb105f900ae69d07a290069f2b3ac360ede709d3abde196d12f634fd5d7",
     "media/ryoshu-copy-renewal-20261026/source/render.py": "1c8112a768e539e9818b7678cb07292d18cb03b6017fd96c246c6bf7b6b181e6",
     "media/ryoshu-copy-renewal-20261026/ryoshu-32s-wide-credited-ja.mp4": "fc15a7612e4716eafd01eaaae2ce5d4168c3effb61091574d60de065c9f2f3a8",
-    "examples/ryoshu-local/index.html": "3840e7d66c0b9d83d69e2d6e47f089882ef8a4b2f719c56737c63f1209b7980f",
+    "examples/ryoshu-local/index.html": "6b2a28feab60e05fc2f35d1f24bd13de7b54358c7cd4efebe3632a5a4fb4f3f5",
     "media/ryoshu-copy-renewal-20261026/ryoshu-32s-portrait.webp": "c99309b33e7e168acb3a3e5c9ecbecab977de09e429e0f84f5205703ebb32bee",
     "examples/ryoshu-local/assets/copy-renewal-20261026/csv-complete.jpg": "43dd85e9b3c537a7e70ad0190f1e16a6c50d5289cefa7fc7b71db3faf35ef506",
     "examples/ryoshu-local/video/assets/copy-renewal-20261026/zoom.jpg": "2c2a582de8f970e4e6bd53da3491f4cec239cd66bd409a0452a39b4a11cb318d",
@@ -88,9 +88,24 @@
     "examples/ryoshu-local/video/assets/copy-renewal-20261026/processing.jpg": "082dd9b97ee0f4558c6c55d9687d4c8db2d6f8fbdbb925d807af697022e87078",
     "examples/ryoshu-local/assets/copy-renewal-20261026/zoom.jpg": "2c2a582de8f970e4e6bd53da3491f4cec239cd66bd409a0452a39b4a11cb318d",
     "media/ryoshu-copy-renewal-20261026/current-provenance.json": "de8421d42ac314e9d58bcfb5726850a34edfdc605b635f3e7abd074496c1a594",
-    "examples/ryoshu-local/assets/copy-renewal-20261026/processing.jpg": "082dd9b97ee0f4558c6c55d9687d4c8db2d6f8fbdbb925d807af697022e87078"
+    "examples/ryoshu-local/assets/copy-renewal-20261026/processing.jpg": "082dd9b97ee0f4558c6c55d9687d4c8db2d6f8fbdbb925d807af697022e87078",
+    "media/ryoshu-copy-renewal-20261026/ryoshu-promo-102s.mp4": "5a7fdecdec52b538fb7410f00766b2276e14056e16182ba874b79f8af0a91bbe",
+    "media/ryoshu-copy-renewal-20261026/ryoshu-promo-102s.poster.png": "d1eb01213e74281ccefc6a44901155d1acdcfe2b1a7d68997071cd827ac9b0dd",
+    "media/ryoshu-copy-renewal-20261026/current-102-provenance.json": "de6d6b3d1e58df195a2f2f0e312dabaebb8cdba2c9a2b33c36eb4c75d5bd966b",
+    "media/ryoshu-copy-renewal-20261026/source-102/audio.py": "035fcbb89671a0b451d67b74c7b1a8f9f5e71e0b9f8fbf13e8b6fcbe4a56ddb7",
+    "media/ryoshu-copy-renewal-20261026/source-102/common.py": "2d6e235c26271b14943168e24e7d63b1c82625f3134cb705790929b1021f02b7",
+    "media/ryoshu-copy-renewal-20261026/source-102/copydeck.py": "6cc191fcf34868bfaa335288eb9e523e0395a40fe18a900bc3769ec2b82d64d0",
+    "media/ryoshu-copy-renewal-20261026/source-102/promo102.py": "602e611e10853885a5bddfa5b8717e4e73b3c51c7d1ff23d2453bb0b9308d4fa",
+    "media/ryoshu-copy-renewal-20261026/source-102/qc.py": "d5aaf72e13d628857c3701fdf1176407ef7b71cbbc63771b38e385d2d768bce5",
+    "media/ryoshu-copy-renewal-20261026/source-102/README.md": "b3936a54d0bc577fc0b89385b6f1424da734407ba8a0209145ddcd70b2bd58d3",
+    "media/ryoshu-copy-renewal-20261026/source-102/render.py": "e5d4289246ad42a4f53c9de269418af53974b89b9e0f06b1f6d9f2cad3f3df22",
+    "media/ryoshu-copy-renewal-20261026/source-102/requirements.json": "586672647000b443b8533a9b1862e6e93096bf6f5d00b7d12d5b84f4a2f1995a",
+    "media/ryoshu-copy-renewal-20261026/source-102/input/new-real-ui.mp4": "a53a8a2a91f5737cc472ee77594ebaa0720a10e275938db0d818d98b28e7cecc",
+    "media/ryoshu-copy-renewal-20261026/source-102/input/promo-copy-deck.json": "5f0cf95011c7060563ded6d1e9f5c209c8007c831fa0ee5d00c266a1ff60ccff",
+    "media/ryoshu-copy-renewal-20261026/source-102/input/revision-copy-deck-v2.json": "57d20cb1ac88394880c01f545990563d9c35bc4adbadb66fcdf24c0c13c07e41"
   },
   "provenance_artifacts_sha256": {
-    "media/ryoshu-copy-renewal-20261026/current-provenance.json": "de8421d42ac314e9d58bcfb5726850a34edfdc605b635f3e7abd074496c1a594"
+    "media/ryoshu-copy-renewal-20261026/current-provenance.json": "de8421d42ac314e9d58bcfb5726850a34edfdc605b635f3e7abd074496c1a594",
+    "media/ryoshu-copy-renewal-20261026/current-102-provenance.json": "de6d6b3d1e58df195a2f2f0e312dabaebb8cdba2c9a2b33c36eb4c75d5bd966b"
   }
 }

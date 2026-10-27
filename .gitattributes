@@ -4,3 +4,4 @@
 /data/production/ryoshu-local-current.json -text
 /data/video-downloads.json -text
 /media/ryoshu-copy-renewal-20261026/** -text
+/media/ryoshu-copy-renewal-20261026/source-102/** whitespace=cr-at-eol

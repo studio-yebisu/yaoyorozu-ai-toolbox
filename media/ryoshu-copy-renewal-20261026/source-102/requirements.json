@@ -1,0 +1,27 @@
+{
+  "entry": "render.py (python render.py; python render.py --stills <t...>)",
+  "modules": ["render.py", "promo102.py", "common.py", "copydeck.py", "audio.py", "qc.py"],
+  "python": ">=3.12 (verified with 3.12.15)",
+  "python_packages": {"Pillow": ">=10 (FreeType + variable font support)", "numpy": ">=1.26"},
+  "executables": {
+    "ffmpeg": "on PATH; needs libx264 and native aac encoders (verified with 8.1.2)",
+    "ffprobe": "on PATH"
+  },
+  "fonts": {
+    "note": "not bundled (proprietary/OS fonts); looked up by file name in C:/Windows/Fonts/ (common.FONTS)",
+    "required": [
+      {"file": "NotoSansJP-VF.ttf", "family": "Noto Sans JP (variable, wght axis)", "use": "all Japanese text"},
+      {"file": "bahnschrift.ttf", "family": "Bahnschrift (variable)", "use": "Latin product name, chapter numbers, URL"}
+    ]
+  },
+  "inputs": {
+    "lookup": "$RYOSHU_INPUT, else ./input, ../input, ../../input relative to this folder",
+    "required_in_input_folder": {"new-real-ui.mp4": "a53a8a2a91f5737cc472ee77594ebaa0720a10e275938db0d818d98b28e7cecc"},
+    "bundled_in_./input": {
+      "promo-copy-deck.json": {"sha256": "5f0cf95011c7060563ded6d1e9f5c209c8007c831fa0ee5d00c266a1ff60ccff", "copy_of": "input/prior-promo-copy-deck.json"},
+      "revision-copy-deck-v2.json": {"sha256": "57d20cb1ac88394880c01f545990563d9c35bc4adbadb66fcdf24c0c13c07e41", "copy_of": "input/revision-copy-deck-v2.json"}
+    }
+  },
+  "outputs": "$RYOSHU_OUT/deliver and $RYOSHU_OUT/build (default: the parent folder of this source folder)",
+  "derived_from": "input/prior-opus-source (promo94.py -> promo102.py; studio32.py and the legal-credit path not used by the main film)"
+}
