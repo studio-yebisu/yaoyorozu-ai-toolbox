@@ -8,6 +8,7 @@
   const queue = new Set();
   let scheduled = false;
   let configPromise;
+  let configured = false;
   let api;
   let channel;
   try { channel = new BroadcastChannel('yaoyorozu-likes'); } catch (_) { /* Optional tab sync. */ }
@@ -36,7 +37,7 @@
       }
       api = url.origin;
       return api;
-    }).catch(() => null);
+    }).catch(() => null).finally(() => { configured = true; });
     return configPromise;
   }
 
@@ -46,17 +47,20 @@
   }
 
   function paintOne(el, state) {
-    el.hidden = !api;
     const button = el.querySelector('button');
-    const busy = state.loading || state.pending;
+    const unavailable = configured && !api;
+    const busy = !configured || state.loading || state.pending;
     const retry = !state.loaded && !busy && Boolean(state.error);
-    button.disabled = busy;
+    button.disabled = busy || unavailable;
+    button.classList.toggle('is-unavailable', unavailable);
     button.setAttribute('aria-pressed', String(state.liked));
     button.setAttribute('aria-busy', String(busy));
-    button.setAttribute('aria-label', `${el.dataset.likeTitle}：${retry ? 'いいね数を再読み込み' : state.liked ? 'いいねを取り消す' : 'いいね'}${state.count === null ? '' : `、${state.count}件`}`);
-    button.title = retry ? 'いいね数を再読み込み' : '同じブラウザーから1件。もう一度押すと取り消せます。';
+    button.setAttribute('aria-label', `${el.dataset.likeTitle}：${unavailable ? 'いいね（準備中）' : retry ? 'いいね数を再読み込み' : state.liked ? 'いいねを取り消す' : 'いいね'}${state.count === null ? '' : `、${state.count}件`}`);
+    button.title = unavailable ? 'いいねは現在準備中です。' : retry ? 'いいね数を再読み込み' : '同じブラウザーから1件。もう一度押すと取り消せます。';
     el.querySelector('[data-like-label]').textContent = retry ? '再試行' : 'いいね';
-    el.querySelector('[data-like-count]').textContent = state.count === null ? '—' : state.count.toLocaleString('ja-JP');
+    const count = el.querySelector('[data-like-count]');
+    count.textContent = unavailable ? '準備中' : state.count === null ? '—' : state.count.toLocaleString('ja-JP');
+    count.classList.toggle('is-unavailable', unavailable);
     el.querySelector('[data-like-message]').textContent = state.error;
   }
 
@@ -169,7 +173,7 @@
     heart.append(path);
     const button = h('button', {class: 'like-button', type: 'button', onclick: event => { event.stopPropagation(); toggle(id); }},
       heart, h('span', {'data-like-label': ''}, 'いいね'), h('span', {class: 'like-count', 'data-like-count': ''}, '—'));
-    const el = h('span', {class: 'like-control', 'data-like-id': id, 'data-like-title': title || id, hidden: true},
+    const el = h('span', {class: 'like-control', 'data-like-id': id, 'data-like-title': title || id},
       button, h('span', {class: 'like-message', 'data-like-message': '', role: 'status', 'aria-live': 'polite'}));
     paintOne(el, state);
     schedule(id);

@@ -1,6 +1,8 @@
 name = "yaoyorozu-likes"
+account_id = "b9a279130afe8c02e3c6f32c3f3ac43a"
 main = "worker.mjs"
 compatibility_date = "2026-10-26"
+preview_urls = false
 
 [vars]
 ALLOWED_ORIGINS = "https://studio-yebisu.github.io"
@@ -8,6 +10,8 @@ ALLOWED_ORIGINS = "https://studio-yebisu.github.io"
 [[d1_databases]]
 binding = "DB"
 database_name = "yaoyorozu-likes"
-# Replace this placeholder with the ID returned by `wrangler d1 create` before deployment.
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "bba8df1a-28db-4e94-b233-37f9402f1087"
 migrations_dir = "migrations"
+
+[observability]
+enabled = true

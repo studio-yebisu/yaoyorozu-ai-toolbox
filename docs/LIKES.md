@@ -32,9 +32,15 @@ python scripts/serve.py --port 8857
 
 `http://127.0.0.1:8857/` でローカルD1を使った動作を確認できます。ローカルDBは `services/likes/.wrangler/` に置き、公開しません。開発用CORS許可は `npm run dev` の引数だけに設定し、本番設定には含めません。
 
-## 本番接続
+## 本番の構成
 
-Cloudflareアカウントへのログイン、外部リソースの作成、API公開とGitHub Pagesへの反映は承認後に行います。既定の `data/likes.json` は空のURLです。この状態ではボタンを表示せず、未接続のいいねを保存済みと扱いません。
+本番APIは `https://yaoyorozu-likes.riyun-aihara.workers.dev`、D1は `yaoyorozu-likes`、Workerからのバインド名は `DB` です。サイト側の接続先は `data/likes.json`、アカウントとDBの接続設定は `services/likes/wrangler.toml` に保持します。これらは公開設定で、認証トークンは含みません。2026-10-27にWorkers Freeの契約とD1のハード上限を確認しています。
+
+新しい掲載項目を追加したら、`python scripts/prepare_likes.py` で保存対象を更新し、いいね用Workerも再デプロイします。`python scripts/check.py` は保存対象とカタログの不一致を検出します。サイトだけを再ビルドしてもWorkerの保存対象は更新されません。
+
+## 新しい環境への接続
+
+Cloudflareアカウントへのログイン、外部リソースの作成、API公開とGitHub Pagesへの反映は承認後に行います。別の環境で `data/likes.json` のURLを空にした場合も「いいね」ボタンは残し、「準備中」と表示して無効にします。未接続のいいねを保存済みと扱わず、件数も表示しません。シェアは小さなアイコンだけを表示し、押せる範囲は44pxを保ちます。
 
 1. Cloudflareの **Workers Free** プランを確認します。有料プランへの変更は行いません。
 2. `services/likes` で `npx wrangler d1 create yaoyorozu-likes` を実行し、返されたDB IDを `wrangler.toml` のプレースホルダーに設定します。

@@ -8,7 +8,9 @@
 .like-button[aria-pressed="true"] { color: #b33435; border-color: #b3343538; background: #b334350a; }
 .like-button[aria-pressed="true"] svg { fill: currentColor; }
 .like-button:disabled { cursor: wait; opacity: .65; }
+.like-button:disabled[aria-busy="false"] { cursor: not-allowed; }
 .like-count { font-variant-numeric: tabular-nums; min-width: 1ch; margin-left: .15rem; }
+.like-count.is-unavailable { grid-column: 2; margin-left: 0; font-size: .625rem; line-height: 1.1; font-weight: 400; }
 .like-message:empty { display: none; }
 .like-message { max-width: 24em; font-size: .75rem; line-height: 1.5; color: #993128; }
 .gallery-body > .like-control { margin-top: auto; padding-top: .875rem; }
