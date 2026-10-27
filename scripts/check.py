@@ -70,6 +70,9 @@ def main():
             assert entry.get('source_note') and entry.get('license_note'), 'Curated provenance or conditions missing'
     published_cases = json.loads((DIST / 'data/cases.json').read_text('utf-8'))
     cases = [json.loads(p.read_text('utf-8')) for p in sorted((DIST / 'data/cases').glob('*.json'))]
+    like_ids = set(ids) | {case.get('catalog_entry', {}).get('id') or 'case-' + case['id'] for case in cases}
+    allowed_likes = json.loads((ROOT / 'services/likes/items.json').read_text('utf-8'))
+    assert allowed_likes == sorted(like_ids), 'Likes allowlist is stale; run python scripts/prepare_likes.py and redeploy the likes service'
     validate_presentation_aggregate(published_cases, cases)
     assert cases, 'No finished case'
     maintenance = MechanicalMaintenance(DIST, cases)
