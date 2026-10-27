@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def repository_path(project):
     folder = Path(project['folder'])
     if folder.is_absolute() or '..' in folder.parts:
-        raise ValueError(f'Repository folder must be relative to 八百万図AIツールボックス: {folder}')
+        raise ValueError(f'Repository folder must be relative to Yaoyorozu AI ToolBox: {folder}')
     target = ROOT / folder
     if not target.is_dir():
         raise FileNotFoundError(f'Place the {project["repository"]} repository at {target}')

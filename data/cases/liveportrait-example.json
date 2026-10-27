@@ -171,7 +171,7 @@
     }
   ],
   "license": "MIT（LivePortrait のソースと重み）／パブリックドメインの絵画の複製（入力）／MIT（この作例）",
-  "license_note": "LivePortrait（KlingAIResearch/LivePortrait）のソースは MIT（Copyright (c) 2024 Kuaishou Visual Generation and Interaction Center）で、固定版から選んだ22ファイルを LICENSE とともに vendor/liveportrait/ に原文のまま置いています。原典の LICENSE は InsightFace の検出モデルを非商用研究用としていますが、この作例ではその検出モデルを取得・読み込み・実行していません。重みは KlingTeam/LivePortrait の固定版（モデルカードは MIT）の5ファイルで、配布していません。入力は原典に同梱の s9.jpg（レオナルド・ダ・ヴィンチ《モナ・リザ》の複製画、原作品はパブリックドメイン）で、手動の切り出しと生成画像はそこからの派生です。Python・PyTorch・NumPy・SciPy・Pillow・OpenCV・PyYAML・rich・FFmpeg はそれぞれのライセンスで別に入れた依存で、同梱していません。ページ・図・文章・動画のソースとランナーは 八百万図AIツールボックス の制作（Claude Opus 5.5）で MIT です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "license_note": "LivePortrait（KlingAIResearch/LivePortrait）のソースは MIT（Copyright (c) 2024 Kuaishou Visual Generation and Interaction Center）で、固定版から選んだ22ファイルを LICENSE とともに vendor/liveportrait/ に原文のまま置いています。原典の LICENSE は InsightFace の検出モデルを非商用研究用としていますが、この作例ではその検出モデルを取得・読み込み・実行していません。重みは KlingTeam/LivePortrait の固定版（モデルカードは MIT）の5ファイルで、配布していません。入力は原典に同梱の s9.jpg（レオナルド・ダ・ヴィンチ《モナ・リザ》の複製画、原作品はパブリックドメイン）で、手動の切り出しと生成画像はそこからの派生です。Python・PyTorch・NumPy・SciPy・Pillow・OpenCV・PyYAML・rich・FFmpeg はそれぞれのライセンスで別に入れた依存で、同梱していません。ページ・図・文章・動画のソースとランナーは Yaoyorozu AI ToolBox の制作（Claude Opus 5.5）で MIT です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
   "skill_license": "examples/liveportrait-example/vendor/liveportrait/LICENSE",
   "video_note": "32秒・30fps・無音の構造図の動画です。縦720×1280と横1280×720を別配置で描きます。原典のreadmeと範囲が作者AIのランナーと値になり、制作担当の1回の実行で、原画の手動の切り出しが256に縮み、同じ1枚からFの見た目の特徴とMの21点に分かれ、作者の手動のyawで21点が変換・補正され、Wで同じF特徴と合流してGが新しい画像を描き、代表5枚とMP4になって再生・保存へ戻ります。画像は照合した原画・切り出し・生成PNGだけで、21点は元推論の保存配列で、角度は推定姿勢と手動の入力制御値です。ナレーション・音声トラックはありません。制作担当が12スマホ状態・6部品8引用・16表示条件・3破損停止と復旧、実3秒動画2本の自然終端、5保存要求と返却5ファイルの全バイト一致、編集48素材・7場面・任意7.2秒・通常32秒・ネイティブrange0.1秒、代表/連続/contactと縦横32秒960f無音MP4の全デコード/自然終端、出荷ソース62PNG一致を新しく確認。人の審美的承認・実機iOS/Safari/VoiceOver・200%拡大・全入力/品質/性能は未確認。",
   "video_source": "examples/liveportrait-example/video/index.html",
@@ -245,10 +245,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/liveportrait-example-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/liveportrait-example-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/liveportrait-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/liveportrait-example-landscape-credited-v4.mp4"
 }

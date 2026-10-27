@@ -97,7 +97,7 @@ SHA-256 の照合に Web Crypto を使うため、https か localhost（127.0.0.
 - 3D Asset Server の原典と dist/：Apache-2.0（[`vendor/3d-asset-server/LICENSE`](vendor/3d-asset-server/LICENSE)）。原典に含まれる Geist フォント（`src/og/fonts/`・`dist/og/fonts/`）は SIL Open Font License 1.1（同じフォルダーの `OFL.txt`）。
 - three 0.180.0：MIT（[`vendor/three/LICENSE`](vendor/three/LICENSE)）。
 - 取得した3Dモデル：Wooden Crate 01・James Ray Cock・Poly Haven・CC0（[Poly Haven のライセンス](https://polyhaven.com/license)）。再配布でき、帰属表示は不要です。
-- Poly Haven のライブAPI：商用も含めて無料。識別できる User-Agent（または Referer）と、出どころが Poly Haven であることの表示が条件です。八百万図AIツールボックス は Poly Haven の公式の製品・提携先ではありません。
+- Poly Haven のライブAPI：商用も含めて無料。識別できる User-Agent（または Referer）と、出どころが Poly Haven であることの表示が条件です。Yaoyorozu AI ToolBox は Poly Haven の公式の製品・提携先ではありません。
 - 動画の制作に使う Motion Reel：MIT（`tools/motion-reel/LICENSE`）。
 
 ## 配布に含めないもの

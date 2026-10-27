@@ -116,7 +116,7 @@ var handle = Vfx.play("VFX_Yebisu_Guard", position)
 
 ## ライセンス
 
-- この作例の画面・文章・レシピ・ブリーフ・映像ソース・撮影した画像と動画は 八百万図AIツールボックス の独自制作で、[MIT License](LICENSE) です。
+- この作例の画面・文章・レシピ・ブリーフ・映像ソース・撮影した画像と動画は Yaoyorozu AI ToolBox の独自制作で、[MIT License](LICENSE) です。
 - `vendor/effekseer-vfx/` と `vendor/vfx-review/` は KanaWorks_AI によるMIT Licenseのスキルで、[LICENSE](vendor/LICENSE)、各スキルの `LICENSE`、[THIRD_PARTY_NOTICES.md](vendor/effekseer-vfx/THIRD_PARTY_NOTICES.md) を変更せずに残しています。`scripts/effekseer_ai/` は laodeng000/effekseer-ai（MIT）に由来します。
 - `library/vfx/materials/` と数式で作るテクスチャは、原典スキルの `vfx init` とテクスチャのコードが書き出したもので、原典のMIT Licenseに従います。
 - Effekseer Core（MIT、Effekseer Project）、EffekseerForGodot4（MIT）、.NET ランタイム（MIT）、Pythonの依存は、初回の準備で公式の配布元から取得するもので、この作例には含みません。Godot は各自が自分のライセンスのもとで導入します。

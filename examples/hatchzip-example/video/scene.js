@@ -301,7 +301,7 @@
     const u = L.u;
     const p = smooth((t - 19.8) / 0.7);
     if (p <= 0) return;
-    const credit = 'HatchZip v0.1.2 @2b754c85…・MIT OR Apache-2.0 ／ 八百万図AIツールボックス';
+    const credit = 'HatchZip v0.1.2 @2b754c85…・MIT OR Apache-2.0 ／ Yaoyorozu AI ToolBox';
     const items = ['コピー消費', '出力一致', '原本保持'];
     ctx.save(); ctx.globalAlpha = p;
     if (L.tall) {

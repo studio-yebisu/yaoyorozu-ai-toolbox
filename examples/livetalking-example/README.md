@@ -108,7 +108,7 @@ python run_example.py --upstream <upstream> --weights <weights> --jobs inputs/jo
 - 入力の肖像：以前の LivePortrait 作例と同じバイト（KlingAIResearch/LivePortrait の s9.jpg、レオナルド・ダ・ヴィンチ《モナ・リザ》の複製画。原作品はパブリックドメイン）。新しい人物の写真・録画・AI の肖像ではありません。
 - 入力の音声：以前の Chatterbox 作例（resemble-ai/chatterbox、MIT）の既存の英語出力と同じバイト。今回の新しい TTS や録音ではありません。元の合成では Perth の透かしが入っていますが、変換と圧縮の後の検出は確かめていません。
 - 依存（同梱なし）と解説動画の書き出しの道具（`render_visual.py`・`tools/motion-reel/` の MIT の5ファイル、制作担当が用意）：`THIRD_PARTY_NOTICES.md` を参照。npm の依存と Chrome は使う人が入れます。
-- ページ・図・文章・解説動画のソース：八百万図AIツールボックス、MIT。作者AI（Claude Opus 5.5）が書きました。
+- ページ・図・文章・解説動画のソース：Yaoyorozu AI ToolBox、MIT。作者AI（Claude Opus 5.5）が書きました。
 
 
 ## 制作担当による後工程の追記

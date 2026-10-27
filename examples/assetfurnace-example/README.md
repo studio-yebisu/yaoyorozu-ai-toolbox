@@ -126,7 +126,7 @@ python -m http.server 8000 --bind 127.0.0.1
 
 ## ライセンス
 
-- この作例のページ・図・説明映像・ランナー（`prepare_input.py`・`run_example.py`）：八百万図AIツールボックス、MIT（`LICENSE`）。
+- この作例のページ・図・説明映像・ランナー（`prepare_input.py`・`run_example.py`）：Yaoyorozu AI ToolBox、MIT（`LICENSE`）。
 - AssetFurnace（image-to-3dlab）のソース：Apache-2.0（`vendor/assetfurnace/LICENSE`・`NOTICE`）。再配布では `NOTICE` を残し、リポジトリへのリンクを付けます。この作例のMITとは別です。
 - 木箱：Poly Haven「Wooden Crate 01」、James Ray Cock、CC0（https://polyhaven.com/license）。素材の条件とコードのライセンスは別のものです。圧縮した出力GLBは、この素材から派生したファイルです。
 - three.js 0.180.0：MIT（`vendor/three/LICENSE`）。以前の作例から無改変で再利用しています。

@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス: Make Interfaces Feel Better concept map (visual-r1).
+// Yaoyorozu AI ToolBox: Make Interfaces Feel Better concept map (visual-r1).
 // One connected picture of what this skill is (Markdown guidance an AI reads: one SKILL.md, five reference topics,
 // 19 core principles), what was handed to the original AI, the three places it changed on one real page, what it
 // chose not to change, and the unchanged clips.json + export.mjs contract that still produces the same JSON file.

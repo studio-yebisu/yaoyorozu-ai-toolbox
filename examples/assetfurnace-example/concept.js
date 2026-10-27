@@ -1,5 +1,5 @@
 /* AssetFurnace example: shared loader, scenes, map drawer and real-GLB view for the page and the silent film.
-   八百万図AIツールボックス, MIT. AssetFurnace (Bingeljell/image-to-3dlab) files keep Apache-2.0; three.js keeps MIT.
+   Yaoyorozu AI ToolBox, MIT. AssetFurnace (Bingeljell/image-to-3dlab) files keep Apache-2.0; three.js keeps MIT.
    Nothing here compresses, generates or calls a model: it reads the frozen files and draws them. */
 
 export const MANIFEST_SHA256 = '6caba83d259fc7f8aa61c37ec918bd3d6b7fc3c2378650b0bd61aa76fa39d6dc';

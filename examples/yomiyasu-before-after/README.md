@@ -49,4 +49,4 @@ python vendor/yomiyasu/scripts/yomiyasu_diff.py before.txt after.txt --stance=�
 
 - `vendor/yomiyasu/` は yomiyasu（MIT License、Copyright (c) 2026 nanaism）です。`vendor/yomiyasu/LICENSE` をそのまま残しています。
 - `vendor/yomiyasu/scripts/yomiyasu_lint.py` に含まれる Unicode 由来の絵文字データには、MIT とは別に `vendor/yomiyasu/UNICODE-LICENSE.txt`（Unicode License V3、Copyright © 1991-2026 Unicode, Inc.）の通知が適用されます。
-- `index.html`・`styles.css`・`app.js`・`samples.json`・`video/`・この README は 八百万図AIツールボックス の独自制作で、MIT License です。
+- `index.html`・`styles.css`・`app.js`・`samples.json`・`video/`・この README は Yaoyorozu AI ToolBox の独自制作で、MIT License です。

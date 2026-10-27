@@ -1,4 +1,4 @@
-name: Publish 八百万図AIツールボックス
+name: Publish Yaoyorozu AI ToolBox
 on:
   push:
     branches: [main]

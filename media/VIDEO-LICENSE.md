@@ -2,7 +2,7 @@
 
 当サイト独自制作のデモ・説明動画は、クレジット付きで商用利用・編集・再配布できます。
 
-必須表記：引用元:八百万図AIツールボックス made by studio_yebisu
+必須表記：Yaoyorozu AI ToolBox · @studio_yebisu
 
 Xの投稿本文には @studio_yebisu の記載も必須です。
 

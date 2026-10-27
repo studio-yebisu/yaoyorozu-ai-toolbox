@@ -107,7 +107,7 @@ python -m http.server 8000 --bind 127.0.0.1
 
 ## ライセンス
 
-- この作例のページ・図・説明映像・ランナー：八百万図AIツールボックス、MIT（`LICENSE`）。
+- この作例のページ・図・説明映像・ランナー：Yaoyorozu AI ToolBox、MIT（`LICENSE`）。
 - ACE-Step のソース：Apache-2.0（`vendor/ace-step/LICENSE`、各ファイルの著作権表示を保持）。モデル：Apache-2.0（`model-card/README.md`）。どちらもこの作例のMITとは別です。詳しくは `THIRD_PARTY_NOTICES.md`。
 - 生成されたWAVは固定版V1モデルによるAI生成物です。公開するときはAI生成であることを明記してください。原典のREADMEは、生成物のオリジナリティの確認、AIの関与の明示、保護された様式や素材を使う場合の許諾を勧めています。
 

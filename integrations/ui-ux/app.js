@@ -17,6 +17,7 @@
   const entries = JSON.parse(document.getElementById('catalog-data').textContent);
   const form = document.getElementById('filters');
   const search = document.getElementById('search');
+  const heroQ = document.getElementById('hero-q');
   const origin = document.getElementById('origin');
   const count = document.getElementById('result-count');
   const empty = document.getElementById('empty');
@@ -24,6 +25,19 @@
   const categoryButtons = [...document.querySelectorAll('[data-category]')];
   let category = 'all';
   let statusTimer;
+  // Category chips carry totals, like the main gallery's filter pills.
+  categoryButtons.forEach(button => {
+    const total = button.dataset.category === 'all'
+      ? entries.length
+      : entries.filter(entry => entry.category === button.dataset.category).length;
+    const chipCount = document.createElement('span');
+    chipCount.className = 'chip-count';
+    chipCount.textContent = String(total);
+    button.appendChild(chipCount);
+  });
+  // Both visible search fields represent one query; keep them in sync
+  // without moving focus (no focus stealing while typing).
+  function syncHero() { if (heroQ) heroQ.value = search.value; }
   function applyFilters() {
     let visible = 0;
     entries.forEach(entry => {
@@ -36,7 +50,26 @@
     categoryButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.category === category)));
   }
   form.addEventListener('submit', event => event.preventDefault());
-  search.addEventListener('input', applyFilters);
+  // The intro search hands its query to the catalog and moves focus there.
+  const heroForm = document.querySelector('[data-hero-form]');
+  if (heroForm) {
+    heroForm.addEventListener('submit', event => {
+      event.preventDefault();
+      search.value = heroQ ? heroQ.value : '';
+      applyFilters();
+      const catalog = document.getElementById('catalog');
+      catalog.scrollIntoView({ block: 'start' });
+      catalog.focus({ preventScroll: true });
+    });
+  }
+  // While a text field has focus the bottom bar steps aside, as on the main site.
+  document.addEventListener('focusin', event => {
+    if (event.target.matches('input, textarea')) document.documentElement.classList.add('is-editing');
+  });
+  document.addEventListener('focusout', () => {
+    document.documentElement.classList.remove('is-editing');
+  });
+  search.addEventListener('input', () => { syncHero(); applyFilters(); });
   origin.addEventListener('change', applyFilters);
   categoryButtons.forEach(button => button.addEventListener('click', () => {
     category = button.dataset.category;
@@ -45,6 +78,7 @@
   form.addEventListener('reset', event => {
     event.preventDefault();
     search.value = '';
+    syncHero();
     origin.value = 'all';
     category = 'all';
     applyFilters();

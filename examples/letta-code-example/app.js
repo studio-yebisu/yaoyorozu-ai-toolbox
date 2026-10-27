@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス — Letta Code 記憶の点検の作例（図のページ）。MIT License, Copyright (c) 2026 Studio Yebisu.
+// Yaoyorozu AI ToolBox — Letta Code 記憶の点検の作例（図のページ）。MIT License, Copyright (c) 2026 Studio Yebisu.
 // 制作時に固定版 Letta Code の検査と実際の Git で実行して保存した記録を読み、図で見せるページ。ブラウザーで Letta Code・Git・AI は動かさない。
 // 図の状態（案内の有無・つながり・stage の件数・点検の停止と通過・保存の点）は、照合を通った記録の値から決める。記録の代わりになる値は持たない。
 // 保存の成否は git_commit と committed だけで決め、検査APIの結果だけからは決めない。記録の文字列は textContent で書き、HTML として解釈しない。

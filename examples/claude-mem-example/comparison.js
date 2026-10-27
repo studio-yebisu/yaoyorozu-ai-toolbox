@@ -1,5 +1,5 @@
 /*
- * 八百万図AIツールボックス — Claude-Mem example viewer.
+ * Yaoyorozu AI ToolBox — Claude-Mem example viewer.
  * Copyright (c) 2026 Studio Yebisu. MIT License.
  *
  * Reads the saved run record (outputs/memory-run.json), the two frozen inputs and

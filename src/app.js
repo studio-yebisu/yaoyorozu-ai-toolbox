@@ -1,7 +1,7 @@
-/* 八百万図AIツールボックス — home page. Loads data/catalog.json and data/cases.json (relative paths).
+/* Yaoyorozu AI ToolBox — home page. Loads data/catalog.json and data/cases.json (relative paths).
    Categories come only from catalog.categories (fallback: data/categories.json), so adding or
    removing a category needs no change here.
-   URL contract: ./?q=<words>&kind=skill|support&case=1#<category id | section id>.
+   URL contract: ./?q=<words>&kind=skill|support&case=1&saved=1#<category id | section id>.
    Old links such as #agents still select that field. Picking a field or submitting the top search
    adds a history entry; typing, the select, the gallery chips and the toggles replace the current one.
    The words and the field apply to both the case gallery and the catalog; kind and case only to the
@@ -26,7 +26,7 @@
   const state = {
     entries: [], categoryList: [], categories: table(), totals: table(), caseByEntry: table(),
     cases: undefined, galleryCases: [], loaded: false,
-    q: '', cat: 'all', kind: 'all', withCase: false, limit: PAGE_SIZE
+    q: '', cat: 'all', kind: 'all', withCase: false, savedOnly: false, limit: PAGE_SIZE
   };
 
   const list = $('[data-entries]');
@@ -45,6 +45,39 @@
   const galleryCount = $('[data-gallery-count]');
   const galleryQuery = $('[data-gallery-query]');
   const galleryEmpty = $('[data-gallery-empty]');
+  const savedFilter = $('[data-saved-only]');
+  const savedToolbar = $('.saved-toolbar');
+
+  function updateSavedFilter() {
+    // Count saved items that are still present: catalog entries, plus active cases whose save id
+    // (their own case id when no catalog entry points at them) is not already an entry id.
+    // Orphan ids of removed items are not counted, and no entries are invented for them.
+    let count;
+    if (state.loaded) {
+      const saved = window.SY.itemActions;
+      const entryIds = new Set(state.entries.map(entry => entry.id));
+      count = state.entries.filter(entry => saved.isSaved(entry.id)).length;
+      if (Array.isArray(state.cases)) {
+        for (const item of state.cases) {
+          const id = window.SY.likes.caseID(item);
+          if (!entryIds.has(id) && saved.isSaved(id)) count++;
+        }
+      }
+    } else {
+      count = window.SY.itemActions.savedCount();
+    }
+    // Nothing to filter until the first save; keep the bar when the (empty) filter is on so it can be switched off.
+    const hideToolbar = count === 0 && !state.savedOnly;
+    // Hiding the bar while its toggle holds focus (e.g. another tab removed the last save via
+    // storage) would drop focus to the body; park it on the section before the bar disappears.
+    if (hideToolbar && !savedToolbar.hidden && savedToolbar.contains(document.activeElement)) {
+      $('#cases').focus({preventScroll: true});
+    }
+    savedToolbar.hidden = hideToolbar;
+    savedFilter.hidden = false;
+    savedFilter.setAttribute('aria-pressed', String(state.savedOnly));
+    $('[data-saved-count]').textContent = String(count);
+  }
 
   function categoryLabel(id) {
     return (state.categories[id] && state.categories[id].label) || id || '分類なし';
@@ -95,18 +128,19 @@
     if (filter.cat !== 'all' && entry.category !== filter.cat) return false;
     if (filter.kind !== 'all' && (filter.kind === 'skill') !== isSkill(entry)) return false;
     if (filter.withCase && !state.caseByEntry[entry.id]) return false;
+    if (filter.savedOnly && !window.SY.itemActions.isSaved(entry.id)) return false;
     return terms.every(term => entry._text.includes(term));
   }
 
   // How many entries a filter would give if only `overrides` changed.
   function countWith(overrides, terms) {
-    const filter = {cat: state.cat, kind: state.kind, withCase: state.withCase, ...overrides};
+    const filter = {cat: state.cat, kind: state.kind, withCase: state.withCase, savedOnly: state.savedOnly, ...overrides};
     let total = 0;
     for (const entry of state.entries) if (matches(entry, filter, terms)) total++;
     return total;
   }
 
-  const hasFilters = () => state.cat !== 'all' || state.kind !== 'all' || state.withCase || Boolean(state.q.trim());
+  const hasFilters = () => state.cat !== 'all' || state.kind !== 'all' || state.withCase || state.savedOnly || Boolean(state.q.trim());
 
   /* ---------- Catalog rows ---------- */
 
@@ -119,7 +153,11 @@
 
   // Rows are built on first display and cached, so hidden pages cost nothing and images load only when shown.
   function rowFor(entry) {
-    if (entry._row) return entry._row;
+    if (entry._row) {
+      // The cached row may have missed storage changes while detached; repaint its save button.
+      window.SY.itemActions.refresh(entry._row);
+      return entry._row;
+    }
     const skill = isSkill(entry);
     const produced = state.caseByEntry[entry.id];
     const image = safeHref(entry.image);
@@ -142,6 +180,7 @@
       entry.summary ? h('p', {class: 'entry-summary'}, entry.summary) : null,
       entry.use_case ? h('p', {class: 'entry-use'}, h('span', {class: 'entry-use-label'}, '使いどころ'), entry.use_case) : null,
       tags,
+      window.SY.itemActions.create(entry.id, entry.name, entryHref(entry)),
       thumb);
     entry._row = row;
     return row;
@@ -174,6 +213,7 @@
 
   // The words and the field are shared, so every change redraws both lists.
   function render() {
+    updateSavedFilter();
     renderCatalog();
     renderGallery();
   }
@@ -213,16 +253,17 @@
     catSelect.value = state.cat;
     for (const el of $$('[data-kind-count]')) el.textContent = String(countWith({kind: el.dataset.kindCount}, terms));
     $('[data-case-count]').textContent = casesAvailable ? String(countWith({withCase: true}, terms)) : '—';
-    const narrowed = terms.length > 0 || state.kind !== 'all' || state.withCase;
+    const narrowed = terms.length > 0 || state.kind !== 'all' || state.withCase || state.savedOnly;
     for (const el of $$('[data-field-count]')) {
       const id = el.dataset.fieldCount;
       el.textContent = String(narrowed ? countWith({cat: id}, terms) : (state.totals[id] || 0));
     }
     $('[data-fields-note]').textContent = narrowed
-      ? '数字は、いまのキーワード・種類・動画・デモの絞り込みで当てはまる件数です。'
+      ? '数字は、いまの絞り込み条件で当てはまる件数です。'
       : '数字は掲載している件数です。選ぶと、下のカタログがその分野に絞られます。';
 
     const parts = [];
+    if (state.savedOnly) parts.push('保存したもの');
     if (state.cat !== 'all') parts.push(categoryLabel(state.cat));
     if (state.kind === 'skill') parts.push('スキル');
     if (state.kind === 'support') parts.push('ツール・モデルなど');
@@ -309,7 +350,11 @@
 
   // Cards are built once per case. Only the first row loads eagerly; the rest wait until scrolled near.
   function galleryCard(item, index) {
-    if (item._card) return item._card;
+    if (item._card) {
+      // The cached card may have missed storage changes while detached; repaint its save button.
+      window.SY.itemActions.refresh(item._card);
+      return item._card;
+    }
     const skill = skillName(item);
     const title = joinLines(titleLines(item));
     const summary = (item.catalog_entry && item.catalog_entry.summary) || item.summary;
@@ -335,7 +380,8 @@
             'aria-haspopup': window.SY.casePreview && window.SY.casePreview.supported ? 'dialog' : null},
             skill ? h('span', {class: 'gallery-skill'}, skill) : null,
             h('span', {class: 'gallery-title'}, title))),
-        summary ? h('p', {class: 'gallery-summary'}, summary) : null));
+        summary ? h('p', {class: 'gallery-summary'}, summary) : null,
+        window.SY.itemActions.create(window.SY.likes.caseID(item), skill || title, caseHref(item))));
     return item._card;
   }
 
@@ -379,7 +425,8 @@
     if (!Array.isArray(state.cases)) return;
     const terms = termsOf(state.q);
     const total = state.galleryCases.length;
-    const matched = terms.length ? state.galleryCases.filter(item => terms.every(term => caseText(item).includes(term))) : state.galleryCases;
+    const matched = state.galleryCases.filter(item => (!state.savedOnly || window.SY.itemActions.isSaved(window.SY.likes.caseID(item)))
+      && terms.every(term => caseText(item).includes(term)));
     const shown = state.cat === 'all' ? matched : matched.filter(item => item.category === state.cat);
     galleryShown = shown.length;
     gallery.replaceChildren(...shown.map(galleryCard));
@@ -388,7 +435,7 @@
     galleryChips.hidden = !total;
     if (total) renderChips(matched);
 
-    const filtered = terms.length > 0 || state.cat !== 'all';
+    const filtered = terms.length > 0 || state.cat !== 'all' || state.savedOnly;
     galleryCount.replaceChildren(...(filtered
       ? [h('strong', {}, String(shown.length)), '件が該当', h('span', {class: 'gallery-count-total'}, '全' + total + '件中')]
       : [h('strong', {}, String(total)), '件']));
@@ -405,7 +452,9 @@
     galleryEmpty.hidden = shown.length > 0;
     if (!shown.length) {
       const noneInField = state.cat !== 'all' && !state.galleryCases.some(item => item.category === state.cat);
-      $('[data-gallery-empty-detail]').textContent = !total
+      $('[data-gallery-empty-detail]').textContent = state.savedOnly
+        ? 'この条件に合う保存済みの動画・デモはありません。カタログも確認するか、「保存したもの」を外して探せます。'
+        : !total
         ? 'まだ掲載している項目がありません。カタログから探せます。'
         : noneInField
           ? '「' + categoryLabel(state.cat) + '」の動画・デモはまだありません。カタログでは、この分野の項目を探せます。'
@@ -454,6 +503,7 @@
       q: params.get('q') || '',
       kind: KINDS.has(kind) ? kind : 'all',
       withCase: params.get('case') === '1',
+      savedOnly: params.get('saved') === '1',
       cat: categoryFromHash() || 'all',
       limit: PAGE_SIZE
     };
@@ -465,6 +515,7 @@
     if (q) params.set('q', q);
     if (state.kind !== 'all') params.set('kind', state.kind);
     if (state.withCase) params.set('case', '1');
+    if (state.savedOnly) params.set('saved', '1');
     const query = params.toString();
     let hash = location.hash;
     if (state.cat !== 'all') hash = '#' + encodeURIComponent(state.cat);
@@ -573,7 +624,7 @@
     } catch (_) { /* ids are shown instead */ }
   }
 
-  // A catalog entry counts as produced only when a 八百万図AIツールボックス case points to it.
+  // A catalog entry counts as produced only when a Yaoyorozu AI ToolBox case points to it.
   function mapCases() {
     state.caseByEntry = table();
     const cases = state.cases || [];
@@ -603,7 +654,8 @@
 
   let firstRun = true;
   async function start() {
-    errorBox.hidden = true;
+    // The error box (with its retry button) stays in place while reloading so keyboard focus
+    // there is never stranded; a successful load dismisses it below.
     empty.hidden = true;
     more.hidden = true;
     status.textContent = 'カタログを読み込んでいます…';
@@ -623,6 +675,7 @@
     syncInputs();
     renderCases();
     if (!catalogOk) return showCatalogError();
+    errorBox.hidden = true;
 
     state.loaded = true;
     $('[data-tally-note]').hidden = Array.isArray(state.cases);
@@ -646,7 +699,7 @@
   // If the case list could not be read, it goes to the catalog as before.
   $('[data-hero-form]').addEventListener('submit', event => {
     event.preventDefault();
-    Object.assign(state, {q: heroSearch.value, kind: 'all', withCase: false, limit: PAGE_SIZE});
+    Object.assign(state, {q: heroSearch.value, kind: 'all', withCase: false, savedOnly: false, limit: PAGE_SIZE});
     search.value = heroSearch.value;
     render();
     const target = Array.isArray(state.cases) ? '#cases' : '#catalog';
@@ -663,6 +716,22 @@
     writeURL(false, '#cases');
   }
 
+  savedFilter.addEventListener('click', () => {
+    state.savedOnly = !state.savedOnly;
+    state.limit = PAGE_SIZE;
+    render();
+    writeURL(false, '#cases');
+    announce(state.savedOnly ? '保存したものだけを表示しています。' : 'すべての項目を表示しています。');
+  });
+  window.addEventListener('sy:savedchange', () => {
+    updateSavedFilter();
+    if (state.savedOnly) {
+      const previousFocus = document.activeElement;
+      render();
+      if (!previousFocus.isConnected) savedFilter.focus({preventScroll: true});
+    }
+  });
+
   // Gallery: field chips, clearing the words, the way down to the catalog, and opening a card.
   $('#cases').addEventListener('click', event => {
     const chip = event.target.closest('[data-gallery-cat]');
@@ -676,7 +745,7 @@
       return;
     }
     if (event.target.closest('[data-gallery-reset]')) {
-      clearGallery({q: '', cat: 'all'});
+      clearGallery({q: '', cat: 'all', savedOnly: false});
       const all = $('[data-gallery-cat="all"]', galleryChips);
       if (all) all.focus();
       announce('動画・デモの絞り込みを外しました。' + galleryStatus());
@@ -784,7 +853,7 @@
 
   for (const button of $$('[data-reset]')) {
     button.addEventListener('click', () => {
-      Object.assign(state, {q: '', cat: 'all', kind: 'all', withCase: false, limit: PAGE_SIZE});
+      Object.assign(state, {q: '', cat: 'all', kind: 'all', withCase: false, savedOnly: false, limit: PAGE_SIZE});
       search.value = '';
       heroSearch.value = '';
       render();
@@ -794,7 +863,20 @@
     });
   }
 
-  $('[data-retry]').addEventListener('click', start);
+  const retryButton = $('[data-retry]');
+  retryButton.addEventListener('click', () => {
+    // While retrying, the error box stays visible, so only a successful load — the one case that
+    // hides it — can leave the keyboard stranded; move it to the catalog section.
+    const restore = document.activeElement === retryButton;
+    start().then(() => {
+      if (!restore || !errorBox.hidden) return;
+      // Hiding the box blurs its button asynchronously: here the active element may still be the
+      // (hidden) retry button, or already the body. Both mean the focus is ours to restore; any
+      // other element means the user moved it, so leave it alone.
+      const active = document.activeElement;
+      if (active === document.body || errorBox.contains(active)) $('#catalog').focus({preventScroll: true});
+    });
+  });
 
   $('[data-cases-retry]').addEventListener('click', async () => {
     showGalleryPlaceholders();

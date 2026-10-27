@@ -1,4 +1,4 @@
-// Quartz concept map for 八百万図AIツールボックス.
+// Quartz concept map for Yaoyorozu AI ToolBox.
 // Shared by the page (index.html) and the silent film source (video/index.html).
 // loadBundle() verifies all 30 assets before anything is drawn, drawMap() draws one
 // deterministic frame of the connected diagram, initConceptPage() wires the page only.

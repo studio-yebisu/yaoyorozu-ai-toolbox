@@ -1,5 +1,5 @@
 // Pretty Mermaid の仕組み図：共有ローダー・描画・概念ページの初期化。
-// 画面と映像のソースは 八百万図AIツールボックス の独自制作（MIT License）。
+// 画面と映像のソースは Yaoyorozu AI ToolBox の独自制作（MIT License）。
 // このファイルは保存済みの原出力を検証して読むだけで、図の生成・モデル呼び出し・CLI実行はしない。
 
 export const ROOT = new URL('./', import.meta.url);

@@ -2,7 +2,7 @@
 (() => {
   'use strict';
   const {h, safeHref, loadJSON} = window.SY;
-  const CREDIT = '引用元:八百万図AIツールボックス made by studio_yebisu';
+  const CREDIT = 'Yaoyorozu AI ToolBox · @studio_yebisu';
   let projectPromise;
 
   function project() {
@@ -53,7 +53,7 @@
     function updateIntro() {
       if (!settings) return;
       const url = cardURL();
-      const text = String(item.title || 'AIスキル・ツール') + '\n' + CREDIT + '\n@studio_yebisu';
+      const text = String(item.title || 'AIスキル・ツール') + '\n' + CREDIT;
       introText = text + '\n' + url;
       intro.textContent = introText;
       const intent = new URL('https://x.com/intent/tweet');

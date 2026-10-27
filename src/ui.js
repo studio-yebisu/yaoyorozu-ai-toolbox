@@ -1,4 +1,4 @@
-/* 八百万図AIツールボックス — helpers shared by index.html and case.html. Load before app.js / case.js.
+/* Yaoyorozu AI ToolBox — helpers shared by index.html and case.html. Load before app.js / case.js.
    Exposes window.SY. No network access other than the relative data paths passed to loadJSON. */
 (() => {
   'use strict';

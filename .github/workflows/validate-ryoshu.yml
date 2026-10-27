@@ -4,6 +4,12 @@ on:
     paths:
       - data/cases/ryoshu-local.json
       - data/production/ryoshu-local.json
+      - data/production/ryoshu-local-current.json
+      - data/video-downloads.json
+      - scripts/**
+      - src/**
+      - services/likes/**
+      - media/ryoshu-copy-renewal-20261026/**
       - examples/ryoshu-local/**
       - .github/workflows/validate-ryoshu.yml
   workflow_dispatch:
@@ -18,5 +24,8 @@ jobs:
         with:
           python-version: '3.12'
       - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - run: python -m unittest discover -s scripts -p 'test_case_presentation.py'
+      - run: python -m unittest discover -s scripts -p 'test_production_records.py'
+      - run: node --test services/likes/worker.test.mjs
       - run: python scripts/build.py
       - run: python scripts/check.py

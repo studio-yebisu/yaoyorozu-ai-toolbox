@@ -1,4 +1,4 @@
-# 八百万図AIツールボックス
+# Yaoyorozu AI ToolBox
 
 AIスキルとツールを用途・実作例・使い方から選べる日本語の統合サイト。分野の正本は `data/categories.json`。専門制作のリポジトリ対応とは分けて扱う。
 

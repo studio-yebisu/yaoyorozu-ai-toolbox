@@ -1,5 +1,6 @@
 """Build the static public allowlist, with no local state or linked workspaces."""
 import json
+import os
 from pathlib import Path
 import shutil
 from catalog import build_catalog
@@ -9,12 +10,15 @@ from case_presentation import project_cases
 ROOT = Path(__file__).resolve().parents[1]
 INTERNAL_SKILLS = {'studio-yebisu'}
 PUBLIC_GUIDES = {'ui-ux'}
+HISTORICAL_BRANDING_RECEIPTS = {'site-rebrand-20261022.json'}
 
 
 def publication_ignore(source, names):
     ignored = set(shutil.ignore_patterns('node_modules', '__pycache__', '.local', 'reviews', 'out')(source, names))
     if Path(source).resolve() == (ROOT / 'skills').resolve():
         ignored.update(INTERNAL_SKILLS.intersection(names))
+    if Path(source).resolve() == (ROOT / 'data/production').resolve():
+        ignored.update(HISTORICAL_BRANDING_RECEIPTS.intersection(names))
     return ignored
 
 
@@ -37,6 +41,15 @@ def main():
             shutil.copy2(p, dest)
     for folder in ('data', 'examples', 'media', 'skills'):
         shutil.copytree(ROOT / folder, target / folder, dirs_exist_ok=True, ignore=publication_ignore)
+    for name in HISTORICAL_BRANDING_RECEIPTS:
+        stale = target / 'data/production' / name
+        if stale.is_file():
+            stale.unlink()
+    # Ship only the public API address, never database credentials.
+    likes = json.loads((ROOT / 'data/likes.json').read_text('utf-8'))
+    if 'YAOYOROZU_LIKES_API_URL' in os.environ:
+        likes['api_url'] = os.environ['YAOYOROZU_LIKES_API_URL']
+    (target / 'data/likes.json').write_text(json.dumps(likes, indent=2) + '\n', 'utf-8')
     catalog = build_catalog(cases)
     if any(entry['id'] == 'agents-' + name for entry in catalog['entries'] for name in INTERNAL_SKILLS):
         raise ValueError('An internal skill was added to the public catalog')

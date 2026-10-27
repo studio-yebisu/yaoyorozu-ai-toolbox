@@ -1,6 +1,6 @@
 # PDF Creator 作例：ひとつのMarkdown原稿から、A4と細いページの2種類のPDFをつくる
 
-八百万図AIツールボックス の作例です。架空のワークショップ案内 `inputs/event.md` を、PDF Creator（daymade）の変換スクリプトで次の2種類のPDFに書き出します。
+Yaoyorozu AI ToolBox の作例です。架空のワークショップ案内 `inputs/event.md` を、PDF Creator（daymade）の変換スクリプトで次の2種類のPDFに書き出します。
 
 - **A4で配る**（`#paper`）：原典テーマ `warm-terra` ＋ `themes/japanese-a4.css`、210×297mm
 - **細いページで読む**（`#phone`）：原典テーマ `mobile` ＋ `themes/japanese-phone.css`、148×210mm

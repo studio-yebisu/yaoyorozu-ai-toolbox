@@ -222,7 +222,7 @@
     }
   ],
   "license": "MIT（独自作例）・Apache-2.0（3D Asset Server 原典）・MIT（three）・CC0（3Dモデル）",
-  "license_note": "作例のコード（run.mjs・model-view.js・ページ）・文章・入力・動画の編集ソースは MIT License（Copyright (c) 2026 Studio Yebisu）。vendor/3d-asset-server/ は arielshad/3d-asset-server の固定コミット f605df3 の原典と、その原典の build:server が出力した dist/ を改変せずに置いたもので Apache License 2.0、原典に含まれる Geist フォントは SIL Open Font License 1.1 です。vendor/three/ は npm の three 0.180.0 のファイルで MIT。取得した3Dモデル Wooden Crate 01 は James Ray Cock・Poly Haven の CC0 で、再配布でき帰属表示は不要ですが、作者と配布元を表示しています。Poly Haven のライブAPIは商用も含めて無料で、識別できる User-Agent と出どころの表示が条件です。八百万図AIツールボックス は Poly Haven の公式の製品・提携先ではありません。動画の制作に使う Motion Reel は MIT。再実行には npm ci（依存の取得）と Poly Haven への通信が要り、アカウント・API キー・課金は要りません。ソース制作に用いた Opus 5.5 の利用環境は別に必要です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "license_note": "作例のコード（run.mjs・model-view.js・ページ）・文章・入力・動画の編集ソースは MIT License（Copyright (c) 2026 Studio Yebisu）。vendor/3d-asset-server/ は arielshad/3d-asset-server の固定コミット f605df3 の原典と、その原典の build:server が出力した dist/ を改変せずに置いたもので Apache License 2.0、原典に含まれる Geist フォントは SIL Open Font License 1.1 です。vendor/three/ は npm の three 0.180.0 のファイルで MIT。取得した3Dモデル Wooden Crate 01 は James Ray Cock・Poly Haven の CC0 で、再配布でき帰属表示は不要ですが、作者と配布元を表示しています。Poly Haven のライブAPIは商用も含めて無料で、識別できる User-Agent と出どころの表示が条件です。Yaoyorozu AI ToolBox は Poly Haven の公式の製品・提携先ではありません。動画の制作に使う Motion Reel は MIT。再実行には npm ci（依存の取得）と Poly Haven への通信が要り、アカウント・API キー・課金は要りません。ソース制作に用いた Opus 5.5 の利用環境は別に必要です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
   "video_note": "32秒・縦720×1280／横1280×720・30fps。無音で音声トラックなし。指示書と入力が実装に合流し、別工程のツール実行から配信元・容量ゲート・実ファイルへ進む大きな図です。機能を実行した映像記録ではなく、保存した実記録と取得済み3Dの実表示領域を使う構造説明です。",
   "video_source": "examples/3d-asset-server-example/video/index.html",
   "skill_license": "examples/3d-asset-server-example/vendor/3d-asset-server/LICENSE",
@@ -290,10 +290,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/3d-asset-server-example-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/3d-asset-server-example-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/3d-asset-server-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/3d-asset-server-example-landscape-credited-v4.mp4"
 }

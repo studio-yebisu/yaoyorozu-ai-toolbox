@@ -168,7 +168,7 @@
     }
   ],
   "license": "MIT（Chatterbox の原典と重み）",
-  "license_note": "Chatterbox のコードは MIT License（Copyright (c) 2025 Resemble AI）で、LICENSE・README・pyproject.toml と読んだソースを vendor/chatterbox/ に原文のまま置いています。重み（ResembleAI/chatterbox）はモデルカードのとおり MIT で、モデルカードだけを同梱し、重み・キャッシュ・環境は同梱しません。一部のソースは CosyVoice（Apache-2.0）・HiFi-GAN・HiFTNet・Real-Time-Voice-Cloning（いずれも MIT）に由来し、見出しを変えずに残し、ライセンス本文を vendor/notices/ に置いています。Perth（MIT）は vendor/perth/ にあります。これら第三者のソースは 八百万図AIツールボックス の新しい著作物ではありません。ページ・図・文章・動画のソースは 八百万図AIツールボックス の制作（Claude Opus 5.5）です。3本の WAV は固定版で合成した出力で、Perth の透かしが入っています。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "license_note": "Chatterbox のコードは MIT License（Copyright (c) 2025 Resemble AI）で、LICENSE・README・pyproject.toml と読んだソースを vendor/chatterbox/ に原文のまま置いています。重み（ResembleAI/chatterbox）はモデルカードのとおり MIT で、モデルカードだけを同梱し、重み・キャッシュ・環境は同梱しません。一部のソースは CosyVoice（Apache-2.0）・HiFi-GAN・HiFTNet・Real-Time-Voice-Cloning（いずれも MIT）に由来し、見出しを変えずに残し、ライセンス本文を vendor/notices/ に置いています。Perth（MIT）は vendor/perth/ にあります。これら第三者のソースは Yaoyorozu AI ToolBox の新しい著作物ではありません。ページ・図・文章・動画のソースは Yaoyorozu AI ToolBox の制作（Claude Opus 5.5）です。3本の WAV は固定版で合成した出力で、Perth の透かしが入っています。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
   "skill_license": "examples/chatterbox-example/vendor/chatterbox/LICENSE",
   "video_note": "32秒・30fps・無音の構造図の動画です。縦720×1280と横1280×720を別配置で描きます。英語の文が文字IDに、組み込み条件がT3とS3Genの2方向へ入り、T3の音声ID→S3Genの波形→Perthの透かしを通って、実際の3つのWAVの包絡で終わります。ナレーション・音声トラックはなく、実WAVはデモの独立したプレイヤーで聞けます。制作担当がMP4とポスターを描画し、代表・連続コマと実MP4の終端、出荷ソース62PNGの一致を確認しました。人の審美的承認とは区別します。",
   "video_source": "examples/chatterbox-example/video/index.html",
@@ -230,10 +230,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/chatterbox-example-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/chatterbox-example-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/chatterbox-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/chatterbox-example-landscape-credited-v4.mp4"
 }

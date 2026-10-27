@@ -1,5 +1,5 @@
 // 部品の検証ページ（各4秒・1920×1080・60fps・無音）。本編に入れる前に、SelectionFrame と MaterializeFrame を単独で確かめる。
-// 画面は公開中の 八百万図AIツールボックス を紹介用に再構成した模式図で、実際の画面の録画ではない。
+// 画面は公開中の Yaoyorozu AI ToolBox を紹介用に再構成した模式図で、実際の画面の録画ではない。
 // 描画は site/render.py が site/ 全体を使い捨ての根へ写し、入口の HTML だけに <base href="lab/"> を入れて行うので、'../components.mjs' のまま動く。
 import { COLOR, between, smoother, glide, lerp, trackRect, contentRect, selectionFrame, materializeFrame, text, rectEl } from '../components.mjs';
 
@@ -24,7 +24,7 @@ const cardName = ([label, x, y], opacity = 1) => text(x + 36, y + 84, label, { s
 export function cover({ motionFill = face, selected = true, labels = 1 } = {}) {
   const others = CARDS.filter((_, i) => i !== 2);
   return {
-    brand: text(96, 250, '八百万図AIツールボックス', { size: 32, weight: 700, fill: teal }),
+    brand: text(96, 250, 'Yaoyorozu AI ToolBox', { size: 32, weight: 700, fill: teal }),
     headline: text(96, 470, 'AIスキルを、', { size: 120, weight: 600, family: 'serif' }) + text(96, 620, '用途から選ぶ。', { size: 120, weight: 600, family: 'serif' }),
     cards: others.map(c => cardShell(c)).join(''),
     names: others.map(c => cardName(c, labels)),
@@ -92,7 +92,7 @@ function selectionScene(t) {
   // カード名は、印からボタンへ向かう輪郭が通り過ぎた 2.92 から入る。
   s += group(fade(t, 2.3, 0.2), cta.cards + cta.names.join('') + cta.motion + cta.motionName) + group(fade(t, 2.44), rectEl(BUTTON, shellFace));
   s += workspace(t) + rail(1, fade(t, 0.86, 0.2) * (1 - fade(t, 2.4)));
-  s += rise(t, 3.06, text(176, 250, '八百万図AIツールボックス', { size: 32, weight: 700, fill: teal })
+  s += rise(t, 3.06, text(176, 250, 'Yaoyorozu AI ToolBox', { size: 32, weight: 700, fill: teal })
     + text(176, 430, '用途から選び、', { size: 96, weight: 600, family: 'serif' }) + text(176, 556, '作例を見て試す。', { size: 96, weight: 600, family: 'serif' }));
   // 受け渡しの間（2.45–3.14）も行き先が読めるよう、同じ CTA の名前を左上の空き（手順の上・一覧の左・輪郭の通り道の外）に出し、ボタンの名前が着いてから消す。
   s += group(fade(t, 2.3, 0.15) * (1 - fade(t, 3.28, 0.16)), text(176, 160, '作例を見る', { size: 64, weight: 700, fill: teal }));

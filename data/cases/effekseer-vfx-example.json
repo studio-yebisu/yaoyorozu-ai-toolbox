@@ -144,7 +144,7 @@
     }
   ],
   "license": "MIT",
-  "license_note": "この作例の画面構成・文言・依頼・レシピ・ブリーフ・映像ソースと、撮影した画像・動画は 八百万図AIツールボックス の独自制作で、MIT License です。vendor/ の effekseer-vfx と vfx-review は KanaWorks_AI による MIT License（Copyright (c) 2026 KanaWorks_AI）のスキルで、LICENSE と THIRD_PARTY_NOTICES.md を変更せずに同梱しています。library/vfx/ のマテリアルと数式で作るテクスチャは、原典スキルのコードが書き出したものです。Effekseer Core・EffekseerForGodot4・.NET ランタイムは初回の準備で公式の配布元から取得するもので、作例には含みません。Godot は各自で導入します。 元134配布の133件は公式rawbytes一致、vfx.cmd1件だけCRLFを保持した正規化内容一致です。追加ZIPは元の同じファイルの包装です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "license_note": "この作例の画面構成・文言・依頼・レシピ・ブリーフ・映像ソースと、撮影した画像・動画は Yaoyorozu AI ToolBox の独自制作で、MIT License です。vendor/ の effekseer-vfx と vfx-review は KanaWorks_AI による MIT License（Copyright (c) 2026 KanaWorks_AI）のスキルで、LICENSE と THIRD_PARTY_NOTICES.md を変更せずに同梱しています。library/vfx/ のマテリアルと数式で作るテクスチャは、原典スキルのコードが書き出したものです。Effekseer Core・EffekseerForGodot4・.NET ランタイムは初回の準備で公式の配布元から取得するもので、作例には含みません。Godot は各自で導入します。 元134配布の133件は公式rawbytes一致、vfx.cmd1件だけCRLFを保持した正規化内容一致です。追加ZIPは元の同じファイルの包装です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
   "catalog_entry": {
     "id": "resource-effekseer-vfx",
     "name": "Effekseer VFX Skill",
@@ -196,10 +196,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/effekseer-vfx-example-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/effekseer-vfx-example-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/effekseer-vfx-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/effekseer-vfx-example-landscape-credited-v4.mp4"
 }

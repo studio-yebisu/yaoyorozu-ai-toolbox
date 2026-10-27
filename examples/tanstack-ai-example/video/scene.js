@@ -382,10 +382,10 @@
     if (L.tall) {
       text('2問・2回の道具実行', L.m, H - 84 * u, 16 * u, INK, 'left', 800);
       text('実行記録の再生（2026-10-24・claude-opus-5-5）', L.m, H - 58 * u, 16 * u, INK, 'left', 800);
-      text('TanStack/ai @98055ca01af9…・MIT ／ 八百万図AIツールボックス', L.m, H - 30 * u, 11 * u, MUTED, 'left', 600);
+      text('TanStack/ai @98055ca01af9…・MIT ／ Yaoyorozu AI ToolBox', L.m, H - 30 * u, 11 * u, MUTED, 'left', 600);
     } else {
       text('2問・2回の道具実行・実行記録の再生', L.m, H - 46 * u, 16 * u, INK, 'left', 800);
-      text('TanStack/ai @98055ca…・MIT ／ 八百万図AIツールボックス', W - L.m, H - 46 * u, 11 * u, MUTED, 'right', 600);
+      text('TanStack/ai @98055ca…・MIT ／ Yaoyorozu AI ToolBox', W - L.m, H - 46 * u, 11 * u, MUTED, 'right', 600);
     }
     ctx.restore();
   }

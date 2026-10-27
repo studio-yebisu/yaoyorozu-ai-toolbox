@@ -2990,7 +2990,7 @@
         "音の同期",
         "フレームレビュー",
         "MP4",
-        "八百万図AIツールボックス"
+        "Yaoyorozu AI ToolBox"
       ],
       "license": "MIT",
       "license_url": "https://github.com/studio-yebisu/motion-reel/blob/56198544e69201b1c202e0c00fb90b568a729824/LICENSE",
@@ -3034,7 +3034,7 @@
       "summary": "短い依頼を、目的・入力・制作スキル・完成条件が揃うブリーフにする。",
       "use_case": "作例づくりの前に、AIへ渡す依頼を具体化する。",
       "tags": [
-        "八百万図AIツールボックス",
+        "Yaoyorozu AI ToolBox",
         "日本語",
         "作例制作"
       ],

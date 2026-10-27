@@ -66,7 +66,7 @@
   "limitations": [
     "無音です。原典の音楽・効果音・ラウドネスの工程は行っていません。",
     "2Dの図形と文字だけです。3D、AIで生成した映像や画像、実写、第三者の素材は使っていません。",
-    "試したのは 八百万図AIツールボックス 自身を紹介する1本だけです。原典が扱う顧客向けの案件、AI素材の生成、Three.js、音の仕上げは試していません。",
+    "試したのは Yaoyorozu AI ToolBox 自身を紹介する1本だけです。原典が扱う顧客向けの案件、AI素材の生成、Three.js、音の仕上げは試していません。",
     "映像の画面は紹介用に再構成した模式図で、実際の操作の録画ではありません。一覧の行は名前を伏せた例です。",
     "原典に記載された28本の参考映像は見ていません。動きの仕組みは同梱の文章分析だけから選びました。",
     "レビューは作った担当とは別のAIによるもので、人による承認ではありません。",
@@ -130,7 +130,7 @@
     }
   ],
   "license": "MIT",
-  "license_note": "この作例の映像ソース・画面構成・文言・記録は 八百万図AIツールボックス の2026年の独自制作で、MIT License（Copyright (c) 2026 Studio Yebisu）です。vendor/motion-video-kit/ の SKILL.md・references・scripts・README は上流の MIT License（Copyright (c) 2026 echris6）で、LICENSE を同梱しています。原典が挙げる参考映像は含まず、使っていません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "license_note": "この作例の映像ソース・画面構成・文言・記録は Yaoyorozu AI ToolBox の2026年の独自制作で、MIT License（Copyright (c) 2026 Studio Yebisu）です。vendor/motion-video-kit/ の SKILL.md・references・scripts・README は上流の MIT License（Copyright (c) 2026 echris6）で、LICENSE を同梱しています。原典が挙げる参考映像は含まず、使っていません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
   "catalog_entry": {
     "id": "resource-motion-video-kit",
     "name": "Motion Video Kit",
@@ -182,10 +182,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/motion-video-kit-example-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/motion-video-kit-example-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/motion-video-kit-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/motion-video-kit-example-landscape-credited-v4.mp4"
 }

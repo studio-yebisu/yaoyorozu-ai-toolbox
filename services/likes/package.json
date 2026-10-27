@@ -1,0 +1,13 @@
+{
+  "name": "yaoyorozu-likes",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --ip 127.0.0.1 --port 8787 --var ALLOWED_ORIGINS:http://127.0.0.1:8857,http://localhost:8857",
+    "test": "node --test worker.test.mjs",
+    "db:local": "wrangler d1 migrations apply yaoyorozu-likes --local"
+  },
+  "devDependencies": {
+    "wrangler": "^4.152.0"
+  }
+}

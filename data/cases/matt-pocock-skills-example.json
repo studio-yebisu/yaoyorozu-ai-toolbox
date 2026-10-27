@@ -191,7 +191,7 @@
     }
   ],
   "license": "MIT",
-  "license_note": "原作例と新しい図・映像の独自制作部分はMIT、八百万図AIツールボックス。vendor/matt-pocock-skills/の9ファイルは固定49dd158のMIT、Copyright(c)2026 Matt Pocockの通知を保持します。元の配布CRLFを保ち、公式GitblobのLFとの正規化内容一致を、未改変rawbytes一致と混同しません。原典画像は使っていません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "license_note": "原作例と新しい図・映像の独自制作部分はMIT、Yaoyorozu AI ToolBox。vendor/matt-pocock-skills/の9ファイルは固定49dd158のMIT、Copyright(c)2026 Matt Pocockの通知を保持します。元の配布CRLFを保ち、公式GitblobのLFとの正規化内容一致を、未改変rawbytes一致と混同しません。原典画像は使っていません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
   "catalog_entry": {
     "id": "resource-matt-pocock-skills",
     "name": "Matt Pocock Skills",
@@ -245,10 +245,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/matt-pocock-skills-example-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/matt-pocock-skills-example-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/matt-pocock-skills-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/matt-pocock-skills-example-landscape-credited-v4.mp4"
 }

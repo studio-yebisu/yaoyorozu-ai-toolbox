@@ -158,7 +158,7 @@ STL は三角形に分けた形なので、体積が解析値より少し大き�
 
 ## ライセンス
 
-- この作例の文章・画面・依頼文・CAD のコマンドと設計・書き出したファイルと画像・動画のソースは 八百万図AIツールボックス の独自制作で、MIT License です（`LICENSE`）。
+- この作例の文章・画面・依頼文・CAD のコマンドと設計・書き出したファイルと画像・動画のソースは Yaoyorozu AI ToolBox の独自制作で、MIT License です（`LICENSE`）。
 - `vendor/solidcraft/` は上流の SolidCraft のファイルを変更せずに置いたものです。上流は MIT OR Apache-2.0 のどちらかを選べ、この作例では **Apache-2.0** を選んで再配布しています（`vendor/solidcraft/LICENSE-APACHE`、`vendor/solidcraft/NOTICE`）。上流の `LICENSE-MIT` もそのまま残しています。
 - SolidCraft の本体（実行ファイル）は同梱していません。公式リリースから取得してください。
 

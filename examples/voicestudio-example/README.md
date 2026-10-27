@@ -151,7 +151,7 @@ VoiceStudio 自体は認識モデルではありません。文字と時刻を�
 - VoiceStudio：AGPL-3.0-only、Copyright 2024-present Palash Debnath and VoiceStudio contributors（`vendor/voicestudio/LICENSE`・`LICENSE-NOTICE.md`）。モデルの重み・トークナイザー・声・生成物の条件はアプリのライセンスとは別です。エコシステム全体が MIT というわけでも、すべての作業がオフラインで動くわけでもありません。
 - 認識モデル Systran/faster-whisper-base：MIT（`vendor/asr-model/README.md`）。faster-whisper（MIT）と OpenAI Whisper（MIT）のライセンス本文は `vendor/notices/` にあります。
 - 入力の3本：Chatterbox（MIT）の出力で、Perth の透かし入り（`vendor/notices/Chatterbox/`）。
-- ページ・図・文章・動画のソース：八百万図AIツールボックス の制作（Claude Opus 5.5）。
+- ページ・図・文章・動画のソース：Yaoyorozu AI ToolBox の制作（Claude Opus 5.5）。
 
 
 ## 制作担当の確認と再描画（作者の受領後）

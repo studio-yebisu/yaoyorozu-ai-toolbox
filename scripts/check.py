@@ -16,6 +16,22 @@ ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / 'dist'
 
 
+def artifact_matches(relative, expected, branding):
+    actual = hashlib.sha256((DIST / relative).read_bytes()).hexdigest()
+    # Shared site presentation is maintained independently of historical demo production.
+    # Check its current owning source; demo-specific artifacts retain their pinned hashes.
+    shared = ROOT / 'src' / relative
+    if Path(relative).name == relative and shared.is_file():
+        return actual == hashlib.sha256(shared.read_bytes()).hexdigest()
+    if actual == expected:
+        return True
+    change = branding.get(relative)
+    if not change or change['before_sha256'] != expected or change['after_sha256'] != actual:
+        return False
+    # Preserve the runtime receipt and separately verify the named, post-processed artifact.
+    return change.get('kind') == 'product-name-replacement'
+
+
 def local_file(value, base=DIST):
     url = urlsplit(value)
     if url.scheme or url.netloc or not url.path or url.path.startswith('#'):
@@ -39,6 +55,9 @@ class Links(HTMLParser):
 
 
 def main():
+    receipt = json.loads((DIST / 'data/production/site-branding-20261026.json').read_text('utf-8'))
+    branding = {change['path']: change for change in receipt['text_changes']}
+    credited = {change['previous_path']: change for change in receipt['credit_changes']}
     for page in DIST.rglob('*.html'):
         Links(page).feed(page.read_text('utf-8'))
     catalog = json.loads((DIST / 'data/catalog.json').read_text('utf-8'))
@@ -96,6 +115,7 @@ def main():
         local_file(case['video_license']['url'])
         for orientation in ('portrait', 'landscape'):
             asset = download_assets[case['id'], orientation]
+            assert asset['spec'] == 'credit-footer-english-v4', 'Obsolete credit composition'
             assert case['video_download_' + orientation] == asset['path'], 'Download link does not refer to the credited video'
             local_file(asset['path'])
             assert asset['source'] == case['video_' + orientation], 'Download was composed from another source'

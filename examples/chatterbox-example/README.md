@@ -76,8 +76,8 @@ Perth について：上流の `pyproject.toml` は `resemble-perth @ git+https:
 
 ## ライセンス
 
-- 作例のコード・文章・図・動画のソース：八百万図AIツールボックス の制作（Claude Opus 5.5）。
-- `vendor/chatterbox/`：Chatterbox の原典ファイル。MIT（Copyright (c) 2025 Resemble AI、`vendor/chatterbox/LICENSE`）。ソースの見出しは変えていません。一部のファイルは CosyVoice・HiFi-GAN・HiFTNet・Real-Time-Voice-Cloning などに由来し、それぞれの見出しのとおりです。それらのライセンス本文を `vendor/notices/` に置いています（CosyVoice は Apache-2.0、ほかは MIT）。これらの第三者のソースは 八百万図AIツールボックス の新しい著作物ではありません。
+- 作例のコード・文章・図・動画のソース：Yaoyorozu AI ToolBox の制作（Claude Opus 5.5）。
+- `vendor/chatterbox/`：Chatterbox の原典ファイル。MIT（Copyright (c) 2025 Resemble AI、`vendor/chatterbox/LICENSE`）。ソースの見出しは変えていません。一部のファイルは CosyVoice・HiFi-GAN・HiFTNet・Real-Time-Voice-Cloning などに由来し、それぞれの見出しのとおりです。それらのライセンス本文を `vendor/notices/` に置いています（CosyVoice は Apache-2.0、ほかは MIT）。これらの第三者のソースは Yaoyorozu AI ToolBox の新しい著作物ではありません。
 - `vendor/perth/`・`vendor/notices/Perth/`：Perth の LICENSE と照合用のソース。
 - `vendor/model-card/README.md`：重みのモデルカード（`license: mit`）。
 - 3本の WAV：上の固定版で合成した出力で、Perth の透かしが入っています。

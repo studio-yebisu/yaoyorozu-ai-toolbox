@@ -6,7 +6,7 @@ The public site is static HTML, CSS and JavaScript in `src/`, copied as-is by `s
 
 | File | Role |
 | --- | --- |
-| `src/index.html`, `src/app.js` | Home: search, cases, fields, catalog, how-to |
+| `src/index.html`, `src/app.js` | Home: search, cases, fields, catalog |
 | `src/case.html`, `src/case.js` | Case article (`?id=`) and catalog item guide (`?entry=`) |
 | `src/ui.js` | Shared helpers loaded first on both pages (`window.SY`): element builder, `safeHref`, bottom bar, title-line joining, editing state |
 | `src/styles.css` | One stylesheet for both pages |
@@ -21,8 +21,9 @@ Home (`index.html`):
 - `?q=<words>` — keyword search over name, summary, use case, tags, kind and field label.
 - `?kind=skill` or `?kind=support` — kind filter.
 - `?case=1` — only catalog items that a published case points to (`catalog_entry.id`, or a `guide_url` of `case.html?id=…`).
+- `?saved=1` — only items saved in this browser with「あとで試す」.
 - `#<category id>` (for example `#agents`) — selects that field and scrolls to the catalog. Old links keep working.
-- `#cases`, `#feature`, `#fields`, `#catalog`, `#howto`, `#top` — section anchors.
+- `#cases`, `#feature`, `#fields`, `#catalog`, `#top` — section anchors.
 - Choosing a field from the field map or submitting the top search adds a history entry. Typing, the field select, gallery field chips and the toggles replace the current entry. Any filter change returns the catalog to the first page.
 - Words and field selection apply to both the case gallery and the catalog. Kind and case-only controls apply to the catalog. Top search moves to the gallery; a catalog link also shows the full catalog's matching count. Gallery field chips update in place, while existing field-map links continue to move to the catalog.
 - Opening a case preview leaves the URL and filters unchanged. The card's ordinary article URL remains available for modified clicks, new tabs and browsers without native dialog support.
@@ -37,7 +38,7 @@ Article (`case.html`):
 
 - Viewport: `width=device-width, initial-scale=1, viewport-fit=cover`. Never add `maximum-scale` or `user-scalable=no`.
 - Bands (masthead, sections, footer, article parts) use `max(gutter, env(safe-area-inset-left/right))`, so the inset is never added twice. The masthead adds `env(safe-area-inset-top)`.
-- Below 900px a fixed bottom bar (`.tabbar`) holds up to four anchors. `body` reserves `--tabbar-h + env(safe-area-inset-bottom)`. The home bar is ホーム / 分野 / 作例 / 探す; `case.js` replaces it with links that exist for that page (for example 動画 / デモ / 依頼文, or 使い方 / 依頼文 / 原典). There is only ever one bottom row.
+- Below 900px a fixed bottom bar (`.tabbar`) holds up to four anchors. `body` reserves `--tabbar-h + env(safe-area-inset-bottom)`. The home bar is ホーム / 分野 / ツール / 探す; `case.js` replaces it with links that exist for that page (for example 動画 / デモ / 依頼文, or 使い方 / 依頼文 / 原典). There is only ever one bottom row.
 - While a text field has focus, `ui.js` sets `html.is-editing` and the bar is hidden, so it does not cover the software keyboard. No keyboard height is measured and no user agent is detected.
 - The masthead is sticky; `html { scroll-padding-top }` keeps anchor targets visible below it. On short landscape screens the masthead is static.
 - Side columns (catalog filters, article contents) are sticky only at 1100px+ wide and 760px+ tall.
@@ -50,7 +51,7 @@ Article (`case.html`):
 
 - Home cards use the shared responsive muted video player. Posters appear before the visible video loads; offscreen cards keep their media unloaded or paused. No demo iframe is created until the visitor requests a demo.
 - Opening a case preview creates one native `<dialog>` with a muted, controlled responsive video (`playsinline`, lazy loading and an orientation-specific poster). Selecting the demo mounts only that case's same-origin `examples/…` page in an iframe. Switching media or closing the dialog unloads the previous media. Closing restores the invoking card's focus and the background scroll position.
-- In a framed demo, an unhandled Escape outside editing controls closes the outer preview. Inputs keep their native Escape behavior. Links outside that demo's directory leave the frame, so returning to 八百万図AIツールボックス cannot nest another homepage inside the preview. Tab boundaries stay inside the dialog; closed request text is excluded from the focus cycle.
+- In a framed demo, an unhandled Escape outside editing controls closes the outer preview. Inputs keep their native Escape behavior. Links outside that demo's directory leave the frame, so returning to Yaoyorozu AI ToolBox cannot nest another homepage inside the preview. Tab boundaries stay inside the dialog; closed request text is excluded from the focus cycle.
 - The preview keeps article and separate-demo links, the exact case request, copy feedback, and a selectable manual-copy fallback. Its note explains that demos use pre-produced samples and do not execute AI live.
 - Cards, previews and article videos share `media.js`. Below 700px they use the portrait MP4 and poster; at 700px and above they use the landscape pair. Source layouts are native to each orientation and are never cropped or stretched. The selected video's time is retained when the viewport crosses the breakpoint.
 - Videos start muted, inline and looping when at least 15% visible. Offscreen videos, background tabs and gallery cards behind an open preview pause. The play/pause button remains available when autoplay is blocked. Reduced-motion preferences keep playback manual. Native controls in previews/articles let the viewer enable existing audio explicitly.

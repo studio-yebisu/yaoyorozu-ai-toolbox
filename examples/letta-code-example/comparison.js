@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス — Letta Code 作例ページ。MIT License, Copyright (c) 2026 Studio Yebisu.
+// Yaoyorozu AI ToolBox — Letta Code 作例ページ。MIT License, Copyright (c) 2026 Studio Yebisu.
 // 保存した実行記録を読むだけのページ。検査をブラウザーで計算し直さず、記録の値をそのまま表示する。
 // データはすべて textContent とテキストノードで書き、HTML として解釈しない。
 "use strict";

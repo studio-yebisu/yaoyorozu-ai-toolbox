@@ -63,7 +63,7 @@
   ],
   "sources": [
     {
-      "label": "brief-to-demo SKILL.md（八百万図AIツールボックス）",
+      "label": "brief-to-demo SKILL.md（Yaoyorozu AI ToolBox）",
       "url": "https://github.com/studio-yebisu/yaoyorozu-ai-toolbox/blob/bc2984ab4208e349aded79b3694cc2cb98b8a4a6/skills/brief-to-demo/SKILL.md"
     },
     {
@@ -71,11 +71,11 @@
       "url": "https://github.com/anthropics/skills/blob/dbd4588f9e1033efb41dad4bef2f7947c8993d44/skills/frontend-design/SKILL.md"
     },
     {
-      "label": "八百万図AIツールボックス UI・UX",
+      "label": "Yaoyorozu AI ToolBox UI・UX",
       "url": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox/guides/ui-ux/"
     },
     {
-      "label": "八百万図AIツールボックス AIスライド",
+      "label": "Yaoyorozu AI ToolBox AIスライド",
       "url": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-slides/"
     },
     {
@@ -83,7 +83,7 @@
       "url": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824"
     },
     {
-      "label": "八百万図AIツールボックス モーション",
+      "label": "Yaoyorozu AI ToolBox モーション",
       "url": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-motion/"
     },
     {
@@ -147,7 +147,7 @@
     "summary": "短い依頼を、目的、使う素材、制作手順、完成条件が揃ったブリーフに整理できます。決まっていない条件を分けて記録し、次に作業するAIへ渡せます。",
     "use_case": "制作の前に、AIへ渡す依頼を具体化したいとき。",
     "tags": [
-      "八百万図AIツールボックス",
+      "Yaoyorozu AI ToolBox",
       "日本語",
       "作例制作"
     ],
@@ -176,10 +176,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/brief-to-demo-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/brief-to-demo-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/brief-to-demo-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/brief-to-demo-landscape-credited-v4.mp4"
 }

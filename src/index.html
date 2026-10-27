@@ -3,11 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>八百万図AIツールボックス｜用途から選ぶAIの道具箱</title>
-  <meta name="description" content="八百万図AIツールボックス（やおよろずAIツールボックス）は、AIスキルとツールを名前・用途・できることから探せる日本語カタログです。原典・ライセンス・確認状況・AIへの頼み方を項目ごとにまとめています。">
+  <title>Yaoyorozu AI ToolBox｜用途から選ぶAIの道具箱</title>
+  <meta name="description" content="Yaoyorozu AI ToolBoxは、AIスキルとツールを名前・用途・できることから探せる日本語カタログです。原典・ライセンス・確認状況を項目ごとにまとめています。">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#f2eee3">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="likes.css">
+  <link rel="stylesheet" href="item-actions.css">
   <link rel="stylesheet" href="gallery.css">
   <link rel="stylesheet" href="media.css">
   <link rel="stylesheet" href="share.css">
@@ -16,19 +18,23 @@
   <a class="skip" href="#catalog">カタログへ移動</a>
 
   <header class="masthead">
-    <a class="wordmark" href="./" aria-label="八百万図AIツールボックス トップ">八百万図AIツールボックス</a>
+    <a class="wordmark" href="./" aria-label="Yaoyorozu AI ToolBox トップ">Yaoyorozu AI ToolBox</a>
     <nav class="masthead-nav" aria-label="ページ内">
       <a href="#cases">ツール</a>
       <a href="#fields">分野</a>
       <a href="#catalog">カタログ</a>
-      <a href="#howto">頼み方</a>
+    </nav>
+    <nav class="masthead-sites" aria-label="専門の案内サイト">
+      <a href="guides/ui-ux/">UI・UX</a>
+      <a href="https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-slides/">AIスライド</a>
+      <a href="https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-motion/">モーション</a>
     </nav>
   </header>
 
   <main id="main">
     <section class="intro" aria-labelledby="hero-title">
       <div class="intro-copy">
-        <p class="intro-label">やおよろずAIツールボックス</p>
+        <p class="intro-label">SKILLS · TOOLS · OPENWEIGHT</p>
         <h1 id="hero-title" class="intro-title"><span class="phrase">用途から、</span><span class="phrase">AIの道具を選ぶ。</span></h1>
         <p class="intro-lead">スキル・ツール・OpenWeightの使いどころとAIへの依頼文を、原典をもとに日本語でまとめています。</p>
       </div>
@@ -55,12 +61,15 @@
       <header class="gallery-head">
         <div class="gallery-heading">
           <h2 id="cases-title" class="section-title">動画で知るスキル・ツール</h2>
-          <p class="gallery-note">PCでは横向き、スマホでは縦向きの動画が無音で自動再生されます。カードを開くと、動画の音やデモも試せます。</p>
-          <p class="gallery-note">動画の利用にはクレジット表記が必須です。Xでは <a href="https://x.com/studio_yebisu">@studio_yebisu</a> を記載してください。<a href="media-rights.html">動画の利用条件</a></p>
+          <p class="gallery-note">カードを開くと、音つきの動画やデモも試せます。動画の利用にはクレジット表記が必須です（Xは <a href="https://x.com/studio_yebisu">@studio_yebisu</a>）。<a href="media-rights.html">動画の利用条件</a></p>
         </div>
         <p class="gallery-count" data-gallery-count>ツールを読み込んでいます…</p>
       </header>
 
+      <div class="saved-toolbar" hidden>
+        <button class="saved-filter" type="button" aria-pressed="false" data-saved-only hidden>保存したもの <span class="saved-filter-count" data-saved-count>0</span></button>
+        <span class="saved-note">「あとで試す」はこのブラウザーに保存されます。</span>
+      </div>
       <div class="gallery-filter" role="group" aria-label="スキル・ツールを分野で絞り込む" data-gallery-chips hidden></div>
       <div class="gallery-query" data-gallery-query hidden></div>
 
@@ -168,30 +177,11 @@
       </div>
     </section>
 
-    <section id="howto" class="howto" aria-labelledby="howto-title">
-      <header class="section-head">
-        <h2 id="howto-title" class="section-title">AIへの頼み方</h2>
-      </header>
-      <ol class="howto-steps">
-        <li>
-          <h3>やりたいことから選ぶ</h3>
-          <p>作りたいもの、困っている作業の言葉で探します。スキルはAIに読ませる手順書、ライブラリ・ツールは制作を支える部品です。</p>
-        </li>
-        <li>
-          <h3>依頼文と条件を確かめる</h3>
-          <p>項目のページで、使いどころ、依頼文の例、原典、ライセンス、確認状況が読めます。紹介のみの項目は動作を保証するものではないので、原典の説明を読んでから使ってください。</p>
-        </li>
-        <li>
-          <h3>完成条件で結果を見る</h3>
-          <p>依頼が短くて迷うときは、<a href="case.html?id=brief-to-demo">ひと言を、作れる依頼に。</a>の方法で、目的と完成条件をそろえてから頼みます。</p>
-        </li>
-      </ol>
-    </section>
   </main>
 
   <footer class="colophon">
     <div class="colophon-main">
-      <p class="wordmark wordmark-small">八百万図AIツールボックス</p>
+      <p class="wordmark wordmark-small">Yaoyorozu AI ToolBox</p>
       <p>掲載しているスキル・ツール・モデルの説明は、それぞれの原典をもとに日本語でまとめたものです。使うときは原典のライセンスと最新の説明を確かめてください。</p>
       <p>独自制作の動画はクレジット表記必須。Xでは @studio_yebisu を記載してください。<a href="media-rights.html">動画の利用条件</a></p>
       <p class="colophon-updated">カタログ更新日　<span data-updated>—</span></p>
@@ -200,7 +190,7 @@
       <a href="guides/ui-ux/">UI・UX</a>
       <a href="https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-slides/">AIスライド</a>
       <a href="https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-motion/">モーション</a>
-      <a href="https://github.com/studio-yebisu/yaoyorozu-ai-toolbox">八百万図AIツールボックス</a>
+      <a href="https://github.com/studio-yebisu/yaoyorozu-ai-toolbox">Yaoyorozu AI ToolBox</a>
     </nav>
   </footer>
 
@@ -225,6 +215,8 @@
 
   <p class="sr-only" role="status" aria-live="polite" data-announce></p>
   <script src="ui.js"></script>
+  <script src="likes.js"></script>
+  <script src="item-actions.js"></script>
   <script src="media.js"></script>
   <script src="share.js"></script>
   <script src="gallery.js"></script>

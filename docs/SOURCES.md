@@ -20,7 +20,7 @@ UI・UXの従来のPages URLは2026-10-15の確認で404だったため、コミ
 
 - [Anthropic Frontend Design](https://github.com/anthropics/skills/blob/dbd4588f9e1033efb41dad4bef2f7947c8993d44/skills/frontend-design/SKILL.md)。画面の構成・書体・操作に指針を適用。Apache-2.0。原典本文は公開物へコピーせず、参照先を残します。
 - [Motion Reel](https://github.com/studio-yebisu/motion-reel)。任意時刻の描画、フレームレビュー、動画書き出し。MIT。実行環境は既存のローカルスキルを使用します。
-- `brief-to-demo` は八百万図AIツールボックスの独自スキル。MIT。
+- `brief-to-demo` はYaoyorozu AI ToolBoxの独自スキル。MIT。
 
 公開する制作記録にはモデル名、入力のハッシュ、成果物のハッシュ、実施した確認の要約を残します。Claude Codeの認証情報、会話・実行ログ全文、個人のアカウント情報は `.local/` に保持し、公開物へ含めません。
 

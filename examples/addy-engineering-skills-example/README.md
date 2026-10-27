@@ -51,6 +51,6 @@ npm run check   # node --check tasks.mjs && node --check app.mjs
 
 ## ライセンス
 
-この作例の画面・文言・依頼文・合成データ・コード・テスト・記録・映像ソースは 八百万図AIツールボックス の独自制作で、MIT License（`LICENSE`、Copyright (c) 2026 Studio Yebisu）です。`vendor/addy-agent-skills/` は Agent Skills から選んだ README・LICENSE・7つの SKILL.md・3つの参照ファイルで、上流の MIT License（Copyright (c) 2025 Addy Osmani）に従います。
+この作例の画面・文言・依頼文・合成データ・コード・テスト・記録・映像ソースは Yaoyorozu AI ToolBox の独自制作で、MIT License（`LICENSE`、Copyright (c) 2026 Studio Yebisu）です。`vendor/addy-agent-skills/` は Agent Skills から選んだ README・LICENSE・7つの SKILL.md・3つの参照ファイルで、上流の MIT License（Copyright (c) 2025 Addy Osmani）に従います。
 
 計画とチェックリスト（plan/）は実行前に書いた原本です。未チェックを実行済みとは扱いません。現在の実行結果は tdd-history.json・acceptance-main.json・mutation.json・core-review.json、ブラウザーで残る確認は上記に分けています。

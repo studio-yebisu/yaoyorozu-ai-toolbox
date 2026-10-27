@@ -1,5 +1,5 @@
 /*
- * 八百万図AIツールボックス — Mem0 OSS example viewer.
+ * Yaoyorozu AI ToolBox — Mem0 OSS example viewer.
  * Copyright (c) 2026 Studio Yebisu. MIT License.
  *
  * Reads the saved run record (outputs/memory-run.json) and the three frozen inputs, checks

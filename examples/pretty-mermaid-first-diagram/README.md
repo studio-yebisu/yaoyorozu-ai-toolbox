@@ -8,7 +8,7 @@ Pretty Mermaid の原典CLIで書き出した図を、元の Mermaid の記述�
 
 | パス | 内容 |
 | --- | --- |
-| `inputs/*.mmd` | 3つの図の記述（八百万図AIツールボックス の独自制作） |
+| `inputs/*.mmd` | 3つの図の記述（Yaoyorozu AI ToolBox の独自制作） |
 | `samples.json` | 各図の入力（`.mmd` と同じ文字列）、図の説明、出力ファイルのパス、確かめる矢印の対応 |
 | `assets/` | 原典CLIが書き出すSVG・PNG・文字図（下の手順で生成） |
 | `index.html`・`styles.css`・`app.js` | 読み比べる画面 |
@@ -69,7 +69,7 @@ python -m http.server 8000   # http://127.0.0.1:8000/index.html
 
 ## ライセンス
 
-- `inputs/`、`samples.json`、画面、`video/` の構成・文言・記述は 八百万図AIツールボックス の独自制作で、MIT License です。
+- `inputs/`、`samples.json`、画面、`video/` の構成・文言・記述は Yaoyorozu AI ToolBox の独自制作で、MIT License です。
 - `vendor/pretty-mermaid/` は Pretty Mermaid（MIT License、Copyright (c) 2026 Beautiful-Mermaid Contributors）の固定版 `e234ab73c2992f03c36db04fd55ebb90abca9c45` です。`vendor/pretty-mermaid/LICENSE` をそのまま残しています。
 - `assets/` の図は、上の手順で原典CLIが書き出した出力です。
 
