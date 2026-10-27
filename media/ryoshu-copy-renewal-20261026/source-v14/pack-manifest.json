@@ -1,0 +1,22 @@
+{
+ "requirements.json": "69334c943e0a41268512e4b9c0a65252a4be33a4590ed3e59613b94013be4256",
+ "ryoshu-1.4-film.edit-manifest.json": "0bc0c3a4f1e6151714c8cfe9a7d688cdeec79a3dfb6ca00d588e1f00f8126ed6",
+ "ryoshu-1.4-film.poster.rendered-copy.json": "554e90acf0410744cabb08eb658dfb82822c89aa6e21c402b5469b3edbe10cb8",
+ "ryoshu-1.4-film.rendered-copy.json": "f02bff713e33c062152ec93984ac1aee13d293e268d71b2b4778c469a4da2d85",
+ "src/film/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "src/film/audio.py": "701ac1991386cca18de4e9768dd4f8f7e58492d78d67c8fa5e36926d54266fe0",
+ "src/film/cards.py": "c35a7fa7b935e67b1b0169323846bb59204f85a6fa395408d0d8bfabf3913e51",
+ "src/film/deck.py": "46f2f9f7cbcca21d5dfc4b51151cd2580124fde14f01634784b6e0b2002499ed",
+ "src/film/draw.py": "e7f510bc751068d12610a800c81e5b5091b03b76ee59dd74c8611e8c3f254c0e",
+ "src/film/edl.py": "c45dee2d7c236d2fc97d40b788d16f4a713100dbdb07f0ac4a192368115403a2",
+ "src/film/footage.py": "959707a4995f87a00b574da6653114c7f8442ad110628e87bd0a769e0182bf43",
+ "src/film/timeline.py": "e5a95ddf0a47c9feec5086fee76b2516acf9f992034018597c698f280cd410e7",
+ "src/qc.py": "fd0310513504777c15536f541b132a58a974304bc5d85aa7bb1a5d39bd16ca55",
+ "src/render.py": "a0e8468f965ea0bcbf689091e689530180689d23c08193aad2e1b48da91e6fdc",
+ "src/tools/changes.py": "4521bda3a6deee34c50a2b8f41dec24844856fc48cf22922187fe91e23244ab7",
+ "src/tools/contact.py": "ea8fc7062bbb9abc022f6964f644a23cf99b24268800c2e605c973a35771d148",
+ "src/tools/pack.py": "52c102795114aafeb543f39cb94696810e71cab01ae31175b23c6cfd196e740d",
+ "src/tools/sheet.py": "0c598eb4ec77818f12ec31050caafe46daca5a0ee1cedb4b0a13d7717bb11a9d",
+ "src/tools/summarize_changes.py": "a4e283a9dbac3b1aa72cced512d75dbdb18d8b57abc37aeb475b9bc08dc66ab1",
+ "src/tools/timeline_dump.py": "3883b3521afbed5d0f9e8095f1ed6668f65f14d028cd1c786384fdf6f0dc9533"
+}

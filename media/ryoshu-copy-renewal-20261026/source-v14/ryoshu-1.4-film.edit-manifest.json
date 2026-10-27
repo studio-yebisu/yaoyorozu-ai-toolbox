@@ -1,0 +1,2479 @@
+{
+ "duration_s": 178.9676,
+ "fps": 30,
+ "size": [
+  1920,
+  1080
+ ],
+ "transform": "src px -> crop (cx,cy,w; h=w*9/16) -> window (160,44,1600,900); rings use the same mapping",
+ "scenes": [
+  {
+   "id": "opener",
+   "kind": "graphic",
+   "out": [
+    0.0,
+    4.0
+   ]
+  },
+  {
+   "id": "overview",
+   "kind": "graphic",
+   "out": [
+    4.0,
+    12.0
+   ]
+  },
+  {
+   "id": "local",
+   "kind": "footage",
+   "out": [
+    12.0,
+    16.0
+   ],
+   "chapter": [
+    "chapter.local.number",
+    "chapter.local.label"
+   ]
+  },
+  {
+   "id": "title",
+   "kind": "graphic",
+   "out": [
+    16.0,
+    20.0
+   ]
+  },
+  {
+   "id": "ch01",
+   "kind": "footage",
+   "out": [
+    20.0,
+    46.5995
+   ],
+   "chapter": [
+    "chapter.01.number",
+    "chapter.01.label"
+   ]
+  },
+  {
+   "id": "ch02",
+   "kind": "footage",
+   "out": [
+    46.5995,
+    59.081
+   ],
+   "chapter": [
+    "chapter.02.number",
+    "chapter.02.label"
+   ]
+  },
+  {
+   "id": "ch03",
+   "kind": "footage",
+   "out": [
+    59.081,
+    77.819
+   ],
+   "chapter": [
+    "chapter.03.number",
+    "chapter.03.label"
+   ]
+  },
+  {
+   "id": "ch04",
+   "kind": "footage",
+   "out": [
+    77.819,
+    96.3276
+   ],
+   "chapter": [
+    "chapter.04.number",
+    "chapter.04.label"
+   ]
+  },
+  {
+   "id": "ch05",
+   "kind": "footage",
+   "out": [
+    96.3276,
+    107.9676
+   ],
+   "chapter": [
+    "chapter.05.number",
+    "chapter.05.label"
+   ]
+  },
+  {
+   "id": "formats",
+   "kind": "graphic",
+   "out": [
+    107.9676,
+    114.9676
+   ]
+  },
+  {
+   "id": "runtime",
+   "kind": "graphic",
+   "out": [
+    114.9676,
+    120.9676
+   ]
+  },
+  {
+   "id": "bench-time",
+   "kind": "graphic",
+   "out": [
+    120.9676,
+    129.9676
+   ]
+  },
+  {
+   "id": "bench-core",
+   "kind": "graphic",
+   "out": [
+    129.9676,
+    141.9676
+   ]
+  },
+  {
+   "id": "bench-more",
+   "kind": "graphic",
+   "out": [
+    141.9676,
+    152.9676
+   ]
+  },
+  {
+   "id": "bench-conditions",
+   "kind": "graphic",
+   "out": [
+    152.9676,
+    161.9676
+   ]
+  },
+  {
+   "id": "notes",
+   "kind": "graphic",
+   "out": [
+    161.9676,
+    170.9676
+   ]
+  },
+  {
+   "id": "end",
+   "kind": "graphic",
+   "out": [
+    170.9676,
+    178.9676
+   ]
+  }
+ ],
+ "shots": [
+  {
+   "scene": "local",
+   "n": 0,
+   "chunk": "02-results",
+   "a": 7,
+   "b": 7,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 4.0,
+   "src_span_s": 0.0,
+   "src_t": [
+    1793097360.889708,
+    1793097360.889708
+   ],
+   "frames": [
+    "input/new-ui/02-results/frame-000007.jpg",
+    "input/new-ui/02-results/frame-000007.jpg"
+   ],
+   "out": [
+    12.0,
+    16.0
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     360,
+     1280
+    ],
+    [
+     1.3,
+     640,
+     360,
+     1280
+    ],
+    [
+     2.6,
+     1080,
+     120,
+     680
+    ],
+    [
+     4.0,
+     1100,
+     110,
+     660
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch01",
+   "n": 0,
+   "chunk": "A0-empty-home",
+   "a": 0,
+   "b": 0,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 4.6,
+   "src_span_s": 0.0,
+   "src_t": [
+    1793098127.643941,
+    1793098127.643941
+   ],
+   "frames": [
+    "input/new-ui/A0-empty-home/frame-000000.jpg",
+    "input/new-ui/A0-empty-home/frame-000000.jpg"
+   ],
+   "out": [
+    20.0,
+    24.6
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     380,
+     1180
+    ],
+    [
+     4.6,
+     640,
+     370,
+     1120
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch01",
+   "n": 1,
+   "chunk": "A1-select-files",
+   "a": 0,
+   "b": 2,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 3.5,
+   "src_span_s": 0.309,
+   "src_t": [
+    1793098129.688626,
+    1793098129.99762
+   ],
+   "frames": [
+    "input/new-ui/A1-select-files/frame-000000.jpg",
+    "input/new-ui/A1-select-files/frame-000002.jpg"
+   ],
+   "out": [
+    24.6,
+    28.409
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     400,
+     1120
+    ],
+    [
+     3.3,
+     640,
+     470,
+     1000
+    ]
+   ],
+   "cut_before": "A0->A1 capture gap 2.0 s",
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch01",
+   "n": 2,
+   "chunk": "A2-start-and-process",
+   "a": 0,
+   "b": 66,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 2.4,
+   "src_span_s": 1.3142,
+   "src_t": [
+    1793098139.250434,
+    1793098140.564634
+   ],
+   "frames": [
+    "input/new-ui/A2-start-and-process/frame-000000.jpg",
+    "input/new-ui/A2-start-and-process/frame-000066.jpg"
+   ],
+   "out": [
+    28.409,
+    32.1232
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     400,
+     1120
+    ],
+    [
+     3.7,
+     640,
+     360,
+     1280
+    ]
+   ],
+   "cut_before": "A1->A2 capture gap 9.3 s",
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch01",
+   "n": 3,
+   "chunk": "A2-start-and-process",
+   "a": 66,
+   "b": 200,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 1.4,
+   "src_span_s": 2.5418,
+   "src_t": [
+    1793098140.564634,
+    1793098143.106393
+   ],
+   "frames": [
+    "input/new-ui/A2-start-and-process/frame-000066.jpg",
+    "input/new-ui/A2-start-and-process/frame-000200.jpg"
+   ],
+   "out": [
+    32.1232,
+    36.065
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     360,
+     1280
+    ],
+    [
+     1.0,
+     640,
+     420,
+     1060
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch01",
+   "n": 4,
+   "chunk": "A2-start-and-process",
+   "a": 200,
+   "b": 1171,
+   "speed": 8.0,
+   "head_hold": 0.0,
+   "tail_hold": 0.0,
+   "src_span_s": 26.1258,
+   "src_t": [
+    1793098143.106393,
+    1793098169.232233
+   ],
+   "frames": [
+    "input/new-ui/A2-start-and-process/frame-000200.jpg",
+    "input/new-ui/A2-start-and-process/frame-001171.jpg"
+   ],
+   "out": [
+    36.065,
+    39.3307
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     420,
+     1060
+    ],
+    [
+     3.2,
+     640,
+     400,
+     1120
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": 8.0,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch01",
+   "n": 5,
+   "chunk": "A3-completion",
+   "a": 0,
+   "b": 361,
+   "speed": 8.0,
+   "head_hold": 0.0,
+   "tail_hold": 0.0,
+   "src_span_s": 7.9753,
+   "src_t": [
+    1793098214.050335,
+    1793098222.025599
+   ],
+   "frames": [
+    "input/new-ui/A3-completion/frame-000000.jpg",
+    "input/new-ui/A3-completion/frame-000361.jpg"
+   ],
+   "out": [
+    39.3307,
+    40.3276
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     400,
+     1120
+    ]
+   ],
+   "cut_before": "A2->A3 capture gap 44.8 s",
+   "badge_speed": 8.0,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch01",
+   "n": 6,
+   "chunk": "A4-all-done",
+   "a": 0,
+   "b": 611,
+   "speed": 8.0,
+   "head_hold": 0.0,
+   "tail_hold": 0.0,
+   "src_span_s": 14.9754,
+   "src_t": [
+    1793098226.176073,
+    1793098241.151499
+   ],
+   "frames": [
+    "input/new-ui/A4-all-done/frame-000000.jpg",
+    "input/new-ui/A4-all-done/frame-000611.jpg"
+   ],
+   "out": [
+    40.3276,
+    42.1995
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     400,
+     1120
+    ]
+   ],
+   "cut_before": "A3->A4 capture gap 4.2 s",
+   "badge_speed": 8.0,
+   "time_skip": false,
+   "note": "still 4/5 (V044 candidate step); folder name is misleading"
+  },
+  {
+   "scene": "ch01",
+   "n": 7,
+   "chunk": "A5-completed",
+   "a": 0,
+   "b": 0,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 4.4,
+   "src_span_s": 0.0,
+   "src_t": [
+    1793098372.092721,
+    1793098372.092721
+   ],
+   "frames": [
+    "input/new-ui/A5-completed/frame-000000.jpg",
+    "input/new-ui/A5-completed/frame-000000.jpg"
+   ],
+   "out": [
+    42.1995,
+    46.5995
+   ],
+   "cam": [
+    [
+     0.0,
+     640,
+     360,
+     1280
+    ]
+   ],
+   "cut_before": "A4->A5 capture gap 130.9 s: not recorded, completion of V044 is not shown",
+   "badge_speed": null,
+   "time_skip": true,
+   "note": null
+  },
+  {
+   "scene": "ch02",
+   "n": 0,
+   "chunk": "02-results",
+   "a": 0,
+   "b": 7,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 4.3,
+   "src_span_s": 0.167,
+   "src_t": [
+    1793097360.722736,
+    1793097360.889708
+   ],
+   "frames": [
+    "input/new-ui/02-results/frame-000000.jpg",
+    "input/new-ui/02-results/frame-000007.jpg"
+   ],
+   "out": [
+    46.5995,
+    51.0665
+   ],
+   "cam": [
+    [
+     0.0,
+     640,
+     360,
+     1280
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch02",
+   "n": 1,
+   "chunk": "09-original-zoom",
+   "a": 0,
+   "b": 5,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 0.8,
+   "src_span_s": 0.1037,
+   "src_t": [
+    1793097646.478342,
+    1793097646.582051
+   ],
+   "frames": [
+    "input/new-ui/09-original-zoom/frame-000000.jpg",
+    "input/new-ui/09-original-zoom/frame-000005.jpg"
+   ],
+   "out": [
+    51.0665,
+    51.9702
+   ],
+   "cam": [
+    [
+     0.0,
+     640,
+     360,
+     1280
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch02",
+   "n": 2,
+   "chunk": "10-zoom-scale",
+   "a": 0,
+   "b": 1,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 3.6,
+   "src_span_s": 0.0209,
+   "src_t": [
+    1793097664.203384,
+    1793097664.224263
+   ],
+   "frames": [
+    "input/new-ui/10-zoom-scale/frame-000000.jpg",
+    "input/new-ui/10-zoom-scale/frame-000001.jpg"
+   ],
+   "out": [
+    51.9702,
+    55.5911
+   ],
+   "cam": [
+    [
+     0.0,
+     640,
+     360,
+     1280
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch02",
+   "n": 3,
+   "chunk": "11-read-text",
+   "a": 0,
+   "b": 3,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 3.4,
+   "src_span_s": 0.0899,
+   "src_t": [
+    1793097674.5597,
+    1793097674.649592
+   ],
+   "frames": [
+    "input/new-ui/11-read-text/frame-000000.jpg",
+    "input/new-ui/11-read-text/frame-000003.jpg"
+   ],
+   "out": [
+    55.5911,
+    59.081
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     360,
+     1280
+    ],
+    [
+     1.2,
+     600,
+     470,
+     1000
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": "raw OCR text shown as captured, including a misread line"
+  },
+  {
+   "scene": "ch03",
+   "n": 0,
+   "chunk": "03-open-account",
+   "a": 2,
+   "b": 2,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 1.8,
+   "src_span_s": 0.0,
+   "src_t": [
+    1793097513.011064,
+    1793097513.011064
+   ],
+   "frames": [
+    "input/new-ui/03-open-account/frame-000002.jpg",
+    "input/new-ui/03-open-account/frame-000002.jpg"
+   ],
+   "out": [
+    59.081,
+    60.881
+   ],
+   "cam": [
+    [
+     0,
+     760,
+     420,
+     1100
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": "explicit hold of the genuine hover frame on V002 '科目を選ぶ' (captured for ~50 ms)"
+  },
+  {
+   "scene": "ch03",
+   "n": 1,
+   "chunk": "03-open-account",
+   "a": 2,
+   "b": 6,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 2.0,
+   "src_span_s": 0.075,
+   "src_t": [
+    1793097513.011064,
+    1793097513.086048
+   ],
+   "frames": [
+    "input/new-ui/03-open-account/frame-000002.jpg",
+    "input/new-ui/03-open-account/frame-000006.jpg"
+   ],
+   "out": [
+    60.881,
+    62.956
+   ],
+   "cam": [
+    [
+     0,
+     760,
+     420,
+     1100
+    ],
+    [
+     0.6,
+     640,
+     405,
+     1110
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch03",
+   "n": 2,
+   "chunk": "04-select-category",
+   "a": 0,
+   "b": 1,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 1.4,
+   "src_span_s": 0.0242,
+   "src_t": [
+    1793097524.587285,
+    1793097524.611441
+   ],
+   "frames": [
+    "input/new-ui/04-select-category/frame-000000.jpg",
+    "input/new-ui/04-select-category/frame-000001.jpg"
+   ],
+   "out": [
+    62.956,
+    64.3801
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     405,
+     1110
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch03",
+   "n": 3,
+   "chunk": "05-select-account",
+   "a": 0,
+   "b": 1,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 2.4,
+   "src_span_s": 0.0238,
+   "src_t": [
+    1793097544.921654,
+    1793097544.945426
+   ],
+   "frames": [
+    "input/new-ui/05-select-account/frame-000000.jpg",
+    "input/new-ui/05-select-account/frame-000001.jpg"
+   ],
+   "out": [
+    64.3801,
+    66.8039
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     405,
+     1110
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch03",
+   "n": 4,
+   "chunk": "06-favorite-on",
+   "a": 0,
+   "b": 3,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 3.2,
+   "src_span_s": 0.0601,
+   "src_t": [
+    1793097607.704086,
+    1793097607.764211
+   ],
+   "frames": [
+    "input/new-ui/06-favorite-on/frame-000000.jpg",
+    "input/new-ui/06-favorite-on/frame-000003.jpg"
+   ],
+   "out": [
+    66.8039,
+    70.064
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     405,
+     1110
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch03",
+   "n": 5,
+   "chunk": "07-favorite-off",
+   "a": 0,
+   "b": 2,
+   "speed": 1.0,
+   "head_hold": 0.9,
+   "tail_hold": 3.0,
+   "src_span_s": 0.0531,
+   "src_t": [
+    1793097613.869501,
+    1793097613.922628
+   ],
+   "frames": [
+    "input/new-ui/07-favorite-off/frame-000000.jpg",
+    "input/new-ui/07-favorite-off/frame-000002.jpg"
+   ],
+   "out": [
+    70.064,
+    74.0171
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     405,
+     1110
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": "frames 0-1 show the FILLED star; frame 2 is the first empty-star frame"
+  },
+  {
+   "scene": "ch03",
+   "n": 6,
+   "chunk": "08-save-account",
+   "a": 0,
+   "b": 7,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 3.6,
+   "src_span_s": 0.2019,
+   "src_t": [
+    1793097630.688,
+    1793097630.889876
+   ],
+   "frames": [
+    "input/new-ui/08-save-account/frame-000000.jpg",
+    "input/new-ui/08-save-account/frame-000007.jpg"
+   ],
+   "out": [
+    74.0171,
+    77.819
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     405,
+     1110
+    ],
+    [
+     0.4,
+     760,
+     430,
+     1100
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch04",
+   "n": 0,
+   "chunk": "13-select-row",
+   "a": 0,
+   "b": 4,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 3.0,
+   "src_span_s": 0.0777,
+   "src_t": [
+    1793097774.908509,
+    1793097774.986162
+   ],
+   "frames": [
+    "input/new-ui/13-select-row/frame-000000.jpg",
+    "input/new-ui/13-select-row/frame-000004.jpg"
+   ],
+   "out": [
+    77.819,
+    80.8967
+   ],
+   "cam": [
+    [
+     0.0,
+     640,
+     360,
+     1280
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch04",
+   "n": 1,
+   "chunk": "14-review-input",
+   "a": 0,
+   "b": 11,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 0.8,
+   "src_span_s": 3.7629,
+   "src_t": [
+    1793097804.591057,
+    1793097808.353921
+   ],
+   "frames": [
+    "input/new-ui/14-review-input/frame-000000.jpg",
+    "input/new-ui/14-review-input/frame-000011.jpg"
+   ],
+   "out": [
+    80.8967,
+    85.4595
+   ],
+   "cam": [
+    [
+     0.0,
+     640,
+     360,
+     1280
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch04",
+   "n": 2,
+   "chunk": "15-review-preview",
+   "a": 0,
+   "b": 5,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 0.9,
+   "src_span_s": 0.0983,
+   "src_t": [
+    1793097815.897552,
+    1793097815.995803
+   ],
+   "frames": [
+    "input/new-ui/15-review-preview/frame-000000.jpg",
+    "input/new-ui/15-review-preview/frame-000005.jpg"
+   ],
+   "out": [
+    85.4595,
+    86.4578
+   ],
+   "cam": [
+    [
+     0.0,
+     640,
+     360,
+     1280
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch04",
+   "n": 3,
+   "chunk": "16-review-check",
+   "a": 0,
+   "b": 3,
+   "speed": 1.0,
+   "head_hold": 1.2,
+   "tail_hold": 3.6,
+   "src_span_s": 0.0498,
+   "src_t": [
+    1793097882.739889,
+    1793097882.789674
+   ],
+   "frames": [
+    "input/new-ui/16-review-check/frame-000000.jpg",
+    "input/new-ui/16-review-check/frame-000003.jpg"
+   ],
+   "out": [
+    86.4578,
+    91.3076
+   ],
+   "cam": [
+    [
+     0,
+     640,
+     380,
+     1000
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": "frame 0 genuinely unchecked (held 1.2 s), frame 3 is the first genuinely checked frame; nothing is drawn on the box"
+  },
+  {
+   "scene": "ch04",
+   "n": 4,
+   "chunk": "17-confirm-row",
+   "a": 0,
+   "b": 4,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 4.9,
+   "src_span_s": 0.12,
+   "src_t": [
+    1793097894.144979,
+    1793097894.265026
+   ],
+   "frames": [
+    "input/new-ui/17-confirm-row/frame-000000.jpg",
+    "input/new-ui/17-confirm-row/frame-000004.jpg"
+   ],
+   "out": [
+    91.3076,
+    96.3276
+   ],
+   "cam": [
+    [
+     0.0,
+     640,
+     360,
+     1280
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch05",
+   "n": 0,
+   "chunk": "19-csv-top",
+   "a": 0,
+   "b": 10,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 3.5,
+   "src_span_s": 0.1665,
+   "src_t": [
+    1793097942.891878,
+    1793097943.058332
+   ],
+   "frames": [
+    "input/new-ui/19-csv-top/frame-000000.jpg",
+    "input/new-ui/19-csv-top/frame-000010.jpg"
+   ],
+   "out": [
+    96.3276,
+    99.9941
+   ],
+   "cam": [
+    [
+     0.0,
+     640,
+     360,
+     1280
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch05",
+   "n": 1,
+   "chunk": "20-csv-preview",
+   "a": 0,
+   "b": 1,
+   "speed": 1.0,
+   "head_hold": 0.0,
+   "tail_hold": 3.6,
+   "src_span_s": 0.0591,
+   "src_t": [
+    1793097954.057897,
+    1793097954.117
+   ],
+   "frames": [
+    "input/new-ui/20-csv-preview/frame-000000.jpg",
+    "input/new-ui/20-csv-preview/frame-000001.jpg"
+   ],
+   "out": [
+    99.9941,
+    103.6532
+   ],
+   "cam": [
+    [
+     0.0,
+     640,
+     360,
+     1280
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": null
+  },
+  {
+   "scene": "ch05",
+   "n": 2,
+   "chunk": "21-download",
+   "a": 0,
+   "b": 4,
+   "speed": 1.0,
+   "head_hold": 0.6,
+   "tail_hold": 3.6,
+   "src_span_s": 0.1145,
+   "src_t": [
+    1793097968.211332,
+    1793097968.325794
+   ],
+   "frames": [
+    "input/new-ui/21-download/frame-000000.jpg",
+    "input/new-ui/21-download/frame-000004.jpg"
+   ],
+   "out": [
+    103.6532,
+    107.9676
+   ],
+   "cam": [
+    [
+     0.0,
+     640,
+     360,
+     1280
+    ]
+   ],
+   "cut_before": null,
+   "badge_speed": null,
+   "time_skip": false,
+   "note": "full-height camera keeps the bottom-edge CSVを保存 control in frame"
+  }
+ ],
+ "events": [
+  {
+   "id": "ch01.start",
+   "scene": "ch01",
+   "chunk": "A2-start-and-process",
+   "frame": 2,
+   "frame_pointer": "input/new-ui/A2-start-and-process/frame-000002.jpg",
+   "src_t": 1793098139.3146,
+   "out_t": 28.4732,
+   "sfx": "click",
+   "detection": "first frame whose grayscale diff vs the previous frame exceeds 24 inside the event region (build/analysis/changes.json); verified visually"
+  },
+  {
+   "id": "ch01.step",
+   "scene": "ch01",
+   "chunk": "A2-start-and-process",
+   "frame": 81,
+   "frame_pointer": "input/new-ui/A2-start-and-process/frame-000081.jpg",
+   "src_t": 1793098140.881321,
+   "out_t": 32.4399,
+   "sfx": "tick",
+   "detection": "first frame whose grayscale diff vs the previous frame exceeds 24 inside the event region (build/analysis/changes.json); verified visually"
+  },
+  {
+   "id": "ch03.star_on",
+   "scene": "ch03",
+   "chunk": "06-favorite-on",
+   "frame": 3,
+   "frame_pointer": "input/new-ui/06-favorite-on/frame-000003.jpg",
+   "src_t": 1793097607.764211,
+   "out_t": 66.864,
+   "sfx": "click",
+   "detection": "first frame whose grayscale diff vs the previous frame exceeds 24 inside the event region (build/analysis/changes.json); verified visually"
+  },
+  {
+   "id": "ch03.star_off",
+   "scene": "ch03",
+   "chunk": "07-favorite-off",
+   "frame": 2,
+   "frame_pointer": "input/new-ui/07-favorite-off/frame-000002.jpg",
+   "src_t": 1793097613.922628,
+   "out_t": 71.0171,
+   "sfx": "click",
+   "detection": "first frame whose grayscale diff vs the previous frame exceeds 24 inside the event region (build/analysis/changes.json); verified visually"
+  },
+  {
+   "id": "ch03.saved",
+   "scene": "ch03",
+   "chunk": "08-save-account",
+   "frame": 3,
+   "frame_pointer": "input/new-ui/08-save-account/frame-000003.jpg",
+   "src_t": 1793097630.789873,
+   "out_t": 74.119,
+   "sfx": "click",
+   "detection": "first frame whose grayscale diff vs the previous frame exceeds 24 inside the event region (build/analysis/changes.json); verified visually"
+  },
+  {
+   "id": "ch04.checked",
+   "scene": "ch04",
+   "chunk": "16-review-check",
+   "frame": 3,
+   "frame_pointer": "input/new-ui/16-review-check/frame-000003.jpg",
+   "src_t": 1793097882.789674,
+   "out_t": 87.7076,
+   "sfx": "click",
+   "detection": "first frame whose grayscale diff vs the previous frame exceeds 24 inside the event region (build/analysis/changes.json); verified visually"
+  },
+  {
+   "id": "ch04.confirmed",
+   "scene": "ch04",
+   "chunk": "17-confirm-row",
+   "frame": 3,
+   "frame_pointer": "input/new-ui/17-confirm-row/frame-000003.jpg",
+   "src_t": 1793097894.256691,
+   "out_t": 91.4193,
+   "sfx": "confirm",
+   "detection": "first frame whose grayscale diff vs the previous frame exceeds 24 inside the event region (build/analysis/changes.json); verified visually"
+  },
+  {
+   "id": "ch05.saved",
+   "scene": "ch05",
+   "chunk": "21-download",
+   "frame": 3,
+   "frame_pointer": "input/new-ui/21-download/frame-000003.jpg",
+   "src_t": 1793097968.275743,
+   "out_t": 104.3176,
+   "sfx": "click",
+   "detection": "first frame whose grayscale diff vs the previous frame exceeds 24 inside the event region (build/analysis/changes.json); verified visually"
+  }
+ ],
+ "captions": [
+  {
+   "slot": "caption.local",
+   "scene": "local",
+   "start": 12.2,
+   "end": 16.0,
+   "gate_event": null
+  },
+  {
+   "slot": "caption.01.select",
+   "scene": "ch01",
+   "start": 20.0,
+   "end": 24.6,
+   "gate_event": null
+  },
+  {
+   "slot": "caption.01.selected",
+   "scene": "ch01",
+   "start": 24.6,
+   "end": 28.4732,
+   "gate_event": null
+  },
+  {
+   "slot": "caption.01.process.v14",
+   "scene": "ch01",
+   "start": 28.4732,
+   "end": 32.4399,
+   "gate_event": "ch01.start"
+  },
+  {
+   "slot": "caption.01.twosteps",
+   "scene": "ch01",
+   "start": 32.4399,
+   "end": 42.1995,
+   "gate_event": "ch01.step"
+  },
+  {
+   "slot": "caption.01.done",
+   "scene": "ch01",
+   "start": 42.1995,
+   "end": 46.5995,
+   "gate_event": null
+  },
+  {
+   "slot": "caption.02.results",
+   "scene": "ch02",
+   "start": 46.5995,
+   "end": 51.0665,
+   "gate_event": null
+  },
+  {
+   "slot": "caption.02.zoom",
+   "scene": "ch02",
+   "start": 51.0665,
+   "end": 55.5911,
+   "gate_event": null
+  },
+  {
+   "slot": "caption.02.rawtext",
+   "scene": "ch02",
+   "start": 55.5911,
+   "end": 59.081,
+   "gate_event": null
+  },
+  {
+   "slot": "caption.03.held",
+   "scene": "ch03",
+   "start": 59.081,
+   "end": 62.956,
+   "gate_event": null
+  },
+  {
+   "slot": "caption.03.account",
+   "scene": "ch03",
+   "start": 62.956,
+   "end": 66.864,
+   "gate_event": null
+  },
+  {
+   "slot": "caption.03.star_add",
+   "scene": "ch03",
+   "start": 66.864,
+   "end": 71.0171,
+   "gate_event": "ch03.star_on"
+  },
+  {
+   "slot": "caption.03.star_remove",
+   "scene": "ch03",
+   "start": 71.0171,
+   "end": 74.119,
+   "gate_event": "ch03.star_off"
+  },
+  {
+   "slot": "caption.03.saved",
+   "scene": "ch03",
+   "start": 74.119,
+   "end": 77.819,
+   "gate_event": "ch03.saved"
+  },
+  {
+   "slot": "caption.04.select",
+   "scene": "ch04",
+   "start": 77.819,
+   "end": 80.8967,
+   "gate_event": null
+  },
+  {
+   "slot": "caption.04.fields",
+   "scene": "ch04",
+   "start": 80.8967,
+   "end": 87.7076,
+   "gate_event": null
+  },
+  {
+   "slot": "caption.04.review",
+   "scene": "ch04",
+   "start": 87.7076,
+   "end": 91.4193,
+   "gate_event": "ch04.checked"
+  },
+  {
+   "slot": "caption.04.confirmed_one",
+   "scene": "ch04",
+   "start": 91.4193,
+   "end": 96.3276,
+   "gate_event": "ch04.confirmed"
+  },
+  {
+   "slot": "caption.05.scope",
+   "scene": "ch05",
+   "start": 96.3276,
+   "end": 99.9941,
+   "gate_event": null
+  },
+  {
+   "slot": "caption.05.preview",
+   "scene": "ch05",
+   "start": 99.9941,
+   "end": 104.3176,
+   "gate_event": null
+  },
+  {
+   "slot": "caption.05.saved",
+   "scene": "ch05",
+   "start": 104.3176,
+   "end": 107.9676,
+   "gate_event": "ch05.saved"
+  }
+ ],
+ "marks": [
+  {
+   "scene": "local",
+   "shot": 0,
+   "rect": [
+    1083,
+    16,
+    162,
+    24
+   ],
+   "frames": [
+    7,
+    null
+   ],
+   "out": [
+    14.4,
+    16.0
+   ],
+   "frame_pointer": "input/new-ui/02-results/frame-000007.jpg",
+   "out_rect_px": [
+    1307.9,
+    80.7,
+    1679.7,
+    135.8
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    931.44,
+    196.06,
+    697.12
+   ]
+  },
+  {
+   "scene": "ch01",
+   "shot": 1,
+   "rect": [
+    178,
+    219,
+    910,
+    232
+   ],
+   "frames": [
+    0,
+    null
+   ],
+   "out": [
+    20.5,
+    24.6
+   ],
+   "frame_pointer": "input/new-ui/A0-empty-home/frame-000000.jpg",
+   "out_rect_px": [
+    333.2,
+    275.7,
+    1567.8,
+    590.5
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640.0,
+    379.89,
+    1179.35
+   ]
+  },
+  {
+   "scene": "ch01",
+   "shot": 2,
+   "rect": [
+    176,
+    468,
+    464,
+    22
+   ],
+   "frames": [
+    2,
+    null
+   ],
+   "out": [
+    25.109,
+    28.409
+   ],
+   "frame_pointer": "input/new-ui/A1-select-files/frame-000002.jpg",
+   "out_rect_px": [
+    295.1,
+    588.6,
+    960.0,
+    620.1
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640.0,
+    402.01,
+    1116.55
+   ]
+  },
+  {
+   "scene": "ch01",
+   "shot": 2,
+   "rect": [
+    794,
+    561,
+    208,
+    44
+   ],
+   "frames": [
+    2,
+    null
+   ],
+   "out": [
+    26.209,
+    28.409
+   ],
+   "frame_pointer": "input/new-ui/A1-select-files/frame-000002.jpg",
+   "out_rect_px": [
+    1191.8,
+    704.6,
+    1505.0,
+    770.9
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640.0,
+    421.09,
+    1062.79
+   ]
+  },
+  {
+   "scene": "ch01",
+   "shot": 3,
+   "rect": [
+    172,
+    200,
+    270,
+    26
+   ],
+   "frames": [
+    2,
+    65
+   ],
+   "out": [
+    28.4732,
+    29.7232
+   ],
+   "frame_pointer": "input/new-ui/A2-start-and-process/frame-000002.jpg",
+   "out_rect_px": [
+    291.4,
+    208.3,
+    677.1,
+    245.4
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640.0,
+    400.0,
+    1120.01
+   ]
+  },
+  {
+   "scene": "ch01",
+   "shot": 4,
+   "rect": [
+    260,
+    465,
+    204,
+    22
+   ],
+   "frames": [
+    81,
+    null
+   ],
+   "out": [
+    32.4399,
+    36.065
+   ],
+   "frame_pointer": "input/new-ui/A2-start-and-process/frame-000081.jpg",
+   "out_rect_px": [
+    469.3,
+    615.2,
+    732.7,
+    643.6
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640.0,
+    371.15,
+    1239.11
+   ]
+  },
+  {
+   "scene": "ch01",
+   "shot": 8,
+   "rect": [
+    1034,
+    210,
+    62,
+    54
+   ],
+   "frames": [
+    0,
+    null
+   ],
+   "out": [
+    42.4995,
+    46.5995
+   ],
+   "frame_pointer": "input/new-ui/A5-completed/frame-000000.jpg",
+   "out_rect_px": [
+    1452.5,
+    306.5,
+    1530.0,
+    374.0
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    360,
+    1280
+   ]
+  },
+  {
+   "scene": "ch01",
+   "shot": 8,
+   "rect": [
+    172,
+    656,
+    610,
+    22
+   ],
+   "frames": [
+    0,
+    null
+   ],
+   "out": [
+    43.3995,
+    46.5995
+   ],
+   "frame_pointer": "input/new-ui/A5-completed/frame-000000.jpg",
+   "out_rect_px": [
+    375.0,
+    864.0,
+    1137.5,
+    891.5
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    360,
+    1280
+   ]
+  },
+  {
+   "scene": "ch01",
+   "shot": 8,
+   "rect": [
+    172,
+    687,
+    152,
+    33
+   ],
+   "frames": [
+    0,
+    null
+   ],
+   "out": [
+    44.1995,
+    46.5995
+   ],
+   "frame_pointer": "input/new-ui/A5-completed/frame-000000.jpg",
+   "out_rect_px": [
+    375.0,
+    902.8,
+    565.0,
+    944.0
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    360,
+    1280
+   ]
+  },
+  {
+   "scene": "ch02",
+   "shot": 9,
+   "rect": [
+    24,
+    244,
+    1216,
+    46
+   ],
+   "frames": [
+    7,
+    null
+   ],
+   "out": [
+    47.1665,
+    51.0665
+   ],
+   "frame_pointer": "input/new-ui/02-results/frame-000007.jpg",
+   "out_rect_px": [
+    190.0,
+    349.0,
+    1710.0,
+    406.5
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    360,
+    1280
+   ]
+  },
+  {
+   "scene": "ch02",
+   "shot": 11,
+   "rect": [
+    1028,
+    116,
+    134,
+    40
+   ],
+   "frames": [
+    1,
+    null
+   ],
+   "out": [
+    52.2911,
+    55.5911
+   ],
+   "frame_pointer": "input/new-ui/10-zoom-scale/frame-000001.jpg",
+   "out_rect_px": [
+    1445.0,
+    189.0,
+    1612.5,
+    239.0
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    360,
+    1280
+   ]
+  },
+  {
+   "scene": "ch02",
+   "shot": 12,
+   "rect": [
+    184,
+    440,
+    812,
+    280
+   ],
+   "frames": [
+    3,
+    null
+   ],
+   "out": [
+    56.281,
+    59.081
+   ],
+   "frame_pointer": "input/new-ui/11-read-text/frame-000003.jpg",
+   "out_rect_px": [
+    334.6,
+    537.2,
+    1514.3,
+    944.0
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    614.46,
+    410.27,
+    1101.25
+   ]
+  },
+  {
+   "scene": "ch03",
+   "shot": 13,
+   "rect": [
+    1032,
+    364,
+    192,
+    72
+   ],
+   "frames": [
+    2,
+    4
+   ],
+   "out": [
+    59.281,
+    60.881
+   ],
+   "frame_pointer": "input/new-ui/03-open-account/frame-000002.jpg",
+   "out_rect_px": [
+    1399.3,
+    426.2,
+    1678.5,
+    530.9
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    730.0,
+    410.62,
+    1100
+   ]
+  },
+  {
+   "scene": "ch03",
+   "shot": 15,
+   "rect": [
+    379,
+    384,
+    247,
+    42
+   ],
+   "frames": [
+    1,
+    null
+   ],
+   "out": [
+    63.0801,
+    64.3801
+   ],
+   "frame_pointer": "input/new-ui/04-select-category/frame-000001.jpg",
+   "out_rect_px": [
+    583.8,
+    463.7,
+    939.8,
+    524.3
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    405,
+    1110
+   ]
+  },
+  {
+   "scene": "ch03",
+   "shot": 16,
+   "rect": [
+    379.5,
+    370.390625,
+    245,
+    40
+   ],
+   "frames": [
+    1,
+    null
+   ],
+   "out": [
+    64.4039,
+    66.8039
+   ],
+   "frame_pointer": "input/new-ui/05-select-account/frame-000001.jpg",
+   "out_rect_px": [
+    584.5,
+    444.1,
+    937.7,
+    501.8
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    405,
+    1110
+   ]
+  },
+  {
+   "scene": "ch03",
+   "shot": 16,
+   "rect": [
+    640.5,
+    372.390625,
+    195,
+    40
+   ],
+   "frames": [
+    1,
+    null
+   ],
+   "out": [
+    64.8039,
+    66.8039
+   ],
+   "frame_pointer": "input/new-ui/05-select-account/frame-000001.jpg",
+   "out_rect_px": [
+    960.7,
+    447.0,
+    1241.8,
+    504.7
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    405,
+    1110
+   ]
+  },
+  {
+   "scene": "ch03",
+   "shot": 17,
+   "rect": [
+    840,
+    394,
+    44,
+    44
+   ],
+   "frames": [
+    3,
+    null
+   ],
+   "out": [
+    66.864,
+    70.064
+   ],
+   "frame_pointer": "input/new-ui/06-favorite-on/frame-000003.jpg",
+   "out_rect_px": [
+    1248.3,
+    478.1,
+    1311.7,
+    541.6
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    405,
+    1110
+   ]
+  },
+  {
+   "scene": "ch03",
+   "shot": 17,
+   "rect": [
+    378,
+    316,
+    96,
+    36
+   ],
+   "frames": [
+    3,
+    null
+   ],
+   "out": [
+    67.214,
+    70.064
+   ],
+   "frame_pointer": "input/new-ui/06-favorite-on/frame-000003.jpg",
+   "out_rect_px": [
+    582.3,
+    365.7,
+    720.7,
+    417.6
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    405,
+    1110
+   ]
+  },
+  {
+   "scene": "ch03",
+   "shot": 17,
+   "rect": [
+    500,
+    654,
+    264,
+    38
+   ],
+   "frames": [
+    3,
+    null
+   ],
+   "out": [
+    67.564,
+    70.064
+   ],
+   "frame_pointer": "input/new-ui/06-favorite-on/frame-000003.jpg",
+   "out_rect_px": [
+    758.2,
+    852.9,
+    1138.7,
+    907.7
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    405,
+    1110
+   ]
+  },
+  {
+   "scene": "ch03",
+   "shot": 18,
+   "rect": [
+    841.5,
+    370.390625,
+    44,
+    44
+   ],
+   "frames": [
+    2,
+    null
+   ],
+   "out": [
+    71.0171,
+    74.0171
+   ],
+   "frame_pointer": "input/new-ui/07-favorite-off/frame-000002.jpg",
+   "out_rect_px": [
+    1250.5,
+    444.1,
+    1313.9,
+    507.5
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    405,
+    1110
+   ]
+  },
+  {
+   "scene": "ch03",
+   "shot": 18,
+   "rect": [
+    502,
+    652,
+    262,
+    44
+   ],
+   "frames": [
+    2,
+    null
+   ],
+   "out": [
+    71.4171,
+    74.0171
+   ],
+   "frame_pointer": "input/new-ui/07-favorite-off/frame-000002.jpg",
+   "out_rect_px": [
+    761.1,
+    850.0,
+    1138.7,
+    913.5
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    405,
+    1110
+   ]
+  },
+  {
+   "scene": "ch03",
+   "shot": 19,
+   "rect": [
+    1032,
+    364,
+    192,
+    72
+   ],
+   "frames": [
+    3,
+    null
+   ],
+   "out": [
+    74.319,
+    77.819
+   ],
+   "frame_pointer": "input/new-ui/08-save-account/frame-000003.jpg",
+   "out_rect_px": [
+    1399.6,
+    426.6,
+    1678.6,
+    531.3
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    729.51,
+    410.35,
+    1100.99
+   ]
+  },
+  {
+   "scene": "ch03",
+   "shot": 19,
+   "rect": [
+    487,
+    652,
+    292,
+    44
+   ],
+   "frames": [
+    3,
+    null
+   ],
+   "out": [
+    74.619,
+    77.819
+   ],
+   "frame_pointer": "input/new-ui/08-save-account/frame-000003.jpg",
+   "out_rect_px": [
+    606.5,
+    845.1,
+    1031.3,
+    909.1
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    730.0,
+    410.62,
+    1100
+   ]
+  },
+  {
+   "scene": "ch04",
+   "shot": 23,
+   "rect": [
+    223.5,
+    447.25,
+    24,
+    24
+   ],
+   "frames": [
+    3,
+    null
+   ],
+   "out": [
+    87.7076,
+    91.3076
+   ],
+   "frame_pointer": "input/new-ui/16-review-check/frame-000003.jpg",
+   "out_rect_px": [
+    293.6,
+    601.6,
+    332.0,
+    640.0
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    380,
+    1000
+   ]
+  },
+  {
+   "scene": "ch04",
+   "shot": 23,
+   "rect": [
+    228,
+    485,
+    188,
+    44
+   ],
+   "frames": [
+    3,
+    null
+   ],
+   "out": [
+    88.2076,
+    91.3076
+   ],
+   "frame_pointer": "input/new-ui/16-review-check/frame-000003.jpg",
+   "out_rect_px": [
+    300.8,
+    662.0,
+    601.6,
+    732.4
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    380,
+    1000
+   ]
+  },
+  {
+   "scene": "ch04",
+   "shot": 24,
+   "rect": [
+    44,
+    620,
+    132,
+    22
+   ],
+   "frames": [
+    3,
+    3
+   ],
+   "out": [
+    91.4193,
+    91.4276
+   ],
+   "frame_pointer": "input/new-ui/17-confirm-row/frame-000003.jpg",
+   "out_rect_px": [
+    215.0,
+    819.0,
+    380.0,
+    846.5
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    360,
+    1280
+   ]
+  },
+  {
+   "scene": "ch04",
+   "shot": 24,
+   "rect": [
+    44,
+    702,
+    142,
+    20
+   ],
+   "frames": [
+    4,
+    null
+   ],
+   "out": [
+    91.4276,
+    96.3276
+   ],
+   "frame_pointer": "input/new-ui/17-confirm-row/frame-000004.jpg",
+   "out_rect_px": [
+    215.0,
+    921.5,
+    392.5,
+    946.5
+   ],
+   "inside_crop": false,
+   "cam_at_start": [
+    640,
+    360,
+    1280
+   ]
+  },
+  {
+   "scene": "ch04",
+   "shot": 24,
+   "rect": [
+    286,
+    14,
+    140,
+    28
+   ],
+   "frames": [
+    3,
+    null
+   ],
+   "out": [
+    91.8193,
+    96.3276
+   ],
+   "frame_pointer": "input/new-ui/17-confirm-row/frame-000003.jpg",
+   "out_rect_px": [
+    517.5,
+    61.5,
+    692.5,
+    96.5
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    360,
+    1280
+   ]
+  },
+  {
+   "scene": "ch05",
+   "shot": 26,
+   "rect": [
+    44,
+    450,
+    62,
+    22
+   ],
+   "frames": [
+    1,
+    null
+   ],
+   "out": [
+    100.3532,
+    103.6532
+   ],
+   "frame_pointer": "input/new-ui/20-csv-preview/frame-000001.jpg",
+   "out_rect_px": [
+    215.0,
+    606.5,
+    292.5,
+    634.0
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    360,
+    1280
+   ]
+  },
+  {
+   "scene": "ch05",
+   "shot": 26,
+   "rect": [
+    46,
+    566,
+    1176,
+    48
+   ],
+   "frames": [
+    1,
+    null
+   ],
+   "out": [
+    100.9532,
+    103.6532
+   ],
+   "frame_pointer": "input/new-ui/20-csv-preview/frame-000001.jpg",
+   "out_rect_px": [
+    217.5,
+    751.5,
+    1687.5,
+    811.5
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    360,
+    1280
+   ]
+  },
+  {
+   "scene": "ch05",
+   "shot": 27,
+   "rect": [
+    333,
+    651,
+    599,
+    45
+   ],
+   "frames": [
+    3,
+    null
+   ],
+   "out": [
+    104.3176,
+    107.9676
+   ],
+   "frame_pointer": "input/new-ui/21-download/frame-000003.jpg",
+   "out_rect_px": [
+    576.2,
+    857.8,
+    1325.0,
+    914.0
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    360,
+    1280
+   ]
+  },
+  {
+   "scene": "ch05",
+   "shot": 27,
+   "rect": [
+    44,
+    440,
+    300,
+    16
+   ],
+   "frames": [
+    4,
+    null
+   ],
+   "out": [
+    104.5676,
+    107.9676
+   ],
+   "frame_pointer": "input/new-ui/21-download/frame-000004.jpg",
+   "out_rect_px": [
+    215.0,
+    594.0,
+    590.0,
+    614.0
+   ],
+   "inside_crop": true,
+   "cam_at_start": [
+    640,
+    360,
+    1280
+   ]
+  }
+ ],
+ "capture_discontinuities": [
+  {
+   "before_shot_out_s": 24.6,
+   "chunk": "A1-select-files",
+   "note": "A0->A1 capture gap 2.0 s"
+  },
+  {
+   "before_shot_out_s": 28.409,
+   "chunk": "A2-start-and-process",
+   "note": "A1->A2 capture gap 9.3 s"
+  },
+  {
+   "before_shot_out_s": 39.3307,
+   "chunk": "A3-completion",
+   "note": "A2->A3 capture gap 44.8 s"
+  },
+  {
+   "before_shot_out_s": 40.3276,
+   "chunk": "A4-all-done",
+   "note": "A3->A4 capture gap 4.2 s"
+  },
+  {
+   "before_shot_out_s": 42.1995,
+   "chunk": "A5-completed",
+   "note": "A4->A5 capture gap 130.9 s: not recorded, completion of V044 is not shown"
+  }
+ ]
+}

@@ -1,0 +1,105 @@
+{
+ "frame_time_s": 10.0,
+ "items": [
+  {
+   "slot": "overview.stage1.label",
+   "text": "OCRで読み取り",
+   "first_s": 10.0,
+   "last_s": 10.0,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/43/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage1.sub",
+   "text": "画像から文字と数字を読み取り",
+   "first_s": 10.0,
+   "last_s": 10.0,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/44/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage2.label",
+   "text": "別のAIで科目候補",
+   "first_s": 10.0,
+   "last_s": 10.0,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/45/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage2.sub",
+   "text": "勘定科目の候補を提案",
+   "first_s": 10.0,
+   "last_s": 10.0,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/46/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage3.label",
+   "text": "原本と照合・修正",
+   "first_s": 10.0,
+   "last_s": 10.0,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/47/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage3.sub",
+   "text": "原本を見て候補を直す",
+   "first_s": 10.0,
+   "last_s": 10.0,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/48/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage4.label",
+   "text": "CSV出力",
+   "first_s": 10.0,
+   "last_s": 10.0,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/49/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage4.sub",
+   "text": "汎用CSVを作成",
+   "first_s": 10.0,
+   "last_s": 10.0,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/50/text",
+   "verbatim": true
+  },
+  {
+   "slot": "chapter.local.label",
+   "text": "ローカルPC上で処理",
+   "first_s": 10.0,
+   "last_s": 10.0,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/6/text",
+   "verbatim": true
+  },
+  {
+   "slot": "honesty.footage",
+   "text": "実画面録画 ・ 架空の領収書データ",
+   "first_s": 10.0,
+   "last_s": 10.0,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/4/text",
+   "verbatim": true
+  }
+ ]
+}
