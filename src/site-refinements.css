@@ -1,0 +1,48 @@
+/* Integration fixes verified against the existing specialist styles. */
+body[data-site-shell] .sy-dock { gap: 0; }
+body[data-site-shell] .sy-breadcrumb a,
+body[data-site-shell] .sy-breadcrumb [aria-current] { min-height: 2.75rem; }
+
+/* A card list inside a padded section must not add a second page gutter. */
+body[data-site-shell] .hub-band .hub-cards { padding-inline: 0; }
+
+body[data-site-shell].home .hub-card { position: relative; }
+body[data-site-shell].home .hub-card-topics { display: none; }
+body[data-site-shell].home .hub-card-fig svg { max-width: 10rem; }
+body[data-site-shell].home .hub-card-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+body[data-site-shell].home .hub-card:focus-within {
+  outline: 2px solid var(--hub-c, var(--sy-ink));
+  outline-offset: 3px;
+}
+
+/* Home presents three quick choices; the guide index carries the full topics. */
+@media (max-width: 599px) {
+  body[data-site-shell].home .hub-card {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    gap: 0 0.875rem;
+    padding: 1rem;
+  }
+  body[data-site-shell].home .hub-card-fig {
+    grid-column: 1;
+    grid-row: 1 / 5;
+    align-self: start;
+    padding: 0.25rem 0;
+    margin: 0;
+    border: 0;
+    background: transparent;
+  }
+  body[data-site-shell].home :is(.hub-card-eyebrow, .hub-card-title, .hub-card-goal, .hub-card-cta) { grid-column: 2; }
+  body[data-site-shell].home .hub-card-title { font-size: 1.125rem; }
+  body[data-site-shell].home .hub-card-goal { font-size: 0.875rem; line-height: 1.65; }
+  body[data-site-shell].home .hub-card-topics { display: none; }
+  body[data-site-shell].home .hub-card-cta {
+    margin-top: 0.25rem;
+    padding-top: 0.375rem;
+    font-size: 0.875rem;
+  }
+}

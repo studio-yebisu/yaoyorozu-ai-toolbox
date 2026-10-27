@@ -5,11 +5,12 @@ from pathlib import Path
 import shutil
 from catalog import build_catalog
 from social_cards import build_social_pages
+from site_structure import build_structure
 from case_presentation import project_cases
 
 ROOT = Path(__file__).resolve().parents[1]
 INTERNAL_SKILLS = {'studio-yebisu'}
-PUBLIC_GUIDES = {'ui-ux'}
+PUBLIC_GUIDES = {'ui-ux', 'slides', 'motion'}
 HISTORICAL_BRANDING_RECEIPTS = {'site-rebrand-20261022.json'}
 
 
@@ -58,7 +59,7 @@ def main():
     guides = target / 'guides'
     if guides.is_dir():
         for old_guide in guides.iterdir():
-            if old_guide.name not in PUBLIC_GUIDES:
+            if old_guide.name not in PUBLIC_GUIDES | {'index.html'}:
                 if not old_guide.resolve().is_relative_to(target.resolve()):
                     raise ValueError(f'Unexpected generated guide path: {old_guide}')
                 if old_guide.is_dir():
@@ -71,8 +72,9 @@ def main():
     for name in ('LICENSE', 'MEDIA-LICENSE.md', 'README.md'):
         if (ROOT / name).is_file():
             shutil.copy2(ROOT / name, target / name)
+    navigation_pages = build_structure(target, catalog)
     (target / '.nojekyll').touch()
-    print(f'Built {len(cases)} case(s) and {social_count} sharing pages -> {target}')
+    print(f'Built {len(cases)} case(s), {social_count} sharing pages and {navigation_pages} unified pages -> {target}')
 
 
 if __name__ == '__main__':

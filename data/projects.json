@@ -21,7 +21,8 @@
       "label": "AIスライド",
       "repository": "studio-yebisu/yaoyorozu-ai-toolbox-slides",
       "folder": "workspace/slides",
-      "url": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-slides/",
+      "url": "guides/slides/",
+      "media_url": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-slides/",
       "description": "原稿から、伝わる日本語資料へ。",
       "skills": [
         "project-local:skill-forks/<selected>/SKILL.md"
@@ -32,7 +33,8 @@
       "label": "モーション",
       "repository": "studio-yebisu/yaoyorozu-ai-toolbox-motion",
       "folder": "workspace/motion",
-      "url": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-motion/",
+      "url": "guides/motion/",
+      "media_url": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-motion/",
       "description": "文字と図形で、使い方を見せる。",
       "skills": [
         "motion-reel",

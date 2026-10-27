@@ -9,6 +9,7 @@ import subprocess
 import re
 from catalog import load_categories, model_entries
 from social_cards import check_social_pages
+from check_navigation import check_navigation
 from case_presentation import validate_presentation_aggregate
 from urllib.parse import unquote, urlsplit
 
@@ -164,7 +165,8 @@ def main():
     assert not forbidden, 'Private workspace leaked into publication'
     models_result = check_open_models(DIST)
     social_result = check_social_pages(DIST, cases)
-    print(json.dumps({'status': 'passed', 'catalog_entries': len(ids), 'categories': len(category_ids), 'curated_resources': sum(e.get('verification_stage') in ('source-reviewed', 'runtime-reviewed') for e in catalog['entries']), 'new_resources_with_examples': sum(e.get('verification_stage') == 'runtime-reviewed' for e in catalog['entries']), 'cases': len(cases), 'html_pages': len(list(DIST.rglob('*.html'))), **models_result, **social_result}, ensure_ascii=False))
+    navigation_result = check_navigation(DIST)
+    print(json.dumps({'status': 'passed', 'catalog_entries': len(ids), 'categories': len(category_ids), 'curated_resources': sum(e.get('verification_stage') in ('source-reviewed', 'runtime-reviewed') for e in catalog['entries']), 'new_resources_with_examples': sum(e.get('verification_stage') == 'runtime-reviewed' for e in catalog['entries']), 'cases': len(cases), 'html_pages': len(list(DIST.rglob('*.html'))), **models_result, **social_result, **navigation_result}, ensure_ascii=False))
 
 
 if __name__ == '__main__':

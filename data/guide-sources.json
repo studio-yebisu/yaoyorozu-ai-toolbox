@@ -1,0 +1,308 @@
+{
+  "motion": {
+    "repository": "studio-yebisu/yaoyorozu-ai-toolbox-motion",
+    "revision": "8495543646e0928727f146d356857e522fa1f057",
+    "media_base": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-motion/",
+    "scope": "public HTML, code assets and referenced runtime JSON; original media hosting retained",
+    "files": [
+      {
+        "path": "assets/favicon.svg",
+        "source_sha256": "5a8fa61b29fc948616515f6130dba81cf613e245d8dd1e9a070eab60c3d516db",
+        "integrated_sha256": "5a8fa61b29fc948616515f6130dba81cf613e245d8dd1e9a070eab60c3d516db"
+      },
+      {
+        "path": "assets/previews.css",
+        "source_sha256": "866f27b4b27cd7fa6e89f20c969d4f1aba964ebd4f1be1ff9760e78d4b41052d",
+        "integrated_sha256": "866f27b4b27cd7fa6e89f20c969d4f1aba964ebd4f1be1ff9760e78d4b41052d"
+      },
+      {
+        "path": "assets/previews.js",
+        "source_sha256": "4ff1aaf1bfec970d84c368004029c3f6f957310ca37dea613c9ee57e03233300",
+        "integrated_sha256": "4ff1aaf1bfec970d84c368004029c3f6f957310ca37dea613c9ee57e03233300"
+      },
+      {
+        "path": "assets/site.css",
+        "source_sha256": "fda9f91717a09b158428b927d8957ed4c2c2942e7ef5d3adc9ccfc2a9f2443b1",
+        "integrated_sha256": "fda9f91717a09b158428b927d8957ed4c2c2942e7ef5d3adc9ccfc2a9f2443b1"
+      },
+      {
+        "path": "assets/site.js",
+        "source_sha256": "164aceed86386ada469df75db8f8e70794120cdfb0aee70d423fcfab3b89d27d",
+        "integrated_sha256": "164aceed86386ada469df75db8f8e70794120cdfb0aee70d423fcfab3b89d27d"
+      },
+      {
+        "path": "data/motion-resources.json",
+        "source_sha256": "286866221c917b94fac4623ddab96d49c9472a803900155e0797c749d99b32ae",
+        "integrated_sha256": "1fdb0b2fa24c8a2f2d60cd7df21754d02e07b2d24bcbd0afabdd506821aabf00"
+      },
+      {
+        "path": "data/source-post-2109958757891346459.json",
+        "source_sha256": "2a472b73044a89b331102cb6e7c6599354957ad95d33520b69cacbc9dd0bc538",
+        "integrated_sha256": "2a472b73044a89b331102cb6e7c6599354957ad95d33520b69cacbc9dd0bc538"
+      },
+      {
+        "path": "guide.html",
+        "source_sha256": "b8c4f93bc946b2eb94d51f095d0cc63c27335a57f10a19d4cbe746b224cfb128",
+        "integrated_sha256": "da3be8ad431fc95d0c8b468f85e580464d50296c04649ee25771317e83426baa"
+      },
+      {
+        "path": "index.html",
+        "source_sha256": "b8d61a497fd41b8eb6277473ef8ac9eb255bb45122d4a12e02cad03c06551d71",
+        "integrated_sha256": "9530ddc48744dd1ff900de84e005c7ed6bc984065a28d7f82c66b3b709151572"
+      },
+      {
+        "path": "LICENSE",
+        "source_sha256": "d90f55562b9f84fed7da43692eca81aa1b012fda98623acc6f3b5a89b9b778dd",
+        "integrated_sha256": "d90f55562b9f84fed7da43692eca81aa1b012fda98623acc6f3b5a89b9b778dd"
+      },
+      {
+        "path": "projects.html",
+        "source_sha256": "91c2c82f93d8c2721bda01f5cc2cd91403811bd620b29a69f596b4c9f4b8a43d",
+        "integrated_sha256": "13677ebfaa54d28cc6a40f6d6d9bca87615bf87ee4d7f5130ea9d4f9d9cec549"
+      }
+    ]
+  },
+  "slides": {
+    "repository": "studio-yebisu/yaoyorozu-ai-toolbox-slides",
+    "revision": "52b14e98e895dbf98069f125dde52476fccd2252",
+    "media_base": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-slides/",
+    "scope": "public HTML, code assets and referenced runtime JSON; original media hosting retained",
+    "files": [
+      {
+        "path": "archive.html",
+        "source_sha256": "3cd42b8b2c0189c09b6ffed9a120eda7e26a65d220aa964ecb0d3a248a5636b2",
+        "integrated_sha256": "9e13351108ab8d2eba591cb4a7672af484ba377959c6a60697bf028b9be96982"
+      },
+      {
+        "path": "assets/banner.svg",
+        "source_sha256": "d26ec59135a790f04870891d62c07099baf51099db8fdc3498a22d522a58b218",
+        "integrated_sha256": "d26ec59135a790f04870891d62c07099baf51099db8fdc3498a22d522a58b218"
+      },
+      {
+        "path": "assets/case-editor.js",
+        "source_sha256": "c55819526d4834222d52bece0417dcc6f34d0c7809b16310c720c7f27f9c7bdf",
+        "integrated_sha256": "c55819526d4834222d52bece0417dcc6f34d0c7809b16310c720c7f27f9c7bdf"
+      },
+      {
+        "path": "assets/case-slides.css",
+        "source_sha256": "ad233a46b8cbc0ac6989f738c4115282ebba47a210d42cc59d1b890541ec3014",
+        "integrated_sha256": "ad233a46b8cbc0ac6989f738c4115282ebba47a210d42cc59d1b890541ec3014"
+      },
+      {
+        "path": "assets/case-studio.css",
+        "source_sha256": "7d80075aae3bdc265c02aa4e9d68b01993bdfc511582c7bf2b778796f4a97ba1",
+        "integrated_sha256": "7d80075aae3bdc265c02aa4e9d68b01993bdfc511582c7bf2b778796f4a97ba1"
+      },
+      {
+        "path": "assets/case-studio.mjs",
+        "source_sha256": "c8dac0967e6933f9bc47a62791b042c683fe8285eba282c5921d863f523d64e9",
+        "integrated_sha256": "c8dac0967e6933f9bc47a62791b042c683fe8285eba282c5921d863f523d64e9"
+      },
+      {
+        "path": "assets/case-units.mjs",
+        "source_sha256": "8da967ca47a8d879a00741b158c8b6a1bfded44c290610c60d3bade81ff399d6",
+        "integrated_sha256": "8da967ca47a8d879a00741b158c8b6a1bfded44c290610c60d3bade81ff399d6"
+      },
+      {
+        "path": "assets/catalog-studio.css",
+        "source_sha256": "b911cdfecc7f2465e12a5b8e684b00f5155df82f80355d1641ed1f1b1a1e7035",
+        "integrated_sha256": "b911cdfecc7f2465e12a5b8e684b00f5155df82f80355d1641ed1f1b1a1e7035"
+      },
+      {
+        "path": "assets/catalog-studio.mjs",
+        "source_sha256": "f588c91cace5b2834eb87c1b64bfc6d8296e663cf3ccac3fe1938425f7286574",
+        "integrated_sha256": "f588c91cace5b2834eb87c1b64bfc6d8296e663cf3ccac3fe1938425f7286574"
+      },
+      {
+        "path": "assets/catalog.css",
+        "source_sha256": "521de11ac5b00a4ea73abda017ebe95880a29b3ed94da2cf9ab07eac5c9aac3f",
+        "integrated_sha256": "521de11ac5b00a4ea73abda017ebe95880a29b3ed94da2cf9ab07eac5c9aac3f"
+      },
+      {
+        "path": "assets/catalog.js",
+        "source_sha256": "b87541eddcc919b30145e029b577a7b2014a282a5d04e772b870a95158781ba9",
+        "integrated_sha256": "b87541eddcc919b30145e029b577a7b2014a282a5d04e772b870a95158781ba9"
+      },
+      {
+        "path": "assets/download-name.mjs",
+        "source_sha256": "7736074fd26c9b93dbfb791b7bcb6cb3eea8dc88b45f681d10b4d53b40d03d93",
+        "integrated_sha256": "7736074fd26c9b93dbfb791b7bcb6cb3eea8dc88b45f681d10b4d53b40d03d93"
+      },
+      {
+        "path": "assets/font-atelier-files.css",
+        "source_sha256": "adfe3eacd01c565d52e3decb685ef877c26811ed793a34e36082e84d3468cbba",
+        "integrated_sha256": "33bfc87a7f8d45c0a840fe1a3be16fa671a810e37650d781ab44515ebb62cbde"
+      },
+      {
+        "path": "assets/font-atelier.css",
+        "source_sha256": "7da7d9062678dd50804445818e09c22457c9182a2a6a04b18e226af060ea4192",
+        "integrated_sha256": "7da7d9062678dd50804445818e09c22457c9182a2a6a04b18e226af060ea4192"
+      },
+      {
+        "path": "assets/font-atelier.mjs",
+        "source_sha256": "66cad3c6fb1d0f60fc69b59cba485895533d67da970a40ec7181cd8d9c90b373",
+        "integrated_sha256": "2a3276bd5f6b6d0458f0a2154f6e1d0a2d9856a451f9b709a73090c10bf78153"
+      },
+      {
+        "path": "assets/projects.css",
+        "source_sha256": "5073cf9a23c452695c5581d808e0f6d244580d90750ab17e515fb9752547d76a",
+        "integrated_sha256": "5073cf9a23c452695c5581d808e0f6d244580d90750ab17e515fb9752547d76a"
+      },
+      {
+        "path": "assets/projects.js",
+        "source_sha256": "655db1ecdf91eb8c0398ba3fcc1b225c6d42df725476d9a55e7d82ad3e34b4c6",
+        "integrated_sha256": "655db1ecdf91eb8c0398ba3fcc1b225c6d42df725476d9a55e7d82ad3e34b4c6"
+      },
+      {
+        "path": "assets/repository-detail.mjs",
+        "source_sha256": "819189dcedb0ca7736108ed13293ce4a374aa1463050fa458ef4dc9e43a9a836",
+        "integrated_sha256": "819189dcedb0ca7736108ed13293ce4a374aa1463050fa458ef4dc9e43a9a836"
+      },
+      {
+        "path": "assets/repository-studio.css",
+        "source_sha256": "3c932d511712af79da1f174601e31c176e7942de8151550fe61c7e4699b6ad70",
+        "integrated_sha256": "3c932d511712af79da1f174601e31c176e7942de8151550fe61c7e4699b6ad70"
+      },
+      {
+        "path": "assets/skill-effects.mjs",
+        "source_sha256": "7119788c831ff87e70bd5cc7f5ec6ac4519530c1af45c681e86cfc6b26a73327",
+        "integrated_sha256": "3928d09e1a93cf72cab04d945c426f1905d240f078139d50f0bb424a01437983"
+      },
+      {
+        "path": "assets/slide-renderer.mjs",
+        "source_sha256": "f764ce3e9dd7c3bed266c904f1917d37544d3a2d1a677a9f97da3d308aa890c4",
+        "integrated_sha256": "f764ce3e9dd7c3bed266c904f1917d37544d3a2d1a677a9f97da3d308aa890c4"
+      },
+      {
+        "path": "assets/studio-mark.svg",
+        "source_sha256": "dee071c07a14ae51e2cb1a7344db240ae48419c224622e98e1b2cc9871c16304",
+        "integrated_sha256": "dee071c07a14ae51e2cb1a7344db240ae48419c224622e98e1b2cc9871c16304"
+      },
+      {
+        "path": "assets/studio.css",
+        "source_sha256": "4a5a4dead6aad4961333045f51b857aafe36a1b6bf6879f4a26b7df721e274ee",
+        "integrated_sha256": "6ee9ff32a77dfd1ceabf93ca077f00074ae789f4880f4b8a87093a58d0bf9c92"
+      },
+      {
+        "path": "assets/studio.mjs",
+        "source_sha256": "3b45545727158805c1783bb4f3c0c79d20df15f4733a75e50b456c9aee39f0c7",
+        "integrated_sha256": "947a232ede4f13e2d074f9a145c5d071822990d4bfb528a27bda2f0a13683c17"
+      },
+      {
+        "path": "assets/yebisu-atelier.css",
+        "source_sha256": "0f4e2b71f2744a7f524cd6434d5effc30f066a4537a8a15e6651a2996e5dbc5e",
+        "integrated_sha256": "4c6c83d524b17fd50b6edc1878ceef4e2d6e79624c69afc089ab88ea34717322"
+      },
+      {
+        "path": "case.html",
+        "source_sha256": "4c1e4f6dc558dfae28720945f97817df72cc0da4a28b64045c0dcefa43723fe6",
+        "integrated_sha256": "18e34040f0520d8d7dfc628ddaeca66b55dd03e00753b30e3c3f53aa9f41a157"
+      },
+      {
+        "path": "data/case-studies.json",
+        "source_sha256": "dee7513d294df6014939c36fb690bdafc2795e79d2352171782253d4629f324e",
+        "integrated_sha256": "46b40a48aa50d54b70316dd2348abab50ac6dbf95f8b9c392eff130791e4b72b"
+      },
+      {
+        "path": "data/decks.json",
+        "source_sha256": "0317744c1322a56269e11a00ffef067f3f0cb2d331ab62a1183c837e0dde520e",
+        "integrated_sha256": "0317744c1322a56269e11a00ffef067f3f0cb2d331ab62a1183c837e0dde520e"
+      },
+      {
+        "path": "data/fonts.json",
+        "source_sha256": "07015d82b5a673c0f0098ac94e9723c001adddf3950e9c632bb20dcf1925017f",
+        "integrated_sha256": "78150a30bfd25d80838be4bbcdb9602738992da47b3f8cc63bfa5fe257081a70"
+      },
+      {
+        "path": "data/oss-font-kit.json",
+        "source_sha256": "aab65d0e2ac99c70b0f97a3da6e7d69f047a361b5bc501314eb7b3833e8d8530",
+        "integrated_sha256": "8966906a09472e587d2a176553aa658f1ba03621d20d8168722be830e73fd04c"
+      },
+      {
+        "path": "data/preset-fonts.json",
+        "source_sha256": "63810fbafbea9cd64e35098f3a0b486b5eaa3a61799c828980ba3c533f889610",
+        "integrated_sha256": "47e503b1127047ef15af2eb3c98820b96260d2d29207e3c156339b24237bf476"
+      },
+      {
+        "path": "data/previews.json",
+        "source_sha256": "b20f4533654ca090230d0786da89a7d0768fc29d7b3fefbf903a742e0cc65cb3",
+        "integrated_sha256": "41da6c07e7930f3defce369b05f1d21c9f1bbf17372dfc9820b151c5f01d2964"
+      },
+      {
+        "path": "data/product-collection.json",
+        "source_sha256": "4860ab2f7f42fdda432dd163b98058f7cb74ef8516a2fcae4a9ab959d5605846",
+        "integrated_sha256": "e3d944442bc3d3c7e77eb68a6359a7882ed7827fdebcd0aad98fe853d86ca9da"
+      },
+      {
+        "path": "data/project-workflows.json",
+        "source_sha256": "b429b80dbf3973ddd2d02586914119ca3843face893e8de8c006150bd61dc959",
+        "integrated_sha256": "1d22f80002a3555cf903e1be8911546746ac0bbb6ebe78a0f59b7daef7010b40"
+      },
+      {
+        "path": "data/refined-skills.json",
+        "source_sha256": "390753919d3e5217f97a2d49d8963d938245ee836bd0819e9ff433deead3764d",
+        "integrated_sha256": "390753919d3e5217f97a2d49d8963d938245ee836bd0819e9ff433deead3764d"
+      },
+      {
+        "path": "data/repository-guides.json",
+        "source_sha256": "80bbe5c24b074db9ec2fc2b06a492bfb485599a3635b95834711ea75883cdd8d",
+        "integrated_sha256": "e260a4bb4a47337bb3720b2e8c3a3a137e17593ef1ce980b2e93c72d26f4b684"
+      },
+      {
+        "path": "data/review-progress.json",
+        "source_sha256": "3dcfeb8e685d7bc3ca515f5b572530dfda5789fffa2cdba331a64ea794639216",
+        "integrated_sha256": "3dcfeb8e685d7bc3ca515f5b572530dfda5789fffa2cdba331a64ea794639216"
+      },
+      {
+        "path": "data/skill-effects.json",
+        "source_sha256": "63c91e3716dc4991cb9b265db3f2bde71307b4223d611baccdee6f05e16d7eef",
+        "integrated_sha256": "b329714efa92266971b8e8fc9e8072a244ffe09dd26ffea3a2dab36f51cc6385"
+      },
+      {
+        "path": "data/skills.json",
+        "source_sha256": "77bafa0e55cd22ba2806de9d5ee50d2eef049cbf35885a2a10c600297d285583",
+        "integrated_sha256": "77bafa0e55cd22ba2806de9d5ee50d2eef049cbf35885a2a10c600297d285583"
+      },
+      {
+        "path": "data/upstreams.json",
+        "source_sha256": "9bb26f6c731e6a68f5c5f7ae35217b6deea0db4667dcb059eac3fe43ebebb24f",
+        "integrated_sha256": "e7e83406a30728bdaedcd3830675eab5947c7b678572163a58d4b889c9a4f4f1"
+      },
+      {
+        "path": "guide.html",
+        "source_sha256": "fb6192b68e1a033cda7fa307d631a69006ef612b97a34d8fcd2dd9c537eb67aa",
+        "integrated_sha256": "d9435af01626ff011e737e1339c23d5628ad2a82977ddce6825b1a4a6cd61cf4"
+      },
+      {
+        "path": "index.html",
+        "source_sha256": "7d31d8a0121dbac41be633a6b9100426414e17531a2f19743977175b5f405878",
+        "integrated_sha256": "50d04b51846a48ee6f4efcdf71a46c6cbb468ae57596c60b7521f75d6eb2e659"
+      },
+      {
+        "path": "LICENSE",
+        "source_sha256": "3a426090b662b73bb5c03cb287dbb1a19523e7438ab1b44988a758610e24b971",
+        "integrated_sha256": "3a426090b662b73bb5c03cb287dbb1a19523e7438ab1b44988a758610e24b971"
+      },
+      {
+        "path": "licenses.html",
+        "source_sha256": "068b4d920df5c5f3edab2018a26883df9dc92b00651d436da0b6b3da2f2c4c40",
+        "integrated_sha256": "97abd59a297bfa4e7871684f0a760f55117260c98e92075b04a8f965cfe8ad0e"
+      },
+      {
+        "path": "projects.html",
+        "source_sha256": "66888737d8677a9dfd268a85e47353890b0fc5d58a4b17658059d062747cf35f",
+        "integrated_sha256": "4d33ca80724535eef32607119d54b511e5cde33c1c4dd62f7763ea629daa7e72"
+      },
+      {
+        "path": "repository.html",
+        "source_sha256": "b423487ec2493b822256dd85418b9d48d6c0ce3c4979d316e9015e101a880cce",
+        "integrated_sha256": "899bb773b13d25608fbf9e44aa67cf5162f19426bf6a1ae53787cd527038b2c1"
+      },
+      {
+        "path": "status.html",
+        "source_sha256": "8c91eca825f9b901b5c706539fc8740f7ec9c3b456a3da775d12c8388f8cbabf",
+        "integrated_sha256": "6de145408fbaee4b4dc7173c36ec97c5d97aeebf68be6ca1432cf842015b1b29"
+      }
+    ]
+  }
+}

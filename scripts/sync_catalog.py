@@ -72,11 +72,12 @@ def main():
             if category == 'motion':
                 preview = item.get('preview') or {}
                 files = preview.get('files', {})
+                media_base = project.get('media_url', project['url'])
                 entry.update(id='motion-' + item['id'], name=item['name'], kind='スキル' if 'スキル' in item['kind'] else 'ツール', summary=item['summary'], use_case=item['use_case'], tags=item.get('tags', []), license=item['license_label'], license_url=item['license_url'], source_url=item['readme_url'], guide_url=project['url'] + 'projects.html#' + item['id'], verification='既存ガイドの作例あり' if preview else '原典を確認', prompt=item.get('opus_relation', ''))
                 if files.get('webp'):
-                    entry['image'] = project['url'] + files['webp']['path']
+                    entry['image'] = media_base + files['webp']['path']
                 if files.get('mp4'):
-                    entry['example_url'] = project['url'] + files['mp4']['path']
+                    entry['example_url'] = media_base + files['mp4']['path']
             elif category == 'ui-ux':
                 entry.update(id='ui-ux-' + item['id'], name=item['name'], kind='ライブラリ' if item['kind'] == 'library' else 'スキル', summary=item['summary'], use_case=item['best_for'], tags=item.get('tags', []), license=item['license'], license_url=item['license_url'], source_url=item['source_url'], guide_url=project['url'] + '#' + item['id'], prompt=item.get('task_brief', ''), verification='制作デスクへ指針を適用' if item.get('application') else '原典を確認')
                 if item.get('application'):

@@ -1,0 +1,20 @@
+{
+  "navigation": [
+    {"id": "home", "label": "ホーム", "path": ""},
+    {"id": "guides", "label": "制作ガイド", "path": "guides/"},
+    {"id": "cases", "label": "作例を見る", "path": "#cases"},
+    {"id": "catalog", "label": "道具を探す", "path": "#catalog"}
+  ],
+  "guides": [
+    {"id": "motion", "label": "モーション", "title": "モーショングラフィック制作ガイド", "path": "guides/motion/", "start": "guides/motion/guide.html", "pages": ["index.html", "projects.html", "guide.html"], "description": "文字と図形を動かす。作例から制作の進め方を選ぶ。"},
+    {"id": "slides", "label": "AIスライド", "title": "AIスライド制作ガイド", "path": "guides/slides/", "start": "guides/slides/guide.html", "pages": ["index.html", "archive.html", "case.html", "guide.html", "licenses.html", "projects.html", "repository.html", "status.html"], "description": "伝える資料をつくる。効果と形式からスキルを選ぶ。"},
+    {"id": "ui-ux", "label": "UI・UX", "title": "UI・UX制作ガイド", "path": "guides/ui-ux/", "start": "guides/ui-ux/#choose", "pages": ["index.html"], "description": "見た目と操作を整える。目的から設計の手順を選ぶ。"}
+  ],
+  "information": [
+    {"label": "AIへの頼み方", "path": "#howto"},
+    {"label": "分野から探す", "path": "#fields"},
+    {"label": "OpenWeight", "path": "open-models.html"},
+    {"label": "動画の利用条件", "path": "media-rights.html"},
+    {"label": "サイトマップ", "path": "sitemap.html"}
+  ]
+}

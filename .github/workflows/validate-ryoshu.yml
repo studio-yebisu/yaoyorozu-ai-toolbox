@@ -26,6 +26,7 @@ jobs:
       - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
       - run: python -m unittest discover -s scripts -p 'test_case_presentation.py'
       - run: python -m unittest discover -s scripts -p 'test_production_records.py'
+      - run: python -m unittest discover -s scripts -p 'test_site_structure.py'
       - run: node --test services/likes/worker.test.mjs
       - run: python scripts/build.py
       - run: python scripts/check.py
