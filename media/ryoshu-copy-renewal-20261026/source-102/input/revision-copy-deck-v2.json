@@ -1,0 +1,21 @@
+{
+  "video": "promo-102s",
+  "items": [
+    {"slot":"overview.stage1.label","kind":"card","text":"OCRで読み取り","max_chars":8,"fact_ids":["TF-OCR"],"ui_quote":null},
+    {"slot":"overview.stage1.sub","kind":"caption","text":"画像から文字と数字を読み取り","max_chars":16,"fact_ids":["TF-OCR"],"ui_quote":null},
+    {"slot":"overview.stage2.label","kind":"card","text":"別のAIで科目候補","max_chars":10,"fact_ids":["TF-AI"],"ui_quote":null},
+    {"slot":"overview.stage2.sub","kind":"caption","text":"勘定科目の候補を提案","max_chars":16,"fact_ids":["TF-AI","TF-CAND"],"ui_quote":null},
+    {"slot":"overview.stage3.label","kind":"card","text":"原本と照合・修正","max_chars":8,"fact_ids":["TF-HUMAN"],"ui_quote":"5件を原本と照合"},
+    {"slot":"overview.stage3.sub","kind":"caption","text":"原本を見て候補を直す","max_chars":16,"fact_ids":["TF-HUMAN","TF-CAND"],"ui_quote":null},
+    {"slot":"overview.stage4.label","kind":"card","text":"CSV出力","max_chars":8,"fact_ids":["TF-CSV"],"ui_quote":null},
+    {"slot":"overview.stage4.sub","kind":"caption","text":"4形式のCSVを作成","max_chars":16,"fact_ids":["TF-CSV"],"ui_quote":null},
+    {"slot":"caption.03.star_add","kind":"caption","text":"選んだ科目を「よく使う科目」に追加","max_chars":26,"fact_ids":["TF-FAV"],"ui_quote":["事務用品費をよく使う科目に追加しました。","よく使う科目"]},
+    {"slot":"caption.03.saved","kind":"caption","text":"科目の変更を保存。明細は未確認に戻ります","max_chars":26,"fact_ids":["TF-UNCONF"],"ui_quote":["科目を保存しました。この明細は未確認です。","未確認"]},
+    {"slot":"chapter.04.label","kind":"card","text":"確認する","max_chars":6,"fact_ids":["TF-HUMAN"],"ui_quote":null},
+    {"slot":"caption.04.select","kind":"caption","text":"確認する明細を選び、まとめて開く","max_chars":26,"fact_ids":["TF-HUMAN"],"ui_quote":"選択した明細をまとめて確認（5件）"},
+    {"slot":"caption.04.review","kind":"caption","text":"1件ずつ原本と照合し、内容を確認して保存","max_chars":30,"fact_ids":["TF-HUMAN","TF-CAND"],"ui_quote":["5件を原本と照合","上記の原本と照合し、金額・勘定科目・用途・事業割合・支払元を自分で確認しました","確認して保存（最大5件）"]},
+    {"slot":"caption.04.confirmed","kind":"caption","text":"5件が確認済み。書き出す帳簿になります","max_chars":22,"fact_ids":["TF-HUMAN"],"ui_quote":"確認済み"},
+    {"slot":"chapter.05.number","kind":"card","text":"05","max_chars":4,"fact_ids":["TF-CSV"],"ui_quote":null},
+    {"slot":"chapter.05.label","kind":"card","text":"書き出す","max_chars":6,"fact_ids":["TF-CSV"],"ui_quote":null}
+  ]
+}

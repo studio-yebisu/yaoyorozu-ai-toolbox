@@ -1,0 +1,23 @@
+{
+  "python": ">=3.12 (verified with 3.12.15)",
+  "python_packages": {"Pillow": ">=10 (FreeType + variable font support)", "numpy": ">=1.26"},
+  "executables": {
+    "ffmpeg": "on PATH; needs libx264 and native aac encoders (verified with 8.1.2)",
+    "ffprobe": "on PATH"
+  },
+  "fonts": {
+    "note": "not bundled (proprietary/OS fonts); looked up by file name in C:/Windows/Fonts/ (common.FONTS)",
+    "required": [
+      {"file": "NotoSansJP-VF.ttf", "family": "Noto Sans JP (variable, wght axis)", "use": "all Japanese text",
+       "fallback": "any Noto Sans JP / Noto Sans CJK JP variable font with a wght axis; edit common.jp()"},
+      {"file": "bahnschrift.ttf", "family": "Bahnschrift (variable)", "use": "Latin product name, numbers, URL, brand",
+       "fallback": "any variable sans with named instances Bold/SemiBold; edit common.lat()"}
+    ]
+  },
+  "inputs": {
+    "lookup": "$RYOSHU_INPUT, else ./input, ../input, ../../input, ../../../input relative to this folder",
+    "required_in_input_folder": ["new-real-ui.mp4"],
+    "bundled_in_./input": ["studio-copy-deck.json", "promo-copy-deck.json", "preserved-legal-credit.json"]
+  },
+  "outputs": "$RYOSHU_OUT/deliver and $RYOSHU_OUT/build (default: the parent folder of this source folder)"
+}

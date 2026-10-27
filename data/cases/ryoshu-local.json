@@ -2,53 +2,54 @@
   "id": "ryoshu-local",
   "title": "Ryoshu",
   "title_lines": [
-    "領収書を、完全ローカルで整える。"
+    "領収書を、原本と照らして整える。"
   ],
   "category": "documents",
-  "summary": "領収書をまとめて読み取り、原本・文字数字・科目を見比べてCSVへ。結果一覧からカテゴリー→科目で選び直せます。外部AIを使わずPC内で動くWindowsアプリです。",
+  "summary": "領収書の読み取りと勘定科目の候補作りはローカルPC上。原本と候補を見比べて帳簿を整え、4形式のCSVへ書き出すWindowsアプリです。",
   "model": "claude-opus-5-5",
   "status": "published",
   "demo": "examples/ryoshu-local/index.html",
-  "video": "media/ryoshu-local-wide.mp4",
-  "poster": "media/ryoshu-local-wide.webp",
-  "video_landscape": "media/ryoshu-local-wide.mp4",
-  "poster_landscape": "media/ryoshu-local-wide.webp",
-  "video_portrait": "media/ryoshu-local.mp4",
-  "poster_portrait": "media/ryoshu-local.webp",
+  "video": "media/ryoshu-copy-renewal-20261026/ryoshu-promo-102s.mp4",
+  "video_primary": true,
+  "poster": "media/ryoshu-copy-renewal-20261026/ryoshu-promo-102s.poster.png",
+  "video_landscape": "media/ryoshu-copy-renewal-20261026/ryoshu-32s-wide.mp4",
+  "poster_landscape": "media/ryoshu-copy-renewal-20261026/ryoshu-32s-wide.webp",
+  "video_portrait": "media/ryoshu-copy-renewal-20261026/ryoshu-32s-portrait.mp4",
+  "poster_portrait": "media/ryoshu-copy-renewal-20261026/ryoshu-32s-portrait.webp",
   "video_width": 1920,
   "video_height": 1080,
   "skill": "examples/ryoshu-local/START.md",
   "skill_label": "Ryoshuの導入案内",
-  "skill_description": "公式の動作要件とセットアップへの入口",
+  "skill_description": "動作要件・初回準備・確認・CSV書き出しの手順",
   "skill_license": "examples/ryoshu-local/LICENSE",
   "samples": "examples/ryoshu-local/samples.json",
   "sample_format": "input-output",
-  "samples_title": "4件の原本と保存済み候補",
-  "samples_intro": "実際の100件検証から4件を抜き出した架空の原本と保存済み結果です。この紹介ページではOCRやAIは実行しません。V070は元の候補と手動補正を分けています。",
-  "demo_description": "PDFを入れて開始し、原本と候補を確認。科目はカテゴリーから選び直してCSVへ。v1.3.0の実100件と科目変更の実画面へ案内します。旧映像・4例はv0.4です。",
-  "demo_note": "画面と原本は架空データの保存済み実物です。Ryoshu本体は別のローカルアプリです。この紹介ページから領収書をアップロードする機能はありません。",
-  "request_intro": "Ryoshuを導入するときにAIのコーディングエージェントへ渡す依頼例です。先にモデルの利用条件を確認してください。",
-  "request": "RyoshuのREADME・動作要件・モデル利用条件を読み、Windowsで準備してください。Ollamaを導入し、Ryoshu.cmdから固定Pythonと依存・モデルを準備します。復元用パスワードは本人が安全な画面で設定します。PDFをまとめて選択・ドロップして開始し、画像・読み取った文字数字・科目を並べて確認してください。領収書を外部AIへ送らないでください。原本・金額・科目・用途は本人が確認し、税務上の最終判断は税理士へ。CSVの件数・借貸・形式を確かめて保存します。",
-  "video_note": "16:9・1920×1080、32秒・30fps・無音。Opus5.5が描画とタイムラインを執筆・修正しました。映像・保存済み4例はv0.4制作時点です。v1.0.0の実OCR・AI100件の再検証は別の記録へ掲載し、金額・円額未確定97/97（返金3件除外）、日付99/100、店名86/100、暫定科目47/48でした。 その後、公開版v1.0.0の配布ZIPで100枚すべてのOCR・科目判定を新規実行した記録を追加しました。 v1.1.0候補の暗号化・簡素化UIは映像に含めず、別の検証記録で案内します。 v1.2.0の税額・科目処理と新UIはこの旧映像には含まず、別の記録と実画面で案内します。 v1.3.0の科目変更・カテゴリー選択は旧映像に含まず、新しい実画面と検証記録で案内します。",
-  "video_source": "examples/ryoshu-local/video/index.html",
-  "updated_on": "2026-10-23",
+  "samples_title": "架空の原本4件と読み取り結果",
+  "samples_intro": "過去の100件検証から選んだ架空4件です。紹介ページは保存済み結果を表示するだけでOCR・AIを実行せず、V070では元の候補と利用者の補正を分けて示します。",
+  "demo_description": "ローカルPC上で読み取りと科目候補を作り、原本との照合から4形式のCSVまで進めます。今回の実画面とv1.3.0の100件記録を別々に案内します。",
+  "demo_note": "領収書はすべて架空です。Ryoshu本体はWindowsアプリで、この紹介ページに領収書をアップロードする機能はありません。",
+  "request_intro": "導入をコーディングエージェントへ依頼する例です。実行前に動作要件とモデルの利用条件を確認してください。",
+  "request": "RyoshuのREADME・動作要件・モデル利用条件を読み、Windows 11 64bitで準備してください。Ollamaを公式から導入し、初回準備で実行環境・依存・モデルを取得します。復元用パスワードは利用者が設定します。PDFや画像を取り込んだら、原本・読み取った内容・勘定科目の候補を見比べてください。領収書を外部AIへ送らないでください。読み取り結果と科目は候補なので、利用者が原本と照合し、税務上の最終判断は利用者と税理士が行います。CSVは件数・形式・プレビューを確かめて保存します。",
+  "video_note": "紹介動画の本編は102秒・30fps・音声付きで、実際の操作を録画した映像に表示文章を組み合わせた16:9・1920×1080の横版です。32秒の横版・縦版・クレジット付き版は別ファイルとして保持し、v0.4由来のCanvas図解も別ソースとして、本編のMP4の制作元とは区別します。",
+  "video_source": "media/ryoshu-copy-renewal-20261026/source-102/render.py",
+  "updated_on": "2026-10-27",
   "license_note": "ページ・映像ソースのコードはMIT、MP4はサイトのクレジット条件です。Ryoshuのモデル重み等の条件は別です。",
   "steps": [
     {
-      "title": "PDFを入れて開始",
-      "body": "ファイル・フォルダーを選択またはドロップし、読み取りを開始。"
+      "title": "領収書を取り込む",
+      "body": "PDF・画像を選択またはドロップし、読み取りを開始します。"
     },
     {
-      "title": "原本と候補を見比べる",
-      "body": "原本・文字数字・勘定科目を並べて確認。原本はクリックで拡大。"
+      "title": "原本と候補を照合する",
+      "body": "原本・読み取った内容・勘定科目を3列で確認し、原本は拡大できます。"
     },
     {
-      "title": "カテゴリーから科目を変更",
-      "body": "「科目を変更」からカテゴリー→科目を選び、変更を保存。初期の69科目から選べます。"
+      "title": "必要な箇所を直す",
+      "body": "科目名からカテゴリーと科目を選び直し、詳細も利用者が修正します。"
     },
     {
-      "title": "確認してCSVへ",
-      "body": "金額・用途・科目を確認し、汎用・freee・MFクラウド・弥生向けに出力。税務の最終判断は税理士へ。"
+      "title": "確認してCSVに書き出す",
+      "body": "4形式から選んで保存します。税務上の最終判断は利用者と税理士が行います。"
     }
   ],
   "limitations": [
@@ -58,13 +59,13 @@
     "v1.3は科目カテゴリーを保存するためDBをスキーマ3へ更新します。更新前に暗号化バックアップを保存してください。更新前の暗号化スナップショットを保存し、既存明細・仕訳・独自科目を保持します。更新したDBは旧アプリで開けません。旧版へ戻す場合は、更新前のバックアップを別の保存先へ復元してください。",
     "税額の別評価63件：印字税額51/52、空欄11/11。数値を期待した空欄1件、誤った数値0件。評価対象外の返金3件に残った税額候補は登録停止のままで、成功件数へ加えていません。 税額評価は返金3件と外貨2件を実行前から除外しています。 V013は553円が印字されていますが、税額ラベルを特定できず空欄でした。 事前期待値・対象外・個別差異は検証記録を確認してください。",
     "今回の科目操作・画面検査と100件の新規推論は別の検査です。実会計サービスへのCSV取込・法務審査は未実施です。",
-    "初回は実行環境・OCR重み・約2.5GBのQwenモデルを取得するネット接続が必要です。準備後のOCR・科目候補・CSV作成はPC内です。",
+    "初回準備では実行環境・依存・OCRモデル・約2.5GBのQwenモデルを取得するためネット接続が必要です。領収書の読み取り・科目候補・CSV作成はローカルPC上で行います。",
     "Windows11・64bitとOllamaを使用。Python3.12.15は自動準備します。GPU不要、最低RAM未測定。スマホ・LAN共有は対象外です。",
     "支出の経費帳と税込仕訳が対象。売上、口座照合、償却、決算・申告書、返金・外貨の仕訳は対象外です。",
     "v1.1.0ではDB・保存原本・バックアップを暗号化。書き出したCSV・原本は平文です。Windows鍵と復元用パスワードの両方が使えなくなると復元できません。",
     "v1.1.0時点のPython45依存の既知脆弱性照合は0件。SQLCipher同梱OpenSSL3.6.0には別の残存制約があり、静的到達範囲の評価は脆弱性全体の非該当証明ではありません。詳細を点検結果へ掲載します。",
     "アプリはMIT、Indra重みはmodified OpenRAIL-Mで事業規模・資金調達・競合用途等に制限があります。",
-    "Opus5.5制作の映像・4例の保存済みデータはv0.4の記録です。紹介ページの更新自体では映像や100件推論を生成せず、アプリ側の新規100件の記録を参照しています。"
+    "新102秒映像は、Opus5.5が映像・音声ソースを制作し、表示コピーはKimiが担当しています。実画面は2026-10-27 JSTにRyoshu 1.3.4を実操作し、既存の架空100件から5件（V007、V021、V044、V045、V001）を選んで実際にOCR/Qwen推論した録画です。4例の保存済みデータはv0.4の記録のままで、元の100件全体は再実行していません。"
   ],
   "sources": [
     {
@@ -160,7 +161,7 @@
     {
       "name": "Ryoshu（公式アプリ・保存済み結果）",
       "source": "https://github.com/studio-yebisu/ryoshu/tree/5b601be1a3fe3ebdb600d0a53c557917652a876d",
-      "applied": "v0.4の未確認帳簿→あとから確認の動作と新しい架空実画面を使用。元の100件の観測値はa163a295の回帰記録を保持し、今回再推論していません。"
+      "applied": "新102秒映像には、2026-10-27 JSTにRyoshu 1.3.4を実操作し、既存の架空100件から選んだ5件を実際にOCR/Qwen推論した画面を使用。1件の科目修正と星付けも実操作で記録しています。元の100件の観測値はa163a295の回帰記録を保持し、今回は5件だけを再推論し、100件全体は再実行していません。"
     },
     {
       "name": "Motion Reel",
@@ -179,11 +180,11 @@
   "catalog_entry": {
     "id": "app-ryoshu",
     "name": "Ryoshu",
-    "tagline": "外部AIへ送らず、領収書をCSVへ整えるWindowsアプリ",
+    "tagline": "領収書を原本と照らして帳簿とCSVへ整えるWindowsアプリ",
     "category": "documents",
     "kind": "ローカルアプリ",
-    "summary": "領収書をまとめて読み取り、原本・文字数字・科目を見比べてCSVへ。結果一覧からカテゴリー→科目で選び直せます。外部AIを使わずPC内で動くWindowsアプリです。",
-    "use_case": "領収書を外部OCR・LLMへ送らず、個人事業の支出を原本と比べて整理したいとき。",
+    "summary": "ローカルPC上で領収書を読み取り、勘定科目の候補を作成。原本と照合して帳簿を整え、4形式のCSVへ書き出します。",
+    "use_case": "領収書の画像や内容を外部AIへ送らず、個人事業の支出を自分の目で確かめながら整理したいとき。",
     "tags": [
       "領収書",
       "OCR",
@@ -192,15 +193,15 @@
       "CSV"
     ],
     "workflow": [
-      "PDF・画像を選択またはドロップして開始",
-      "原本・文字数字・科目を比較",
-      "科目を変更→カテゴリー→勘定科目→変更を保存",
-      "原本と確認して4形式のCSVへ"
+      "PDF・画像を選んで読み取りを開始",
+      "原本・読み取った内容・勘定科目の候補を照合",
+      "科目名からカテゴリーと科目を選び直す",
+      "利用者が確認して4形式のCSVに書き出す"
     ],
     "requirements": [
-      "Windows11・64bit・Ollama・日本語フォント。Python3.12.15は自動準備。",
-      "CPU実行・GPU不要、最低RAM未測定。スマホ・LAN共有は対象外。",
-      "初回のネット接続と数GBの保存領域、モデル利用条件の確認。"
+      "Windows 11 64bit、JavaScriptが使えるブラウザー、Ollama。",
+      "専用GPU不要、最低RAM未測定。スマホ・LAN共有は対象外。",
+      "初回準備のネット接続と数GB以上の空き容量、モデル利用条件の確認。"
     ],
     "license": "MIT（コード）／モデルは別条件",
     "license_url": "https://github.com/studio-yebisu/ryoshu/blob/e79394d7349efc15aadb2dc02f6fe381596b407d/LICENSE",
@@ -208,18 +209,18 @@
     "source_url": "https://github.com/studio-yebisu/ryoshu/tree/e79394d7349efc15aadb2dc02f6fe381596b407d",
     "guide_url": "case.html?id=ryoshu-local",
     "example_url": "examples/ryoshu-local/index.html",
-    "image": "media/ryoshu-local-wide.webp",
+    "image": "media/ryoshu-copy-renewal-20261026/ryoshu-promo-102s.poster.png",
     "readme_url": "https://github.com/studio-yebisu/ryoshu/blob/e79394d7349efc15aadb2dc02f6fe381596b407d/README.md",
     "source_repository": "studio-yebisu/ryoshu",
     "source_commit": "e79394d7349efc15aadb2dc02f6fe381596b407d",
     "source_path": "",
     "source_project": "curated",
-    "source_note": "v1.3.0の公開sourceを固定。74科目、選択可能69科目。新100件と科目変更操作は別記録。映像・4例はv0.4。",
-    "prompt": "RyoshuのREADME・動作要件・モデル利用条件を読み、Windowsで準備してください。Ollamaを導入し、Ryoshu.cmdから固定Pythonと依存・モデルを準備します。復元用パスワードは本人が安全な画面で設定します。PDFをまとめて選択・ドロップして開始し、画像・読み取った文字数字・科目を並べて確認してください。領収書を外部AIへ送らないでください。原本・金額・科目・用途は本人が確認し、税務上の最終判断は税理士へ。CSVの件数・借貸・形式を確かめて保存します。",
+    "source_note": "v1.3.0の公開sourceを固定。74科目、選択可能69科目。公開100件の検証記録は2026-10-23のv1.3.0のままで、今回の映像更新による新規100件検証ではない。科目変更操作は別記録。新102秒映像は2026-10-27 JSTのRyoshu 1.3.4実操作で、既存の架空100件から5件を実際にOCR/Qwen推論した録画を使用し、4例の保存済みデータはv0.4。",
+    "prompt": "RyoshuのREADME・動作要件・モデル利用条件を読み、Windows 11 64bitで準備してください。Ollamaを公式から導入し、初回準備で実行環境・依存・モデルを取得します。復元用パスワードは利用者が設定します。PDFや画像を取り込んだら、原本・読み取った内容・勘定科目の候補を見比べてください。領収書を外部AIへ送らないでください。読み取り結果と科目は候補なので、利用者が原本と照合し、税務上の最終判断は利用者と税理士が行います。CSVは件数・形式・プレビューを確かめて保存します。",
     "verification_stage": "runtime-reviewed",
     "verification": "新規100件：金額・円額未確定97/97（返金3件除外）、日付99/100、暫定科目44/48、科目/保留条件86/100。Python256、科目操作8・通常画面28・保護画面10・UX8項目。未見データの精度ではありません。",
     "reviewed_on": "2026-10-23"
   },
-  "video_download_portrait": "media/downloads/ryoshu-local-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/ryoshu-local-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/ryoshu-copy-renewal-20261026/ryoshu-32s-portrait-credited-ja.mp4",
+  "video_download_landscape": "media/ryoshu-copy-renewal-20261026/ryoshu-32s-wide-credited-ja.mp4"
 }

@@ -4,6 +4,7 @@ from pathlib import Path
 import shutil
 from catalog import build_catalog
 from social_cards import build_social_pages
+from case_presentation import project_cases
 
 ROOT = Path(__file__).resolve().parents[1]
 INTERNAL_SKILLS = {'studio-yebisu'}
@@ -28,7 +29,7 @@ def main():
                 raise ValueError(f'Unexpected publication path: {private_copy}')
             shutil.rmtree(private_copy)
     cases = [json.loads(p.read_text('utf-8')) for p in sorted((ROOT / 'data/cases').glob('*.json'))]
-    (ROOT / 'data/cases.json').write_text(json.dumps({'cases': cases}, ensure_ascii=False, indent=2) + '\n', 'utf-8')
+    (ROOT / 'data/cases.json').write_text(json.dumps({'cases': project_cases(cases)}, ensure_ascii=False, indent=2) + '\n', 'utf-8')
     for p in (ROOT / 'src').rglob('*'):
         if p.is_file():
             dest = target / p.relative_to(ROOT / 'src')
