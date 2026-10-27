@@ -26,3 +26,7 @@
 .saved-filter-count { font-variant-numeric: tabular-nums; }
 .saved-note { font-size: .75rem; color: var(--ink-soft); }
 @media (hover: hover) { .item-action:hover:not(:disabled) { border-color: currentColor; background: #17150f07; } }
+@media (max-width: 359px) {
+  .item-actions { gap: .25rem; }
+  .item-actions .like-button, .item-actions .item-save { column-gap: .25rem; padding-inline: .3125rem; }
+}
