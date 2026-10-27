@@ -181,8 +181,8 @@
       "url": "examples/openhands-example/verification.json"
     },
     {
-      "label": "映像の8素材とハッシュ",
-      "url": "examples/openhands-example/video/assets/data-hashes.json"
+      "label": "映像の7素材とハッシュ",
+      "url": "examples/openhands-example/video/assets/manifest.json"
     },
     {
       "label": "入力・実装・映像ソース一式",
@@ -206,7 +206,7 @@
   "video_note": "33秒・無音。大きな概念図と短いラベルで使い方を説明します。音声ガイドはありません。縦版を主に、横版も用意しました。",
   "video_source": "examples/openhands-example/video/index.html",
   "skill_license": "examples/openhands-example/vendor/openhands/LICENSE",
-  "updated_on": "2026-10-21",
+  "updated_on": "2026-10-22",
   "verification_stage": "runtime-reviewed",
   "runtime_review": {
     "status": "technical_qa_complete",

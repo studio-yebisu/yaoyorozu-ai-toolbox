@@ -10,7 +10,7 @@
       "line_start": 16,
       "quote": "1. For a whole screen, start from a block under Blocks when one fits: install it, then swap its sample data and copy for the real ones.",
       "meaning": "必要な部品と資料を選び、指示書の8手順と全体規則を同じ作者AIが読む。",
-      "source_url": "https://github.com/arla6ka/skills/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md#L16"
+      "source_url": "https://github.com/arla6ka/design.how/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md#L16"
     },
     {
       "id": "scope",
@@ -19,7 +19,7 @@
       "line_start": 11,
       "quote": "Once, in the root layout: put the \"quartz\" class on `<body>` or the root element of the UI, with `QuartzPortalProvider` inside it. Quartz's styles and tokens apply only inside that class.",
       "meaning": "body.quartzがトークンの範囲を作り、QuartzPortalProviderがオーバーレイをその範囲に保つ。",
-      "source_url": "https://github.com/arla6ka/skills/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md#L11"
+      "source_url": "https://github.com/arla6ka/design.how/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md#L11"
     },
     {
       "id": "tokens",
@@ -28,7 +28,7 @@
       "line_start": 40,
       "quote": "3. quartz-tokens-only MUST Reference tokens by role; never hex, rgb or arbitrary px. Because a raw value keeps its light-theme color in the dark theme and drifts off the spacing scale.",
       "meaning": "生の色や寸法でなく役割のあるトークンを参照。白黒を基調にし、暖色は警告と失敗に限定する。",
-      "source_url": "https://github.com/arla6ka/skills/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md#L40"
+      "source_url": "https://github.com/arla6ka/design.how/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md#L40"
     },
     {
       "id": "components",
@@ -37,7 +37,7 @@
       "line_start": 34,
       "quote": "1. quartz-components-first MUST Use a component from this system before writing custom markup. Because hand-built markup skips the component's focus ring, keyboard handling and states, which people notice one at a time.",
       "meaning": "元のReact実装はTimeline/Status/JsonView/Button/DataList/SegmentedControl/Badge/PageHeaderの8部品を直接import。",
-      "source_url": "https://github.com/arla6ka/skills/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md#L34"
+      "source_url": "https://github.com/arla6ka/design.how/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md#L34"
     },
     {
       "id": "selection",
@@ -55,7 +55,7 @@
       "line_start": 23,
       "quote": "8. Review before you finish: run the lint and fix every error, then render the screen at 390 and 1280 wide, check it against the global rules and the anti-slop list, fix the worst defect, and check again. Done when no MUST or NEVER is broken and no raw color, size or font is left. Run ui-review when it is installed.",
       "meaning": "作者の執筆とは別に制作担当がlint/ビルドと390/1280pxの操作を確認した。新図への検査や人の承認とは区別する。",
-      "source_url": "https://github.com/arla6ka/skills/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md#L23"
+      "source_url": "https://github.com/arla6ka/design.how/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md#L23"
     }
   ],
   "parts_scope": "6部品は説明用整理で原典の共通スキーマではない。",

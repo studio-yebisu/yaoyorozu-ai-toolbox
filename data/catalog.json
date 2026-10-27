@@ -1317,8 +1317,8 @@
         "html"
       ],
       "license": "MIT",
-      "license_url": "https://github.com/kimsh-1/deck-factory",
-      "source_url": "https://github.com/kimsh-1/deck-factory/tree/11d456351763b0efbc2a4989da688334f709dd9b",
+      "license_url": "https://github.com/gongnyang/deck-factory",
+      "source_url": "https://github.com/gongnyang/deck-factory/tree/11d456351763b0efbc2a4989da688334f709dd9b",
       "guide_url": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-slides/",
       "prompt": "後続のCodex修復依頼：原典方式を保ち、Opusの個別指摘に沿って本文・図・改行・手順を直す。現在版を再生成し、原典の実行可能な検査、全頁と動き/操作の証拠、配布ZIPをそろえる。独立再評価と未実施は別記する。初回の限定確認指示を現行QA範囲へ流用しない。",
       "verification": "日本語の作例を制作。統合版は表紙と依頼文を掲載",
@@ -2413,7 +2413,7 @@
         "利用条件あり"
       ],
       "license": "GSAP独自ライセンス",
-      "license_url": "https://gsap.com/community/standard-license/",
+      "license_url": "https://webflow.com/legal/product-terms",
       "source_url": "https://github.com/greensock/GSAP/blob/13e2b790546426a1a2e0e9b409f3f8dc6d6611f2/README.md",
       "guide_url": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-motion/projects.html#gsap",
       "verification": "既存ガイドの作例あり",

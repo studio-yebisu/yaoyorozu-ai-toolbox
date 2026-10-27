@@ -23,7 +23,7 @@
   "applied_skills": [
     {
       "name": "Quartz",
-      "source": "https://github.com/arla6ka/skills/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md",
+      "source": "https://github.com/arla6ka/design.how/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md",
       "applied": "固定版のSKILL.mdの全体ルールとAnti-slop、Timeline・JSON view・Status・Button・Badge・Data list・Segmented control・Panelの資料、PageHeaderのコードを読んでから組んだ。body に quartz クラスと QuartzPortalProvider、部品は vendor/quartz/ui の実物を直接読み込み、作例側のCSSは Tailwind と Quartz の styles.css の読み込みだけにした。Timelineは資料の規則どおりPanelに入れず白い作業面のまま置き、時間はミリ秒で渡して単位の選択を部品に任せた。待機中の段は status=\"waiting\" と短い待ちの言葉、失敗は失敗の段だけに付けた。JSON viewには段の名前を付けた label を渡し、10行未満の出力なので toolbar を外した。状態は色ではなく Status の言葉で書き、一画面に塗りの主ボタンを置かず、保存は secondary のボタンにした。"
     },
     {
@@ -35,7 +35,7 @@
   "steps": [
     {
       "title": "原典を固定する",
-      "body": "Xの投稿（2026-10-14）は発見元として扱い、作者の公式GitHub arla6ka/skills のコミット 1aaaa1b47ba5 で、Quartz の SKILL.md・部品のコード・MIT License を確かめました。作例には、使う部品と依存ファイルだけをこの固定版から置いています。"
+      "body": "Xの投稿（2026-10-14）は発見元として扱い、作者の公式GitHub arla6ka/design.how のコミット 1aaaa1b47ba5 で、Quartz の SKILL.md・部品のコード・MIT License を確かめました。作例には、使う部品と依存ファイルだけをこの固定版から置いています。"
     },
     {
       "title": "SKILL.mdと部品の資料を読む",
@@ -70,12 +70,12 @@
   ],
   "sources": [
     {
-      "label": "Quartz SKILL.md（arla6ka/skills、固定版）",
-      "url": "https://github.com/arla6ka/skills/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md"
+      "label": "Quartz SKILL.md（arla6ka/design.how、固定版）",
+      "url": "https://github.com/arla6ka/design.how/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md"
     },
     {
       "label": "Quartz の部品とトークンのコード（固定版）",
-      "url": "https://github.com/arla6ka/skills/tree/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz"
+      "url": "https://github.com/arla6ka/design.how/tree/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz"
     },
     {
       "label": "Quartz LICENSE（MIT、固定版から作例に同梱）",
@@ -137,8 +137,8 @@
       "ダッシュボード"
     ],
     "license": "MIT",
-    "license_url": "https://github.com/arla6ka/skills/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/LICENSE",
-    "source_url": "https://github.com/arla6ka/skills/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md",
+    "license_url": "https://github.com/arla6ka/design.how/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/LICENSE",
+    "source_url": "https://github.com/arla6ka/design.how/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md",
     "guide_url": "case.html?id=quartz-agent-console",
     "example_url": "examples/quartz-agent-console/index.html",
     "image": "media/quartz-agent-console.webp",
@@ -148,7 +148,7 @@
     "verification_stage": "runtime-reviewed",
     "source_commit": "1aaaa1b47ba5a18b47b0ebcac684ade460c6823f"
   },
-  "updated_on": "2026-10-21",
+  "updated_on": "2026-10-22",
   "title_lines": [
     "AIの管理画面を作るデザインシステム"
   ],

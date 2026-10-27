@@ -90,7 +90,7 @@
     },
     {
       "label": "原典READMEのDemoリンク（移転元）",
-      "url": "https://huggingface.co/spaces/hugging-apps/ming-image-0-1-design-demo"
+      "url": "https://huggingface.co/spaces/inclusionAI/ming-image-0-1-design-demo"
     },
     {
       "label": "実際に動いた公開Space（固定 367085c・別実装）",
@@ -190,7 +190,7 @@
   "skill_license": "examples/ming-image-design-example/vendor/ming/LICENSE",
   "video_note": "32秒・30fps・無音の構造図の動画です。音声トラック・ナレーションはありません。縦720×1280と横1280×720を別の配置で描きます。原典と架空の依頼が作者AIのpromptとクライアントになり、制作担当が公開デモへ1回送り、モデルの中でpromptと256個のqueryの枠が1回読まれ、queryの道と直接の道の2本の条件に分かれて合流し、seed固定のノイズが12回更新されて4チャンネルのVAEを通り、実際のPNGに戻って、字形とαの確認から保存へ進みます。画像は照合した実際のPNG 1枚だけで、図の中に最初から映っています。粒・枠・目盛り・四角と時間の表示は説明の形で、測った内部の値や途中の画像ではありません。制作担当が320/375pxの1例×3段階6状態（全図と44px主操作）、6部品と原典6引用、16表示条件、字形の注意・背景/拡大/リセット、3破損条件での両画面の停止と復旧、3保存要求と返却3ファイルの全バイト一致、編集20素材/7場面/縦横14状態/任意7.2秒/向き保持/ネイティブrange0.1秒/通常32秒、代表/連続/contactと実MP4の移動、縦横32秒960f無音MP4の全デコードと自然終端、最終ソース62PNG一致と30/31秒静止を新しく確認しました。実機iOS/Safari/VoiceOver・200%拡大、人の審美的承認、字形完全一致・印刷適性・全入力・性能は未確認です。",
   "video_source": "examples/ming-image-design-example/video/index.html",
-  "updated_on": "2026-10-21",
+  "updated_on": "2026-10-22",
   "featured": false,
   "verification_stage": "runtime-reviewed",
   "runtime_review": {

@@ -111,6 +111,9 @@ def main():
         assert proof.get('artifacts_sha256'), 'Resource artifact hashes missing'
         check_production_artifacts(DIST, case, proof_path, proof)
     for case in cases:
+        for source in case.get('sources', []):
+            if source.get('url'):
+                local_file(source['url'])
         assert case['video_license']['id'] == 'LicenseRef-Yaoyorozu-Video-Credit', 'Video reuse conditions missing'
         assert case['video_license']['x_mention'] == '@studio_yebisu', 'Mandatory X attribution missing'
         local_file(case['video_license']['url'])

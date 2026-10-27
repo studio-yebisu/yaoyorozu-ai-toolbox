@@ -11,6 +11,30 @@ from workspace import repository_path
 
 ROOT = Path(__file__).resolve().parents[1]
 
+# Keep imported source links current without changing stable catalog IDs or pins.
+SOURCE_URL_UPDATES = {
+    'https://github.com/bherbruck/solidcraft': 'https://github.com/tangency-labs/solidcraft',
+    'https://github.com/arla6ka/skills': 'https://github.com/arla6ka/design.how',
+    'https://github.com/kimsh-1/deck-factory': 'https://github.com/gongnyang/deck-factory',
+    'https://huggingface.co/spaces/hugging-apps/ming-image-0-1-design-demo': 'https://huggingface.co/spaces/inclusionAI/ming-image-0-1-design-demo',
+    'https://gsap.com/community/standard-license/': 'https://webflow.com/legal/product-terms',
+}
+
+
+def update_source_links(entry):
+    for key in ('source_url', 'license_url', 'readme_url'):
+        value = entry.get(key)
+        if not value:
+            continue
+        for old, current in SOURCE_URL_UPDATES.items():
+            if value.rstrip('/') == old.rstrip('/'):
+                entry[key] = current
+                break
+            if value.startswith(old.rstrip('/') + '/'):
+                entry[key] = current.rstrip('/') + value[len(old.rstrip('/')):]
+                break
+    return entry
+
 
 def write(path, value):
     target = ROOT / path
@@ -102,7 +126,7 @@ def main():
                     image.write_bytes(payload)
                     entry['image'] = image.relative_to(ROOT).as_posix()
                     entry['example_url'] = 'case.html?entry=' + identifier
-            output.append(entry)
+            output.append(update_source_links(entry))
         snapshots.append({'project': category, 'repository': project['repository'], 'commit': commit, 'source_file': source_file, 'records': len(records), 'data_sha256': hashlib.sha256(git(folder, 'show', f'{ref}:{source_file}')).hexdigest(), 'scope': 'Committed catalog snapshot; upstream licenses and original runtime checks retained as reported. Not a new runtime audit.'})
     for identifier, name, summary, use in [
         ('brief-to-demo', 'ひと言から、作れる依頼へ', '短い依頼を、目的・入力・制作スキル・完成条件が揃うブリーフにする。', '作例づくりの前に、AIへ渡す依頼を具体化する。')]:

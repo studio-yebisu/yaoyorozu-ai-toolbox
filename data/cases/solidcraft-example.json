@@ -21,24 +21,24 @@
   "demo_description": "3冊と依頼→同じ作者→コマンドと独立予測→制作担当のheadless MCP/CLI→CADの6値/式/3履歴/1ボディ→別経路の照合→実ファイルと保存結果ビューア、の構造図です。初期/変更後と3段階を選び、保全した4実PNG・数値・6ファイルへ進めます。",
   "demo_note": "架空なのは工房と依頼です。元のCAD操作・画像・数値・JSON/STEP/STLは実出力で、新図では保存結果を読むだけです。模式図は説明用、4つの実PNGは個別に自動フィット。JSONだけ式と履歴を保持します。保存ボタンは元bytesをブラウザーへ渡す操作です。",
   "request_intro": "SolidCraft 0.11.1 の公式リリースを入れ、MCP でつないだAIのコーディングエージェントに、次の文章を渡します。【】の部分を自分の部品と寸法に置き換えて使ってください。",
-  "request": "SolidCraft 0.11.1 の公式リリース（https://github.com/bherbruck/solidcraft/releases/tag/v0.11.1）の solidcraft-cli を使います。同梱のスキル solidcraft-modeling（SKILL.md と reference.md）、solidcraft-editing、solidcraft-checking の SKILL.md を読んでから、次の部品を作ってください。\n\n部品：【例：上が開いた小物トレー。底の中央に丸い貫通穴を1つ】\n名前付きの寸法と初期値：【例：width 120 mm、depth 80 mm、height 18 mm、hole_diameter 8 mm】\n固定の値：【例：壁と底は3 mm】\n一度に変える値：【例：150 / 90 / 24 / 12 mm】\n使える範囲：【例：幅120〜150 mm、奥行80〜90 mm、高さ18〜24 mm、穴径8〜12 mm】\n\n進め方：部品は原点の中心に置き、寸法に合わせて動く位置は数値ではなく式で書いてください。作る前に体積・外接箱・重心の期待値を式で出し、段ごとに measure の値と比べてください。使える範囲は各パラメーターのコメントに書き、floor のような式の関数名は名前に使わないでください。穴を開ける工具は、面より1 mm先から始めてください。寸法の変更は作り直さず、parameters.change をまとめて1回で送り、合計の予測と1回の測定で照合してください。範囲の両端と初期値を往復するコマンドのスクリプトを書き、各状態を期待値と照合してください。\n\n出力：編集できる設計の .json、再現用のコマンドの JSON、STEP、STL、等角と上面の画像、実測値と期待値の記録。報告では、タイムラインの error と warning、ボディの数、期待値との差、試した状態を書き、試していない値と、製造・強度・3Dプリントの品質を確かめていないことを分けてください。",
+  "request": "SolidCraft 0.11.1 の公式リリース（https://github.com/tangency-labs/solidcraft/releases/tag/v0.11.1）の solidcraft-cli を使います。同梱のスキル solidcraft-modeling（SKILL.md と reference.md）、solidcraft-editing、solidcraft-checking の SKILL.md を読んでから、次の部品を作ってください。\n\n部品：【例：上が開いた小物トレー。底の中央に丸い貫通穴を1つ】\n名前付きの寸法と初期値：【例：width 120 mm、depth 80 mm、height 18 mm、hole_diameter 8 mm】\n固定の値：【例：壁と底は3 mm】\n一度に変える値：【例：150 / 90 / 24 / 12 mm】\n使える範囲：【例：幅120〜150 mm、奥行80〜90 mm、高さ18〜24 mm、穴径8〜12 mm】\n\n進め方：部品は原点の中心に置き、寸法に合わせて動く位置は数値ではなく式で書いてください。作る前に体積・外接箱・重心の期待値を式で出し、段ごとに measure の値と比べてください。使える範囲は各パラメーターのコメントに書き、floor のような式の関数名は名前に使わないでください。穴を開ける工具は、面より1 mm先から始めてください。寸法の変更は作り直さず、parameters.change をまとめて1回で送り、合計の予測と1回の測定で照合してください。範囲の両端と初期値を往復するコマンドのスクリプトを書き、各状態を期待値と照合してください。\n\n出力：編集できる設計の .json、再現用のコマンドの JSON、STEP、STL、等角と上面の画像、実測値と期待値の記録。報告では、タイムラインの error と warning、ボディの数、期待値との差、試した状態を書き、試していない値と、製造・強度・3Dプリントの品質を確かめていないことを分けてください。",
   "video_note": "32秒・30fps・完全無音。縦720×1280と横1280×720は別配置です。3手順書・作者と制作担当・値/式/履歴・独立照合・実ファイルを同じ図でつなぎます。元の28秒紹介はlegacyへ保持し、CADや元推論を再実行していません。",
   "video_source": "examples/solidcraft-example/video/index.html",
   "skill_license": "examples/solidcraft-example/vendor/solidcraft/LICENSE-APACHE",
   "applied_skills": [
     {
       "name": "solidcraft-modeling（SolidCraft 同梱のスキル）",
-      "source": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-modeling/SKILL.md",
+      "source": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-modeling/SKILL.md",
       "applied": "固定版の SKILL.md と reference.md を読んで組んだ。最初に inspect_design {measure:false, sketches:false} で空の headless のセッションであることを確かめ、作る前にパラメーター・配置・フィーチャー・体積と外接箱の期待値を計画書に書いた。部品は外形の底面の中心を原点にし、solid.box の center や寸法はすべて width・depth・height・wall・floor_thickness の式で与えた（数値のまま残したのは中心の0と、穴の工具の基点 z=-1 だけ）。reference.md のとおり solid.cylinder には operation を必ず付け、フィーチャーには TrayBlock・Pocket・DrainHole の一意の名前を付けた。外形・くぼみ・穴の3段を別々の batch で送り、各段のあと inspect_design と measure で体積・外接箱・重心を自分の計算と比べた（「ok と返っても、測定が合うまで成功ではない」）。円柱が切るのは平面だけで、reference.md の「プリミティブの Boolean は曲面に触れると失敗し得る」には当たらない。穴は対称の中心にあり重心では位置が分からないため、SKILL.md の指示どおり screenshot {source:model, view:top} の上面画像でも確かめた。最後に save と export で .json・STEP・STL を書き出した。"
     },
     {
       "name": "solidcraft-editing（SolidCraft 同梱のスキル）",
-      "source": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-editing/SKILL.md",
+      "source": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-editing/SKILL.md",
       "applied": "寸法の変更は、保存した初期の設計を作り直さず、width・depth・height・hole_diameter の parameters.change 4つを1回の batch にまとめて送った（resize.json）。SKILL.md の「予測してから1回だけ測る」に沿い、変更後の体積・表面積・重心・外接箱を式で予測し、1回の measure で照合した。体積の差は相対で約8×10⁻⁷で、目安の0.01 %に収まった。続けて inspect_design で3つのフィーチャーの error と warning が null であることを確かめ、内側に隠れる穴は上面の画像で見た。編集した設計は save で別名（tray-resized.json）に保存し、元の tray-default.json は上書きしていない。"
     },
     {
       "name": "solidcraft-checking（SolidCraft 同梱のスキル）",
-      "source": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-checking/SKILL.md",
+      "source": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-checking/SKILL.md",
       "applied": "手順1に沿って、各パラメーターのコメントに使える範囲を書き（SolidCraft は範囲を強制しない）、4つの寸法をお気に入りにした。罠6のとおり floor は式の関数名なので、底の厚さは floor_thickness とした。罠4に沿って穴の工具は z=-1 から始め、底面とくぼみの床を1 mmずつ突き抜けさせて、Boolean の再試行の警告が出ないようにした。範囲内で寸法が0になる式がないこと（罠1）も計画で確かめた。手順3の逐次ウォーク walk.json では、各寸法を上の端へ動かして初期値（下の端と同じ）へ戻し、最後に4つ同時に動かして戻す11状態の各所に document.inspect {measure:true} を置き、原典の run.py（FAIL・WARN・SKETCH の行は出なかった）と、templates/test_design.py を元に書いた期待値のチェッカー check_design.py の両方で実行した。許容差はテンプレートの REL=2e-4 と、罠5の重心・外接箱 1.5×10⁻⁴×寸法を実行前に決め、11状態すべてが合格した。解析的な期待値があるため、compare_step.py による STEP の厳密比較は行っていない。"
     },
     {
@@ -50,7 +50,7 @@
   "steps": [
     {
       "title": "原典と実行する版を、別々に固定する",
-      "body": "参照資料はbherbruck/solidcraft@16c49c3、実行は別に固定した公式0.11.1@b01b9689です。参照からビルドした実行ファイルではありません。同梱18資料は元CRLFを保持し、公式LFとはrawbytesが異なります。CRLFだけ正規化した内容/Gitblob一致を確認し、両LICENSEとNOTICEを残しました。"
+      "body": "参照資料はtangency-labs/solidcraft@16c49c3、実行は別に固定した公式0.11.1@b01b9689です。参照からビルドした実行ファイルではありません。同梱18資料は元CRLFを保持し、公式LFとはrawbytesが異なります。CRLFだけ正規化した内容/Gitblob一致を確認し、両LICENSEとNOTICEを残しました。"
     },
     {
       "title": "依頼を寸法にし、先に計算する",
@@ -96,32 +96,32 @@
   ],
   "sources": [
     {
-      "label": "SolidCraft のソース（bherbruck/solidcraft、参照コミット）",
-      "url": "https://github.com/bherbruck/solidcraft/tree/16c49c3e860a954e9f27309927d6848bcba9c607"
+      "label": "SolidCraft のソース（tangency-labs/solidcraft、参照コミット）",
+      "url": "https://github.com/tangency-labs/solidcraft/tree/16c49c3e860a954e9f27309927d6848bcba9c607"
     },
     {
       "label": "SolidCraft README（参照コミット）",
-      "url": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/README.md"
+      "url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/README.md"
     },
     {
       "label": "solidcraft-modeling SKILL.md（参照コミット）",
-      "url": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-modeling/SKILL.md"
+      "url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-modeling/SKILL.md"
     },
     {
       "label": "solidcraft-editing SKILL.md（参照コミット）",
-      "url": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-editing/SKILL.md"
+      "url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-editing/SKILL.md"
     },
     {
       "label": "solidcraft-checking SKILL.md（参照コミット）",
-      "url": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-checking/SKILL.md"
+      "url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-checking/SKILL.md"
     },
     {
       "label": "SolidCraft の MCP の説明 docs/mcp.md（参照コミット）",
-      "url": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/docs/mcp.md"
+      "url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/docs/mcp.md"
     },
     {
       "label": "SolidCraft 0.11.1 の公式リリース（実行した版、コミット b01b9689c8999a4415b4a6daaa2f8aae8a1a2f25）",
-      "url": "https://github.com/bherbruck/solidcraft/releases/tag/v0.11.1"
+      "url": "https://github.com/tangency-labs/solidcraft/releases/tag/v0.11.1"
     },
     {
       "label": "SolidCraft LICENSE-APACHE（Apache-2.0 を選択、参照コミットから作例に同梱）",
@@ -181,24 +181,24 @@
       "MCPを使う場合は接続できるAI環境"
     ],
     "license": "Apache-2.0",
-    "license_url": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/LICENSE-APACHE",
+    "license_url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/LICENSE-APACHE",
     "license_note": "Apache-2.0。読み込む形状・図面・外部素材の条件は別です。",
-    "source_url": "https://github.com/bherbruck/solidcraft/tree/16c49c3e860a954e9f27309927d6848bcba9c607",
+    "source_url": "https://github.com/tangency-labs/solidcraft/tree/16c49c3e860a954e9f27309927d6848bcba9c607",
     "guide_url": "case.html?id=solidcraft-example",
     "example_url": "examples/solidcraft-example/index.html",
     "image": "media/solidcraft-example.webp",
-    "readme_url": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/README.md",
-    "source_repository": "bherbruck/solidcraft",
+    "readme_url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/README.md",
+    "source_repository": "tangency-labs/solidcraft",
     "source_commit": "16c49c3e860a954e9f27309927d6848bcba9c607",
     "source_path": "",
     "source_project": "curated",
     "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。原典は確認時のコミットへ固定しています。作例の実行には、これとは別に固定した公式リリース0.11.1（Windows x64 のポータブル版）の headless MCP とコマンドラインを使い、作ったのは架空の小物トレー1つです。",
-    "prompt": "SolidCraft の原典（https://github.com/bherbruck/solidcraft/tree/16c49c3e860a954e9f27309927d6848bcba9c607）を読んで、次を進めてください。\n幅、高さ、穴径を変えられる架空の小物トレーを作ってください。寸法を一度変更し、形状が追従することと出力形式を確認してください。\n入力、出力、実行した検証、未確認の点を記録してください。",
+    "prompt": "SolidCraft の原典（https://github.com/tangency-labs/solidcraft/tree/16c49c3e860a954e9f27309927d6848bcba9c607）を読んで、次を進めてください。\n幅、高さ、穴径を変えられる架空の小物トレーを作ってください。寸法を一度変更し、形状が追従することと出力形式を確認してください。\n入力、出力、実行した検証、未確認の点を記録してください。",
     "verification_stage": "runtime-reviewed",
     "verification": "元2受領/25実MCP/11端点順序/6実ファイルを保持しCADを再実行なし。新構造図と31素材編集/32秒縦横無音MP4、320/375px全図・主操作/失敗復旧/元4実PNG/6保存要求/返却STEP一致/出荷ソース62PNG一致を新規確認。人の承認・製造保証なし。",
     "reviewed_on": "2026-10-19"
   },
-  "updated_on": "2026-10-21",
+  "updated_on": "2026-10-22",
   "video_portrait": "media/solidcraft-example.mp4",
   "video_landscape": "media/solidcraft-example-wide.mp4",
   "poster_portrait": "media/solidcraft-example.webp",

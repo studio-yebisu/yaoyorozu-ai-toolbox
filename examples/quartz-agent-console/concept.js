@@ -4,7 +4,7 @@
 // deterministic frame of the connected diagram, initConceptPage() wires the page only.
 
 export const MANIFEST_PATH = 'concept/manifest.json';
-export const MANIFEST_SHA256 = '8b36e1e6108ff8f6989ef9a460df213e50eadb0378b5f2386e8926b0d9707bac';
+export const MANIFEST_SHA256 = '306d3c942e89aa8049964872b901c88163606cbb9b83f79dc025a9055d6a7374';
 export const SOURCE_COMMIT = '1aaaa1b47ba5a18b47b0ebcac684ade460c6823f';
 export const MODEL_ID = 'claude-opus-5-5';
 export const CASES = ['completed', 'tool-failed', 'waiting-input'];

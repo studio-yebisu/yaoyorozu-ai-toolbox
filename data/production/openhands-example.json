@@ -315,7 +315,7 @@
     "media/openhands-example.mp4": "7bc1fd2d08c22b3ab5fe9009348397217fd69b5b926d6a08508bbf65e4337546",
     "media/openhands-example-wide.mp4": "1aa8a8a7fec927464f21218139e1d56bcbc1d4b7851a0fb7dc3bdbff80170a80",
     "media/openhands-example.webp": "7d6b2b70aa33a2f30a5877deb5e12b287f9f0caf28e0075ac3b9db5896eb8498",
-    "data/cases/openhands-example.json": "18b27c8d90ee0d5f859132471e6af291767bea7eea863c0b61671c8c554e75a7"
+    "data/cases/openhands-example.json": "f2745c54dfd00a519942db580ed3b7cd8b4afe65abbd948585f1b8b7ca2eeba3"
   },
   "previous_publication": {
     "baseline_head": "fa736ccf7732acf3fc054b9ba88752fb8f22ccb4",
@@ -460,5 +460,12 @@
       },
       "record": "data/production/site-rebrand-20261022.json"
     }
-  ]
+  ],
+  "source_link_maintenance": {
+    "updated_on": "2026-10-22",
+    "scope": "Corrected source URLs and labels; updated the affected asset manifests, loader pins, source ZIP members, and current artifact hashes. Fixed source commits, runtime measurements, model receipts, and media were retained.",
+    "updated_artifacts": {
+      "data/cases/openhands-example.json": "f2745c54dfd00a519942db580ed3b7cd8b4afe65abbd948585f1b8b7ca2eeba3"
+    }
+  }
 }

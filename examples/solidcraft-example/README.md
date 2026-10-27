@@ -49,8 +49,8 @@ SolidCraft で架空の小物トレーを作り、寸法を変えて計算し直
 
 二つの版を別々に固定しています。同じものではありません。
 
-- **参照した原典**：`bherbruck/solidcraft` のコミット `16c49c3e860a954e9f27309927d6848bcba9c607`。スキル・README・docs/mcp.md・LICENSE はこの版から `vendor/solidcraft/` に同梱しています。
-- **実行した公式リリース**：SolidCraft **0.11.1**（コミット `b01b9689c8999a4415b4a6daaa2f8aae8a1a2f25`、<https://github.com/bherbruck/solidcraft/releases/tag/v0.11.1>）。Windows x64 のポータブル版 `solidcraft-0.11.1-windows-x64-portable.zip`、SHA-256 `6c5e285d3d6ee3bbdaa39de9019b5a36fd894c4a335f92de7193e1340996727d`（公式のチェックサムと一致）。このリリースは上の参照コミットからビルドしたものではありません。
+- **参照した原典**：`tangency-labs/solidcraft` のコミット `16c49c3e860a954e9f27309927d6848bcba9c607`。スキル・README・docs/mcp.md・LICENSE はこの版から `vendor/solidcraft/` に同梱しています。
+- **実行した公式リリース**：SolidCraft **0.11.1**（コミット `b01b9689c8999a4415b4a6daaa2f8aae8a1a2f25`、<https://github.com/tangency-labs/solidcraft/releases/tag/v0.11.1>）。Windows x64 のポータブル版 `solidcraft-0.11.1-windows-x64-portable.zip`、SHA-256 `6c5e285d3d6ee3bbdaa39de9019b5a36fd894c4a335f92de7193e1340996727d`（公式のチェックサムと一致）。このリリースは上の参照コミットからビルドしたものではありません。
 
 設計の `.json` は 0.11.1 で保存し、0.11.1 で開き直して確かめました。ほかの版（古い 0.3.1 など）で開けるかは確かめていないので、0.11.1 を使ってください。
 
