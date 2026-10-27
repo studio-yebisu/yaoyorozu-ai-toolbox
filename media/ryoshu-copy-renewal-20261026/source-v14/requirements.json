@@ -1,0 +1,46 @@
+{
+ "schema": "ryoshu.film14.requirements/1",
+ "python": "3.12.15",
+ "pillow": "13.0.0",
+ "numpy": "2.5.4",
+ "ffmpeg": "ffmpeg version 8.1.2-full_build-www.gyan.dev",
+ "fonts_not_bundled": [
+  "NotoSansJP-VF.ttf (SIL OFL 1.1)",
+  "bahnschrift.ttf (bundled with Windows; not redistributed)"
+ ],
+ "font_dir_env": "RYOSHU_FONTS (default C:/Windows/Fonts/)",
+ "inputs_relative_to_input_dir": {
+  "fresh100/fresh100-approved-facts.json": "9256be4c28dd2912073e365a9b872781885d000b3ea3bc0780e5e04082bd6316",
+  "final-copy/final-deck.json": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+  "final-copy/root-adoption.json": "bf2c594e1fc268a57d086c20c5131e5599630a53a85696ba36b063ab2cd18c48",
+  "new-ui/<chunk>/frames.jsonl + frame-*.jpg": "genuine IAB captures (not bundled); per-frame sha256 set hash in run-record raw_frames_sha256"
+ },
+ "reproduce": {
+  "cwd": "source-pack",
+  "env": {
+   "RYOSHU_FILM_INPUT": "<path to input dir>",
+   "RYOSHU_FILM_OUT": "<new empty output dir>"
+  },
+  "argv": [
+   "python",
+   "-I",
+   "-B",
+   "src/render.py",
+   "--final"
+  ]
+ },
+ "qc_argv": [
+  "python",
+  "-I",
+  "-B",
+  "src/qc.py",
+  "<out>/deliver/ryoshu-1.4-film.mp4",
+  "<out>/deliver/ryoshu-1.4-film.edit-manifest.json",
+  "<out>/build/qc"
+ ],
+ "licenses": {
+  "source": "authored for Studio Yebisu's Ryoshu film; license per the Ryoshu repository (root decides)",
+  "music_sfx": "original NumPy synthesis in src/film/audio.py (no samples)",
+  "copy": "Kimi-authored deck, used verbatim"
+ }
+}

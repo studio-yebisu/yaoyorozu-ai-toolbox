@@ -1,0 +1,1301 @@
+{
+ "deck": "final-deck.json",
+ "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+ "facts_sha256": "9256be4c28dd2912073e365a9b872781885d000b3ea3bc0780e5e04082bd6316",
+ "items": [
+  {
+   "slot": "intro.line1",
+   "text": "領収書を、",
+   "first_s": 0.433,
+   "last_s": 3.933,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/0/text",
+   "verbatim": true
+  },
+  {
+   "slot": "intro.line2",
+   "text": "外部AIへ送らず、",
+   "first_s": 1.233,
+   "last_s": 3.933,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/1/text",
+   "verbatim": true
+  },
+  {
+   "slot": "intro.line3",
+   "text": "帳簿へ。",
+   "first_s": 2.033,
+   "last_s": 3.933,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/2/text",
+   "verbatim": true
+  },
+  {
+   "slot": "intro.tagline",
+   "text": "ローカルPC上で読み取り、科目の候補を作ります。",
+   "first_s": 2.933,
+   "last_s": 3.933,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/3/text",
+   "verbatim": true
+  },
+  {
+   "slot": "honesty.footage",
+   "text": "実画面録画 ・ 架空の領収書データ",
+   "first_s": 4.233,
+   "last_s": 107.933,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/4/text",
+   "verbatim": true
+  },
+  {
+   "slot": "chapter.local.label",
+   "text": "ローカルPC上で処理",
+   "first_s": 4.333,
+   "last_s": 15.967,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/6/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage1.label",
+   "text": "OCRで読み取り",
+   "first_s": 4.433,
+   "last_s": 11.9,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/43/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage1.sub",
+   "text": "画像から文字と数字を読み取り",
+   "first_s": 4.433,
+   "last_s": 11.9,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/44/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage2.label",
+   "text": "別のAIで科目候補",
+   "first_s": 5.633,
+   "last_s": 11.9,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/45/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage2.sub",
+   "text": "勘定科目の候補を提案",
+   "first_s": 5.633,
+   "last_s": 11.9,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/46/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage3.label",
+   "text": "原本と照合・修正",
+   "first_s": 6.833,
+   "last_s": 11.9,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/47/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage3.sub",
+   "text": "原本を見て候補を直す",
+   "first_s": 6.833,
+   "last_s": 11.9,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/48/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage4.label",
+   "text": "CSV出力",
+   "first_s": 8.033,
+   "last_s": 11.9,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/49/text",
+   "verbatim": true
+  },
+  {
+   "slot": "overview.stage4.sub",
+   "text": "汎用CSVを作成",
+   "first_s": 8.033,
+   "last_s": 11.9,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/50/text",
+   "verbatim": true
+  },
+  {
+   "slot": "chapter.local.number",
+   "text": "LOCAL",
+   "first_s": 12.033,
+   "last_s": 15.967,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/5/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.local",
+   "text": "領収書の画像と内容を外部AIへ送りません",
+   "first_s": 12.233,
+   "last_s": 15.967,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/7/text",
+   "verbatim": true
+  },
+  {
+   "slot": "title.product",
+   "text": "Ryoshu",
+   "first_s": 16.133,
+   "last_s": 19.9,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/8/text",
+   "verbatim": true
+  },
+  {
+   "slot": "title.line1",
+   "text": "ローカルPC上で読み取る",
+   "first_s": 16.133,
+   "last_s": 19.9,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/9/text",
+   "verbatim": true
+  },
+  {
+   "slot": "title.line2",
+   "text": "領収書整理アプリ",
+   "first_s": 16.133,
+   "last_s": 19.9,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/10/text",
+   "verbatim": true
+  },
+  {
+   "slot": "title.tagline",
+   "text": "領収書の画像と内容は外部AIへ送りません。",
+   "first_s": 16.933,
+   "last_s": 19.9,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/11/text",
+   "verbatim": true
+  },
+  {
+   "slot": "chapter.01.number",
+   "text": "01",
+   "first_s": 20.033,
+   "last_s": 46.567,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/12/text",
+   "verbatim": true
+  },
+  {
+   "slot": "chapter.01.label",
+   "text": "読み込む",
+   "first_s": 20.033,
+   "last_s": 46.567,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/13/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.01.select",
+   "text": "PDF・JPG・PNG・WebPを選んで読み取り開始",
+   "first_s": 20.033,
+   "last_s": 24.567,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/14/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.01.selected",
+   "text": "5ファイルを選択。開始を押すまで処理しません",
+   "first_s": 24.633,
+   "last_s": 28.467,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/15/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.01.process.v14",
+   "text": "原本を保存し、1件ずつローカルPC上で処理",
+   "first_s": 28.5,
+   "last_s": 32.433,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/16/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.01.twosteps",
+   "text": "文字の読み取りと科目候補の作成を順に実行",
+   "first_s": 32.467,
+   "last_s": 42.167,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/17/text",
+   "verbatim": true
+  },
+  {
+   "slot": "speed.badge",
+   "text": "8倍速",
+   "first_s": 36.1,
+   "last_s": 42.167,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/18/text",
+   "verbatim": false
+  },
+  {
+   "slot": "time.skip",
+   "text": "未録画部分を省略",
+   "first_s": 42.233,
+   "last_s": 43.267,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/19/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.01.done",
+   "text": "5件の読み取り完了。内容は原本と照合して確認",
+   "first_s": 42.233,
+   "last_s": 46.567,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/20/text",
+   "verbatim": true
+  },
+  {
+   "slot": "chapter.02.number",
+   "text": "02",
+   "first_s": 46.633,
+   "last_s": 59.067,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/21/text",
+   "verbatim": true
+  },
+  {
+   "slot": "chapter.02.label",
+   "text": "見比べる",
+   "first_s": 46.633,
+   "last_s": 59.067,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/22/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.02.results",
+   "text": "原本・読み取った内容・勘定科目の候補を3列で表示",
+   "first_s": 46.633,
+   "last_s": 51.033,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/23/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.02.zoom",
+   "text": "原本を拡大し、日付・支払先・金額を自分の目で照合",
+   "first_s": 51.1,
+   "last_s": 55.567,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/24/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.02.rawtext",
+   "text": "読み取った文字を開き、原本と照合",
+   "first_s": 55.6,
+   "last_s": 59.067,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/25/text",
+   "verbatim": true
+  },
+  {
+   "slot": "chapter.03.number",
+   "text": "03",
+   "first_s": 59.1,
+   "last_s": 77.8,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/26/text",
+   "verbatim": true
+  },
+  {
+   "slot": "chapter.03.label",
+   "text": "直す",
+   "first_s": 59.1,
+   "last_s": 77.8,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/27/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.03.held",
+   "text": "候補がないV002は科目を手動で選択",
+   "first_s": 59.1,
+   "last_s": 62.933,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/29/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.03.account",
+   "text": "候補が違えば、カテゴリーと科目を選び直す",
+   "first_s": 62.967,
+   "last_s": 66.833,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/28/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.03.star_add",
+   "text": "選んだ科目を「よく使う科目」に追加",
+   "first_s": 66.867,
+   "last_s": 71.0,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/30/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.03.star_remove",
+   "text": "★を外し、よく使う科目から削除",
+   "first_s": 71.033,
+   "last_s": 74.1,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/31/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.03.saved",
+   "text": "科目の変更を保存。明細は未確認に戻ります",
+   "first_s": 74.133,
+   "last_s": 77.8,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/32/text",
+   "verbatim": true
+  },
+  {
+   "slot": "chapter.04.number",
+   "text": "04",
+   "first_s": 77.833,
+   "last_s": 96.3,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/74/text",
+   "verbatim": true
+  },
+  {
+   "slot": "chapter.04.label",
+   "text": "確認する",
+   "first_s": 77.833,
+   "last_s": 96.3,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/33/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.04.select",
+   "text": "確認する明細を選び、まとめて開く",
+   "first_s": 77.833,
+   "last_s": 80.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/34/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.04.fields",
+   "text": "空欄の用途・事業割合・支払元をまとめて入力",
+   "first_s": 80.9,
+   "last_s": 87.7,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/35/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.04.review",
+   "text": "1件ずつ原本と照合し、内容を確認して保存",
+   "first_s": 87.733,
+   "last_s": 91.4,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/36/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.04.confirmed_one",
+   "text": "コンビニ みちのく ¥1,760を1件確認。他4件は未確認",
+   "first_s": 91.433,
+   "last_s": 96.3,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/37/text",
+   "verbatim": true
+  },
+  {
+   "slot": "chapter.05.number",
+   "text": "05",
+   "first_s": 96.333,
+   "last_s": 107.933,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/38/text",
+   "verbatim": true
+  },
+  {
+   "slot": "chapter.05.label",
+   "text": "書き出す",
+   "first_s": 96.333,
+   "last_s": 107.933,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/39/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.05.scope",
+   "text": "確認済みの経費帳・全期間を汎用CSVで出力",
+   "first_s": 96.333,
+   "last_s": 99.967,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/40/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.05.preview",
+   "text": "コンビニ みちのく ¥1,760の1行を確認",
+   "first_s": 100.0,
+   "last_s": 104.3,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/41/text",
+   "verbatim": true
+  },
+  {
+   "slot": "caption.05.saved",
+   "text": "汎用CSVを1行・合計1,760円で保存",
+   "first_s": 104.333,
+   "last_s": 107.933,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/42/text",
+   "verbatim": true
+  },
+  {
+   "slot": "formats.heading",
+   "text": "確認した帳簿を、4形式のCSVへ。",
+   "first_s": 108.0,
+   "last_s": 114.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/56/text",
+   "verbatim": true
+  },
+  {
+   "slot": "formats.card.generic",
+   "text": "汎用CSV",
+   "first_s": 108.6,
+   "last_s": 114.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/57/text",
+   "verbatim": true
+  },
+  {
+   "slot": "formats.card.freee",
+   "text": "freee",
+   "first_s": 109.1,
+   "last_s": 114.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/58/text",
+   "verbatim": true
+  },
+  {
+   "slot": "formats.card.mf",
+   "text": "MFクラウド",
+   "first_s": 109.6,
+   "last_s": 114.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/59/text",
+   "verbatim": true
+  },
+  {
+   "slot": "formats.card.yayoi",
+   "text": "弥生",
+   "first_s": 110.1,
+   "last_s": 114.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/60/text",
+   "verbatim": true
+  },
+  {
+   "slot": "formats.note",
+   "text": "各会計サービスの実アカウントへの取り込みは未検証です。",
+   "first_s": 110.9,
+   "last_s": 114.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/61/text",
+   "verbatim": true
+  },
+  {
+   "slot": "runtime.heading",
+   "text": "追加のAI環境は不要",
+   "first_s": 115.0,
+   "last_s": 120.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/51/text",
+   "verbatim": true
+  },
+  {
+   "slot": "runtime.line1",
+   "text": "Ryoshuがllama.cppを起動",
+   "first_s": 115.8,
+   "last_s": 120.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/52/text",
+   "verbatim": true
+  },
+  {
+   "slot": "runtime.line2",
+   "text": "OCRとQwen3 4Bは別工程",
+   "first_s": 116.4,
+   "last_s": 120.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/53/text",
+   "verbatim": true
+  },
+  {
+   "slot": "runtime.line3",
+   "text": "初回は実行環境とモデルを取得",
+   "first_s": 117.0,
+   "last_s": 120.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/54/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.heading",
+   "text": "100件のPDFを検証",
+   "first_s": 121.0,
+   "last_s": 129.967,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/77/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.scope",
+   "text": "2026-10-27・1.4.0候補",
+   "first_s": 121.0,
+   "last_s": 129.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/78/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.time.value",
+   "text": "約22分36.7秒",
+   "first_s": 121.5,
+   "last_s": 129.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/79/text",
+   "verbatim": false
+  },
+  {
+   "slot": "bench.time.start",
+   "text": "最初のアップロード直前から",
+   "first_s": 122.2,
+   "last_s": 129.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/80/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.time.end",
+   "text": "全100件の完了を最初に確認",
+   "first_s": 122.5,
+   "last_s": 129.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/81/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.time.included",
+   "text": "アップロード・モデル確認と読込・OCR・AI",
+   "first_s": 123.2,
+   "last_s": 129.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/82/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.time.included_policies",
+   "text": "根拠照合と科目条件も計測内",
+   "first_s": 123.5,
+   "last_s": 129.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/83/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.time.outside",
+   "text": "導入・起動・詳細・確認・採点・CSVは計測外",
+   "first_s": 124.2,
+   "last_s": 129.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/84/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.time.cache",
+   "text": "アプリを新たに起動。モデルは処理前に未読込",
+   "first_s": 124.9,
+   "last_s": 129.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/85/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.time.cache_prior",
+   "text": "前の開発実行でOSキャッシュが温まっていた",
+   "first_s": 125.1,
+   "last_s": 129.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/121/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.time.cache_note",
+   "text": "ウォームアップ推論・保存済みOCRの再利用なし",
+   "first_s": 125.3,
+   "last_s": 129.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/86/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.subject",
+   "text": "編集前のアプリ自動読み取り結果",
+   "first_s": 130.0,
+   "last_s": 141.967,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/87/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.subject_scope",
+   "text": "OCR・モデル単体の精度ではない",
+   "first_s": 130.0,
+   "last_s": 141.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/88/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.amount.label",
+   "text": "円建金額",
+   "first_s": 130.6,
+   "last_s": 141.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/89/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.amount.value",
+   "text": "95/95",
+   "first_s": 130.6,
+   "last_s": 141.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/90/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.amount.excl",
+   "text": "返金3件除外。外貨2件は別集計",
+   "first_s": 131.1,
+   "last_s": 141.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/91/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.fx.label",
+   "text": "外貨・円額未確定",
+   "first_s": 131.4,
+   "last_s": 141.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/92/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.fx.value",
+   "text": "2/2",
+   "first_s": 131.4,
+   "last_s": 141.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/93/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.date.label",
+   "text": "日付",
+   "first_s": 132.4,
+   "last_s": 141.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/94/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.date.value",
+   "text": "99/100",
+   "first_s": 132.4,
+   "last_s": 141.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/95/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.date.excl",
+   "text": "除外なし。V011は発行日を選び差異",
+   "first_s": 132.9,
+   "last_s": 141.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/96/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.account.label",
+   "text": "勘定科目候補",
+   "first_s": 133.2,
+   "last_s": 141.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/97/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.account.value",
+   "text": "44/48",
+   "first_s": 133.2,
+   "last_s": 141.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/98/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.account.excl",
+   "text": "52件除外。4件差異（名称3・保留1）",
+   "first_s": 133.7,
+   "last_s": 141.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/99/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.account.population",
+   "text": "52件は48件の科目指標のみ除外。処理判定100件",
+   "first_s": 134.0,
+   "last_s": 141.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/123/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.more.heading",
+   "text": "その他の編集前結果",
+   "first_s": 142.0,
+   "last_s": 152.967,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/100/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.more.merchant.label",
+   "text": "支払先",
+   "first_s": 142.5,
+   "last_s": 152.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/101/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.more.merchant.value",
+   "text": "85/100",
+   "first_s": 142.5,
+   "last_s": 152.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/102/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.more.merchant.note",
+   "text": "前回86/100から変動。改善1件・後退2件",
+   "first_s": 143.0,
+   "last_s": 152.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/103/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.more.handling.label",
+   "text": "科目または処理判定",
+   "first_s": 143.3,
+   "last_s": 152.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/104/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.more.handling.value",
+   "text": "86/100",
+   "first_s": 143.3,
+   "last_s": 152.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/105/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.more.handling.note",
+   "text": "提案50・保留31・資産確認6・対象外13",
+   "first_s": 143.8,
+   "last_s": 152.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/106/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.more.tax.label",
+   "text": "税額の数値",
+   "first_s": 144.3,
+   "last_s": 152.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/107/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.more.tax.value",
+   "text": "51/52",
+   "first_s": 144.3,
+   "last_s": 152.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/108/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.more.tax.note",
+   "text": "V013はOCR判別不可のため推測せず空欄",
+   "first_s": 144.8,
+   "last_s": 152.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/111/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.more.tax.population",
+   "text": "数値52件と空欄11件を評価。残り37件は評価外",
+   "first_s": 145.1,
+   "last_s": 152.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/124/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.more.tax.blank.label",
+   "text": "税額の空欄",
+   "first_s": 145.1,
+   "last_s": 152.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/109/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.more.tax.blank.value",
+   "text": "11/11",
+   "first_s": 145.1,
+   "last_s": 152.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/110/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.acc.held",
+   "text": "全100件は候補。原本と照合して確認が必要",
+   "first_s": 146.2,
+   "last_s": 152.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/112/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.cond.heading",
+   "text": "計測条件",
+   "first_s": 153.0,
+   "last_s": 161.967,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/113/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.cond.keys.model",
+   "text": "ローカルモデル",
+   "first_s": 153.5,
+   "last_s": 161.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/114/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.cond.keys.model.value",
+   "text": "Qwen3-4B Q4_K_M (enable_thinking=false)",
+   "first_s": 153.5,
+   "last_s": 161.867,
+   "facts": "fresh100-approved-facts.json",
+   "facts_sha256": "9256be4c28dd2912073e365a9b872781885d000b3ea3bc0780e5e04082bd6316",
+   "pointer": "bench.cond.keys.model.value"
+  },
+  {
+   "slot": "bench.cond.keys.runtime",
+   "text": "ランタイム",
+   "first_s": 153.833,
+   "last_s": 161.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/115/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.cond.keys.runtime.value",
+   "text": "llama.cpp b11700 · CPU threads 6 · gpu_layers 0",
+   "first_s": 153.833,
+   "last_s": 161.867,
+   "facts": "fresh100-approved-facts.json",
+   "facts_sha256": "9256be4c28dd2912073e365a9b872781885d000b3ea3bc0780e5e04082bd6316",
+   "pointer": "bench.cond.keys.runtime.value"
+  },
+  {
+   "slot": "bench.cond.keys.ocr",
+   "text": "OCR",
+   "first_s": 154.2,
+   "last_s": 161.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/116/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.cond.keys.ocr.value",
+   "text": "Indra OCR 1.1.2",
+   "first_s": 154.2,
+   "last_s": 161.867,
+   "facts": "fresh100-approved-facts.json",
+   "facts_sha256": "9256be4c28dd2912073e365a9b872781885d000b3ea3bc0780e5e04082bd6316",
+   "pointer": "bench.cond.keys.ocr.value"
+  },
+  {
+   "slot": "bench.cond.keys.pc",
+   "text": "検証PC",
+   "first_s": 154.533,
+   "last_s": 161.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/117/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.cond.keys.pc.value",
+   "text": "AMD Ryzen 9 7950X3D · RAM 128 GB · Windows 11",
+   "first_s": 154.533,
+   "last_s": 161.867,
+   "facts": "fresh100-approved-facts.json",
+   "facts_sha256": "9256be4c28dd2912073e365a9b872781885d000b3ea3bc0780e5e04082bd6316",
+   "pointer": "bench.cond.keys.pc.value"
+  },
+  {
+   "slot": "bench.cond.keys.date",
+   "text": "計測日",
+   "first_s": 154.9,
+   "last_s": 161.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/118/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.cond.keys.date.value",
+   "text": "2026-10-27",
+   "first_s": 154.9,
+   "last_s": 161.867,
+   "facts": "fresh100-approved-facts.json",
+   "facts_sha256": "9256be4c28dd2912073e365a9b872781885d000b3ea3bc0780e5e04082bd6316",
+   "pointer": "bench.cond.keys.date.value"
+  },
+  {
+   "slot": "bench.cond.note",
+   "text": "モデルと実行環境が異なる架空データの1回検証",
+   "first_s": 155.6,
+   "last_s": 161.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/119/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.cond.time_note",
+   "text": "実測時間は性能や最低要件を保証しない",
+   "first_s": 155.9,
+   "last_s": 161.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/122/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.report.ref",
+   "text": "検証記録を見る",
+   "first_s": 156.2,
+   "last_s": 161.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/120/text",
+   "verbatim": true
+  },
+  {
+   "slot": "bench.report.ref.url",
+   "text": "studio-yebisu.github.io/ryoshu/docs/testing/v1.4/",
+   "first_s": 156.2,
+   "last_s": 161.867,
+   "facts": "fresh100-approved-facts.json",
+   "facts_sha256": "9256be4c28dd2912073e365a9b872781885d000b3ea3bc0780e5e04082bd6316",
+   "pointer": "bench.report.ref.url"
+  },
+  {
+   "slot": "notes.heading",
+   "text": "使う前に、知っておいてほしいこと",
+   "first_s": 162.0,
+   "last_s": 170.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/62/text",
+   "verbatim": true
+  },
+  {
+   "slot": "notes.01.number",
+   "text": "01",
+   "first_s": 162.4,
+   "last_s": 170.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/63/text",
+   "verbatim": true
+  },
+  {
+   "slot": "notes.01.heading",
+   "text": "読み取り結果と科目は「候補」です。",
+   "first_s": 162.4,
+   "last_s": 170.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/64/text",
+   "verbatim": true
+  },
+  {
+   "slot": "notes.01.body",
+   "text": "原本と照合し、税務の最終判断は利用者と税理士で",
+   "first_s": 162.4,
+   "last_s": 170.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/65/text",
+   "verbatim": true
+  },
+  {
+   "slot": "notes.02.number",
+   "text": "02",
+   "first_s": 163.6,
+   "last_s": 170.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/75/text",
+   "verbatim": true
+  },
+  {
+   "slot": "notes.02.heading",
+   "text": "初回準備には、通信が必要です。",
+   "first_s": 163.6,
+   "last_s": 170.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/76/text",
+   "verbatim": true
+  },
+  {
+   "slot": "notes.02.body",
+   "text": "初回は環境・モデルを取得。処理とCSV作成はローカルPC上",
+   "first_s": 163.6,
+   "last_s": 170.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/66/text",
+   "verbatim": true
+  },
+  {
+   "slot": "notes.03.number",
+   "text": "03",
+   "first_s": 164.8,
+   "last_s": 170.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/67/text",
+   "verbatim": true
+  },
+  {
+   "slot": "notes.03.heading",
+   "text": "書き出したファイルは平文です。",
+   "first_s": 164.8,
+   "last_s": 170.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/68/text",
+   "verbatim": true
+  },
+  {
+   "slot": "notes.03.body",
+   "text": "CSVと原本は平文です。保存先と共有先を管理してください",
+   "first_s": 164.8,
+   "last_s": 170.867,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/69/text",
+   "verbatim": true
+  },
+  {
+   "slot": "end.product",
+   "text": "Ryoshu",
+   "first_s": 171.0,
+   "last_s": 178.733,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/70/text",
+   "verbatim": true
+  },
+  {
+   "slot": "end.tagline",
+   "text": "領収書を原本と照らして、帳簿とCSVへ。",
+   "first_s": 171.4,
+   "last_s": 178.733,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/71/text",
+   "verbatim": true
+  },
+  {
+   "slot": "end.url",
+   "text": "github.com/studio-yebisu/ryoshu",
+   "first_s": 172.2,
+   "last_s": 178.733,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/72/text",
+   "verbatim": true
+  },
+  {
+   "slot": "end.note",
+   "text": "実画面録画です（領収書は架空のデータ）",
+   "first_s": 172.8,
+   "last_s": 178.733,
+   "deck": "final-deck.json",
+   "deck_sha256": "58cec379837ae6fcb101a85f19aff2a36982a5007626d30db4278ef4b905da30",
+   "pointer": "/items/73/text",
+   "verbatim": true
+  }
+ ]
+}

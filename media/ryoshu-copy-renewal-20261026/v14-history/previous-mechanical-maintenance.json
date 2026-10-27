@@ -1,0 +1,30 @@
+{
+  "source_registry_sha256": "05d956694a78b637a02e1a5c407e3d248b40d0ed958de8a75fa3949a664ffbe6",
+  "previous_current_sha256": "218a13068959fe349a9a3140a3be83a3c63fa2a85c0af9ecb95757dcc7f9cc16",
+  "entries": [
+    {
+      "case_id": "ryoshu-local",
+      "changes": [
+        {
+          "path": "examples/ryoshu-local/index.html",
+          "before_sha256": "6b2a28feab60e05fc2f35d1f24bd13de7b54358c7cd4efebe3632a5a4fb4f3f5",
+          "after_sha256": "f23048d89a5289c4c865bb4a60f6374d32137df94bd44126c14d56fc0d8ddb38",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/6b2a28feab60e05fc2f35d1f24bd13de7b54358c7cd4efebe3632a5a4fb4f3f5.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/ryoshu-local.json",
+        "sha256": "268b393b969e8ef61910fd8034f90f6d2949a3401192edd2a2b8ff75179944c0"
+      },
+      "baseline_record": {
+        "path": "data/production/ryoshu-local-current.json",
+        "sha256": "218a13068959fe349a9a3140a3be83a3c63fa2a85c0af9ecb95757dcc7f9cc16"
+      },
+      "case_record": {
+        "path": "data/cases/ryoshu-local.json",
+        "sha256": "332e744cd133ee55fb3b0fb5ad6cb15c69db25982bb2ffc08a0b96c5a21486c5"
+      }
+    }
+  ]
+}
