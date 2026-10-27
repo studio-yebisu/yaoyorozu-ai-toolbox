@@ -2,6 +2,7 @@ name = "yaoyorozu-likes"
 account_id = "b9a279130afe8c02e3c6f32c3f3ac43a"
 main = "worker.mjs"
 compatibility_date = "2026-10-27"
+preview_urls = false
 
 [vars]
 ALLOWED_ORIGINS = "https://studio-yebisu.github.io"
@@ -11,3 +12,6 @@ binding = "DB"
 database_name = "yaoyorozu-likes"
 database_id = "bba8df1a-28db-4e94-b233-37f9402f1087"
 migrations_dir = "migrations"
+
+[observability]
+enabled = true
