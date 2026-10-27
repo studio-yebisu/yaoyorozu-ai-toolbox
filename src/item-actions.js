@@ -98,7 +98,7 @@
       icon('save'), h('span', {'data-save-label': ''}, 'あとで試す'));
     paintButton(save);
     const share = h('button', {class: 'item-action item-share', type: 'button', 'aria-label': name + 'をシェア',
-      title: '共有メニューを開くか、リンクをコピー'}, icon('share'), h('span', {}, 'シェア'));
+      title: '共有メニューを開くか、リンクをコピー'}, icon('share'));
     const wrapper = h('div', {class: 'item-actions-wrap'},
       h('div', {class: 'item-actions', role: 'group', 'aria-label': name + 'の操作'}, window.SY.likes.create(id, name), save, share), status);
     share.addEventListener('click', async event => {

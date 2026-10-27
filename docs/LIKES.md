@@ -34,7 +34,7 @@ python scripts/serve.py --port 8857
 
 ## 本番接続
 
-Cloudflareアカウントへのログイン、外部リソースの作成、API公開とGitHub Pagesへの反映は承認後に行います。既定の `data/likes.json` は空のURLです。この状態ではボタンを表示せず、未接続のいいねを保存済みと扱いません。
+Cloudflareアカウントへのログイン、外部リソースの作成、API公開とGitHub Pagesへの反映は承認後に行います。既定の `data/likes.json` は空のURLです。この状態でも「いいね」ボタンは残し、「準備中」と表示して無効にします。未接続のいいねを保存済みと扱わず、件数も表示しません。シェアは小さなアイコンだけを表示し、押せる範囲は44pxを保ちます。
 
 1. Cloudflareの **Workers Free** プランを確認します。有料プランへの変更は行いません。
 2. `services/likes` で `npx wrangler d1 create yaoyorozu-likes` を実行し、返されたDB IDを `wrangler.toml` のプレースホルダーに設定します。
