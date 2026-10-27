@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "scope": "Only upstream load_graph / resolve_seed / affected_nodes / format_affected executed. Full Graphify CLI, tree-sitter extraction, semantic extraction and MCP were not run.",
+  "upstream_commit": "847a93f3cab5e2c82ea9170014b21cd2c52a4417",
+  "graph_origin": {
+    "calls": "Our stdlib AST adapter on three tiny Python files",
+    "references": "Manually authored document-to-function mapping, not automatic inference"
+  },
+  "seed": "shipping_fee",
+  "depth": 3,
+  "hits": [
+    {
+      "node_id": "checkout_total",
+      "depth": 1,
+      "via_relation": "calls",
+      "via_file": "fixture/checkout.py",
+      "via_location": "4"
+    },
+    {
+      "node_id": "delivery_estimate",
+      "depth": 1,
+      "via_relation": "calls",
+      "via_file": "fixture/estimate.py",
+      "via_location": "4"
+    },
+    {
+      "node_id": "shipping-policy.md",
+      "depth": 1,
+      "via_relation": "references",
+      "via_file": "fixture/shipping-policy.md",
+      "via_location": "2"
+    },
+    {
+      "node_id": "checkout-spec.md",
+      "depth": 2,
+      "via_relation": "references",
+      "via_file": "fixture/checkout-spec.md",
+      "via_location": "2"
+    },
+    {
+      "node_id": "estimate-spec.md",
+      "depth": 2,
+      "via_relation": "references",
+      "via_file": "fixture/estimate-spec.md",
+      "via_location": "2"
+    }
+  ],
+  "formatted": "Affected nodes for shipping_fee\nRelations: calls, indirect_call, references, imports, imports_from, dynamic_import, re_exports, inherits, extends, implements, uses, mixes_in, embeds, defines, requires\nDepth: 3\n- checkout_total [calls] fixture/checkout.py:4\n- delivery_estimate [calls] fixture/estimate.py:4\n- shipping-policy.md [references] fixture/shipping-policy.md:2\n- checkout-spec.md [references] fixture/checkout-spec.md:2\n- estimate-spec.md [references] fixture/estimate-spec.md:2",
+  "fixture_runs": [
+    {
+      "subtotal_yen": 3999,
+      "shipping_yen": 650,
+      "total_yen": 4649
+    },
+    {
+      "subtotal_yen": 4000,
+      "shipping_yen": 0,
+      "total_yen": 4000
+    },
+    {
+      "subtotal_yen": 5000,
+      "shipping_yen": 0,
+      "total_yen": 5000
+    }
+  ],
+  "node_count": 6,
+  "edge_count": 5
+}

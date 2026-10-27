@@ -1,0 +1,191 @@
+{
+  "id": "motion-video-kit-example",
+  "title": "Motion Video Kit",
+  "title_lines": [
+    "短い紹介動画をコードで作る制作スキル"
+  ],
+  "category": "motion",
+  "summary": "制作ブリーフから映像の部品を作り、短い紹介動画へ組み立てられます。製品の変更点や使い方を、描画した画面の確認と修正を重ねながら映像にできます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/motion-video-kit-example/index.html",
+  "video": "media/motion-video-kit-example.mp4",
+  "poster": "media/motion-video-kit-example.webp",
+  "skill": "examples/motion-video-kit-example/vendor/motion-video-kit/business-motion-film/SKILL.md",
+  "skill_label": "原典のSKILL.md（制作手順のスキル）",
+  "skill_description": "ブリーフ・絵コンテ・部品の検証・別担当のレビューで短尺映像を作る、制作手順のスキル",
+  "samples": "examples/motion-video-kit-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "実入力と結果",
+  "samples_intro": "同じstudio-introの実入力と20秒の実作品を保持しています。記事の作例リンクは保全した本編の実物欄へ進みます。スキルの構造図は同じページの冒頭にあります。「実際の20秒の作品を見る」から作品/8場面のシーク/編集ソースを開けます。",
+  "demo_description": "指示書・参照・補助スクリプトと、実際の依頼→作者の執筆→制作担当の描画→別AIの確認→作者への戻り→実作品というつながりを一枚で見る紹介です。選択枠/組み上げ枠/本編の元記録を選び、6部品の原文と対応づけられます。",
+  "demo_note": "図は保存した元制作の構造説明です。ページ上で推論・描画・元の評価を実行していません。実作品は20秒、構造の紹介動画は32秒で別の映像です。どちらも無音。",
+  "request_intro": "Motion Video Kit の原典を固定コミットで読める環境で、AIに次の文章を渡します。【】の部分を自分の事業と条件に置き換えて使ってください。",
+  "request": "Motion Video Kit（echris6/motion-video-kit、固定コミット e4b1c0004080fe6a0deb883631bad5eba1e5f339）の business-motion-film/SKILL.md を読み、工程ごとに指定された references（motion-grammar.md・launch-film-notes.md・quality-bar.md・gauntlet.md・critic-prompts.md）を読んでから、次の事業の短い紹介映像を作ってください。\n\n事業と目的：【事業名、何をしているか、見た人にしてほしい一つの行動】\n確かな事実：【映像で言ってよい事実と、その根拠】\n言わないこと：【価格・実績・保証など、出さない主張】\n仕様：【尺・縦横・fps】、音なし\nブランド：【色・書体・使ってよい自作の素材】\n\n進め方：BRIEF.md を書き、文章分析から機構を3つ選んで、時刻・見えるもの・役割・場面をまたいで残る対象を表にした絵コンテを作る。主役の部品は単独の検証ページで実際に書き出し、作った担当とは別の新しいレビュー担当に、MP4とブリーフだけを渡して評価させ、直してから本編に入れる。全編を書き出して別の新しい担当に評価させ、直したら、さらに新しい担当に前の指摘を項目ごとに確かめさせる。\n\n作り方：第三者の映像・音楽・生成素材を使わず、HTML/SVG と JavaScript のコードで無音の映像を作る。window.seek(秒) がその時刻の画面だけを描く作りにし、Motion Reel などの決定的なレンダラーで書き出して、編集できるソースを残す。\n\n確認：原典の scripts/frozen-time.sh で静止の長さを実際の MP4 で測り、同じ時刻を別の順序で描いて同じ画になるかを確かめる。測った値、AIのレビュー結果、人の承認を分けて報告し、確かめていない点を書く。",
+  "video_note": "32秒・30fps・完全無音。縦720×1280と横1280×720を別配置で描きます。指示書と依頼→作者が部品と本編を執筆→制作担当が描画→実MP4を別のAIへ/測定の別経路→作者への戻り→元の20秒作品とソース、という概念構造の紹介です。新しいGauntlet評価や元工程の再実行ではありません。",
+  "video_source": "examples/motion-video-kit-example/video/index.html",
+  "skill_license": "examples/motion-video-kit-example/vendor/motion-video-kit/LICENSE",
+  "applied_skills": [
+    {
+      "name": "Motion Video Kit",
+      "source": "https://github.com/echris6/motion-video-kit/blob/e4b1c0004080fe6a0deb883631bad5eba1e5f339/business-motion-film/SKILL.md",
+      "applied": "固定版の SKILL.md と、工程ごとに指定された motion-grammar.md・launch-film-notes.md・quality-bar.md・gauntlet.md・critic-prompts.md を読んだ。BRIEF.md に事業・見る人・唯一の行動「作例を見る」・言ってよい事実・言わないことを書き、機構の表と文章分析から「選ぶと広がる」「結果が組み上がる」「残る道筋」を選んで、1本の輪郭を主役にした8構図の絵コンテにした。参考の28本の映像は見ておらず、同梱の文章分析だけを使った。絵コンテは別担当の評価（REVISE）を受け、紹介段階の項目に作例の印を付けていた点、引用を読む時間、一覧への逆戻りを直した。主役の部品（選択枠・組み上げ枠）は単独の4秒の検証ページで書き出し、作った担当とは別のAIが実際のMP4で評価した。輪郭が文字を横切る、選択の線が2本になる、拭き取りが日本語を切る、などの指摘を直し、新しい担当の確認で両方 KEEP になった（人の承認ではない）。本編は部品を変えずに時刻とデータだけを渡して組んだ。音の工程（audio.md・loudness.sh）、AI素材、Three.js は範囲外。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824",
+      "applied": "本編（20秒・60fps・1920×1080・posterTime 13）と解説（22秒・30fps・1280×720）を、window.seek(秒) がその時刻の完成した画面だけを描く契約で書いた。motionConfig（audioEvents なし）、renderConfig のサイズとFPSの反映、フォントの準備を待つ motionReady、書き出し中のプレビュー停止に従い、タイマー・CSSアニメーション・乱数・前フレームの積算を使っていない。解説は本編のMP4から書き出したフレームの読み込みとデコードを待ち、1枚でも欠ければ motionReady を失敗させる。部品の検証ページは Motion Reel で書き出し、同じ時刻を別の順序と新しいページで描いた一致が記録された（同じ実行環境内）。 今回は原作品を描き直さず、構造を説明する32秒の無音紹介を新しく制作。任意時刻・縦横別配置・素材の完全性・新しい代表/連続フレームとMP4再生は新しいQAで検証しました。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "原典を固定して読む",
+      "body": "echris6/motion-video-kit のコミット e4b1c00（MIT）を固定し、business-motion-film の SKILL.md・選択した参照資料・scripts（frozen-time・loudness・contact-sheet）と README・LICENSE を変更せずに vendor/ へ置きました。SKILL.md の工程表に従い、絵コンテとレビューに必要な参照資料を読んでいます。"
+    },
+    {
+      "title": "ブリーフと絵コンテを書く",
+      "body": "実際の依頼（input.md）から、事業・見る人・唯一の行動・言ってよい事実・言わないことを BRIEF.md に分けました。機構を3つ選び、時刻・構図・役割・場面をまたいで残る対象を絵コンテにしています。別担当の評価で、作例の印の扱い、引用を読む時間、一覧への逆戻りを直しました。"
+    },
+    {
+      "title": "部品を単独で検証する",
+      "body": "1本の輪郭（選択枠）と、外枠が先に着いて中身が組み上がる枠を、それぞれ4秒の検証ページで書き出しました。作った担当とは別のAIが実際のMP4で評価し、文字との交差や二重の選択などの指摘を直して、新しい担当の確認で両方 KEEP になっています。"
+    },
+    {
+      "title": "部品を変えずに本編を組む",
+      "body": "検証した部品のファイルには手を入れず、時刻とデータだけを渡して8つの場面を組みました。結果の枠の中身は、表紙と同じ cover() が描く構図です（選択線の重ね描きを除き、先頭フレーム全体の完全な画像一致ではありません）。CTAのボタンの文字は96pxにして、スマートフォンの大きさでも読めるようにしました。"
+    },
+    {
+      "title": "解説映像と記事を作る",
+      "body": "原制作の22秒の無音解説は本編MP4の実フレームから作ったもので、旧編集として保持しています。今回は指示書の中身/作者への入力/制作担当の描画/別AIと測定への分岐/作者へ戻す関係を、新しい32秒の無音図解へ改修しました。元の20秒作品は描き直していません。"
+    },
+    {
+      "title": "全編を書き出して確かめる",
+      "body": "本編と解説を実際に書き出し、任意時刻の描画一致を確認。別担当AIが全編の実MP4を確認し、修正後は新しい担当が前回の指摘を検証しました。静止差分の実測値と原典の目安、人による承認の有無は確認記録へ分けています。"
+    }
+  ],
+  "limitations": [
+    "無音です。原典の音楽・効果音・ラウドネスの工程は行っていません。",
+    "2Dの図形と文字だけです。3D、AIで生成した映像や画像、実写、第三者の素材は使っていません。",
+    "試したのは 八百万図AIツールボックス 自身を紹介する1本だけです。原典が扱う顧客向けの案件、AI素材の生成、Three.js、音の仕上げは試していません。",
+    "映像の画面は紹介用に再構成した模式図で、実際の操作の録画ではありません。一覧の行は名前を伏せた例です。",
+    "原典に記載された28本の参考映像は見ていません。動きの仕組みは同梱の文章分析だけから選びました。",
+    "レビューは作った担当とは別のAIによるもので、人による承認ではありません。",
+    "書体はOSに入っているものを使うため、環境によって文字の幅が変わります。同じ時刻で同じ画になる確認は、同じ実行環境の中での再現性です。",
+    "Motion Video Kit は手順のスキルで、映像を自動で作る機能はありません。同じ依頼でも、作る人やAIによって結果は変わります。",
+    "静止差分は約5.5秒。原典の合計約1秒/30秒という数値目安は未達です。読む時間のある今回の無音作例として別担当AIが確認し、数値基準への完全適合とは扱っていません。",
+    "今回の図の6部品は説明用の整理で原典の共通スキーマではありません。元7受領は作者の別の執筆回で、7つの自動AIではありません。",
+    "原作品の静止5.5秒/最長非CTA1.7秒は元の測定です。元のAI判断SHIPは数値目安の適合でも人の承認でもなく、新しい図/32秒紹介の採点ではありません。",
+    "原典の18配布資料を固定公式Gitblobと全rawbytes一致照合。元53files/7受領/4秒2部品/20秒作品/独立レビューを保持し、元推論・レンダー・レビュー・測定は再実行していません。",
+    "新しい保存ボタンは元の8場面のstoryboard.json6267Bを同じバイトでブラウザーへ渡します。選択した部品別の新出力やディスク保存完了ではありません。",
+    "実機iOS/Safari/VoiceOver、200%ブラウザーズーム、人の審美的承認、意味/全入力/性能の保証、クリップボード再取得は未確認。"
+  ],
+  "sources": [
+    {
+      "label": "Motion Video Kit business-motion-film/SKILL.md（echris6/motion-video-kit、固定版）",
+      "url": "https://github.com/echris6/motion-video-kit/blob/e4b1c0004080fe6a0deb883631bad5eba1e5f339/business-motion-film/SKILL.md"
+    },
+    {
+      "label": "Motion Video Kit のスキルのフォルダ（固定版）",
+      "url": "https://github.com/echris6/motion-video-kit/tree/e4b1c0004080fe6a0deb883631bad5eba1e5f339/business-motion-film"
+    },
+    {
+      "label": "動きの原則と機構の表 motion-grammar.md（固定版）",
+      "url": "https://github.com/echris6/motion-video-kit/blob/e4b1c0004080fe6a0deb883631bad5eba1e5f339/business-motion-film/references/motion-grammar.md"
+    },
+    {
+      "label": "Motion Video Kit README（固定版）",
+      "url": "https://github.com/echris6/motion-video-kit/blob/e4b1c0004080fe6a0deb883631bad5eba1e5f339/README.md"
+    },
+    {
+      "label": "Motion Video Kit LICENSE（MIT、固定版から作例に同梱）",
+      "url": "examples/motion-video-kit-example/vendor/motion-video-kit/LICENSE"
+    },
+    {
+      "label": "Motion Reel（Studio Yebisu、MIT）",
+      "url": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824"
+    },
+    {
+      "label": "作例の絵コンテ（storyboard.md）",
+      "url": "examples/motion-video-kit-example/storyboard.md"
+    },
+    {
+      "label": "作例の再現手順（README）",
+      "url": "examples/motion-video-kit-example/README.md"
+    },
+    {
+      "label": "実測・独立AIレビューの確認記録",
+      "url": "examples/motion-video-kit-example/review-summary.json"
+    },
+    {
+      "label": "元の20秒作品と8場面を試す",
+      "url": "examples/motion-video-kit-example/desk.html#studio-intro"
+    },
+    {
+      "label": "概念図と無音32秒紹介の再現手順",
+      "url": "examples/motion-video-kit-example/visual-guide.md"
+    },
+    {
+      "label": "今回の構造図と映像の確認範囲",
+      "url": "examples/motion-video-kit-example/visual-verification.json"
+    }
+  ],
+  "license": "MIT",
+  "license_note": "この作例の映像ソース・画面構成・文言・記録は 八百万図AIツールボックス の2026年の独自制作で、MIT License（Copyright (c) 2026 Studio Yebisu）です。vendor/motion-video-kit/ の SKILL.md・references・scripts・README は上流の MIT License（Copyright (c) 2026 echris6）で、LICENSE を同梱しています。原典が挙げる参考映像は含まず、使っていません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "catalog_entry": {
+    "id": "resource-motion-video-kit",
+    "name": "Motion Video Kit",
+    "tagline": "短い紹介動画をコードで作る制作スキル",
+    "category": "motion",
+    "kind": "スキル",
+    "summary": "制作ブリーフから映像の部品を作り、短い紹介動画へ組み立てられます。製品の変更点や使い方を、描画した画面の確認と修正を重ねながら映像にできます。",
+    "use_case": "製品の変更点やサービスの使い方を、短い紹介映像で説明したいとき。",
+    "tags": [
+      "アニメーション",
+      "コード動画",
+      "Agent Skills"
+    ],
+    "workflow": [
+      "伝える内容と参考を整理し、構成を決める",
+      "HTML/SVGとJavaScriptで場面を制作し、Motion Reelで書き出す",
+      "書き出した映像を見て、修正点を反映する"
+    ],
+    "requirements": [
+      "コード動画のレンダラーと制作環境",
+      "必要な映像・画像・音の素材"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/echris6/motion-video-kit/blob/e4b1c0004080fe6a0deb883631bad5eba1e5f339/LICENSE",
+    "license_note": "スキル本体はMIT。参考映像の権利や、レンダラー・素材の利用条件は別です。",
+    "source_url": "https://github.com/echris6/motion-video-kit/tree/e4b1c0004080fe6a0deb883631bad5eba1e5f339/business-motion-film",
+    "guide_url": "case.html?id=motion-video-kit-example",
+    "example_url": "examples/motion-video-kit-example/index.html#studio-intro",
+    "image": "media/motion-video-kit-example.webp",
+    "readme_url": "https://github.com/echris6/motion-video-kit/blob/e4b1c0004080fe6a0deb883631bad5eba1e5f339/README.md",
+    "source_repository": "echris6/motion-video-kit",
+    "source_commit": "e4b1c0004080fe6a0deb883631bad5eba1e5f339",
+    "source_path": "business-motion-film",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADME・SKILL.md・参照資料と利用条件を確認し、用途と最初の試し方を日本語で整理しました。原典は確認時のコミットへ固定しています。原典はAI素材、Three.js、音の仕上げも扱いますが、作例で試したのは2Dのコードによる無音の映像1本です。",
+    "prompt": "Motion Video Kit（echris6/motion-video-kit、固定コミット e4b1c0004080fe6a0deb883631bad5eba1e5f339）の business-motion-film/SKILL.md を読み、工程ごとに指定された references（motion-grammar.md・launch-film-notes.md・quality-bar.md・gauntlet.md・critic-prompts.md）を読んでから、次の事業の短い紹介映像を作ってください。\n\n事業と目的：【事業名、何をしているか、見た人にしてほしい一つの行動】\n確かな事実：【映像で言ってよい事実と、その根拠】\n言わないこと：【価格・実績・保証など、出さない主張】\n仕様：【尺・縦横・fps】、音なし\nブランド：【色・書体・使ってよい自作の素材】\n\n進め方：BRIEF.md を書き、文章分析から機構を3つ選んで、時刻・見えるもの・役割・場面をまたいで残る対象を表にした絵コンテを作る。主役の部品は単独の検証ページで実際に書き出し、作った担当とは別の新しいレビュー担当に、MP4とブリーフだけを渡して評価させ、直してから本編に入れる。全編を書き出して別の新しい担当に評価させ、直したら、さらに新しい担当に前の指摘を項目ごとに確かめさせる。\n\n作り方：第三者の映像・音楽・生成素材を使わず、HTML/SVG と JavaScript のコードで無音の映像を作る。window.seek(秒) がその時刻の画面だけを描く作りにし、Motion Reel などの決定的なレンダラーで書き出して、編集できるソースを残す。\n\n確認：原典の scripts/frozen-time.sh で静止の長さを実際の MP4 で測り、同じ時刻を別の順序で描いて同じ画になるかを確かめる。測った値、AIのレビュー結果、人の承認を分けて報告し、確かめていない点を書く。",
+    "verification_stage": "runtime-reviewed",
+    "verification": "原制作の2部品/20秒作品/別AIレビュー/静止の数値未達を保全。今回は構造図と32秒の無音紹介を新しいOpus5.5で制作し、新しい描画/操作/公開のQAで検証しました。",
+    "reviewed_on": "2026-10-15"
+  },
+  "updated_on": "2026-10-21",
+  "video_portrait": "media/motion-video-kit-example.mp4",
+  "video_landscape": "media/motion-video-kit-example-wide.mp4",
+  "poster_portrait": "media/motion-video-kit-example.webp",
+  "poster_landscape": "media/motion-video-kit-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/motion-video-kit-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/motion-video-kit-example-landscape-credited-ja-v3.mp4"
+}

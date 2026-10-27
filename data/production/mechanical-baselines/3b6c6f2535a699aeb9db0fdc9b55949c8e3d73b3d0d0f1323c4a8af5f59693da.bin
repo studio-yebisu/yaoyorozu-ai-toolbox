@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HatchZip 作例：無音の説明映像（編集ソース）｜八百万図AIツールボックス</title>
+  <script>
+    // Motion Reel time contract. Runs before scene.js so renderConfig is reflected at init.
+    (() => {
+      const r = window.renderConfig || {};
+      const n = (v, d) => (Number.isFinite(Number(v)) && Number(v) > 0 ? Number(v) : d);
+      window.motionConfig = {duration: 26, fps: n(r.fps, 30), width: n(r.width, 540), height: n(r.height, 960), posterTime: 18.4, audioEvents: []};
+      let resolve, reject;
+      window.motionReady = new Promise((a, b) => { resolve = a; reject = b; });
+      window.motionReady.catch(() => {});
+      window.__filmBoot = {resolve, reject};
+      window.seek = s => { window.__seekAt = Math.max(0, Math.min(window.motionConfig.duration, Number(s) || 0)); };
+      if (window.__MOTION_RENDER__ || new URLSearchParams(location.search).has('render')) document.documentElement.classList.add('render');
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: #17150f; }
+    body { min-height: 100svh; display: grid; place-items: center; padding: 1rem; font-family: "Hiragino Sans", "Yu Gothic", Meiryo, "Noto Sans JP", system-ui, sans-serif; }
+    .frame { width: min(100%, 60vh); }
+    canvas { display: block; width: 100%; height: auto; background: #f2eee3; border-radius: 8px; }
+    .controls { width: min(100%, 60vh); margin-top: 0.8rem; display: flex; align-items: center; gap: 0.7rem; padding: 0.7rem 0.9rem; border-radius: 10px; background: #f2eee3; color: #17150f; font-size: 0.85rem; }
+    .controls a { color: inherit; }
+    .controls button { min-height: 2.4rem; padding: 0.3rem 1rem; border: 1.5px solid #17150f; border-radius: 999px; background: #17150f; color: #f2eee3; font-weight: 700; cursor: pointer; }
+    .controls input[type="range"] { flex: 1; accent-color: #ff4f00; }
+    .controls output { font-family: Consolas, monospace; font-size: 0.75rem; white-space: nowrap; }
+    .controls .note { font-size: 0.72rem; color: #4f4a3f; }
+    /* Render mode: the export canvas must fill the viewport exactly (no letterboxing, no rounding). */
+    html.render, html.render body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; display: block; }
+    html.render .frame { width: 100vw; height: 100vh; }
+    html.render canvas#film { width: 100%; height: 100%; border-radius: 0; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <canvas id="film" width="540" height="960" role="img" aria-label="HatchZipの作例：使い捨てコピーのアーカイブが縮みながら出力が育ち、SHA-256が一致する無音の説明映像"></canvas>
+  </div>
+  <div class="controls" id="controls">
+    <a href="../index.html">← 作例のページへ</a>
+    <button type="button" id="play" aria-pressed="false">再生</button>
+    <input type="range" id="scrub" min="0" max="26" step="0.05" value="0" aria-label="時刻（秒）">
+    <output id="time">0.0 / 26.0秒</output>
+    <span class="note">26秒・30fps・無音</span>
+  </div>
+  <script src="scene.js"></script>
+  <script>
+    (() => {
+      if (window.__MOTION_RENDER__ || new URLSearchParams(location.search).has('render')) {
+        document.getElementById('controls').remove();
+        return;
+      }
+      const play = document.getElementById('play'), scrub = document.getElementById('scrub'), out = document.getElementById('time');
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+      let playing = false, raf = 0, start = 0;
+      const cfg = window.motionConfig;
+      const show = t => { window.seek(t); scrub.value = String(t); out.value = t.toFixed(1) + ' / ' + cfg.duration.toFixed(1) + '秒'; };
+      const stop = () => { playing = false; cancelAnimationFrame(raf); play.textContent = '再生'; play.setAttribute('aria-pressed', 'false'); };
+      const tick = now => { if (!playing) return; const t = (now - start) / 1000; if (t >= cfg.duration) { stop(); show(cfg.duration); return; } show(t); raf = requestAnimationFrame(tick); };
+      play.addEventListener('click', () => {
+        if (playing) return stop();
+        playing = true;
+        const cur = Number(scrub.value) >= cfg.duration - 0.01 ? 0 : Number(scrub.value);
+        start = performance.now() - cur * 1000;
+        play.textContent = '一時停止'; play.setAttribute('aria-pressed', 'true');
+        raf = requestAnimationFrame(tick);
+      });
+      scrub.addEventListener('input', () => { stop(); show(Number(scrub.value)); });
+      document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); });
+      reduce.addEventListener('change', () => { if (reduce.matches) stop(); });
+      window.motionReady.then(() => show(window.__seekAt || 0)).catch(() => {});
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>依頼文：Motion Video Kit で短い紹介映像を作る｜八百万図AIツールボックス</title>
+<style>
+  body { margin: 0; background: #F6F3EB; color: #17282B; font: 16px/1.8 'Yu Gothic', 'YuGothic', 'Hiragino Sans', 'Noto Sans JP', sans-serif; }
+  main { max-width: 820px; margin: 0 auto; padding: 32px 20px 48px; }
+  h1 { margin: 0 0 8px; font: 600 1.6rem/1.4 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', 'Noto Serif JP', serif; }
+  label { display: block; margin: 20px 0 8px; font-weight: 700; }
+  textarea { box-sizing: border-box; width: 100%; min-height: 28rem; padding: 12px; border: 1px solid rgba(23, 40, 43, 0.3); border-radius: 8px; background: #FBF9F3; color: inherit; font-family: inherit; font-size: 15px; line-height: 1.7; resize: vertical; }
+  textarea:focus-visible { outline: 3px solid #0B615E; outline-offset: 2px; }
+  a { color: #0B615E; }
+</style>
+</head>
+<body>
+<main>
+  <h1>依頼文：Motion Video Kit で短い紹介映像を作る</h1>
+  <p>AIに渡す文章です。【】の部分を自分の事業と条件に置き換えてください。このページは文章を表示するだけで、AIを動かしたり映像を作ったりはしません。</p>
+  <label for="request">依頼文（読み取り専用。全選択してコピーできます）</label>
+  <textarea id="request" readonly spellcheck="false">Motion Video Kit（echris6/motion-video-kit、固定コミット e4b1c0004080fe6a0deb883631bad5eba1e5f339）の business-motion-film/SKILL.md を読み、工程ごとに指定された references（motion-grammar.md・launch-film-notes.md・quality-bar.md・gauntlet.md・critic-prompts.md）を読んでから、次の事業の短い紹介映像を作ってください。
+
+事業と目的：【事業名、何をしているか、見た人にしてほしい一つの行動】
+確かな事実：【映像で言ってよい事実と、その根拠】
+言わないこと：【価格・実績・保証など、出さない主張】
+仕様：【尺・縦横・fps】、音なし
+ブランド：【色・書体・使ってよい自作の素材】
+
+進め方：BRIEF.md を書き、文章分析から機構を3つ選んで、時刻・見えるもの・役割・場面をまたいで残る対象を表にした絵コンテを作る。主役の部品は単独の検証ページで実際に書き出し、作った担当とは別の新しいレビュー担当に、MP4とブリーフだけを渡して評価させ、直してから本編に入れる。全編を書き出して別の新しい担当に評価させ、直したら、さらに新しい担当に前の指摘を項目ごとに確かめさせる。
+
+作り方：第三者の映像・音楽・生成素材を使わず、HTML/SVG と JavaScript のコードで無音の映像を作る。window.seek(秒) がその時刻の画面だけを描く作りにし、Motion Reel などの決定的なレンダラーで書き出して、編集できるソースを残す。
+
+確認：原典の scripts/frozen-time.sh で静止の長さを実際の MP4 で測り、同じ時刻を別の順序で描いて同じ画になるかを確かめる。測った値、AIのレビュー結果、人の承認を分けて報告し、確かめていない点を書く。</textarea>
+  <p><a href="index.html">作例の説明へ戻る</a>　<a href="request.txt">テキストファイル（request.txt）</a></p>
+</main>
+</body>
+</html>

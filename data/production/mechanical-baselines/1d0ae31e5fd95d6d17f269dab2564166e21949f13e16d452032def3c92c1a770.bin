@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>OpenHands 作例：自動化の設定を、持ち運ぶ前に点検する｜八百万図AIツールボックス</title>
+  <meta name="description" content="架空の8つの自動化の設定を、固定版 OpenHands Agent Canvas 1.27.1 の実際の入出力API（serializeAutomation・parseAutomationFile）で .automation.json に書き出し、読み戻した保存記録を読むページです。形が通ったか、止まった理由、取りこぼされる項目を確かめられます。">
+  <meta name="theme-color" content="#3d1a44">
+  <link rel="stylesheet" href="comparison.css">
+  <script src="comparison.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#result">結果へ移動</a>
+
+  <header class="masthead">
+    <p class="eyebrow">OpenHands Agent Canvas 1.27.1 ・ 自動化ファイルの入出力</p>
+    <h1 class="headline"><span class="phrase">自動化の設定を、</span><span class="phrase">持ち運ぶ前に点検する</span></h1>
+    <p class="lead">設定の書き出し・読み戻し、8件の実結果。</p>
+    <p class="scope">固定版APIの検査記録。<a href="#about">確かめた範囲</a></p>
+  </header>
+
+  <main id="main">
+    <section id="result" class="result" aria-labelledby="sample-title" tabindex="-1">
+      <div id="status" class="status" data-state="loading" role="status" aria-live="polite">
+        <p id="status-text" class="status-text">保存した実行記録を読み込み、固定版とハッシュを確かめています…</p>
+        <button id="retry" class="button" type="button" hidden>もう一度読み込む</button>
+      </div>
+
+      <p id="tally" class="tally" hidden></p>
+
+      <div class="picker">
+        <label class="picker-label" for="sample-select">設定ファイルを選ぶ（8件）</label>
+        <select id="sample-select" class="select" disabled></select>
+      </div>
+
+      <article id="viewer" class="viewer" hidden>
+        <p id="sample-kicker" class="kicker"></p>
+        <h2 id="sample-title" class="sample-title"></h2>
+        <p id="result-state" class="result-state" data-state=""></p>
+
+        <section class="diagnosis-box" aria-labelledby="diagnosis-title">
+          <h3 id="diagnosis-title" class="box-title">原典の判定 <span id="diagnosis-note" class="box-note"></span></h3>
+          <ul id="diagnosis" class="diagnosis"></ul>
+        </section>
+
+        <div id="caveat" class="caveat" role="note" hidden>
+          <p class="caveat-title">注意</p>
+          <ul id="caveat-list" class="caveat-list"></ul>
+        </div>
+
+        <p id="repair" class="repair" hidden>
+          <span id="repair-text"></span>
+          <a id="repair-link" class="repair-link" href="#O04"></a>
+        </p>
+
+        <details class="raw"><summary>ファイル名と設定の詳細</summary><dl id="facts" class="facts"></dl></details>
+
+        <div class="actions">
+          <button id="download-file" class="button" type="button" disabled>.automation.json を保存</button>
+          <button id="download-record" class="button button-quiet" type="button" disabled>この1件の記録（JSON）を保存</button>
+          <button id="copy-request" class="button button-quiet" type="button" disabled>依頼文をコピー</button>
+          <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+          <label id="request-fallback-label" class="fallback-label" for="request-fallback" hidden>コピーできませんでした。下の全文を長押しして選び、コピーしてください。</label>
+          <textarea id="request-fallback" class="fallback" rows="8" readonly hidden></textarea>
+        </div>
+
+        <details class="raw">
+          <summary>書き出された .automation.json の全文</summary>
+          <p id="raw-file-note" class="raw-note"></p>
+          <pre id="raw-file" class="raw-text" tabindex="0"></pre>
+        </details>
+
+        <details class="raw">
+          <summary>入力（実行前に固定した架空の設定）の全文</summary>
+          <p id="raw-input-note" class="raw-note"></p>
+          <pre id="raw-input" class="raw-text" tabindex="0"></pre>
+        </details>
+
+        <details class="raw">
+          <summary>この1件の実結果（記録の JSON 全文）</summary>
+          <p class="raw-note">原典の関数が返した値をそのまま記録したものです。「この1件の記録を保存」はこの JSON と同じものを保存します。</p>
+          <pre id="raw-output" class="raw-text" tabindex="0"></pre>
+        </details>
+      </article>
+    </section>
+
+    <section id="about" class="band" aria-labelledby="about-title">
+      <h2 id="about-title">このページで動いているもの</h2>
+      <p>制作側が <code>node run.mjs</code> で実行して保存した <a href="outputs/automation-runs.json">outputs/automation-runs.json</a> を読んで表示するだけです。ブラウザーの中で Agent Canvas・エージェント・AI は動きません。表示の前に、入力2ファイルとロックの SHA-256、固定版、8件の入力と記録の一致、形が通った数と止まった数、確認の合否を照合し、合わなければ結果を出しません。</p>
+      <ol class="flow">
+        <li><strong>設定を書く</strong>　名前・きっかけ（時刻か event）・prompt・参照先など</li>
+        <li><strong>書き出す</strong>　<code>serializeAutomation</code> が持ち運べる <code>.automation.json</code> の形にする</li>
+        <li><strong>読み戻す</strong>　<code>parseAutomationFile</code> が形を確かめ、通らなければ誤りの一覧を返す</li>
+        <li><strong>直して再確認</strong>　O03 と O04 のように、誤りの1か所だけを戻して通るか見る</li>
+        <li><strong>保存する</strong>　形が通ったファイルを、そのまま <code>.automation.json</code> で保存</li>
+      </ol>
+    </section>
+
+    <section id="limits" class="band" aria-labelledby="limits-title">
+      <h2 id="limits-title">「形が通った」は「動く」ではない</h2>
+      <ul class="plain-list">
+        <li><strong>6件が通ったのは、ファイルの形の検査です。</strong>動く自動化が6件できたわけでも、予定を登録したわけでも、品質の点数でもありません。</li>
+        <li><strong>O06：</strong><code>parseAutomationFile</code> は schedule が空でない文字列かだけを見ます。<code>not-a-cron</code> でも通り、cron の書き方や、実際にいつ動くかは確かめていません。</li>
+        <li><strong>O07：</strong>書き出すファイルに入る参照先は先頭の1件だけです。2件目は落ち、古い repository・branch も先頭の値で上書きされます。参照先が複数ある設定の完全な控えにはなりません。</li>
+        <li>形が通った6件はすべて <code>enabled: false</code>（無効）のままです。O05 の <code>"false"</code> は文字列なので止まりました。</li>
+        <li>参照先の <code>example.invalid</code> はすべて架空で、取得していません。通信・ログイン・API キー・外部サービスは使っていません。</li>
+        <li>O08 のタグや波かっこは、このページでもただの文字として表示します。安全性や内容の正しさを確かめたものではありません。</li>
+      </ul>
+    </section>
+
+    <section id="film" class="band" aria-labelledby="film-title"><h2 id="film-title">図で見る、33秒・無音の使い方</h2><p>設定ファイルが点検を通って保存される流れを、動く概念図と短いラベルで説明します。稼働中のエージェントを撮影した動画ではありません。</p><p><a href="../../media/openhands-example.mp4">縦動画を見る</a> · <a href="../../media/openhands-example-wide.mp4">横動画を見る</a> · <a href="video/index.html">動画の編集ソース</a> · <a href="index.html">大きな概念図の作例へ</a></p></section>
+
+    <section id="files" class="band" aria-labelledby="files-title">
+      <h2 id="files-title">ファイルと再実行</h2>
+      <ul class="file-links">
+        <li><a href="outputs/automation-runs.json">8件の実行記録（outputs/automation-runs.json）</a></li>
+        <li><a href="outputs/exports/O04.automation.json">書き出したファイルの例（outputs/exports/O04.automation.json）</a></li>
+        <li><a href="input/automation-settings.json">架空の8つの設定（input/automation-settings.json）</a></li>
+        <li><a href="input/expected.json">実行前に決めた期待（input/expected.json）</a></li>
+        <li><a href="run.mjs">実行スクリプト（run.mjs）</a>・<a href="loader.mjs">読み込み補助（loader.mjs）</a></li>
+        <li><a href="outputs/method.md">手順と読み方（outputs/method.md）</a></li>
+        <li><a href="request.txt">依頼文（request.txt）</a>・<a href="README.md">README.md（再実行の手順）</a></li>
+        <li><a href="vendor-lock.json">原典12ファイルと依存29ファイルのハッシュ（vendor-lock.json）</a></li>
+      </ul>
+      <p class="note">再実行は Node 24 だけで動き、npm の導入は要りません。公開フォルダーを直接使わず、コピーの中で記録の名前を変え、コピーの外の新しいフォルダーを <code>--artifact-dir</code> に渡します。手順は README.md にあります。</p>
+    </section>
+
+    <details id="source" class="band source">
+      <summary>原典・固定版・利用条件</summary>
+      <dl class="kv">
+        <div class="kv-row"><dt>原典</dt><dd><a href="https://github.com/OpenHands/OpenHands/tree/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05">OpenHands/OpenHands</a>（Agent Canvas）</dd></div>
+        <div class="kv-row"><dt>固定コミット</dt><dd><code class="hash">e4775b4ba61a83ba80af5f7b0b826201b8e8ea05</code></dd></div>
+        <div class="kv-row"><dt>版・利用条件</dt><dd>1.27.1 ・ MIT（<a href="https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/LICENSE">LICENSE</a>）</dd></div>
+        <div class="kv-row"><dt>入出力API</dt><dd><a href="https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/src/utils/automation-export.ts">src/utils/automation-export.ts</a></dd></div>
+        <div class="kv-row"><dt>封筒と審査</dt><dd><a href="https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/src/manifests/automation-interface.ts">src/manifests/automation-interface.ts</a>・<a href="https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/src/manifests/interface-validation.ts">src/manifests/interface-validation.ts</a></dd></div>
+        <div class="kv-row"><dt>依存</dt><dd>@openhands/extensions 0.30.0 ・ MIT（<a href="https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/package-lock.json">package-lock.json</a> が固定する <a href="https://registry.npmjs.org/@openhands/extensions/-/extensions-0.30.0.tgz">npm の tgz</a>）</dd></div>
+      </dl>
+      <dl id="run-facts" class="kv"></dl>
+      <p><code>vendor/openhands/</code> の12ファイルは固定コミットのものを、<code>vendor/extensions/</code> の29ファイルは固定した npm パッケージのものを、どちらも改変せずに置いたもので、MIT License です（<a href="vendor/openhands/LICENSE">OpenHands の LICENSE</a>・<a href="vendor/extensions/LICENSE">@openhands/extensions の LICENSE</a>）。run.mjs・loader.mjs・このページ・説明文・動画の編集ソースは MIT License（<a href="LICENSE">LICENSE</a>・Copyright (c) 2026 Studio Yebisu）。</p>
+      <p>run.mjs・loader.mjs・ページ・説明文は Claude Opus 5.5 が書きました。架空の設定と期待は制作側が実行前に固定したものです。記録の値はモデルではなく、原典の関数が返したものです。上流への変更の提案（PR）はしておらず、原典の開発者向けの全体テストは行っていません。</p>
+    </details>
+  </main>
+
+  <footer class="footer">
+    <p>八百万図AIツールボックス ・ OpenHands 作例。架空の「さくら読書会」の設定です。実在のリポジトリ・予定・認証情報は含みません。</p>
+  </footer>
+</body>
+</html>

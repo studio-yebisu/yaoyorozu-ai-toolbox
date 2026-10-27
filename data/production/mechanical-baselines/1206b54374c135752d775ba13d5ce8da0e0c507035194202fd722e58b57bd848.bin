@@ -1,0 +1,197 @@
+{
+  "id": "ragas-example",
+  "title": "Ragas",
+  "title_lines": [
+    "RAGやLLMアプリの品質を測る評価ライブラリ"
+  ],
+  "category": "development",
+  "summary": "評価データと指標を使って、AIアプリの出力を測定できます。検索や回答の処理を変えたときに、同じ条件で結果を比べ、改善を検討できます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/ragas-example/index.html",
+  "video": "media/ragas-example.mp4",
+  "poster": "media/ragas-example.webp",
+  "skill": "examples/ragas-example/vendor/ragas/docs/concepts/metrics/available_metrics/traditional.md",
+  "skill_label": "Ragasの指標ドキュメント",
+  "skill_description": "Ragas公式の指標ドキュメントを参照し、文字列の完全一致・近さ・基準文の包含を実APIで計算しました。Agent Skillの配布物ではありません。意味の正しさを点数だけで決めず、入力の根拠と照合メモも読みます。",
+  "samples": "examples/ragas-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "参照文と回答の組と、Ragasが返した3つの値",
+  "samples_intro": "実際に固定RagasのAPIで採点した10問20回答と、実ブラウザーの操作記録です。点数は文字列比較で、根拠との照合メモは入力時の制作担当の記入として分けています。 リンク先のデモで、見たい問いを選んでください。",
+  "demo_description": "根拠の本と同じ回答の紙が、3つの文字列の道具へつながる図です。前・後を切り替え、Q07の18時→19時、Q08の追記、Q05の言い換えと保存済みの値を見て、両回答と根拠をJSONで保存できます。全10問の全文・集計と元の検索画面も開けます。",
+  "demo_note": "表示するのは、制作側で evaluate.py を実行して保存した結果です。ページを開いても Ragas も AI も動きません。図書室・資料・質問・回答はすべて架空で、変更前後は実際のシステムを変更して動かした出力ではなく、意図して作った固定の入力です。照合メモは制作担当が入力に書いたもので、Ragas の判定や人による承認ではありません。",
+  "request_intro": "同じ評価を自分のFAQで試すときの依頼文です。入力の欄を自分の資料・質問・回答に差し替え、固定版の Ragas を読めるAIや開発者に渡してください。要らない機能は消してかまいません。",
+  "request": "Ragas（vibrantlabsai/ragas 固定コミット 298b68274234c060deacab3cf5fb52aa3a20e885、Apache-2.0）の文字列指標3つを使い、同じ10問について変更前と変更後の回答を比べる Python スクリプトを書いて、実際に実行してください。結果はスマホで読める日本語のページで、根拠資料と照合メモと並べて見られるようにしてください。\n\n読む原典（固定版）\n・指標のドキュメント：https://github.com/vibrantlabsai/ragas/blob/298b68274234c060deacab3cf5fb52aa3a20e885/docs/concepts/metrics/available_metrics/traditional.md\n・指標の実装：https://github.com/vibrantlabsai/ragas/blob/298b68274234c060deacab3cf5fb52aa3a20e885/src/ragas/metrics/collections/_string.py\n・利用状況の送信と停止：https://github.com/vibrantlabsai/ragas/blob/298b68274234c060deacab3cf5fb52aa3a20e885/src/ragas/_analytics.py\n\n入力（ここを差し替える。JSONで渡す）\n・架空か実在か：\n・資料10件：ID、題名、本文\n・問い10件：ID、質問、根拠資料のID（1件）、参照文（根拠資料の本文と完全に同じ文字列）\n・各問の変更前と変更後の回答：回答の全文、照合メモのラベル（grounded／contradiction／unsupported_addition）とメモ\n・照合メモを書いた人と、その位置づけ（指標の出力ではないこと）：\n\n使う指標（ragas.metrics.collections から読み込み、await metric.ascore(reference=参照文, response=回答) の戻り値の .value を使う）\n1. ExactMatch（完全一致）：参照文と回答が1文字も違わなければ1.0、それ以外は0.0。\n2. NonLLMStringSimilarity(distance_measure=DistanceMeasure.LEVENSHTEIN)（文字列の近さ）：1 − Levenshtein の正規化距離。rapidfuzz が必要。\n3. StringPresence（基準文の包含）：参照文の全体が回答に含まれていれば1.0。\n\nスクリプトで守ること\n・10問 × 2回答 × 3指標 = 60回を実際に呼び、成功した回数を数える。60回でなければ失敗にする。\n・Ragas を読み込む前に RAGAS_DO_NOT_TRACK=true を設定する。LLM・埋め込み・APIキー・アカウント・外部サービスは使わない。採点の間は socket の接続を拒否して記録し、試みがあれば失敗にする。\n・文字列は正規化せずにそのまま渡す。値は丸めずに保存し、0〜1の有限の数か確かめる。\n・入力の形・件数・ID・参照文と資料本文の一致・ラベルの種類を確かめ、外れたら止まる。読み込めないときに自作の計算で代わりに埋めない。既にある出力は上書きしない。\n・出力には、入力のSHA-256、原典のコミット、Python・Ragas・rapidfuzz の版、指標の定義、各回答の3つの値、変更前後の平均と件数、照合メモのラベル数（入力の値として）、限界を書く。手元の絶対パス・環境変数・認証情報は書かない。\n\nページでできること（要らないものは消す）\n・3指標の平均（変更前→変更後）と、完全一致の件数を見る。件数は「正答率」と書かない。\n・10問を検索し、照合メモのラベルで絞り込み、件数を出す。\n・1問を選び、質問・根拠資料・参照文・2つの回答の全文・3指標の値・照合メモを並べて読む。照合メモは「入力」と明記し、指標の結果と見分けられるようにする。\n・選んだ問いを、点数付きの行と根拠資料ごと JSON で保存する。\n・入力と結果の JSON を取得して形と一致を確かめ、合わなければ理由と「もう一度読み込む」を出す。内蔵の代わりのデータは使わない。\n・320px幅のスマホから1280px幅のパソコンまで、横スクロールなしで使える。操作部品は44px以上、入力欄の文字は16px以上。外部のフォント・CDN・計測・AIの呼び出しは使わない。\n\n書かないこと\n・3指標は文字の比較で、回答が根拠に忠実か・事実として正しいか・意味が同じかは判定しない。点数から内容の正しさを書かない。\n・採用や合否の基準値を置かず、どちらが良いかを自動で決めない。\n・変更前後が固定の入力なら、実際のシステムを変更して動かした結果のように書かない。10問の結果を代表的なベンチマークとして書かない。\n\n最後に、作ったファイル、実際に実行した確認とその出力、まだ確かめていない点を分けて書いてください。\n",
+  "applied_skills": [
+    {
+      "name": "Ragas の文字列指標（ragas.metrics.collections）",
+      "source": "https://github.com/vibrantlabsai/ragas/blob/298b68274234c060deacab3cf5fb52aa3a20e885/src/ragas/metrics/collections/_string.py",
+      "applied": "ライブラリであり SKILL.md ではありません。固定版の README（インストールと Open Analytics）、docs/concepts/metrics/available_metrics/traditional.md、src/ragas/metrics/collections/_string.py・base.py、src/ragas/metrics/result.py、src/ragas/_analytics.py を読み、その API だけで evaluate.py を書きました。ragas.metrics.collections から ExactMatch・NonLLMStringSimilarity・DistanceMeasure・StringPresence を読み込み、NonLLMStringSimilarity には distance_measure=DistanceMeasure.LEVENSHTEIN を渡して、各回答に await metric.ascore(reference=参照文, response=回答) を呼び、MetricResult.value を丸めずに保存します。3クラスは llm・embeddings 属性を持たないため、base.py の部品検査を通らず、LLM・埋め込み・APIキーなしで動く作りです。_analytics.py の do_not_track() が最初の値をキャッシュするため、RAGAS_DO_NOT_TRACK=true を Ragas の読み込み前に設定し、実行後にこの関数の戻り値を記録します。指標の計算や読み込みは差し替えず、Ragas を読み込めないときは自作の計算で埋めずに失敗します。この記述は原典を読んで書いた実装の説明で、実行結果は制作側の実行後に追記します。"
+    },
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "架空FAQ10問の2組の固定回答を同じ条件で採点し、実入力と実出力・根拠を対で残す制作ブリーフへ具体化しました。意図的な失敗を残し、実RAGの変更や正答率と取り違えない完了条件を置いています。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/ragas-example/tools/motion-reel/render.mjs",
+      "applied": "元入力・実出力・固定版実装・旧確認記録を含む7素材を固定し、本と回答の紙が3つの道具をつなぐ大きな概念図と32秒の無音縦横動画を制作。任意時刻の再現・代表/連続フレーム・スマホの図と操作・MP4再生を確認。音声ガイドなし。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "架空のFAQを用意する",
+      "body": "作例のために、架空の「凪の図書室」の決まりを資料10件（D01〜D10）に書き、それぞれを根拠にした問い10件（Q01〜Q10）を input/faq-pairs.json にまとめました。参照文は根拠資料の本文と完全に同じ文字列です。"
+    },
+    {
+      "title": "変更前後の固定回答と照合メモを書く",
+      "body": "各問に変更前（before）と変更後（after）の回答を1件ずつ書き、意図して誤り・言い換え・根拠にない追記を混ぜました。各回答には、制作担当が根拠と照らしたラベル（grounded・contradiction・unsupported_addition）とメモを付けています。これは入力であり、Ragas の出力ではありません。"
+    },
+    {
+      "title": "Ragasの3指標で採点する",
+      "body": "evaluate.py が入力を検証し、Ragas の送信を止め、通信を拒否した状態で、ExactMatch・NonLLMStringSimilarity（LEVENSHTEIN）・StringPresence の ascore を10問×2回答×3指標＝60回呼びます。値は丸めずに outputs/evaluation.json に保存し、既にある結果は上書きしません。"
+    },
+    {
+      "title": "図で文字の違いと根拠を読む",
+      "body": "本と回答の紙をつなぐ大きな図で、前・後と3つの実指標値を読みます。Q07の1文字、Q08の追記、Q05の言い換えを、入力の照合メモと分けて示します。全10問の全文と集計は下から開けます。"
+    },
+    {
+      "title": "選んだ問いを保存する",
+      "body": "選んだ問いを、点数付きの行・根拠資料・指標の定義・入力のSHA-256ごと JSON で保存を要求できます。依頼文をコピーすれば、自分の10問で同じ評価を頼めます。"
+    },
+    {
+      "title": "実結果を保って、図と映像へ",
+      "body": "元の60回のRagas呼び出し・原入力・実出力を保持し、図と32秒の無音縦横動画へ改修しました。スマホ幅・実JSON保存・失敗復旧・素材照合・再生を確認。実機iOSや人による承認は未確認です。"
+    }
+  ],
+  "limitations": [
+    "図書室・規則・10問・2組の回答は独自の架空の固定入力です。誤りや言い換えを意図的に含めています。実サービスや実RAGの変更履歴・性能改善を測ったものではありません。配布版は10問・10資料・fictional=true専用のため、別の件数や実資料への対応には検証条件と表示の調整が必要です。",
+    "今回実行したのは完全一致・Levenshtein文字列類似・基準文の包含です。意味の正しさ・根拠への忠実さ・検索の成功や総合的な品質を保証する指標ではありません。",
+    "根拠と合う・矛盾・資料外追記という照合メモは、入力時に制作担当が記入したものです。RagasやLLM judgeの自動判定、人による承認ではありません。",
+    "LLM judge・埋め込み・検索器・回答生成・ブラウザー内AIは使っていません。Pythonで保存した計算結果を読む静的ビューアーです。",
+    "評価実行では外向き通信を拒否し、利用追跡を無効にしています。依存導入は通信が必要です。他の指標で評価用APIを使う場合の料金や認証は別途必要です。",
+    "固定Ragasを無改変で使い、互換系列の依存をrequirements.lock.txtへ固定しました。0.0.0+studio.298b68274234はソースZIPからのビルド用ラベルで、公式リリース番号ではありません。",
+    "物理iOS/Safari/VoiceOver・実支援技術・Lighthouse/CoreWebVitals・人による内容や見た目の承認は未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "vibrantlabsai/ragas（固定コミット 298b682）",
+      "url": "https://github.com/vibrantlabsai/ragas/tree/298b68274234c060deacab3cf5fb52aa3a20e885"
+    },
+    {
+      "label": "文字列指標の実装（_string.py・固定版）",
+      "url": "https://github.com/vibrantlabsai/ragas/blob/298b68274234c060deacab3cf5fb52aa3a20e885/src/ragas/metrics/collections/_string.py"
+    },
+    {
+      "label": "Traditional NLP Metrics（traditional.md・固定版）",
+      "url": "https://github.com/vibrantlabsai/ragas/blob/298b68274234c060deacab3cf5fb52aa3a20e885/docs/concepts/metrics/available_metrics/traditional.md"
+    },
+    {
+      "label": "Ragas LICENSE（Apache-2.0・固定版）",
+      "url": "https://github.com/vibrantlabsai/ragas/blob/298b68274234c060deacab3cf5fb52aa3a20e885/LICENSE"
+    },
+    {
+      "label": "架空FAQの入力（input/faq-pairs.json）",
+      "url": "examples/ragas-example/input/faq-pairs.json"
+    },
+    {
+      "label": "採点結果（outputs/evaluation.json）",
+      "url": "examples/ragas-example/outputs/evaluation.json"
+    },
+    {
+      "label": "採点スクリプト（evaluate.py）",
+      "url": "examples/ragas-example/evaluate.py"
+    },
+    {
+      "label": "実際のRagas計算結果",
+      "url": "examples/ragas-example/outputs/evaluation.json"
+    },
+    {
+      "label": "実際に保存したQ07",
+      "url": "examples/ragas-example/outputs/browser-selection.json"
+    },
+    {
+      "label": "確認の範囲",
+      "url": "examples/ragas-example/verification.json"
+    },
+    {
+      "label": "入力・結果・編集ソース一式",
+      "url": "examples/ragas-example/source.zip"
+    },
+    {
+      "label": "図中心の使い方",
+      "url": "examples/ragas-example/visual-guide.md"
+    },
+    {
+      "label": "動画の7素材とハッシュ",
+      "url": "examples/ragas-example/video/assets/manifest.json"
+    }
+  ],
+  "license": "MIT（独自作例）・Apache-2.0（Ragas原典）",
+  "license_note": "作例のコード・文章・架空の入力は MIT License（Copyright (c) 2026 Studio Yebisu）。vendor/ragas/ の8ファイル（LICENSE・README.md・pyproject.toml・traditional.md・_string.py・base.py・result.py・_analytics.py）は、vibrantlabsai/ragas の固定コミット 298b682 のファイルを改変せずに置いたもので、Apache License 2.0（Copyright [2023] [Vibrant Labs]）です。原典の LICENSE はそのまま同梱しています。この作例の3指標は LLM・APIキーを使わず、評価用APIの料金はかかりません。Ragas の LLM や埋め込みを使う指標を使う場合、その接続先サービスの料金は別です。指標の数値だけで回答の品質や正しさを保証するものではありません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "video_note": "32秒・無音。根拠の本と同じ紙が3つの道具へ動く概念図です。固定入力と実際のRagas指標値を使い、縦版と横版を用意しました。連続操作の録画や実RAGの性能測定ではありません。",
+  "video_source": "examples/ragas-example/video/index.html",
+  "skill_license": "examples/ragas-example/vendor/ragas/LICENSE",
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "guide_url": "case.html?id=ragas-example",
+  "catalog_entry": {
+    "id": "resource-ragas",
+    "name": "Ragas",
+    "tagline": "RAGやLLMアプリの品質を測る評価ライブラリ",
+    "category": "development",
+    "kind": "評価ライブラリ",
+    "summary": "評価データと指標を使って、AIアプリの出力を測定できます。検索や回答の処理を変えたときに、同じ条件で結果を比べ、改善を検討できます。",
+    "use_case": "検索や回答の変更が良くなったか、同じ条件で比較したいとき。",
+    "tags": [
+      "実装",
+      "テスト",
+      "レビュー",
+      "評価ライブラリ"
+    ],
+    "workflow": [
+      "正解や根拠を含む小さな評価データを作る",
+      "目的に合う指標で変更前後を評価する",
+      "点数と失敗例を一緒に確認する"
+    ],
+    "requirements": [
+      "Python環境と評価対象の入出力",
+      "指標によって評価用LLM・埋め込みモデルの接続"
+    ],
+    "license": "Apache-2.0",
+    "license_url": "https://github.com/vibrantlabsai/ragas/blob/298b68274234c060deacab3cf5fb52aa3a20e885/LICENSE",
+    "license_note": "Apache-2.0。評価用APIの料金は別です。指標の数値だけで実際の品質を保証するものではありません。",
+    "source_url": "https://github.com/vibrantlabsai/ragas/tree/298b68274234c060deacab3cf5fb52aa3a20e885",
+    "guide_url": "case.html?id=ragas-example",
+    "readme_url": "https://github.com/vibrantlabsai/ragas/blob/298b68274234c060deacab3cf5fb52aa3a20e885/README.md",
+    "source_repository": "vibrantlabsai/ragas",
+    "source_commit": "298b68274234c060deacab3cf5fb52aa3a20e885",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "固定ソースの実APIを使用。原典8ファイルとApache2.0を保持。根拠との意味照合メモは入力時の制作担当の記入で、Ragasの判定ではありません。",
+    "prompt": "Ragas（vibrantlabsai/ragas 固定コミット 298b68274234c060deacab3cf5fb52aa3a20e885、Apache-2.0）の文字列指標3つを使い、同じ10問について変更前と変更後の回答を比べる Python スクリプトを書いて、実際に実行してください。結果はスマホで読める日本語のページで、根拠資料と照合メモと並べて見られるようにしてください。\n\n読む原典（固定版）\n・指標のドキュメント：https://github.com/vibrantlabsai/ragas/blob/298b68274234c060deacab3cf5fb52aa3a20e885/docs/concepts/metrics/available_metrics/traditional.md\n・指標の実装：https://github.com/vibrantlabsai/ragas/blob/298b68274234c060deacab3cf5fb52aa3a20e885/src/ragas/metrics/collections/_string.py\n・利用状況の送信と停止：https://github.com/vibrantlabsai/ragas/blob/298b68274234c060deacab3cf5fb52aa3a20e885/src/ragas/_analytics.py\n\n入力（ここを差し替える。JSONで渡す）\n・架空か実在か：\n・資料10件：ID、題名、本文\n・問い10件：ID、質問、根拠資料のID（1件）、参照文（根拠資料の本文と完全に同じ文字列）\n・各問の変更前と変更後の回答：回答の全文、照合メモのラベル（grounded／contradiction／unsupported_addition）とメモ\n・照合メモを書いた人と、その位置づけ（指標の出力ではないこと）：\n\n使う指標（ragas.metrics.collections から読み込み、await metric.ascore(reference=参照文, response=回答) の戻り値の .value を使う）\n1. ExactMatch（完全一致）：参照文と回答が1文字も違わなければ1.0、それ以外は0.0。\n2. NonLLMStringSimilarity(distance_measure=DistanceMeasure.LEVENSHTEIN)（文字列の近さ）：1 − Levenshtein の正規化距離。rapidfuzz が必要。\n3. StringPresence（基準文の包含）：参照文の全体が回答に含まれていれば1.0。\n\nスクリプトで守ること\n・10問 × 2回答 × 3指標 = 60回を実際に呼び、成功した回数を数える。60回でなければ失敗にする。\n・Ragas を読み込む前に RAGAS_DO_NOT_TRACK=true を設定する。LLM・埋め込み・APIキー・アカウント・外部サービスは使わない。採点の間は socket の接続を拒否して記録し、試みがあれば失敗にする。\n・文字列は正規化せずにそのまま渡す。値は丸めずに保存し、0〜1の有限の数か確かめる。\n・入力の形・件数・ID・参照文と資料本文の一致・ラベルの種類を確かめ、外れたら止まる。読み込めないときに自作の計算で代わりに埋めない。既にある出力は上書きしない。\n・出力には、入力のSHA-256、原典のコミット、Python・Ragas・rapidfuzz の版、指標の定義、各回答の3つの値、変更前後の平均と件数、照合メモのラベル数（入力の値として）、限界を書く。手元の絶対パス・環境変数・認証情報は書かない。\n\nページでできること（要らないものは消す）\n・3指標の平均（変更前→変更後）と、完全一致の件数を見る。件数は「正答率」と書かない。\n・10問を検索し、照合メモのラベルで絞り込み、件数を出す。\n・1問を選び、質問・根拠資料・参照文・2つの回答の全文・3指標の値・照合メモを並べて読む。照合メモは「入力」と明記し、指標の結果と見分けられるようにする。\n・選んだ問いを、点数付きの行と根拠資料ごと JSON で保存する。\n・入力と結果の JSON を取得して形と一致を確かめ、合わなければ理由と「もう一度読み込む」を出す。内蔵の代わりのデータは使わない。\n・320px幅のスマホから1280px幅のパソコンまで、横スクロールなしで使える。操作部品は44px以上、入力欄の文字は16px以上。外部のフォント・CDN・計測・AIの呼び出しは使わない。\n\n書かないこと\n・3指標は文字の比較で、回答が根拠に忠実か・事実として正しいか・意味が同じかは判定しない。点数から内容の正しさを書かない。\n・採用や合否の基準値を置かず、どちらが良いかを自動で決めない。\n・変更前後が固定の入力なら、実際のシステムを変更して動かした結果のように書かない。10問の結果を代表的なベンチマークとして書かない。\n\n最後に、作ったファイル、実際に実行した確認とその出力、まだ確かめていない点を分けて書いてください。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "元Ragas60ascoreと架空FAQ10問の実入出力を保持し、根拠の本・回答の紙・3つの文字列の道具をつなぐ大きな図と32秒の無音縦横動画へ改修。スマホ表示・実JSON保存・素材照合・再生を確認。指標は意味判定や正答率ではなく、LLM judge/埋め込み/検索/回答生成は未実行。",
+    "reviewed_on": "2026-10-16",
+    "example_url": "examples/ragas-example/index.html",
+    "image": "media/ragas-example.webp",
+    "updated_on": "2026-10-17"
+  },
+  "video_portrait": "media/ragas-example.mp4",
+  "video_landscape": "media/ragas-example-wide.mp4",
+  "poster_portrait": "media/ragas-example.webp",
+  "poster_landscape": "media/ragas-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/ragas-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/ragas-example-landscape-credited-ja-v3.mp4"
+}

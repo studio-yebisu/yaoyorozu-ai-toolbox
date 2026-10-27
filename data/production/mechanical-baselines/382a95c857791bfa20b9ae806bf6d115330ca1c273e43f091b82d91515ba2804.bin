@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f6f1e6">
+  <title>Dify 作例・動く説明図の編集ソース（32秒・無音）｜八百万図AIツールボックス</title>
+  <meta name="description" content="架空の問い合わせ8件を Dify 形式のワークフローで担当へ振り分けた保存済みの実行結果から、封筒 → 判定 → 担当 → メモの1枚の図を動かす、32秒・無音の映像の編集ソースです。">
+  <link rel="stylesheet" href="video.css">
+  <script src="video.js" defer></script>
+</head>
+<body>
+  <main id="editor" class="editor" data-state="loading">
+    <header class="intro chrome">
+      <p class="kicker">STUDIO YEBISU ・ DIFY 作例</p>
+      <h1>動く説明図の編集ソース</h1>
+      <p class="lede"><span class="silent">無音</span> 32秒。保存済みの実行結果から、問い合わせの封筒が判定の順に進み、担当の机を通って実際のメモに開くまでを、同じ1枚の図で見せます。</p>
+      <nav class="layouts" aria-label="画面の向き">
+        <a id="layout-tall" href="index.html">縦 720×1280</a>
+        <a id="layout-wide" href="index.html?layout=wide">横 1280×720</a>
+      </nav>
+    </header>
+
+    <div class="statusbar chrome">
+      <p id="asset-count" class="count" data-state="pending">0 / 8素材</p>
+      <p id="status" class="status" role="status" aria-live="polite">素材を照合しています…</p>
+    </div>
+
+    <section id="error" class="failure chrome" aria-labelledby="error-title" hidden>
+      <p id="error-title" class="failure-title">映像を描いていません</p>
+      <p id="error-text"></p>
+      <p class="hint">内蔵の代わりのデータは使いません。素材を確かめてから読み込み直してください。</p>
+      <button id="retry" type="button">もう一度読み込む</button>
+    </section>
+
+    <section id="stage" class="stage" hidden>
+      <canvas id="film" role="img" aria-label="封筒の形をした架空の問い合わせが、上から順に判定する1つの切り替え（1 至急または100人以上、2 請求、3 ほか）を通り、優先対応・請求窓口・通常窓口のいずれかの机を経て、実際の引き継ぎメモに開く無音の説明図。D02 は請求窓口、D06 は請求でも判定1で優先対応、別の記録 D04（99人）は通常窓口と D05（100人）は優先対応、D07 は件名の記号が文字のまま通常窓口のメモに入り、最後に D05 の実際のメモと8件の内訳（優先対応3・請求窓口1・通常窓口4）を示す"></canvas>
+    </section>
+
+    <section class="controls chrome" aria-label="再生の操作">
+      <div class="buttons">
+        <button id="play" type="button" aria-pressed="false" disabled>再生</button>
+        <button id="reset" type="button" disabled>先頭へ</button>
+      </div>
+      <div class="scrub">
+        <label for="time">時刻（秒）</label>
+        <input id="time" type="range" min="0" max="32" value="0" step="0.001" disabled>
+      </div>
+      <output id="clock" for="time">照合中</output>
+    </section>
+
+    <section class="info chrome" aria-labelledby="scenes-h">
+      <h2 id="scenes-h">場面へ移動</h2>
+      <p class="hint">押すと、その場面の読みやすい時刻で止まります。</p>
+      <ol id="scene-list" class="scene-list"></ol>
+    </section>
+
+    <details class="info chrome">
+      <summary>素材と出典</summary>
+      <p>assets/manifest.json の SHA-256 を固定値と照合し、そこに並ぶ8素材（元の実行記録・架空の入力2件・独立した照合・原典のロック・元の workflow.yml・図の値・時刻表）のバイト数と SHA-256 を確かめてから描きます。さらに、記録の固定版・graphon の版と wheel・196の自動確認・160件のイベント・8件の入力と分岐・実際に通った線、DSL の7ノードと8本の線を照らし合わせます。1つでも合わなければ図を描かず、理由だけを出します。</p>
+      <p>封筒の3つの印（書類＝種類、稲妻＝緊急度、人＝影響人数）、判定の ✓・×、99人・100人の比較、担当の机、メモの1行目と件名の行は、制作時に Dify 1.17.1 の依存 graphon 0.7.0 が返した保存済みの値です。判定は値の比較で、AI による分類ではありません。ブラウザーの中で Dify・graphon・モデルは動かず、新しい実行もしません。</p>
+      <p>D04 と D05 は番号・件名・本文も違う別の記録です。担当を決める3項目のうち違うのが人数だけ、という比較です。D07 の記号は文字として描くだけで、評価も実行もしません。安全性の検証ではありません。</p>
+      <p>図の部品と動き、映像のコードは Claude Opus 5.5 が作りました（MIT License）。Dify の公式の画面・エディター・ロゴは使っていません。音声はありません。</p>
+      <ol id="asset-list" class="asset-list"></ol>
+      <ul class="links">
+        <li><a href="storyboard.json">構成（storyboard.json）</a></li>
+        <li><a href="README.md">編集と書き出しの手順（README.md）</a></li>
+        <li><a href="../index.html">作例のページへ</a></li>
+        <li><a href="../comparison.html">前の版のページ（comparison.html）</a></li>
+        <li><a href="../vendor/dify/LICENSE">Dify Open Source License（固定版の全文）</a></li>
+        <li><a href="../vendor/graphon-wheel/graphon-0.7.0.dist-info/licenses/LICENSE">graphon 0.7.0 の LICENSE（Apache-2.0）</a></li>
+      </ul>
+    </details>
+  </main>
+</body>
+</html>

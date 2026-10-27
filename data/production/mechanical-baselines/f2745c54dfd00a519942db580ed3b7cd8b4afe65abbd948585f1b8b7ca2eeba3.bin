@@ -1,0 +1,279 @@
+{
+  "id": "openhands-example",
+  "title": "OpenHands",
+  "title_lines": [
+    "AIコーディングと自動化を管理する開発基盤"
+  ],
+  "category": "development",
+  "summary": "コーディングエージェントの作業や定期的な自動化を、操作画面から管理できます。ローカル、リモート、クラウドの実行環境を使い分け、作業の設定を保存して持ち運べます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/openhands-example/index.html",
+  "video": "media/openhands-example.mp4",
+  "poster": "media/openhands-example.webp",
+  "skill": "examples/openhands-example/vendor/openhands/src/utils/automation-export.ts",
+  "skill_label": "自動化ファイルの入出力API（固定版）",
+  "skill_description": "固定版Agent Canvasの実装で、自動化の設定ファイルを書き出し、構造を点検しました。実際に確認した範囲は入力・出力と再現手順から読めます。",
+  "samples": "examples/openhands-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "8件の設定と、原典が返した結果",
+  "samples_intro": "架空入力と実結果の要点です。各実デモで全入力・原典のエラー・6つの実ファイル、JSON保存を確認できます。",
+  "demo_description": "設定ファイル→点検ゲート→保存を、大きな図で見られます。まずは時刻のないO03。「時刻を戻す」でO04の保存済み結果へ切り替わり、実ファイルを保存できます。時刻の書式を確かめないO06、2つの参照先の先頭だけが残るO07も比べられます。全8件の入力・結果・エラー全文は補足の比較ページにあります。",
+  "demo_note": "原典APIで得た保存済みの実結果を図にした作例です。Agent Canvasやエージェント・スケジューラーはブラウザーで実行していません。",
+  "request_intro": "同じ点検を自分の架空の設定で試すときの依頼文です。入力の欄を差し替え、固定版の OpenHands Agent Canvas を読めるAIや開発者に渡してください。",
+  "request": "架空の自動化の設定を、固定版 OpenHands Agent Canvas の自動化ファイルの入出力APIで持ち運べる .automation.json に書き出し、原典の読み込み検査で形を確かめる作例を作ってください。実際に書き出したファイル・読み戻した結果・原典が返した誤りをそのまま JSON に保存し、スマホで読める日本語のページで、形が通ったか止まったか、誤りの理由、直した再確認、書き出しで落ちる項目を確かめられるようにしてください。\n\n読む原典（固定版 OpenHands/OpenHands e4775b4ba61a83ba80af5f7b0b826201b8e8ea05・Agent Canvas 1.27.1・MIT）\n・入出力API（serializeAutomation・getAutomationExportFilename・parseAutomationFile・AutomationFileValidationError）：https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/src/utils/automation-export.ts\n・ファイルの封筒（hasAutomationInterface・getImportExportSpec）：https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/src/manifests/automation-interface.ts\n・interface manifest の審査（validateInterfaceManifest）：https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/src/manifests/interface-validation.ts\n・依存の固定（@openhands/extensions 0.30.0・MIT）：https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/package-lock.json\n・LICENSE：https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/LICENSE\n\n入力（ここを差し替える。実行の前に固定し、結果を見てから変えない）\n・架空の設定：名前・きっかけ（cron の時刻か event の条件）・enabled・prompt・model・timeout・参照先・plugins・timezone。参照先は example.invalid のような取得されない架空のURLにし、実在のリポジトリ・認証情報・個人の予定は使わない\n・試し方：設定から書き出して読み戻す export-roundtrip と、ファイルをそのまま読む import。この作例では O01〜O08 の8件（毎週土曜9時の無効な設定・event の条件・時刻の欠けたファイルと時刻だけ戻したファイル・6つの不備・cron の形でない時刻・2つの参照先・タグや波かっこを含む文）\n・期待：形が通る件と止まる件、止まる件の理由の一部を、実行の前に別のファイルへ書く\n\n進め方\n1. 原典12ファイル・依存の29ファイル・ロック・入力の SHA-256（原典は Git blob も）を照合してから、Node 24 の型除去で原典の .ts をそのまま読み込む。npm の導入はしない。読み込みの補助は「#/」と原典内の拡張子なし相対 import を .ts へ、@openhands/extensions/automations を同梱した実物の index.js へ解決するだけにし、原典の関数や manifest を置き換えない\n2. hasAutomationInterface() が true になり、getImportExportSpec() が同梱パッケージの interface.json と同じであることを確かめる\n3. export-roundtrip では serializeAutomation で書き出し、getAutomationExportFilename で名前を付け、JSON の文字列にしてから parseAutomationFile で読み戻す。import では parseAutomationFile にそのまま渡し、通ったら書き出してもう一度読み戻す\n4. 止まったら AutomationFileValidationError の name・message・issues をそのまま残す。それ以外の例外が出たら止める\n5. 書き出しで外れた項目、event の条件、2つ目の参照先が落ちること、cron の形でない時刻が通ること、文がそのまま残ることを、実データから記録する\n6. 結果を得た後でだけ期待のファイルと照らし合わせる。すべての確認が通ったときだけ outputs/automation-runs.json と、形が通った件の outputs/exports/O01.automation.json などを1回書く。既にある記録は上書きしない。絶対パス・時刻・認証情報は書かない\n\nページでできること\n・8件を選び、形が通ったか止まったか、原典の誤りの行とその読み方を先に読む。O03（時刻が無くて止まる）と O04（時刻だけ戻して通る）を行き来できる\n・O06（cron の形でない時刻でも形は通る）と O07（2つ目の参照先が落ちる）の注意を目立たせる\n・書き出したファイル・入力・1件の記録の JSON は折りたたみで全文を開ける\n・記録・入力・ロックを取得し、固定版・SHA-256・8件・確認の合否を照合してから表示する。合わなければ理由と「もう一度読み込む」だけを出す\n・形が通った件の .automation.json と、選んだ1件の記録を保存し、この依頼文をコピーする\n・320px幅のスマホから1280px幅のパソコンまで横スクロールなし。操作部品は44px以上、入力欄の文字は16px以上。外部のフォント・CDN・計測・AI の呼び出しは使わない\n\n書かないこと\n・形が通った件を、動く自動化・登録した予定・品質の点数として書かない\n・parseAutomationFile が通したことを、cron の正しさ・実行の時刻・安全性・内容の正しさの確認として書かない\n・書き出したファイルを、参照先が複数ある設定の完全な控えとして書かない\n・Agent Canvas のアプリやサーバー、エージェントやモデルの実行、予定の登録、Webhook の配信、リポジトリの取得、Cloud との連携を動かしたように書かない\n\n最後に、作ったファイル、実際に実行したコマンドとその結果、まだ確かめていない点を分けて書いてください。\n",
+  "applied_skills": [
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "設定を書く→書き出す→読み戻す→誤りを読む→1か所だけ直して再確認→ファイルを保存、という操作へ具体化。架空の8設定と期待を実行前に固定し、時刻の欠けと復元、6つの不備、cron の形でない時刻、2件の参照先、文字の保持を試す設計にしました。"
+    },
+    {
+      "name": "OpenHands Agent Canvas 原典（自動化ファイルの入出力API・固定版）",
+      "source": "https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/src/utils/automation-export.ts",
+      "applied": "固定版41原典ファイルを無改変で使い、実際のserialize/parse/filenameと入場済みinterfaceを8架空設定へ適用。107自動確認・独立Python155照合を通し、別コピー/新Nodeで実行記録全bytesと6ファイル全bytesが一致しました。本体アプリ・実エージェント・予定登録は使っていません。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/openhands-example/tools/motion-reel/render.mjs",
+      "applied": "同じ実入力・出力とOpus5.5の概念図・動きを保持し、33秒の縦横動画を無音化。編集ソースは7素材を照合して描画し、任意時刻のPNG一致・実動画のビデオpacket一致・全デコード・再生終了を確認しました。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "架空の8つの設定を固定",
+      "body": "毎週土曜9時の無効な設定、event の条件、時刻の欠けたファイルと時刻だけ戻したファイル、6つの不備、cron の形でない時刻、2件の参照先、タグや波かっこを含む文の8件と、期待を実行前に固定しました。参照先はすべて架空の example.invalid です。"
+    },
+    {
+      "title": "原典と依存を照合してから読み込む",
+      "body": "原典12ファイルと依存29ファイルのハッシュ、package-lock.json の固定を確かめてから、原典の .ts を Node 24 の型除去でそのまま読み込みます。npm の導入はせず、封筒の値は依存パッケージの実物の interface manifest を原典が審査して通したものです。"
+    },
+    {
+      "title": "書き出し・読み戻し・誤りを分けて記録",
+      "body": "serializeAutomation で書き出したファイル、getAutomationExportFilename が付けた名前、parseAutomationFile が返した設定、2回目の書き出しと読み戻し、止まったときの AutomationFileValidationError の issues を、そのまま JSON に残します。"
+    },
+    {
+      "title": "誤りを読み、1か所だけ直して再確認",
+      "body": "原典の誤りの行と読み方をページで読み、O03 と O04 のように schedule だけを戻した入力と比べます。形が通った件は .automation.json のまま保存できます。"
+    }
+  ],
+  "limitations": [
+    "形が通った件は、ファイルの形の検査を通っただけです。6件が通っても、動く自動化が6件できたわけでも、予定を登録したわけでも、品質の点数でもありません。",
+    "O06：parseAutomationFile は schedule が空でない文字列かだけを見ます。not-a-cron でも通り、cron の書き方や、実際にいつ動くかは確かめていません。",
+    "O07：書き出すファイルに入る参照先は先頭の1件だけです。2件目は落ち、古い repository・branch も先頭の値で上書きされます。参照先が複数ある設定の完全な控えにはなりません。",
+    "形が通った件はすべて enabled: false（無効）のままで、予定の登録も実行もしていません。O05 の enabled: \"false\" は文字列なので止まります。",
+    "Agent Canvas のアプリ・サーバー（読み込みの画面やサーバー側の検査）、エージェントやモデル、スケジューラー、Webhook の配信、リポジトリの取得、OpenHands Cloud は使っていません。",
+    "上流への変更の提案（PR）はしておらず、原典の開発者向けの全体テストは行っていません。",
+    "参照先はすべて架空の example.invalid で、取得していません。通信・ログイン・API キーは使っていません。O08 のタグや波かっこを文字のまま表示しているのは、安全性の検査や無害化の保証ではありません。",
+    "IAB Chromiumでスマホを含む6幅、実ファイル保存・依頼文コピー・エラー復旧、縦横の概念図動画の代表/連続フレーム・全デコード・再生終了と音声トラック0件を確認。実機iOS/Safari/VoiceOver・Core Web Vitals・人による承認は未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "OpenHands/OpenHands（固定コミット e4775b4・Agent Canvas 1.27.1）",
+      "url": "https://github.com/OpenHands/OpenHands/tree/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05"
+    },
+    {
+      "label": "Agent Canvas README（固定版）",
+      "url": "https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/README.md"
+    },
+    {
+      "label": "OpenHands LICENSE（MIT・固定版）",
+      "url": "https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/LICENSE"
+    },
+    {
+      "label": "入出力API serializeAutomation・getAutomationExportFilename・parseAutomationFile（src/utils/automation-export.ts・固定版）",
+      "url": "https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/src/utils/automation-export.ts"
+    },
+    {
+      "label": "封筒 hasAutomationInterface・getImportExportSpec（src/manifests/automation-interface.ts・固定版）",
+      "url": "https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/src/manifests/automation-interface.ts"
+    },
+    {
+      "label": "interface manifest の審査 validateInterfaceManifest（src/manifests/interface-validation.ts・固定版）",
+      "url": "https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/src/manifests/interface-validation.ts"
+    },
+    {
+      "label": "manifest の読み込み元（src/manifests/manifest-sources.ts・固定版）",
+      "url": "https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/src/manifests/manifest-sources.ts"
+    },
+    {
+      "label": "setup manifest の登録と審査（src/manifests/manifest-registry.ts・manifest-validation.ts・固定版）",
+      "url": "https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/src/manifests/manifest-registry.ts"
+    },
+    {
+      "label": "manifest の型と定数（src/manifests/types.ts・固定版）",
+      "url": "https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/src/manifests/types.ts"
+    },
+    {
+      "label": "自動化の型 Automation・AutomationSpec（src/types/automation.ts・固定版）",
+      "url": "https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/src/types/automation.ts"
+    },
+    {
+      "label": "依存の固定 @openhands/extensions 0.30.0（package-lock.json・固定版）",
+      "url": "https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/package-lock.json"
+    },
+    {
+      "label": "@openhands/extensions 0.30.0（npm の tgz・integrity で固定・MIT）",
+      "url": "https://registry.npmjs.org/@openhands/extensions/-/extensions-0.30.0.tgz"
+    },
+    {
+      "label": "架空の8つの設定（input/automation-settings.json）",
+      "url": "examples/openhands-example/input/automation-settings.json"
+    },
+    {
+      "label": "実行前に決めた期待（input/expected.json）",
+      "url": "examples/openhands-example/input/expected.json"
+    },
+    {
+      "label": "実行スクリプト（run.mjs）",
+      "url": "examples/openhands-example/run.mjs"
+    },
+    {
+      "label": "読み込み補助（loader.mjs）",
+      "url": "examples/openhands-example/loader.mjs"
+    },
+    {
+      "label": "手順と読み方（outputs/method.md）",
+      "url": "examples/openhands-example/outputs/method.md"
+    },
+    {
+      "label": "8件の実行記録（outputs/automation-runs.json）",
+      "url": "examples/openhands-example/outputs/automation-runs.json"
+    },
+    {
+      "label": "書き出したファイルの例（outputs/exports/O04.automation.json）",
+      "url": "examples/openhands-example/outputs/exports/O04.automation.json"
+    },
+    {
+      "label": "原典12ファイルと依存29ファイルのハッシュ（vendor-lock.json）",
+      "url": "examples/openhands-example/vendor-lock.json"
+    },
+    {
+      "label": "同梱した OpenHands の LICENSE",
+      "url": "examples/openhands-example/vendor/openhands/LICENSE"
+    },
+    {
+      "label": "同梱した @openhands/extensions の LICENSE",
+      "url": "examples/openhands-example/vendor/extensions/LICENSE"
+    },
+    {
+      "label": "依頼文（request.txt）",
+      "url": "examples/openhands-example/request.txt"
+    },
+    {
+      "label": "README（再現の手順）",
+      "url": "examples/openhands-example/README.md"
+    },
+    {
+      "label": "独立した原典・入力・出力の照合",
+      "url": "examples/openhands-example/outputs/independent-checks.json"
+    },
+    {
+      "label": "別コピー・新Nodeでの再現",
+      "url": "examples/openhands-example/outputs/reproduction-checks.json"
+    },
+    {
+      "label": "原典・依存・実行範囲",
+      "url": "examples/openhands-example/upstream-evidence.json"
+    },
+    {
+      "label": "確認した範囲",
+      "url": "examples/openhands-example/verification.json"
+    },
+    {
+      "label": "映像の7素材とハッシュ",
+      "url": "examples/openhands-example/video/assets/manifest.json"
+    },
+    {
+      "label": "入力・実装・映像ソース一式",
+      "url": "examples/openhands-example/source.zip"
+    },
+    {
+      "label": "動く概念図の使い方",
+      "url": "examples/openhands-example/visual-guide.md"
+    },
+    {
+      "label": "改修後に確認した範囲",
+      "url": "examples/openhands-example/verification.json"
+    },
+    {
+      "label": "動画の実素材8件のハッシュ",
+      "url": "examples/openhands-example/video/assets/manifest.json"
+    }
+  ],
+  "license": "MIT（独自作例）・MIT（OpenHands 原典・@openhands/extensions）",
+  "license_note": "作例のコード（run.mjs・loader.mjs・ページ）・文章・架空の入力・動画の編集ソースは MIT License（Copyright (c) 2026 Studio Yebisu）。vendor/openhands/ の12ファイルは OpenHands/OpenHands の固定コミット e4775b4（Agent Canvas 1.27.1）のファイル、vendor/extensions/ の29ファイルは npm の @openhands/extensions 0.30.0 のファイルで、どちらも改変せずに置いた MIT License（Copyright © 2025 OpenHands contributors ほか、各 LICENSE のとおり）です。実行にパッケージの導入・アカウント・API キー・課金は要りません。OpenHands Cloud・Enterprise・モデルの API・各連携サービスは別の条件で、この作例では使っていません。ソース制作に用いた Opus 5.5 の利用環境は別に必要です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "video_note": "33秒・無音。大きな概念図と短いラベルで使い方を説明します。音声ガイドはありません。縦版を主に、横版も用意しました。",
+  "video_source": "examples/openhands-example/video/index.html",
+  "skill_license": "examples/openhands-example/vendor/openhands/LICENSE",
+  "updated_on": "2026-10-22",
+  "verification_stage": "runtime-reviewed",
+  "runtime_review": {
+    "status": "technical_qa_complete",
+    "execution": "Native Node24.18.0 and genuine original file APIs;8fictionalsettings;6realportablefiles",
+    "checks_total": 107,
+    "independent_checks": 155,
+    "screen_review": "Diagram-first saved-result viewer and original8-case comparison; measured phone layout, actual file save/copy and controlled errors verified.",
+    "video": "33s/30fps/990frames; portrait720x1280,wide1280x720;silent,no audio stream;original video packets retained,source PNG match/decode/native playback checked.",
+    "publication": "Pages and actual public files verified separately after scoped publication",
+    "human_approval": false,
+    "model_scope": "Original Opus5.5 diagram UI/animation source retained. Production removed spoken narration and integrated silent playback, unchanged runtime/results. No new model execution claimed."
+  },
+  "guide_url": "case.html?id=openhands-example",
+  "catalog_entry": {
+    "id": "resource-openhands",
+    "name": "OpenHands",
+    "tagline": "AIコーディングと自動化を管理する開発基盤",
+    "category": "development",
+    "kind": "エージェント基盤",
+    "summary": "コーディングエージェントの作業や定期的な自動化を、操作画面から管理できます。ローカル、リモート、クラウドの実行環境を使い分け、作業の設定を保存して持ち運べます。",
+    "use_case": "エージェントの作業や定期の自動化を一つの画面で管理し、自動化の設定をファイルで持ち運びたいとき。",
+    "tags": [
+      "実装",
+      "自動化",
+      "設定ファイル",
+      "エージェント基盤"
+    ],
+    "workflow": [
+      "架空の自動化の設定を、固定版の serializeAutomation で .automation.json に書き出す",
+      "原典の parseAutomationFile で読み戻し、誤りの行・O03とO04の再確認・O06とO07の注意を読む",
+      "形が通ったファイルと1件の記録を保存し、確かめた範囲と限界を読む"
+    ],
+    "requirements": [
+      "Node 24 以上と、同梱の原典12ファイル・依存29ファイル（npm の導入は不要）",
+      "実行用コピーと、その外の新しい非公開フォルダー。この限定経路にモデル接続・アカウント・APIキーは不要"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/LICENSE",
+    "license_note": "確認したリポジトリと @openhands/extensions 0.30.0 はMIT。CloudやEnterprise、モデルAPI、外部サービスはそれぞれ別条件です。",
+    "source_url": "https://github.com/OpenHands/OpenHands/tree/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05",
+    "guide_url": "case.html?id=openhands-example",
+    "readme_url": "https://github.com/OpenHands/OpenHands/blob/e4775b4ba61a83ba80af5f7b0b826201b8e8ea05/README.md",
+    "source_repository": "OpenHands/OpenHands",
+    "source_commit": "e4775b4ba61a83ba80af5f7b0b826201b8e8ea05",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "固定版Agent Canvas1.27.1/e4775b4とlocked extensions0.30.0の実物の入出力APIで、8架空設定/107checks/独立155照合。別Nodeで実行記録と6出力全bytes一致。ファイルの形の確認に限定し、アプリ・エージェント・モデル・予定登録・Webhook・cloneは実行していない。",
+    "prompt": "OpenHands Agent Canvas固定版の自動化ファイル入出力API（serializeAutomation・parseAutomationFile）で、架空の自動化の設定を.automation.jsonに書き出して読み戻してください。止まった誤りの行と1か所だけ直した再確認、cronの形でない時刻や2件目の参照先の扱いを確かめ、実入力・実結果と短い日本語解説を保存してください。エージェントやモデルの実行とは区別してください。",
+    "verification_stage": "runtime-reviewed",
+    "verification": "固定版の原典と実入力・実出力を保持し、動く大きな概念図と33秒の無音の縦横動画で説明。音声ガイドなし。映像packetと編集ソースのPNG一致、実デモ・動画再生を確認。人の承認と実機iOSは未確認。",
+    "reviewed_on": "2026-10-17",
+    "updated_on": "2026-10-17"
+  },
+  "video_width": 720,
+  "video_height": 1280,
+  "video_landscape": "media/openhands-example-wide.mp4",
+  "video_portrait": "media/openhands-example.mp4",
+  "poster_portrait": "media/openhands-example.webp",
+  "poster_landscape": "media/openhands-example-wide.webp",
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/openhands-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/openhands-example-landscape-credited-ja-v3.mp4"
+}

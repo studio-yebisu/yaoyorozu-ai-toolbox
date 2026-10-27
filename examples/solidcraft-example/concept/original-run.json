@@ -27,7 +27,7 @@
     "official_release": {
       "version": "0.11.1",
       "commit": "b01b9689c8999a4415b4a6daaa2f8aae8a1a2f25",
-      "release": "https://github.com/bherbruck/solidcraft/releases/tag/v0.11.1",
+      "release": "https://github.com/tangency-labs/solidcraft/releases/tag/v0.11.1",
       "archive": "solidcraft-0.11.1-windows-x64-portable.zip",
       "archive_sha256": "6c5e285d3d6ee3bbdaa39de9019b5a36fd894c4a335f92de7193e1340996727d",
       "official_checksum_matched": true,

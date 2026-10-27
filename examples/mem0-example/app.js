@@ -1,5 +1,5 @@
 /*
- * 八百万図AIツールボックス — Mem0 OSS example, diagram page.
+ * Yaoyorozu AI ToolBox — Mem0 OSS example, diagram page.
  * Copyright (c) 2026 Studio Yebisu. MIT License. Diagram and page authored by Claude Opus 5.5.
  *
  * Reads the saved run record (outputs/memory-run.json), the three frozen inputs and vendor-lock.json,

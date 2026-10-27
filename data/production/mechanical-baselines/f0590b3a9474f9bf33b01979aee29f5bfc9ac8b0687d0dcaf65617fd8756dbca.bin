@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Train LLM From Scratch の学生向けCPUトラックを固定コミットのまま実行し、独自の英文96行で学習した小さなTransformerの、学習前と800回更新後の続きを並べて読む作例です。">
+<title>小さなモデルを、ゼロから育てる。｜Train LLM From Scratch 作例｜八百万図AIツールボックス</title>
+<link rel="stylesheet" href="comparison.css">
+<script src="comparison.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">本文へ移動</a>
+
+<header class="masthead">
+  <p class="kicker">八百万図AIツールボックス 作例 ・ 学習教材 Train LLM From Scratch</p>
+  <h1>小さなモデルを、ゼロから育てる。</h1>
+  <p class="lead">独自の英文96行で、原典の学習コードを実行。学習前と800更新後の続きを見比べます。</p>
+  <p class="badge"><span class="badge-mark" aria-hidden="true">記録</span>実学習の記録です。この画面でAIや学習は動きません。</p>
+</header>
+
+<main id="main" tabindex="-1">
+  <div class="loadbar">
+    <p id="status" data-state="loading" role="status" aria-live="polite">保存済みの実行記録を読み込んでいます…</p>
+    <button type="button" id="retry" class="button" hidden>もう一度読み込む</button>
+  </div>
+
+  <div id="results" hidden>
+    <section id="sample-viewer" class="band" aria-labelledby="compare-heading">
+      <h2 id="compare-heading">学習前と800回更新後</h2>
+      <p class="hint">8例から選べます。入力は学習前に固定し、続き48トークンを生成しました。</p>
+      <div id="sample-list" class="sample-list" role="group" aria-label="入力を選ぶ"></div>
+
+      <h3 id="sample-title" class="sample-title"></h3>
+      <p class="prompt-row"><span class="tag">入力</span><code id="prompt"></code></p>
+
+      <div class="pair">
+        <article class="out out-before" aria-labelledby="before-heading">
+          <h4 id="before-heading">学習前 <small>0回更新・ランダムな初期値</small></h4>
+          <pre id="before-output" class="output"></pre>
+          <p id="before-meta" class="meta"></p>
+        </article>
+        <article class="out out-after" aria-labelledby="after-heading">
+          <h4 id="after-heading">800回更新後 <small>同じ初期値から学習</small></h4>
+          <pre id="after-output" class="output"></pre>
+          <p id="after-meta" class="meta"></p>
+        </article>
+      </div>
+      <p class="note">薄い文字は入力した文です。表示は入力を含む全文で、文字化けに見える出力も、そのまま。手直しや選び直しはしていません。続きを書いたのはこの作例で学習した小さなモデルで、Claude ではありません。</p>
+
+      <div class="actions">
+        <button type="button" id="download-record" class="button">この入力の記録をJSONで保存</button>
+      </div>
+      <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="metrics" class="band" aria-labelledby="metrics-heading">
+      <h2 id="metrics-heading">数字で見る</h2>
+      <dl class="metrics">
+        <div><dt>パラメータ数</dt><dd id="params"></dd></div>
+        <div><dt>学習前の検証損失</dt><dd id="before-loss"></dd></div>
+        <div><dt>800回更新後の検証損失</dt><dd id="after-loss"></dd></div>
+        <div><dt>更新回数</dt><dd id="steps"></dd></div>
+      </dl>
+      <p class="note">検証損失は、同じ96行の末尾を学習から外した部分で測った値です（原典の最後の評価、200バッチの平均）。検証側13行すべてと同じ文が学習側にもあるため、文型を覚える練習の値です。知識・汎化・文章の品質を表しません。<span id="uniform-note"></span></p>
+    </section>
+
+    <section id="loss" class="band" aria-labelledby="loss-heading">
+      <h2 id="loss-heading">学習ミニバッチの損失（更新ごと）</h2>
+      <figure class="chart-figure">
+        <div id="loss-chart" class="chart"></div>
+        <figcaption id="loss-summary"></figcaption>
+      </figure>
+      <details class="fold">
+        <summary>損失の値を表で見る（50回ごとの抜粋）</summary>
+        <div class="table-wrap">
+          <table>
+            <caption>学習ミニバッチの損失（実際の配列から抜粋）</caption>
+            <thead><tr><th scope="col">更新回数</th><th scope="col">損失</th></tr></thead>
+            <tbody id="loss-table"></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="facts" class="band" aria-labelledby="facts-heading">
+      <h2 id="facts-heading">この実行の条件</h2>
+      <dl id="facts-list" class="facts"></dl>
+      <h3 class="subhead">途中の保存点</h3>
+      <p class="note">途中の保存点に残る損失は、その時点より前の直近の定期評価（学習側・検証側それぞれ10バッチ）です。保存点そのものの時点の値ではありません。</p>
+      <div class="table-wrap">
+        <table>
+          <caption>保存点ごとの損失（ミニバッチの損失は、その回の更新に使った16本の値）</caption>
+          <thead><tr><th scope="col">更新回数</th><th scope="col">評価の種類</th><th scope="col">学習側</th><th scope="col">検証側</th><th scope="col">ミニバッチ</th></tr></thead>
+          <tbody id="checkpoint-table"></tbody>
+        </table>
+      </div>
+      <details class="fold">
+        <summary>実行したコマンドと所要秒</summary>
+        <p class="note">秒数はこの実行をしたPC1台で測った経過時間です。性能比較ではありません。&lt;artifact-dir&gt; は公開しない保存先です。</p>
+        <ol id="command-list" class="commands"></ol>
+      </details>
+      <details class="fold">
+        <summary>実行時に確かめたこと</summary>
+        <ul id="check-list" class="checks"></ul>
+      </details>
+    </section>
+  </div>
+
+  <section id="request" class="band" aria-labelledby="request-heading">
+    <h2 id="request-heading">同じ練習を頼む依頼文</h2>
+    <p>入力の欄を自分の短い英文と書き出しに差し替え、固定版の原典を読めるAIや開発者に渡せます。</p>
+    <div class="actions">
+      <button type="button" id="copy-request" class="button">依頼文をコピー</button>
+    </div>
+    <p id="copy-status" class="action-status" role="status" aria-live="polite"></p>
+    <label id="request-fallback-label" for="request-fallback" class="fallback-label" hidden>依頼文（長押しで全選択してコピーできます）</label>
+    <textarea id="request-fallback" class="fallback" rows="10" readonly hidden></textarea>
+  </section>
+
+  <section id="sources" class="band" aria-labelledby="sources-heading">
+    <h2 id="sources-heading">入力・原典・再現</h2>
+    <details class="fold">
+      <summary>入力（学習前に固定した原本）</summary>
+      <ul class="linklist">
+        <li><a href="input/stories.txt">独自の英文96行（input/stories.txt）</a></li>
+        <li><a href="input/prompts.json">8つの固定入力（input/prompts.json）</a></li>
+        <li><a href="input/run-config.json">固定した設定（input/run-config.json）</a></li>
+        <li><a href="outputs/training-run.json">実行記録（outputs/training-run.json）</a></li>
+        <li><a href="outputs/method.md">手順と読み方（outputs/method.md）</a></li>
+        <li><a href="run.py">実行スクリプト（run.py）</a></li>
+      </ul>
+      <p class="note">英文は作例のために書いた、名前・場所・物を入れ替える短い型の繰り返しです。外部のデータセットや事前学習済みの重みは使っていません。</p>
+    </details>
+    <details class="fold">
+      <summary>原典（FareedKhan-dev/train-llm-from-scratch・固定コミット bdd480a）</summary>
+      <ul class="linklist">
+        <li><a href="https://github.com/FareedKhan-dev/train-llm-from-scratch/tree/bdd480a518094ca834e05ab32131dc126b522d3d">リポジトリ（固定コミット）</a></li>
+        <li><a href="https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/docs/student/README.md">GPUなしで学ぶガイド（docs/student/README.md）</a></li>
+        <li><a href="https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/scripts/prepare_tiny_data.py">データ準備とBPE（scripts/prepare_tiny_data.py）</a></li>
+        <li><a href="https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/scripts/train_transformer.py">学習（scripts/train_transformer.py）</a></li>
+        <li><a href="https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/scripts/generate_text.py">文章生成（scripts/generate_text.py）</a></li>
+        <li><a href="https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/LICENSE">原典の LICENSE（MIT）</a></li>
+        <li><a href="vendor/train-llm-from-scratch/docs/student/README.md">同梱した原典のガイド（無改変）</a></li>
+      </ul>
+    </details>
+    <details class="fold">
+      <summary>実行したCLI（原典のまま）</summary>
+      <pre class="code">python vendor/train-llm-from-scratch/scripts/prepare_tiny_data.py \
+  --dataset text --input input/stories.txt --tokenizer bpe \
+  --vocab_size 512 --val_frac 0.125 --out_dir &lt;artifact-dir&gt;/data
+
+python vendor/train-llm-from-scratch/scripts/train_transformer.py \
+  --preset tiny --arch modern --device cpu --threads 4 \
+  --train-path &lt;artifact-dir&gt;/data/train.h5 --dev-path &lt;artifact-dir&gt;/data/val.h5 \
+  --batch-size 16 --lr 0.002 --eval-every 100 --seed 2201 \
+  --set context_length=64 --set t_context_length=64 --set t_eval_iters=10 \
+  --sample '' --steps 0 --out-path &lt;artifact-dir&gt;/models/baseline.pt
+
+（同じ引数で --steps 800 --out-path &lt;artifact-dir&gt;/models/trained.pt
+  --checkpoint-every 200 --checkpoint-dir &lt;artifact-dir&gt;/checkpoints --keep-last 4）
+
+python vendor/train-llm-from-scratch/scripts/generate_text.py \
+  --model_path &lt;artifact-dir&gt;/models/trained.pt --input_text "Mira walks to the" \
+  --max_new_tokens 48 --top_k 1 --temperature 0.8 --seed 2201 --device cpu</pre>
+      <p class="note">run.py はこれらを順に実行し、8つの入力は原典の load_trained_model と model.generate で生成します。P01 は CLI の出力と全文が一致することを確かめています。</p>
+    </details>
+    <details class="fold">
+      <summary>手元で再現する</summary>
+      <pre class="code">python -m venv .venv
+# Windows（PowerShell）
+.venv\Scripts\Activate.ps1
+# macOS・Linux
+source .venv/bin/activate
+
+# Windows / Linux：今回使ったCPU版を明示する
+python -m pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cpu
+
+python -m pip install -r requirements.txt
+python run.py --artifact-dir ../training-artifacts
+python -m http.server 8866</pre>
+      <p class="note">依存の導入にはネット接続が要ります。学習の実行中はデータのダウンロードも外部APIも使いません。保存先（../training-artifacts）はこのフォルダの外にあり、配信されません。</p>
+    </details>
+    <details class="fold">
+      <summary>ライセンスと制作</summary>
+      <ul class="linklist">
+        <li><a href="LICENSE">作例のコードと文章：MIT（Copyright (c) 2026 Studio Yebisu）</a></li>
+        <li><a href="vendor/train-llm-from-scratch/LICENSE">同梱の原典：MIT（Copyright (c) 2025 Fareed Khan）</a></li>
+      </ul>
+      <p class="note">run.py・このページ・解説文は Claude Opus 5.5 が書きました。続きの文章は、この作例で学習した小さなTransformerが生成したものです。</p>
+    </details>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>八百万図AIツールボックス ・ 原典 FareedKhan-dev/train-llm-from-scratch（bdd480a）</p>
+</footer>
+<section class="publication-movie" aria-labelledby="movie-title"><h2 id="movie-title">32秒で、文章から学習・生成まで</h2><p>実際の学習記録と実出力、スマホの実画面を編集した無音動画です。定型文を覚える練習で、知識や汎化の評価ではありません。</p><video controls playsinline preload="none" poster="../../media/train-llm-from-scratch-example.webp" style="display:block;width:100%;height:auto" aria-label="小さなモデルの学習前後を説明する32秒の無音動画"><source src="../../media/train-llm-from-scratch-example.mp4" type="video/mp4"><a href="../../media/train-llm-from-scratch-example.mp4">MP4を開く</a></video><nav class="publication-links" aria-label="動画とソース"><a href="../../media/train-llm-from-scratch-example.mp4">動画を大きく見る</a><a href="video/index.html">編集できる動画ソース</a><a href="source.zip">入力・結果・ソース一式</a><a href="verification.json">確認の範囲</a></nav></section>
+</body>
+</html>

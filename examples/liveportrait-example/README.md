@@ -88,7 +88,7 @@ python run_example.py --upstream <upstream> --weights <weights> --jobs inputs/jo
 - 重み：KlingTeam/LivePortrait のモデルカードは MIT。重み・環境・フルのチェックアウト・キャッシュは配布しません。
 - 入力：《モナ・リザ》の複製画（原作品はパブリックドメインの歴史的絵画）。原典の `s9.jpg` を同じバイトで使い、手動の切り出しと生成画像はそこからの派生です。
 - 別に入れた依存（同梱なし）：`THIRD_PARTY_NOTICES.md` を参照。
-- ページ・図・文章・解説動画のソースとランナー：八百万図AIツールボックス、MIT（`LICENSE`）。作者 AI（Claude Opus 5.5）が書き、原典の実行と事実の包装は制作担当が行いました。
+- ページ・図・文章・解説動画のソースとランナー：Yaoyorozu AI ToolBox、MIT（`LICENSE`）。作者 AI（Claude Opus 5.5）が書き、原典の実行と事実の包装は制作担当が行いました。
 - 解説動画の書き出しに使う固定版 Motion Reel のMITレンダラー5ファイルと表示を、制作担当の後工程で tools/motion-reel に同梱しました。依存とChrome本体は配布していません。
 
 

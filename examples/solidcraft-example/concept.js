@@ -4,7 +4,7 @@
 // <html data-concept-page="main"> のときだけ動く。
 
 export const MANIFEST_PATH = 'concept/manifest.json';
-export const MANIFEST_SHA256 = '362648f5dc12c733470a87b9b1248111da5f3191d794252af9086085e3055940';
+export const MANIFEST_SHA256 = '928aa73b0c5699488fc6cc4fe95d695319fd8e42cbfdc5b0306be33e3503f1f4';
 export const ASSET_COUNT = 31;
 export const CASE_IDS = ['tray-default', 'tray-resized'];
 export const CASE_KEY = {'tray-default': 'default', 'tray-resized': 'resized'};
@@ -436,7 +436,7 @@ function buildModel(manifest, files) {
     need(Number.isInteger(part.line_start) && lines[part.line_start - 1] === part.quote,
       `${part.id} の引用が原典 ${part.source_path} の${part.line_start}行目と一致しません`);
     const upstream = part.source_path.slice('vendor/solidcraft/'.length);
-    need(part.source_url === `https://github.com/bherbruck/solidcraft/blob/${SOURCE_COMMIT}/${upstream}#L${part.line_start}`,
+    need(part.source_url === `https://github.com/tangency-labs/solidcraft/blob/${SOURCE_COMMIT}/${upstream}#L${part.line_start}`,
       `${part.id} の原典URLが参照コミットと一致しません`);
     return {...part, upstream};
   });

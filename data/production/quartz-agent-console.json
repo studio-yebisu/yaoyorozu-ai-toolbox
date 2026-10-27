@@ -98,7 +98,7 @@
     "other_components_exercised": false
   },
   "original_upstream_record": {
-    "repository": "https://github.com/arla6ka/skills",
+    "repository": "https://github.com/arla6ka/design.how",
     "commit": "1aaaa1b47ba5a18b47b0ebcac684ade460c6823f",
     "path": "systems/quartz",
     "license": "MIT",
@@ -168,7 +168,7 @@
     "scope": "Original1Opus authoringreceipt includes parentintegration separately. NewexactOpus authored8diagram/editor originals. Parent facts/fixturepackaging/priorwaitfixturereplacement/corrections/render/QA/package/publication are not reassigned to newOpus."
   },
   "upstream": {
-    "repository": "https://github.com/arla6ka/skills",
+    "repository": "https://github.com/arla6ka/design.how",
     "commit": "1aaaa1b47ba5a18b47b0ebcac684ade460c6823f",
     "path": "systems/quartz",
     "license": "MIT",
@@ -365,22 +365,22 @@
     "final_renders": "renders-r2"
   },
   "artifacts_sha256": {
-    "data/cases/quartz-agent-console.json": "142add0b86d8c3ed04c3db177f1d816e9785f7577b403fcc8013fadab42b639c",
+    "data/cases/quartz-agent-console.json": "5d3f86a15fa2e2a544886afae00d1c961eb6d58e3944a60946970ce84ff5e008",
     "examples/quartz-agent-console/LICENSE": "fb74b9b6e529197ce24b127b687e4e349cf46864059da001a3d9d63db39cdb19",
     "examples/quartz-agent-console/README.md": "56b69ce678840ec777c791057b4468baf4724b76b15f5befeeded47cfe94285b",
     "examples/quartz-agent-console/THIRD_PARTY_NOTICES.txt": "98cde7ba179d11a57bacc9cc9953d765a051fba5cfa29d8b826f1179a9c52bd0",
     "examples/quartz-agent-console/assets/app.js": "5211225b9ed5155f8e7e61b494f468be3ed524b257ddf61768684eeff400a2f1",
     "examples/quartz-agent-console/assets/source.css": "5f824b93739cd0eaf7a2f5555e831c714d244f96288d05bad8feda1941258d15",
     "examples/quartz-agent-console/concept.css": "9dacb86306864c321e7c96dc99aca3caa2fbecc7be8d0ca10738168eed785174",
-    "examples/quartz-agent-console/concept.js": "f3e8bb5cbc2f23729e35632572559dd07b176108cd9982a901205671c67a4138",
+    "examples/quartz-agent-console/concept.js": "f13fa8b8547d951e55929d5f150a25e10860470057d83b70e21ffed32c1bff6e",
     "examples/quartz-agent-console/concept/fixtures/completed.json": "1f35294607c512616fbe12ce853fd340436c4f043fbe3096447f0616ab3fc706",
     "examples/quartz-agent-console/concept/fixtures/tool-failed.json": "b3a77a8f325d9612d955f2221bdc9d283ce88a39952ef7af6ee4e6621ed2d4b3",
     "examples/quartz-agent-console/concept/fixtures/waiting-input.json": "fb808e47ae9895a816494e565d383a142535119f37dcb0792d60b7c18e1cca70",
-    "examples/quartz-agent-console/concept/manifest.json": "8b36e1e6108ff8f6989ef9a460df213e50eadb0378b5f2386e8926b0d9707bac",
+    "examples/quartz-agent-console/concept/manifest.json": "306d3c942e89aa8049964872b901c88163606cbb9b83f79dc025a9055d6a7374",
     "examples/quartz-agent-console/concept/original-run.json": "f57b8a5e7e379a5b8051b4f7f003dca3fa615035a8f9393c3bcc543a5c317efc",
-    "examples/quartz-agent-console/concept/structure.json": "20afd84bc8e1abc4f8fc1ed83d47b9712da8cd4867a5e482b3f8465e3219bd41",
+    "examples/quartz-agent-console/concept/structure.json": "8fa2df51ce8bb112b4251d7bcc74b9d7e223fc6ab0dc974f84f5eaf8d727e5cf",
     "examples/quartz-agent-console/desk.html": "bfebded95e06f5e26d00906fd797d342622e13275b7ff699a70ef9432ac583f3",
-    "examples/quartz-agent-console/index.html": "61e9194ad9ed3e58ea5fdcbf5da294ee884aff1ceec06d9c024a141b168705c1",
+    "examples/quartz-agent-console/index.html": "bef4746f72fd10d78a3bad69f3d27e1f03f9b6d1e643cd85750c003fbf0e5eb2",
     "examples/quartz-agent-console/package-lock.json": "e8ba0e7954a5846e13347a28953960cfe562636b41b06ef5b61bea929cea1c96",
     "examples/quartz-agent-console/package.json": "3792f66ffdb0e6f5c8cebbddf845cdf75190bd0664fbd15a3ce540ae4297ebc8",
     "examples/quartz-agent-console/quartz.eslint.config.mjs": "e3feccb2d554ddf6c5aba6135fa3ff4bfa395ceddd3d110aa7105afa2607b1b3",
@@ -388,7 +388,7 @@
     "examples/quartz-agent-console/request.txt": "213a9967d5f1ec4ea0d435d956a5398af1d481f506bb63fcd78510756e24fb7c",
     "examples/quartz-agent-console/samples.json": "46b1e6e9bce1b9bab305872d5e764efa93f4de3f436504dd22dabd77e39ea2be",
     "examples/quartz-agent-console/source.html": "3fbd5bc3c322f4dfc244f97542974baf2bba93ca2432bdde78bfe190fe3464fd",
-    "examples/quartz-agent-console/source.zip": "560ba75ad210a7f74ab0fddd06f331b1248e54a7f9ee47aab8602570c4036bc9",
+    "examples/quartz-agent-console/source.zip": "0c61b2600d8ced7448644e0d4b8510d149ccfb2e314cf847c149b4f299f4ef0a",
     "examples/quartz-agent-console/src/app.tsx": "f361a01270585a3902a50a1724a96f1bcad6bf4d3bde0e4a7909da1cbffd81eb",
     "examples/quartz-agent-console/src/main.tsx": "f0a8dcebe3087a4eeb2ee1ca04c7c63b72ac5e1c94bb6b4c0195bb7c9aed82f1",
     "examples/quartz-agent-console/src/styles.css": "68488c7a8f9a92d2845c24b0f0122164589e3862661612dea66b8ec2397e86c7",
@@ -645,5 +645,15 @@
       },
       "record": "data/production/site-rebrand-20261022.json"
     }
-  ]
+  ],
+  "source_link_maintenance": {
+    "updated_on": "2026-10-22",
+    "scope": "Corrected source URLs and labels; updated the affected asset manifests, loader pins, source ZIP members, and current artifact hashes. Fixed source commits, runtime measurements, model receipts, and media were retained.",
+    "updated_artifacts": {
+      "data/cases/quartz-agent-console.json": "5d3f86a15fa2e2a544886afae00d1c961eb6d58e3944a60946970ce84ff5e008",
+      "examples/quartz-agent-console/concept/structure.json": "8fa2df51ce8bb112b4251d7bcc74b9d7e223fc6ab0dc974f84f5eaf8d727e5cf",
+      "examples/quartz-agent-console/index.html": "bef4746f72fd10d78a3bad69f3d27e1f03f9b6d1e643cd85750c003fbf0e5eb2",
+      "examples/quartz-agent-console/source.zip": "0c61b2600d8ced7448644e0d4b8510d149ccfb2e314cf847c149b4f299f4ef0a"
+    }
+  }
 }

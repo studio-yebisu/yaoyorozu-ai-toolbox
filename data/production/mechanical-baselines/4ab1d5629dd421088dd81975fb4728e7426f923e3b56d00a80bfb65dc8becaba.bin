@@ -1,0 +1,251 @@
+{
+  "id": "letta-code-example",
+  "title": "Letta Code",
+  "title_lines": [
+    "記憶を持ち越せるコーディングエージェント"
+  ],
+  "category": "agents",
+  "summary": "会話をまたいで記憶と状態を持つAIエージェントで、開発作業を進められます。継続する仕事の情報を保持し、CLIやアプリから次の依頼につなげられます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/letta-code-example/index.html",
+  "video": "media/letta-code-example.mp4",
+  "poster": "media/letta-code-example.webp",
+  "skill": "examples/letta-code-example/vendor/letta-code/src/skills/builtin/initializing-memory/SKILL.md",
+  "skill_label": "記憶の構造・検査（固定版）",
+  "skill_description": "固定版の initializing-memory スキル。今回は架空の記憶の配置と構造確認の指示だけを適用。履歴調査や /init の全工程は実行していません。",
+  "samples": "examples/letta-code-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "8ケースの入力と、実際に返った結果",
+  "samples_intro": "ここでは架空の入力と結果の要点を短く示します。各ケースの実デモで、入力ファイル全文・原典の診断・API/CLI/Gitの実結果とJSON保存を確認できます。",
+  "demo_description": "記憶の案内と詳細→変更をstage→点検→Gitへ保存を、大きな図で見られます。まず案内を消したL02の保存済み結果を表示。案内だけを戻した別の試行L03と比べると、保存できた違いが分かります。長すぎるメモL04、保護された設定L08も図で比べられ、選んだ1件の実行記録をJSONで保存できます。全8件の入力・API・CLI・Gitの全文は補足の比較ページにあります。",
+  "demo_note": "原典APIとGitが返した保存済みの実結果を図にした作例です。実際のエージェントの記憶を編集する画面ではありません。",
+  "request_intro": "同じ点検を自分の架空の記憶で試すときの依頼文です。入力と初期方針の欄を差し替え、固定版の Letta Code を読めるAIや開発者に渡してください。",
+  "request": "架空の記憶フォルダー（Markdown と .memfs.config.json）への変更を1件ずつ Git の stage に置き、固定版 Letta Code の記憶検査で、commit の前に文字数の上限・フォルダーごとの案内（MEMORY.md）・保護ファイル・設定の保護を確かめる作例を作ってください。検査APIを直接呼んだ結果、原典の検査スクリプトを直接実行した結果、同じスクリプトを pre-commit にした実際の git commit の結果を分けて JSON に保存し、スマホで読める日本語のページで、保存できたか止まったかと原典の診断文を確かめられるようにしてください。\n\n読む原典（固定版 letta-ai/letta-code 316e4c0545b549c453e0f85cc81d3540404eff74・0.34.14・Apache-2.0）\n・検査API（parseMemoryConstraintsConfig・validateMemoryTreeConstraints）：https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/memory-constraints.ts\n・frontmatter の検査（validateMemoryFileFrontmatter）：https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/memory-frontmatter.ts\n・Git の検査スクリプト（MEMORY_CONSTRAINTS_VALIDATOR_SCRIPT）：https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/agent/memory-constraints.ts\n・投影と形式の判定（isProjectedMemoryPath・detectMemoryFormat）：https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/agent/memory-format.ts\n・initializing-memory スキル（Harness Constraints・ルートを案内にする構造・9. Verify の構造の確認だけを使う）：https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/skills/builtin/initializing-memory/SKILL.md\n・LICENSE：https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/LICENSE\n\n入力（ここを差し替える。実行の前に固定し、結果を見てから変えない）\n・架空の記憶：ルートの MEMORY.md（案内）・persona.md・子フォルダーの MEMORY.md と詳細ファイル・.memfs.config.json。個人の記憶・会話履歴・実在の人は使わない\n・初期方針：実行の前に決める。原典の既定より厳しくしてよい（この作例では version 1・maxDepth 2・maxFileCharacters 900・maxCoreMemoryCharacters 1200・readOnlyFiles に persona.md）。実際のエージェントで採用した方針としては扱わない\n・変更：各件の accepted_files（基準の commit の全ファイル）と proposed_files（次に stage する全ファイル）。この作例では L01〜L08 の8件\n・期待：各件で commit できるかと、止まるときの理由の一部を、実行の前に別のファイルへ書く\n\n進め方\n1. 原典8ファイル・ロック・入力の SHA-256 と Git blob を照合してから、Node 24 の型除去で原典の .ts をそのまま読み込む。npm の導入はしない。読み込みの補助は「@/」と原典内の拡張子なし相対 import を .ts へ解決するだけにし、原典の関数を置き換えない\n2. 各件ごとに、公開フォルダーの外の新しい空フォルダーで git init -b main。設定はそのリポジトリだけ（core.autocrlf=false・架空の user.name と user.email・commit.gpgsign=false・core.hooksPath=.git/hooks）。グローバル設定・実際のエージェントの記憶と方針・LETTA_MEMORY_CONSTRAINTS_UPDATE には触れない\n3. accepted_files で基準の commit を作ってから、原典の MEMORY_CONSTRAINTS_VALIDATOR_SCRIPT をそのまま .git/letta-memory-constraints.cjs に書き、2行の pre-commit から --layout root-marker で呼ぶ\n4. proposed_files を書き、消すファイルを含めて名前を指定して stage する\n5. 基準の commit から読んだ初期方針・root-marker・ルートの MEMORY.md 必須・HEAD を基準の木として validateMemoryTreeConstraints を呼ぶ。記憶として投影される Markdown（skills/ 以外）すべてに validateMemoryFileFrontmatter を、stage の内容と HEAD の内容で呼ぶ\n6. 原典のスクリプトを1回直接実行し、続けて実際に git commit して pre-commit を通す。stdout・stderr・終了コードをそのまま残し、止まったら HEAD が変わらず stage が残ること、通ったら HEAD が進み stage が空になることを確かめる\n7. 結果を得た後でだけ期待のファイルと照らし合わせる。すべての確認が通ったときだけ outputs/memory-runs.json を1回書く。既にある記録は上書きしない。絶対パス・認証情報・個人の履歴は書かない\n\nページでできること\n・8件を選び、保存できたか止まったか、原典の診断文、HEAD と stage がどうなったかを先に読む。L02（案内を消して止まる）と L03（同じ変更に案内だけを残して通る）を行き来できる\n・ファイルを選び、基準と変更後の全文を並べて読む。検査API・原典CLI・git commit の結果と入力の JSON は折りたたみで全文を開ける\n・記録・入力・ロックを取得し、固定版・SHA-256・8件・確認の合否を照合してから表示する。合わなければ理由と「もう一度読み込む」だけを出す\n・選んだ1件を letta-L02.json のような JSON で保存し、この依頼文をコピーする\n・320px幅のスマホから1280px幅のパソコンまで横スクロールなし。操作部品は44px以上、入力欄の文字は16px以上。外部のフォント・CDN・計測・AI の呼び出しは使わない\n\n書かないこと\n・検査を、エージェントとの会話・記憶の自動抽出・モデルの推論・Cloud・同期・/init の実行として書かない\n・検査がエラーを返さないことを、人の承認・内容の正しさ・事実の正確さ・採用の決定として書かない\n・保存済みの記録を読むページを、実際のエージェントの記憶を編集する画面として書かない\n・初期方針を、実際のエージェントで採用された方針として書かない。方針の変更を承認したように見せたり、止まった commit を回避したりしない\n\n最後に、作ったファイル、実際に実行したコマンドとその結果、まだ確かめていない点を分けて書いてください。\n",
+  "applied_skills": [
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "記憶を編集→stage→実検査→診断を読む→JSONで保存、という操作へ具体化。架空の初期方針・8ケースを実行前固定し、案内の削除と復元、文字数/深さ/合計の超過、保護ファイルと設定変更を確認しました。"
+    },
+    {
+      "name": "initializing-memory（記憶の構造・検査、固定版・構造指示のみ）",
+      "source": "https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/skills/builtin/initializing-memory/SKILL.md",
+      "applied": "Harness Constraints、ルートを案内にする段階的な構造、9. Verify の構造の確認だけを架空の記憶に当てはめました。前の4つの決まりは原典の検査APIと frontmatter の検査で、foo.md と foo/ の条件は run.mjs の照合で確かめました。/init の流れ（履歴の検出と分析・質問・Git からの利用者の推定・サブエージェント・別モデル・記憶の編集）は実行していません。"
+    },
+    {
+      "name": "Letta Code 原典（記憶検査の実API・検査スクリプト）",
+      "source": "https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/agent/memory-constraints.ts",
+      "applied": "固定版8原典を無改変で使い、公開されたMemFS検査APIと原典の文字数・構造検査スクリプトを実行。実Gitの8試行・208自動確認・制作側の独立したGit/入力bytes照合、別コピー/新Node/新8Gitの実行記録全bytes一致を確認しました。フルのLettaエージェントやCLI会話は使っていません。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/letta-code-example/tools/motion-reel/render.mjs",
+      "applied": "同じ実入力・出力とOpus5.5の概念図・動きを保持し、32秒の縦横動画を無音化。編集ソースは7素材を照合して描画し、任意時刻のPNG一致・実動画のビデオpacket一致・全デコード・再生終了を確認しました。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "架空の記憶と8つの変更を固定",
+      "body": "ルートの案内・persona.md・bookclub/ の案内と詳細・設定ファイルからなる架空の読書会の記憶と、初期方針・8つの変更を実行前に固定しました。個人の記憶や会話履歴は使いません。"
+    },
+    {
+      "title": "新しいリポジトリで基準の commit",
+      "body": "8件それぞれに公開フォルダーの外の新しいリポジトリを作り、設定はそのリポジトリだけに書きます。基準の commit の後で、原典の検査スクリプトをそのまま pre-commit にします。"
+    },
+    {
+      "title": "検査API・原典CLI・git commit を別々に",
+      "body": "初期方針での検査API、frontmatter の検査、原典の検査スクリプトの直接実行、実際の git commit の結果を分けて残し、止まったら HEAD と stage がそのままであることを確かめます。"
+    },
+    {
+      "title": "診断を読み、原因だけを戻す",
+      "body": "原典の診断文とファイルの前後をページで読み、L02 と L03 のように案内だけを戻した変更と比べます。選んだ1件は JSON で保存できます。"
+    }
+  ],
+  "limitations": [
+    "動かすのは固定版 Letta Code の記憶検査の関数と、原典の Git 用検査スクリプトだけです。エージェントとの会話、記憶の自動抽出や想起、モデルの推論、Letta Cloud・ログイン・同期、/init は使っていません。",
+    "検査がエラーを返さないことは、人の承認・内容の正しさ・事実の正確さ・採用の決定ではありません。",
+    "初期方針（1ファイル900文字・ルートの合計1200文字・深さ2・persona.md を保護）は、原典の既定より厳しい架空の方針で、実際のエージェントで採用されたものではありません。方針の変更は承認せず、止まった commit も回避していません。",
+    "frontmatter の検査は原典の pre-commit スクリプトに含まれないため、APIとして別に呼んでいます。",
+    "initializing-memory SKILL.md からは構造の決まりと構造の確認だけを使いました。判断が要る確認（ルートの役割・重複・粒度・persona の質）は行っていません。",
+    "pre-commit は Git の仕組みで、OS のサンドボックスやセキュリティの保証ではありません。子プロセスの環境を絞っていますが、OS 全体の遮断ではありません。",
+    "このページは保存した記録を読むだけで、実際のエージェントの記憶を編集できません。",
+    "L02/L03は同じ内容から案内ファイル1つだけを変えた別の試行です。L04/L06は上限超過の901/1201を試しており、ちょうど900/1200の別入力は実行していません。",
+    "IAB Chromiumでスマホを含む7幅、実JSON保存・依頼文コピー・エラー復旧、縦横動画の代表/連続/終端・全デコード・再生終了と音声トラック0件を確認。実機iOS/Safari/VoiceOver・Core Web Vitals・人による承認は未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "letta-ai/letta-code（固定コミット 316e4c0・0.34.14）",
+      "url": "https://github.com/letta-ai/letta-code/tree/316e4c0545b549c453e0f85cc81d3540404eff74"
+    },
+    {
+      "label": "Letta Code README（固定版）",
+      "url": "https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/README.md"
+    },
+    {
+      "label": "Letta Code LICENSE（Apache-2.0・固定版）",
+      "url": "https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/LICENSE"
+    },
+    {
+      "label": "検査API parseMemoryConstraintsConfig・validateMemoryTreeConstraints（src/memory-constraints.ts・固定版）",
+      "url": "https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/memory-constraints.ts"
+    },
+    {
+      "label": "validateMemoryFileFrontmatter（src/memory-frontmatter.ts・固定版）",
+      "url": "https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/memory-frontmatter.ts"
+    },
+    {
+      "label": "原典の検査スクリプト MEMORY_CONSTRAINTS_VALIDATOR_SCRIPT（src/agent/memory-constraints.ts・固定版）",
+      "url": "https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/agent/memory-constraints.ts"
+    },
+    {
+      "label": "detectMemoryFormat・isProjectedMemoryPath（src/agent/memory-format.ts・固定版）",
+      "url": "https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/agent/memory-format.ts"
+    },
+    {
+      "label": "initializing-memory SKILL.md（固定版）",
+      "url": "https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/skills/builtin/initializing-memory/SKILL.md"
+    },
+    {
+      "label": "架空の記憶・初期方針・8つの変更（input/memory-changes.json）",
+      "url": "examples/letta-code-example/input/memory-changes.json"
+    },
+    {
+      "label": "実行前に決めた期待（input/expected.json）",
+      "url": "examples/letta-code-example/input/expected.json"
+    },
+    {
+      "label": "実行スクリプト（run.mjs）",
+      "url": "examples/letta-code-example/run.mjs"
+    },
+    {
+      "label": "読み込み補助（loader.mjs）",
+      "url": "examples/letta-code-example/loader.mjs"
+    },
+    {
+      "label": "手順と読み方（outputs/method.md）",
+      "url": "examples/letta-code-example/outputs/method.md"
+    },
+    {
+      "label": "8件の実行記録（outputs/memory-runs.json・実行後に追加）",
+      "url": "examples/letta-code-example/outputs/memory-runs.json"
+    },
+    {
+      "label": "原典8ファイルのハッシュ（vendor-lock.json）",
+      "url": "examples/letta-code-example/vendor-lock.json"
+    },
+    {
+      "label": "依頼文（request.txt）",
+      "url": "examples/letta-code-example/request.txt"
+    },
+    {
+      "label": "README（再現の手順）",
+      "url": "examples/letta-code-example/README.md"
+    },
+    {
+      "label": "独立した実Git・入力bytesの照合",
+      "url": "examples/letta-code-example/outputs/independent-checks.json"
+    },
+    {
+      "label": "別コピー・新Node/新Gitの再現確認",
+      "url": "examples/letta-code-example/outputs/reproduction-checks.json"
+    },
+    {
+      "label": "固定原典と利用範囲",
+      "url": "examples/letta-code-example/upstream-evidence.json"
+    },
+    {
+      "label": "確認した範囲",
+      "url": "examples/letta-code-example/verification.json"
+    },
+    {
+      "label": "入力・実装・映像ソース一式",
+      "url": "examples/letta-code-example/source.zip"
+    },
+    {
+      "label": "動く概念図の使い方",
+      "url": "examples/letta-code-example/visual-guide.md"
+    },
+    {
+      "label": "改修後に確認した範囲",
+      "url": "examples/letta-code-example/verification.json"
+    },
+    {
+      "label": "映像の実素材8件とハッシュ",
+      "url": "examples/letta-code-example/video/assets/manifest.json"
+    }
+  ],
+  "license": "MIT（独自作例）・Apache-2.0（Letta Code 原典）",
+  "license_note": "作例のコード（run.mjs・loader.mjs・ページ）・文章・架空の入力・動画の編集ソースは MIT License（Copyright (c) 2026 Studio Yebisu）。vendor/letta-code/ の8ファイルは letta-ai/letta-code の固定コミット 316e4c0（0.34.14）のファイルを改変せずに置いたもので、Apache License 2.0 です。実行にパッケージの導入・アカウント・API キー・課金は要りません。Letta Code 本体のモデル接続・Letta Cloud・各連携サービスは別の条件で、この作例では使っていません。ソース制作に用いた Opus 5.5 の利用環境は別に必要です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "video_note": "32秒・無音。大きな概念図と短いラベルで使い方を説明します。音声ガイドはありません。縦版を主に、横版も用意しました。",
+  "video_source": "examples/letta-code-example/video/index.html",
+  "skill_license": "examples/letta-code-example/vendor/letta-code/LICENSE",
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "runtime_review": {
+    "status": "technical_qa_complete",
+    "execution": "Node24の原典APIと実Gitの8試行",
+    "checks_total": 208,
+    "screen_review": "Diagram-first saved-result viewer plus original8-case comparison; measured phone layout, real selected-record save/copy and controlled errors checked.",
+    "video": "32s/30fps/960frames; portrait720x1280,wide1280x720;silent,no audio stream;original video packets retained,source PNG match/decode/native playback checked.",
+    "publication": "対象を限定した公開処理後に、Pagesと実ファイルを別途照合",
+    "human_approval": false,
+    "model_scope": "Original Opus5.5 diagram UI/animation source retained. Production removed spoken narration and integrated silent playback, unchanged runtime/results. No new model execution claimed."
+  },
+  "guide_url": "case.html?id=letta-code-example",
+  "catalog_entry": {
+    "id": "resource-letta-code",
+    "name": "Letta Code",
+    "tagline": "記憶を持ち越せるコーディングエージェント",
+    "category": "agents",
+    "kind": "エージェント基盤",
+    "summary": "会話をまたいで記憶と状態を持つAIエージェントで、開発作業を進められます。継続する仕事の情報を保持し、CLIやアプリから次の依頼につなげられます。",
+    "use_case": "一度きりの依頼に加えて、継続する作業の情報を持つエージェントを試したいとき。",
+    "tags": [
+      "エージェント",
+      "実行管理",
+      "エージェント基盤"
+    ],
+    "workflow": [
+      "架空の記憶への変更を入力にし、固定版のMemFS検査を実Gitで動かす",
+      "案内を消したL02と戻したL03、設定変更を止めるL08などの実結果を読む",
+      "8件の全文・JSON保存・28秒の解説と編集ソースを確認する"
+    ],
+    "requirements": [
+      "Node24.18.0とgit version 2.55.0.windows.3で確認した、同梱原典と実行ソース",
+      "実行用コピーと、その外の新しい非公開フォルダー。この限定経路にモデル接続・アカウント・APIキーは不要"
+    ],
+    "license": "Apache-2.0",
+    "license_url": "https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/LICENSE",
+    "license_note": "現行Letta CodeのコードはApache-2.0。モデル、クラウド、各連携サービスは別条件です。",
+    "source_url": "https://github.com/letta-ai/letta-code/tree/316e4c0545b549c453e0f85cc81d3540404eff74",
+    "guide_url": "case.html?id=letta-code-example",
+    "readme_url": "https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/README.md",
+    "source_repository": "letta-ai/letta-code",
+    "source_commit": "316e4c0545b549c453e0f85cc81d3540404eff74",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "固定版0.34.14/316e4c0の公開MemFS検査APIと原典の制約検査スクリプトを、実Gitのpre-commitへ接続。8ケース/208自動確認/独立したGitと入力bytes照合/別コピーの全記録bytes一致。エージェント会話・LLM推論・Cloud・同期・/initは未実行。",
+    "prompt": "Letta Code固定版の公開MemFS検査APIと原典の制約スクリプトで、架空の読書会の記憶変更を実Gitのpre-commitで点検してください。案内を消した例と戻した例、上限超過、保護ファイルと設定変更を確認し、実入力・実結果と短い日本語解説を保存してください。会話やLLM推論とは区別してください。",
+    "verification_stage": "runtime-reviewed",
+    "verification": "固定版の原典と実入力・実出力を保持し、動く大きな概念図と32秒の無音の縦横動画で説明。音声ガイドなし。映像packetと編集ソースのPNG一致、実デモ・動画再生を確認。人の承認と実機iOSは未確認。",
+    "reviewed_on": "2026-10-17",
+    "updated_on": "2026-10-17"
+  },
+  "video_width": 720,
+  "video_height": 1280,
+  "video_landscape": "media/letta-code-example-wide.mp4",
+  "video_portrait": "media/letta-code-example.mp4",
+  "poster_portrait": "media/letta-code-example.webp",
+  "poster_landscape": "media/letta-code-example-wide.webp",
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/letta-code-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/letta-code-example-landscape-credited-ja-v3.mp4"
+}

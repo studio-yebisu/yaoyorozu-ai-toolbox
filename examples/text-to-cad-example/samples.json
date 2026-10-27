@@ -1,0 +1,49 @@
+{
+  "format": "input-output",
+  "samples": [
+    {
+      "id": "small",
+      "label": "机上の小物ケース 100×70×24",
+      "input": {
+        "unit": "mm",
+        "width": 100,
+        "depth": 70,
+        "height": 24,
+        "wall": 2.4,
+        "floor": 2.4,
+        "source": "parameters.json の small"
+      },
+      "output": {
+        "kind": "寸法の計算とコードの提案のみ。CADカーネルは実行していない",
+        "inner": {"width": 95.2, "depth": 65.2, "height": 21.6},
+        "cavity_ml_simple": 134.1,
+        "python": "model-proposal.py（未実行。定数 OUTER_WIDTH = 100.0 ほか）",
+        "step": "未生成",
+        "stl": "未生成",
+        "computed_by": "dims.mjs の caseDims（外形 − 壁×2、高さ − 底）"
+      }
+    },
+    {
+      "id": "wide",
+      "label": "工具用に幅を広げる 130×70×24",
+      "input": {
+        "unit": "mm",
+        "width": 130,
+        "depth": 70,
+        "height": 24,
+        "wall": 2.4,
+        "floor": 2.4,
+        "source": "parameters.json の wide"
+      },
+      "output": {
+        "kind": "寸法の計算とコードの提案のみ。CADカーネルは実行していない",
+        "inner": {"width": 125.2, "depth": 65.2, "height": 21.6},
+        "cavity_ml_simple": 176.3,
+        "python": "model-proposal.py の OUTER_WIDTH を 130.0 にする提案（未実行）",
+        "step": "未生成",
+        "stl": "未生成",
+        "computed_by": "dims.mjs の caseDims（外形 − 壁×2、高さ − 底）"
+      }
+    }
+  ]
+}

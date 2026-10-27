@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス — OpenHands Agent Canvas 作例の実行CLI。MIT License, Copyright (c) 2026 Studio Yebisu.
+// Yaoyorozu AI ToolBox — OpenHands Agent Canvas 作例の実行CLI。MIT License, Copyright (c) 2026 Studio Yebisu.
 //
 //   node run.mjs --artifact-dir <このフォルダーの外の、まだ無いフォルダー>
 //

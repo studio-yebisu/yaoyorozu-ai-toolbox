@@ -1,4 +1,4 @@
-/* 八百万図AIツールボックス — homepage teaser for open-weight models (section#models). Load after ui.js.
+/* Yaoyorozu AI ToolBox — homepage teaser for open-weight models (section#models). Load after ui.js.
    Reads data/open-models.json only and shows every `featured: true` model. It shares no state with the
    case gallery or catalog, so a failure there leaves this section working, and the reverse. */
 (() => {

@@ -26,6 +26,13 @@
   }
 
   function label(state) {
+    // A failed source keeps its disabled label even as play/pause state changes around it.
+    if (state.box.dataset.mediaState === 'error') {
+      state.toggle.textContent = '再生できません';
+      state.toggle.setAttribute('aria-label', state.title + 'の動画を再生できません');
+      state.toggle.setAttribute('aria-pressed', 'false');
+      return;
+    }
     const playing = !state.video.paused && !state.video.ended;
     state.toggle.textContent = playing ? '一時停止' : '再生';
     state.toggle.setAttribute('aria-label', state.title + 'の動画を' + (playing ? '一時停止' : '再生'));
@@ -59,13 +66,17 @@
         state.video.currentTime = Math.min(time, Math.max(0, state.video.duration - 0.05));
       }
       state.switching = false;
+      // A recovered source (the other orientation may exist) drops the failure fallback again.
+      state.box.querySelector('.media-fallback')?.remove();
+      state.toggle.disabled = false;
+      delete state.box.dataset.mediaState;
       sync(state);
     }, {once: true});
     state.video.load();
   }
 
   function sync(state) {
-    const active = eligible(state) && !state.userPaused && (!reduced.matches || state.manual);
+    const active = state.box.dataset.mediaState !== 'error' && eligible(state) && !state.userPaused && (!reduced.matches || state.manual);
     state.video.autoplay = active;
     if (!active) { pause(state); return; }
     if (!state.loaded) {
@@ -132,6 +143,22 @@
       toggle.textContent = '再生できません';
       toggle.setAttribute('aria-label', title + 'の動画を再生できません');
       toggle.disabled = true;
+      // Keep the box truthful: the case poster if there is one, else the case name; a broken
+      // poster leaves a short note instead of a silent frame.
+      box.querySelector('.media-fallback')?.remove();
+      const fallback = h('div', {class: 'media-fallback'});
+      const poster = variant(item).poster;
+      if (poster) {
+        const img = h('img', {src: poster, alt: '', loading: 'lazy', decoding: 'async'});
+        img.addEventListener('error', () => {
+          img.remove();
+          fallback.append(h('p', {class: 'media-fallback-note'}, '動画を読み込めませんでした。'));
+        }, {once: true});
+        fallback.append(img);
+      } else {
+        fallback.append(h('p', {class: 'media-fallback-name'}, title));
+      }
+      box.append(fallback);
     });
     if (observer) observer.observe(video);
     else requestAnimationFrame(() => sync(state));

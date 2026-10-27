@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f6f1e6">
+  <title>Claude-Mem 作例・動く概念図の編集ソース（32秒・無音）｜八百万図AIツールボックス</title>
+  <link rel="stylesheet" href="video.css">
+  <script src="video.js" defer></script>
+</head>
+<body>
+  <main id="editor" class="editor" data-state="loading">
+    <header class="intro chrome">
+      <p class="kicker">STUDIO YEBISU ・ CLAUDE-MEM 作例</p>
+      <h1>動く概念図の編集ソース</h1>
+      <p class="lede"><span class="silent">無音</span> 32秒。保存済みの実行結果から、5件の保存・題名・前後・本文・案件・開き直しを、同じ本棚の図の部品の動きで見せます。</p>
+      <nav class="layouts" aria-label="画面の向き">
+        <a id="layout-tall" href="index.html">縦 720×1280</a>
+        <a id="layout-wide" href="index.html?layout=wide">横 1280×720</a>
+      </nav>
+    </header>
+
+    <div class="statusbar chrome">
+      <p id="asset-count" class="count" data-state="pending">0 / 7素材</p>
+      <p id="status" class="status" role="status" aria-live="polite">素材を照合しています…</p>
+    </div>
+
+    <section id="error" class="failure chrome" aria-labelledby="error-title" hidden>
+      <p id="error-title" class="failure-title">映像を描いていません</p>
+      <p id="error-text"></p>
+      <p class="hint">内蔵の代わりのデータは使いません。素材を確かめてから読み込み直してください。</p>
+      <button id="retry" type="button">もう一度読み込む</button>
+    </section>
+
+    <section id="stage" class="stage" hidden>
+      <canvas id="film" role="img" aria-label="ひとつの保存先にある2つの案件の本棚へ架空の5件が入り、「iOS」の問いでさくらサイトの題名 N02・N01 だけが出て、選んだ N01 が前後の N02 と並び、N01 だけが本文として開き、同じ問いがつばき資料では N04 を開き、新しいプロセスで開き直した同じ5件から「playsinline」で同じ ID 2 の N02 が開き、前のプロセスの合図は使えない、という保存済みの実行結果に基づく無音の概念図"></canvas>
+    </section>
+
+    <section class="controls chrome" aria-label="再生の操作">
+      <div class="buttons">
+        <button id="play" type="button" disabled>再生</button>
+        <button id="reset" type="button" disabled>先頭へ</button>
+      </div>
+      <div class="scrub">
+        <label for="time">時刻（秒）</label>
+        <input id="time" type="range" min="0" max="32" value="0" step="0.001" disabled>
+      </div>
+      <output id="clock" for="time">照合中</output>
+    </section>
+
+    <section class="info chrome" aria-labelledby="scenes-h">
+      <h2 id="scenes-h">場面へ移動</h2>
+      <ol id="scene-list" class="scene-list"></ol>
+    </section>
+
+    <details class="info chrome">
+      <summary>素材と出典</summary>
+      <p>assets/manifest.json の SHA-256 を固定値と照合し、そこに並ぶ7素材（元の実行記録・独立した照合・入力2件・原典のロック・図の値・時刻表）のバイト数と SHA-256 を確かめてから描きます。図の題名・ID・順番・件数・拒否の結果は、制作時に固定版 Claude-Mem 13.39.0（thedotmack/claude-mem・Apache-2.0）の上流ライブラリが Bun で返した保存済みの値です。ブラウザーで Claude-Mem・Bun・モデル・AI は動きません。</p>
+      <p>本の背の短い言葉（N01「下余白」など）と案件の札は、実際の題名・本文の一部を縮めた見出しです。開いた本の文は、返った本文の一部をそのまま引いています。N01 を選んだのは実行スクリプトの呼び出し側で、AI の自動選択ではありません。案件の指定は検索範囲で、認証ではありません。前の合図の文字列は映像に出しません（発行したプロセスの中だけで15分有効で、新しいプロセスには引き継がれません）。</p>
+      <p>図の部品と動き、映像のコードは Claude Opus 5.5 が作りました（MIT License）。音声・ナレーションはありません。</p>
+      <ol id="asset-list" class="asset-list"></ol>
+      <ul class="links">
+        <li><a href="storyboard.json">構成（storyboard.json）</a></li>
+        <li><a href="README.md">編集と書き出しの手順（README.md）</a></li>
+        <li><a href="../index.html">作例のページへ</a></li>
+        <li><a href="../comparison.html">前の版のページ（comparison.html）</a></li>
+      </ul>
+    </details>
+  </main>
+</body>
+</html>

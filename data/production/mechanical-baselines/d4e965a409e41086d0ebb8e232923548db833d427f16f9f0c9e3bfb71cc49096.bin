@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ja" data-state="loading">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'sha256-1/0V3gE4wuJdHeBm8r/fvFtrYBWyVwJiL6dCt2MkCvk=' 'sha256-WQPdUUwyqzgAeYJbgsMoJQxatw8ds5MAhL+rjt+Y4kk='; img-src 'self' blob:; media-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Diagram Designは、AIが読む図づくりの手順書・参照資料・HTMLひな形と、点検・SVG書出しのPython補助です。架空の問い合わせ業務の依頼から、AIがスイムレーン図をHTMLで書き、制作担当が点検・書出しした作例。">
+  <title>Diagram Design｜AIが手順書を読み、図をHTMLで書く｜八百万図AIツールボックス</title>
+  <link rel="stylesheet" href="concept.css?v=visual-r1">
+  <script type="module" src="concept.js?v=visual-r1"></script>
+</head>
+<body>
+  <a class="skip" href="#detail">説明へ移動</a>
+
+  <header class="bar">
+    <a class="brand" href="../../index.html">八百万図AIツールボックス</a>
+    <a class="bar-link" href="../../case.html?id=diagram-design-example">作例の記事</a>
+    <button type="button" id="theme" class="theme" aria-pressed="false">暗く</button>
+  </header>
+
+  <main id="main">
+    <section id="intake-flow" class="hero" aria-labelledby="hero-title">
+      <p class="kicker">AIが読む図づくりの手順書＋補助スクリプト</p>
+      <h1 id="hero-title"><span class="en">Diagram Design</span><span class="jp">AIが手順書を読み、図をHTMLで書く</span></h1>
+
+      <div class="presets" role="group" aria-label="作例の経路（よりみちラボ・架空）">
+        <button type="button" data-preset="route-main" aria-pressed="true" disabled>基本</button>
+        <button type="button" data-preset="route-missing" aria-pressed="false" disabled>情報不足</button>
+        <button type="button" data-preset="route-unresolved" aria-pressed="false" disabled>未解決</button>
+        <button type="button" data-preset="route-complete" aria-pressed="false" disabled>完了</button>
+      </div>
+
+      <div class="map" id="map-wrap">
+        <canvas id="concept-map" role="img" aria-label="Diagram Designの仕組みを1枚にした図" aria-describedby="map-summary"></canvas>
+        <p id="load-status" class="load-status" role="status">保存済みの27ファイルを照合しています…</p>
+        <button type="button" id="retry" class="retry" hidden disabled>もう一度読み込む</button>
+      </div>
+      <div id="map-summary" class="sr-only"></div>
+      <p id="stage-note" class="stage-note" aria-live="polite"></p>
+
+      <div class="stages" role="group" aria-label="段階">
+        <button type="button" data-stage="0" aria-pressed="false" disabled><b>1</b>渡す</button>
+        <button type="button" data-stage="1" aria-pressed="false" disabled><b>2</b>描く</button>
+        <button type="button" data-stage="2" aria-pressed="true" disabled><b>3</b>使う</button>
+        <button type="button" id="replay" class="replay" disabled>通しで</button>
+      </div>
+
+      <div class="cta">
+        <a id="open-figure" class="btn btn-primary" aria-disabled="true">実際の図を開く</a>
+        <a id="save-svg" class="btn" aria-disabled="true">SVGを保存</a>
+      </div>
+    </section>
+
+    <div id="detail" class="detail">
+      <section class="block" aria-labelledby="what-title">
+        <h2 id="what-title">何か・中に何があるか</h2>
+        <dl class="facts">
+          <div><dt>正体</dt><dd>AIが読むMarkdownの手順書（SKILL.md）と参照資料、HTMLのひな形、点検とSVG書出しのPython補助。原典は <a href="https://github.com/cathrynlavery/diagram-design/tree/d97c5c7477e54cee17cfa6459190610da0643a05" rel="noopener">cathrynlavery/diagram-design</a>（固定コミット d97c5c7、MIT）。</dd></div>
+          <div><dt>違うもの</dt><dd>AIモデル、図を作るAPI、業務の受付ツール、複数のエージェントではありません。</dd></div>
+          <div><dt>AIがすること</dt><dd>依頼と必要な指針だけを読み、図の形を選び、SVGを入れたHTMLを直接書きます。</dd></div>
+          <div><dt>制作担当がすること</dt><dd>制作担当が別の工程で、点検スクリプト・SVG書出し・ブラウザーでのPNG撮影を実行します。AIはこれらを実行していません。</dd></div>
+          <div><dt>このページ</dt><dd>保存済みの27ファイルを読み、大きさとSHA-256を照合して表示するだけです。AIも検査も書出しもここでは動かず、新しい図も作りません。</dd></div>
+        </dl>
+      </section>
+
+      <section class="block" aria-labelledby="parts-title">
+        <h2 id="parts-title">指針の6つの見出し</h2>
+        <p class="note">本の見出しは説明のための整理で、原典の決まった形式ではありません。引用は原典の該当行をそのまま照合しています。</p>
+        <div class="parts" role="group" aria-label="6つの見出し">
+          <button type="button" data-part="choose" aria-pressed="true" disabled><b>選ぶ</b><span>図の形</span></button>
+          <button type="button" data-part="style" aria-pressed="false" disabled><b>配色</b><span>色と文字</span></button>
+          <button type="button" data-part="draw" aria-pressed="false" disabled><b>描く</b><span>担当の段</span></button>
+          <button type="button" data-part="budget" aria-pressed="false" disabled><b>分量</b><span>1枚の上限</span></button>
+          <button type="button" data-part="check" aria-pressed="false" disabled><b>点検</b><span>検査</span></button>
+          <button type="button" data-part="export" aria-pressed="false" disabled><b>書出</b><span>SVG・PNG</span></button>
+        </div>
+        <div class="part-card">
+          <h3 id="part-label"></h3>
+          <p id="part-meaning"></p>
+          <blockquote lang="en"><p id="part-quote"></p></blockquote>
+          <dl class="source">
+            <div><dt>原典</dt><dd><a id="part-source" rel="noopener"></a></dd></div>
+            <div><dt>同梱の写し</dt><dd><a id="part-local"></a></dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="block" aria-labelledby="record-title">
+        <h2 id="record-title">選んだ経路の記録</h2>
+        <p class="note">架空の手順として図に描いた経路です。実際の問い合わせを処理した記録ではありません。「情報不足」は依頼の3情報が足りない場合で、データの欠落ではありません。</p>
+        <dl id="record-meta" class="record-meta"></dl>
+        <ol id="record-edges" class="record-edges"></ol>
+        <details class="raw">
+          <summary>記録ファイルの中身（concept/records）</summary>
+          <pre id="record-content"></pre>
+        </details>
+        <ul class="links">
+          <li><a id="open-desk" aria-disabled="true">従来の解説ページで見る</a></li>
+          <li><a id="save-record" aria-disabled="true">経路の記録を保存</a></li>
+          <li><a id="save-html" aria-disabled="true">HTMLを保存（正本）</a></li>
+          <li><a id="save-png" aria-disabled="true">PNGを保存（画像）</a></li>
+        </ul>
+      </section>
+
+      <section class="block" aria-labelledby="request-title">
+        <h2 id="request-title">AIへ渡した依頼（架空）</h2>
+        <label class="note" for="request-text">request.txt をそのまま表示しています。</label>
+        <textarea id="request-text" rows="9" readonly disabled spellcheck="false"></textarea>
+        <div class="copy-row">
+          <button type="button" id="copy-request" class="btn" disabled>依頼文をコピー</button>
+          <p id="copy-status" class="copy-status" role="status"></p>
+        </div>
+      </section>
+
+      <section class="block" aria-labelledby="run-title">
+        <h2 id="run-title">元の作例で行われたこと</h2>
+        <p class="note">以下は過去の制作記録を表示したものです。このページを開いても再実行はしません。</p>
+        <h3>AI（Opus 5.5）が書いたもの</h3>
+        <p>手順書と必要な参照・ひな形・依頼を読み、diagrams/intake.html（SVG入り）と diagram-data.json を書きました。</p>
+        <h3>制作担当が別に実行したもの</h3>
+        <ul id="run-tools" class="plain"></ul>
+        <p class="note">verify-geometry.py は原典リポジトリ側の検査です。日本語ラベルの高さ16pxの下地はこの検査の対象（高さ8〜14px）外なので、線との間隔8pxと箱との重なりなしは、制作担当が座標で別に確かめました。検査はすべての意味の正しさを保証するものではありません。</p>
+        <p class="note">このほか、依頼の条件と図を照らし合わせた12条件の照合があります。点検スクリプトとは別のもので、点数ではありません。</p>
+        <dl id="run-counts" class="facts"></dl>
+        <h3>人の確認がない、元のAIの解釈</h3>
+        <ol id="assumptions" class="plain"></ol>
+      </section>
+
+      <section class="block" aria-labelledby="film-title">
+        <h2 id="film-title">32秒の紹介映像（無音）</h2>
+        <video id="film-portrait" class="film-portrait" controls muted playsinline preload="none" width="720" height="1280" poster="../../media/diagram-design-example.webp" src="../../media/diagram-design-example.mp4"></video>
+        <details class="film-wide">
+          <summary>横長版（1280×720・32秒・無音）</summary>
+          <video id="film-wide" controls muted playsinline preload="none" width="1280" height="720" src="../../media/diagram-design-example-wide.mp4"></video>
+        </details>
+      </section>
+
+      <section class="block" aria-labelledby="files-title">
+        <h2 id="files-title">資料</h2>
+        <ul class="links">
+          <li><a href="video/index.html">映像の編集用ページ</a></li>
+          <li><a href="visual-guide.md">図と映像の説明</a></li>
+          <li><a href="visual-verification.json">確認の記録</a></li>
+          <li><a href="source.zip">ソース一式（ZIP）</a></li>
+          <li><a href="desk.html">従来の解説ページ</a></li>
+          <li><a href="../../case.html?id=diagram-design-example">作例の記事</a></li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <p>画面・紹介図・映像のソースは 八百万図AIツールボックス の制作で MIT License です。<code>vendor/diagram-design/</code> は Diagram Design（cathrynlavery/diagram-design、固定コミット d97c5c7477e54cee17cfa6459190610da0643a05、スキルの版2.6・プラグインの版2.6.99）を変更せずに置いたもので、MIT License（Copyright (c) 2025 Cathryn Lavery）と同梱の <a href="vendor/diagram-design/THIRD_PARTY_LICENSES.md">THIRD_PARTY_LICENSES.md</a> に従います。同梱の289ファイルは固定したWindowsのチェックアウトのままで、8件は公式のrawバイトと一致、281件は改行（CRLF）だけを正規化すると公式のGit blobと一致します。紹介図の本・紙・道具の印は独自に描いたもので、原典のアイコンは使っていません。</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>本文を取り出す読書室｜Defuddleの作例｜八百万図AIツールボックス</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <p class="back"><a href="../../case.html?id=defuddle-reading-room">作例の記事へ戻る</a></p>
+      <p class="eyebrow">Defuddle の作例　調査・情報収集</p>
+      <h1>本文を取り出す読書室</h1>
+      <p class="lead">Webページには、記事の本文のほかに、ナビや広告、関連記事や購読の案内が並んでいます。Defuddleは記事の本文とタイトル・著者を見つけて、Markdownにします。架空の3つの記事で、取り出す前と後を見比べてください。</p>
+    </header>
+
+    <main>
+      <section class="step" aria-labelledby="pick-title">
+        <h2 id="pick-title"><span class="num" aria-hidden="true">1</span>記事を選ぶ</h2>
+        <fieldset class="choices">
+          <legend class="visually-hidden">取り出す記事</legend>
+          <div id="samples" class="choice-list"></div>
+        </fieldset>
+        <p class="hint">上下・左右の矢印で記事を選べます。選んだ記事でEnterを押しても取り出せます。記事を切り替えると、前の結果は消えます。</p>
+      </section>
+
+      <section class="step" aria-labelledby="run-title">
+        <h2 id="run-title"><span class="num" aria-hidden="true">2</span>本文を取り出す</h2>
+        <p>このページに同梱した Defuddle 0.19.5（固定コミット <code>556d74e</code> からビルドした full 版）を、このブラウザーの中で実行します。ネットからの取得、AIへの通信、外部サービスへの切り替えはありません。</p>
+        <pre class="call"><code>new Defuddle(
+  new DOMParser().parseFromString(html, 'text/html'),
+  { url: sample.url, markdown: true, useAsync: false, removeImages: true }
+).parse()</code></pre>
+        <div class="run-row">
+          <button type="button" id="extract" class="primary" disabled>本文を取り出す</button>
+          <p id="status" class="status" role="status" aria-live="polite">記事の一覧を読み込んでいます。</p>
+        </div>
+      </section>
+
+      <section class="step" aria-labelledby="compare-title">
+        <h2 id="compare-title"><span class="num" aria-hidden="true">3</span>見比べる</h2>
+        <div class="columns">
+          <div class="col">
+            <h3>元のページ</h3>
+            <p class="col-note" id="source-url"></p>
+            <div class="preview-frame">
+              <iframe id="preview" sandbox="" inert tabindex="-1" referrerpolicy="no-referrer" title="元のページの見え方（操作できない表示）"></iframe>
+            </div>
+            <p class="col-note">入力したHTMLを、スクリプトと外部の読み込みを止めた枠で表示しています。枠の中は操作できません。</p>
+            <details class="source">
+              <summary>元のHTMLを見る</summary>
+              <pre id="source-code" class="code" tabindex="0" aria-label="元のHTML"></pre>
+            </details>
+          </div>
+          <div class="col">
+            <h3>取り出したMarkdown</h3>
+            <p id="result-empty" class="empty">まだ取り出していません。「本文を取り出す」を押すと、ここにDefuddleが返したタイトル・著者・本文が出ます。</p>
+            <dl id="result-meta" class="meta" hidden>
+              <div><dt>title</dt><dd id="result-title"></dd></div>
+              <div><dt>author</dt><dd id="result-author"></dd></div>
+            </dl>
+            <pre id="markdown" class="markdown" tabindex="0" aria-label="取り出したMarkdown（content）" hidden></pre>
+            <div class="actions">
+              <button type="button" id="copy" disabled>Markdownをコピー</button>
+              <button type="button" id="download" disabled>.mdで保存</button>
+            </div>
+            <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="step" aria-labelledby="check-title">
+        <h2 id="check-title"><span class="num" aria-hidden="true">4</span>照らし合わせる</h2>
+        <p id="check-summary" class="check-summary">まだ照らし合わせていません。</p>
+        <div class="check-columns">
+          <div>
+            <h3>本文の条件がMarkdownに残っているか</h3>
+            <ul id="kept-list" class="check-list"></ul>
+          </div>
+          <div>
+            <h3>本文の外の文言がMarkdownに入っていないか</h3>
+            <ul id="removed-list" class="check-list"></ul>
+          </div>
+        </div>
+        <p class="hint">記事ごとに決めた語句が、取り出したMarkdownに文字どおり含まれるかを調べます。読みやすさや、ほかの語句の抜けを判定するものではありません。</p>
+      </section>
+
+      <section class="about" aria-labelledby="about-title">
+        <h2 id="about-title">この作例について</h2>
+        <ul>
+          <li>3つの記事は、この作例のために書いた架空のページです。実在の催し・アプリ・調査ではありません。読み込むのはこの3つのHTMLだけで、任意のURLを入力する機能はありません。</li>
+          <li>Markdownにすると、元のページの色・配置・文字の大きさは残りません。残るのは見出し・段落・リストなどの文章の構造です。</li>
+          <li>この3つでうまく取り出せても、インターネット上のどのページでも同じように取り出せるとは限りません。</li>
+          <li><a href="extraction-results.json">extraction-results.json</a> は、制作時にNode.jsとjsdomで同じ3件を取り出して保存した実出力です。このページでいま取り出した結果とは別のファイルです。</li>
+          <li><a href="samples.json">samples.json</a>（入力のHTMLと照らし合わせる語句）・<a href="video/index.html">解説動画のソース</a>・<a href="README.md">再現の手順</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="colophon">
+      <p>画面・文章・架空の記事・映像ソースは 八百万図AIツールボックス の独自制作で、MIT License です。vendor/defuddle/ の <a href="vendor/defuddle/README.md">Defuddle</a> は kepano による MIT License のソフトウェアで、<a href="vendor/defuddle/LICENSE">LICENSE</a> と同梱ライブラリの <a href="vendor/defuddle/THIRD_PARTY_NOTICES.txt">THIRD_PARTY_NOTICES.txt</a> をそのまま残しています。</p>
+    </footer>
+  </div>
+  <script src="vendor/defuddle/defuddle.full.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

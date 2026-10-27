@@ -1,4 +1,4 @@
-/* 八百万図AIツールボックス — home page only: the case gallery and its preview dialog. Loaded after styles.css by
+/* Yaoyorozu AI ToolBox — home page only: the case gallery and its preview dialog. Loaded after styles.css by
    index.html; case.html does not load it. Posters are shown whole (object-fit: contain) because their
    text and diagrams have to stay readable. Breakpoints follow styles.css: 600px, 900px, 1100px. */
 
@@ -154,7 +154,7 @@ html.has-preview { overflow: hidden; scrollbar-gutter: stable; }
 .preview-case { display: block; margin-top: 0.5rem; font-weight: 600; font-size: 1.125rem; line-height: 1.5; overflow-wrap: anywhere; }
 
 .preview-media { grid-area: media; min-width: 0; }
-.preview-switch { display: inline-flex; gap: 0.25rem; margin-bottom: 0.625rem; padding: 0.25rem; border-radius: 999px; background: var(--paper-deep); }
+.preview-switch { display: inline-flex; flex-wrap: wrap; max-width: 100%; gap: 0.25rem; margin-bottom: 0.625rem; padding: 0.25rem; border-radius: 999px; background: var(--paper-deep); }
 .preview-tab {
   min-height: 2.75rem; min-width: 5.5rem; padding: 0 1.125rem;
   border: 0; border-radius: 999px; background: transparent; color: var(--ink-soft);

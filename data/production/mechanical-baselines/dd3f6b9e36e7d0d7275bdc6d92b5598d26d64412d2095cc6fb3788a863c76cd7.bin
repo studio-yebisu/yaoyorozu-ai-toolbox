@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>部品の検証：選択枠（SelectionFrame）｜八百万図AIツールボックス サイト紹介</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #F6F3EB; color: #17282B; }
+  body { display: flex; flex-direction: column; font-family: 'Yu Gothic', 'YuGothic', 'Hiragino Sans', 'Noto Sans JP', sans-serif; }
+  #stage { display: block; flex: 1 1 0; min-height: 0; width: 100%; }
+  .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 16px; font-size: 14px; border-top: 1px solid rgba(23, 40, 43, 0.14); }
+  .controls input { flex: 1 1 160px; min-width: 0; accent-color: #0B615E; }
+  .controls button { font: inherit; padding: 4px 14px; border: 1px solid #0B615E; border-radius: 6px; background: #FBF9F3; color: #0B615E; cursor: pointer; }
+  .controls output { min-width: 5em; font-variant-numeric: tabular-nums; }
+  .render .controls { display: none; }
+</style>
+</head>
+<body>
+<svg id="stage" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" role="img"
+  aria-label="選択枠の検証。表紙のモーションのカードを囲む輪郭が、一覧の画面へ広がり、制作した作例ありの印へ縮み、作例を見るのボタンへ移る。紹介用に再構成した画面。"></svg>
+<div class="controls">
+  <button type="button" id="play" aria-pressed="false">再生</button>
+  <label for="time">時刻</label>
+  <input id="time" type="range" min="0" max="4" step="0.0166667" value="0">
+  <output id="readout" for="time">0.00秒</output>
+</div>
+<script type="module">
+  import { start } from './lab.mjs';
+  start('selection');
+</script>
+</body>
+</html>

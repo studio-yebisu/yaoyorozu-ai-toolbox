@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ja" data-page="concept">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src blob:; connect-src 'self'; font-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="VoiceStudio の公開スキル・原典CLI・手元のAPI・別の認識モデルが、実際の3本の WAV から2つの推定区間と全文を返すまでを1枚の図で読む作例。">
+  <title>VoiceStudio：手元のAPIで音声を文字起こしする仕組み｜八百万図AIツールボックス</title>
+  <link rel="stylesheet" href="concept.css">
+  <script type="module" src="concept.js"></script>
+</head>
+<body data-state="loading">
+  <main>
+    <header class="masthead">
+      <p class="eyebrow">音声アプリ＋手元のAPI</p>
+      <h1>VoiceStudio：音声を文字へ</h1>
+      <p class="lead">別の認識モデルへ WAV を渡す仕組み</p>
+    </header>
+
+    <section class="stage" aria-label="構造図">
+      <div class="pickers">
+        <div class="seg-control jobs" role="group" aria-label="実際の入力（3件）">
+          <button type="button" data-job="default" aria-pressed="true" disabled>default<span>4.64秒</span></button>
+          <button type="button" data-job="expressive" aria-pressed="false" disabled>expressive<span>4.20秒</span></button>
+          <button type="button" data-job="second" aria-pressed="false" disabled>second<span>5.16秒</span></button>
+        </div>
+        <div class="seg-control stages" role="group" aria-label="図の段階">
+          <button type="button" data-stage="0" aria-pressed="true" disabled>① 何か</button>
+          <button type="button" data-stage="1" aria-pressed="false" disabled>② 渡す</button>
+          <button type="button" data-stage="2" aria-pressed="false" disabled>③ 返る</button>
+        </div>
+      </div>
+
+      <figure class="concept">
+        <div class="frame" id="concept-frame">
+          <canvas id="concept-canvas" role="img" aria-label="保存データを確かめています"></canvas>
+          <div class="part-layer" id="part-layer" hidden>
+            <button type="button" data-part="skill" aria-pressed="true" disabled><span class="vh">1 手順書 SKILL.md：役割と原典の行</span></button>
+            <button type="button" data-part="cli" aria-pressed="false" disabled><span class="vh">2 担当者が実行する原典CLI：役割と原典の行</span></button>
+            <button type="button" data-part="route" aria-pressed="false" disabled><span class="vh">3 ローカルAPI：役割と原典の行</span></button>
+            <button type="button" data-part="selection" aria-pressed="false" disabled><span class="vh">4 選択と準備：役割と原典の行</span></button>
+            <button type="button" data-part="recognizer" aria-pressed="false" disabled><span class="vh">5 認識モデル：役割と原典の行</span></button>
+            <button type="button" data-part="result" aria-pressed="false" disabled><span class="vh">6 返った推定区間：役割と原典の行</span></button>
+          </div>
+        </div>
+        </figure>
+
+      <p class="load-status" id="load-status" role="status" data-state="loading">保存データ31件の大きさと SHA-256 を確かめています</p>
+      <div class="failure" id="load-failure" role="alert" hidden>
+        <p><b>図・音声・保存を止めました。</b><span id="load-failure-text"></span></p>
+        <button type="button" id="retry" disabled>もう一度確かめる</button>
+      </div>
+    </section>
+
+    <section class="use" aria-labelledby="use-title">
+      <h2 id="use-title">入力を聞く・実際の返答を保存</h2>
+      <p class="io-name"><b id="input-name"></b> <span id="input-facts"></span></p>
+      <audio id="input-audio" controls preload="metadata"></audio>
+      <div class="saves">
+        <a class="save" id="download-input" aria-label="入力 WAV を保存" aria-disabled="true">入力 WAV<span id="download-input-size"></span></a>
+        <a class="save" id="download-json" aria-label="返った JSON を保存" aria-disabled="true">JSON 保存<span id="download-json-size"></span></a>
+        <a class="save" id="download-text" aria-label="TXT を保存" aria-disabled="true">TXT 保存<span id="download-text-size"></span></a>
+      </div>
+      <div class="segments" role="group" aria-label="推定区間の開始へ移動して再生">
+        <button type="button" data-segment="0" disabled>推定1へ<span class="seg-time"></span><small>推定</small></button>
+        <button type="button" data-segment="1" disabled>推定2へ<span class="seg-time"></span><small>推定</small></button>
+      </div>
+      <p class="save-note" id="save-note" role="status" aria-live="polite"></p>
+      <p class="hint">入力は、以前の Chatterbox 作例で合成した英語の音声（Perth の透かし入り）を、切り詰め・音量調整なしでそのまま渡したものです。人の録音ではありません。ブラウザーでは文字起こしをせず、保存済みの結果を表示します。</p>
+    </section>
+
+    <section class="diagram-notes" aria-label="構造図の説明">
+      <div class="diagram-explanation">
+          <p class="stage-note" id="stage-note" aria-live="polite"></p>
+          <p class="part-brief" id="part-brief"></p>
+          <ul class="legend">
+            <li><i class="sw sw-app" aria-hidden="true"></i>VoiceStudio（原典・AGPL-3.0）</li>
+            <li><i class="sw sw-model" aria-hidden="true"></i>別の認識モデル（MIT）</li>
+            <li><i class="sw sw-author" aria-hidden="true"></i>作者AI（書くだけ）</li>
+            <li><i class="sw sw-ref" aria-hidden="true"></i>参照文の別ルート</li>
+          </ul>
+        </div>
+    </section>
+
+    <section class="returned" aria-labelledby="returned-title">
+      <h2 id="returned-title">返った文字と時刻</h2>
+      <ol class="seglist" id="segment-list"></ol>
+      <p class="small" id="coverage-note"></p>
+      <h3>全文（text・英語のまま）</h3>
+      <p class="en" id="returned-text" lang="en"></p>
+
+      <h3>参照文と比べる</h3>
+      <p class="small">参照文は入力を作ったときの英文です。VoiceStudio には送らず、認識が終わったあとで、返った text と文字列として比べただけです。</p>
+      <dl class="compare">
+        <dt>返った text</dt>
+        <dd id="returned-marked" lang="en"></dd>
+        <dt>参照文（送っていない）</dt>
+        <dd id="reference-marked" lang="en"></dd>
+      </dl>
+      <p class="verdict" id="literal-result"></p>
+      <p class="small" id="literal-note"></p>
+      <p class="small">色の付いた語は、単語の並びが違う所の目印です。返った文字は直していません。</p>
+
+      <details class="more">
+        <summary>送った要求と、送っていないもの</summary>
+        <p class="small">担当者がフルチェックアウトの中で実行した原典CLIのコマンド（Python の場所は伏せています）：</p>
+        <pre tabindex="0"><code id="request-line"></code></pre>
+        <p class="small">CLI が multipart で送ったのは model・response_format・language と、変更していない WAV（file）です。prompt・initial_prompt・temperature・timestamp_granularities・stream と参照文は送っていません。<code>model=faster-whisper</code> は VoiceStudio の ASR エンジンの ID で、別のエンジンが動いていれば元のルートが 400 で断ります。ホスト型のモデル名ではありません。</p>
+      </details>
+      <details class="more">
+        <summary>返った JSON と TXT の全文</summary>
+        <p class="small" id="raw-json-meta"></p>
+        <pre tabindex="0" lang="en"><code id="raw-json"></code></pre>
+        <p class="small" id="raw-text-meta"></p>
+        <pre tabindex="0" lang="en"><code id="raw-text"></code></pre>
+      </details>
+    </section>
+
+    <section class="part-detail" id="part-detail" aria-labelledby="part-title">
+      <p class="eyebrow">部品の説明と原典の行</p>
+      <h2 id="part-title"></h2>
+      <p id="part-role"></p>
+      <div class="quotes" id="part-quotes"></div>
+      <p class="small">6つの部品は、この作例の説明のための整理です。VoiceStudio の公式の区分でも、6体の AI でもありません。図の番号の付いた部品を押すと切り替わります。引用は固定版 6f0ed2e の原文で、ページを開くたびに同梱ファイルの行と照合しています。</p>
+    </section>
+
+    <section class="scope" aria-labelledby="scope-title">
+      <h2 id="scope-title">実際にしたこと・していないこと</h2>
+      <div class="cols">
+        <div>
+          <h3>実行したこと</h3>
+          <ul>
+            <li>作者AI（Claude Opus 5.5）が公開の手順書と固定版の原典を読み、run_example.py・inputs/jobs.json・implementation.md を書きました。作者は実行も試聴もしていません。</li>
+            <li>制作担当が専用の環境を用意し、固定版 VoiceStudio 0.5.7 のフル FastAPI バックエンドを 127.0.0.1:3900 で起動。原典CLIの capabilities を1回、transcribe を3件に1回ずつ実行し、3件とも成功しました。再送・切り替えはありません。</li>
+            <li>認識モデルは Systran/faster-whisper-base（固定リビジョン ebe41f7・MIT）を faster-whisper 1.2.1／CTranslate2 4.8.2 で使いました。元のログでは3件とも CPU・int8、VAD で除いた時間は0.000秒、word_timestamps=False でした。モデル読み込みのログは3回出ています。</li>
+            <li>実行後の <code>/engines</code> は、新しく作られた選択オブジェクトとして <code>not_loaded</code> を返しました。準備の表示は実行の証拠ではありません。実行の証拠は、成功した3回の CLI／HTTP の呼び出しと元のログです。</li>
+          </ul>
+        </div>
+        <div>
+          <h3>していない・確かめていないこと</h3>
+          <ul>
+            <li>Electron の画面、既定の OmniVoice、音声合成、声のクローンとデザイン、日本語、マイク、ショートカット、テキスト挿入、翻訳、吹き替え、話者分離。MCP と WebSocket ストリーミングは capabilities に載っているだけで使っていません。</li>
+            <li>人による試聴、発音・意味・時刻の正しさ、単語単位の時刻、他のエンジンとの比較、一般的な速さ。</li>
+            <li>実機の iPhone Safari・VoiceOver・200%拡大と、人による見た目の承認。図と動画の描画の確認は制作担当の別工程です（<a href="visual-verification.json">確認範囲の記録</a>）。</li>
+          </ul>
+        </div>
+      </div>
+      <p class="small">verbose_json の seek・tokens・temperature・avg_logprob・compression_ratio・no_speech_prob は、認識エンジンが返さないためルートが既定値（0 や空の配列）で埋めたものです。信頼度や設定を測った値ではありません。1回ずつの経過時間（この入力では <span id="elapsed"></span>）は、起動・読み込み・待ち・推定をすべて含み、速さの比較には使えません。</p>
+    </section>
+
+    <section class="film" aria-labelledby="film-title">
+      <h2 id="film-title">無音の解説動画（32秒）</h2>
+      <p>同じ図が7つの場面で動きます。手順書と依頼が作者のクライアントになり、原典CLIの封筒（WAV＋条件）が手元のAPIと別の認識モデルを通って、同じ波形が2つの推定区間と JSON・TXT に変わります。ナレーション・音声トラックはありません。入力の WAV は、このページの再生ボタンで聞けます。</p>
+      <p class="links"><a href="video/index.html">編集用ソース（縦・横・任意の時刻）</a><a href="video/storyboard.json">絵コンテ</a><a href="video/README.md">動画の README</a><a href="../../media/voicestudio-example.mp4">縦の32秒MP4</a><a href="../../media/voicestudio-example-wide.mp4">横の32秒MP4</a></p>
+    </section>
+
+    <section class="records" aria-labelledby="records-title">
+      <h2 id="records-title">記録と原典</h2>
+      <ul>
+        <li><a href="vendor/voicestudio/skills/voicestudio/SKILL.md">VoiceStudio 公開のエージェントスキル SKILL.md（Markdown の手順書）</a></li>
+        <li><a href="run_example.py">実際に実行したクライアント run_example.py</a>（作者AIが執筆。制作担当が、成功した出力を検証より先に保存する順序だけ補正）</li>
+        <li><a href="implementation.md">実装メモ implementation.md</a></li>
+        <li><a href="inputs/jobs.json">3件の入力と参照文 inputs/jobs.json</a></li>
+        <li><a href="outputs/attempt-01/results.json">実行の記録 results.json</a>・<a href="outputs/attempt-01/capabilities.json">capabilities の出力</a></li>
+        <li><a href="vendor/pins.json">固定版と認識モデルのピン</a></li>
+        <li><a href="concept/facts.json">図の事実と原典の引用</a>・<a href="concept/waveforms.json">実WAVの振幅の包絡</a>・<a href="concept/manifest.json">確かめる31ファイル</a></li>
+        <li><a href="vendor/voicestudio/README.md">VoiceStudio README（固定版）</a>・<a href="vendor/voicestudio/docs/speech-platform.md">ローカルAPIの説明</a>・<a href="vendor/voicestudio/docs/engines/faster-whisper.md">Faster-Whisper エンジンの説明</a></li>
+        <li><a href="README.md">この作例の README（役割・再現の手順）</a></li>
+        <li><a href="https://github.com/debpalash/VoiceStudio/tree/6f0ed2ebeaf620bcea8a293cd210bba920b73622" rel="noopener noreferrer">debpalash/VoiceStudio（固定コミット 6f0ed2e）</a></li>
+      </ul>
+    </section>
+
+    <details class="flow-text">
+      <summary>図の流れを文章で読む</summary>
+      <ol>
+        <li>手順書：VoiceStudio が公開している Markdown のエージェントスキル（SKILL.md）。接続の確かめ方と文字起こしの呼び方が書かれています。</li>
+        <li>依頼：3本の WAV の場所と条件、比べるための参照文（inputs/jobs.json）。</li>
+        <li>作者AI（1体）：手順書と依頼を読んでクライアント run_example.py を書きます。実行はしません。</li>
+        <li>担当者：フルチェックアウトの中で原典CLI <code>backend.speech_client</code> を実行します。</li>
+        <li>ローカルAPI：<code>POST /v1/audio/transcriptions</code>（127.0.0.1:3900）が WAV と条件を受けます。</li>
+        <li>選択と準備：元のアプリが利用条件と導入済みのモデルを確かめ、FasterWhisperBackend を用意します。</li>
+        <li>認識モデル：別物の faster-whisper-base が、音声から文字と時刻を推定します。</li>
+        <li>返答：2つの推定区間と全文が verbose_json で返り、CLI の出力をそのまま JSON に、text に改行を足して TXT にしました。</li>
+        <li>照合：送っていない参照文と、最後に文字どおり比べます。</li>
+      </ol>
+    </details>
+
+    <footer class="colophon">
+      <p>VoiceStudio は AGPL-3.0-only（Copyright 2024-present Palash Debnath and VoiceStudio contributors）です。固定版から選んだ20ファイルを vendor/voicestudio/ に原文のまま置いています（<a href="vendor/voicestudio/LICENSE">LICENSE</a>・<a href="vendor/voicestudio/LICENSE-NOTICE.md">LICENSE-NOTICE.md</a>）。この20ファイルだけではサーバーは動きません。</p>
+      <p>認識モデル Systran/faster-whisper-base は MIT で、本体とは別の条件です（<a href="vendor/asr-model/README.md">モデルカード</a>）。引用のため faster-whisper の audio.py・transcribe.py（MIT）を原文のまま置き、faster-whisper と OpenAI Whisper のライセンス本文を <a href="vendor/notices/faster-whisper/LICENSE">vendor/notices/</a> に置いています。重み・キャッシュ・実行環境は同梱していません。</p>
+      <p>入力の3本は Chatterbox（MIT）で以前に合成した英語の音声です（<a href="vendor/notices/Chatterbox/LICENSE">LICENSE</a>・<a href="vendor/notices/Chatterbox/model-card.md">モデルカード</a>）。ページ・図・文章・動画のソースは 八百万図AIツールボックス の制作（Claude Opus 5.5）です。</p>
+    </footer>
+  </main>
+</body>
+</html>

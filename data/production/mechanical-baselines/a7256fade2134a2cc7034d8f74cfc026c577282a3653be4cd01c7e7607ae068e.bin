@@ -1,0 +1,254 @@
+{
+  "id": "assetfurnace-example",
+  "title": "AssetFurnace / Image to 3D Lab",
+  "title_lines": [
+    "画像や文章から3D素材を作る制作ツール"
+  ],
+  "category": "3d",
+  "summary": "画像や文章をもとに3D素材を生成し、テクスチャやリグなどの処理をつなげられます。素材の生成から、ゲームなどで使うための加工までを手元で試せます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/assetfurnace-example/index.html",
+  "video": "media/assetfurnace-example.mp4",
+  "poster": "media/assetfurnace-example.webp",
+  "skill": "examples/assetfurnace-example/vendor/assetfurnace/README.md",
+  "skill_label": "AssetFurnace 原典のREADME（アプリの一次資料・SKILL.mdではない）",
+  "skill_description": "Bingeljell/image-to-3dlab の固定版にある README.md の原文です。AIエージェント向けの手順書（SKILL.md）でも、1つのモデルでもありません。文章や画像からの3D生成、Finish（リトポロジー・Pixel Match・圧縮）、リグと動き、Prop sheets など、手元で動くアプリ全体を説明しています。この作例ではそのうち、補助CLI scripts/compress_glb_textures.py でGLBのテクスチャを圧縮する範囲だけを使いました。作者AIはこのREADMEと原典のCLIを読んで入力の準備とランナーを書き、実際に実行したのは制作担当です。実行したコードは examples/assetfurnace-example/run_example.py と、無改変の原典CLIです。",
+  "samples": "examples/assetfurnace-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "同じ入力GLBと3つの上限、返ったGLB",
+  "samples_intro": "input は3回とも同じ入力GLBと、原典CLIに渡した設定です。output は原典CLIが書いた出力GLB、出力から読み直した画像ごとの結果（置換か保持か・形式・寸法・バイト数）、原典CLIの標準出力の全文です。3つは生成された別々のメッシュではなく、同じ木箱の同じ形に対する、テクスチャの設定違いの3回です。制作担当による実GLBの描画確認は行いました。人による見た目の承認や、縮小前後の見た目の同等性は未確認です。",
+  "demo_description": "大きな構造図が主役です。「①何か・②渡す・③返る」で同じ図の上の形の位置が変わり、原典のREADME・CLIと架空の依頼→作者AI 1体の準備とジョブ→制作担当のBlender包装1回と原典CLI 3回→元の5ファイルから入力GLB 1つ→形（画像以外の12view、そのまま）と画像3枚に分かれる→上限→小さければ置換→同じ形と画像が出力GLBに戻る→容量を比べる→回す・保存、の関係をひと続きで見られます。点線の「生成・Finish」はアプリの広い機能で、今回は実行していません。図の画像の小片は、GLBに埋め込まれた実際の画像です。「1024上限・512上限・256上限」で保存済みの3つの結果を読み替え、番号の付いた6つの部品で固定版の原典の該当行を読めます。図のすぐ下で、選んだ出力GLB・入力GLB・実測の記録をそのまま保存でき、その下で入力と出力の実GLBを同じカメラで回して見比べられます。",
+  "demo_note": "ページは保存済みの39ファイルを大きさとSHA-256で確かめ、原典の引用の行、4つのGLBの画像のバイト列・寸法と画像以外の12view、three.js で読んだ形も照合してから表示します。合わなければ図・3D・保存を止め、理由と「もう一度確かめる」を出します。ブラウザーでは圧縮もモデルの実行もしません。上限の切り替えは保存済みの結果を読むだけで、CLIを再実行しません。図の動きは構造の説明で、実際の処理時間ではありません。作者AI（Claude Opus 5.5）が準備・ランナー・ページ・映像を書き、制作担当がBlenderの包装を1回、原典CLIを3回実行しました。",
+  "request_intro": "同じ手順を自分の3Dモデルで試すときの依頼文です。手元でPythonとBlenderを動かせるAIエージェントや開発者に渡してください。入力のGLBと上限は自分のものに置き換えます。",
+  "request": "AssetFurnace（Bingeljell/image-to-3dlab 固定コミット 91879333e88a0571945b15b0e21e4bc95ec59e31、Apache-2.0）の README と scripts/compress_glb_textures.py を読み、手元の3Dモデル1つのテクスチャを、形を変えずに上限だけを変えて圧縮し、実ファイルで比べてください。画像→3D生成・リトポロジー・ベイク・リギング・モデルの重み・ComfyUIは使いません。\n\n準備：固定コミットのフルチェックアウトと、Python 3.11 と Pillow だけの専用環境を用意し、原典CLIのハッシュを確かめる。入力が glTF・.bin・画像に分かれているなら、Blender などで1回だけ1つのGLBにまとめ、その工程と版を別に記録する（AssetFurnaceの処理として書かない）。元のファイルは書き換えない。\n\n実行：同じ入力GLBから、無改変のCLIを設定ごとに1回ずつ呼ぶ。例：--format png --quality 90 --map-quality 90 --max-size <N> --map-size <N> --normal-size <N>（N = 1024・512・256）。出力は設定ごとに新しいファイルにし、既存の結果を上書きしない。結果を見て再試行や選別をしない。\n\n記録：要求した形式と上限と、出力GLBから読み直した実際の画像（MIME・寸法・バイト数）、置換か保持か、GLB全体のバイト数を分けて書く。原典は再エンコードが元より小さいときだけ画像を置き換えるので、要求どおりの形式・寸法になったと推測しない。画像以外のbufferViewの全バイトと、形・材料のJSONの構造が入力と同じかを確かめ、CLIの標準出力はそのまま残す。見た目・ゲームでの適性・表示性能は、実際に開いて確かめるまで未確認と書く。\n",
+  "applied_skills": [
+    {
+      "name": "AssetFurnace（Bingeljell/image-to-3dlab）の原典README と圧縮CLI",
+      "source": "https://github.com/Bingeljell/image-to-3dlab/blob/91879333e88a0571945b15b0e21e4bc95ec59e31/README.md",
+      "applied": "AssetFurnaceは手元で動く3Dアプリ／パイプラインで、READMEはAIが読む手順書（SKILL.md）ではなく、アプリの一次資料です。固定版の README・scripts/README.md・scripts/compress_glb_textures.py（parse_glb・_slot_images・encode・compress・main）・scripts/retopo_repaint.py を読み、実行の範囲を持ち込みGLBのテクスチャ圧縮だけに絞って、入力の包装 prepare_input.py、原典CLIを3回呼んで実ファイルを読み直す run_example.py、3件のジョブ inputs/jobs.json を書きました。制作担当がBlender 5.2.1で包装を1回、無改変の原典CLIを3回実行し、3回とも終了コード0でした。図の6つの部品は、これらの原典に基づく説明の整理で、公式の部品の区分ではありません。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824",
+      "applied": "時刻の契約（window.motionConfig・motionReady・seek(秒)・__MOTION_RENDER__・renderConfig の反映）に合わせて、作例ページと同じ concept.js の読み込み・検証・場面・描画・実GLBの3D表示で、無音32秒の編集用ソースを書きました。7つの場面それぞれに伝えること・入る状態・出る状態・動きを storyboard.json に持たせ、縦と横は配置を作り直して描き、乱数・タイマー・前のコマの積算を使わずに任意の時刻を描けるようにしています。3Dは画面外のWebGL描画1つ（640×360・倍率1）で、確かめた実GLBを時刻だけで決まる向きで描きます。audioEvents は空で、音声トラックはありません。制作担当が18スマホ状態・6引用・16表示条件・3破損停止と復旧、実GLB4本の描画と同じカメラの比較、5保存要求と返却5ファイルの全バイト一致、39素材編集・7場面・任意7.2秒・通常32秒再生、代表/連続/contactと縦横32秒960f無音MP4の全デコード/自然終端、出荷ソース62PNG一致を新しく確認。人の審美的承認・実機iOS/VoiceOver・200%拡大・全入力/性能・ゲーム適性は未確認。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "手元で動く3Dアプリと、その補助CLI",
+      "body": "AssetFurnace（旧 Image to 3D Lab、Bingeljell/image-to-3dlab 固定コミット 91879333）は、文章や画像から手元で3Dを作り、Finishでゲーム向けに仕上げ、リグと動きを付ける3Dアプリ／パイプラインと、Pythonの補助CLI群です。SKILL.md・1つの生成モデル・ホスト型API・ブラウザーの中の生成器ではありません。CHANGELOGの最新は0.4.4（2026-10-14）ですが、READMEの冒頭は0.4.0の下書きのままなので、版はコミットで特定します。この作例が使ったのは、その中の scripts/compress_glb_textures.py だけです。"
+    },
+    {
+      "title": "作者AIが原典を読み、実行の範囲を圧縮CLIに絞る",
+      "body": "作者AI（1体）が固定版のREADMEと原典CLIを読み、「手元にあるCC0の木箱をWeb3Dで試すため、形を変えずテクスチャ上限1024/512/256の実ファイルと容量を比較したい」という架空の依頼から、入力の包装 prepare_input.py、ランナー run_example.py、3件のジョブを書きました。3件はすべてPNG・quality 90で、色・数値・法線の上限を同じ値（1024・512・256）にしています。作者は何も実行していません。"
+    },
+    {
+      "title": "同じ入力GLBを1つ作り、原典CLIを3回",
+      "body": "入力はPoly Haven「Wooden Crate 01」（James Ray Cock・CC0）の既存の5ファイルで、以前の作例からバイト単位でそのまま再利用しました。制作担当がBlender 5.2.1で1回だけ1つのGLB（2,276,520B・メッシュ3・三角形6,576・JPEG 1024×1024の画像3枚）に包装し、このGLBから無改変の原典CLIを、Python 3.11.15・Pillow 11.3.0（CPU）で3回呼びました。包装はAssetFurnaceの処理ではなく、画像のバイト列は元のJPEGと同じですが、BINの並びは元の .bin とは違います。"
+    },
+    {
+      "title": "形はそのまま、画像は小さい時だけ置き換わる",
+      "body": "原典CLIは材料の割り当てから画像3枚（色1・数値2。法線は数値の一つ）を見つけ、上限を超える画像をLANCZOSで縮めて再エンコードし、元より小さいときだけ置き換えます。1024上限では縮める必要がなく、PNGの候補が小さくならなかったので3枚とも元のJPEGが残り、出力は入力と全バイト同一でした。512上限は3枚ともPNG 512×512に置き換わって1,315,140B（入力の57.8%）、256上限はPNG 256×256で473,124B（20.8%）。画像以外の12view（191,040B）とJSON・三角形の数は、3つとも入力と一致しました。"
+    },
+    {
+      "title": "実際のGLBを開いて確かめ、保存して使う",
+      "body": "ページでは、入力と3つの出力の実GLBを同じカメラ・照明で回して見比べ、選んだ出力GLB・入力GLB・実測の記録をそのまま保存できます。縮小で画素は変わるので、見た目が劣化しないとは言えません。使う前に、自分の目と、使うゲームエンジンやビューアーで、木目・金属と粗さ・法線の見え方を確かめてください。ゲームでの適性や表示性能は、この作例では確かめていません。"
+    }
+  ],
+  "limitations": [
+    "実行したのは AssetFurnace の補助CLI scripts/compress_glb_textures.py だけです。画像→3D生成、pipeline.py、Finishのリトポロジー・リペイント・Pixel Match・ベイク、リギング、ゲームへの組み込み、モデルの推論、ComfyUI は実行していません。モデルの重みは取得も読み込みもしていません。",
+    "入力は Poly Haven の CC0 の既存の3Dモデル（James Ray Cock 作）で、AI生成のメッシュではありません。Blender でのGLB化は入力の準備で、AssetFurnace の処理ではありません。",
+    "PNGを指定しても、縮小すれば画素は変わります。見た目が劣化しないとは言いません。人による見た目の確認と承認はしていません。",
+    "要求した形式・上限と、実際の出力は別です。1024上限では候補が小さくならず、3枚とも元のJPEGが残りました。捨てられた候補PNGのバイト数と画素は、原典が保存しないので記録にありません。",
+    "画像以外のbufferViewとJSON・三角形の数の一致は、この入力GLBに対する3つの出力についての照合です。見た目の同等性、ゲームでの適性、表示性能、ほかの入力やライブラリ全般の正しさは示しません。",
+    "outputs/results.json は制作担当のランナーが測った値の射影で、原典のネイティブJSONでもモデルの出力でもありません。原典CLIの出力はテキストとGLBだけです。",
+    "時間（1.183・0.52・0.262秒）はインタプリタの起動を含む1回きりの壁時計の値で、性能の指標ではありません。",
+    "Blender 5.2.1 の読み取りだけの事前確認では quadriflow_remesh が無く、リトポロジーは試していません。回避策も加えていません。ほかの生成バックエンドは、別の環境・重み・利用条件が要るため選んでいません。",
+    "vendor/assetfurnace/ の選択10ファイルはアプリ全体ではありません。選択中の scripts/compress_glb_textures.py は Python 3.11 と Pillow 11.3.0 で単独実行できます。この作例の元の包装手順には、別途 Blender 5.2.1 と元の5ファイルが必要です。全アプリの機能には固定版のフルチェックアウトと追加の依存が要ります。",
+    "図の6部品は説明用の整理です。制作担当は新しい図・ページ・編集ソース・動画を実際に表示・描画し、320/375pxの表示と破損時の停止・復旧を別工程で確認しました。範囲は visual-verification.json に記録しています。実機iPhone Safari・VoiceOver・200%拡大・人の審美的承認は未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "Bingeljell/image-to-3dlab（固定コミット 91879333）",
+      "url": "https://github.com/Bingeljell/image-to-3dlab/tree/91879333e88a0571945b15b0e21e4bc95ec59e31"
+    },
+    {
+      "label": "AssetFurnace 原典のREADME（固定版）",
+      "url": "https://github.com/Bingeljell/image-to-3dlab/blob/91879333e88a0571945b15b0e21e4bc95ec59e31/README.md"
+    },
+    {
+      "label": "実行した原典CLI scripts/compress_glb_textures.py（固定版）",
+      "url": "https://github.com/Bingeljell/image-to-3dlab/blob/91879333e88a0571945b15b0e21e4bc95ec59e31/scripts/compress_glb_textures.py"
+    },
+    {
+      "label": "Finishの連鎖 scripts/retopo_repaint.py（固定版・今回は未実行）",
+      "url": "https://github.com/Bingeljell/image-to-3dlab/blob/91879333e88a0571945b15b0e21e4bc95ec59e31/scripts/retopo_repaint.py"
+    },
+    {
+      "label": "AssetFurnace の LICENSE（Apache-2.0・固定版）",
+      "url": "https://github.com/Bingeljell/image-to-3dlab/blob/91879333e88a0571945b15b0e21e4bc95ec59e31/LICENSE"
+    },
+    {
+      "label": "素材 Wooden Crate 01（James Ray Cock・Poly Haven・CC0）",
+      "url": "https://polyhaven.com/a/wooden_crate_01"
+    },
+    {
+      "label": "Poly Haven のライセンス（CC0）",
+      "url": "https://polyhaven.com/license"
+    },
+    {
+      "label": "実行したランナー run_example.py",
+      "url": "examples/assetfurnace-example/run_example.py"
+    },
+    {
+      "label": "入力の包装 prepare_input.py（Blender）",
+      "url": "examples/assetfurnace-example/prepare_input.py"
+    },
+    {
+      "label": "実装メモ（作者AI）",
+      "url": "examples/assetfurnace-example/implementation.md"
+    },
+    {
+      "label": "3件のジョブ",
+      "url": "examples/assetfurnace-example/inputs/jobs.json"
+    },
+    {
+      "label": "入力GLB（Blenderで包装）",
+      "url": "examples/assetfurnace-example/outputs/input/packed_input.glb"
+    },
+    {
+      "label": "原典CLIが書いた出力GLB（1024上限・入力と同一）",
+      "url": "examples/assetfurnace-example/outputs/outputs/cap1024.glb"
+    },
+    {
+      "label": "原典CLIが書いた出力GLB（512上限）",
+      "url": "examples/assetfurnace-example/outputs/outputs/cap512.glb"
+    },
+    {
+      "label": "原典CLIが書いた出力GLB（256上限）",
+      "url": "examples/assetfurnace-example/outputs/outputs/cap256.glb"
+    },
+    {
+      "label": "実測の記録（制作担当のランナーによる射影）",
+      "url": "examples/assetfurnace-example/outputs/results.json"
+    },
+    {
+      "label": "包装の記録（Blender）",
+      "url": "examples/assetfurnace-example/outputs/preparation.json"
+    },
+    {
+      "label": "同梱した原典10ファイルの一覧",
+      "url": "examples/assetfurnace-example/UPSTREAM.json"
+    },
+    {
+      "label": "図の事実と原典の引用",
+      "url": "examples/assetfurnace-example/concept/facts.json"
+    },
+    {
+      "label": "確かめる39ファイルの一覧",
+      "url": "examples/assetfurnace-example/concept/manifest.json"
+    },
+    {
+      "label": "第三者の表示",
+      "url": "examples/assetfurnace-example/THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "label": "作例の README（役割・実行の範囲・再現の手順）",
+      "url": "examples/assetfurnace-example/README.md"
+    },
+    {
+      "label": "解説動画の絵コンテ",
+      "url": "examples/assetfurnace-example/video/storyboard.json"
+    },
+    {
+      "label": "図と動画の確認範囲（制作担当による後工程の実検証）",
+      "url": "examples/assetfurnace-example/visual-verification.json"
+    },
+    {
+      "label": "編集ソースと実出力一式 ZIP（制作担当による包装）",
+      "url": "examples/assetfurnace-example/source.zip"
+    }
+  ],
+  "license": "Apache-2.0（AssetFurnace のソース）／CC0（木箱）／MIT（three.js・この作例）",
+  "license_note": "AssetFurnace（Bingeljell/image-to-3dlab）のソースは Apache License 2.0 で、固定版から選んだ10ファイルを LICENSE と NOTICE とともに vendor/assetfurnace/ に原文のまま置いています。再配布では NOTICE を残し、リポジトリへのリンクを付けます。選択10ファイルはアプリ全体ではありませんが、圧縮CLIはPythonとPillowで単独実行できます。木箱 Wooden Crate 01 は James Ray Cock・Poly Haven の CC0 で、元の5ファイルは以前の作例からの再利用、包装した入力GLBとテクスチャを縮めた出力GLBはそこからの派生ファイルです。three.js 0.180.0 は MIT で、以前の作例から無改変で再利用しています。Blender と Pillow はそれぞれのライセンスで別にインストールした依存で、同梱していません。モデルの重みは使っていません。ページ・図・文章・動画のソースとランナーは 八百万図AIツールボックス の制作（Claude Opus 5.5）で MIT です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "skill_license": "examples/assetfurnace-example/vendor/assetfurnace/LICENSE",
+  "video_note": "32秒・30fps・無音の構造図の動画です。縦720×1280と横1280×720を別配置で描きます。原典と依頼が作者AIのジョブになり、制作担当の包装で元の5ファイルが1つのGLBになり、そのGLBが形の12本と実際の画像3枚に分かれ、1024・512・256の上限で候補が縮み、元より小さい時だけ置き換わって、同じ形と一緒に出力GLBへ戻ります。1024上限は縮めず元のJPEGが残ります。3Dは確かめた実GLBの描画で、最後は3つの出力を同じ向きで並べます。ナレーション・音声トラックはありません。制作担当が18スマホ状態・6引用・16表示条件・3破損停止と復旧、実GLB4本の描画と同じカメラの比較、5保存要求と返却5ファイルの全バイト一致、39素材編集・7場面・任意7.2秒・通常32秒再生、代表/連続/contactと縦横32秒960f無音MP4の全デコード/自然終端、出荷ソース62PNG一致を新しく確認。人の審美的承認・実機iOS/VoiceOver・200%拡大・全入力/性能・ゲーム適性は未確認。",
+  "video_source": "examples/assetfurnace-example/video/index.html",
+  "updated_on": "2026-10-21",
+  "featured": false,
+  "verification_stage": "runtime-reviewed",
+  "runtime_review": {
+    "status": "original_runtime_complete_visual_qa_pending",
+    "execution": "One environment probe, one Blender 5.2.1 packing call and three unchanged original scripts/compress_glb_textures.py CLI calls from the same packed GLB (2026-10-19). Outputs frozen; never rerun for the diagram.",
+    "results": "cap1024: 3 images kept, whole GLB byte-identical to the packed input (2,276,520 B). cap512: 3 images replaced by PNG 512x512, 1,315,140 B. cap256: 3 images replaced by PNG 256x256, 473,124 B.",
+    "independent_checks": "For each output: JSON except images/buffers equal, all 12 non-image bufferViews (191,040 B) byte-equal, triangle and vertex counts equal to the packed input.",
+    "screen_review": "pending",
+    "video": "pending (no MP4 or poster yet)",
+    "human_approval": false,
+    "model_scope": "Opus 5.5 authored the phase-1 preparation/runner/jobs and the phase-2 page, diagram, film source, READMEs, samples and article. The operator ran and froze the original CLI. The crate is James Ray Cock / Poly Haven / CC0, not generated."
+  },
+  "guide_url": "case.html?id=assetfurnace-example",
+  "catalog_entry": {
+    "id": "resource-assetfurnace",
+    "name": "AssetFurnace / Image to 3D Lab",
+    "tagline": "画像や文章から3D素材を作る制作ツール",
+    "category": "3d",
+    "kind": "生成パイプライン",
+    "summary": "画像や文章をもとに3D素材を生成し、テクスチャやリグなどの処理をつなげられます。素材の生成から、ゲームなどで使うための加工までを手元で試せます。",
+    "use_case": "3D素材の生成から、ゲームで使うための加工までの流れを試したいとき。",
+    "tags": [
+      "3D",
+      "素材",
+      "生成パイプライン"
+    ],
+    "workflow": [
+      "入力素材と必要な出力工程を決める",
+      "利用できるモデルを選び、形状生成と加工を行う",
+      "形状、UV、リグ、利用条件の記録を確認する"
+    ],
+    "requirements": [
+      "選択するバックエンドに対応したGPU環境",
+      "モデルごとのライセンスとダウンロード要件",
+      "テクスチャ圧縮CLIだけなら、固定版のフルチェックアウトと Python 3.11・Pillow（モデルの重みとGPUは不要）"
+    ],
+    "license": "Apache-2.0",
+    "license_url": "https://github.com/Bingeljell/image-to-3dlab/blob/91879333e88a0571945b15b0e21e4bc95ec59e31/LICENSE",
+    "license_note": "本体はApache-2.0。Hunyuan、DINOなど、組み合わせるコード・モデルには独自条件があり、生成物の条件を一括で扱えません。",
+    "source_url": "https://github.com/Bingeljell/image-to-3dlab/tree/91879333e88a0571945b15b0e21e4bc95ec59e31",
+    "guide_url": "case.html?id=assetfurnace-example",
+    "readme_url": "https://github.com/Bingeljell/image-to-3dlab/blob/91879333e88a0571945b15b0e21e4bc95ec59e31/README.md",
+    "source_repository": "Bingeljell/image-to-3dlab",
+    "source_commit": "91879333e88a0571945b15b0e21e4bc95ec59e31",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。原典は確認時のコミットへ固定しています。作例では固定版の補助CLI scripts/compress_glb_textures.py だけを無改変で、CC0の木箱を包んだ同じGLBから3回実行し、出力GLBを保全しています。生成・リトポロジー・リギングなどは実行していません。",
+    "prompt": "AssetFurnace（Bingeljell/image-to-3dlab 固定コミット 91879333e88a0571945b15b0e21e4bc95ec59e31、Apache-2.0）の README と scripts/compress_glb_textures.py を読み、手元の3Dモデル1つのテクスチャを、形を変えずに上限だけを変えて圧縮し、実ファイルで比べてください。画像→3D生成・リトポロジー・ベイク・リギング・モデルの重み・ComfyUIは使いません。\n\n準備：固定コミットのフルチェックアウトと、Python 3.11 と Pillow だけの専用環境を用意し、原典CLIのハッシュを確かめる。入力が glTF・.bin・画像に分かれているなら、Blender などで1回だけ1つのGLBにまとめ、その工程と版を別に記録する（AssetFurnaceの処理として書かない）。元のファイルは書き換えない。\n\n実行：同じ入力GLBから、無改変のCLIを設定ごとに1回ずつ呼ぶ。例：--format png --quality 90 --map-quality 90 --max-size <N> --map-size <N> --normal-size <N>（N = 1024・512・256）。出力は設定ごとに新しいファイルにし、既存の結果を上書きしない。結果を見て再試行や選別をしない。\n\n記録：要求した形式と上限と、出力GLBから読み直した実際の画像（MIME・寸法・バイト数）、置換か保持か、GLB全体のバイト数を分けて書く。原典は再エンコードが元より小さいときだけ画像を置き換えるので、要求どおりの形式・寸法になったと推測しない。画像以外のbufferViewと形・材料のJSONが入力と同じかをバイトで確かめ、CLIの標準出力はそのまま残す。見た目・ゲームでの適性・表示性能は、実際に開いて確かめるまで未確認と書く。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "原典の補助CLI compress_glb_textures.py だけを無改変で、Blender 5.2.1で1回包装した同じGLBから3回実行（2026-10-19）。1024上限は3画像保持で入力と全バイト同一、512上限は1,315,140B、256上限は473,124B。3出力の画像以外12view・JSON・三角形の一致を制作担当が照合。生成・リトポロジー・リギング・モデル推論は未実行。新しい図/動画の制作担当による検査は visual-verification.json。公開導線は別工程で確認する。人の審美的承認は未確認。",
+    "reviewed_on": "2026-10-20",
+    "example_url": "examples/assetfurnace-example/index.html",
+    "image": "media/assetfurnace-example.webp",
+    "updated_on": "2026-10-20"
+  },
+  "video_width": 720,
+  "video_height": 1280,
+  "video_landscape": "media/assetfurnace-example-wide.mp4",
+  "requirements": [
+    "閲覧・3D表示・保存はブラウザーだけで利用できます。圧縮・生成・アップロード・モデルの実行はありません。3D表示にはWebGLが要ります。",
+    "同じ経路を自分で実行するには、固定版 image-to-3dlab のフルチェックアウト、Python 3.11 と Pillow 11.3.0、入力をGLBにまとめる Blender 5.2.1 を別に用意します。AssetFurnace の広い機能の依存・モデルの重み・GPUは、この範囲には要りません。手順は作例の README にあります。"
+  ],
+  "video_portrait": "media/assetfurnace-example.mp4",
+  "poster_portrait": "media/assetfurnace-example.webp",
+  "poster_landscape": "media/assetfurnace-example-wide.webp",
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/assetfurnace-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/assetfurnace-example-landscape-credited-ja-v3.mp4"
+}

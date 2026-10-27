@@ -1,0 +1,766 @@
+/* しおり工房 検索ヘルプ — 八百万図AIツールボックス 作例
+   Authored CSS only; no Tailwind build. The three utility classes that the
+   upstream Accordion adds (relative, overflow-hidden, group) are defined below. */
+
+:root {
+  --paper: #f7f3ec;
+  --card: #fffdf8;
+  --ink: #221f2a;
+  --muted: #5c5664;
+  --line: #ddd5c8;
+  --accent: #574684;
+  --accent-ink: #ffffff;
+  --accent-soft: #ebe5f2;
+  --accent-line: #b9addb;
+  --danger: #8a2e3b;
+  --danger-soft: #f7e7e8;
+  --focus: #574684;
+  --radius: 0.625rem;
+  --gutter: 1rem;
+  --font: system-ui, -apple-system, "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+    "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP", sans-serif;
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+  line-break: strict;
+}
+
+/* Upstream utility classes */
+.relative { position: relative; }
+.overflow-hidden { overflow: hidden; }
+.group { /* marker only */ }
+
+p, ul, ol, dl, h1, h2, h3 { margin: 0; }
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+  font-size: 0.875em;
+  overflow-wrap: anywhere;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- Layout ---------------------------------------------------------- */
+
+.app {
+  min-width: 0;
+}
+
+.page {
+  width: 100%;
+  max-width: calc(48rem + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-left: max(var(--gutter), env(safe-area-inset-left));
+  padding-right: max(var(--gutter), env(safe-area-inset-right));
+  min-width: 0;
+}
+
+main.page {
+  display: grid;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
+}
+
+main.page > * {
+  min-width: 0;
+}
+
+.masthead {
+  padding-top: calc(env(safe-area-inset-top) + 1.25rem);
+  padding-bottom: 1rem;
+}
+
+.eyebrow {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+}
+
+.title {
+  margin-top: 0.375rem;
+  font-size: 1.5rem;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  font-weight: 700;
+}
+
+/* Phrases stay together on phones and wrap inside the width when long. */
+.title span {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.lede {
+  margin-top: 0.625rem;
+  max-width: 40em;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.badges li {
+  padding: 0.125rem 0.625rem;
+  border: 1px solid var(--accent-line);
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.panel {
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.section-title {
+  font-size: 1.125rem;
+  line-height: 1.4;
+}
+
+.sub-title {
+  margin-top: 1.25rem;
+  font-size: 1rem;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.muted:empty,
+.hint:empty {
+  display: none;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.hint-pending {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.row > * {
+  min-width: 0;
+}
+
+/* ---- Controls -------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  max-width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1.5px solid transparent;
+  border-radius: 0.5rem;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btn-secondary {
+  background: var(--card);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-chip {
+  background: var(--accent-soft);
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+
+.btn-link {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--accent);
+}
+
+.field-label {
+  display: block;
+  font-weight: 700;
+}
+
+.search-form {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.search-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem;
+}
+
+.search-input {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid #8f8799;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: var(--ink);
+  font: inherit;
+  font-size: max(16px, 1rem);
+}
+
+.search-input::placeholder {
+  color: #7a7382;
+}
+
+.search-row .btn-primary {
+  min-height: 48px;
+  padding-inline: 1.25rem;
+}
+
+.motion-control {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: 0.875rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--line);
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 48px;
+  padding: 0.25rem 0.75rem 0.25rem 0.5rem;
+  justify-self: start;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.toggle input {
+  width: 1.375rem;
+  height: 1.375rem;
+  margin: 0;
+  flex: none;
+  accent-color: var(--accent);
+}
+
+.toggle:has(input:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.mode-status {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.mode-status[data-reduced="true"] {
+  color: var(--ink);
+}
+
+/* ---- Results --------------------------------------------------------- */
+
+.results {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.results-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+}
+
+.results-count {
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.result-list {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.result-row {
+  min-width: 0;
+}
+
+/* The upstream item clips its content (overflow-hidden). The padding keeps
+   the trigger's 3px focus ring with 2px offset inside the clipped box. */
+.result-item {
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.result-item[data-expanded] {
+  border-color: var(--accent-line);
+  box-shadow: inset 4px 0 0 var(--accent);
+}
+
+.result-heading {
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.result-trigger {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "category arrow"
+    "title arrow";
+  align-items: center;
+  column-gap: 0.75rem;
+  width: 100%;
+  min-height: 56px;
+  padding: 0.5rem 0.625rem;
+  border: 0;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.result-trigger:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.result-category {
+  grid-area: category;
+  color: var(--accent);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.result-title {
+  grid-area: title;
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+/* Chevron: points down when closed, up when open. The angle is a state, not
+   an animation; a short tween is added only for hover-capable pointers with
+   full motion (see below). */
+.result-arrow {
+  grid-area: arrow;
+  width: 0.625rem;
+  height: 0.625rem;
+  margin: 0.25rem 0.375rem 0.5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.result-trigger[data-expanded] .result-arrow {
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+  transform: rotate(-135deg);
+}
+
+.result-summary {
+  padding: 0 0.625rem 0.5rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.result-panel {
+  overflow: hidden;
+}
+
+.result-panel-inner {
+  display: grid;
+  gap: 0.625rem;
+  margin: 0.125rem 0.625rem 0.625rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  padding: 0;
+  list-style: none;
+}
+
+.tags li {
+  padding: 0 0.5rem;
+  border-radius: 0.25rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.8125rem;
+}
+
+.empty {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+}
+
+.export {
+  display: grid;
+  gap: 0.375rem;
+  justify-items: start;
+  padding-top: 0.25rem;
+}
+
+.scope-note {
+  padding: 0.625rem 0.75rem;
+  border-left: 3px solid var(--accent-line);
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+/* ---- Notices --------------------------------------------------------- */
+
+.notice {
+  display: grid;
+  gap: 0.625rem;
+  justify-items: start;
+}
+
+.notice-error {
+  border-color: #d6a9ae;
+  background: var(--danger-soft);
+}
+
+.notice-title {
+  color: var(--danger);
+  font-size: 1.0625rem;
+}
+
+/* ---- About, files, provenance --------------------------------------- */
+
+.about {
+  display: grid;
+  gap: 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.steps {
+  display: grid;
+  gap: 0.375rem;
+  padding-left: 1.5rem;
+  max-width: 40em;
+}
+
+.file-links {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0;
+  list-style: none;
+}
+
+.file-links a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--card);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.fold {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.fold > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.5rem 0.875rem;
+  border-radius: var(--radius);
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.fold > summary::-webkit-details-marker {
+  display: none;
+}
+
+.fold > summary::before {
+  content: "";
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  transform: rotate(-45deg);
+}
+
+.fold[open] > summary::before {
+  transform: rotate(45deg);
+}
+
+.fold-body {
+  display: grid;
+  gap: 0.625rem;
+  padding: 0 0.875rem 0.875rem;
+}
+
+.pin > summary {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.pin-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.125rem;
+  font-size: 0.9375rem;
+}
+
+.pin-list dt {
+  margin-top: 0.375rem;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.pin-list dd {
+  margin: 0;
+  min-width: 0;
+}
+
+.request-text {
+  width: 100%;
+  min-width: 0;
+  min-height: 12rem;
+  padding: 0.625rem 0.75rem;
+  border: 1.5px solid #8f8799;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: var(--ink);
+  font: inherit;
+  font-size: max(16px, 1rem);
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.footer {
+  display: grid;
+  gap: 0.25rem;
+  padding-top: 1rem;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+
+.shell-fallback,
+.noscript {
+  padding-top: calc(env(safe-area-inset-top) + 1.25rem);
+  padding-bottom: 1.5rem;
+}
+
+.noscript p + p {
+  margin-top: 0.5rem;
+}
+
+/* ---- Wider screens --------------------------------------------------- */
+
+@media (min-width: 40rem) {
+  :root {
+    --gutter: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.875rem;
+  }
+
+  /* Authored line breaks on wide screens. */
+  .title span {
+    display: block;
+  }
+
+  .panel {
+    padding: 1.25rem;
+  }
+
+  .pin-list {
+    grid-template-columns: 8rem minmax(0, 1fr);
+    column-gap: 1rem;
+  }
+
+  .pin-list dt {
+    margin-top: 0;
+  }
+}
+
+@media (min-width: 64rem) {
+  body {
+    font-size: 1.0625rem;
+  }
+
+  .masthead {
+    padding-top: calc(env(safe-area-inset-top) + 2.5rem);
+  }
+
+  .title {
+    font-size: 2.125rem;
+  }
+}
+
+/* Short landscape phones: keep the hero compact so the search stays near the top. */
+@media (max-height: 30rem) and (orientation: landscape) {
+  .masthead {
+    padding-top: calc(env(safe-area-inset-top) + 0.75rem);
+    padding-bottom: 0.5rem;
+  }
+
+  .title {
+    font-size: 1.375rem;
+  }
+
+  .title span {
+    display: inline-block;
+  }
+}
+
+/* ---- Motion ---------------------------------------------------------- */
+
+/* Only small press feedback and the chevron turn, and only with a fine
+   pointer, full motion from the OS and the page switch off. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .app[data-motion="full"] .btn {
+    transition: transform 150ms ease-out, background-color 150ms ease-out;
+  }
+
+  .app[data-motion="full"] .btn:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  .app[data-motion="full"] .result-arrow {
+    transition: transform 180ms ease-out, margin 180ms ease-out;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .result-trigger:hover {
+    background: var(--accent-soft);
+  }
+
+  .btn-secondary:hover,
+  .btn-link:hover,
+  .btn-chip:hover {
+    background: var(--accent-soft);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: #4a3b73;
+  }
+
+  .file-links a:hover,
+  .fold > summary:hover {
+    background: var(--accent-soft);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.app[data-motion="reduced"] *,
+.app[data-motion="reduced"] *::before,
+.app[data-motion="reduced"] *::after {
+  transition: none !important;
+  animation: none !important;
+}

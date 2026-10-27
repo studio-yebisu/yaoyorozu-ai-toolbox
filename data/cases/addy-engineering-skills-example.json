@@ -225,7 +225,7 @@
     }
   ],
   "license": "MIT",
-  "license_note": "独自制作の画面・文章・図・コード・合成データ・映像はMIT、八百万図AIツールボックス。vendor/addy-agent-skills/の12資料はaddyosmani/agent-skills@aeac41d4d005999432bb7312f7ff06383a91d59dのMIT、Copyright(c)2025 Addy Osmaniの通知を保持。12配布原本は公式の固定Gitblobと全バイト一致を確認しました。上流の画像は使っていません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "license_note": "独自制作の画面・文章・図・コード・合成データ・映像はMIT、Yaoyorozu AI ToolBox。vendor/addy-agent-skills/の12資料はaddyosmani/agent-skills@aeac41d4d005999432bb7312f7ff06383a91d59dのMIT、Copyright(c)2025 Addy Osmaniの通知を保持。12配布原本は公式の固定Gitblobと全バイト一致を確認しました。上流の画像は使っていません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
   "catalog_entry": {
     "id": "resource-addy-engineering-skills",
     "name": "Addy Osmani Agent Skills",
@@ -279,10 +279,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/addy-engineering-skills-example-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/addy-engineering-skills-example-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/addy-engineering-skills-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/addy-engineering-skills-example-landscape-credited-v4.mp4"
 }

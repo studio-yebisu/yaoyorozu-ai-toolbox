@@ -1,10 +1,18 @@
-name: Validate Ryoshu publication
+name: Validate public site
 on:
   pull_request:
     paths:
-      - data/cases/ryoshu-local.json
-      - data/production/ryoshu-local.json
-      - examples/ryoshu-local/**
+      - data/**
+      - scripts/**
+      - src/**
+      - services/likes/**
+      - media/**
+      - examples/**
+      - integrations/**
+      - skills/**
+      - LICENSE
+      - MEDIA-LICENSE.md
+      - README.md
       - .github/workflows/validate-ryoshu.yml
   workflow_dispatch:
 permissions:
@@ -12,11 +20,15 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: '3.12'
       - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - run: python -m unittest discover -s scripts -p 'test_*.py'
+      - run: node --test services/likes/worker.test.mjs
       - run: python scripts/build.py
       - run: python scripts/check.py
+      - run: python scripts/check_navigation.py

@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ja" data-page="design-taste-concept" data-state="loading" data-theme="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- 読み込むのは同じ場所のファイルだけ。blob: は、照合した events.mjs のバイトをモジュールとして読むためだけ。 -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' blob:; style-src 'self'; img-src 'self'; media-src 'self'; connect-src 'self'; font-src 'self'; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>AIが画面を作る前に読む、デザインの指針｜Design Taste 作例｜八百万図AIツールボックス</title>
+  <meta name="description" content="Design Tasteは、AIがコードを書く前に読むMarkdownのデザイン指針です。モデル・API・画面生成サービスではありません。5冊の指針と依頼が同じAIへ渡り、方針一行の計画、コード、実際に使える催しの一覧になるまでを、1枚の動く図で示します。">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="concept.css">
+  <script type="module" src="concept.js?v=visual-r1"></script>
+</head>
+<body>
+  <a class="skip" href="#flow">図の下の説明へ</a>
+
+  <main id="main">
+    <section id="events" class="hero" aria-labelledby="page-title">
+      <div class="hero-head wrap">
+        <header class="top">
+          <h1 id="page-title">AIが画面を作る前に読む、デザインの指針</h1>
+          <p class="definition">Design Taste：AIが読むMarkdownの指針。モデルやAPIではありません</p>
+        </header>
+        <div class="switches">
+          <div class="stages" role="group" aria-label="図の段階">
+            <button type="button" class="seg" data-stage="0" aria-pressed="false" disabled>渡す</button>
+            <button type="button" class="seg" data-stage="1" aria-pressed="false" disabled>組み立てる</button>
+            <button type="button" class="seg" data-stage="2" aria-pressed="true" disabled>使う</button>
+            <button type="button" id="replay" class="seg seg--icon" aria-label="この段階の動きをもう一度" title="この段階の動きをもう一度" disabled>
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 5a7 7 0 1 1-6.6 4.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+          <div class="presets" role="group" aria-label="実際の一覧で試す3つの条件">
+            <button type="button" class="preset" data-preset="all" aria-pressed="false" disabled>6件</button>
+            <button type="button" class="preset" data-preset="children" aria-pressed="false" disabled>子ども2件</button>
+            <button type="button" class="preset" data-preset="reading" aria-pressed="false" disabled>短編1件</button>
+          </div>
+        </div>
+      </div>
+
+      <figure class="map wrap">
+        <div class="map-frame">
+          <canvas id="concept-map" role="img" aria-label="Design Tasteの働きの図：5冊の指針と依頼が同じ1つのAIへ。AIが方針一行の計画を書き、同じAIが次の執筆でコードにし、制作担当が確認して、6件の行の一覧で条件に合う催しを選ぶ" aria-describedby="map-desc"></canvas>
+        </div>
+      </figure>
+
+      <div class="actions wrap">
+        <a id="open-desk" class="btn btn-primary" aria-disabled="true">実際の一覧を使う</a>
+        <a id="save-record" class="btn" aria-disabled="true">実結果を保存</a>
+        <button id="retry" class="btn" type="button" hidden>もう一度読み込む</button>
+      </div>
+    </section>
+
+    <section class="under wrap" aria-label="図の状態">
+      <p id="stage-note" class="caption" aria-live="polite"></p>
+      <p id="load-status" class="load-status" role="status" data-state="loading">素材23件を照合しています…</p>
+      <p id="map-desc" class="visually-hidden"></p>
+      <noscript><p class="load-status" data-state="error">図と読み出しには JavaScript が必要です。下の一覧から実ファイルを直接開けます。</p></noscript>
+    </section>
+
+    <section id="flow" class="block wrap" aria-labelledby="flow-h">
+      <h2 id="flow-h">図の流れ</h2>
+      <ol id="map-summary" class="flow-list"></ol>
+    </section>
+
+    <section id="record" class="block wrap" aria-labelledby="record-h">
+      <h2 id="record-h">この条件の実結果</h2>
+      <p class="lead">元の制作で保存した結果を、そのまま包んだ記録です。このページでも同じ関数を呼び、同じIDと順序であることを確かめています。</p>
+      <dl id="record-meta" class="meta-list"></dl>
+      <details class="fold">
+        <summary>記録のJSON全文<span id="record-path" class="summary-path"></span></summary>
+        <pre id="record-content" class="json" tabindex="0" aria-label="記録のJSON全文"></pre>
+      </details>
+    </section>
+
+    <section id="about" class="block wrap" aria-labelledby="how-h">
+      <h2 id="how-h">何が入っていて、どう渡し、何が返るか</h2>
+      <dl class="how">
+        <div>
+          <dt>どんな指針か</dt>
+          <dd>Design Taste は、AIが画面のコードを書く前に読む、英語のMarkdownのデザイン指針（SKILL.md）です。モデル、Webサービス、画面を生成するAPI、スタイルシートの仕組み、5つの自動のAIのどれでもありません。読んだAIが、指示を依頼の条件に合わせて使います。</dd>
+        </div>
+        <div>
+          <dt>中にあるもの</dt>
+          <dd>固定版には24のスキルがあり、この作例は5つだけを選びました。共通の指針（design-taste）、表現を1つ（japanese-minimal）、補助の指針（taste-typography・taste-accessibility・taste-ux-copy）。この3つの群は図の説明のための分け方で、原典が決めた形式ではありません。</dd>
+        </div>
+        <div>
+          <dt>どう渡すか</dt>
+          <dd>架空の余白図書室の依頼（誰に・何を・催し6件と、読みやすさの条件）と5冊を、同じAIに読ませました。AIはまず方針一行と計画を書き、別の執筆でその計画を使ってHTML/CSS/JSを書きました。Nodeでの検査と実際のブラウザーでの確認は、制作担当が別の工程で行いました。元のAIがCLIやブラウザーを動かしたのではありません。</dd>
+        </div>
+        <div>
+          <dt>返るもの</dt>
+          <dd>実際に動く催しの一覧（ネイティブの検索欄・select・details）。訪れた人の操作は、ブラウザーの中で JavaScript が計算するだけです。AIの呼び出し、予約、送信、アカウント、内容の保存はありません。</dd>
+        </div>
+      </dl>
+      <h3>計画で調整したこと</h3>
+      <p class="note">原典の指示を機械的に当てはめたのではなく、依頼の読みやすさの条件に合わせて計画で変えた点です。計画の記録で、道具が自動で変換したものではありません。</p>
+      <dl id="adjustments" class="meta-list meta-list--wide"></dl>
+      <h3>絞り込みの決まり（このページで同じ関数を呼んだ結果）</h3>
+      <p class="note">対象は分類の完全一致。検索語は NFKC・前後の空白除去・小文字化のあと、題名・説明・会場のどれかに文字どおり含まれるかを見ます。二つの条件は AND で、順序は入力のままです。元の21条件の検査をやり直したものではありません。</p>
+      <ul id="probes" class="plain probes"></ul>
+    </section>
+
+    <section id="parts" class="block wrap" aria-labelledby="parts-h">
+      <h2 id="parts-h">図の6つの部分</h2>
+      <p class="lead">説明のための分け方で、原典が決めた形式ではありません。選ぶと図に赤い枠が付き、引用した行を示します。</p>
+      <div class="chips" role="group" aria-label="6つの部分">
+        <button type="button" data-part="core" aria-pressed="false" disabled>先に用途を読む</button>
+        <button type="button" data-part="style" aria-pressed="false" disabled>表現を一つ選ぶ</button>
+        <button type="button" data-part="type" aria-pressed="false" disabled>文字の階層</button>
+        <button type="button" data-part="access" aria-pressed="false" disabled>操作と読み順</button>
+        <button type="button" data-part="copy" aria-pressed="false" disabled>理由と次の操作</button>
+        <button type="button" data-part="handoff" aria-pressed="false" disabled>計画から実装へ</button>
+      </div>
+      <div class="readout" aria-live="polite">
+        <h3 id="part-label"></h3>
+        <p id="part-meaning"></p>
+        <blockquote id="part-quote-box" class="quote" lang="en"><p id="part-quote"></p></blockquote>
+        <p id="part-source" class="source-link"></p>
+        <p id="part-local" class="source-link"></p>
+      </div>
+    </section>
+
+    <section id="request" class="block wrap" aria-labelledby="request-h">
+      <h2 id="request-h">自分の催しで使う依頼文</h2>
+      <p class="lead">元の作例の request.txt をそのまま載せています。【】の部分を自分の催しと条件に書き換えて、固定版の原典を読めるAIに渡します。このページでAIを動かすことはありません。</p>
+      <p class="row-actions">
+        <button id="copy-request" class="btn" type="button" disabled>依頼文をコピー</button>
+        <a class="btn btn-quiet" href="request.txt">request.txt を開く</a>
+      </p>
+      <p id="copy-status" class="copy-status" role="status"></p>
+      <label class="field-label" for="request-text">依頼文（読み取り専用）</label>
+      <textarea id="request-text" class="text-box" rows="10" readonly spellcheck="false"></textarea>
+    </section>
+
+    <section id="films" class="block wrap" aria-labelledby="films-h">
+      <h2 id="films-h">図解32秒・無音</h2>
+      <p class="lead">上の図と同じ5冊・依頼・紙の形が動く、音のない32秒の解説です。ナレーションや音声ガイドはありません。条件「子ども」で2件、続けて「短編」で1件を選びます。</p>
+      <video id="film-portrait" class="film film--portrait" controls muted playsinline preload="metadata" poster="../../media/design-taste-example.webp" width="720" height="1280" aria-label="図解動画（縦・32秒・無音）">
+        <source src="../../media/design-taste-example.mp4" type="video/mp4">
+        <a href="../../media/design-taste-example.mp4">MP4を開く</a>
+      </video>
+      <details class="fold">
+        <summary>横長版（1280×720・32秒・無音）</summary>
+        <video id="film-wide" class="film film--wide" controls muted playsinline preload="none" width="1280" height="720" aria-label="図解動画（横・32秒・無音）">
+          <source src="../../media/design-taste-example-wide.mp4" type="video/mp4">
+          <a href="../../media/design-taste-example-wide.mp4">MP4を開く</a>
+        </video>
+      </details>
+      <p class="links"><a href="video/index.html">編集できる図解ソース</a><a href="visual-guide.md">開き方と再現手順</a><a href="visual-verification.json">確認の記録</a><a href="source.zip">入力・作例・ソース一式（source.zip）</a></p>
+    </section>
+
+    <section id="records" class="block wrap" aria-labelledby="records-h">
+      <h2 id="records-h">記録と範囲</h2>
+      <details class="fold">
+        <summary>元の制作と、このページがすること</summary>
+        <ul class="plain">
+          <li>5冊を読んで書いたことの記録は、元の制作で保存した Opus 5.5 の3つの執筆です：計画（design-plan.md）、一覧の実装（いまの desk.html・app.mjs・events.mjs・style.css）、以前の26秒の映像（video/legacy.html）。この新しい図と32秒の映像は、その記録に付け替えていません。</li>
+          <li>Nodeでの21条件（validation.json）と実際のブラウザーでの確認（verification.json・captures.json）は、制作担当が別の工程で行いました。どれもここでやり直していません。</li>
+          <li>人による事前の計画の承認、スキルなしで作った場合との比較、使いやすさの改善の測定はありません。同じ依頼を別の表現の本に渡す比較もしていません。</li>
+          <li>このページは素材23件を照合し、照合した events.mjs の filterEvents をこのブラウザーで呼ぶだけです。AI・Node・ビルドは動かしません。</li>
+          <li>図と映像の新しいコードと文章は claude-opus-5-5 が書いたもので、書いた時点ではブラウザーでの表示も描画の確認もしていません。図の中の動きは流れの説明で、元の制作の時間や内部の記録ではありません。</li>
+        </ul>
+      </details>
+      <details class="fold">
+        <summary>試した範囲と、していないこと</summary>
+        <ul class="plain">
+          <li>余白図書室と6件の催しは架空の合成データです。実際の参加・申込はできません。「小さな詩の朗読会」は催しの名前で、音声は作っていません。</li>
+          <li>元の確認のルート文字サイズ200%の検査は、ブラウザー全体のズームや、実機の iOS・VoiceOver・NVDA での検査ではありません。スクリーンリーダーでの確認、アクセシビリティ全体の適合の判定、人による承認はしていません。</li>
+          <li>この図のページの配色の切り替え（ダーク）は、このページだけです。実際の一覧（desk.html）は明るい配色だけです。</li>
+          <li>固定版の24のスキルのうち、5つだけを使いました。ほかの表現の本は読ませていません。</li>
+        </ul>
+      </details>
+      <details class="fold">
+        <summary>ライセンスと出典</summary>
+        <ul class="plain">
+          <li>原典：<a href="https://github.com/madebymustafa/design-taste/tree/c4a6bff0871eb4b15371b0e7d2751628b0ed4608" rel="noopener">madebymustafa/design-taste</a> のコミット <code>c4a6bff0871eb4b15371b0e7d2751628b0ed4608</code>、MIT License、Copyright (c) 2026 Mustafa（<a href="vendor/design-taste/LICENSE">LICENSE</a>）。5つの SKILL.md と README・LICENSE は変更せずに同梱しています。</li>
+          <li>作例の一覧・図・映像・文章：MIT License、Copyright (c) 2026 Studio Yebisu（<a href="LICENSE">LICENSE</a>）。</li>
+        </ul>
+      </details>
+    </section>
+
+    <section id="files" class="block wrap" aria-labelledby="files-h">
+      <h2 id="files-h">実ファイル</h2>
+      <ul class="files">
+        <li><a href="desk.html#children">desk.html</a><span>実際の一覧（<a href="desk.html#all">#all</a>・<a href="desk.html#children">#children</a>・<a href="desk.html#reading">#reading</a> で条件を入れて開く）</span></li>
+        <li><a href="input.md">input.md</a><span>実際の制作依頼</span></li>
+        <li><a href="events.json">events.json</a><span>架空の催し6件（変えていない入力）</span></li>
+        <li><a href="design-plan.md">design-plan.md</a><span>実装の前に元のAIが書いた計画</span></li>
+        <li><a href="app.mjs">app.mjs</a>・<a href="events.mjs">events.mjs</a>・<a href="style.css">style.css</a><span>元のAIが書いた一覧のコード</span></li>
+        <li><a href="results.json">results.json</a><span>3つの条件の保存結果</span></li>
+        <li><a href="samples.json">samples.json</a><span>3つの見本の条件と、期待と実際のID</span></li>
+        <li><a href="concept/records/children.json">concept/records/</a><span><a href="concept/records/all.json">all</a>・<a href="concept/records/children.json">children</a>・<a href="concept/records/reading.json">reading</a>（保存結果をそのまま包んだもの）</span></li>
+        <li><a href="validation.json">validation.json</a><span>制作担当のNodeでの21条件</span></li>
+        <li><a href="verification.json">verification.json</a><span>確認した範囲と、していない項目</span></li>
+        <li><a href="captures.json">captures.json</a><span>実画面の静止画の記録（<a href="assets/all.png">all</a>・<a href="assets/children.png">children</a>・<a href="assets/participation.png">participation</a>・<a href="assets/mobile.png">mobile</a>）</span></li>
+        <li><a href="request.txt">request.txt</a><span>依頼文（<a href="request.html">依頼文だけのページ</a>）</span></li>
+        <li><a href="concept/structure.json">concept/structure.json</a><span>図の部分・引用の行・範囲</span></li>
+        <li><a href="concept/manifest.json">concept/manifest.json</a><span>照合する23件の大きさとSHA-256</span></li>
+        <li><a href="vendor/design-taste/README.md">vendor/design-taste/</a><span>原典の README・LICENSE と5つの SKILL.md</span></li>
+        <li><a href="video/index.html">video/index.html</a><span>図解32秒の編集できるソース（<a href="video/legacy.html">以前の26秒</a>）</span></li>
+        <li><a href="README.md">README.md</a><span>元の作例の説明</span></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <div class="theme" role="group" aria-label="この図のページの配色">
+      <button type="button" data-theme-choice="system" aria-pressed="true">端末に合わせる</button>
+      <button type="button" data-theme-choice="light" aria-pressed="false">ライト</button>
+      <button type="button" data-theme-choice="dark" aria-pressed="false">ダーク</button>
+    </div>
+    <p>Design Taste：MIT License, Copyright (c) 2026 Mustafa（<a href="vendor/design-taste/LICENSE">LICENSE</a>）。作例の一覧・図解・文章：MIT License, Copyright (c) 2026 Studio Yebisu（<a href="LICENSE">LICENSE</a>）。余白図書室は架空の図書室です。</p>
+    <p><a href="../../case.html?id=design-taste-example">作例の解説記事へ</a>　<a href="../../index.html">八百万図AIツールボックスへ戻る</a></p>
+  </footer>
+</body>
+</html>

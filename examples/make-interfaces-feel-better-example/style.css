@@ -1,4 +1,4 @@
-/* 八百万図AIツールボックス original demo, 2026. MIT License.
+/* Yaoyorozu AI ToolBox original demo, 2026. MIT License.
    Keeps the before/ palette, system fonts and layout; changes follow review.md. */
 :root{color-scheme:light;font-family:system-ui,"Yu Gothic",sans-serif;color:#292d2a;background:#f1f0e9}
 *{box-sizing:border-box}

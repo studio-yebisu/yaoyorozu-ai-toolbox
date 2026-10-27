@@ -1,0 +1,69 @@
+{
+  "format": "input-output",
+  "samples": [
+    {
+      "id": "burst-eight",
+      "label": "満タンから8件まとめて",
+      "input": {
+        "model": "model.mjs",
+        "bucket": {"capacity": 8, "initial": 8, "refill_per_second": 2},
+        "operations": ["request", "request", "request", "request", "request", "request", "request", "request"]
+      },
+      "output": {
+        "tokens": 0,
+        "accepted": 8,
+        "refused": 0,
+        "seconds": 0,
+        "note": "model.mjs の run() の結果。説明用のモデルで、実際のAPIには接続しません。"
+      }
+    },
+    {
+      "id": "ninth-refused",
+      "label": "9件目はトークン0枚で拒否",
+      "input": {
+        "model": "model.mjs",
+        "bucket": {"capacity": 8, "initial": 8, "refill_per_second": 2},
+        "operations": ["request", "request", "request", "request", "request", "request", "request", "request", "request"]
+      },
+      "output": {
+        "tokens": 0,
+        "accepted": 8,
+        "refused": 1,
+        "seconds": 0,
+        "note": "8件で使い切り、9件目は拒否。図では送り出しゲートの赤い旗が上がる。"
+      }
+    },
+    {
+      "id": "refill-then-two",
+      "label": "1秒で2枚戻り、2件だけ通る（動画と同じ流れ）",
+      "input": {
+        "model": "model.mjs",
+        "bucket": {"capacity": 8, "initial": 8, "refill_per_second": 2},
+        "operations": ["request", "request", "request", "request", "request", "request", "request", "request", "request", {"advance": 1}, "request", "request", "request"]
+      },
+      "output": {
+        "tokens": 0,
+        "accepted": 10,
+        "refused": 2,
+        "seconds": 1,
+        "note": "1秒進めると2枚補充。その2枚で2件通り、3件目はまた拒否。video/scene.js の台本と同じ操作列。"
+      }
+    },
+    {
+      "id": "full-stays-full",
+      "label": "満タンで1秒進めても増えない",
+      "input": {
+        "model": "model.mjs",
+        "bucket": {"capacity": 8, "initial": 8, "refill_per_second": 2},
+        "operations": [{"advance": 1}]
+      },
+      "output": {
+        "tokens": 8,
+        "accepted": 0,
+        "refused": 0,
+        "seconds": 1,
+        "note": "上限8枚で止まるため補充は0枚。台車は動かない。"
+      }
+    }
+  ]
+}

@@ -51,7 +51,7 @@
     },
     {
       "title": "既存画面と困る操作・範囲を渡す",
-      "body": "依頼用に八百万図AIツールボックスが作ったbefore画面、主操作、HTML/plain CSS/ES moduleの方式、配色・書体・文言・構成、clips.jsonとexport.mjsの契約を同じAIへ渡しました。"
+      "body": "依頼用にYaoyorozu AI ToolBoxが作ったbefore画面、主操作、HTML/plain CSS/ES moduleの方式、配色・書体・文言・構成、clips.jsonとexport.mjsの契約を同じAIへ渡しました。"
     },
     {
       "title": "quickレビューと改善実装を受け取る",
@@ -68,7 +68,7 @@
   ],
   "limitations": [
     "MarkdownのUIレビュー/実装指針です。画面を実行時に作るAPI、AIモデル、自動検出器、5つの自動エージェントではありません。",
-    "修正前は課題を含めて八百万図AIツールボックスが作った依頼用の入力です。第三者製品との比較、使いやすさや品質の向上率、一般の効果は測っていません。",
+    "修正前は課題を含めてYaoyorozu AI ToolBoxが作った依頼用の入力です。第三者製品との比較、使いやすさや品質の向上率、一般の効果は測っていません。",
     "元のAIはレビューと改善UIを執筆。制作担当が10関連行を3群へ統合し、高頻度の選択時のアイコン復帰等を技術補正して、別にNodeとブラウザーを実行しました。独立AIの査読や人による承認ではありません。",
     "原典quickはHIGH/MEDIUM上限5で、この依頼だけ最大3群です。5分類の確認範囲と却下3候補を記録しています。全画面や全19原則を適用したという意味ではありません。",
     "新しい図の6部品は説明用整理です。新しい紹介図の動きや配色切替を、保全した元UIへ追加したものではありません。",
@@ -205,10 +205,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/make-interfaces-feel-better-example-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/make-interfaces-feel-better-example-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/make-interfaces-feel-better-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/make-interfaces-feel-better-example-landscape-credited-v4.mp4"
 }

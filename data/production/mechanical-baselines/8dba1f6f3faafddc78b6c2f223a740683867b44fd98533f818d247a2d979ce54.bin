@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>3D Asset Server 作例：木箱を探して、実物まで持ってくる｜八百万図AIツールボックス</title>
+  <meta name="description" content="固定版 3D Asset Server の原典コードで Poly Haven の木箱を検索し、利用条件と容量を確かめてから、1k の glTF 一式（5ファイル）を実際に取得した保存記録を読むページです。取得した木箱をその場で3Dで確かめられます。">
+  <meta name="theme-color" content="#f3eee5">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three/build/three.module.js"}}</script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#result">結果へ移動</a>
+
+  <header class="masthead">
+    <p class="eyebrow">3D Asset Server ・ Poly Haven の実データ</p>
+    <h1 class="headline"><span class="phrase">木箱を探して、</span><span class="phrase">実物まで持ってくる</span></h1>
+    <p class="lead">CC0の木箱を探し、容量を見てからWeb向けの実物を取得。</p>
+    <p class="scope">原典APIで取得したモデルの保存済み結果。<a href="#about">確かめた範囲</a></p>
+  </header>
+
+  <main id="main">
+    <section id="result" class="result" aria-labelledby="sample-title" tabindex="-1">
+      <div id="status" class="status" data-state="loading" role="status" aria-live="polite">
+        <p id="status-text" class="status-text">保存した記録・入力・ロックを読み込み、固定版と SHA-256 を確かめています…</p>
+        <button id="retry" class="button" type="button" hidden>もう一度読み込む</button>
+      </div>
+
+      <div class="picker">
+        <label class="picker-label" for="sample-select">保存した8件の操作を選ぶ</label>
+        <select id="sample-select" class="select" disabled></select>
+        <p id="tally" class="tally" hidden></p>
+      </div>
+
+      <article id="viewer" class="viewer" hidden>
+        <p id="sample-kicker" class="kicker"></p>
+        <h2 id="sample-title" class="sample-title"></h2>
+        <p id="result-state" class="result-state" data-state=""></p>
+
+        <section id="model-stage" class="model-stage" aria-labelledby="model-title" hidden>
+          <h3 id="model-title" class="visually-hidden">取得した木箱の3D表示</h3>
+          <div id="model-view" class="model-view"></div>
+          <div class="model-controls" role="group" aria-label="3Dの向き">
+            <button id="rotate-left" class="button button-quiet" type="button" disabled>左へ回す</button>
+            <button id="rotate-right" class="button button-quiet" type="button" disabled>右へ回す</button>
+            <button id="reset-model" class="button button-quiet" type="button" disabled>向きを戻す</button>
+            <button id="wireframe" class="button button-quiet" type="button" aria-pressed="false" disabled>線で見る</button>
+          </div>
+          <p id="model-status" class="model-status" data-state="idle" role="status" aria-live="polite">3D はまだ読み込んでいません。</p>
+          <button id="model-retry" class="button" type="button" hidden>3Dをもう一度読み込む</button>
+          <p id="model-credit" class="model-credit"></p>
+          <p id="model-bundle" class="model-bundle"></p>
+        </section>
+
+        <section class="diagnosis-box" aria-labelledby="diagnosis-title">
+          <h3 id="diagnosis-title" class="box-title">原典が返した結果 <span id="diagnosis-note" class="box-note"></span></h3>
+          <ul id="diagnosis" class="diagnosis"></ul>
+          <p id="case-links" class="case-links" hidden></p>
+        </section>
+
+        <details id="facts-box" class="raw"><summary>この操作の詳細</summary><dl id="facts" class="facts"></dl></details>
+
+        <details id="manifest-box" class="raw" hidden>
+          <summary id="manifest-summary">ファイルの一覧</summary>
+          <p id="manifest-note" class="raw-note"></p>
+          <ol id="manifest" class="manifest"></ol>
+        </details>
+
+        <div class="actions">
+          <button id="download-record" class="button" type="button" disabled>今回の記録を保存</button>
+          <a id="download-bundle" class="button button-quiet" aria-disabled="true">モデル一式ZIP（A08のみ）</a>
+          <button id="copy-request" class="button button-quiet" type="button" disabled>依頼文をコピー</button>
+          <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+          <label id="request-fallback-label" class="fallback-label" for="request-fallback" hidden>コピーできませんでした。下の全文を長押しして選び、コピーしてください。</label>
+          <textarea id="request-fallback" class="fallback" rows="8" readonly hidden></textarea>
+        </div>
+
+        <details class="raw">
+          <summary>原典APIへの入力（実行前に固定）の全文</summary>
+          <p class="raw-note">input/asset-requests.json のこの1件です。run.mjs はこの値を原典の関数へそのまま渡しました。</p>
+          <pre id="raw-input" class="raw-text" tabindex="0"></pre>
+        </details>
+
+        <details class="raw">
+          <summary>原典が返した結果（記録の JSON 全文）</summary>
+          <p class="raw-note">原典の関数と Poly Haven が返した値・例外をそのまま記録したものです。「今回の記録を保存」はこの JSON と同じものを保存します。</p>
+          <pre id="raw-output" class="raw-text" tabindex="0"></pre>
+        </details>
+      </article>
+    </section>
+
+    <section id="about" class="band" aria-labelledby="about-title">
+      <h2 id="about-title">このページで動いているもの</h2>
+      <p>制作側が <code>node run.mjs</code> で一度だけ実行して保存した <a href="outputs/asset-runs.json">outputs/asset-runs.json</a> と、そのとき取得した5ファイルを読んで表示します。ページを開いても外部サイトの検索や素材の再取得は行いません。いまの Poly Haven を調べ直した結果ではなく、AI がこの場で動いているわけでもありません。表示の前に、入力2ファイルとロックの SHA-256、固定版、8件の入力と記録の一致、確認の合否を照合し、合わなければ結果を出しません。</p>
+      <ol class="flow">
+        <li><strong>探す</strong>　短い英語の語「wooden crate」・種類 model・無料だけで、Poly Haven と Fab に聞く（A01）</li>
+        <li><strong>条件を見る</strong>　ライセンス・作者・形式を確かめる。Web には glTF（A02）</li>
+        <li><strong>容量を先に見る</strong>　1k の glTF 一式の全ファイルと合計バイト数を、取得の前に出す（A03）。8k は予算 4MiB を超えて止まる（A04）</li>
+        <li><strong>取得する</strong>　1k の5ファイルを、相対パスを保ったまま取得し、Poly Haven の MD5 と照合（A08）</li>
+        <li><strong>実物を見る</strong>　取得したファイルそのものを three.js の GLTFLoader で表示</li>
+      </ol>
+    </section>
+
+    <section id="limits" class="band" aria-labelledby="limits-title">
+      <h2 id="limits-title">確かめた範囲と、確かめていないこと</h2>
+      <ul class="plain-list">
+        <li><strong>配信元は2つだけ。</strong>原典が持つ多数の配信元のうち、この作例で有効にしたのは Poly Haven（API で検索・取得）と Fab（リンクだけ）です。ほかの配信元は試していません。</li>
+        <li><strong>Fab へは通信していません。</strong>原典の Fab はサイト内検索への URL を作るだけで、候補もファイルも返しません（A01 の link、A07 の skipped）。</li>
+        <li><strong>新しい3Dモデルは作っていません。</strong>このツールは既にある素材を探して取得するもので、表示している木箱は James Ray Cock さんが制作し Poly Haven が CC0 で配布しているものです。</li>
+        <li>公開サーバー 3d.shep.bot、HTTP API・MCP の通信路、Web 画面、アカウント・API キー、有料素材、Blender やゲームエンジンへの組み込みは使っていません。動かしたのは原典のライブラリの関数と、事前の CLI 検索だけです。</li>
+        <li>検索の順位・件数・<code>tookMs</code>・メタデータは、Poly Haven の側で変わることがあります。再実行で同じ値が出る約束ではありません。固定しているのは原典・入力・この記録と取得ファイルのハッシュです。</li>
+        <li>確かめたのはファイルの一致と glTF の参照・構造です。見た目の品質、ゲームや本番サイトでの性能、人による承認は確かめていません。</li>
+      </ul>
+    </section>
+
+    <section id="film" class="band" aria-labelledby="film-title">
+      <h2 id="film-title">32秒で、構造を見る</h2>
+      <video controls playsinline preload="none" width="1280" height="720" poster="../../media/3d-asset-server-example.webp" src="../../media/3d-asset-server-example.mp4" style="display:block;width:100%;height:auto;border-radius:12px;background:#f3eee5"></video>
+      <p>32秒・無音。指示書・実装と実行・配信元・容量ゲート・保存した実物へつながる概念図です。旧28秒編集ソースはvideo/legacy.htmlに保全しています。</p>
+      <p><a href="../../media/3d-asset-server-example.mp4">MP4を大きく見る</a> · <a href="video/index.html">動画の編集ソース</a> · <a href="source.zip">入力・実装・映像ソース一式</a></p>
+    </section>
+
+    <section id="files" class="band" aria-labelledby="files-title">
+      <h2 id="files-title">ファイルと再実行</h2>
+      <ul class="file-links">
+        <li><a href="outputs/asset-runs.json">8件の実行記録（outputs/asset-runs.json）</a></li>
+        <li>取得した5ファイル（outputs/assets/polyhaven-wooden_crate_01/）：<a href="#A08">A08</a> の「5ファイルの一覧」から1つずつ開けます</li>
+        <li><a href="outputs/api-info.json">Poly Haven の info API の応答（outputs/api-info.json）</a>・<a href="outputs/api-files.json">files API の応答（outputs/api-files.json）</a></li>
+        <li><a href="input/asset-requests.json">8件の入力（input/asset-requests.json）</a>・<a href="input/expected.json">実行前に決めた期待（input/expected.json）</a></li>
+        <li><a href="run.mjs">実行スクリプト（run.mjs）</a>・<a href="model-view.js">3D表示（model-view.js）</a></li>
+        <li><a href="outputs/method.md">手順と読み方（outputs/method.md）</a></li>
+        <li><a href="request.txt">依頼文（request.txt）</a>・<a href="README.md">README.md（再実行の手順）</a></li>
+        <li><a href="vendor-lock.json">原典・dist・three の115ファイルのハッシュ（vendor-lock.json）</a></li>
+      </ul>
+      <p class="note">再実行には Node 24 以上と通信が要ります。公開フォルダーを直接使わず、使い捨てのコピーの中で既存の記録の名前を変えてから、コピーの外の新しいフォルダーを <code>--artifact-dir</code> に渡します。手順は README.md にあります。</p>
+    </section>
+
+    <details id="source" class="band source">
+      <summary>原典・固定版・利用条件・素材の出典</summary>
+      <dl class="kv">
+        <div class="kv-row"><dt>原典</dt><dd><a href="https://github.com/arielshad/3d-asset-server/tree/f605df3425011bae55ade114c9e7b276f5b1297b">arielshad/3d-asset-server</a> 0.1.0</dd></div>
+        <div class="kv-row"><dt>固定コミット</dt><dd><code class="hash">f605df3425011bae55ade114c9e7b276f5b1297b</code></dd></div>
+        <div class="kv-row"><dt>原典の利用条件</dt><dd>Apache-2.0（<a href="https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/LICENSE">LICENSE</a>・<a href="vendor/3d-asset-server/LICENSE">同梱の写し</a>）</dd></div>
+        <div class="kv-row"><dt>使ったスキル</dt><dd><a href="vendor/3d-asset-server/web/src/content/SKILL.md">3D素材の検索・取得スキル（固定版 SKILL.md）</a>・<a href="vendor/3d-asset-server/web/src/content/AGENTS.md">エージェント向けの手引き（AGENTS.md）</a></dd></div>
+        <div class="kv-row"><dt>使った関数</dt><dd><code>AssetService</code>（search・getAsset）・<code>createHttpClient</code>・<code>polyhaven</code>・<code>fab</code>・<code>selectFiles</code>・<code>totalBytes</code>・<code>expandFiles</code>・<code>downloadFiles</code>（原典の build:server が出力した dist/ のまま）</dd></div>
+        <div class="kv-row"><dt>素材</dt><dd><a href="https://polyhaven.com/a/wooden_crate_01">Wooden Crate 01</a>（James Ray Cock・Poly Haven）・<a href="https://polyhaven.com/license">CC0</a>。帰属表示は不要ですが、作者と配布元を表示しています。</dd></div>
+        <div class="kv-row"><dt>Poly Haven API</dt><dd>無料（商用を含む）。識別できる User-Agent と、出どころが Poly Haven であることの表示が条件です。User-Agent：<code class="hash">Studio-Yebisu-3D-example/1.0 (+https://studio-yebisu.github.io/yaoyorozu-ai-toolbox/)</code>。サイトのサムネイル・プレビュー画像・ロゴは取得も転載もしていません。</dd></div>
+        <div class="kv-row"><dt>3D 表示</dt><dd>three 0.180.0・MIT（<a href="vendor/three/LICENSE">同梱の LICENSE</a>）の GLTFLoader（改変なし）</dd></div>
+      </dl>
+      <dl id="run-facts" class="kv"></dl>
+      <details class="raw">
+        <summary id="checks-summary">記録にある確認の一覧</summary>
+        <ul id="checks-list" class="checks"></ul>
+      </details>
+      <p>run.mjs・model-view.js・このページ・説明文は Claude Opus 5.5 が書いた作例で、MIT License（<a href="LICENSE">LICENSE</a>・Copyright (c) 2026 Studio Yebisu）です。3Dモデルは Opus が作ったものではありません。記録の値はモデルではなく、原典のコードと Poly Haven が返したものです。<code>vendor/3d-asset-server/</code> は固定コミットの原典と、その原典の build:server が出力した dist/ を改変せずに置いたもので Apache-2.0、<code>vendor/three/</code> は npm の three 0.180.0 のファイルで MIT、原典に含まれる Geist フォントは SIL OFL 1.1 です。</p>
+    </details>
+  </main>
+
+  <footer class="footer">
+    <p>八百万図AIツールボックス ・ 3D Asset Server 作例。素材の出どころ：Poly Haven（polyhaven.com）。八百万図AIツールボックス は Poly Haven の公式の製品・提携先ではありません。</p>
+  </footer>
+</body>
+</html>

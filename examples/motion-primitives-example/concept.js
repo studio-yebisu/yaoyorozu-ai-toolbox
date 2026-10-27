@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス: Motion Primitives concept map (visual-r1).
+// Yaoyorozu AI ToolBox: Motion Primitives concept map (visual-r1).
 // One connected picture of what Motion Primitives is in this example: a collection of React animation components, from
 // which one Accordion source was copied by the documented Manual route (no npm package called motion-primitives, no
 // Agent Skill, no model or search API). It shows who wrote the example (one original author AI) and who built and

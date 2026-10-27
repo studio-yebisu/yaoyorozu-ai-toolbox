@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>納品メモ | 修正後</title>
+<meta name="description" content="Make Interfaces Feel Better の指針で、納品メモ画面の操作範囲・数値・書き出しボタンの状態を直した作例。">
+<link rel="stylesheet" href="style.css">
+<script type="module" src="app.mjs"></script>
+</head>
+<body>
+<a class="skip" href="#main">本文へ移動</a>
+<header class="site-head"><a href="desk.html">八百万図AIツールボックス / 作例</a><span>INTERFACE NOTES — 11</span></header>
+<main id="main" tabindex="-1">
+<p class="eyebrow">週末のアトリエ / DELIVERY NOTE</p>
+<h1>納品前に、<br>メモを整える。</h1>
+<p class="intro">渡すカットを選んで、制作メモをJSONに。<br>この3件は作例用の架空データです。</p>
+<nav class="compare" aria-label="修正前と修正後"><a href="before/desk.html">修正前</a><a href="desk.html" aria-current="page">修正後</a></nav>
+
+<section class="panel" id="panel" aria-labelledby="panel-title">
+  <div class="panel-head">
+    <h2 id="panel-title">書き出すカット</h2>
+    <p class="totals" id="totals"><span class="vh">選択中 </span><span class="num" id="count">–</span>件 / <span class="vh">合計 </span><span class="num num-time" id="time">--:--</span></p>
+  </div>
+  <div class="clip-list" id="clip-list" role="group" aria-labelledby="panel-title">
+    <p class="loading" id="loading">入力 clips.json を読み込んでいます。</p>
+  </div>
+  <div class="load-error" id="load-error" hidden>
+    <p id="load-error-text"></p>
+    <button class="quiet" id="retry" type="button">もう一度読み込む</button>
+  </div>
+  <label class="option"><input id="notes" type="checkbox" checked><span>制作メモを含める</span></label>
+  <div class="action">
+    <button class="export" id="export" type="button" data-state="ready" aria-describedby="status" disabled>
+      <span class="icon-stack" aria-hidden="true">
+        <svg class="icon icon-download" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5"/></svg>
+        <svg class="icon icon-done" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+      </span>
+      <span class="label-stack">
+        <span data-label="ready">JSONを書き出す</span>
+        <span data-label="busy">JSONを準備中</span>
+        <span data-label="done">ブラウザーへ渡しました</span>
+      </span>
+    </button>
+  </div>
+  <div class="status-row">
+    <p class="status" id="status" role="status" aria-live="polite">入力を読み込んでいます。</p>
+    <button class="quiet" id="select-all" type="button" hidden>すべて選ぶ</button>
+  </div>
+  <p class="privacy">ブラウザー内で作成 / 外部へ送信しません</p>
+</section>
+
+<nav class="specimens" id="specimens" aria-labelledby="specimens-title">
+  <h2 id="specimens-title">見本の選択</h2>
+  <p>リンクを押すと、上のチェックが実際に切り替わり、件数と時間を計算し直します。制作メモは「含める」に戻します。</p>
+  <ul>
+    <li><a href="#all">見本 all：c01・c02・c03 の3件を選ぶ</a></li>
+    <li><a href="#two">見本 two：c01 を外して c02・c03 の2件を選ぶ</a></li>
+    <li><a href="#one">見本 one：c02 の1件だけを選ぶ</a></li>
+  </ul>
+</nav>
+
+<section class="context" aria-labelledby="about-title">
+  <h2 id="about-title">Make Interfaces Feel Better：この画面で直した3点</h2>
+  <p>Make Interfaces Feel Better は、UIの細部（文字、操作範囲、動き、アイコン、性能）を見直すための、文章で書かれたデザインエンジニアリングの指針です。SKILL.md と5つの参照ファイルでできていて、画面や文章を実行時に生成するAPIではありません。この作例では、その指針を quick レビューとして既存の納品メモ画面に当て、HIGH と MEDIUM の3群だけを直しました。このページで動いているのは通常の HTML・CSS・JavaScript で、ページ上でAIは動きません。</p>
+
+  <h3>1. 操作範囲とフォーカス（Minimum Hit Area）</h3>
+  <p>修正前は16pxのチェックボックスだけが押せる範囲で、フォーカス表示も消していました。修正後は各行と「制作メモを含める」をネイティブの label で囲み、44px以上の重ならない範囲にしました。キーボードで移動すると緑の枠が出ます。</p>
+  <p class="files">修正前：<a href="before/before.mjs">before/before.mjs</a>・<a href="before/before.css">before/before.css</a> → 修正後：<a href="app.mjs">app.mjs</a>・<a href="style.css">style.css</a></p>
+
+  <h3>2. 件数・時間の安定と、空の状態（Tabular Numbers）</h3>
+  <p>件数と合計時間を等幅の数字（tabular-nums）にして幅を予約し、チェックの操作では動きを付けません。0件にすると、書き出せない理由を文字で示し、「すべて選ぶ」で元に戻せます。入力を読み込めなかったときは、仮の行を出さずに理由と再読み込みのボタンを出します。</p>
+  <p class="files">修正前：<a href="before/before.mjs">before/before.mjs</a>・<a href="before/index.html">before/index.html</a> → 修正後：<a href="app.mjs">app.mjs</a>・<a href="desk.html">desk.html（元のindex.html）</a></p>
+
+  <h3>3. 書き出しボタンの状態（Scale on Press・Contextual Icon・Motion Restraint）</h3>
+  <p>押したときの縮みは0.96で、補間するのは縮みと hover の色だけです。押すとブラウザー内で JSON を作り、ダウンロードとしてブラウザーへ渡して「ブラウザーへ渡しました」と表示します。保存先への書き込みが済んだかは、ブラウザーのダウンロード表示で確認してください。アイコンの切り替えは原典が指定する値（scale 0.25→1、opacity 0→1、blur 4px→0、300ms）です。動きを減らす設定では、補間せずに文言とアイコンだけを切り替えます。</p>
+  <p class="files">修正前：<a href="before/before.css">before/before.css</a>・<a href="before/before.mjs">before/before.mjs</a> → 修正後：<a href="style.css">style.css</a>・<a href="app.mjs">app.mjs</a></p>
+
+  <h3>入力と出力</h3>
+  <p>入力は <a href="clips.json">clips.json</a> の3件（ID・題名・秒数・メモ）です。出力は <code>atelier-delivery.json</code> で、選んだカットを入力順に並べ、プロジェクト名「週末のアトリエ」を付けます。メモをオフにすると、各カットから note を除きます。計算と書き出しは、修正前と同じ <a href="export.mjs">export.mjs</a> を使い、変えていません。</p>
+  <div class="table-wrap">
+    <table>
+      <caption>export.mjs で決まる値</caption>
+      <thead><tr><th scope="col">見本</th><th scope="col">選ぶカット</th><th scope="col">件数・秒数</th><th scope="col">表示</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">all</th><td>c01・c02・c03</td><td class="num">3件・370秒</td><td class="num">06:10</td></tr>
+        <tr><th scope="row">two</th><td>c02・c03</td><td class="num">2件・275秒</td><td class="num">04:35</td></tr>
+        <tr><th scope="row">one</th><td>c02</td><td class="num">1件・190秒</td><td class="num">03:10</td></tr>
+        <tr><th scope="row">0件</th><td>なし</td><td class="num">0件・0秒</td><td>書き出せない（理由を表示）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>export.mjs の出力ファイル：<a href="outputs/all.json">all.json</a>・<a href="outputs/two.json">two.json</a>・<a href="outputs/one.json">one.json</a>・<a href="outputs/no-notes.json">no-notes.json</a>（メモなし・全3件）。<a href="validation.json">validation.json</a> は <code>verify.mjs</code> が書き出す記録で、画面の操作は含みません。見本の一覧は <a href="samples.json">samples.json</a> です。</p>
+
+  <h3>まだ確かめていないこと・範囲の外</h3>
+  <ul>
+    <li>修正前は、操作範囲やフォーカスの課題を含めて 八百万図AIツールボックス が制作した、この作例の入力です。</li>
+    <li>スキルによる品質の向上率や、ほかの方法との比較は計測していません。</li>
+    <li>3つの見本と実ダウンロード4種類、キーボード、320〜1280pxの4幅、状態と復旧を確認しました。10%速度の観察は、Animationsパネルの代わりに遷移時間を10倍にした確認用コピーで実施しています。準備・失敗の試験も専用コピーで条件を作りました。詳しい範囲は <a href="verification.json">確認記録</a> にあります。</li>
+    <li>スクリーンリーダー、macOS、すべての環境での確認と、人による承認は行っていません。</li>
+    <li>映像素材の変換、外部への送信、設定の保存はしません。</li>
+  </ul>
+
+  <h3>再利用できる依頼文</h3>
+  <p>自分の画面に当てるときは、［］の中を書き換えて使えます。<a href="request.txt">request.txt を開く</a></p>
+  <pre class="request">次の固定版スキルを読み、既存の画面を quick モードでレビューして直してください。
+スキル：Make Interfaces Feel Better（SKILL.md と typography / surfaces / animations / icons / performance の5参照）
+https://github.com/jakubkrehel/make-interfaces-feel-better/tree/35545ea1512ad59fa463e6b1f95ca9c052981fe6/skills/make-interfaces-feel-better
+
+対象ファイル：［例：before/index.html、before/before.css、before/before.mjs］
+技術とスタイル：［例：HTML・plain CSS・ES module］。今のスタイル方式、配色、書体、文言、ページ構成を保ち、別のスタイル方式やライブラリーを足さない。
+主な操作：［例：カットを選ぶ → 制作メモの有無を選ぶ → JSONを書き出す］
+入力データと出力の契約：［例：clips.json の3件、export.mjs］。どちらも変えない。
+期待する結果：［例：全選択＝3件・06:10／c02だけ＝1件・03:10／0件＝書き出せず、理由を表示］
+重点：操作範囲とフォーカス、変わる数値の安定、主ボタンの各状態（hover・focus・押下・無効・準備・成功・失敗）
+
+納品物：
+1. review.md：quick 形式。5分類それぞれで実際に見た範囲（見ていない分類は理由付きで Not reviewed）。HIGH/MEDIUM を最大3群、各行に Severity・Location（ファイル:行）・Before・After・Why。却下した候補を1〜3件。最後に Verification と Verdict。
+2. 修正したファイル。
+3. 確認の記録：実行したコマンドと操作、その結果。実行していない確認（ブラウザー表示、キーボードだけの操作、10%速度の動き、動きを減らす設定、実ダウンロードの中身）は Not verified と書く。
+
+見た目の印象ではなく、同じ入力から同じ出力が出ることと、各状態を実際に操作した結果で判断してください。</pre>
+
+  <h3>現在の概念図を見る（32秒・無音）</h3>
+  <p>現在はスキルと依頼・レビュー・別工程の確認をつなぐ32秒の無音概念図です。以前の28秒の編集ソースは下のリンクに保全しています。</p>
+  <video controls preload="metadata" playsinline poster="../../media/make-interfaces-feel-better-example.webp" style="width:100%;height:auto" aria-label="指針と依頼・レビュー・実確認をつなぐ概念図。32秒・無音"><source src="../../media/make-interfaces-feel-better-example.mp4" type="video/mp4">動画を再生できない場合は、<a href="../../media/make-interfaces-feel-better-example.mp4">MP4を開く</a>。</video>
+  <p><a href="video/legacy.html">以前の28秒の編集ソース</a> · <a href="source.zip">入力・画面・動画・レンダラーのソース一式</a> · <a href="captures.json">実画面の出典</a> · <a href="verification.json">確認範囲</a></p>
+  <h3>原典と記録</h3>
+  <ul>
+    <li><a href="review.md">quick レビュー（review.md）</a>・<a href="input.md">実際の依頼（input.md）</a>・<a href="README.md">この作例の説明（README.md）</a></li>
+    <li>原典（コミット 35545ea 固定）：<a href="vendor/make-interfaces-feel-better/skills/make-interfaces-feel-better/SKILL.md">SKILL.md</a>・<a href="vendor/make-interfaces-feel-better/README.md">README</a>・<a href="vendor/make-interfaces-feel-better/LICENSE">LICENSE（MIT, © 2026 Jakub Krehel）</a></li>
+    <li>作例のコードと文章：<a href="LICENSE">LICENSE（MIT, © 2026 Studio Yebisu）</a></li>
+  </ul>
+</section>
+</main>
+<footer>八百万図AIツールボックス — original demo, 2026</footer>
+</body>
+</html>

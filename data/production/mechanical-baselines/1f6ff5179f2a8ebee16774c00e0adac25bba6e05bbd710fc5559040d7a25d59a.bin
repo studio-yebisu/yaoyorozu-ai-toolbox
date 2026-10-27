@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f6f1e7">
+<title>Ragasの文字列指標で、同じ10問を比べる｜凪の図書室FAQ（架空）｜八百万図AIツールボックス</title>
+<meta name="description" content="架空の図書室FAQ 10問について、変更前後の固定回答をRagasのExactMatch・NonLLMStringSimilarity・StringPresenceで採点した保存結果を、根拠資料と制作担当の照合メモと並べて読むページです。">
+<link rel="stylesheet" href="comparison.css">
+</head>
+<body>
+<a class="skip" href="#main">本文へ移動</a>
+
+<header class="mast">
+  <a class="back" href="../../case.html?id=ragas-example">← 作例の記事へ</a>
+  <p class="kicker">Ragas 文字列指標 ・ 保存済みの結果 ・ 架空のFAQ</p>
+  <h1>点数と根拠を、セットで読む</h1>
+  <p class="lede">架空の「凪の図書室」FAQで、変更前・変更後の固定回答20件を Ragas で採点した保存結果です。このページを開いても Ragas や AI は動きません。</p>
+</header>
+
+<main id="main">
+  <div id="load-state" class="load-state" role="status" aria-live="polite">保存済みの結果を読み込んでいます…</div>
+  <section id="load-error" class="load-error" aria-labelledby="load-error-h" hidden>
+    <h2 id="load-error-h">結果を表示できません</h2>
+    <p id="load-error-text"></p>
+    <p class="hint">内蔵の代わりのデータは使いません。ファイルを確かめてから読み込み直してください。</p>
+    <button type="button" id="retry" class="btn">もう一度読み込む</button>
+  </section>
+
+  <div id="app" hidden>
+    <section class="tools" aria-labelledby="tools-h">
+      <h2 id="tools-h" class="visually-hidden">10問を絞り込む</h2>
+      <form id="filters" class="filters" role="search" autocomplete="off">
+        <div class="field">
+          <label for="q">キーワード（ID・質問・参照文・回答・メモ）</label>
+          <input id="q" name="q" type="search" inputmode="search" enterkeyhint="search" placeholder="例：18時　予約">
+        </div>
+        <div class="field">
+          <label for="memo">照合メモで絞る</label>
+          <select id="memo" name="memo">
+            <option value="all">すべて</option>
+            <option value="after-check">変更後に要確認メモ</option>
+            <option value="after-grounded">変更後に根拠と一致メモ</option>
+          </select>
+        </div>
+        <button type="button" id="reset" class="btn btn-quiet">条件を戻す</button>
+      </form>
+      <p id="count" class="count" aria-live="polite"></p>
+      <p class="filter-note">絞り込みの件数は、制作担当が入力に書いた照合メモのラベルによるもので、Ragas の分類ではありません。</p>
+    </section>
+
+    <section class="summary" aria-labelledby="summary-h">
+      <h2 id="summary-h">10問の平均　変更前 → 変更後</h2>
+      <div class="table-wrap">
+        <table class="summary-table">
+          <caption class="visually-hidden">Ragasの3指標の平均値と完全一致の件数</caption>
+          <thead>
+            <tr><th scope="col">指標</th><th scope="col">変更前</th><th scope="col">変更後</th></tr>
+          </thead>
+          <tbody id="summary-body"></tbody>
+        </table>
+      </div>
+      <div class="read-pair">
+        <h3>点数と、根拠をセットで読む</h3>
+        <p>3指標は参照文と回答の<strong>文字</strong>を比べるだけです。内容が根拠と合うかは、各問の根拠資料と「制作担当の照合メモ（入力）」で確かめます。平均や件数は正答率ではなく、どちらを採用するかも決めません。</p>
+      </div>
+      <details class="runtime-details"><summary>実行記録と入力の照合</summary>
+      <p id="runtime" class="runtime"></p>
+      <p id="sha-state" class="runtime"></p>
+      </details>
+    </section>
+
+    <section class="pick" aria-labelledby="pick-h">
+      <h2 id="pick-h">問いを選ぶ</h2>
+      <ul id="list" class="q-list"></ul>
+    </section>
+
+    <section id="detail" class="detail" aria-labelledby="detail-h" hidden>
+      <div class="detail-head">
+        <p id="detail-id" class="detail-id"></p>
+        <h2 id="detail-h" tabindex="-1"></h2>
+      </div>
+
+      <div class="grounds">
+        <h3>根拠資料と参照文</h3>
+        <p class="doc-head" id="doc-head"></p>
+        <blockquote class="doc-text" id="doc-text"></blockquote>
+        <p class="ref-line"><span class="tag">参照文（reference）</span><span id="ref-text"></span></p>
+        <p class="hint">参照文は資料の本文と同じ文字列です。3指標はこの参照文と各回答を比べました。</p>
+      </div>
+
+      <div class="scores">
+        <h3>Ragasの計算結果（保存済み）</h3>
+        <div class="table-wrap">
+          <table class="score-table">
+            <caption class="visually-hidden">この問いの3指標の値</caption>
+            <thead>
+              <tr><th scope="col">指標</th><th scope="col">変更前</th><th scope="col">変更後</th><th scope="col">差</th></tr>
+            </thead>
+            <tbody id="score-body"></tbody>
+          </table>
+        </div>
+        <p class="hint">値は小数第3位まで表示。保存した値は丸めていません。差は変更後から変更前を引いた数値で、良し悪しの判定ではありません。</p>
+      </div>
+
+      <div class="answers">
+        <h3>回答と照合メモ</h3>
+        <p class="hint">色付きの文字は、参照文と前後が一致しない範囲です。文字の比較による目印で、意味の判定ではありません。</p>
+        <div class="answer-grid" id="answers"></div>
+      </div>
+
+      <div class="export">
+        <button type="button" id="export" class="btn" disabled>この問いをJSONで保存</button>
+        <p id="export-state" class="export-state" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+  </div>
+
+  <section class="files" aria-labelledby="files-h">
+    <h2 id="files-h">元のファイル</h2>
+    <ul class="link-list">
+      <li><a href="outputs/evaluation.json">結果JSON全体（outputs/evaluation.json）</a></li>
+      <li><a href="input/faq-pairs.json">入力JSON（input/faq-pairs.json）</a></li>
+    </ul>
+  </section>
+
+  <details class="more">
+    <summary>同じ結果を作り直す手順</summary>
+    <div class="more-body">
+      <p>Python の仮想環境で固定版の Ragas を入れ、<code>evaluate.py</code> を実行すると <code>outputs/evaluation.json</code> を新しく書き出します。既にあるファイルは上書きしません。インストールには通信が必要で、採点中の通信は拒否して記録します。</p>
+      <pre class="cmd"><code>python -m venv .venv
+$env:SETUPTOOLS_SCM_PRETEND_VERSION_FOR_RAGAS = "0.0.0+studio.298b68274234"
+.\.venv\Scripts\python.exe -m pip install -r requirements.lock.txt
+Remove-Item Env:SETUPTOOLS_SCM_PRETEND_VERSION_FOR_RAGAS
+.\.venv\Scripts\python.exe evaluate.py --out outputs/evaluation-new.json</code></pre>
+      <p>0.0.0+studio.298b68274234 は、Git情報のないソースZIPから入れるための手元の版名で、Ragas の正式なリリース番号ではありません。原典はコミット 298b682 で特定します。</p>
+      <ul class="link-list">
+        <li><a href="evaluate.py">evaluate.py（採点スクリプト）</a></li>
+        <li><a href="requirements.lock.txt">requirements.lock.txt（実行した依存の版）</a></li>
+        <li><a href="requirements.txt">requirements.txt（互換系列の指定）</a></li>
+        <li><a href="README.md">README.md（使い方と範囲）</a></li>
+        <li><a href="outputs/method.md">outputs/method.md（評価の方法）</a></li>
+        <li><a href="brief.json">brief.json（制作ブリーフ）</a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="more">
+    <summary>原典とライセンス</summary>
+    <div class="more-body">
+      <p>Ragas（vibrantlabsai/ragas）の固定コミット 298b68274234c060deacab3cf5fb52aa3a20e885 を使いました。下の原典ファイルは改変せずに同梱しています。Apache License 2.0、Copyright [2023] [Vibrant Labs]。</p>
+      <ul class="link-list">
+        <li><a href="vendor/ragas/src/ragas/metrics/collections/_string.py">指標の実装（_string.py）</a></li>
+        <li><a href="vendor/ragas/docs/concepts/metrics/available_metrics/traditional.md">指標のドキュメント（traditional.md）</a></li>
+        <li><a href="vendor/ragas/src/ragas/metrics/collections/base.py">基底クラス（base.py）</a></li>
+        <li><a href="vendor/ragas/src/ragas/metrics/result.py">結果の型（result.py）</a></li>
+        <li><a href="vendor/ragas/src/ragas/_analytics.py">利用状況の送信と停止（_analytics.py）</a></li>
+        <li><a href="vendor/ragas/README.md">Ragas README</a></li>
+        <li><a href="vendor/ragas/LICENSE">Ragas LICENSE（Apache-2.0）</a></li>
+        <li><a href="https://github.com/vibrantlabsai/ragas/tree/298b68274234c060deacab3cf5fb52aa3a20e885">GitHub の固定コミット</a></li>
+        <li><a href="LICENSE">作例の LICENSE（MIT・八百万図AIツールボックス）</a></li>
+      </ul>
+      <p>32秒の無音解説を、このページの下部と記事から再生できます。</p>
+    </div>
+  </details>
+
+  <details class="more" id="request-box">
+    <summary>同じ評価を頼む依頼文</summary>
+    <div class="more-body">
+      <p>10問の入力を自分のものに差し替えて、AIや開発者に渡せる依頼文です。</p>
+      <p id="request-state" class="hint" role="status" aria-live="polite">依頼文を読み込んでいます…</p>
+      <label for="request-text" class="visually-hidden">依頼文</label>
+      <textarea id="request-text" class="request-text" rows="12" readonly hidden></textarea>
+      <div class="request-actions">
+        <button type="button" id="copy" class="btn" hidden>依頼文をコピー</button>
+        <a class="block-link" href="request.txt">request.txt を開く</a>
+      </div>
+      <p id="copy-state" class="hint" role="status" aria-live="polite"></p>
+    </div>
+  </details>
+</main>
+
+<section class="wrap movie-section" aria-labelledby="movie-title"><h2 id="movie-title">32秒で、点数と根拠を読む</h2><p>実際のRagas計算結果と作例画面を用いた無音の編集動画です。架空の固定回答を比較し、意味の正しさを点数だけで決めません。</p><video controls playsinline preload="none" poster="../../media/ragas-example.webp" style="display:block;width:100%;height:auto" aria-label="Ragasの実結果を読む32秒の無音解説"><source src="../../media/ragas-example.mp4" type="video/mp4"><a href="../../media/ragas-example.mp4">MP4を開く</a></video><div class="movie-links"><a href="../../media/ragas-example.mp4">動画を大きく見る</a><a href="video/index.html">編集できる動画ソース</a><a href="source.zip">入力・結果・ソース一式</a><a href="verification.json">確認の範囲</a></div></section>
+<footer class="foot">
+  <p>作例のコード・文章・データ：MIT License（Copyright (c) 2026 Studio Yebisu）。Ragas：Apache License 2.0（Copyright [2023] [Vibrant Labs]）。図書室・資料・質問・回答はすべて架空です。</p>
+  <a class="block-link" href="../../case.html?id=ragas-example">作例の記事へ戻る</a>
+</footer>
+
+<script src="comparison.js" defer></script>
+</body>
+</html>

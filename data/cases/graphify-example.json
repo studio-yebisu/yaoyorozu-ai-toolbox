@@ -1,0 +1,169 @@
+{
+  "id": "graphify-example",
+  "title": "Graphify",
+  "title_lines": [
+    "送料改定で、どのコードと仕様書を見直すか"
+  ],
+  "category": "development",
+  "summary": "コードや仕様書の関係を知識グラフで調べるツールです。架空ECサイトの送料ルールから、注文・事前見積もりと3つの仕様書へ影響をたどります。公式の影響探索コードだけを実行し、コード抽出と文書の手動対応を明確に分けた作例です。",
+  "model": "claude-opus-5-5",
+  "status": "produced",
+  "updated_on": "2026-10-22",
+  "demo": "examples/graphify-example/index.html",
+  "video": "media/graphify-example.mp4",
+  "poster": "media/graphify-example.webp",
+  "video_portrait": "media/graphify-example.mp4",
+  "poster_portrait": "media/graphify-example.webp",
+  "video_landscape": "media/graphify-example-wide.mp4",
+  "poster_landscape": "media/graphify-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "skill": "examples/graphify-example/vendor/graphify/README.md",
+  "skill_label": "Graphifyの原典README",
+  "skill_description": "確認した固定版の手順・使い方",
+  "skill_license": "examples/graphify-example/vendor/graphify/LICENSE",
+  "samples": "examples/graphify-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "入力と、今回保存したもの",
+  "samples_intro": "実行したのは固定版affected.pyの読込・起点解決・逆向き影響探索・整形です。入力グラフの呼び出し辺は独自のPython標準ASTアダプター、文書の対応は手動です。Graphify CLI・tree-sitter抽出・LLM意味抽出・MCPは未実行。",
+  "demo_description": "6ノード・5辺の保存済みグラフで、送料関数を変えると確認したい5ノードを表示。コードの呼び出しは実線、手動の仕様書対応は破線で読み分け、実ファイル・行番号・結果JSONへ進めます。",
+  "demo_note": "実行したのは固定版affected.pyの読込・起点解決・逆向き影響探索・整形です。入力グラフの呼び出し辺は独自のPython標準ASTアダプター、文書の対応は手動です。Graphify CLI・tree-sitter抽出・LLM意味抽出・MCPは未実行。",
+  "request_intro": "固定版の原典と利用条件を読み、自分の用途へ置き換える依頼例です。今回の実行範囲は注意点に記録しています。",
+  "request": "（架空の依頼）\n受託で作っている小さなECサイトで、送料無料になる金額を4,000円から5,000円に上げる相談が来た。\n送料を決める関数 shipping_fee を変えると、どのコードとどの仕様書を確認すればよいかを、Graphify の影響探索で一覧にしたい。\n\n- 架空の小さなコード3ファイル（shipping.py・checkout.py・estimate.py）と、日本語の仕様書3つ（送料仕様・注文確定仕様・事前見積もり仕様）を用意する。\n- コードの呼び出し関係は、Python標準ライブラリの ast で読む小さなアダプターで作る。仕様書と関数の対応は人が書く。どちらがどちらか分かるように記録する。\n- Graphify（Graphify-Labs/graphify、コミット 847a93f3cab5e2c82ea9170014b21cd2c52a4417）の graphify/affected.py の公式関数で、shipping_fee から深さ3まで逆向きにたどる。CLI・tree-sitter・LLM抽出・MCP・install・設定の書き込みはしない。\n- いまの送料の動き（3,999円・4,000円・5,000円）も実際に呼んで残す。変更後の値は計算しない。\n- 結果を保存し、ブラウザーでは保存結果を見るだけのページと、無音24秒の解説動画のソースを作る。影響範囲が完全だとは書かない。\n",
+  "video_source": "examples/graphify-example/video/index.html",
+  "video_note": "24秒・無音。実行したのは固定版affected.pyの読込・起点解決・逆向き影響探索・整形です。入力グラフの呼び出し辺は独自のPython標準ASTアダプター、文書の対応は手動です。Graphify CLI・tree-sitter抽出・LLM意味抽出・MCPは未実行。",
+  "limitations": [
+    "仕様書の関係は人が対応を付けた入力です。文書の関係をGraphifyが自動抽出した結果ではありません。",
+    "静的な関係から得た影響候補です。実行時依存や変更の安全性、全件の網羅を保証しません。",
+    "今回のPython環境にはtree_sitterがなく、Graphifyの全CLI・抽出・意味推論は試していません。"
+  ],
+  "steps": [
+    {
+      "title": "小さい実入力を作る",
+      "body": "商品小計4,000円以上は送料無料、未満は650円という架空仕様と3つのPythonファイルを用意。呼び出し2辺を独自ASTで取得し、仕様書3辺は手動で対応しました。"
+    },
+    {
+      "title": "公式の影響探索を実行する",
+      "body": "公式affected.pyでshipping_feeを起点に深さ3まで逆探索。注文・見積もり・送料仕様・注文仕様・見積もり仕様の5ノードを得ました。入力6ノードと影響5ノードを区別して表示します。"
+    },
+    {
+      "title": "数値と根拠を残す",
+      "body": "小計3,999円→送料650円・合計4,649円、4,000円→送料0円、5,000円→送料0円を架空コードで実行。送料条件を変える前に確認すべきファイルと行を保存しました。"
+    },
+    {
+      "title": "最近の勢いを選定の参考に",
+      "body": "第三者集計 The Skill Leaderboard（2026-10-21時点、リポジトリ単位）：7日で約+4,600、30日で約+10,700スター。今日の総スター数とは混在させていません。"
+    }
+  ],
+  "sources": [
+    {
+      "label": "原典・確認した固定版",
+      "url": "https://github.com/Graphify-Labs/graphify/tree/847a93f3cab5e2c82ea9170014b21cd2c52a4417"
+    },
+    {
+      "label": "原典の利用条件",
+      "url": "https://github.com/Graphify-Labs/graphify/blob/847a93f3cab5e2c82ea9170014b21cd2c52a4417/LICENSE"
+    },
+    {
+      "label": "勢いの出典（第三者集計・2026-10-21・リポジトリ単位）",
+      "url": "https://www.skillleaderboard.com/"
+    },
+    {
+      "label": "日本語の再現手順と検証範囲",
+      "url": "examples/graphify-example/README.md"
+    },
+    {
+      "label": "検証記録",
+      "url": "data/production/graphify-example.json"
+    },
+    {
+      "label": "編集用ソース一式（ZIP）",
+      "url": "examples/graphify-example/source.zip"
+    },
+    {
+      "label": "NOTICE（旧MIT部分の継承）",
+      "url": "https://github.com/Graphify-Labs/graphify/blob/847a93f3cab5e2c82ea9170014b21cd2c52a4417/NOTICE"
+    },
+    {
+      "label": "継承したMIT条項",
+      "url": "https://github.com/Graphify-Labs/graphify/blob/847a93f3cab5e2c82ea9170014b21cd2c52a4417/LICENSE-MIT"
+    },
+    {
+      "label": "実行した部分検証の結果JSON",
+      "url": "examples/graphify-example/outputs/result.json"
+    }
+  ],
+  "license": "MIT（独自コード）／完成メディアはクレジット条件",
+  "license_note": "現行LICENSEはApache-2.0。NOTICEに再ライセンス以前の寄与部分はMIT条件でも利用可能とあり、LICENSE-MITを保持しています。配布時はLICENSE・NOTICE・LICENSE-MITを一緒に確認してください。 完成デモ・動画はmedia-rights.htmlのクレジット条件に従います。Xの投稿本文には@studio_yebisuの表記が必要です。",
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "applied_skills": [
+    {
+      "name": "Graphify（固定版）",
+      "source": "https://github.com/Graphify-Labs/graphify/tree/847a93f3cab5e2c82ea9170014b21cd2c52a4417",
+      "applied": "実行したのは固定版affected.pyの読込・起点解決・逆向き影響探索・整形です。入力グラフの呼び出し辺は独自のPython標準ASTアダプター、文書の対応は手動です。Graphify CLI・tree-sitter抽出・LLM意味抽出・MCPは未実行。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel",
+      "applied": "編集可能な無音の図解映像。任意時刻描画と縦横の配置を使い、実行済みと説明用の範囲を分けます。"
+    }
+  ],
+  "catalog_entry": {
+    "id": "resource-graphify",
+    "name": "Graphify",
+    "tagline": "送料改定で、どのコードと仕様書を見直すか",
+    "category": "development",
+    "kind": "スキル・解析ツール",
+    "summary": "コードや仕様書の関係を知識グラフで調べるツールです。架空ECサイトの送料ルールから、注文・事前見積もりと3つの仕様書へ影響をたどります。公式の影響探索コードだけを実行し、コード抽出と文書の手動対応を明確に分けた作例です。",
+    "use_case": "日本の受託開発で、送料・手数料・承認条件の改定時にコードと仕様書の確認漏れを減らしたいとき。",
+    "tags": [
+      "Graphify",
+      "日本語作例",
+      "影響調査"
+    ],
+    "workflow": [
+      "対象コードと仕様書を用意する",
+      "抽出方式と文書の送信先を確認する",
+      "根拠付きのグラフを作る",
+      "変更する関数を起点に影響をたどり原本で確かめる"
+    ],
+    "requirements": [
+      "Python 3.10以上。完全なコード抽出にはtree-sitter等の依存が必要",
+      "この部分検証は既存NetworkXと固定affected.pyだけを使用",
+      "文書の意味抽出は通常AIアシスタント等を使う。今回APIキー・追加認証・全体設定は使用していません"
+    ],
+    "license": "Apache-2.0（旧MIT部分あり）",
+    "license_url": "https://github.com/Graphify-Labs/graphify/blob/847a93f3cab5e2c82ea9170014b21cd2c52a4417/LICENSE",
+    "license_note": "現行LICENSEはApache-2.0。NOTICEに再ライセンス以前の寄与部分はMIT条件でも利用可能とあり、LICENSE-MITを保持しています。配布時はLICENSE・NOTICE・LICENSE-MITを一緒に確認してください。",
+    "source_url": "https://github.com/Graphify-Labs/graphify/tree/847a93f3cab5e2c82ea9170014b21cd2c52a4417",
+    "guide_url": "case.html?id=graphify-example",
+    "example_url": "examples/graphify-example/index.html",
+    "image": "media/graphify-example.webp",
+    "readme_url": "https://github.com/Graphify-Labs/graphify/blob/847a93f3cab5e2c82ea9170014b21cd2c52a4417/README.md",
+    "source_repository": "Graphify-Labs/graphify",
+    "source_commit": "847a93f3cab5e2c82ea9170014b21cd2c52a4417",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "実行したのは固定版affected.pyの読込・起点解決・逆向き影響探索・整形です。入力グラフの呼び出し辺は独自のPython標準ASTアダプター、文書の対応は手動です。Graphify CLI・tree-sitter抽出・LLM意味抽出・MCPは未実行。 第三者集計 The Skill Leaderboard（2026-10-21時点、リポジトリ単位）：7日で約+4,600、30日で約+10,700スター。今日の総スター数とは混在させていません。",
+    "prompt": "（架空の依頼）\n受託で作っている小さなECサイトで、送料無料になる金額を4,000円から5,000円に上げる相談が来た。\n送料を決める関数 shipping_fee を変えると、どのコードとどの仕様書を確認すればよいかを、Graphify の影響探索で一覧にしたい。\n\n- 架空の小さなコード3ファイル（shipping.py・checkout.py・estimate.py）と、日本語の仕様書3つ（送料仕様・注文確定仕様・事前見積もり仕様）を用意する。\n- コードの呼び出し関係は、Python標準ライブラリの ast で読む小さなアダプターで作る。仕様書と関数の対応は人が書く。どちらがどちらか分かるように記録する。\n- Graphify（Graphify-Labs/graphify、コミット 847a93f3cab5e2c82ea9170014b21cd2c52a4417）の graphify/affected.py の公式関数で、shipping_fee から深さ3まで逆向きにたどる。CLI・tree-sitter・LLM抽出・MCP・install・設定の書き込みはしない。\n- いまの送料の動き（3,999円・4,000円・5,000円）も実際に呼んで残す。変更後の値は計算しない。\n- 結果を保存し、ブラウザーでは保存結果を見るだけのページと、無音24秒の解説動画のソースを作る。影響範囲が完全だとは書かない。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "実行したのは固定版affected.pyの読込・起点解決・逆向き影響探索・整形です。入力グラフの呼び出し辺は独自のPython標準ASTアダプター、文書の対応は手動です。Graphify CLI・tree-sitter抽出・LLM意味抽出・MCPは未実行。",
+    "reviewed_on": "2026-10-22",
+    "momentum": {
+      "source": "https://www.skillleaderboard.com/",
+      "as_of": "2026-10-21",
+      "scope": "repository",
+      "third_party": true,
+      "note": "7日で約+4,600、30日で約+10,700スター。"
+    }
+  },
+  "video_download_portrait": "media/downloads/graphify-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/graphify-example-landscape-credited-v4.mp4"
+}

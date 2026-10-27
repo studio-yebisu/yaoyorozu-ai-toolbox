@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>エージェント実行ログ｜Quartzの作例｜八百万図AIツールボックス</title>
+  <meta name="description" content="Quartzの部品で作った、エージェントの実行ログを読む画面。3件の静的なサンプルで、止まった段と入出力を確かめられます。">
+</head>
+<body class="quartz">
+  <div id="root"></div>
+  <noscript>この作例はJavaScriptで表示します。サンプルの内容は samples.json で読めます。</noscript>
+  <script type="module" src="./src/main.tsx"></script>
+</body>
+</html>

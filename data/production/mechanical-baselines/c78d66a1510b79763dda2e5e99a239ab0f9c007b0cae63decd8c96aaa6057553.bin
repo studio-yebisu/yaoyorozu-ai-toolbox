@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>Crawl4AI：Pythonからブラウザーを動かし、ページを文章と項目に変えるライブラリ｜八百万図AIツールボックス 作例</title>
+  <meta name="description" content="Crawl4AIは、Pythonからブラウザーを動かし、ページをMarkdownの文章とCSSで決めた項目に変えるライブラリ。手元の架空ページ3件と404の診断1件を実際に取得した保存結果で、設定・待機・本文の範囲・2つの出力を図で確かめられます。">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">本文へ移動</a>
+  <header class="top">
+    <a class="back" href="../../case.html?id=crawl4ai-example">← 記事へ戻る</a>
+    <div class="theme" role="group" aria-label="表示の色">
+      <button type="button" data-theme-choice="light" aria-pressed="false" aria-label="明るい表示">明</button>
+      <button type="button" data-theme-choice="dark" aria-pressed="false" aria-label="暗い表示">暗</button>
+      <button type="button" data-theme-choice="system" aria-pressed="true" aria-label="端末の設定に合わせる">自動</button>
+    </div>
+  </header>
+  <p id="legacy" class="legacy" role="note" hidden></p>
+
+  <main id="main">
+    <h1 class="title"><span class="name">Crawl4AI</span> <span class="def">Pythonからブラウザーを動かし、ページを文章と項目に変えるライブラリ</span></h1>
+    <p class="once">保存済みの実行を図解／この画面では取得しません</p>
+
+    <div class="lab">
+      <div class="lab-map">
+        <div class="stages" role="group" aria-label="図の段階">
+          <button type="button" data-stage="parts" aria-pressed="true" disabled>仕組み</button>
+          <button type="button" data-stage="open" aria-pressed="false" disabled>開いて待つ</button>
+          <button type="button" data-stage="extract" aria-pressed="false" disabled>取り出す</button>
+        </div>
+        <p id="stage-note" class="stage-note" role="status" aria-live="polite"></p>
+
+        <div class="map-box">
+          <div id="map" class="map" data-layout="tall" data-stage="parts" data-doc="export" data-ready="true" data-join="in" data-state="loading" role="group" aria-labelledby="map-title">
+            <h2 id="map-title" class="vh">Crawl4AIの仕組みと、保存済みの実行の流れ</h2>
+            <svg class="links" viewBox="0 0 360 488" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+              <defs>
+                <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+                <marker id="ah-on" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+              </defs>
+              <g id="link-layer"></g>
+            </svg>
+
+            <button type="button" class="o doc" data-o="docStart" data-doc="start" aria-pressed="false" disabled><span class="doc-k">準備</span><span class="doc-v">start.html</span></button>
+            <button type="button" class="o doc" data-o="docReview" data-doc="review" aria-pressed="false" disabled><span class="doc-k">当日</span><span class="doc-v">review.html</span></button>
+            <button type="button" class="o doc" data-o="docExport" data-doc="export" aria-pressed="true" disabled><span class="doc-k">書き出し</span><span class="doc-v">export.html</span></button>
+
+            <div class="o call" data-o="call" aria-hidden="true"><span class="py">Python</span><code class="fn">await crawler.arun(url, config)</code><small class="url" data-f="url"></small></div>
+
+            <div class="o lib" data-o="lib" aria-hidden="true"><span class="lib-label" data-f="lib"></span></div>
+            <div class="o cfg" data-o="bcfg" data-part="browser" aria-hidden="true"><b>ブラウザー設定</b><code>BrowserConfig</code><small data-f="bcfg"></small></div>
+            <div class="o cfg" data-o="rcfg" data-part="scope" aria-hidden="true"><b>実行設定</b><code>CrawlerRunConfig</code><ul class="keys" data-f="rcfg"></ul></div>
+
+            <div class="o browser" data-o="browser" data-part="browser" aria-hidden="true">
+              <div class="bar"><i></i><i></i><i></i><span class="addr" data-f="addr"></span><span class="chrome">Chrome</span></div>
+              <div class="pg">
+                <div class="nav"><span>nav</span><s>除く</s></div>
+                <div class="main-r"><span class="scope-tag">main#guide</span><b class="h1" data-f="h1"></b><span class="err" data-f="err"></span></div>
+                <div class="foot-r"><span>footer</span><s>除く</s></div>
+              </div>
+            </div>
+            <div class="o js" data-o="js" aria-hidden="true"><b>ページのJS</b><code>dynamic-export.js</code></div>
+            <div class="o sec" data-o="sec0" aria-hidden="true"><b class="h" data-f="h0"></b><span class="k" data-f="k0"></span><span class="n"></span><em class="orig" data-f="o0"></em></div>
+            <div class="o sec" data-o="sec1" aria-hidden="true"><b class="h" data-f="h1s"></b><span class="k" data-f="k1"></span><span class="n"></span><em class="orig" data-f="o1"></em></div>
+
+            <div class="o gate" data-o="gate" data-part="scope" aria-hidden="true"><span class="leaf l"></span><span class="leaf r"></span><span class="gate-t"><b data-f="gateLabel">描画を待つ</b><code data-f="ready"></code></span></div>
+
+            <div class="o fil fil-md" data-o="mdgen" data-part="markdown" aria-hidden="true"><b>文章へ</b><code>DefaultMarkdownGenerator</code><small data-f="mdopt"></small></div>
+            <div class="o fil fil-x" data-o="ext" data-part="fields" aria-hidden="true"><b data-f="extLabel">項目の型</b><code>JsonCssExtractionStrategy</code><span class="holes" data-f="holes"></span></div>
+
+            <div class="o out md" data-o="md" data-part="markdown" aria-hidden="true"><span class="ot"><b>文章</b><small>Markdown</small></span><span class="mdl" data-f="mdl"></span></div>
+            <div class="o out json" data-o="json" data-part="fields" aria-hidden="true"><span class="ot"><b>項目</b><small>JSON</small></span><span class="cols"><i>heading</i><i>keypoint</i></span><span class="slot"></span><span class="slot"></span><span class="nul" data-f="nul"></span></div>
+            <div class="o door" data-o="door" aria-hidden="true"><b data-f="doorHttp"></b><small data-f="doorFlag"></small><small class="no">受理しない</small></div>
+            <div class="o memo" data-o="memo" aria-hidden="true"><code data-f="memoName"></code><b>全体の結果メモ</b><small data-f="memo"></small></div>
+
+            <p id="load" class="map-msg" role="status">17件の保存素材を照合しています…</p>
+            <div id="fail" class="map-msg fail" role="alert" hidden>
+              <p id="fail-msg"></p>
+              <button id="retry" type="button">もう一度読み込む</button>
+            </div>
+          </div>
+        </div>
+
+        <ul class="legend" aria-label="図の色分け">
+          <li class="lg-cfg">設定（自分で書く）</li>
+          <li class="lg-run">実行（Crawl4AI）</li>
+          <li class="lg-out">保存された出力</li>
+        </ul>
+
+        <div class="cta">
+          <a id="memo-dl" class="primary" role="link" aria-disabled="true" download="result.md">全体の結果メモを保存</a>
+          <a class="secondary" href="desk.html">元の実結果を見る</a>
+        </div>
+        <p class="diag-row"><button id="diag" type="button" class="diag-btn" aria-pressed="false" disabled>HTTP 404 の診断も見る</button></p>
+      </div>
+
+      <div id="readout" class="lab-read" hidden>
+        <section class="ro" aria-labelledby="ro-doc-h">
+          <h2 id="ro-doc-h"></h2>
+          <dl id="ro-doc" class="facts"></dl>
+          <div id="ro-doc-more"></div>
+        </section>
+        <section class="ro" aria-labelledby="ro-part-h">
+          <h2 id="ro-part-h">部品と、元の行</h2>
+          <div class="parts" role="group" aria-label="部品を選ぶ">
+            <button type="button" data-part-choice="browser" aria-pressed="true">ブラウザー</button>
+            <button type="button" data-part-choice="scope" aria-pressed="false">待つ・範囲</button>
+            <button type="button" data-part-choice="fields" aria-pressed="false">項目を取り出す</button>
+            <button type="button" data-part-choice="markdown" aria-pressed="false">文章の形へ</button>
+          </div>
+          <div id="ro-part"></div>
+        </section>
+      </div>
+    </div>
+
+    <section class="block" aria-labelledby="use-h">
+      <h2 id="use-h">使い方</h2>
+      <ol class="how">
+        <li><code>BrowserConfig</code> でブラウザーを決める（今回は Chrome・headless）。</li>
+        <li><code>CrawlerRunConfig</code> に、待つ条件・本文の範囲と、2つの出力の設定（<code>DefaultMarkdownGenerator</code> と <code>JsonCssExtractionStrategy</code>）を入れる。</li>
+        <li><code>async with AsyncWebCrawler(...) as crawler</code> の中で <code>await crawler.arun(url, config)</code> を呼ぶ。</li>
+        <li>戻った <code>markdown</code> と <code>extracted_content</code> をどう使うかは、呼び出す側のコードが決める。今回は <code>workflow.py</code> が元のHTMLと照合し、全体の結果メモにまとめた。</li>
+      </ol>
+      <div id="use-src"></div>
+    </section>
+
+    <section class="block" aria-labelledby="saved-h">
+      <h2 id="saved-h">保存された結果と入力</h2>
+      <ul class="files">
+        <li><a id="memo-dl2" aria-disabled="true" role="link" download="result.md">全体の結果メモ（outputs/result.md）</a><span class="note">workflow.py が4回の実結果から書いた日本語のまとめ。ページごとの Markdown（response.markdown）とは別物です。</span></li>
+        <li><a id="runs-dl" aria-disabled="true" role="link" download="runs.json">実行結果（outputs/runs.json）</a><span class="note">4回の arun の保存結果・設定・照合・サーバーの記録。</span></li>
+        <li><a href="desk.html">元の実結果ビューア（desk.html）</a><span class="note"><a href="desk.html#docs">ページごとの結果</a> · <a href="desk.html#start">準備</a> · <a href="desk.html#review">当日の確認</a> · <a href="desk.html#export">書き出し</a> · <a href="desk.html#missing">取得エラー</a> · <a href="desk.html#files">ファイル</a> · <a href="desk.html#request">依頼文</a></span></li>
+      </ul>
+      <h3 class="sub">入力（作例用に書いた架空のページ）</h3>
+      <p class="note">取得に使ったファイルそのものです。保存済みの記録にある <code>127.0.0.1</code> のURLは当時の一時ポートで、今は開けないためリンクしていません。</p>
+      <ul class="files">
+        <li><a href="fixture/docs/start.html">fixture/docs/start.html</a></li>
+        <li><a href="fixture/docs/review.html">fixture/docs/review.html</a></li>
+        <li><a href="fixture/docs/export.html">fixture/docs/export.html</a></li>
+        <li><a href="fixture/docs/dynamic-export.js">fixture/docs/dynamic-export.js</a><span class="note">書き出しページの2節目を読み込み後に加え、data-ready を true にするページのスクリプト。</span></li>
+        <li><a href="workflow.py">workflow.py</a><span class="note">Crawl4AI を呼んだ元の実装。</span></li>
+      </ul>
+    </section>
+
+    <section class="block" aria-labelledby="req-h">
+      <h2 id="req-h">依頼文</h2>
+      <p class="note">この作例を作った依頼文です。対象のページとセレクターを自分のものに置き換えて使えます。</p>
+      <div class="req-actions">
+        <button id="copy" type="button" disabled>依頼文をコピー</button>
+        <a href="request.txt" download="request.txt">request.txt を保存</a>
+      </div>
+      <p id="copy-status" class="note" role="status" aria-live="polite"></p>
+      <textarea id="request" class="request" readonly rows="10" spellcheck="false" aria-label="依頼文（読み取り専用）"></textarea>
+    </section>
+
+    <section class="block" aria-labelledby="film-h">
+      <h2 id="film-h">32秒の図解（無音）</h2>
+      <p class="note">同じ図形が動き、URLと設定・ブラウザー・待機・本文・2つの出力・保存までをつなぎます。音声はありません。</p>
+      <video id="film-portrait" class="film-portrait" src="../../media/crawl4ai-example.mp4" poster="../../media/crawl4ai-example.webp" controls preload="metadata" playsinline aria-label="Crawl4AIの図解。32秒・無音・縦長">
+        <a href="../../media/crawl4ai-example.mp4">MP4を開く</a>
+      </video>
+      <p><a href="video/index.html">動画の編集ソース</a> · <a href="source.zip">作例のソース一式（source.zip）</a></p>
+      <details class="wide-film">
+        <summary>横長の動画（32秒・無音）</summary>
+        <video id="film-wide" class="film-wide" src="../../media/crawl4ai-example-wide.mp4" controls preload="metadata" playsinline aria-label="Crawl4AIの図解。32秒・無音・横長">
+          <a href="../../media/crawl4ai-example-wide.mp4">横長のMP4を開く</a>
+        </video>
+      </details>
+    </section>
+
+    <section class="block details" aria-labelledby="det-h">
+      <h2 id="det-h">記録と範囲</h2>
+      <details>
+        <summary>今回の実行で試したこと・試していないこと</summary>
+        <div id="d-scope" class="dbody"></div>
+      </details>
+      <details>
+        <summary>4つの部品の位置づけ</summary>
+        <div id="d-parts" class="dbody"></div>
+      </details>
+      <details>
+        <summary>版と固定コミット</summary>
+        <div id="d-pin" class="dbody"></div>
+      </details>
+      <details>
+        <summary>照合した17件の保存素材</summary>
+        <div id="d-assets" class="dbody"></div>
+      </details>
+    </section>
+
+    <section id="credits" class="block credits" aria-labelledby="credits-h">
+      <h2 id="credits-h">Credits / 出典</h2>
+      <p class="attr" lang="en">This product includes software developed by UncleCode (<a href="https://x.com/unclecode">https://x.com/unclecode</a>) as part of the Crawl4AI project (<a href="https://github.com/unclecode/crawl4ai">https://github.com/unclecode/crawl4ai</a>).</p>
+      <p class="attr" lang="en">This project uses Crawl4AI (<a href="https://github.com/unclecode/crawl4ai">https://github.com/unclecode/crawl4ai</a>) for web data extraction.</p>
+      <p>Crawl4AI 0.9.5（<a href="https://github.com/unclecode/crawl4ai/tree/6192d5e5b59cb21f9ca418fd6b798de47c0741d3">unclecode/crawl4ai @ 6192d5e</a>）は、Apache License 2.0 の末尾に「Attribution Requirement」（帰属表示の追加条件）が付いたライセンスです。上の英文2行は、その条件とREADMEの表示例のとおり原文のまま載せています。</p>
+      <p><a href="vendor/crawl4ai/LICENSE">LICENSE（同梱・原文のまま）</a> · <a href="NOTICE.txt">NOTICE.txt</a> · <a href="https://github.com/unclecode/crawl4ai/blob/6192d5e5b59cb21f9ca418fd6b798de47c0741d3/LICENSE">固定版のLICENSE</a></p>
+      <p>この作例のコード・架空のページ・図・動画：MIT License、Copyright (c) 2026 Studio Yebisu（<a href="LICENSE">LICENSE</a>）。Crawl4AI本体・依存パッケージ・ブラウザーは同梱していません。</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p><a href="../../case.html?id=crawl4ai-example">記事へ戻る</a> · 八百万図AIツールボックス 作例 · 表示しているのは制作時に保存した実行の記録です。</p>
+  </footer>
+  <noscript><p class="noscript">図と照合にはJavaScriptが必要です。<a href="outputs/result.md">全体の結果メモ</a>・<a href="desk.html">元の実結果ビューア</a>は直接開けます。</p></noscript>
+</body>
+</html>

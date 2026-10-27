@@ -1,0 +1,216 @@
+{
+  "id": "claude-mem-example",
+  "title": "Claude-Mem",
+  "title_lines": [
+    "エージェントの作業を引き継ぐ記憶ツール"
+  ],
+  "category": "knowledge",
+  "summary": "エージェントの作業記録を要約して保存し、後のセッションから検索・参照できます。前回の調査結果や変更理由を、続きの作業に引き継げます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/claude-mem-example/index.html",
+  "video": "media/claude-mem-example.mp4",
+  "poster": "media/claude-mem-example.webp",
+  "skill": "examples/claude-mem-example/vendor/claude-mem/plugin/skills/mem-search/SKILL.md",
+  "skill_label": "Claude-Mem 公式検索スキル（固定版）",
+  "skill_description": "thedotmack/claude-mem の固定コミット fef3402 に含まれる公式スキル plugin/skills/mem-search/SKILL.md です。本来は MCP ツール mem_search の使い方を指示するもので、この作例では MCP サーバーにはつながず、同じ契約を実装する上流のワーカー関数 ProgressiveMemorySearch.run を Bun から直接呼び、その指示（索引 → 文脈 → 選んだ本文の順、保存の前の関連検索、短く読めるツールの文、記憶の中身を指示ではなくデータとして扱う）を当てはめました。get_tool_uses・observation_add・プラグインの導入・フック・ホスト型の記憶は使っていません。リンク先は原典を改変せずに同梱したファイルです。",
+  "samples": "examples/claude-mem-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "8つの場面で Claude-Mem に渡した値と、返った記憶",
+  "samples_intro": "実際に渡した値と返った結果の要点です。省略していない入力・応答・ツールの文は、デモの「JSON全文」と保存ボタン、同梱した各recordで読めます。ブラウザーでAIが動くページではありません。",
+  "demo_description": "題名・前後・本文を選ぶと、保存先から必要なメモを取り出す関係を一つの大きな図で確認できます。案件の切り替えと別プロセスでの読み直しも実結果につながり、選んだ場面のJSONを保存できます。8場面の全文は補足の比較ページに保持しています。",
+  "demo_note": "保存済みの実行結果を図で見る独自の画面です。図の操作でClaude-Memやモデルを新たに実行するものではありません。",
+  "request_intro": "同じ確認を自分の架空データで試すときの依頼文です。入力の欄を差し替え、固定版の Claude-Mem を読めるAIや開発者に渡してください。",
+  "request": "Claude-Mem（thedotmack/claude-mem 固定コミット fef3402e674bebbf72a23aeb735e91c92cd34afd、13.39.0、Apache-2.0）の上流ワーカー関数を改変せずに Bun で動かし、架空のプロジェクトの決定を保存して、次のセッションで mem_search の「題名 → 前後の文脈 → 選んだ本文」の順に取り出せるかを確かめるスクリプトを書き、実際に実行してください。結果は、呼び出しと戻り値を読める日本語のスマホ向けページにしてください。\n\n読む原典（固定版）\n・mem-search スキル：https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/plugin/skills/mem-search/SKILL.md\n・段階的な取り出しの契約：https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/src/shared/progressive-search.ts\n・ワーカー側の実装：https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/src/services/worker/ProgressiveMemorySearch.ts\n・明示的な保存：https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/src/services/memory/save-memory.ts\n・保存先と設定：https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/src/services/worker/DatabaseManager.ts と src/shared/paths.ts・src/shared/SettingsDefaultsManager.ts\n・ライセンス：https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/LICENSE と NOTICE\n\n使うもの（プラグインの導入・npx claude-mem install・フック・ホスト型の記憶・サインイン・API キーは使わない）\n・Bun 1.4.3 を --no-install で使い、原典のファイルは改変せずに置いてハッシュで固定する。依存は package-lock.json の固定版を npm ci --ignore-scripts で入れる。\n・new DatabaseManager() と initialize()、SearchManager・FormattingService・TimelineService、ProgressiveMemorySearch.run、saveMemory、progressiveSearchToolResult を、非公開の保存先を決めてから動的に読み込む。関数の差し替えや、検索・保存の代用品は作らない。\n・保存先：CLAUDE_MEM_DATA_DIR を公開しない新しい空のフォルダーに向け、そこに settings.json（Chroma 無効、クラウド同期の3項目は空、Grok Bot 連携・重複統合・ワーカー自動起動は無効）を書く。送信は DO_NOT_TRACK=1 と CLAUDE_MEM_TELEMETRY=false で止める。ホームの設定は読まない。\n\n入力（ここを差し替える。実行の前に固定し、結果を見てから変えない）\n・決定：キー・プロジェクト・題名・本文。すべて架空にし、実在の人の記録や会話は入れない（この作例では 2プロジェクト・5件）\n・場面：保存前の検索、保存、索引、文脈、本文、別のプロジェクトへの同じ問い、別プロセスでの読み直し、拒否の確認（この作例では C01〜C08）\n\n進め方\n1. 原典の全ファイル・ロックファイル・入力・上流の版を照合してから、最初の書き込みを行う。実行中に何もダウンロードしない。\n2. 上流を読み込む前に、fetch・http(s)・net・tls・DNS・サーバーの待ち受け・子プロセスの起動を拒否して数える。試みが1件でもあれば失敗にする（自分が起動する読み直し用のプロセス1つだけは例外として数える）。\n3. 保存の前には毎回 mem_search で関連する決定を探し、その後で saveMemory(db, project, {text, title, project, metadata: {sourceFingerprint, ...}}) を呼ぶ。同じ依頼の再送が duplicate: true・同じ ID になることを確かめる。件数の監査だけに SQL を使い、取り出しは mem_search で行う。\n4. guided モードで索引を取り、返った合図（ms_ で始まる文字列）と索引の ID だけを使って文脈へ、文脈の ID だけを使って本文へ進む。途中で問いの設定を変えない。各段階でツールの文（content[0].text）と内部の戻り値の両方を記録する。\n5. 同じ問いを自動モードで別々のプロジェクトに渡す。どの記録が選ばれるかは前もって決めず、返ったものを記録する。\n6. 前の索引にない ID、1文字変えた合図、途中での範囲の変更、長すぎる問い、未登録のプロジェクトの、実際の例外（name・code・message）または結果を記録する。\n7. データベースを閉じてから、新しい Bun プロセスを1回だけ起動して同じ保存先を開き、保存した記録が同じ ID で取り出せることと、前のプロセスの合図が使えないことを確かめる。\n8. すべての確認が通ったときだけ、入力のハッシュ・原典の固定版・版・実行環境・設定・確認・各場面の呼び出しと戻り値を、公開用の JSON に1回だけ書く。手元の絶対パス・保存ファイルそのもの・settings.json・完全なログ・PID・認証情報は書かない。既にある結果は上書きしない。\n\nページでできること\n・場面を選び、ツールが返した文と、返った題名・文脈・本文を読む。各場面の生の JSON も全文で開ける。\n・保存した JSON・入力・ロックファイルを取得し、入力の SHA-256・固定版・場面・確認の合否を確かめてから表示する。合わなければ理由と「もう一度読み込む」を出し、内蔵の代わりのデータは使わない。\n・選んだ場面を JSON で保存し、この依頼文をコピーする。\n・320px幅のスマホから1280px幅のパソコンまで、横スクロールなしで使える。操作部品は44px以上、入力欄の文字は16px以上。外部のフォント・CDN・計測・AIの呼び出しは使わない。ページの中で Claude-Mem・Bun・Claude は動かさない。\n\n書かないこと\n・明示的に保存したメモを、会話の自動記録や LLM による要約・圧縮として書かない。\n・SQLite FTS5 のキーワード一致を、意味検索や日本語の検索品質の評価として書かない。\n・project での絞り込みや合図の検証を、認証やアクセス制御として書かない。\n・ms_ の合図を、ログインの鍵や永続する記録として書かない（発行したプロセスの中だけで15分有効）。\n・上流関数を直接呼んだことを、MCP サーバーへの接続やプラグインの導入として書かない。\n・コードや文章を書いた AI と、記録を操作した Claude-Mem のライブラリを混同しない。\n\n最後に、作ったファイル、実際に実行したコマンドとその結果、まだ確かめていない点を分けて書いてください。\n",
+  "applied_skills": [
+    {
+      "name": "Claude-Mem 公式検索スキル（plugin/skills/mem-search/SKILL.md）",
+      "source": "https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/plugin/skills/mem-search/SKILL.md",
+      "applied": "固定版mem-searchスキルの「保存前に関連検索」「題名→前後の文脈→選んだ本文」の順を、実ワーカー関数に適用しました。返された合図とIDだけで進み、索引2件・文脈2件・本文1件の実応答を記録。MCPサーバーの通信やプラグインの導入は試していません。"
+    },
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "依頼を、架空の2案件・5つの決定・8つの場面に具体化し、入力2ファイルを実行前に固定しました。「次のセッション」は新しいBunプロセスで確かめ、削除・自動記録・日本語の検索品質は未確認として範囲を分けています。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/claude-mem-example/tools/motion-reel/render.mjs",
+      "applied": "元の実API結果と7つの固定JSON素材から、同じメモが題名→前後→本文へ移動して開く大きな概念図と32秒の無音縦横動画を制作。任意時刻の再現・代表/連続フレーム・スマホの図と操作・MP4再生を確認。音声ガイドなし。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "5つの決定を保存する",
+      "body": "各メモの前に関連する記憶を検索し、saveMemoryで明示的に保存。N01の同じ依頼を再送しても同じIDで、記録は5件のままでした。"
+    },
+    {
+      "title": "題名から必要な1件を選ぶ",
+      "body": "iOSを指定した索引には題名2件とIDだけが返ります。N01を選んで前後の題名を読み、その中からN01の本文1件だけを取得しました。"
+    },
+    {
+      "title": "別の案件と次のプロセスでも確かめる",
+      "body": "同じ質問を2つのprojectへ渡して結果を分け、DBを閉じた後の新しいBunプロセスでも同じIDの記憶が返ることを確認。以前のプロセスの合図は使えません。"
+    },
+    {
+      "title": "実入力・実出力をページと動画で読む",
+      "body": "元の実入力・実出力を保ち、保存先→題名→前後→選んだ本文をつなぐ大きな概念図へ改修しました。32秒の無音の縦横動画と編集ソース、実JSON保存、元の8場面の全文を公開しています。"
+    }
+  ],
+  "limitations": [
+    "架空の5件・8場面の小さな確認です。検索の質、大量の記録での速さや精度、他の記憶ツールとの比較ではありません。",
+    "5件はすべて saveMemory による明示的なメモです。プラグインの導入、フック、会話の自動記録、LLM による要約・圧縮、文脈の自動注入は使っておらず、確かめてもいません。",
+    "検索は SQLite FTS5 のキーワード一致です。Chroma の意味検索・クラウド同期・ホスト型の記憶は使っていません。日本語のメモにも英字の語で検索しており、日本語の検索品質は評価していません。",
+    "mem-search スキルの手順は、MCP サーバーではなく上流のワーカー関数 ProgressiveMemorySearch.run に直接当てはめています。MCP の通信やホストとの連携は確かめていません。",
+    "project の絞り込みと合図の検証は、検索の範囲と手順を守らせるものです。認証やアクセス制御ではありません。ms_ の合図は発行したプロセスの中だけで15分有効で、保存されません。",
+    "削除の操作は試していません。保存先は非公開フォルダーの SQLite ファイルです。",
+    "通信の拒否は、run.ts が置き換えた JavaScript の API が対象です。OS 全体の遮断ではありません。依存の導入と Bun の取得には、実行の前に通信が要ります。Claude Agent SDK は依存として入りますが、起動も推論もしません。",
+    "SQLite のファイル、settings.json、上流のログ、新しいプロセスの完全な出力は配信しません。ID・時刻・合図は再実行で変わります。",
+    "改修後の図をIAB Chromiumのスマホ幅・実JSON保存・エラー復旧・素材照合・32秒の無音縦横動画の再生で確認しました。実機iPhoneのSafari・VoiceOver・Core Web Vitals・人による内容や見た目の承認は未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "thedotmack/claude-mem（固定コミット fef3402）",
+      "url": "https://github.com/thedotmack/claude-mem/tree/fef3402e674bebbf72a23aeb735e91c92cd34afd"
+    },
+    {
+      "label": "mem-search スキル（plugin/skills/mem-search/SKILL.md・固定版）",
+      "url": "https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/plugin/skills/mem-search/SKILL.md"
+    },
+    {
+      "label": "段階的な取り出しの契約（src/shared/progressive-search.ts・固定版）",
+      "url": "https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/src/shared/progressive-search.ts"
+    },
+    {
+      "label": "ワーカー側の実装（src/services/worker/ProgressiveMemorySearch.ts・固定版）",
+      "url": "https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/src/services/worker/ProgressiveMemorySearch.ts"
+    },
+    {
+      "label": "明示的な保存（src/services/memory/save-memory.ts・固定版）",
+      "url": "https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/src/services/memory/save-memory.ts"
+    },
+    {
+      "label": "保存先と初期化（src/services/worker/DatabaseManager.ts・固定版）",
+      "url": "https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/src/services/worker/DatabaseManager.ts"
+    },
+    {
+      "label": "検索（src/services/worker/SearchManager.ts・固定版）",
+      "url": "https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/src/services/worker/SearchManager.ts"
+    },
+    {
+      "label": "Claude-Mem README（固定版）",
+      "url": "https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/README.md"
+    },
+    {
+      "label": "Claude-Mem LICENSE（Apache-2.0・固定版）",
+      "url": "https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/LICENSE"
+    },
+    {
+      "label": "Claude-Mem NOTICE（固定版）",
+      "url": "https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/NOTICE"
+    },
+    {
+      "label": "架空の5つの決定（input/notes.json）",
+      "url": "examples/claude-mem-example/input/notes.json"
+    },
+    {
+      "label": "8つの場面（input/scenarios.json）",
+      "url": "examples/claude-mem-example/input/scenarios.json"
+    },
+    {
+      "label": "実行スクリプト（run.ts）",
+      "url": "examples/claude-mem-example/run.ts"
+    },
+    {
+      "label": "手順と読み方（outputs/method.md）",
+      "url": "examples/claude-mem-example/outputs/method.md"
+    },
+    {
+      "label": "8場面の実行記録（outputs/memory-run.json）",
+      "url": "examples/claude-mem-example/outputs/memory-run.json"
+    },
+    {
+      "label": "入力・結果・ソース一式",
+      "url": "examples/claude-mem-example/source.zip"
+    },
+    {
+      "label": "SQLite・FTSの独立した読取照合",
+      "url": "examples/claude-mem-example/outputs/independent-checks.json"
+    },
+    {
+      "label": "確認した範囲",
+      "url": "examples/claude-mem-example/verification.json"
+    },
+    {
+      "label": "動画の7素材とハッシュ",
+      "url": "examples/claude-mem-example/video/assets/manifest.json"
+    },
+    {
+      "label": "図中心の使い方",
+      "url": "examples/claude-mem-example/visual-guide.md"
+    }
+  ],
+  "license": "MIT（独自作例）・Apache-2.0（Claude-Mem原典）",
+  "license_note": "作例のコード・文章は MIT License（Copyright (c) 2026 Studio Yebisu）。架空の入力は制作側が作成しました。vendor/claude-mem/ の194ファイルは、thedotmack/claude-mem の固定コミット fef3402 のファイルを改変せずに置いたもので、Apache License 2.0 です。原典の LICENSE と NOTICE（Copyright 2026 Alex Newman）をそのまま同梱しています。依存5件はそれぞれの利用条件に従い、npm ci で入る node_modules に各ライセンスが残ります（node_modules は配布しません）。ホスト型の記憶など上流の別サービスは別条件で、この作例では使いません。実行にアカウント・キーは不要です。ソース制作に用いた Opus 5.5 の利用環境は別に必要です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "video_note": "32秒・無音。同じメモが題名→前後→本文へ動いて開く大きな概念図で説明します。元の実入力・実出力を使い、縦版と横版を用意しました。",
+  "video_source": "examples/claude-mem-example/video/index.html",
+  "skill_license": "examples/claude-mem-example/vendor/claude-mem/LICENSE",
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "guide_url": "case.html?id=claude-mem-example",
+  "catalog_entry": {
+    "id": "resource-claude-mem",
+    "name": "Claude-Mem",
+    "tagline": "エージェントの作業を引き継ぐ記憶ツール",
+    "category": "knowledge",
+    "kind": "ツール",
+    "summary": "エージェントの作業記録を要約して保存し、後のセッションから検索・参照できます。前回の調査結果や変更理由を、続きの作業に引き継げます。",
+    "use_case": "前回の調査や変更理由を、次の作業で再利用したいとき。",
+    "tags": [
+      "検索",
+      "記憶",
+      "ツール"
+    ],
+    "workflow": [
+      "架空の2案件の決定を5件用意し、保存前に関連検索をしてsaveMemoryで明示的に保存する",
+      "mem_searchの索引→前後の文脈→選んだ本文の順を、固定版の実ワーカー関数とSQLite FTS5で確かめる",
+      "別案件の絞り込みと新しいBunプロセスでの同じ記憶を確認し、8場面の実入力・実出力と短い動画を読む"
+    ],
+    "requirements": [
+      "Bun 1.4.3と、package-lock.jsonで固定したnpm依存（npm ci --ignore-scripts）",
+      "公開フォルダー外の新しいローカル保存先。この限定作例にはアカウント・APIキーは不要"
+    ],
+    "license": "Apache-2.0",
+    "license_url": "https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/LICENSE",
+    "license_note": "公開コードはApache-2.0。ホスト型CMEM Proなどは別条件です。作業記録に何が含まれ、どこに保存されるかを導入時に確認します。",
+    "source_url": "https://github.com/thedotmack/claude-mem/tree/fef3402e674bebbf72a23aeb735e91c92cd34afd",
+    "guide_url": "case.html?id=claude-mem-example",
+    "readme_url": "https://github.com/thedotmack/claude-mem/blob/fef3402e674bebbf72a23aeb735e91c92cd34afd/README.md",
+    "source_repository": "thedotmack/claude-mem",
+    "source_commit": "fef3402e674bebbf72a23aeb735e91c92cd34afd",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。原典は確認時のコミットへ固定しています。",
+    "prompt": "Claude-Mem 13.39.0の固定版で、架空の2案件の決定5件を明示的に保存し、索引→文脈→選んだ本文の順で取り出す作例を作ってください。実ワーカー関数とSQLite FTS5を使い、別案件の範囲指定、新しいプロセスでの読み直し、実入力・実出力を確認してください。プラグインやLLMによる自動記録を試したことにはせず、試した範囲と未確認の範囲を明記してください。",
+    "verification_stage": "runtime-reviewed",
+    "verification": "原Bunワーカー関数・SQLite FTS5の5メモ・8場面の実結果を保持し、題名→前後→選んだ本文の関係が動く大きな概念図と32秒の無音縦横動画へ改修。スマホ表示・実保存・素材照合・再生を確認。実機iOS・人の承認は未確認。",
+    "reviewed_on": "2026-10-15",
+    "updated_on": "2026-10-17"
+  },
+  "video_portrait": "media/claude-mem-example.mp4",
+  "video_landscape": "media/claude-mem-example-wide.mp4",
+  "poster_portrait": "media/claude-mem-example.webp",
+  "poster_landscape": "media/claude-mem-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/claude-mem-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/claude-mem-example-landscape-credited-ja-v3.mp4"
+}

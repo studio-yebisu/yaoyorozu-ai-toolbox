@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <title>Claude-Mem 作例：必要な記憶だけ、開く。｜八百万図AIツールボックス</title>
+  <meta name="description" content="固定版 Claude-Mem 13.39.0 を Bun で実行して保存した結果を、1枚の図で読むページです。架空の5つの決定から、題名 → 前後 → 本文の順に必要な1件だけを開きます。">
+  <meta name="theme-color" content="#f6f1e6">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#figure">図へ移動</a>
+
+  <header class="top">
+    <h1 class="title">必要な記憶だけ、開く。</h1>
+    <p class="scope-chips"><span class="chip">保存済みの実行結果</span><span class="chip">架空の2案件</span></p>
+  </header>
+
+  <main id="main">
+    <section class="viewer" aria-label="図で読む実行結果">
+      <nav id="case-list" class="cases" aria-label="場面を選ぶ">
+        <button class="case" type="button" data-id="C03" aria-pressed="false" disabled><span class="case-id" aria-hidden="true">C03</span><span class="case-label">題名</span></button>
+        <button class="case" type="button" data-id="C04" aria-pressed="false" disabled><span class="case-id" aria-hidden="true">C04</span><span class="case-label">前後</span></button>
+        <button class="case" type="button" data-id="C05" aria-pressed="false" disabled><span class="case-id" aria-hidden="true">C05</span><span class="case-label">本文</span></button>
+        <button class="case" type="button" data-id="C06" aria-pressed="false" disabled><span class="case-id" aria-hidden="true">C06</span><span class="case-label">案件</span></button>
+        <button class="case" type="button" data-id="C07" aria-pressed="false" disabled><span class="case-id" aria-hidden="true">C07</span><span class="case-label">開き直す</span></button>
+      </nav>
+
+      <p id="status" class="status" data-state="loading" role="status" aria-live="polite">実行記録を読み込み、照合しています…</p>
+      <div id="error-box" class="error-box" hidden>
+        <p id="error-text" class="error-text"></p>
+        <p class="error-hint">内蔵の代わりの結果は表示しません。ファイルを確かめてから読み込み直してください。</p>
+        <button id="retry" class="button" type="button">もう一度読み込む</button>
+      </div>
+
+      <figure id="figure" class="figure" tabindex="-1" hidden>
+        <svg id="diagram" class="diagram" viewBox="0 0 360 448" role="img" aria-labelledby="diagram-title diagram-desc" focusable="false">
+          <title id="diagram-title"></title>
+          <desc id="diagram-desc"></desc>
+          <g id="diagram-root"></g>
+        </svg>
+      </figure>
+
+      <div class="actions">
+        <button id="next-step" class="button primary" type="button" disabled>次へ：前後を見る</button>
+        <button id="download-record" class="button" type="button" disabled>この記録をJSONで保存</button>
+      </div>
+      <p class="caption"><span id="case-tag" class="case-tag"></span><span id="caption-text"></span></p>
+      <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="folds" aria-label="記録と説明">
+      <details id="output-details" class="fold">
+        <summary>この場面の実際の出力</summary>
+        <p id="summary" class="summary"></p>
+        <h2 class="fold-h">ツールが返した文</h2>
+        <div id="tool-text" class="tool-text"></div>
+        <h2 class="fold-h">input（上流の関数に渡した値）</h2>
+        <pre id="input-text" class="raw-text" tabindex="0"></pre>
+        <h2 class="fold-h">output（返った値・例外）</h2>
+        <pre id="output-text" class="raw-text" tabindex="0"></pre>
+        <p><a id="comparison-link" href="comparison.html#C03">表形式の記録で見る（comparison.html#C03）</a></p>
+      </details>
+
+      <details id="records-details" class="fold">
+        <summary>8場面の記録</summary>
+        <p class="fold-note">どの場面も、保存した実行記録の該当部分を同じ図に描きます。</p>
+        <ol id="record-list" class="record-list">
+          <li><a href="#C01" data-id="C01" aria-disabled="true"><span class="case-id">C01</span>保存前の検索は0件</a></li>
+          <li><a href="#C02" data-id="C02" aria-disabled="true"><span class="case-id">C02</span>決定を5件保存する</a></li>
+          <li><a href="#C03" data-id="C03" aria-disabled="true"><span class="case-id">C03</span>まず題名を選ぶ</a></li>
+          <li><a href="#C04" data-id="C04" aria-disabled="true"><span class="case-id">C04</span>前後の文脈を読む</a></li>
+          <li><a href="#C05" data-id="C05" aria-disabled="true"><span class="case-id">C05</span>選んだ1件の本文へ</a></li>
+          <li><a href="#C06" data-id="C06" aria-disabled="true"><span class="case-id">C06</span>同じ質問を別のプロジェクトに</a></li>
+          <li><a href="#C07" data-id="C07" aria-disabled="true"><span class="case-id">C07</span>別プロセスで読み直す</a></li>
+          <li><a href="#C08" data-id="C08" aria-disabled="true"><span class="case-id">C08</span>飛び越しと範囲外を拒む</a></li>
+        </ol>
+        <ul class="file-list">
+          <li><a href="outputs/memory-run.json">8場面の実行記録（outputs/memory-run.json）</a></li>
+          <li><a href="input/notes.json">架空の5つの決定（input/notes.json）</a></li>
+          <li><a href="input/scenarios.json">8つの場面（input/scenarios.json）</a></li>
+          <li><a href="outputs/independent-checks.json">別の Python sqlite3 による読取の照合（outputs/independent-checks.json）</a></li>
+          <li><a href="outputs/method.md">手順と読み方（outputs/method.md）</a></li>
+          <li><a href="run.ts">実行スクリプト（run.ts）</a></li>
+          <li><a href="vendor-lock.json">原典194ファイルのハッシュ（vendor-lock.json）</a></li>
+          <li><a href="vendor/claude-mem/plugin/skills/mem-search/SKILL.md">mem-search スキル（固定版・無改変）</a></li>
+          <li><a href="README.md">README.md</a></li>
+        </ul>
+      </details>
+
+      <details id="request-details" class="fold">
+        <summary>依頼文</summary>
+        <p class="fold-note">同じ確認を自分の架空データで試すときの依頼文です。</p>
+        <button id="copy-request" class="button" type="button" disabled>依頼文をコピー</button>
+        <p id="copy-status" class="action-status" role="status" aria-live="polite"></p>
+        <div id="copy-fallback" class="copy-fallback" hidden>
+          <label for="copy-fallback-text">自動でコピーできませんでした。下の文を長押しして選び、コピーしてください。</label>
+          <textarea id="copy-fallback-text" readonly rows="8"></textarea>
+        </div>
+        <p><a href="request.txt">request.txt を開く</a></p>
+      </details>
+
+      <details id="film-details" class="fold">
+        <summary>動く概念図（32秒・無音）</summary>
+        <p class="fold-note">同じ図の部品が、保存 → 題名 → 前後 → 本文 → 案件 → 開き直す、と動きます。保存済みの実行結果から描いた無音の映像で、音声・ナレーションはありません。</p>
+        <ul class="file-list">
+          <li><a href="../../media/claude-mem-example.mp4">縦の MP4（720×1280）</a></li>
+          <li><a href="../../media/claude-mem-example-wide.mp4">横の MP4（1280×720）</a></li>
+          <li><a href="video/index.html">映像の編集ソース</a></li>
+          <li><a href="source.zip">入力・実装・映像ソース一式（source.zip）</a></li>
+        </ul>
+      </details>
+
+      <details id="source-details" class="fold">
+        <summary>範囲・原典・ライセンス</summary>
+        <p>このページは、制作側が <code>bun --no-install run.ts</code> で実行して保存した <a href="outputs/memory-run.json">outputs/memory-run.json</a> を読んで図にする、作例用の閲覧ページです。Claude-Mem の公式アプリではありません。ブラウザーの中で Claude-Mem・Bun・Claude は動かず、新しい検索や推論もしません。表示の前に、記録そのものと入力2ファイル・ロックの SHA-256、固定版と版、8つの場面、確認の合否を照合し、合わなければ図を出しません。</p>
+        <ul class="plain-list">
+          <li>実行したもの：固定版の上流ライブラリ（DatabaseManager・saveMemory・SearchManager・ProgressiveMemorySearch・progressiveSearchToolResult）を改変せずに Bun 1.4.3 で動かし、手で保存した架空の5件をローカルの SQLite FTS5 で探しました。8場面・99の自動確認、別の Python sqlite3 による読取の照合、同じ保存先を新しい Bun プロセスで開き直す確認を含みます。</li>
+          <li>mem-search スキルの「題名 → 前後 → 本文」の手順は、上流のワーカー関数に直接当てはめています。MCP サーバーとの接続や、プラグイン・フックの導入ではありません。</li>
+          <li>試していないこと：会話の自動記録や LLM による要約・圧縮、文脈の自動注入、Chroma の意味検索、クラウド同期、ホスト型の記憶、MCP の通信。</li>
+          <li>検索はキーワードの一致です。日本語のメモを英字の「iOS」「playsinline」で探したもので、意味の近さや日本語の検索品質を測ったものではありません。</li>
+          <li>C03 で N01 を選んだのは、実行スクリプトに書いた呼び出し側の選択です。AI が自動で選んだのではありません。自動モード（C06・C07）は決まった順位付けで選び、LLM は呼びません。</li>
+          <li>C04 の前後に並ぶ N02 は題名だけの文脈で、本文は開いていません。</li>
+          <li>project の指定は検索範囲を分けるもので、認証やアクセス制御ではありません。C08 は記録にある5つの呼び出しを確かめたもので、あらゆる誤用を試したわけではありません。</li>
+          <li>続きの合図（ms_ で始まる文字列）は、発行したプロセスの中だけで15分有効です。新しいプロセスには引き継がれず、記録に残る合図は終わった実行のもので、いまは使えません。開き直したあとは、問いからやり直します。</li>
+          <li>図の見出しは実際の題名を縮めたもの（短い見出し）です：N01「下余白」・N02「動画」・N03「JSON」・N04「図」・N05「PDF」。本文の抜粋は、返った本文の一部をそのまま引いています。案件名「さくらサイト」「つばき資料」は架空の本文にある名前です。</li>
+        </ul>
+        <dl class="kv">
+          <div class="kv-row"><dt>原典</dt><dd><a href="https://github.com/thedotmack/claude-mem/tree/fef3402e674bebbf72a23aeb735e91c92cd34afd">thedotmack/claude-mem</a></dd></div>
+          <div class="kv-row"><dt>固定コミット</dt><dd><code>fef3402e674bebbf72a23aeb735e91c92cd34afd</code></dd></div>
+          <div class="kv-row"><dt>版</dt><dd>13.39.0</dd></div>
+          <div class="kv-row"><dt>記録の SHA-256</dt><dd><code>efd1001c68b48e7ccde9fc3858defac43175f43a73086c538062d13c1a9b931c</code></dd></div>
+        </dl>
+        <dl id="run-facts" class="kv"></dl>
+        <p>vendor/claude-mem/ の194ファイルは固定コミットのものを改変せずに置いています。Apache License 2.0（<a href="vendor/claude-mem/LICENSE">LICENSE</a>・<a href="vendor/claude-mem/NOTICE">NOTICE</a>：Copyright 2026 Alex Newman）。作例のコード・文章・図は MIT License（<a href="LICENSE">LICENSE</a>・Copyright (c) 2026 Studio Yebisu）。依存パッケージはそれぞれの利用条件に従います。</p>
+        <p>run.ts・このページ・図・説明文は Claude Opus 5.5 が書きました。架空の入力は制作側が実行前に固定したものです。記録の値はモデルではなく、上流のライブラリが返したものです。</p>
+        <p><a href="comparison.html">前の版のページ（comparison.html）</a></p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>八百万図AIツールボックス ・ Claude-Mem 作例。架空の案件「さくらサイト」「つばき資料」の記録です。</p>
+  </footer>
+</body>
+</html>

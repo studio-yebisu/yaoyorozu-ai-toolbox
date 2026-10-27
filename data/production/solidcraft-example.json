@@ -30,7 +30,7 @@
     "scope": "OriginalCAD authoring and originalsite/28s authoring remain twooriginal receipts. NewexactOpus authored8newdiagram/editor originals only. Parent factualprojection/technicalcorrections/render/QA/package/publication are separate, not reassigned to newOpus."
   },
   "upstream": {
-    "repository": "bherbruck/solidcraft",
+    "repository": "tangency-labs/solidcraft",
     "commit": "16c49c3e860a954e9f27309927d6848bcba9c607",
     "license_selected": "Apache-2.0",
     "available_licenses": "MIT OR Apache-2.0",
@@ -50,7 +50,7 @@
     "official_release": {
       "version": "0.11.1",
       "commit": "b01b9689c8999a4415b4a6daaa2f8aae8a1a2f25",
-      "release": "https://github.com/bherbruck/solidcraft/releases/tag/v0.11.1",
+      "release": "https://github.com/tangency-labs/solidcraft/releases/tag/v0.11.1",
       "archive": "solidcraft-0.11.1-windows-x64-portable.zip",
       "archive_sha256": "6c5e285d3d6ee3bbdaa39de9019b5a36fd894c4a335f92de7193e1340996727d",
       "official_checksum_matched": true,
@@ -317,9 +317,9 @@
     "scope": "Targetonly committedcommon pipeline, owncommitpush, Pages/allbytes/nativearticle checks beforequeuepublished. Publicationevidence retained privately afterdeployment."
   },
   "artifacts_sha256": {
-    "data/cases/solidcraft-example.json": "a1bd85c19f9cdfa0c63a4ba6141061d2800c6bb3c5266fe1dd493fa79b2dd5f0",
+    "data/cases/solidcraft-example.json": "aebab050cf5de0e45411987a86a88f079a10049925ccc28f687b18b9ba071f26",
     "examples/solidcraft-example/LICENSE": "767a52e95f072158a5a4f310d642105ed4d1a17b706dff9e373801d3ad976e93",
-    "examples/solidcraft-example/README.md": "b1ff023aef01637c0dd54555f280139697b7831c76a36aea22b1f1bc4e4f67d1",
+    "examples/solidcraft-example/README.md": "e390b6fff208a8868a200546f03734761dbc8d30a62d70a5828043c604cbcb0d",
     "examples/solidcraft-example/app.js": "e1cf2bdd3586c47016d8adcbd06a6e6ea622494dd58b31faf21daac4b798e0bd",
     "examples/solidcraft-example/cad/build.json": "5897b86802e66af5479f746a34814d7bf916533e267c364d6899b4e6956762ec",
     "examples/solidcraft-example/cad/check_design.py": "10b3dd3c686172eba3fd2405ae304972aad89908d8fa5a4c8f3c6d71582adca9",
@@ -328,12 +328,12 @@
     "examples/solidcraft-example/cad/resize.json": "4ab2d883c386d8303bdb1fa0095b86e68613b56e8622bd271c2a4b26414d7856",
     "examples/solidcraft-example/cad/walk.json": "c350e68f05d4ea8be01db2179b3a05c90879e525630b117920266f5923e0e41e",
     "examples/solidcraft-example/concept.css": "365aa723b46dab0d04d243e42bd274263a6353b654e2cdcd12bfa9b3d2577bc3",
-    "examples/solidcraft-example/concept.js": "b8a80dc6734b4c7f922f87450c998f20c8875963e6b09805472d262e1f0be53b",
-    "examples/solidcraft-example/concept/manifest.json": "362648f5dc12c733470a87b9b1248111da5f3191d794252af9086085e3055940",
-    "examples/solidcraft-example/concept/original-run.json": "871af521d215094b115177f2158ba31522528eefd430d1a544c273738def663d",
-    "examples/solidcraft-example/concept/structure.json": "f21e7f026cfbb90455504fee7025ffc17c581eda69369a988b0963c7ad2b31f9",
-    "examples/solidcraft-example/desk.html": "9c02784ef5fa2e045efe5254242aa5f118a40de6268151deceaac3c2fa728ee7",
-    "examples/solidcraft-example/index.html": "4ee2b62ae4638f2243bf243d50f41a667ca0431547160d32865a83f8fc7fef83",
+    "examples/solidcraft-example/concept.js": "e51cd163631f6ccf456743475be0a5b31fcc20d8480a1667c2b77e17ac9c73ee",
+    "examples/solidcraft-example/concept/manifest.json": "928aa73b0c5699488fc6cc4fe95d695319fd8e42cbfdc5b0306be33e3503f1f4",
+    "examples/solidcraft-example/concept/original-run.json": "5899e1e4455f12bc7a52d66c26e86036a5d7b7c5fe0ab57df0fb68ffbbaab689",
+    "examples/solidcraft-example/concept/structure.json": "102afd4fae649a6342760b2816df332447d854ce85fb2707d31cb657609a1a3b",
+    "examples/solidcraft-example/desk.html": "e607399e4521de61bf63ebc37de3c67be78b7724407f8a1bcd10cb95572357d9",
+    "examples/solidcraft-example/index.html": "7a136799ea34c327ddb23ae9ee05336818f24cf92bbd8f219fbc19d18b0a53e4",
     "examples/solidcraft-example/measurements.json": "ad07e9160686974dc0092fcace64f851ec0d41a38bb85bd566bd476404d6ca1c",
     "examples/solidcraft-example/outputs/tray-default.json": "5154fad132ad9070dd4b085aa478bb34436f89b79b1aee349073abdf050f9dd9",
     "examples/solidcraft-example/outputs/tray-default.step": "e223a4ed39ab6cd5ab52778a404358d2ea5478fca5108e524286c5199bb2b64b",
@@ -347,8 +347,8 @@
     "examples/solidcraft-example/renders/tray-resized-iso.png": "b6f253dca2c2c2c83487d0e9a5f85603b11e9e3562c7ae3eb2e1e1b82041acb3",
     "examples/solidcraft-example/renders/tray-resized-top.png": "b250c3adab3a57a55a76a86e46b9bfd7b480531d48b08c3080dbb272220242ac",
     "examples/solidcraft-example/request.txt": "b1e1cf00743d40d0ba455abd1c2821ea8b7f11e44a325728026b1a8c3d7b702f",
-    "examples/solidcraft-example/samples.json": "419116511e1b1e68bdcd44997a84f64e94d415416c784be72077098aa79f59c9",
-    "examples/solidcraft-example/source.zip": "f6951a85dbbceaff5a604386095df2b9d3d44f8021e34a7a286418fe31bcc61f",
+    "examples/solidcraft-example/samples.json": "0b019f5e19b22e5698808ec78f15d9758b83d624bb00d380b7dd2391f2ffb9c0",
+    "examples/solidcraft-example/source.zip": "5c1ec3c376fa3e6f87e56a9ef00c10a3223f43c7e21d3805e1848bfbf0052cd6",
     "examples/solidcraft-example/styles.css": "09ce393c1b63a16aa4741ceaf9d5aaa08beabcdf57a2d65b6ad7eaaed5e9fc69",
     "examples/solidcraft-example/tools/motion-reel/LICENSE": "d90f55562b9f84fed7da43692eca81aa1b012fda98623acc6f3b5a89b9b778dd",
     "examples/solidcraft-example/tools/motion-reel/audio.mjs": "b3d8e4d0e59a8539b195ebe20c2bd4d74180211a394103f4b2d10f5019c16cc5",
@@ -869,5 +869,20 @@
       },
       "record": "data/production/site-rebrand-20261022.json"
     }
-  ]
+  ],
+  "source_link_maintenance": {
+    "updated_on": "2026-10-22",
+    "scope": "Corrected source URLs and labels; updated the affected asset manifests, loader pins, source ZIP members, and current artifact hashes. Fixed source commits, runtime measurements, model receipts, and media were retained.",
+    "updated_artifacts": {
+      "data/cases/solidcraft-example.json": "aebab050cf5de0e45411987a86a88f079a10049925ccc28f687b18b9ba071f26",
+      "examples/solidcraft-example/README.md": "e390b6fff208a8868a200546f03734761dbc8d30a62d70a5828043c604cbcb0d",
+      "examples/solidcraft-example/concept.js": "e51cd163631f6ccf456743475be0a5b31fcc20d8480a1667c2b77e17ac9c73ee",
+      "examples/solidcraft-example/concept/original-run.json": "5899e1e4455f12bc7a52d66c26e86036a5d7b7c5fe0ab57df0fb68ffbbaab689",
+      "examples/solidcraft-example/concept/structure.json": "102afd4fae649a6342760b2816df332447d854ce85fb2707d31cb657609a1a3b",
+      "examples/solidcraft-example/desk.html": "e607399e4521de61bf63ebc37de3c67be78b7724407f8a1bcd10cb95572357d9",
+      "examples/solidcraft-example/index.html": "7a136799ea34c327ddb23ae9ee05336818f24cf92bbd8f219fbc19d18b0a53e4",
+      "examples/solidcraft-example/samples.json": "0b019f5e19b22e5698808ec78f15d9758b83d624bb00d380b7dd2391f2ffb9c0",
+      "examples/solidcraft-example/source.zip": "5c1ec3c376fa3e6f87e56a9ef00c10a3223f43c7e21d3805e1848bfbf0052cd6"
+    }
+  }
 }

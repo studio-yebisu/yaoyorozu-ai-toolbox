@@ -37,7 +37,7 @@ READMEだけでなく、掲載対象のSKILL.md、実行に必要な前提、ラ
 
 ## 4件を使って実際につくる
 
-[八百万図AIツールボックス Desk](examples/studio-desk/index.html)は、複数の制作を整理するための小さなWebアプリです。架空のプロジェクトを用意し、検索・絞り込み・追加・編集・進行状態の変更・タスク完了を操作できるようにしました。
+[Yaoyorozu AI ToolBox Desk](examples/studio-desk/index.html)は、複数の制作を整理するための小さなWebアプリです。架空のプロジェクトを用意し、検索・絞り込み・追加・編集・進行状態の変更・タスク完了を操作できるようにしました。
 
 Frontend Designを視覚方針に、Emil Design Engineeringを操作設計に適用し、Web Design GuidelinesとUI Skillsのfixing-accessibilityで実装を点検します。原典を読んで判断へ適用する方式であり、導入コマンドを実行したという意味ではありません。
 

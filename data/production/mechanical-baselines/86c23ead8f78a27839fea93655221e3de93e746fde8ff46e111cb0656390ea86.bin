@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="ja" data-theme="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>役割をつなぎ、使える予定へ。｜こもれび つくる日（架空イベントの作例）</title>
+  <meta name="description" content="架空イベントの6企画が、UX設計の引継ぎと土台CSS、Frontend実装を経て、時間が重ならない回る予定とJSON保存になるまでを、1枚の図で操作できる作例です。予約ではありません。">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f7f1e6">
+  <script>
+    (function () {
+      var choice = 'system';
+      try {
+        var stored = window.localStorage.getItem('studio-yebisu.agency-agents-example.theme');
+        if (stored === 'light' || stored === 'dark' || stored === 'system') choice = stored;
+      } catch (error) {
+        // 保存領域が使えない環境でも、既定の system で表示する。
+      }
+      document.documentElement.setAttribute('data-theme', choice);
+    }());
+  </script>
+  <link rel="stylesheet" href="foundation.css">
+  <link rel="stylesheet" href="guide.css">
+  <script src="guide.js" defer></script>
+</head>
+<body>
+  <a class="c-skip-link" href="#map">図と操作へ移動</a>
+
+  <header class="c-site-header">
+    <div class="l-container c-topbar">
+      <a class="c-topbar__back" href="index.html">指示書の概念図</a>
+      <div class="c-theme-toggle" role="group" aria-label="表示テーマ">
+        <button type="button" class="c-theme-toggle__option" data-theme-choice="system" aria-pressed="true">システム</button>
+        <button type="button" class="c-theme-toggle__option" data-theme-choice="light" aria-pressed="false">ライト</button>
+        <button type="button" class="c-theme-toggle__option" data-theme-choice="dark" aria-pressed="false">ダーク</button>
+      </div>
+      <p id="theme-note" class="u-visually-hidden" role="status"></p>
+    </div>
+  </header>
+
+  <main id="main" class="l-container">
+    <section class="c-hero" aria-labelledby="page-title">
+      <h1 id="page-title" class="c-hero__title">役割をつなぎ、使える予定へ。</h1>
+      <p class="c-hero__meta">
+        <span class="c-badge">架空イベント・予約ではない</span>
+        <span id="hero-event" class="c-hero__event"></span>
+      </p>
+    </section>
+
+    <section id="map" class="c-map" aria-labelledby="map-title" tabindex="-1">
+      <h2 id="map-title" class="u-visually-hidden">6企画が回る予定になるまでの図と操作</h2>
+      <p id="map-desc" class="u-visually-hidden">架空イベントの入力の6企画（S01〜S06）を、UX設計の引継ぎ書と土台CSSを経て、Frontend実装が時間の図にしたものです。午前と午後の帯で、横の位置と幅が開始と終了の時刻です。斜線は時間が重なる部分です。各帯の下の「予定」の列が回る予定で、図の下の予定メモにまとまり、JSONで保存できます。帯を押すと、その企画に注目します。入れる・外すは図の下のボタンで行います。</p>
+
+      <p id="load-status" class="c-load" role="status">固定した7つのファイルを読み込み、バイト数と SHA-256 を確かめています…</p>
+      <div id="load-error" class="c-notice c-notice--alert c-load-error" role="alert" hidden>
+        <p class="c-notice__title">元のファイルを確かめられなかったため、図と操作を止めています。</p>
+        <p id="load-error-reason"></p>
+        <p class="u-small">古い内容や内蔵の代わりのデータは表示しません。ファイルを直接開いた場合は読み込めないことがあります。HTTP で配信して開いてください。</p>
+        <button type="button" id="load-retry" class="c-button">もう一度読み込む</button>
+      </div>
+
+      <div id="figure" class="c-figure" aria-describedby="map-desc" hidden>
+        <svg id="wires" class="c-figure__wires" aria-hidden="true" focusable="false"></svg>
+
+        <ol class="u-list-reset c-trail" role="list" aria-label="役割を順に当てた流れ">
+          <li class="c-trail__item">
+            <a id="node-input" class="c-node c-node--doc" href="#sessions-all" data-open="sessions-all">
+              <span class="c-node__label">6企画</span>
+              <span class="c-node__sub">event.json</span>
+            </a>
+          </li>
+          <li class="c-trail__item">
+            <a id="node-ux" class="c-node c-node--ux" href="#role-ux" data-open="making">
+              <span class="c-node__label">UX設計</span>
+              <span class="c-node__sub">引継ぎ・土台</span>
+            </a>
+          </li>
+          <li class="c-trail__item">
+            <a id="node-fe" class="c-node c-node--fe" href="#role-frontend" data-open="making">
+              <span class="c-node__label">実装</span>
+              <span class="c-node__sub">比べて選ぶ</span>
+            </a>
+          </li>
+        </ol>
+
+        <div id="filter-note" class="c-filter-note" hidden>
+          <p id="filter-note-text" class="c-filter-note__text"></p>
+          <button type="button" id="filter-note-reset" class="c-button">条件をクリア</button>
+        </div>
+
+        <div id="timemap" class="c-timemap"></div>
+
+        <div class="c-figure__out">
+          <section id="plan" class="c-plan" aria-labelledby="plan-title">
+            <div class="c-plan__head">
+              <h3 id="plan-title" class="c-plan__title">予定メモ</h3>
+              <button type="button" id="try-recorded" class="c-button c-button--quiet c-plan__try" disabled>保存済みの4企画を試す</button>
+            </div>
+            <div class="c-plan__body">
+              <ol id="plan-chips" class="u-list-reset c-plan__chips" role="list" aria-label="回る予定（時間順）" hidden></ol>
+              <p id="save-reason" class="c-plan__sum">読み込み後に保存できます。</p>
+            </div>
+          </section>
+
+          <div class="c-act">
+            <p id="focus-line" class="c-act__focus"></p>
+            <div class="c-act__buttons">
+              <button type="button" id="toggle-session" class="c-button c-button--primary" aria-pressed="false" aria-describedby="focus-note" disabled>入れる</button>
+              <button type="button" id="save-json" class="c-button c-act__save" aria-describedby="save-reason" disabled>JSONで保存</button>
+            </div>
+            <p id="focus-note" class="c-act__note"></p>
+            <p id="action-status" class="c-act__status" role="status"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="detail" class="c-section c-detail" aria-labelledby="detail-title">
+      <h2 id="detail-title" class="c-section__title" tabindex="-1">注目中の企画</h2>
+      <div id="detail-body" class="c-detail__body"></div>
+    </section>
+
+    <section id="filters" class="c-section c-filters" aria-labelledby="filters-title">
+      <h2 id="filters-title" class="c-section__title" tabindex="-1">図を絞り込む</h2>
+      <p class="u-small u-muted u-measure">絞り込みは図に出す企画だけを変えます。回る予定に入れた企画は消えず、保存もできます。</p>
+      <form id="filter-form" class="c-filters__form" role="search" aria-labelledby="filters-title">
+        <fieldset id="filter-set" class="c-filters__set" disabled>
+          <legend class="u-visually-hidden">絞り込みの条件</legend>
+          <div class="c-filters__grid">
+            <div class="c-field c-filters__wide">
+              <label class="c-field__label" for="filter-query">キーワードで探す</label>
+              <input id="filter-query" class="c-input" type="search" name="query" autocomplete="off" enterkeyhint="search" aria-describedby="filter-query-hint">
+              <p id="filter-query-hint" class="c-field__hint">企画名・内容・部屋・対象年齢・メモから探します。空白で区切ると、すべての語を含む企画に絞ります。</p>
+            </div>
+            <div class="c-field">
+              <label class="c-field__label" for="filter-kind">種類</label>
+              <select id="filter-kind" class="c-select" name="kind">
+                <option value="all">すべて</option>
+                <option value="workshop">ワークショップ</option>
+                <option value="talk">トーク</option>
+                <option value="consultation">相談</option>
+              </select>
+            </div>
+            <div class="c-field">
+              <label class="c-field__label" for="filter-time">時間帯</label>
+              <select id="filter-time" class="c-select" name="time">
+                <option value="all">すべて</option>
+                <option value="morning">午前に始まる</option>
+                <option value="afternoon">午後に始まる</option>
+              </select>
+            </div>
+            <div class="c-field">
+              <label class="c-field__label" for="filter-fee">費用</label>
+              <select id="filter-fee" class="c-select" name="fee">
+                <option value="all">すべて</option>
+                <option value="free">無料</option>
+                <option value="paid">費用あり</option>
+              </select>
+            </div>
+            <div class="c-filters__reset-cell">
+              <button type="button" id="filter-reset" class="c-button c-button--block">条件をクリア</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+      <p id="result-status" class="c-filters__status" role="status"></p>
+      <div id="no-results" class="c-notice c-no-results" hidden>
+        <p class="c-notice__title">条件に合う企画はありません。</p>
+        <p class="u-small">回る予定に入れた企画はそのまま残り、JSONで保存できます。</p>
+        <button type="button" id="no-results-reset" class="c-button">条件をクリア</button>
+      </div>
+    </section>
+
+    <section id="itinerary" class="c-section c-itinerary" aria-labelledby="itinerary-title">
+      <h2 id="itinerary-title" class="c-section__title" tabindex="-1">回る予定</h2>
+      <p class="u-small u-muted u-measure">選んだ企画を時間順に並べます。この一覧はブラウザーに保存されず、再読み込みすると空に戻ります。予約・支払い・参加確定ではありません。</p>
+      <p id="itinerary-empty" class="c-itinerary__empty">企画データを確かめたあと、ここで回る予定を作れます。</p>
+      <ol id="itinerary-list" class="u-list-reset c-itinerary__list" role="list" hidden></ol>
+      <dl id="itinerary-summary" class="c-itinerary__summary" hidden>
+        <div>
+          <dt>件数</dt>
+          <dd id="itinerary-count" class="u-tabular"></dd>
+        </div>
+        <div>
+          <dt>予定の時間</dt>
+          <dd id="itinerary-span" class="u-tabular"></dd>
+        </div>
+        <div>
+          <dt>費用の合計</dt>
+          <dd id="itinerary-total" class="u-tabular"></dd>
+        </div>
+      </dl>
+      <p id="itinerary-reservation" class="u-small" hidden></p>
+      <p id="record-match" class="c-itinerary__match u-small" hidden></p>
+      <p id="export-status" class="c-itinerary__export u-small" hidden></p>
+      <button type="button" id="clear-button" class="c-button c-button--quiet" hidden>回る予定をすべて外す</button>
+    </section>
+
+    <details id="sessions-all" class="c-fold">
+      <summary><h2 class="c-fold__title">6企画の全項目（元の入力）</h2></summary>
+      <div class="c-fold__body l-stack">
+        <p class="u-measure">入力 <a href="input/event.json">input/event.json</a> の値をそのまま出しています。定員は企画上の設定で、残席ではありません。定員が入力で null の企画は「設定なし」と書き、0人や無制限としては扱いません。予約不要の企画も、回る予定では開始から終了までの枠全体を使います。</p>
+        <div id="sessions-all-list" class="c-full-list"></div>
+      </div>
+    </details>
+
+    <details id="event-info" class="c-fold">
+      <summary><h2 class="c-fold__title">開催情報（架空）</h2></summary>
+      <div class="c-fold__body">
+        <dl class="c-meta c-info">
+          <dt>題名</dt>
+          <dd id="info-title"></dd>
+          <dt>添え書き</dt>
+          <dd id="info-subtitle"></dd>
+          <dt>日付</dt>
+          <dd><time id="info-date"></time></dd>
+          <dt>時刻の基準</dt>
+          <dd id="info-timezone"></dd>
+          <dt>開場・閉場</dt>
+          <dd id="info-hours" class="u-tabular"></dd>
+          <dt>会場</dt>
+          <dd id="info-venue"></dd>
+          <dt>入場</dt>
+          <dd id="info-admission"></dd>
+          <dt>地域</dt>
+          <dd id="info-area"></dd>
+          <dt>予約</dt>
+          <dd id="info-reservation"></dd>
+          <dt>案内</dt>
+          <dd id="info-access"></dd>
+          <dt>天候</dt>
+          <dd id="info-weather"></dd>
+        </dl>
+      </div>
+    </details>
+
+    <details id="making" class="c-fold">
+      <summary><h2 class="c-fold__title">この作例のつくり方</h2></summary>
+      <div class="c-fold__body l-stack">
+        <p class="u-measure">Agency Agents の2つの役割ファイルを、同じ Claude Opus 5.5 が<strong>別々の実行で順に</strong>当てて作りました。先に UX Architect が入力から引継ぎ書と CSS の土台を書き、次に Frontend Developer がそれを読んで、企画を比べて選ぶ画面を実装しました。README の「Option 3: Use as Reference」（読んで写し、調整して使う）の使い方で、エージェントのインストール、独立したエージェント同士の協調、自動の振り分けはありません。この図は保存済みの成果をつないで見せるもので、ページを開いてもAIは動きません。</p>
+        <p class="u-measure">このページと解説動画は、元の2段階のあとに Claude Opus 5.5 が別の実行で作り直した表示です。元の入力・引継ぎ書・土台CSS・実装・保存記録は書き換えず、起動時にバイト数と SHA-256 を確かめて読み込んでいます。元の実装の画面は <a href="comparison.html">comparison.html</a> で開けます。</p>
+
+        <h3 class="c-fold__sub">2つの役割（元の引継ぎ書から）</h3>
+        <div id="roles" class="c-roles"></div>
+
+        <h3 class="c-fold__sub">採用しなかった案と、直した条件</h3>
+        <div class="c-decision">
+          <p class="c-decision__title">A09「入れ替える」は採用していません</p>
+          <p class="u-measure">引継ぎ書は、重なる企画のボタンで今の予定を外して入れ替える案でした。実装では、重なる企画を押しても予定は変えず、どの企画のどの時間と重なるかを知らせます。こちらにしたいときは、先に今の企画を自分で外します。押しただけで選んだ企画が外れる操作は置いていません。</p>
+          <figure class="c-decision__quote">
+            <figcaption class="u-small u-muted">引継ぎ書の受け入れ条件 A09（原文・採用せず）</figcaption>
+            <blockquote id="decision-a09-text"></blockquote>
+          </figure>
+          <figure class="c-decision__quote">
+            <figcaption class="u-small u-muted">引継ぎ書の受け入れ条件 A06（原文）。実装では「入れ替え」がないため、S01 がある限り S02 は入りません</figcaption>
+            <blockquote id="decision-a06-text"></blockquote>
+          </figure>
+          <p class="u-small u-muted">受け入れ条件は引継ぎ書の段階で書かれた将来の確認項目で、合格の記録ではありません。</p>
+        </div>
+        <div class="c-decision">
+          <p class="c-decision__title">重なりの判定式（引継ぎ書のまま）</p>
+          <p><code id="decision-rule"></code></p>
+          <p class="u-small u-muted">終了と開始が同時刻なら重なりません（例：S05 の終了 14:00 と S06 の開始 14:00）。部屋が違っても、時間が重なれば重なりです。移動の時間は考えていないため、実際に参加できることは保証しません。</p>
+        </div>
+
+        <h3 class="c-fold__sub">元の画面で実際に操作した記録（履歴）</h3>
+        <p class="u-small u-muted u-measure">元の実装（comparison.html）を実ブラウザーで操作したときの記録 <a href="samples.json">samples.json</a> と <a href="outputs/browser-record.json">outputs/browser-record.json</a> からの抜き出しです。この図のページを確かめた記録ではありません。</p>
+        <ul id="samples-list" class="u-list-reset c-samples" role="list"></ul>
+
+        <h3 class="c-fold__sub">実際のファイル</h3>
+        <ul class="u-list-reset c-linklist" role="list">
+          <li><a href="input/event.json">架空イベントの入力（input/event.json）</a></li>
+          <li><a href="outputs/ux-handoff.md">UX Architect の引継ぎ書（outputs/ux-handoff.md）</a></li>
+          <li><a href="outputs/ux-handoff.json">引継ぎ書のデータ（outputs/ux-handoff.json）</a></li>
+          <li><a href="foundation.css">CSS の土台（foundation.css・このページも同じものを読み込んでいます）</a></li>
+          <li><a href="outputs/implementation.md">Frontend Developer の実装記録（outputs/implementation.md）</a></li>
+          <li><a href="comparison.html">元の実装の画面（comparison.html）</a></li>
+          <li><a href="outputs/browser-itinerary.json">保存された予定 4件・1,000円（outputs/browser-itinerary.json）</a></li>
+          <li><a href="outputs/browser-itinerary-alternative.json">別の組の予定 4件・500円（outputs/browser-itinerary-alternative.json）</a></li>
+          <li><a href="outputs/browser-record.json">元の画面の操作記録（outputs/browser-record.json）</a></li>
+          <li><a href="samples.json">入力と出力の対（samples.json）</a></li>
+          <li><a href="data-manifest.json">このページが確かめるファイルの一覧と SHA-256（data-manifest.json）</a></li>
+          <li><a href="request.txt">依頼文（request.txt）</a></li>
+          <li><a href="vendor/agency-agents/design/design-ux-architect.md">役割ファイル UX Architect（固定版）</a></li>
+          <li><a href="vendor/agency-agents/engineering/engineering-frontend-developer.md">役割ファイル Frontend Developer（固定版）</a></li>
+          <li><a href="vendor/agency-agents/README.md">Agency Agents の README（固定版）</a></li>
+          <li><a href="vendor/agency-agents/LICENSE">Agency Agents の LICENSE（MIT）</a></li>
+          <li><a href="brief.json">制作ブリーフ（brief.json）</a></li>
+          <li><a href="README.md">この作例の README</a></li>
+          <li><a href="verification.json">確認の範囲（verification.json）</a></li>
+        </ul>
+
+        <p class="u-small u-muted u-measure">役割ファイルは msitarzewski/agency-agents（固定コミット bd956db032d907387e6b9ddebff3e18f1de8c679）のコミュニティ作成のもので、Anthropic 公式ではありません。MIT License（Copyright (c) 2025 AgentLand Contributors）。UX Architect の役割ファイルが参照する ai/agents/architect.md と ai/memory-bank の資料は固定版になく、内容を補っていません。役割を使った効果の測定、第三者のレビュー、人による承認はありません。</p>
+      </div>
+    </details>
+
+    <details id="request-details" class="c-fold">
+      <summary><h2 class="c-fold__title">この作例の依頼文</h2></summary>
+      <div class="c-fold__body l-stack">
+        <p class="u-measure">同じ2段階を、自分のイベント情報で繰り返すときの依頼文です。イベント情報の欄を差し替えて、2つの役割ファイルを読めるAIに渡してください。</p>
+        <pre id="request-text" class="c-request__text" hidden></pre>
+        <div class="l-cluster">
+          <button type="button" id="copy-request" class="c-button" disabled>依頼文をコピー</button>
+          <a class="c-request__file" href="request.txt">依頼文のファイル（request.txt）</a>
+        </div>
+        <p id="copy-status" class="u-small" role="status"></p>
+        <div id="copy-fallback" class="c-field" hidden>
+          <label class="c-field__label" for="copy-fallback-text">手動でコピーする欄</label>
+          <textarea id="copy-fallback-text" class="c-input c-request__fallback" readonly rows="10"></textarea>
+        </div>
+      </div>
+    </details>
+
+    <section class="c-section c-film" aria-labelledby="film-title">
+      <h2 id="film-title" class="c-section__title">Agency Agentsの構造を見る</h2>
+      <p>この案内ページを作った役割の指示書と、依頼・素材・成果のつながりを動く概念図で紹介しています。</p>
+      <p><a href="index.html">概念図と32秒の無音動画へ</a> · <a href="source.zip">入力・出力・編集ソース一式</a></p>
+    </section>
+  </main>
+
+  <footer class="c-footer">
+    <div class="l-container l-stack">
+      <p>このイベントは作例のための架空の設定です。予約・支払い・住所・地図・連絡先・最新の空き状況は扱いません。</p>
+      <ul class="u-list-reset c-linklist" role="list">
+        <li><a href="https://github.com/msitarzewski/agency-agents/tree/bd956db032d907387e6b9ddebff3e18f1de8c679">原典：msitarzewski/agency-agents @ bd956db（MIT・コミュニティ作成）</a></li>
+        <li><a href="LICENSE">この作例の LICENSE（MIT・2026 八百万図AIツールボックス）</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <noscript>
+    <p class="l-container">このページは JavaScript で元のファイルを確かめてから図を描きます。元の入力は <a href="input/event.json">input/event.json</a>、保存された予定は <a href="outputs/browser-itinerary.json">outputs/browser-itinerary.json</a> で開けます。</p>
+  </noscript>
+</body>
+</html>

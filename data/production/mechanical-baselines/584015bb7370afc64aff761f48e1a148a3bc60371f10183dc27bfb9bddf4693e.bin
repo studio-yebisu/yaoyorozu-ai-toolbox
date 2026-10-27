@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>点検してから、保存。Letta Code 記憶の点検の作例｜八百万図AIツールボックス</title>
+  <meta name="description" content="記憶のメモを変えたら、Git に保存する前に Letta Code の検査が形を点検します。案内のファイルがないと止まり、案内だけを戻した別の試行では保存でき、止まった変更は stage に残ります。図に出すのは、制作時に固定版の原典の検査と実際の Git で実行して保存した結果です。">
+  <meta name="theme-color" content="#f5f3eb">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="brand">
+    <a href="../../">八百万図AIツールボックス</a>
+    <span>LETTA CODE 作例</span>
+  </header>
+
+  <main id="main">
+    <section class="intro" aria-labelledby="title">
+      <p class="eyebrow">LETTA CODE ・ 記憶の変更を保存前に点検</p>
+      <h1 id="title">点検してから、保存。</h1>
+      <details class="scope">
+        <summary><span class="chip">保存済みの実行結果</span><span class="chip">架空の記憶</span></summary>
+        <p>図に出すのは、制作時に固定版 Letta Code 0.34.14 の原典の検査（MemFS の木と frontmatter の検査API、Git の pre-commit 用の検査スクリプト）を、架空の「さくら読書会」の記憶の8つの変更に、実際の Git の commit で通した記録です。ページを開いても Letta Code・Git・AI は動かず、記憶の編集や再実行はできません。本・メモ・門の絵は関係を見せるための図で、画面の録画ではありません。</p>
+      </details>
+      <div class="choices" role="group" aria-label="場面を選ぶ">
+        <button class="choice" type="button" data-case="L02" aria-pressed="false" disabled><span class="dot dot-stop" aria-hidden="true"></span>案内なし</button>
+        <button class="choice" type="button" data-case="L03" aria-pressed="false" disabled><span class="dot dot-ok" aria-hidden="true"></span>案内を戻す</button>
+        <button class="choice" type="button" data-case="L04" aria-pressed="false" disabled><span class="dot dot-long" aria-hidden="true"></span>長すぎる</button>
+        <button class="choice" type="button" data-case="L08" aria-pressed="false" disabled><span class="dot dot-lock" aria-hidden="true"></span>設定の保護</button>
+      </div>
+    </section>
+
+    <section class="experience" aria-label="記憶のメモ・stage の変更・Letta の点検・Git の保存の関係の図">
+      <div id="diagram" class="diagram" role="img" aria-label="記憶のメモ、stage の変更、Letta の点検、Git の保存の関係の図。記録を確かめるまで表示しません。" hidden></div>
+      <noscript><p class="status">この図の表示には JavaScript が必要です。記録は <a href="outputs/memory-runs.json">outputs/memory-runs.json</a>、8件の比較は <a href="comparison.html">comparison.html</a> で開けます。</p></noscript>
+
+      <p id="status" class="status" data-state="loading" role="status" aria-live="polite">保存済みの実行結果と固定版のハッシュを確かめています…</p>
+      <button id="retry" class="retry" type="button" hidden>もう一度読み込む</button>
+
+      <div class="result-actions">
+        <button id="pair" class="action primary" type="button" hidden>案内ありと比べる</button>
+        <button id="save-record" class="action save" type="button" disabled><span aria-hidden="true">↓</span> 実行記録を保存<span id="save-id" class="save-id"></span></button>
+        <a id="compare" class="action" href="comparison.html">元の記録で見る</a>
+      </div>
+      <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+
+      <p id="caption" class="caption"></p>
+      <p id="case-note" class="case-note" hidden><span id="case-note-text"></span> <a id="case-note-link" href="comparison.html">8件の記録で見る</a></p>
+    </section>
+
+    <div class="folds">
+      <details class="fold" id="facts-fold">
+        <summary>この記録の入力と出力</summary>
+        <p id="facts-intro">記録を読み込むと、選んだ記録の実際の値を表示します。</p>
+        <dl id="facts" class="facts"></dl>
+        <details class="raw">
+          <summary>git commit の出力（原文）</summary>
+          <pre id="raw-git" class="raw-text" tabindex="0"></pre>
+        </details>
+        <details class="raw">
+          <summary>原典の検査スクリプトを直接実行した出力（原文）</summary>
+          <pre id="raw-cli" class="raw-text" tabindex="0"></pre>
+        </details>
+        <details class="raw">
+          <summary>検査APIと frontmatter の結果（JSON）</summary>
+          <pre id="raw-api" class="raw-text" tabindex="0"></pre>
+        </details>
+        <details class="raw">
+          <summary>入力ファイルの全文（JSON）</summary>
+          <pre id="raw-input" class="raw-text" tabindex="0"></pre>
+        </details>
+        <ul class="links">
+          <li><a id="facts-compare" href="comparison.html">前と後のファイルを見比べる（元の記録）</a></li>
+        </ul>
+      </details>
+
+      <details class="fold" id="all">
+        <summary>8件すべての記録</summary>
+        <p id="tally">記録を読み込むと、件数を表示します。</p>
+        <ul id="all-list" class="links"></ul>
+        <p>図の4場面のほか、詳細だけの更新（L01・保存）、3階層の記憶（L05）、ルートの合計の上限（L06）、保護した方針の変更（L07）も、<a href="comparison.html">元の記録</a>で入力・原典の理由・HEAD と stage を確かめられます。</p>
+      </details>
+
+      <details class="fold" id="film"><summary>解説動画（32秒・無音）</summary><p>大きな概念図と短いラベルで使い方を説明します。</p><ul class="links"><li><a href="../../media/letta-code-example.mp4">縦動画を見る</a></li><li><a href="../../media/letta-code-example-wide.mp4">横動画を見る</a></li><li><a href="video/index.html">映像の編集ソース</a></li><li><a id="film-compare" href="comparison.html">この場面を元の記録で見る</a></li></ul></details>
+
+      <details class="fold" id="request">
+        <summary>依頼文</summary>
+        <p>この作例を依頼した文です（<a href="request.txt">request.txt</a>）。</p>
+        <button id="copy" class="copy" type="button" disabled>依頼文をコピー</button>
+        <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+        <label id="fallback-label" class="fallback-label" for="fallback" hidden>コピーできませんでした。下の全文を長押しして選び、コピーしてください。</label>
+        <textarea id="fallback" class="fallback" rows="8" readonly hidden></textarea>
+      </details>
+
+      <details class="fold" id="about">
+        <summary>この作例で確かめた範囲</summary>
+        <p>Letta Code の記憶は Markdown のファイルと Git で管理されます。ルートの <code>MEMORY.md</code> から、フォルダーごとの案内（<code>MEMORY.md</code>）を通って詳細のメモを読む形です。記憶を変えて commit するとき、Git の pre-commit で原典の検査が動き、形が決まりに合わなければ commit を止めます。この作例は、その「保存の前の形の点検」だけを試したものです。</p>
+        <p>8件のうち2件が保存され、6件が意図した理由で止まりました。止まった件では HEAD は基準の commit のままで、stage の変更は消えずに残りました。L03 は、L02 と同じ変更から案内（<code>bookclub/MEMORY.md</code>）だけを残した入力を、別の新しいリポジトリで試した記録です。ページの上でその場で直したものではありません。</p>
+        <p>L04 は 901文字のメモ（架空の上限 900文字）、L06 はルートの合計 1201文字（上限 1200文字）で止まった記録で、上限ちょうどの 900文字・1200文字は試していません。L08 では検査API（実行前の初期方針で検査）の指摘は0件でしたが、原典の検査スクリプトが <code>.memfs.config.json</code> の変更を人の承認なしでは認めず、止めました。</p>
+        <p>形の点検を通ることは、記憶の中身が正しい・事実として正確・採用してよい、という意味ではありません。人の承認やセキュリティの保証でもありません。エージェントとの会話、モデルの推論、記憶の自動抽出や想起、Letta Cloud・ログイン・同期、<code>/init</code> と履歴の調査は使っていません。架空の記憶と初期方針は制作側が実行前に固定したもので、実在の人の記憶や、実際に採用された方針ではありません。</p>
+        <p>確認：記録の自動確認208件、制作側が別に書いた8つの Git リポジトリと原典 hook の照合（<a href="outputs/independent-checks.json">independent-checks.json</a>）、別のコピー・新しい Node・新しい Git で記録の全バイトが一致（<a href="outputs/reproduction-checks.json">reproduction-checks.json</a>）。実機の iPhone・Safari での確認と、人による内容の承認は記録にありません。</p>
+        <ul class="links">
+          <li><a href="outputs/method.md">手順と読み方（method.md）</a></li>
+          <li><a href="README.md">README（再実行の手順）</a></li>
+          <li><a href="comparison.html">8件の記録（入力と出力の全文）</a></li>
+        </ul>
+      </details>
+
+      <details class="fold" id="source">
+        <summary>原典・固定版・利用条件</summary>
+        <dl class="facts">
+          <div><dt>原典</dt><dd><a href="https://github.com/letta-ai/letta-code/tree/316e4c0545b549c453e0f85cc81d3540404eff74">letta-ai/letta-code</a>（0.34.14・Apache-2.0）</dd></div>
+          <div><dt>固定コミット</dt><dd class="mono">316e4c0545b549c453e0f85cc81d3540404eff74</dd></div>
+          <div><dt>使った関数</dt><dd><a href="https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/memory-constraints.ts">validateMemoryTreeConstraints・parseMemoryConstraintsConfig</a>・<a href="https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/memory-frontmatter.ts">validateMemoryFileFrontmatter</a>・<a href="https://github.com/letta-ai/letta-code/blob/316e4c0545b549c453e0f85cc81d3540404eff74/src/agent/memory-constraints.ts">MEMORY_CONSTRAINTS_VALIDATOR_SCRIPT</a></dd></div>
+          <div><dt>原典スキル</dt><dd><a href="vendor/letta-code/src/skills/builtin/initializing-memory/SKILL.md">initializing-memory の SKILL.md</a> からは Harness Constraints・ルートを案内にする構造・「9. Verify」の構造の確認だけを使いました。<code>/init</code> の流れ（履歴の調査・利用者への質問・サブエージェント）は使っていません。</dd></div>
+          <div><dt>同梱</dt><dd>原典8ファイルを改変せずに置いています（<a href="vendor-lock.json">vendor-lock.json</a>・<a href="vendor/letta-code/LICENSE">Apache License 2.0</a>）。</dd></div>
+          
+          <div><dt>実行記録</dt><dd id="run-facts">記録を読み込むと表示します。</dd></div>
+        </dl>
+        <p>この図のページ（index.html・style.css・app.js）と解説動画の映像（video/）は、今回の改修で Claude Opus 5.5 が新しく書きました。図に出す値はモデルではなく、制作時に原典の関数と Git が返したものです。実行に使った run.mjs・loader.mjs、8件の記録、元の記録のページ（comparison.html）の入力・出力を表示する部分は以前の制作のものを引き継ぎ、動画の案内だけを更新しています。架空の記憶・初期方針・期待は制作側が実行前に固定しました。ページ・説明文・映像のコードは MIT License（<a href="LICENSE">LICENSE</a>・Copyright (c) 2026 Studio Yebisu）です。</p>
+        <ul class="links">
+          <li><a href="source.zip">作例のソース一式（source.zip）</a></li>
+          <li><a href="outputs/memory-runs.json">実行記録（JSON）</a></li>
+        </ul>
+      </details>
+    </div>
+  </main>
+
+  <footer class="footer">八百万図AIツールボックス · 架空の「さくら読書会」の記憶です · 実在の人・会話・記憶は含みません · Letta の公式の製品ではありません</footer>
+</body>
+</html>

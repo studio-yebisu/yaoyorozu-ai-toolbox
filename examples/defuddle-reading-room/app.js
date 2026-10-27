@@ -1,4 +1,4 @@
-/* 本文を取り出す読書室 — 八百万図AIツールボックス (MIT).
+/* 本文を取り出す読書室 — Yaoyorozu AI ToolBox (MIT).
    Runs the bundled Defuddle (vendor/defuddle/defuddle.full.js) on the three fictional pages in samples.json,
    in this browser, with useAsync:false. Nothing is fetched from the network except the local samples.json.
    Extracted text is always written with textContent; it is never inserted as HTML. */

@@ -1,0 +1,133 @@
+{
+  "id": "hatchzip-example",
+  "name": "HatchZip",
+  "title": "HatchZip",
+  "title_lines": [
+    "展開しながら、アーカイブを縮める。"
+  ],
+  "category": "development",
+  "summary": "ZIP・7z・tarを展開しながら元アーカイブを段階的に削る解凍ツール。新規作成した使い捨てコピーだけに3回実行した実測トレースを再生できる。アーカイブがバッチで縮み、出力が育つ様子、観測最大と従来の共存サイズの比較、そして5,136件のSHA-256一致までを見る。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/hatchzip-example/index.html",
+  "video": "media/hatchzip-example.mp4",
+  "poster": "media/hatchzip-example.webp",
+  "skill": "examples/hatchzip-example/reproduce.py",
+  "skill_label": "使い捨てコピーでHatchZipを実行して照合するPythonソース",
+  "skill_description": "架空ファイルを新規作成してアーカイブし、原本のコピーに対してlist・test・checkを済ませてから展開し、展開中のサイズ変化をサンプリング、出力のSHA-256を照合するreproduce.pyです。",
+  "samples": "examples/hatchzip-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "実行した3サンプル",
+  "samples_intro": "ZIP・4,096ファイル／圧縮ZIP・16ファイル／tar・1,024ファイル。アーカイブ・出力・進捗ファイルのバイトとファイル数を時系列で見られます。",
+  "demo_description": "ZIP2種とtarの実測トレースを切り替えて再生するページです。アーカイブ残量・出力件数・論理サイズの観測値と、実際の小さな入出力サンプルを確認できます。",
+  "demo_note": "ページは実測トレースの再生です。ブラウザーから何かを実行せず、2026-10-24に使い捨てコピーだけで行った3回の記録を表示します。",
+  "request_intro": "大きなアーカイブを、空き容量をやりくりしながら展開したいときの依頼文です。",
+  "request": "HatchZip の固定版原典（https://github.com/xevrion/hatchzip/tree/2b754c85b9322da64186e5e199ed22b1e45a5cce）を読み、省容量での展開を小さな使い捨てデータで試す手順を準備してください。\n1. このツールは展開中に元アーカイブを削ります。実際の制作素材・唯一の原本には実行せず、新規フォルダーに架空の小さなファイルを作り、通常のZIPと検証用コピーを用意してください。\n2. list・test・checkでコピーの内容、チェックサム、空き容量の計画を確認してください。検査が通るまでは展開しないでください。\n3. 検証用コピーだけを新しい空の出力先に展開し、展開前の各ファイルとSHA-256で照合してください。インストールが未実施なら、その状態と手順を記録してください。\n4. 必要容量はZIPの最大ファイルや7zのsolidブロックなどで変わり、常に追加容量ゼロになるわけではないことを結果に添えてください。中断時の進捗ファイルは完了するまで残してください。\n入力、使用版、展開前後の容量、出力の照合結果、未確認の点を記録してください。",
+  "video_note": "26秒・30fps・音声なし。縦540×960、横960×540。実測トレース（ZIP・4,096ファイル）からアーカイブの縮みと出力の成長、SHA-256一致、観測最大の比較を描く。",
+  "video_source": "examples/hatchzip-example/video/index.html",
+  "skill_license": "examples/hatchzip-example/third-party/hatchzip-LICENSE",
+  "license_note": "ページ・図・映像コードはMIT。HatchZip のソースはMIT OR Apache-2.0（同梱のコピーあり）で、別物です。展開する素材自体の権利は別。",
+  "applied_skills": [
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel",
+      "applied": "claude-opus-5-5が図・ページ・映像コードを執筆。26秒・30fps・縦横の個別構図で、実測トレースだけから描きます。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "使い捨てコピーを用意",
+      "body": "架空ファイルを新規作成してZIP／tarにし、原本のコピーだけを検証フォルダーへ。list・test・checkを先に済ませる。"
+    },
+    {
+      "title": "v0.1.2で3回実行",
+      "body": "公式Windowsバイナリ（SHA-256検証済み）で3サンプルを展開。トレースを記録し、出力5,136件のSHA-256がすべて一致することを確認。"
+    },
+    {
+      "title": "トレースを再生して映像化",
+      "body": "アーカイブの縮みと出力の成長を再生。観測最大と従来の共存サイズの比較つきの26秒無音リールとして編集ソースを残す。"
+    }
+  ],
+  "catalog_entry": {
+    "id": "resource-hatchzip",
+    "name": "HatchZip",
+    "tagline": "展開済みの部分から元アーカイブを縮め、空き容量をやりくりする。",
+    "category": "development",
+    "kind": "ツール",
+    "summary": "ZIP・7z・tarなどを展開しながら元アーカイブを段階的に削り、保存場所の使用量を抑える解凍ツール。元アーカイブは消費される。事前のcheckで、そのファイルと保存先に必要な空き容量を確認できる。",
+    "use_case": "大きな3D素材や制作データをダウンロードしたあと、アーカイブと展開後のファイルを同時に置く空き容量が足りないとき。",
+    "tags": [
+      "大容量素材",
+      "解凍",
+      "ディスク容量",
+      "Windows",
+      "ツール"
+    ],
+    "workflow": [
+      "再取得できる小さなアーカイブの検証用コピーを用意し、hatchzip list・test・checkで内容、整合性、必要容量を確認する",
+      "空の出力先へコピーを展開する。元アーカイブは展開とともに削られるため、保持する原本には実行しない",
+      "出力を元の検証データと照合する。中断した場合は進捗ファイルを残し、同じコマンドで再開する"
+    ],
+    "requirements": [
+      "Windows・macOS・Linux向けのHatchZip。GUIとCLIがある",
+      "checkが示す空き容量。ZIP・tarの大きな1ファイルや7zの大きなsolidブロックによって、削減できる量は変わる",
+      "空または新規の出力先。別ドライブへの展開では、元の削除で展開先の容量は増えない"
+    ],
+    "license": "MIT OR Apache-2.0",
+    "license_url": "https://github.com/xevrion/hatchzip/blob/2b754c85b9322da64186e5e199ed22b1e45a5cce/LICENSE-MIT",
+    "license_note": "コードはMITまたはApache-2.0を選択できます。リンク先はMITの原文です。展開する素材自体の権利や利用条件は別です。",
+    "source_url": "https://github.com/xevrion/hatchzip/tree/2b754c85b9322da64186e5e199ed22b1e45a5cce",
+    "guide_url": "case.html?id=hatchzip-example",
+    "readme_url": "https://github.com/xevrion/hatchzip/blob/2b754c85b9322da64186e5e199ed22b1e45a5cce/README.md",
+    "source_repository": "xevrion/hatchzip",
+    "source_commit": "2b754c85b9322da64186e5e199ed22b1e45a5cce",
+    "source_note": "README、容量計画と途中再開の設計説明、CLIのcheck・extract等の分岐、MITライセンスを確認。配布元の速度・省容量・復旧試験の数値は当サイトの実測ではありません。実行したのは公式v0.1.2のWindowsバイナリで、バイナリのSHA-256を検証済みです。原典は実行したv0.1.2のコミットへ固定しています。",
+    "prompt": "HatchZip の固定版原典（https://github.com/xevrion/hatchzip/tree/2b754c85b9322da64186e5e199ed22b1e45a5cce）を読み、省容量での展開を小さな使い捨てデータで試す手順を準備してください。\n1. このツールは展開中に元アーカイブを削ります。実際の制作素材・唯一の原本には実行せず、新規フォルダーに架空の小さなファイルを作り、通常のZIPと検証用コピーを用意してください。\n2. list・test・checkでコピーの内容、チェックサム、空き容量の計画を確認してください。検査が通るまでは展開しないでください。\n3. 検証用コピーだけを新しい空の出力先に展開し、展開前の各ファイルとSHA-256で照合してください。インストールが未実施なら、その状態と手順を記録してください。\n4. 必要容量はZIPの最大ファイルや7zのsolidブロックなどで変わり、常に追加容量ゼロになるわけではないことを結果に添えてください。中断時の進捗ファイルは完了するまで残してください。\n入力、使用版、展開前後の容量、出力の照合結果、未確認の点を記録してください。",
+    "source_path": "",
+    "source_project": "curated",
+    "verification_stage": "runtime-reviewed",
+    "verification": "2026-10-24に公式v0.1.2のWindowsバイナリを照合して実行。使い捨てコピーのZIP2種・tar1種、計5,136ファイルの出力SHA-256が参照データと一致。原本保持とコピー消費を確認。縦横の26秒・30fps動画を書き出し、同じ時刻への戻り描画と新規ページでのPNG一致、音声トラックなしを確認。容量は対象フォルダーの論理サイズを不等間隔で観測した値。小さい容量枠の追加試験は途中停止し、通常の予約容量へ戻して再開すると24件が一致。容量逼迫時の完走、物理使用量の瞬間最大、停電復旧は未確認。",
+    "reviewed_on": "2026-10-24",
+    "example_url": "examples/hatchzip-example/index.html",
+    "image": "media/hatchzip-example.webp"
+  },
+  "updated_on": "2026-10-24",
+  "video_portrait": "media/hatchzip-example.mp4",
+  "video_landscape": "media/hatchzip-example-wide.mp4",
+  "poster_portrait": "media/hatchzip-example.webp",
+  "poster_landscape": "media/hatchzip-example-wide.webp",
+  "video_width": 540,
+  "video_height": 960,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "sources": [
+    {
+      "label": "xevrion/hatchzip 実行版 v0.1.2（2b754c85…）",
+      "url": "https://github.com/xevrion/hatchzip/tree/2b754c85b9322da64186e5e199ed22b1e45a5cce"
+    },
+    {
+      "label": "MITライセンスの原文",
+      "url": "https://github.com/xevrion/hatchzip/blob/2b754c85b9322da64186e5e199ed22b1e45a5cce/LICENSE-MIT"
+    },
+    {
+      "label": "再現コード reproduce.py",
+      "url": "examples/hatchzip-example/reproduce.py"
+    },
+    {
+      "label": "編集ソース一式（video/）",
+      "url": "examples/hatchzip-example/video/index.html"
+    },
+    {
+      "label": "予約容量を小さくした追加試験と再開結果",
+      "url": "examples/hatchzip-example/additional-probe.json"
+    }
+  ],
+  "video_download_portrait": "media/downloads/hatchzip-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/hatchzip-example-landscape-credited-ja-v3.mp4"
+}

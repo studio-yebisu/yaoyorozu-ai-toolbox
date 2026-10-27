@@ -1,0 +1,254 @@
+{
+  "id": "liveportrait-example",
+  "title": "LivePortrait",
+  "title_lines": [
+    "1枚の肖像を動かす画像アニメーションモデル"
+  ],
+  "category": "video",
+  "summary": "人物の静止画に、別の映像の表情や頭の動きを反映できます。元の画像の見た目をもとに、ポートレートの表情や動きを変えたアニメーションを作れます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/liveportrait-example/index.html",
+  "video": "media/liveportrait-example.mp4",
+  "poster": "media/liveportrait-example.webp",
+  "skill": "examples/liveportrait-example/vendor/liveportrait/readme.md",
+  "skill_label": "LivePortrait 原典のreadme とコアAPI（モデル・ツールの一次資料・SKILL.mdではない）",
+  "skill_description": "KlingAIResearch/LivePortrait の固定版にある readme.md の原文と、src/live_portrait_wrapper.py などの原典のコードです。AIエージェント向けの手順書（SKILL.md）でも、ホスト型APIでもありません。readme は、駆動動画で人物や動物の顔を動かすフルのパイプライン、Gradio、顔検出、目と口の retargeting までを説明しています。この作例ではそのうち、LivePortraitWrapper（HUMAN）のコアAPIを直接呼ぶ範囲だけを使いました。作者AIはこのreadmeと原典のコードを読んで入力の準備・ランナー・ジョブを書き、実際に実行したのは制作担当です。実行したコードは examples/liveportrait-example/prepare_input.py・run_example.py と、無改変の原典です。",
+  "samples": "examples/liveportrait-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "同じ1枚と2つの角度の値、返った3秒のMP4",
+  "samples_intro": "input は2つとも同じ入力の1枚（手動の切り出し）と、作者が決めたyawの36値、実行の設定です。output は、原典のAPIが描いた36枚のPNGをFFmpegで包んだMP4、代表5枚のPNG、ffprobeの結果、ランナーの記録を親の工程が包んだジョブのJSONです。2つは別々のモデルの実行ではなく、同じ1回の実行の中の、角度の値だけが違う2条件です。角度は入力の制御値で、生成された顔の向きの測定ではありません。人による見た目の承認は未確認です。",
+  "demo_description": "大きな構造図が主役です。「①何か・②渡す・③返る」で、同じ図の上の強調と動く印が変わり、原典のreadmeと範囲→作者AI 1体のランナーと値→制作担当の1回の実行→原画 s9.jpg→手動の切り出し512→元APIの256→Fの見た目の特徴（1回）とMの21点と姿勢（1回）に分かれる→作者の手動のyawを足して21点を変換・stitchingで補正→Wが同じF特徴（別の線で再利用）と動いた21点で変形→Gが512の画像を新しく描く→生成PNG→MP4→再生・保存、の関係をひと続きで見られます。図の写真・21点・角度・コマは実データで、立方体と動く印は説明の形です。「±8°・±16°」で保存済みの2つの結果を読み替え、番号の付いた6つの部品で固定版の原典の該当行を読めます。図のすぐ下で、選んだ結果のMP4・ジョブのJSON・入力のPNGをそのまま保存でき、その下で原画・入力・実際のMP4・代表5枚を見比べられます。",
+  "demo_note": "ページは保存済みの48ファイルを大きさとSHA-256で確かめ、原典の引用の行、記録どうしのID・角度・呼び出し回数・切り出し、PNGとJPEGの寸法、MP4の映像トラック（36コマ・3秒・512×512・音声なし）も照合してから表示します。合わなければ図・動画・保存を止め、理由と「もう一度確かめる」を出します。ブラウザーでは推論も合成もエンコードもしません。「±8°・±16°」の切り替えは保存済みの結果を読むだけです。図の動きは構造の説明で、実際の処理時間ではありません。作者AI（Claude Opus 5.5）が準備・ランナー・ジョブ・ページ・映像のソースを書き、制作担当が原典のコアを1回だけ実行しました。",
+  "request_intro": "同じ手順を、自分が使ってよい肖像で試すときの依頼文です。手元でPythonとFFmpegを動かせるAIエージェントや開発者に渡してください。画像・切り出しの枠・角度の値は自分のものに置き換えます。",
+  "request": "LivePortrait（KlingAIResearch/LivePortrait 固定コミット 9b294b3d0536135442ea73cb01e6cb3ca7029dd3、MIT）の readme と src/live_portrait_wrapper.py を読み、利用権のある肖像1枚を、手動で決めた yaw の値だけで動かし、実ファイルで確かめてください。LivePortraitPipeline・inference.py・Gradio・InsightFace の顔検出・駆動動画・音声・目と口の retargeting・ペーストバック・ComfyUI は使いません。\n\n準備：固定コミットのフルチェックアウトと、KlingTeam/LivePortrait @ 82a4fa6735ca58432b6ce39301b4b9ee066dea47 の重み5ファイル（base_models の4つと retargeting_models/stitching_retargeting_module.pth）、Python 3.11 の CPU 専用環境と FFmpeg を用意し、ファイルのハッシュと版を記録する。元の画像は書き換えず、顔の範囲を手動の枠で正方形に切り出して別の PNG に保存し、枠の座標を残す。\n\n実行：LivePortraitWrapper を一度だけ作り、prepare_source・get_kp_info・extract_feature_3d を入力に1回ずつ呼ぶ。各コマで推定した yaw に決めた値だけを足し、transform_keypoint・stitching・warp_decode・parse_output を順に呼ぶ。F の特徴は全コマで再利用する。原典のコードは改変しない。結果を見て選別や再試行をしない。\n\n記録：呼び出し回数、推定した姿勢、各コマの角度の値と21点、PNG と MP4 のバイト数とハッシュ、ffprobe の結果を残す。角度の値は入力の制御値で、生成された顔の向きの測定ではないと書く。オフセット0のコマも生成画像で、入力とは別物として扱う。本人らしさ・自然さ・向きの正確さは、実際に見て確かめるまで未確認と書く。\n",
+  "applied_skills": [
+    {
+      "name": "LivePortrait（KlingAIResearch/LivePortrait）の原典readme とコアAPI",
+      "source": "https://github.com/KlingAIResearch/LivePortrait/blob/9b294b3d0536135442ea73cb01e6cb3ca7029dd3/readme.md",
+      "applied": "LivePortraitは手元で動く肖像アニメーションのモデルとツールで、readme はAIが読む手順書（SKILL.md）ではなく、モデル・ツールの一次資料です。固定版の readme と、src/live_portrait_wrapper.py（prepare_source・extract_feature_3d・get_kp_info・transform_keypoint・stitching・warp_decode・parse_output）・src/config/inference_config.py・models.yaml・src/modules の関連ファイルを読み、実行の範囲を LivePortraitWrapper（HUMAN）の直接呼び出しに絞って、手動の切り出し prepare_input.py、原典のAPIを順に呼んで記録する run_example.py、2件のジョブ inputs/jobs.json（yaw ±8度・±16度、各36コマ・12fps）を書きました。制作担当が CPU・float32 で1回だけ実行し、呼び出し回数は予定どおり（transform_keypoint 73・stitching 72・warp_decode 72・parse_output 72 など）でした。図の6つの部品は、これらの原典に基づく説明の整理で、公式の部品の区分ではありません。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824",
+      "applied": "時刻の契約（window.motionConfig・motionReady・seek(秒)・__MOTION_RENDER__・renderConfig の反映、audioEvents は空）に合わせて、作例ページと同じ app.js の照合・図の配置・描画で、無音32秒の編集用ソースを書きました。7つの場面それぞれに伝えること・入る状態・出る状態・動き・使うデータを storyboard.json に持たせ、縦と横は配置を作り直して描き、乱数・タイマー・前のコマの積算を使わずに任意の時刻を描けるようにしています。画像は照合した原画・切り出し・代表5枚の生成PNGだけで、中間のコマは作りません。制作担当が12スマホ状態・6部品8引用・16表示条件・3破損停止と復旧、実3秒動画2本の自然終端、5保存要求と返却5ファイルの全バイト一致、編集48素材・7場面・任意7.2秒・通常32秒・ネイティブrange0.1秒、代表/連続/contactと縦横32秒960f無音MP4の全デコード/自然終端、出荷ソース62PNG一致を新しく確認。人の審美的承認・実機iOS/Safari/VoiceOver・200%拡大・全入力/品質/性能は未確認。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "手元で動く肖像アニメーションのモデルと、そのコアAPI",
+      "body": "LivePortrait（KlingAIResearch/LivePortrait 固定コミット 9b294b3）は、1枚の顔の画像から見た目の特徴と暗黙の3Dの点を取り出し、点を動かして新しい画像を描き直す、PyTorch の肖像アニメーションの公式実装です。原典のフル版は、駆動動画からの動き、顔検出と切り出し、目と口の retargeting、元の画像への貼り戻し、Gradio まで含みます。SKILL.md・ホスト型API・自動で動くAIのチームではありません。この作例が使ったのは、その中の LivePortraitWrapper（HUMAN）のコアAPIだけです。"
+    },
+    {
+      "title": "作者AIが原典を読み、範囲をコアAPIの直接呼び出しに絞る",
+      "body": "制作担当が原典・重み・範囲を選んで固定し、作者AI（1体）が固定版の readme と原典のコードを読んで、手動の切り出し prepare_input.py、ランナー run_example.py、2件のジョブ inputs/jobs.json を書きました。2件は同じ入力で、yaw に足す値の振幅だけが8度と16度で違います。値は round(振幅·sin(2πi/35), 6) の36個で、最初と最後は0です。作者は何も実行していません。"
+    },
+    {
+      "title": "同じ1枚から、Fの見た目の特徴とMの21点を1回ずつ",
+      "body": "入力は原典に同梱の s9.jpg（《モナ・リザ》の複製画、720×1280）で、同じバイトのまま使いました。PIL の枠 [110, 100, 610, 600] を LANCZOS で512×512に切り出し（顔検出なし）、原典の prepare_source が256×256に縮めます。F（appearance_feature_extractor）が見た目の3D特徴（32×16×64×64）を1回、M（motion_extractor）が姿勢（pitch 11.19°・yaw 17.18°・roll 0.40°）・表情・暗黙の21点を1回だけ推定しました。21点は学習された点で、目や鼻と名前の付いた点ではありません。"
+    },
+    {
+      "title": "手動の角度で21点を動かし、Gが毎回新しく描く",
+      "body": "各コマで、推定した yaw に手動の値を足して transform_keypoint で21点を変換し、stitching が学習した補正を足します。W（warping_module）は同じF特徴と、元の21点・動いた21点を受け取って特徴を変形し、G（spade_generator）が512×512の画像を描きます。F特徴は全72コマで同じもので、前後の SHA-256 が一致しました。オフセット0の1コマ目もGが描いた画像で、入力の1枚とは別物です。原典の parse_output が0〜1に収めて8bitにし、36枚のPNGを FFmpeg で3秒・無音のMP4（±8度 350,997B、±16度 403,068B）にまとめました。"
+    },
+    {
+      "title": "実際のMP4を再生し、保存して使う",
+      "body": "ページでは、照合した原画・入力の1枚・実際のMP4・代表5枚を並べ、選んだ結果のMP4・ジョブのJSON・入力のPNGをそのまま保存できます。角度の値は入力の制御値で、生成された顔の向きは測っていません。使う前に、自分の目で、本人らしさ・自然さ・コマのつながりを確かめてください。人による見た目の承認、向きの精度、性能は、この作例では確かめていません。"
+    }
+  ],
+  "limitations": [
+    "実行したのは LivePortraitWrapper（HUMAN）のコアAPIだけです。LivePortraitPipeline・inference.py・Gradio、顔検出（InsightFace・landmark.onnx）、駆動動画からの動き、音声・リップシンク、目と口の比率 retargeting（重みは読み込みましたが呼んでいません）、ペーストバック、動物モード、ComfyUI は実行していません。",
+    "入力は原典に同梱の s9.jpg（レオナルド・ダ・ヴィンチ《モナ・リザ》の複製画）で、AIで作った肖像・人物の録画・駆動動画ではありません。手動の切り出しは入力の準備で、LivePortrait の処理ではありません。",
+    "8度・16度は推定した yaw に足した入力の制御値です。生成された顔の向きを測った値ではなく、向きの正確さは確かめていません。推定した yaw そのものもモデルの推定値です。",
+    "1コマ目（オフセット0）も stitching・W・G を通って描かれた画像で、入力の1枚とは別物です。別の基準として推論し直してもいません。",
+    "原典の parse_output は0〜1に切り詰めて8bitにします。そのあとの H.264（yuv420p）への圧縮は非可逆です。",
+    "本人らしさの保持、自然さ、ループのつながり、性能、人による見た目の承認は保証しません。",
+    "outputs/results.json は制作担当が実行したランナーの測定の射影で、原典のネイティブな出力ではありません。outputs/yaw08.json・yaw16.json は、その該当ジョブを親の工程が包んだもので、新しい推論ではありません。",
+    "時間（生成の呼び出し 189.97秒・203.20秒、全体 399.45秒）は制作担当のCPUでの1回の測定で、ベンチマークではありません。",
+    "vendor/liveportrait/ の22原典ファイルは、この限定コア用ランナーが照合する21パスを含みます。アプリ全体ではありません。固定5重み、Python 3.11の依存、FFmpegは別に必要です。実制作では固定全checkoutを使い、同梱部分からの推論再実行はしていません。",
+    "図の6部品は説明のための整理で、立方体と動く印は説明の形です。新しい図・ページ・編集ソース・無音動画は制作担当が実際に表示・描画・再生して確認しました。範囲は visual-verification.json に記録しています。実機iPhone Safari・VoiceOver・200%拡大も未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "KlingAIResearch/LivePortrait（固定コミット 9b294b3）",
+      "url": "https://github.com/KlingAIResearch/LivePortrait/tree/9b294b3d0536135442ea73cb01e6cb3ca7029dd3"
+    },
+    {
+      "label": "LivePortrait 原典のreadme（固定版）",
+      "url": "https://github.com/KlingAIResearch/LivePortrait/blob/9b294b3d0536135442ea73cb01e6cb3ca7029dd3/readme.md"
+    },
+    {
+      "label": "実行したコアAPI src/live_portrait_wrapper.py（固定版）",
+      "url": "https://github.com/KlingAIResearch/LivePortrait/blob/9b294b3d0536135442ea73cb01e6cb3ca7029dd3/src/live_portrait_wrapper.py"
+    },
+    {
+      "label": "G の本体 src/modules/spade_generator.py（固定版）",
+      "url": "https://github.com/KlingAIResearch/LivePortrait/blob/9b294b3d0536135442ea73cb01e6cb3ca7029dd3/src/modules/spade_generator.py"
+    },
+    {
+      "label": "LivePortrait の LICENSE（MIT・固定版）",
+      "url": "https://github.com/KlingAIResearch/LivePortrait/blob/9b294b3d0536135442ea73cb01e6cb3ca7029dd3/LICENSE"
+    },
+    {
+      "label": "重みのモデルカード KlingTeam/LivePortrait（固定 82a4fa6・MIT）",
+      "url": "https://huggingface.co/KlingTeam/LivePortrait/blob/82a4fa6735ca58432b6ce39301b4b9ee066dea47/README.md"
+    },
+    {
+      "label": "入力 assets/examples/source/s9.jpg（固定版）",
+      "url": "https://github.com/KlingAIResearch/LivePortrait/blob/9b294b3d0536135442ea73cb01e6cb3ca7029dd3/assets/examples/source/s9.jpg"
+    },
+    {
+      "label": "論文 LivePortrait: Efficient Portrait Animation with Stitching and Retargeting Control（arXiv:2407.03168）",
+      "url": "https://arxiv.org/pdf/2407.03168"
+    },
+    {
+      "label": "実行したランナー run_example.py",
+      "url": "examples/liveportrait-example/run_example.py"
+    },
+    {
+      "label": "手動の切り出し prepare_input.py",
+      "url": "examples/liveportrait-example/prepare_input.py"
+    },
+    {
+      "label": "実装メモ（作者AI）",
+      "url": "examples/liveportrait-example/implementation.md"
+    },
+    {
+      "label": "2件のジョブ",
+      "url": "examples/liveportrait-example/inputs/jobs.json"
+    },
+    {
+      "label": "切り出しの記録",
+      "url": "examples/liveportrait-example/inputs/preparation.json"
+    },
+    {
+      "label": "入力の1枚（手動の切り出し 512×512）",
+      "url": "examples/liveportrait-example/inputs/portrait-crop.png"
+    },
+    {
+      "label": "返ったMP4（入力yaw ±8度）",
+      "url": "examples/liveportrait-example/outputs/yaw08.mp4"
+    },
+    {
+      "label": "返ったMP4（入力yaw ±16度）",
+      "url": "examples/liveportrait-example/outputs/yaw16.mp4"
+    },
+    {
+      "label": "ジョブの記録（±8度・親の工程が包んだもの）",
+      "url": "examples/liveportrait-example/outputs/yaw08.json"
+    },
+    {
+      "label": "ジョブの記録（±16度・親の工程が包んだもの）",
+      "url": "examples/liveportrait-example/outputs/yaw16.json"
+    },
+    {
+      "label": "実測の記録（ランナーによる射影）",
+      "url": "examples/liveportrait-example/outputs/results.json"
+    },
+    {
+      "label": "同梱した原典22ファイルの一覧",
+      "url": "examples/liveportrait-example/UPSTREAM.json"
+    },
+    {
+      "label": "図の事実と原典の引用",
+      "url": "examples/liveportrait-example/concept/facts.json"
+    },
+    {
+      "label": "確かめる48ファイルの一覧",
+      "url": "examples/liveportrait-example/concept/manifest.json"
+    },
+    {
+      "label": "第三者の表示",
+      "url": "examples/liveportrait-example/THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "label": "作例の README（役割・実行の範囲・再現の手順）",
+      "url": "examples/liveportrait-example/README.md"
+    },
+    {
+      "label": "解説動画の絵コンテ",
+      "url": "examples/liveportrait-example/video/storyboard.json"
+    }
+  ],
+  "license": "MIT（LivePortrait のソースと重み）／パブリックドメインの絵画の複製（入力）／MIT（この作例）",
+  "license_note": "LivePortrait（KlingAIResearch/LivePortrait）のソースは MIT（Copyright (c) 2024 Kuaishou Visual Generation and Interaction Center）で、固定版から選んだ22ファイルを LICENSE とともに vendor/liveportrait/ に原文のまま置いています。原典の LICENSE は InsightFace の検出モデルを非商用研究用としていますが、この作例ではその検出モデルを取得・読み込み・実行していません。重みは KlingTeam/LivePortrait の固定版（モデルカードは MIT）の5ファイルで、配布していません。入力は原典に同梱の s9.jpg（レオナルド・ダ・ヴィンチ《モナ・リザ》の複製画、原作品はパブリックドメイン）で、手動の切り出しと生成画像はそこからの派生です。Python・PyTorch・NumPy・SciPy・Pillow・OpenCV・PyYAML・rich・FFmpeg はそれぞれのライセンスで別に入れた依存で、同梱していません。ページ・図・文章・動画のソースとランナーは 八百万図AIツールボックス の制作（Claude Opus 5.5）で MIT です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "skill_license": "examples/liveportrait-example/vendor/liveportrait/LICENSE",
+  "video_note": "32秒・30fps・無音の構造図の動画です。縦720×1280と横1280×720を別配置で描きます。原典のreadmeと範囲が作者AIのランナーと値になり、制作担当の1回の実行で、原画の手動の切り出しが256に縮み、同じ1枚からFの見た目の特徴とMの21点に分かれ、作者の手動のyawで21点が変換・補正され、Wで同じF特徴と合流してGが新しい画像を描き、代表5枚とMP4になって再生・保存へ戻ります。画像は照合した原画・切り出し・生成PNGだけで、21点は元推論の保存配列で、角度は推定姿勢と手動の入力制御値です。ナレーション・音声トラックはありません。制作担当が12スマホ状態・6部品8引用・16表示条件・3破損停止と復旧、実3秒動画2本の自然終端、5保存要求と返却5ファイルの全バイト一致、編集48素材・7場面・任意7.2秒・通常32秒・ネイティブrange0.1秒、代表/連続/contactと縦横32秒960f無音MP4の全デコード/自然終端、出荷ソース62PNG一致を新しく確認。人の審美的承認・実機iOS/Safari/VoiceOver・200%拡大・全入力/品質/性能は未確認。",
+  "video_source": "examples/liveportrait-example/video/index.html",
+  "updated_on": "2026-10-21",
+  "featured": false,
+  "verification_stage": "runtime-reviewed",
+  "runtime_review": {
+    "status": "original_runtime_complete_visual_qa_pending",
+    "execution": "One operator run of prepare_input.py and run_example.py calling only the unchanged original LivePortraitWrapper HUMAN core APIs from a full checkout at 9b294b3d0536135442ea73cb01e6cb3ca7029dd3 with the five pinned KlingTeam/LivePortrait weights (CPU, float32, 4 threads, seed 20261020). Outputs frozen at 2026-10-19T21:33:11Z; never rerun for the page or film.",
+    "results": "yaw08: 36 generated 512x512 PNG, MP4 350,997 B (h264, 12 fps, 3.0 s, 0 audio streams). yaw16: 36 generated 512x512 PNG, MP4 403,068 B (same encoding). Frame 0 and 35 of both jobs are byte-identical generated frames; frame 0 is not the source image.",
+    "independent_checks": "Recorded by the runner and the parent packaging: crop re-derived pixel-equal from the original JPEG; wrapper call counts 1/1/1/1/73/72/72/72 as planned; F feature SHA-256 equal before and after all 72 frames; ffprobe 36 decoded frames, 512x512, 3.0 s, no audio, moov before mdat. Eye/lip retargeting networks loaded but not executed.",
+    "screen_review": "pending",
+    "video": "pending (no MP4 or poster yet)",
+    "human_approval": false,
+    "model_scope": "Opus 5.5 authored the phase-1 preparation/runner/jobs/implementation note and the phase-2 page, diagram, film source, READMEs, samples and article draft. The operator selected and pinned the source/weights/scope, ran the original core once and packaged the frozen facts and job JSON. The input is the upstream s9.jpg reproduction of the Mona Lisa, not generated."
+  },
+  "guide_url": "case.html?id=liveportrait-example",
+  "catalog_entry": {
+    "id": "resource-liveportrait",
+    "name": "LivePortrait",
+    "tagline": "1枚の肖像を動かす画像アニメーションモデル",
+    "category": "video",
+    "kind": "モデル・ツール",
+    "summary": "人物の静止画に、別の映像の表情や頭の動きを反映できます。元の画像の見た目をもとに、ポートレートの表情や動きを変えたアニメーションを作れます。",
+    "use_case": "静止画の人物を動かし、表情や頭の動きの伝わり方を試したいとき。",
+    "tags": [
+      "動画",
+      "アバター",
+      "モデル・ツール"
+    ],
+    "workflow": [
+      "利用権のある人物画像と、動かし方（参考映像か数値）を決める",
+      "固定版のチェックアウトと対応するチェックポイントでアニメーションを生成する",
+      "人物の同一性、表情、破綻を映像で確認する"
+    ],
+    "requirements": [
+      "対応するモデルと実行環境",
+      "利用できる人物画像と参考映像",
+      "作例と同じコアAPIの範囲なら、固定版のコアソース（同梱22資料は21パス要件を含む）・固定5重み・Python 3.11 のCPU環境・FFmpeg（顔検出モデルと駆動動画は不要）"
+    ],
+    "license": "コードMIT／InsightFaceモデルは非商用研究用",
+    "license_url": "https://github.com/KlingAIResearch/LivePortrait/blob/9b294b3d0536135442ea73cb01e6cb3ca7029dd3/LICENSE",
+    "license_note": "本体コードはMIT。原典が案内するInsightFace検出重みは非商用研究用と明記されています。商用利用ではその検出モデルを置き換える必要があるため、全体を無条件に商用可とは扱いません。",
+    "source_url": "https://github.com/KlingAIResearch/LivePortrait/tree/9b294b3d0536135442ea73cb01e6cb3ca7029dd3",
+    "guide_url": "case.html?id=liveportrait-example",
+    "readme_url": "https://github.com/KlingAIResearch/LivePortrait/blob/9b294b3d0536135442ea73cb01e6cb3ca7029dd3/readme.md",
+    "source_repository": "KlingAIResearch/LivePortrait",
+    "source_commit": "9b294b3d0536135442ea73cb01e6cb3ca7029dd3",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。原典は確認時のコミットへ固定しています。作例では固定版の LivePortraitWrapper（HUMAN）のコアAPIだけを無改変で1回実行し、原典同梱の《モナ・リザ》の複製画から手動の角度で36コマずつの2条件を生成して、出力を保全しています。顔検出・駆動動画・Gradio・目と口の retargeting などは実行していません。",
+    "prompt": "LivePortrait（KlingAIResearch/LivePortrait 固定コミット 9b294b3d0536135442ea73cb01e6cb3ca7029dd3、MIT）の readme と src/live_portrait_wrapper.py を読み、利用権のある肖像1枚を、手動で決めた yaw の値だけで動かし、実ファイルで確かめてください。LivePortraitPipeline・inference.py・Gradio・InsightFace の顔検出・駆動動画・音声・目と口の retargeting・ペーストバック・ComfyUI は使いません。\n\n準備：固定コミットのフルチェックアウトと、KlingTeam/LivePortrait @ 82a4fa6735ca58432b6ce39301b4b9ee066dea47 の重み5ファイル（base_models の4つと retargeting_models/stitching_retargeting_module.pth）、Python 3.11 の CPU 専用環境と FFmpeg を用意し、ファイルのハッシュと版を記録する。元の画像は書き換えず、顔の範囲を手動の枠で正方形に切り出して別の PNG に保存し、枠の座標を残す。\n\n実行：LivePortraitWrapper を一度だけ作り、prepare_source・get_kp_info・extract_feature_3d を入力に1回ずつ呼ぶ。各コマで推定した yaw に決めた値だけを足し、transform_keypoint・stitching・warp_decode・parse_output を順に呼ぶ。F の特徴は全コマで再利用する。原典のコードは改変しない。結果を見て選別や再試行をしない。\n\n記録：呼び出し回数、推定した姿勢、各コマの角度の値と21点、PNG と MP4 のバイト数とハッシュ、ffprobe の結果を残す。角度の値は入力の制御値で、生成された顔の向きの測定ではないと書く。オフセット0のコマも生成画像で、入力とは別物として扱う。本人らしさ・自然さ・向きの正確さは、実際に見て確かめるまで未確認と書く。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "原典の LivePortraitWrapper（HUMAN）のコアAPIだけを無改変で、固定した5つの重みとCPU・float32で1回実行（2026-10-19に固定）。原典同梱の s9.jpg を手動で512に切り出した同じ1枚から、入力yaw ±8度・±16度の各36コマ・12fps・3秒の無音MP4（350,997B・403,068B）。呼び出し回数・F特徴の同一性・切り出しの再計算・ffprobe はランナーと親の工程が記録。顔検出・駆動動画・Gradio・目と口の retargeting は未実行。新しい図/動画の制作担当による実検証は visual-verification.json。公開導線は別工程で確認する。人の審美的承認・向きの精度は未確認。",
+    "reviewed_on": "2026-10-20",
+    "example_url": "examples/liveportrait-example/index.html",
+    "image": "media/liveportrait-example.webp",
+    "updated_on": "2026-10-20"
+  },
+  "video_width": 720,
+  "video_height": 1280,
+  "video_landscape": "media/liveportrait-example-wide.mp4",
+  "requirements": [
+    "閲覧・再生・保存はブラウザーだけで利用できます。推論・合成・エンコード・アップロードはありません。照合に SHA-256 を使うため、https か localhost で開きます。",
+    "同じ経路を自分で実行するには、固定版 LivePortrait のフルチェックアウト、KlingTeam/LivePortrait の固定した5つの重み、Python 3.11 のCPU専用環境（torch 2.6.0+cpu など）、FFmpeg を別に用意します。顔検出モデル・駆動動画・GPUは、この範囲には要りません。手順は作例の README にあります。"
+  ],
+  "video_portrait": "media/liveportrait-example.mp4",
+  "poster_portrait": "media/liveportrait-example.webp",
+  "poster_landscape": "media/liveportrait-example-wide.webp",
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/liveportrait-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/liveportrait-example-landscape-credited-ja-v3.mp4"
+}

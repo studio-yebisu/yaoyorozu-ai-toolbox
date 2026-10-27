@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス — OpenHands 自動化の設定ファイルの作例（図のページ）。MIT License, Copyright (c) 2026 Studio Yebisu.
+// Yaoyorozu AI ToolBox — OpenHands 自動化の設定ファイルの作例（図のページ）。MIT License, Copyright (c) 2026 Studio Yebisu.
 // 制作時に固定版の原典の関数で実行して保存した記録を読み、図で見せるページ。ブラウザーで原典・エージェント・AI は動かさない。
 // 図の状態（時計・ゲート・保存・参照先）は、照合を通った記録の値から決める。記録の代わりになる値は持たない。
 // ファイルは記録の SHA-256 とバイト数に合ったバイト列だけを保存に使う。記録の文字列は textContent で書き、HTML として解釈しない。

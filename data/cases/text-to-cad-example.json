@@ -1,0 +1,157 @@
+{
+  "id": "text-to-cad-example",
+  "title": "text-to-cad",
+  "title_lines": [
+    "小物ケースの寸法を、編集できる設計コードへ"
+  ],
+  "category": "3d",
+  "summary": "自然言語の依頼をパラメトリックなCADコードへ落とすスキル集です。小物ケースを例に、外寸・肉厚・内寸の関係を触って確かめ、寸法JSONと未実行のPython案を持ち帰れます。この作例は説明用プレビューで、CADカーネルは未実行です。",
+  "model": "claude-opus-5-5",
+  "status": "produced",
+  "updated_on": "2026-10-22",
+  "demo": "examples/text-to-cad-example/index.html",
+  "video": "media/text-to-cad-example.mp4",
+  "poster": "media/text-to-cad-example.webp",
+  "video_portrait": "media/text-to-cad-example.mp4",
+  "poster_portrait": "media/text-to-cad-example.webp",
+  "video_landscape": "media/text-to-cad-example-wide.mp4",
+  "poster_landscape": "media/text-to-cad-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "skill": "examples/text-to-cad-example/vendor/text-to-cad/skills/cad/SKILL.md",
+  "skill_label": "text-to-cadの原典CADスキル",
+  "skill_description": "確認した固定版の手順・使い方",
+  "skill_license": "examples/text-to-cad-example/vendor/text-to-cad/LICENSE",
+  "samples": "examples/text-to-cad-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "入力と、今回保存したもの",
+  "samples_intro": "CAD未実行。表示は当サイト独自の寸法説明用SVGです。cadgen・build123d・OCPは現在のPython環境に未導入で、ネイティブ実行は試していません。STEP/STL・形状の健全性・印刷適合性は未検証です。",
+  "demo_description": "外寸100×70×24mm、壁・底2.4mmの小物ケースを説明図で検討。幅を130mmへ変えても肉厚を保ち、内寸の計算と寸法JSON・未実行Pythonコードを確認できます。",
+  "demo_note": "CAD未実行。表示は当サイト独自の寸法説明用SVGです。cadgen・build123d・OCPは現在のPython環境に未導入で、ネイティブ実行は試していません。STEP/STL・形状の健全性・印刷適合性は未検証です。",
+  "request_intro": "固定版の原典と利用条件を読み、自分の用途へ置き換える依頼例です。今回の実行範囲は注意点に記録しています。",
+  "request": "（架空の依頼）\n机の上でねじや小さな部品を分けて置く、上面が開いた小物ケースを作りたい。\nまだCADを動かす環境はないので、先に寸法を決め、あとで text-to-cad（earthtojake/text-to-cad、コミット 2f793659fb7bab537e2f00836e06448fc4087cb2）の cad スキルの書き方で使えるPythonコードを用意しておきたい。\n\n- 外形 幅100 × 奥行70 × 高さ24 mm。壁と底は2.4 mm。内寸は 95.2 × 65.2 × 21.6 mm になるはず。\n- 工具も入れたいので、幅だけ130 mmにした案も比べる（内寸の幅 125.2 mm、壁は2.4 mmのまま）。\n- 幅100〜130、奥行60〜90、高さ20〜35、壁2〜3 mm の範囲で動かして、内寸がどう変わるかを見たい。\n- 寸法は parameters.json に残す。Pythonは外形の箱からくぼみの箱を引くだけの簡単な形でよい。角の丸みは要らない。\n- CADは実行しない。STEP や STL ができたとは書かない。安全設定の変更やインストール、認証情報は使わない。\n- 説明用の24秒の無音動画のソースも作る。\n",
+  "video_source": "examples/text-to-cad-example/video/index.html",
+  "video_note": "24秒・無音。CAD未実行。表示は当サイト独自の寸法説明用SVGです。cadgen・build123d・OCPは現在のPython環境に未導入で、ネイティブ実行は試していません。STEP/STL・形状の健全性・印刷適合性は未検証です。",
+  "limitations": [
+    "この作例は非実行サンプルです。STEP/STLは未生成。寸法の算術チェックと、CAD形状・製造の検査は別です。",
+    "配布版テレメトリは既定on。原典はプロセス単位のDO_NOT_TRACK=1またはCADGEN_TELEMETRY=0、更新確認にCADGEN_UPDATE_CHECK=0を案内しています。今回設定変更はしていません。",
+    "WindowsではOCPの未署名ネイティブモジュールが制限される場合があります。保護設定の弱体化、未認識ソフトの強制実行、追加認証情報の設定は行っていません。"
+  ],
+  "steps": [
+    {
+      "title": "設計の入力を具体化する",
+      "body": "上が開いた小物ケースを指定。外寸100×70×24mm、壁と底2.4mmから、内寸95.2×65.2×21.6mmを計算。幅130mmの案では内幅125.2mmになります。"
+    },
+    {
+      "title": "コード案と実行結果を分ける",
+      "body": "原典のcadgenパターンでPython案を用意し、寸法JSONと一緒に保存しました。ブラウザの説明プレビューはCADカーネル出力ではありません。ネイティブ依存が未導入のため、Pythonは構文検査に留めます。"
+    },
+    {
+      "title": "次に必要な確認",
+      "body": "実行可能な既存環境で、送信設定と利用条件を確かめた上で形状を生成し、体積・肉厚・寸法・STEP再読込とスライサーを確認する必要があります。製造可能とは判定していません。"
+    },
+    {
+      "title": "最近の勢いを選定の参考に",
+      "body": "第三者集計 The Skill Leaderboard（2026-10-21時点、リポジトリ単位）：7日で約+2,000、30日で約+5,900スター。今日の総スター数とは混在させていません。"
+    }
+  ],
+  "sources": [
+    {
+      "label": "原典・確認した固定版",
+      "url": "https://github.com/earthtojake/text-to-cad/tree/2f793659fb7bab537e2f00836e06448fc4087cb2"
+    },
+    {
+      "label": "原典の利用条件",
+      "url": "https://github.com/earthtojake/text-to-cad/blob/2f793659fb7bab537e2f00836e06448fc4087cb2/LICENSE"
+    },
+    {
+      "label": "勢いの出典（第三者集計・2026-10-21・リポジトリ単位）",
+      "url": "https://www.skillleaderboard.com/"
+    },
+    {
+      "label": "日本語の再現手順と検証範囲",
+      "url": "examples/text-to-cad-example/README.md"
+    },
+    {
+      "label": "検証記録",
+      "url": "data/production/text-to-cad-example.json"
+    },
+    {
+      "label": "編集用ソース一式（ZIP）",
+      "url": "examples/text-to-cad-example/source.zip"
+    }
+  ],
+  "license": "MIT（独自コード）／完成メディアはクレジット条件",
+  "license_note": "ルートLICENSEはMIT（Copyright 2026 Thompson Labs LLC）。CADカーネルなど依存ソフトの条件は別です。今回の説明図とコード案は独自制作で、上流で生成したCAD成果物ではありません。 完成デモ・動画はmedia-rights.htmlのクレジット条件に従います。Xの投稿本文には@studio_yebisuの表記が必要です。",
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "applied_skills": [
+    {
+      "name": "text-to-cad（固定版）",
+      "source": "https://github.com/earthtojake/text-to-cad/tree/2f793659fb7bab537e2f00836e06448fc4087cb2",
+      "applied": "CAD未実行。表示は当サイト独自の寸法説明用SVGです。cadgen・build123d・OCPは現在のPython環境に未導入で、ネイティブ実行は試していません。STEP/STL・形状の健全性・印刷適合性は未検証です。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel",
+      "applied": "編集可能な無音の図解映像。任意時刻描画と縦横の配置を使い、実行済みと説明用の範囲を分けます。"
+    }
+  ],
+  "catalog_entry": {
+    "id": "resource-text-to-cad",
+    "name": "text-to-cad",
+    "tagline": "小物ケースの寸法を、編集できる設計コードへ",
+    "category": "3d",
+    "kind": "スキル・CADツール",
+    "summary": "自然言語の依頼をパラメトリックなCADコードへ落とすスキル集です。小物ケースを例に、外寸・肉厚・内寸の関係を触って確かめ、寸法JSONと未実行のPython案を持ち帰れます。この作例は説明用プレビューで、CADカーネルは未実行です。",
+    "use_case": "机上の小物ケースなど、寸法を変えながら検討する部品の依頼を具体化したいとき。3Dプリント用データを作る前の要件整理に。",
+    "tags": [
+      "text-to-cad",
+      "日本語作例",
+      "CAD未実行"
+    ],
+    "workflow": [
+      "用途・外寸・肉厚・必要な隙間を伝える",
+      "編集可能なbuild123dモデル案を書く",
+      "対応する環境でcadgenを実行する",
+      "実形状を検査してSTEPやメッシュを書き出す（今回は未実施）"
+    ],
+    "requirements": [
+      "原典のCADスキルはuv経由でPython3.13・cadgen0.7.26を指定",
+      "ネイティブCAD依存build123d / OCP。WindowsのSmart App Controlが未署名モジュールを止める場合あり",
+      "配布版のCADアプリ・ビューア・デーモンはテレメトリ既定on。送信設定を確認してから実行する"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/earthtojake/text-to-cad/blob/2f793659fb7bab537e2f00836e06448fc4087cb2/LICENSE",
+    "license_note": "ルートLICENSEはMIT（Copyright 2026 Thompson Labs LLC）。CADカーネルなど依存ソフトの条件は別です。今回の説明図とコード案は独自制作で、上流で生成したCAD成果物ではありません。",
+    "source_url": "https://github.com/earthtojake/text-to-cad/tree/2f793659fb7bab537e2f00836e06448fc4087cb2",
+    "guide_url": "case.html?id=text-to-cad-example",
+    "example_url": "examples/text-to-cad-example/index.html",
+    "image": "media/text-to-cad-example.webp",
+    "readme_url": "https://github.com/earthtojake/text-to-cad/blob/2f793659fb7bab537e2f00836e06448fc4087cb2/README.md",
+    "source_repository": "earthtojake/text-to-cad",
+    "source_commit": "2f793659fb7bab537e2f00836e06448fc4087cb2",
+    "source_path": "skills/cad",
+    "source_project": "curated",
+    "source_note": "CAD未実行。表示は当サイト独自の寸法説明用SVGです。cadgen・build123d・OCPは現在のPython環境に未導入で、ネイティブ実行は試していません。STEP/STL・形状の健全性・印刷適合性は未検証です。 第三者集計 The Skill Leaderboard（2026-10-21時点、リポジトリ単位）：7日で約+2,000、30日で約+5,900スター。今日の総スター数とは混在させていません。",
+    "prompt": "（架空の依頼）\n机の上でねじや小さな部品を分けて置く、上面が開いた小物ケースを作りたい。\nまだCADを動かす環境はないので、先に寸法を決め、あとで text-to-cad（earthtojake/text-to-cad、コミット 2f793659fb7bab537e2f00836e06448fc4087cb2）の cad スキルの書き方で使えるPythonコードを用意しておきたい。\n\n- 外形 幅100 × 奥行70 × 高さ24 mm。壁と底は2.4 mm。内寸は 95.2 × 65.2 × 21.6 mm になるはず。\n- 工具も入れたいので、幅だけ130 mmにした案も比べる（内寸の幅 125.2 mm、壁は2.4 mmのまま）。\n- 幅100〜130、奥行60〜90、高さ20〜35、壁2〜3 mm の範囲で動かして、内寸がどう変わるかを見たい。\n- 寸法は parameters.json に残す。Pythonは外形の箱からくぼみの箱を引くだけの簡単な形でよい。角の丸みは要らない。\n- CADは実行しない。STEP や STL ができたとは書かない。安全設定の変更やインストール、認証情報は使わない。\n- 説明用の24秒の無音動画のソースも作る。\n",
+    "verification_stage": "concept-demo",
+    "verification": "CAD未実行。表示は当サイト独自の寸法説明用SVGです。cadgen・build123d・OCPは現在のPython環境に未導入で、ネイティブ実行は試していません。STEP/STL・形状の健全性・印刷適合性は未検証です。",
+    "reviewed_on": "2026-10-22",
+    "momentum": {
+      "source": "https://www.skillleaderboard.com/",
+      "as_of": "2026-10-21",
+      "scope": "repository",
+      "third_party": true,
+      "note": "7日で約+2,000、30日で約+5,900スター。"
+    }
+  },
+  "video_download_portrait": "media/downloads/text-to-cad-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/text-to-cad-example-landscape-credited-v4.mp4"
+}

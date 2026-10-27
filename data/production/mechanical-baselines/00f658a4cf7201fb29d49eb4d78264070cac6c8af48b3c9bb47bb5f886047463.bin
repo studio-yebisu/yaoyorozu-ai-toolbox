@@ -1,0 +1,239 @@
+{
+  "id": "chatterbox-example",
+  "title": "Chatterbox",
+  "title_lines": [
+    "英語の文章を声にする音声合成モデル"
+  ],
+  "category": "audio",
+  "summary": "英語の文章から、手元のPCで音声を生成できます。短い案内や読み上げの音声をWAVで保存し、実際に聴きながら使う音を選べます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/chatterbox-example/index.html",
+  "video": "media/chatterbox-example.mp4",
+  "poster": "media/chatterbox-example.webp",
+  "skill": "examples/chatterbox-example/run_example.py",
+  "skill_label": "実際に合成したPythonソース",
+  "skill_description": "Agent Skill の SKILL.md や Markdown の手順書ではなく、この作例の合成に使った実際の Python ソースです。固定コミットの chatterbox（英語版 ChatterboxTTS）を ChatterboxTTS.from_local で1回読み込み、inputs/jobs.json の3件それぞれで seed を設定し直してから generate を一度ずつ呼びます。audio_prompt_path は None で組み込み条件だけを使います。t3.inference・s3gen.inference・apply_watermark には入出力を変えない通過型の記録をかぶせ、文字ID・音声ID・透かし前後のハッシュと統計を results.json に残し、返り値を [-1, 1] で切り詰めて PCM16 WAV に書きます。重み5ファイルと導入したソースを同梱の vendor/pins.json・vendor/perth/ と照合し、合わなければ読み込む前に止まります。作者AIが書き、制作担当が照合の入力を同梱の場所へ移す包装の補正をしてから実行しました。",
+  "samples": "examples/chatterbox-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "渡した英語の文と、返ったWAV",
+  "samples_intro": "input は generate に渡した英語の文そのもの、output は実際に返った WAV の長さ・バイト数・ID の数の説明で、元の WAV と results.json への参照があります。3件とも同じ seed で一度ずつ合成しました。default と expressive は同じ文で2つの設定を同時に変えた対の比較です。人による試聴はしていません。",
+  "demo_description": "大きな構造図が主役です。「default・expressive・second」で実際の3件を選び、「①これは何か・②何を渡すか・③何が返るか」で同じ図の強調が変わります。英文→文字ID、組み込み条件→T3とS3Gen、T3の音声ID→S3Genの波形→Perthの透かし→WAVの関係と、3本の実WAVの振幅の包絡を見られます。「実音声（英語）」の標準の再生ボタンで聞き、元のWAVを保存できます。6つの部品のボタンで、固定版の原典の該当行を引用付きで読めます。",
+  "demo_note": "ページは保存済みの26ファイルを大きさとSHA-256で確かめてから表示し、ブラウザーでは合成しません。図の動く印は構造の説明で、実際の処理時間ではありません。作者AI（Claude Opus 5.5）がPythonの実装と3件の入力を書き、制作担当が手元のRTX 4090でfrom_localを1回・generateを3回実行しました。",
+  "request_intro": "同じ作りを自分の英文で試すときの依頼文です。固定版の chatterbox を読めるAIエージェントや開発者に渡してください。文は自分のものに置き換えます。",
+  "request": "Chatterbox（resemble-ai/chatterbox 固定コミット 5de7a54aa4e5e2baadb0182dde554908b48b85c2、パッケージ0.1.7、MIT）の英語版 ChatterboxTTS を手元のGPUで動かし、短い英語の案内文から音声WAVを作って、仕組みの図と一緒に聞き比べられる作例を作ってください。\n\n入力：自分で書いた2文の英文を2本（15〜23語程度）。1本目を既定の設定（exaggeration 0.5・cfg_weight 0.5）と、exaggeration 0.8・cfg_weight 0.3 の2通りで、2本目を既定の設定で、計3件。seed は全件同じにする。\n\n合成：重み（ResembleAI/chatterbox リビジョン 5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18）は公開するフォルダーの外に置き、ChatterboxTTS.from_local を1回、generate を各件1回だけ呼ぶ。audio_prompt_path は使わず組み込み条件だけにする。Perth の透かしは外さない（Perth は ff1c8ac55a976971245cdd53c18d6131ca00d993 に固定）。返り値は [-1, 1] で切り詰めて PCM16・モノラルの WAV にし、正規化しない。文字ID・T3 の音声ID・S3Gen へ渡したID・透かし前後のハッシュ・WAV の長さとバイト数を記録する。\n\n画面：スマホ幅で、英文→文字ID、組み込み条件→T3とS3Gen、T3→S3Gen→Perth→WAV の関係を大きな図で見せ、3件を選んで標準の再生ボタンで聞き、元のWAVを保存できるようにする。ブラウザーでは合成しないことを書く。\n\n記録：2つの設定を同時に変えた比較は対の比較で、品質や感情の証拠ではないと書く。人による試聴・発音・自然さが未確認なら未確認と書く。32秒の無音の解説動画（縦・横）の編集ソースも残す。\n",
+  "applied_skills": [
+    {
+      "name": "Chatterbox（resemble-ai/chatterbox）",
+      "source": "https://github.com/resemble-ai/chatterbox/blob/5de7a54aa4e5e2baadb0182dde554908b48b85c2/README.md",
+      "applied": "音声合成のモデルと Python のツールで、SKILL.md でも LLM の対話サービスでもホスト型 API でもありません。固定版の README・LICENSE・pyproject.toml・モデルカードと、src/chatterbox/tts.py（punc_norm・Conditionals・from_local・prepare_conditionals・generate）、models/tokenizers/tokenizer.py（EnTokenizer）、models/t3/t3.py（自己回帰の生成と停止ID）、models/s3tokenizer/__init__.py（drop_invalid_tokens）、models/s3gen/s3gen.py（CFM とボコーダー）、Perth の perth_watermarker.py（apply_watermark）を読み、元の API だけで run_example.py を書きました。制作担当が固定版の重みと Perth を別に用意し、from_local を1回・generate を3回実行して、3件とも results.json の全確認が通りました。構造図の6つの部品は、これらのソースに基づく説明の整理で、公式の部品の区分ではありません。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824",
+      "applied": "時刻の契約（window.motionConfig・motionReady・seek(秒)・__MOTION_RENDER__・renderConfig の反映）に合わせて、構造図ページと同じ concept.js の読み込み・検証・描画で無音32秒の編集用ソースを書きました。7つの場面それぞれに伝えること・入る状態・出る状態・動きを storyboard.json に持たせ、縦と横は配置を作り直して描き、乱数・タイマー・前のコマの積算を使わずに任意の時刻を描けるようにしています。audioEvents は空で、音声トラックはありません。制作担当が別工程で代表・連続コマ、任意時刻、縦横の無音MP4完走、出荷ソース62PNGの一致を確認しました。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "手元で動くPythonの音声合成を用意する",
+      "body": "Chatterboxは、英語の文から音声を作るローカルのPythonツールとモデルです。今回は英語版のChatterboxTTS（原典5de7a54・0.1.7）だけを使い、重みはResembleAI/chatterboxのリビジョン5bb1f6eに固定しました。Multilingual・Turbo・Nanoや声の変換は使っていません。"
+    },
+    {
+      "title": "作者が書き、制作担当が実行する",
+      "body": "作者AIがrun_example.pyと3件の入力jobs.jsonを書き、制作担当が専用の環境と重みを別に用意して、from_localを1回、generateを3回呼びました（RTX 4090・CUDA・4スレッド・seed 20261019）。元のAPIとアルゴリズムは変えていません。ブラウザーは保存済みのWAVを再生するだけです。"
+    },
+    {
+      "title": "英文は文字IDに、条件はT3とS3Genへ",
+      "body": "英文はpunc_normとEnTokenizerで文字ID（default・expressiveは73個、secondは68個。開始・終了を含む）になりT3へ入ります。チェックポイントの組み込み条件conds.ptは、T3の条件とS3Genの参照の2方向へ入ります。組み込み条件のみで、別の参照音声は渡していません。"
+    },
+    {
+      "title": "音声IDから波形へ、透かしを入れてWAVにする",
+      "body": "T3は音声IDを1つずつ出し、停止ID 6562で止まりました（117・106・130個）。それを除いた116・105・129個をS3Genがメル→波形にし、Perthが透かしを1回入れて、4.64秒・4.20秒・5.16秒のPCM16・24kHzのWAVが返りました。メル→波形の段の中身は原典に基づく説明で、内部は計測していません。"
+    },
+    {
+      "title": "実際の3本を聞いて、保存して使う",
+      "body": "図の上で3件を選び、標準の再生ボタンで聞けます。defaultとexpressiveは同じ文で2つの設定を同時に変えた対の比較です。「WAVを保存」で確認済みの元のWAVをそのまま保存し、音声編集や動画編集に英語の案内音声の下書きとして読み込めます。"
+    }
+  ],
+  "limitations": [
+    "人による試聴はしていません。聞き取りやすさ、入力の文どおりに読めているか、発音、自然さ、感情表現、声の似方は未確認です。",
+    "expressive は exaggeration と cfg_weight の2つを同時に変えた1組だけの比較です。差をどちらか一方の効果とは言えず、品質の順位・感情表現・別の機械での再現の証拠ではありません。",
+    "組み込み条件 conds.pt は話者とプロンプト音声の特徴を含みます。人の声に由来しないことや、独自の声であることを保証するものではありません。利用者の声のクローンは試していません。",
+    "英語版の ChatterboxTTS を3回動かしただけです。日本語・多言語版・Turbo・Nano・声の変換・本番での採用は試していません。",
+    "Perth の透かしは各ジョブで1回かかったこと（呼び出し回数と前後のハッシュ）だけを確かめました。透かしの検出や耐性は試しておらず、原典 README の検出精度の説明はこの作例の確認結果ではありません。",
+    "second は返り値の1サンプルが1.0を超え、PCM16 にする際に32767へ切り詰められました。WAV はそのまま置いています。この1サンプルは聞こえる不具合や品質を示すものではありません。",
+    "文字起こしの照合（Whisper base）は別のモデルの推定で、人の試聴や発音・自然さ・意味の正しさの保証ではありません。second は数字の書き方が違い、文字どおりの一致ではありません。",
+    "1回ずつの時間は速さのベンチマークではありません。同じ seed でも、GPU・ドライバー・ソフトウェアの版が違えば同じ音声になるとは限りません。",
+    "図の6つの部品は説明のための整理です。図の動く印と動画の場面の秒数は演出で、注意・内部の活性・CFM の各ステップは計測していません。",
+    "実機のiPhone Safari・VoiceOver・200%拡大・人による見た目の承認は未確認です。制作担当による図・編集・MP4の確認範囲は visual-verification.json に記録しています。",
+    "公開フォルダーには重み・キャッシュ・実行環境を含みません。合成し直すには、固定版の依存と重みを別に取得する必要があります。"
+  ],
+  "sources": [
+    {
+      "label": "resemble-ai/chatterbox（固定コミット 5de7a54）",
+      "url": "https://github.com/resemble-ai/chatterbox/tree/5de7a54aa4e5e2baadb0182dde554908b48b85c2"
+    },
+    {
+      "label": "Chatterbox README（固定版）",
+      "url": "https://github.com/resemble-ai/chatterbox/blob/5de7a54aa4e5e2baadb0182dde554908b48b85c2/README.md"
+    },
+    {
+      "label": "Chatterbox LICENSE（固定版・MIT）",
+      "url": "https://github.com/resemble-ai/chatterbox/blob/5de7a54aa4e5e2baadb0182dde554908b48b85c2/LICENSE"
+    },
+    {
+      "label": "pyproject.toml（固定版・依存）",
+      "url": "https://github.com/resemble-ai/chatterbox/blob/5de7a54aa4e5e2baadb0182dde554908b48b85c2/pyproject.toml"
+    },
+    {
+      "label": "ChatterboxTTS（src/chatterbox/tts.py・固定版）",
+      "url": "https://github.com/resemble-ai/chatterbox/blob/5de7a54aa4e5e2baadb0182dde554908b48b85c2/src/chatterbox/tts.py"
+    },
+    {
+      "label": "T3（src/chatterbox/models/t3/t3.py・固定版）",
+      "url": "https://github.com/resemble-ai/chatterbox/blob/5de7a54aa4e5e2baadb0182dde554908b48b85c2/src/chatterbox/models/t3/t3.py"
+    },
+    {
+      "label": "S3Gen（src/chatterbox/models/s3gen/s3gen.py・固定版）",
+      "url": "https://github.com/resemble-ai/chatterbox/blob/5de7a54aa4e5e2baadb0182dde554908b48b85c2/src/chatterbox/models/s3gen/s3gen.py"
+    },
+    {
+      "label": "重みとモデルカード（ResembleAI/chatterbox・リビジョン 5bb1f6e）",
+      "url": "https://huggingface.co/ResembleAI/chatterbox/tree/5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18"
+    },
+    {
+      "label": "resemble-ai/Perth（固定コミット ff1c8ac）",
+      "url": "https://github.com/resemble-ai/Perth/tree/ff1c8ac55a976971245cdd53c18d6131ca00d993"
+    },
+    {
+      "label": "3件の入力",
+      "url": "examples/chatterbox-example/inputs/jobs.json"
+    },
+    {
+      "label": "実行の記録",
+      "url": "examples/chatterbox-example/outputs/attempt-01/results.json"
+    },
+    {
+      "label": "実際のWAV（default）",
+      "url": "examples/chatterbox-example/outputs/attempt-01/audio/default.wav"
+    },
+    {
+      "label": "実際のWAV（expressive）",
+      "url": "examples/chatterbox-example/outputs/attempt-01/audio/expressive.wav"
+    },
+    {
+      "label": "実際のWAV（second）",
+      "url": "examples/chatterbox-example/outputs/attempt-01/audio/second.wav"
+    },
+    {
+      "label": "別のモデルによる文字起こしの照合",
+      "url": "examples/chatterbox-example/outputs/asr-check.json"
+    },
+    {
+      "label": "図の事実と原典の引用",
+      "url": "examples/chatterbox-example/concept/facts.json"
+    },
+    {
+      "label": "実WAVの振幅の包絡",
+      "url": "examples/chatterbox-example/concept/waveforms.json"
+    },
+    {
+      "label": "確かめる26ファイルの一覧",
+      "url": "examples/chatterbox-example/concept/manifest.json"
+    },
+    {
+      "label": "実装計画（作者AI）と包装の補正の記録",
+      "url": "examples/chatterbox-example/implementation.md"
+    },
+    {
+      "label": "固定版の照合に使う一覧",
+      "url": "examples/chatterbox-example/vendor/pins.json"
+    },
+    {
+      "label": "作例の README（仕組み・照合・再現の手順）",
+      "url": "examples/chatterbox-example/README.md"
+    },
+    {
+      "label": "解説動画の絵コンテ",
+      "url": "examples/chatterbox-example/video/storyboard.json"
+    },
+    {
+      "label": "今回の図と動画の確認範囲",
+      "url": "examples/chatterbox-example/visual-verification.json"
+    },
+    {
+      "label": "編集ソースと実出力一式 ZIP",
+      "url": "examples/chatterbox-example/source.zip"
+    }
+  ],
+  "license": "MIT（Chatterbox の原典と重み）",
+  "license_note": "Chatterbox のコードは MIT License（Copyright (c) 2025 Resemble AI）で、LICENSE・README・pyproject.toml と読んだソースを vendor/chatterbox/ に原文のまま置いています。重み（ResembleAI/chatterbox）はモデルカードのとおり MIT で、モデルカードだけを同梱し、重み・キャッシュ・環境は同梱しません。一部のソースは CosyVoice（Apache-2.0）・HiFi-GAN・HiFTNet・Real-Time-Voice-Cloning（いずれも MIT）に由来し、見出しを変えずに残し、ライセンス本文を vendor/notices/ に置いています。Perth（MIT）は vendor/perth/ にあります。これら第三者のソースは 八百万図AIツールボックス の新しい著作物ではありません。ページ・図・文章・動画のソースは 八百万図AIツールボックス の制作（Claude Opus 5.5）です。3本の WAV は固定版で合成した出力で、Perth の透かしが入っています。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "skill_license": "examples/chatterbox-example/vendor/chatterbox/LICENSE",
+  "video_note": "32秒・30fps・無音の構造図の動画です。縦720×1280と横1280×720を別配置で描きます。英語の文が文字IDに、組み込み条件がT3とS3Genの2方向へ入り、T3の音声ID→S3Genの波形→Perthの透かしを通って、実際の3つのWAVの包絡で終わります。ナレーション・音声トラックはなく、実WAVはデモの独立したプレイヤーで聞けます。制作担当がMP4とポスターを描画し、代表・連続コマと実MP4の終端、出荷ソース62PNGの一致を確認しました。人の審美的承認とは区別します。",
+  "video_source": "examples/chatterbox-example/video/index.html",
+  "updated_on": "2026-10-21",
+  "featured": true,
+  "verification_stage": "runtime-reviewed",
+  "guide_url": "case.html?id=chatterbox-example",
+  "catalog_entry": {
+    "id": "resource-chatterbox",
+    "name": "Chatterbox",
+    "tagline": "英語の文章を声にする音声合成モデル",
+    "category": "audio",
+    "kind": "モデル・ツール",
+    "summary": "英語の文章から、手元のPCで音声を生成できます。短い案内や読み上げの音声をWAVで保存し、実際に聴きながら使う音を選べます。",
+    "use_case": "短い英語の案内文を、手元のGPUで音声WAVにして聞き比べたいとき。",
+    "tags": [
+      "音声",
+      "音楽",
+      "モデル・ツール"
+    ],
+    "workflow": [
+      "短い英語の文と設定（exaggeration・cfg_weight）・seed を決める",
+      "固定版の重みで from_local を1回、generate を文ごとに1回呼ぶ",
+      "返ったWAVを聞き、誤読・間・音質を自分の耳で確かめる"
+    ],
+    "requirements": [
+      "Python 3.11・CUDA対応のGPUと、固定版の依存（torch 2.6.0 など）",
+      "ResembleAI/chatterbox の重み5ファイル（公開・MIT、別に取得）"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/resemble-ai/chatterbox/blob/5de7a54aa4e5e2baadb0182dde554908b48b85c2/LICENSE",
+    "license_note": "コードはMIT。選ぶチェックポイントのモデルカードも確認してください。原典は生成音声へのPerTh透かしを説明しています。",
+    "source_url": "https://github.com/resemble-ai/chatterbox/tree/5de7a54aa4e5e2baadb0182dde554908b48b85c2",
+    "guide_url": "case.html?id=chatterbox-example",
+    "readme_url": "https://github.com/resemble-ai/chatterbox/blob/5de7a54aa4e5e2baadb0182dde554908b48b85c2/README.md",
+    "source_repository": "resemble-ai/chatterbox",
+    "source_commit": "5de7a54aa4e5e2baadb0182dde554908b48b85c2",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。原典は確認時のコミットへ固定しています。作例では固定版の英語ChatterboxTTSを組み込み条件だけで3回実合成し、透かし入りのWAVを保全しています。",
+    "prompt": "Chatterbox（resemble-ai/chatterbox 固定コミット 5de7a54aa4e5e2baadb0182dde554908b48b85c2、パッケージ0.1.7、MIT）の英語版 ChatterboxTTS を手元のGPUで動かし、短い英語の案内文から音声WAVを作って、仕組みの図と一緒に聞き比べられる作例を作ってください。\n\n入力：自分で書いた2文の英文を2本（15〜23語程度）。1本目を既定の設定（exaggeration 0.5・cfg_weight 0.5）と、exaggeration 0.8・cfg_weight 0.3 の2通りで、2本目を既定の設定で、計3件。seed は全件同じにする。\n\n合成：重み（ResembleAI/chatterbox リビジョン 5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18）は公開するフォルダーの外に置き、ChatterboxTTS.from_local を1回、generate を各件1回だけ呼ぶ。audio_prompt_path は使わず組み込み条件だけにする。Perth の透かしは外さない（Perth は ff1c8ac55a976971245cdd53c18d6131ca00d993 に固定）。返り値は [-1, 1] で切り詰めて PCM16・モノラルの WAV にし、正規化しない。文字ID・T3 の音声ID・S3Gen へ渡したID・透かし前後のハッシュ・WAV の長さとバイト数を記録する。\n\n画面：スマホ幅で、英文→文字ID、組み込み条件→T3とS3Gen、T3→S3Gen→Perth→WAV の関係を大きな図で見せ、3件を選んで標準の再生ボタンで聞き、元のWAVを保存できるようにする。ブラウザーでは合成しないことを書く。\n\n記録：2つの設定を同時に変えた比較は対の比較で、品質や感情の証拠ではないと書く。人による試聴・発音・自然さが未確認なら未確認と書く。32秒の無音の解説動画（縦・横）の編集ソースも残す。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "固定版の英語ChatterboxTTSをfrom_local1回/generate3回で実行。3実WAVと別localWhisper推定を保全し、合成/ASRの再実行なし。新図3件×3段階・26素材編集・320/375px全図と44px主操作・破損復旧・WAV自然終端/返却3ファイル一致・縦横32秒無音MP4完走・出荷62PNG一致を確認。人の試聴/審美的承認/実機iOS/自然さ保証は未確認。",
+    "reviewed_on": "2026-10-19",
+    "example_url": "examples/chatterbox-example/index.html",
+    "image": "media/chatterbox-example.webp"
+  },
+  "video_width": 720,
+  "video_height": 1280,
+  "video_landscape": "media/chatterbox-example-wide.mp4",
+  "requirements": [
+    "閲覧・聞き比べはブラウザーだけで利用できます。ライブの合成や音声のアップロードはありません。",
+    "同梱の run_example.py で合成し直すには、Python 3.11・CUDA対応のGPU・固定版の依存（torch 2.6.0+cu124 など、Perth は ff1c8ac に固定）と、ResembleAI/chatterbox の重み5ファイルを別に用意します。重み・キャッシュ・環境は公開フォルダーの外に置きます。"
+  ],
+  "video_portrait": "media/chatterbox-example.mp4",
+  "poster_portrait": "media/chatterbox-example.webp",
+  "poster_landscape": "media/chatterbox-example-wide.webp",
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/chatterbox-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/chatterbox-example-landscape-credited-ja-v3.mp4"
+}

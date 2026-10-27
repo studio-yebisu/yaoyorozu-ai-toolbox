@@ -1,4 +1,4 @@
-/* 八百万図AIツールボックス — shared styles for index.html and case.html. System fonts only, no external assets.
+/* Yaoyorozu AI ToolBox — shared styles for index.html and case.html. System fonts only, no external assets.
    Mobile is the base; wider layouts are added at 600px, 900px and 1100px.
    Layout contract (see docs/MOBILE_WEB.md): sticky masthead, fixed bottom bar below 900px,
    safe-area insets on every edge-touching band, 44px touch targets. */
@@ -19,7 +19,7 @@
   --gutter: 1.25rem;
   --max: 80rem;
   --measure: 40em;
-  --header-h: 3.25rem;
+  --header-h: 5.75rem;
   --tabbar-h: 3.5rem;
 
   /* Side padding that never sits under a notch or rounded corner, and does not add the inset twice. */
@@ -89,7 +89,7 @@ kbd { font-family: inherit; font-size: 0.85em; padding: 0 0.35em; border: 1px so
 .icon { width: 1.5rem; height: 1.5rem; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 
 /* Bands: every full-width block shares the same safe side padding and the same maximum line. */
-.masthead, .intro, .cases, .fields, .catalog, .howto, .colophon,
+.masthead, .intro, .cases, .fields, .catalog, .colophon,
 .article-head, .article-video, .article-body, .page-state {
   padding-left: max(var(--pad-l), calc((100% - var(--max)) / 2));
   padding-right: max(var(--pad-r), calc((100% - var(--max)) / 2));
@@ -99,7 +99,7 @@ kbd { font-family: inherit; font-size: 0.85em; padding: 0 0.35em; border: 1px so
 
 .masthead {
   position: sticky; top: 0; z-index: 40;
-  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 1rem;
   min-height: calc(var(--header-h) + env(safe-area-inset-top));
   padding-top: env(safe-area-inset-top);
   background: var(--paper);
@@ -107,10 +107,22 @@ kbd { font-family: inherit; font-size: 0.85em; padding: 0 0.35em; border: 1px so
 }
 .wordmark {
   display: inline-flex; align-items: center; min-height: 2.75rem;
-  font-family: var(--mincho); font-weight: 700; font-size: 1.25rem; line-height: 1.2;
-  letter-spacing: 0.01em; text-decoration: none;
+  font-family: "Segoe UI", Arial, system-ui, sans-serif; font-weight: 700; font-size: clamp(1rem, 4vw, 1.25rem); line-height: 1.2;
+  letter-spacing: -0.035em; text-decoration: none; white-space: nowrap;
 }
 .masthead-nav { display: none; }
+
+/* Specialist sites: one compact row at the very top, on every page and width. */
+.masthead-sites {
+  flex: 1 0 100%;
+  display: flex; flex-wrap: nowrap; gap: 0.125rem 1.5rem;
+  overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin;
+  font-size: 0.8125rem; font-weight: 600; line-height: 1.3;
+}
+.masthead-sites a {
+  display: inline-flex; align-items: center; min-height: 2.75rem; min-width: 2.75rem;
+  text-decoration: none; white-space: nowrap;
+}
 
 /* Bottom bar (phones and small tablets) */
 
@@ -185,7 +197,7 @@ a.entry-case { text-decoration: underline; }
 .section-note { margin-top: 0.375rem; max-width: 36em; font-size: 0.9375rem; color: var(--ink-soft); }
 .kbd-hint { display: none; }
 
-.cases, .fields, .catalog, .howto {
+.cases, .fields, .catalog {
   padding-top: 1.75rem; padding-bottom: 2.25rem;
   border-top: 1px solid var(--ink);
 }
@@ -347,14 +359,6 @@ a.entry-case { text-decoration: underline; }
 .empty .btn, .load-error .btn { margin-top: 1rem; }
 .empty-title { font-family: var(--mincho); font-weight: 700; font-size: 1.375rem; line-height: 1.45; }
 
-/* How to */
-
-.howto-steps { display: grid; gap: 1.25rem; counter-reset: step; }
-.howto-steps li { counter-increment: step; padding-top: 0.75rem; border-top: 1px solid var(--rule); }
-.howto-steps h3 { display: flex; align-items: baseline; gap: 0.625rem; font-size: 1.0625rem; line-height: 1.5; margin-bottom: 0.25rem; }
-.howto-steps h3::before { content: counter(step); font-family: var(--mincho); font-weight: 700; font-size: 1.5rem; line-height: 1; color: #b83900; font-variant-numeric: tabular-nums; }
-.howto-steps p { max-width: var(--measure); }
-
 /* Colophon */
 
 .colophon {
@@ -364,7 +368,7 @@ a.entry-case { text-decoration: underline; }
   font-size: 0.9375rem;
 }
 .colophon-main p + p { margin-top: 0.625rem; max-width: 34em; }
-.wordmark-small { font-family: var(--mincho); font-weight: 700; font-size: 1.375rem; }
+.wordmark-small { font-size: 1.25rem; }
 .colophon-updated { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 .colophon-links { display: flex; flex-direction: column; border-top: 1px solid var(--ink); }
 .colophon-links a { display: flex; align-items: center; min-height: 2.75rem; border-bottom: 1px solid var(--rule); text-decoration: none; }
@@ -554,7 +558,7 @@ a.entry-case { text-decoration: underline; }
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); align-items: end; gap: 1.5rem 4rem;
     padding-top: 3rem; padding-bottom: 3rem;
   }
-  .cases, .fields, .catalog, .howto { padding-top: 2.5rem; padding-bottom: 3.5rem; }
+  .cases, .fields, .catalog { padding-top: 2.5rem; padding-bottom: 3.5rem; }
 
   .field-map { gap: 1.75rem; }
   .field-group { display: grid; grid-template-columns: 10rem minmax(0, 1fr); gap: 0 2rem; }
@@ -569,7 +573,6 @@ a.entry-case { text-decoration: underline; }
   .entry.has-thumb { grid-template-columns: minmax(0, 1fr) 9rem; column-gap: 1.5rem; }
   .entry-name { font-size: 1.375rem; }
 
-  .howto-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
   .colophon { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 3rem; }
 
   .article-head { padding-top: 1rem; padding-bottom: 2rem; }
@@ -605,7 +608,7 @@ a.entry-case { text-decoration: underline; }
   .field-select select:hover { background: var(--paper-deep); }
   .entry-name a:hover { text-decoration-color: currentColor; }
   .field-link:hover { box-shadow: inset 3px 0 0 var(--ink); }
-  .masthead-nav a:hover, .colophon-links a:hover, .colophon-cats a:hover, .toc a:hover, .d-links a:hover .d-link-label { text-decoration: underline; }
+  .masthead-nav a:hover, .masthead-sites a:hover, .colophon-links a:hover, .colophon-cats a:hover, .toc a:hover, .d-links a:hover .d-link-label { text-decoration: underline; }
   .downloads a:hover strong { text-decoration-thickness: 2px; }
 }
 

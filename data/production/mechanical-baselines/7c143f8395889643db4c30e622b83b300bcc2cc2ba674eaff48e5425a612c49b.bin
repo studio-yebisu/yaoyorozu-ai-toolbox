@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OpenVoice 作例・解説動画の編集ソース（36秒）｜八百万図AIツールボックス</title>
+<meta name="description" content="元の音声と声色の見本が OpenVoice で重なり、変換後の音声になる図を36秒で動かす解説動画の編集ソースです。音は制作時に保存した実際の3つの音声だけです。">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f5f3eb">
+<link rel="stylesheet" href="video.css">
+</head>
+<body>
+<main id="editor" data-state="loading">
+  <header class="chrome intro">
+    <p class="kicker">Studio Yebisu ・ OpenVoice 作例</p>
+    <h1>解説動画の編集ソース</h1>
+    <p class="lede">元の音声と声色の見本が OpenVoice で重なり、変換後になる図を36秒で動かします。音は実際の3つの音声だけです。</p>
+    <nav class="layouts" aria-label="レイアウト">
+      <a id="layout-tall" href="./">縦 720×1280</a>
+      <a id="layout-wide" href="?layout=wide">横 1280×720</a>
+    </nav>
+  </header>
+
+  <div class="chrome statusbar">
+    <p id="asset-count" class="count" data-state="pending" aria-live="polite">0 / 8素材</p>
+    <p id="status" class="status" role="status" aria-live="polite" data-state="loading">素材8件の SHA-256 と記録を照合しています…</p>
+  </div>
+
+  <div id="error" class="chrome failure" role="alert" hidden>
+    <p class="failure-title">素材を確かめられなかったため、映像を描いていません。</p>
+    <p id="error-text"></p>
+    <button id="retry" type="button">もう一度読み込む</button>
+  </div>
+
+  <figure id="stage" class="stage" hidden>
+    <canvas id="film" width="720" height="1280" role="img" aria-label="OpenVoice の声色変換を図で見せる36秒の映像。元の音声と声色の見本の2つが OpenVoice で重なり、変換後の音声になる関係を大きな図で示す。実際の元の音声が流れる間は元の音声の波形が光り、色の粒が OpenVoice へ流れる。続いて見本の声の抜粋3.5秒、最後に実際の変換後の音声が流れ、2つの色の形が重なって変換後の実測の波形が左から現れる。その後、指が 明るい声 を選ぶと見本の色と波形、保存済みの変換結果の波形が替わり、保存のボタンを押すと WAV ファイルがスマホへ移る。音は実際の3つの合成音声だけ。">この映像の表示には canvas に対応したブラウザーが必要です。</canvas>
+  </figure>
+
+  <section class="chrome controls" aria-label="再生と時刻">
+    <div class="buttons">
+      <button id="play" type="button" disabled>再生</button>
+      <button id="reset" type="button" disabled>先頭へ</button>
+      <button id="mute" type="button" aria-pressed="false" disabled>消音</button>
+    </div>
+    <div class="scrub">
+      <label for="time">時刻（0〜36秒）</label>
+      <input id="time" type="range" min="0" max="36" step="0.1" value="0" disabled>
+    </div>
+    <output id="clock" for="time">照合中</output>
+    <audio id="preview-audio" preload="none" hidden></audio>
+  </section>
+
+  <section class="chrome info" aria-labelledby="scenes-heading">
+    <h2 id="scenes-heading">場面</h2>
+    <p class="hint">押すとその時刻の画で止まります。再生はボタンを押したときだけ始まり、時刻を動かすと止まります。</p>
+    <ol id="scene-list" class="scene-list"></ol>
+  </section>
+
+  <section class="chrome info" aria-labelledby="assets-heading">
+    <h2 id="assets-heading">素材</h2>
+    <p class="hint">assets/manifest.json と8件すべての SHA-256・バイト数が合ってから描きます。合わないものが1つでもあれば止まります。</p>
+    <ol id="asset-list" class="asset-list"></ol>
+  </section>
+
+  <section class="chrome info" aria-labelledby="links-heading">
+    <h2 id="links-heading">リンクと範囲</h2>
+    <ul class="links">
+      <li><a href="../index.html">作例ページへ戻る</a></li>
+      <li><a href="../../../media/openvoice-example.mp4">書き出した動画（MP4）</a></li>
+      <li><a href="storyboard.json">場面・音・素材の設計（storyboard.json）</a></li>
+      <li><a href="README.md">書き出しの手順（README.md）</a></li>
+    </ul>
+    <details>
+      <summary>この映像が示す範囲</summary>
+      <p>音は、制作時に保存した実際の3つの音声を無音の間を空けて並べた comparison.wav です。元の音声（全体）、見本の声の最初の3.5秒（終わり20ミリ秒だけ音量を下げる）、変換後の音声 V01（全体）で、ナレーションや音楽はありません。明るい声 を選ぶ場面は保存済みの V03 の波形を見せるだけで、その音は入れていません。</p>
+      <p>棒の波形は記録にある0.1秒ごとの実測 RMS です（棒1本は隣り合う数区間の最大値）。色の形や粒は関係を見せるための図で、測った値ではありません（粒の大きさだけが実測 RMS に合わせて変わります）。指の動きは保存済みページの使い方を描いた絵で、画面の録画やその場の変換ではありません。</p>
+      <p>元の音声と見本は Irodori-TTSの合成音声で、声色の変換は固定版の OpenVoice V2 が行いました。変えるのは声色で、なまりや感情を写すことは示していません。保存した WAV の透かし「SYEBISU!」は読み出せましたが、動画の AAC 音声に残るかは確かめていません。聞いた印象・人による承認は記録にありません。</p>
+      <p>映像のコードは Claude Opus 5.5 が書きました（MIT License・Copyright (c) 2026 Studio Yebisu）。図の構成案は Studio Yebisu の制作側によるものです。</p>
+    </details>
+  </section>
+</main>
+<script src="video.js"></script>
+</body>
+</html>

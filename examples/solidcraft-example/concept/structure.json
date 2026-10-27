@@ -12,7 +12,7 @@
       "line_start": 9,
       "quote": "Work the part out as numbers first. Then build it in a few large `batch` calls, and check each stage with `measure` against values you computed yourself. A clean build takes 3-4 build batches, about 10-13 calls with the checks. Command shapes, plane axes, ids, reply sizes and known traps are in `reference.md` next to this file, so you do not need to explore the command catalog.",
       "meaning": "原点/寸法/体積と外接箱を先に予測し、少ないbatchと各段のmeasureで新しい部品を作る手順。",
-      "source_url": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-modeling/SKILL.md#L9"
+      "source_url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-modeling/SKILL.md#L9"
     },
     {
       "id": "editing",
@@ -21,7 +21,7 @@
       "line_start": 9,
       "quote": "Edit an existing design through its parameters instead of rebuilding it. Every sketch dimension and feature input is already a parameter (`d1`, `d2`, ...), so most edits are a `parameters.change` each, sent together in one batch. Map the design with a few compact calls rather than walking the timeline one feature at a time. For command shapes and traps, use `reference.md` from the `solidcraft-modeling` skill.",
       "meaning": "保存した設計の4パラメーターを一度のbatchで変え、同じ式と履歴を保つ。",
-      "source_url": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-editing/SKILL.md#L9"
+      "source_url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-editing/SKILL.md#L9"
     },
     {
       "id": "checking",
@@ -30,7 +30,7 @@
       "line_start": 27,
       "quote": "3. **Every allowed value.** One script of `parameters.change` commands walks each driving parameter to both ends of its range, one change after another, and back to the default, as edits in the app do: trap 1 fails only on the change after the one that reaches 0. Put a `document.inspect {measure: true}` after each end of a range and run the walk with `run.py walk.json --in <design>`. Every state must be clean: no `FAIL`, no `SKETCH`, and `BODY` volumes and centres of mass that match the values you compute for that state. A boolean retry can leave the geometry wrong with only a `WARN` line, and the volume shows it (trap 4); a mirrored sketch (trap 1) keeps the volume and moves the centre of mass.",
       "meaning": "原典は範囲の確認を求める。今回は端点と初期値を往復する11状態/6種類の形だけで途中や全組合せは未検証。",
-      "source_url": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-checking/SKILL.md#L27"
+      "source_url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-checking/SKILL.md#L27"
     },
     {
       "id": "commands",
@@ -39,7 +39,7 @@
       "line_start": 5,
       "quote": "An agent models exactly like a person does: every tool runs engine commands, the same ones the",
       "meaning": "元作者はコマンドと期待値を執筆。制作担当が別工程でheadlessMCP stdioの25操作を実行し、共有GUIへ接続していない。",
-      "source_url": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/docs/mcp.md#L5"
+      "source_url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/docs/mcp.md#L5"
     },
     {
       "id": "history",
@@ -48,7 +48,7 @@
       "line_start": 232,
       "quote": "| L2 | `doc` | parameters, expressions, the feature timeline and its incremental evaluation |",
       "meaning": "原典の構造説明はパラメーターと式・順序付きフィーチャー履歴の増分評価。実測の内部トレースではない。",
-      "source_url": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/README.md#L232"
+      "source_url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/README.md#L232"
     },
     {
       "id": "formats",
@@ -57,7 +57,7 @@
       "line_start": 29,
       "quote": "5. **Kept in a repo.** Save as `<name>.json` with `run.py build.json --save <name>.json`: a `.json` design stays plain JSON when it is saved again, so git diffs stay readable. Saving over a file leaves `<name>.json.bak`, so ignore `*.bak`. From then on the design file is the source, and changes go into it with `--in <design> --save <design>`. Copy `$SKILL/templates/test_design.py` next to the design, fill in its cases, set its tolerance as its comment says, and run it until it passes. Expected values come from an exact reference when porting, from hand calculation for simple shapes, or from a build the user has reviewed. After a change, update frozen values only where the change is meant to change them.",
       "meaning": "今回は.json保存を使い式と履歴を残す。STEPは基礎ソリッド、STLは三角形で式を保持しない。各形式を0.11.1で開き直した元記録を保持。",
-      "source_url": "https://github.com/bherbruck/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-checking/SKILL.md#L29"
+      "source_url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-checking/SKILL.md#L29"
     }
   ],
   "parts_scope": "6部品は説明用整理で原典の共通スキーマではない。",
@@ -782,7 +782,7 @@
       "official_release": {
         "version": "0.11.1",
         "commit": "b01b9689c8999a4415b4a6daaa2f8aae8a1a2f25",
-        "release": "https://github.com/bherbruck/solidcraft/releases/tag/v0.11.1",
+        "release": "https://github.com/tangency-labs/solidcraft/releases/tag/v0.11.1",
         "archive": "solidcraft-0.11.1-windows-x64-portable.zip",
         "archive_sha256": "6c5e285d3d6ee3bbdaa39de9019b5a36fd894c4a335f92de7193e1340996727d",
         "official_checksum_matched": true,

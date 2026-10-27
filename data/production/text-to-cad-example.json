@@ -1,0 +1,231 @@
+{
+  "id": "text-to-cad-example",
+  "verified_at": "2026-10-22T10:43:41.211894+00:00",
+  "model": {
+    "requested": "claude-opus-5-5",
+    "reported": [
+      "claude-opus-5-5"
+    ],
+    "receipts": [
+      {
+        "phase": "Japanese interactive demos, sample/proposal files, silent motion sources",
+        "receipt_sha256": "066d9d56d0bb7dad29136823e25a49bbd615568aca1094b0a94235fa06b3fa2f",
+        "execution_sha256": "271218d45e0458cadc2409ac6b5b63e070d1a26d0a040dffe93c08ccb78741d5",
+        "prompt_sha256": "3f92848fc23acde209857c1cdf2e2d0499d492b892c45475899c26ad359eab7a"
+      }
+    ],
+    "receipt_published": false,
+    "scope": "Opus authored scoped UI/diagrams/videos/proposal. Coordinator authored graph fixture/AST adapter and ran checks, renders, metadata assembly and packaging. Failed earlier API call had zero input/output tokens and is not a production receipt. Coordinator made two small QA corrections after authoring: rooted/shortened ruler ticks and reset per-frame Canvas state. Original versions retained privately."
+  },
+  "upstream": {
+    "repository": "earthtojake/text-to-cad",
+    "commit": "2f793659fb7bab537e2f00836e06448fc4087cb2",
+    "license": "MIT",
+    "files": [
+      {
+        "repo": "earthtojake/text-to-cad",
+        "path": "LICENSE",
+        "git_blob": "30be518b2415d9a7514d4bfb879c157d18673b6b",
+        "public_path": "examples/text-to-cad-example/vendor/text-to-cad/LICENSE",
+        "sha256": "c11168234f932c4a39bb640571079e73b178b4459682a5507e5944ad723058b3",
+        "git_blob_match": true
+      },
+      {
+        "repo": "earthtojake/text-to-cad",
+        "path": "README.md",
+        "git_blob": "92c5c3e38139e1919b12a5e38ab1a6965fd4571d",
+        "public_path": "examples/text-to-cad-example/vendor/text-to-cad/README.md",
+        "sha256": "e3b90c5b8cf4649665f59d40c8be725d34b51be4a9a244ee7cb1efca1cb257d5",
+        "git_blob_match": true
+      },
+      {
+        "repo": "earthtojake/text-to-cad",
+        "path": "packages/cadgen/README.md",
+        "git_blob": "7ef77276e342098637ab507113de8727ff88904c",
+        "public_path": "examples/text-to-cad-example/vendor/text-to-cad/packages/cadgen/README.md",
+        "sha256": "2eb4fc46b060a032c3eeff0eb6e96e145db39343c364f8caf4cc07ca60fd0286",
+        "git_blob_match": true
+      },
+      {
+        "repo": "earthtojake/text-to-cad",
+        "path": "packages/cadgen/pyproject.toml",
+        "git_blob": "a59daab6a56a56278d6f902089ab05b3a01d2432",
+        "public_path": "examples/text-to-cad-example/vendor/text-to-cad/packages/cadgen/pyproject.toml",
+        "sha256": "98d791be9fe5b489744a343cf0e941cf46be719d688cd01ad1837d7f0ec28e55",
+        "git_blob_match": true
+      },
+      {
+        "repo": "earthtojake/text-to-cad",
+        "path": "packages/cadgen/src/cadgen/daemon/telemetry.py",
+        "git_blob": "8c0a732530301d7a70d0f73bc767eed14ed685a8",
+        "public_path": "examples/text-to-cad-example/vendor/text-to-cad/packages/cadgen/src/cadgen/daemon/telemetry.py",
+        "sha256": "63c8d9a082925823abd5b2938b55e5a19daf658d397cdd65ef369b122e8023df",
+        "git_blob_match": true
+      },
+      {
+        "repo": "earthtojake/text-to-cad",
+        "path": "skills/cad/SKILL.md",
+        "git_blob": "02722afc078a77d1c34f8f18b19e8a8d2fe3431f",
+        "public_path": "examples/text-to-cad-example/vendor/text-to-cad/skills/cad/SKILL.md",
+        "sha256": "63a34969a7d0ac17e1cfdbae5529116a04cde017c2b94149c8a060c63f20b022",
+        "git_blob_match": true
+      }
+    ]
+  },
+  "runtime": {
+    "status": "not-run",
+    "sample_count": 0,
+    "scope": "cadgen/build123d/OCP absent. CAD native execution not attempted. Independent dimension preview and Python syntax only; no STEP/STL generated."
+  },
+  "video": {
+    "status": "rendered-and-frame-reviewed",
+    "orientations": {
+      "landscape": {
+        "video": {
+          "file": "video.mp4",
+          "sha256": "d0ac2e40864109424db492942cd89c77e0be143557056b9c387cff408c522cf5",
+          "width": 1280,
+          "height": 720,
+          "fps": 30,
+          "frameCount": 720,
+          "duration": 24,
+          "hasAudio": false
+        },
+        "determinism": {
+          "frame": 432,
+          "seconds": 14.4,
+          "first": "e84aad858005886f9d3109395adacc1dc5a218e341558e9b9db205d1fc3be017",
+          "afterOtherTimes": "e84aad858005886f9d3109395adacc1dc5a218e341558e9b9db205d1fc3be017",
+          "freshPage": "e84aad858005886f9d3109395adacc1dc5a218e341558e9b9db205d1fc3be017",
+          "match": true
+        },
+        "errors": []
+      },
+      "portrait": {
+        "video": {
+          "file": "video.mp4",
+          "sha256": "b63da79301175f180f0e904c6c61b8454b5a2dda22804000629d8fe2368700aa",
+          "width": 720,
+          "height": 1280,
+          "fps": 30,
+          "frameCount": 720,
+          "duration": 24,
+          "hasAudio": false
+        },
+        "determinism": {
+          "frame": 432,
+          "seconds": 14.4,
+          "first": "9dffc33df8facea8b14da6e7b6cc0100023964618b52355f0d09170750c22cbd",
+          "afterOtherTimes": "9dffc33df8facea8b14da6e7b6cc0100023964618b52355f0d09170750c22cbd",
+          "freshPage": "9dffc33df8facea8b14da6e7b6cc0100023964618b52355f0d09170750c22cbd",
+          "match": true
+        },
+        "errors": []
+      }
+    },
+    "audio": "No audio tracks. Silent diagram explanation.",
+    "review": "Representative contacts and consecutive frames checked by the agent; technical browser playback is recorded separately. No human approval or real iOS device test."
+  },
+  "momentum": {
+    "source": "https://www.skillleaderboard.com/",
+    "as_of": "2026-10-21",
+    "scope": "repository",
+    "third_party": true,
+    "not_current_total": true
+  },
+  "artifacts_sha256": {
+    "examples/text-to-cad-example/app.js": "36cc12bf30afb574cce321435c811e4135a6b1573f63ff77d93af7e084957878",
+    "examples/text-to-cad-example/dims.mjs": "6b989acf8061a0e65e7a81745466f0f6d498fdaaa5712dd088a234229d33c5eb",
+    "examples/text-to-cad-example/index.html": "114c69e1d176061d259f856f4d78fcab54497a915b92cabb52c2faf1f1bc215b",
+    "examples/text-to-cad-example/LICENSE": "b9983d3664ba1f525f0f39874b6579fafce25636f8b7b1e7cfcae8c32c6745eb",
+    "examples/text-to-cad-example/MEDIA-LICENSE.md": "e89dcf032112b1ed503e8e43dfb238b6090f92cad0179081b4e0e8bbb861294c",
+    "examples/text-to-cad-example/model-proposal.py": "ae5318c9f946d8aea9de5b4a5e64183838625699d22275cfc4b1dc7afe3bb4be",
+    "examples/text-to-cad-example/parameters.json": "c96816e2648dd29b304e2381b06c9a0142c1a6f7cb375a653eb92ba078fc6012",
+    "examples/text-to-cad-example/README.md": "89cc22cb62cc59a867717790156dac37c64add089adc29fc47ecd0f4b72c5c81",
+    "examples/text-to-cad-example/request.txt": "e20b4731828e1afa8ba227c1bb2a79a01fd55ff2b5c97f7adc63fea1b8598a66",
+    "examples/text-to-cad-example/samples.json": "7d5ad18f7f28493030cc9be3ba55c698d1d34df38438e80fc32a057951026965",
+    "examples/text-to-cad-example/source.zip": "22b4f248ab074de9d5670fb7ef24b46f549f40382eeaa4685ca141399efa0693",
+    "examples/text-to-cad-example/style.css": "99872a48c4c4ee0270f52a73fcb239580cc99f11417bd43c952f80a79e1fbfab",
+    "examples/text-to-cad-example/vendor/text-to-cad/LICENSE": "c11168234f932c4a39bb640571079e73b178b4459682a5507e5944ad723058b3",
+    "examples/text-to-cad-example/vendor/text-to-cad/packages/cadgen/pyproject.toml": "98d791be9fe5b489744a343cf0e941cf46be719d688cd01ad1837d7f0ec28e55",
+    "examples/text-to-cad-example/vendor/text-to-cad/packages/cadgen/README.md": "2eb4fc46b060a032c3eeff0eb6e96e145db39343c364f8caf4cc07ca60fd0286",
+    "examples/text-to-cad-example/vendor/text-to-cad/packages/cadgen/src/cadgen/daemon/telemetry.py": "63c8d9a082925823abd5b2938b55e5a19daf658d397cdd65ef369b122e8023df",
+    "examples/text-to-cad-example/vendor/text-to-cad/README.md": "e3b90c5b8cf4649665f59d40c8be725d34b51be4a9a244ee7cb1efca1cb257d5",
+    "examples/text-to-cad-example/vendor/text-to-cad/skills/cad/SKILL.md": "63a34969a7d0ac17e1cfdbae5529116a04cde017c2b94149c8a060c63f20b022",
+    "examples/text-to-cad-example/vendor/text-to-cad/source.json": "7a8e9d7ce7ef7ddd23d6521bd0b6d1ce5088c47410175e0f1f666639053fa420",
+    "examples/text-to-cad-example/VERIFICATION.json": "1153e9f79fe818dd925856e0d63c604ce33bdc1a9c72eb497e5b8fc736aca31f",
+    "examples/text-to-cad-example/video/index.html": "9fbfc584db2b7dfe2d04961ee8dfae40596ec019737268bea291401a4047c52e",
+    "examples/text-to-cad-example/video/scene.js": "a26bde89a85545ca2fcb137cf6ab1cdabd393c78046311dbcdf3d1f81a22e6e3",
+    "examples/text-to-cad-example/video/video.css": "1432fe81b38cd6daa6e4fbc70392d2bdd882724e44036f7a3443d9df9804c852",
+    "media/text-to-cad-example.mp4": "b63da79301175f180f0e904c6c61b8454b5a2dda22804000629d8fe2368700aa",
+    "media/text-to-cad-example.webp": "ddb3de6847bf080d0ecda690ea254029bb981f87a2450385878aff54325178f1",
+    "media/text-to-cad-example-wide.mp4": "d0ac2e40864109424db492942cd89c77e0be143557056b9c387cff408c522cf5",
+    "media/text-to-cad-example-wide.webp": "c38c93fef324692c6f004e10f8d377d53761ba3ea505f8968b93d481f78720bf"
+  },
+  "publication": {
+    "status": "local-only",
+    "deployed": false,
+    "pushed": false,
+    "merged": false
+  },
+  "verification": {
+    "date": "2026-10-22",
+    "ui": {
+      "status": "passed",
+      "checks": [
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "cad_runtime": "not-run",
+          "independent_preview_and_keyboard": "passed",
+          "json_download": "130mm outer /125.2mm inner; explicit no-CAD-execution note",
+          "external_requests": [],
+          "page_errors": [],
+          "overflow": false
+        },
+        {
+          "viewport": [
+            1280,
+            900
+          ],
+          "cad_runtime": "not-run",
+          "independent_preview_and_keyboard": "passed",
+          "json_download": "130mm outer /125.2mm inner; explicit no-CAD-execution note",
+          "external_requests": [],
+          "page_errors": [],
+          "overflow": false
+        }
+      ]
+    },
+    "cad_runtime": "not-run",
+    "human_approval": false,
+    "real_ios_device": false,
+    "dimension_checks": {
+      "status": "passed",
+      "scope": "Independent dimension arithmetic and explanatory projection only; CAD kernel not run",
+      "default_inner_mm": {
+        "width": 95.2,
+        "depth": 65.2,
+        "height": 21.6
+      },
+      "wide_inner_mm": {
+        "width": 125.2,
+        "depth": 65.2,
+        "height": 21.6
+      },
+      "boundary_combinations": 128
+    },
+    "python": "AST syntax and literal dimension constants checked without imports or execution; STEP/STL not generated.",
+    "qa_corrections": [
+      {
+        "file": "examples/text-to-cad-example/video/scene.js",
+        "before_sha256": "70e93d02bd1def00ce13bd141820e5b3f23045ef8dfd812d88f54741df4703ea",
+        "after_sha256": "a26bde89a85545ca2fcb137cf6ab1cdabd393c78046311dbcdf3d1f81a22e6e3",
+        "reason": "Reset canvas state before each complete frame; fixes portrait seek-order mismatch.",
+        "author": "coordinator QA correction after Opus completion"
+      }
+    ]
+  }
+}

@@ -1,0 +1,711 @@
+/* 八百万図AIツールボックス — Dify 作例ページ。MIT License, Copyright (c) 2026 Studio Yebisu. */
+
+:root {
+  --ivory: #fbf8f1;
+  --paper: #fffdf8;
+  --ink: #1b2333;
+  --ink-soft: #4a5263;
+  --line: #ddd5c4;
+  --cobalt: #1f4fb8;
+  --cobalt-soft: #e7edfa;
+  --teal: #0f7c77;
+  --teal-soft: #e2f1ef;
+  --warm: #c75a22;
+  --warm-soft: #fbeadf;
+  --danger: #a3262a;
+  --gutter: 1.1rem;
+  --radius: 10px;
+  --serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", serif;
+  --sans: system-ui, -apple-system, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", "Noto Sans JP", sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", "Consolas", "Menlo", monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+a {
+  color: var(--cobalt);
+  text-underline-offset: 0.18em;
+}
+
+code,
+pre {
+  font-family: var(--mono);
+}
+
+:focus-visible {
+  outline: 3px solid var(--cobalt);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: max(var(--gutter), env(safe-area-inset-left));
+  top: -4rem;
+  z-index: 10;
+  padding: 0.6rem 1rem;
+  min-height: 44px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--radius);
+}
+
+.skip-link:focus {
+  top: calc(0.5rem + env(safe-area-inset-top));
+}
+
+.wrap-anywhere {
+  overflow-wrap: anywhere;
+}
+
+/* --- Hero ---------------------------------------------------------------------------------- */
+
+.masthead,
+main,
+.footer {
+  padding-left: max(var(--gutter), env(safe-area-inset-left));
+  padding-right: max(var(--gutter), env(safe-area-inset-right));
+}
+
+.masthead {
+  padding-top: calc(1.1rem + env(safe-area-inset-top));
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.kicker {
+  margin: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: var(--teal);
+}
+
+.title {
+  margin: 0.3rem 0 0.5rem;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(1.85rem, 8vw, 3.4rem);
+  line-height: 1.22;
+  letter-spacing: 0.02em;
+}
+
+.title-line {
+  display: inline-block;
+}
+
+.title-line:last-child {
+  color: var(--cobalt);
+}
+
+.lead {
+  margin: 0;
+  max-width: 40em;
+  color: var(--ink-soft);
+}
+
+.badge {
+  display: inline-block;
+  margin: 0.6rem 0 0;
+  padding: 0.25rem 0.7rem;
+  border-left: 4px solid var(--warm);
+  background: var(--warm-soft);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* --- Status and picker ---------------------------------------------------------------------- */
+
+main {
+  display: grid;
+  gap: 1.1rem;
+  padding-top: 1rem;
+  padding-bottom: 2.5rem;
+  max-width: 76rem;
+  margin: 0 auto;
+}
+
+main:focus {
+  outline: none;
+}
+
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  min-width: 0;
+}
+
+.status p {
+  margin: 0;
+  min-width: 0;
+}
+
+.status[data-state="ready"] {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.status[data-state="error"] {
+  padding: 0.8rem 1rem;
+  border: 2px solid var(--danger);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--danger);
+}
+
+.picker {
+  display: grid;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.field-label {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+select {
+  width: 100%;
+  max-width: 34rem;
+  min-height: 48px;
+  padding: 0.5rem 0.8rem;
+  font: inherit;
+  font-size: 16px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+}
+
+select:disabled {
+  opacity: 0.55;
+}
+
+.sample-list {
+  display: none;
+}
+
+/* --- Buttons --------------------------------------------------------------------------------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.5rem 1.1rem;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--paper);
+  background: var(--cobalt);
+  border: 2px solid var(--cobalt);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform 150ms ease;
+}
+
+.button-quiet {
+  color: var(--cobalt);
+  background: var(--paper);
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* --- Result ---------------------------------------------------------------------------------- */
+
+.result {
+  display: grid;
+  gap: 1.1rem;
+  min-width: 0;
+}
+
+.result[hidden] {
+  display: none;
+}
+
+.ticket,
+.memo,
+.flow,
+.actions,
+.checks {
+  min-width: 0;
+}
+
+.ticket-title {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  line-height: 1.4;
+}
+
+.summary {
+  margin: 0.2rem 0 0.6rem;
+}
+
+.ticket-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 1rem;
+  margin: 0;
+  padding: 0.7rem 0.9rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.ticket-facts div {
+  min-width: 0;
+}
+
+.ticket-facts div:first-child {
+  grid-column: 1 / -1;
+}
+
+.ticket-facts dt {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.ticket-facts dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.memo {
+  padding: 0.9rem 1rem 1rem;
+  background: var(--paper);
+  border: 2px solid var(--teal);
+  border-radius: var(--radius);
+}
+
+.memo-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.2rem 0.8rem;
+}
+
+.memo-heading {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.route-label {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--teal);
+  line-height: 1.3;
+  min-width: 0;
+}
+
+.route-label code {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+
+.memo-caption {
+  margin: 0.3rem 0 0.4rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.memo-text {
+  margin: 0;
+  padding: 0.8rem 0.9rem;
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: var(--teal-soft);
+  border-radius: 6px;
+}
+
+.section-heading {
+  margin: 0 0 0.4rem;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+}
+
+/* --- Flow ------------------------------------------------------------------------------------ */
+
+.flow-caption,
+.disclosure-note,
+.rule-note {
+  margin: 0 0 0.6rem;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.flow-list,
+.branch-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.flow-list {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.branch-list {
+  display: grid;
+  gap: 0.45rem;
+  padding-left: 0.9rem;
+  border-left: 3px solid var(--line);
+}
+
+.flow-node {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.1rem 0.6rem;
+  min-width: 0;
+  padding: 0.4rem 0.7rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink-soft);
+}
+
+.node-name {
+  font-weight: 700;
+}
+
+.node-id {
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.flow-node[data-state="done"] {
+  color: var(--ink);
+  border-color: var(--cobalt);
+  background: var(--cobalt-soft);
+}
+
+.flow-node.branch[data-state="done"] {
+  border: 2px solid var(--teal);
+  background: var(--teal-soft);
+}
+
+.flow-node[data-state="skipped"] {
+  opacity: 0.6;
+  border-style: dashed;
+}
+
+.flow-node[data-state="skipped"] .node-name::after {
+  content: "（通らず）";
+  font-weight: 400;
+}
+
+.path-line {
+  margin: 0.6rem 0 0;
+  font-size: 0.9rem;
+  min-width: 0;
+}
+
+.rule {
+  margin-top: 0.8rem;
+  padding: 0.7rem 0.9rem;
+  border-left: 4px solid var(--cobalt);
+  background: var(--paper);
+}
+
+.rule-heading {
+  margin: 0 0 0.3rem;
+  font-size: 1rem;
+}
+
+.rule-list {
+  margin: 0 0 0.4rem;
+  padding-left: 1.4rem;
+}
+
+/* --- Actions, checks, disclosures ------------------------------------------------------------ */
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.action-status {
+  margin: 0.5rem 0 0;
+  min-height: 1.7em;
+  font-size: 0.92rem;
+}
+
+.request-fallback {
+  display: block;
+  width: 100%;
+  margin-top: 0.4rem;
+  padding: 0.6rem;
+  font: inherit;
+  font-size: 16px;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+
+.request-fallback[hidden],
+.field-label[hidden] {
+  display: none;
+}
+
+.check-list {
+  margin: 0;
+  padding-left: 1.3rem;
+}
+
+.check-list li::marker {
+  content: "✓ ";
+  color: var(--teal);
+}
+
+.disclosure {
+  min-width: 0;
+  border-top: 1px solid var(--line);
+  padding-top: 0.2rem;
+}
+
+.disclosure summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pre-heading {
+  margin: 0.8rem 0 0.3rem;
+  font-size: 0.95rem;
+}
+
+.code-block {
+  margin: 0;
+  max-height: 32rem;
+  overflow: auto;
+  padding: 0.7rem 0.8rem;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #f3efe5;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.tech-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.tech-list div {
+  min-width: 0;
+}
+
+.tech-list dt {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.tech-list dd {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.probe-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  overflow-wrap: anywhere;
+}
+
+/* --- Scope, files, footer -------------------------------------------------------------------- */
+
+.scope-list,
+.file-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  max-width: 44em;
+}
+
+.file-list li {
+  overflow-wrap: anywhere;
+}
+
+.file-list a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.2rem 0;
+}
+
+.footer {
+  padding-top: 1.2rem;
+  padding-bottom: calc(1.6rem + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.footer p {
+  margin: 0 auto;
+  max-width: 76rem;
+}
+
+/* --- Wider screens --------------------------------------------------------------------------- */
+
+@media (min-width: 900px) {
+  body {
+    font-size: 17px;
+  }
+
+  :root {
+    --gutter: 2rem;
+  }
+
+  .title-line {
+    display: block;
+  }
+
+  .sample-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .sample-list button {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.4rem 0.8rem;
+    font: inherit;
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  .sample-list button[aria-pressed="true"] {
+    color: var(--paper);
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .result {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: start;
+  }
+
+  .ticket {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .flow {
+    grid-column: 1;
+    grid-row: 2 / span 2;
+  }
+
+  .memo {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .actions,
+  .checks {
+    grid-column: 2;
+  }
+
+  .disclosure {
+    grid-column: 1 / -1;
+  }
+
+  .branch-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .tech-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem 1.5rem;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    filter: brightness(1.08);
+  }
+
+  .sample-list button:hover {
+    border-color: var(--cobalt);
+  }
+
+  a:hover {
+    color: var(--teal);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+
+  .button:active {
+    transform: none;
+  }
+}
+
+/* Native hidden states must win over component display rules. */
+[hidden] { display: none !important; }
+#ticket-input { margin-top: .4rem; }

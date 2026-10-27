@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <title>受け止めた瞬間の、青い防御ヒット｜解説動画のソース｜八百万図AIツールボックス</title>
+  <script>
+    // Recording mode: show only the canvas, at the composition size.
+    if (window.__MOTION_RENDER__ || /[?&]render(=|&|$)/.test(location.search)) document.documentElement.classList.add('render');
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html, body { margin: 0; }
+    body {
+      background: #f3f0e6; color: #18212d;
+      font: 16px/1.8 "Yu Gothic UI", "Yu Gothic", "Hiragino Sans", Meiryo, sans-serif;
+    }
+    canvas { display: block; }
+
+    html.render, html.render body { width: 100%; height: 100%; overflow: hidden; }
+    html.render .page { max-width: none; margin: 0; padding: 0; }
+    html.render .frame { border: 0; }
+    html.render canvas, html.render .frame canvas { width: 100vw; height: 100vh; }
+    html.render .preview-only { display: none !important; }
+
+    .page { max-width: 1320px; margin: 0 auto; padding: 1.25rem clamp(1rem, 3vw, 2rem) 2.5rem; }
+    .top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid #18212d; margin-bottom: 1.25rem; font-size: 0.9375rem; }
+    .top a { color: inherit; text-underline-offset: 0.2em; }
+    h1 { margin: 0; font: 700 1.375rem/1.4 "Yu Mincho", "Hiragino Mincho ProN", serif; }
+    .frame { border: 1px solid #18212d; }
+    .frame canvas { width: 100%; height: auto; }
+    .controls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; padding: 0.75rem 0; border-bottom: 1px solid rgba(24, 33, 45, 0.2); }
+    .controls button { font: inherit; font-weight: 700; min-height: 2.75rem; padding: 0.35rem 1.1rem; border: 1px solid #18212d; background: #18212d; color: #fbfaf5; border-radius: 0; cursor: pointer; }
+    .controls button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .controls input[type="range"] { flex: 1 1 14rem; min-width: 0; accent-color: #b8430f; min-height: 2.75rem; }
+    .controls output { font-variant-numeric: tabular-nums; min-width: 6.5em; }
+    .chapters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.75rem 0 0; padding: 0; list-style: none; }
+    .chapters button { font: inherit; font-size: 0.9375rem; min-height: 2.5rem; padding: 0.25rem 0.85rem; border: 1px solid #18212d; background: transparent; color: inherit; border-radius: 0; cursor: pointer; }
+    .chapters button:hover { background: #18212d; color: #fbfaf5; }
+    .note { margin: 1rem 0 0; font-size: 0.875rem; color: #556070; max-width: 46em; }
+    .status { margin: 0.5rem 0 0; font-size: 0.875rem; color: #b8430f; font-weight: 700; }
+    :focus-visible { outline: 3px solid #b8430f; outline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="top preview-only">
+      <h1>受け止めた瞬間の、青い防御ヒット（解説動画のソース）</h1>
+      <nav aria-label="関連"><a href="../index.html">作例を開く</a>　<a href="../../../case.html?id=effekseer-vfx-example">作例の記事</a></nav>
+    </header>
+    <div class="frame">
+      <canvas id="scene" width="1280" height="720" role="img" aria-label="架空のガードの依頼から、Effekseer VFXスキルで作りGodotで実際に描画した0.5秒の防御ヒットを、等速、1/8のスロー、要所の6フレームで見せ、ブリーフからレシピと実描画への流れ、f16で白かった破片を青く直した経緯、確かめたことと公開したファイルを紹介する28秒の解説動画"></canvas>
+    </div>
+    <div class="controls preview-only" id="controls">
+      <button type="button" id="play" aria-pressed="false" disabled>再生</button>
+      <input id="scrub" type="range" min="0" max="28" step="0.0333" value="0" aria-label="再生位置（秒）">
+      <output id="time" for="scrub">0.00 / 28.00秒</output>
+    </div>
+    <p class="status preview-only" id="status" role="status" aria-live="polite"></p>
+    <ol class="chapters preview-only" aria-label="場面へ移動">
+      <li><button type="button" data-at="1.5">1 題</button></li>
+      <li><button type="button" data-at="6.4">2 依頼</button></li>
+      <li><button type="button" data-at="7.8">3 等速</button></li>
+      <li><button type="button" data-at="11.8">4 スロー</button></li>
+      <li><button type="button" data-at="16.6">5 要所</button></li>
+      <li><button type="button" data-at="19.2">6 作り方</button></li>
+      <li><button type="button" data-at="23.6">7 直したこと</button></li>
+      <li><button type="button" data-at="27.5">8 ファイル</button></li>
+    </ol>
+    <p class="note preview-only">1280×720、30fps、28秒、音声なし。映っている効果の画像はすべて、Godot 4.7 で実際に描画した ../assets/ のPNG（../capture-manifest.json に載っているフレーム）で、効果を描き直した図は使っていません。スロー再生は見せる速さだけを変え、フレーム番号と秒は元の60FPSの時刻のままです。画像を読み込めない場合は描画せず、その旨を表示します。このページの再生と移動は確認用の操作で、書き出す映像には含まれません。</p>
+  </div>
+  <script src="scene.js"></script>
+  <script>
+    (() => {
+      if (document.documentElement.classList.contains('render')) {
+        for (const el of document.querySelectorAll('.preview-only')) el.remove();
+        return;
+      }
+      const duration = window.motionConfig.duration;
+      const play = document.getElementById('play'), scrub = document.getElementById('scrub'), output = document.getElementById('time');
+      const status = document.getElementById('status');
+      let playing = false, seconds = 0, start = 0, raf = 0;
+      function draw(t) {
+        seconds = Math.max(0, Math.min(duration, t));
+        window.seek(seconds);
+        scrub.value = String(seconds);
+        output.value = seconds.toFixed(2) + ' / ' + duration.toFixed(2) + '秒';
+      }
+      function stop() {
+        playing = false;
+        cancelAnimationFrame(raf);
+        play.textContent = seconds >= duration ? 'もう一度再生' : '再生';
+        play.setAttribute('aria-pressed', 'false');
+      }
+      function tick(now) {
+        if (!playing || window.__MOTION_RENDER__) return stop();
+        const t = (now - start) / 1000;
+        if (t >= duration) { draw(duration); stop(); return; }
+        draw(t);
+        raf = requestAnimationFrame(tick);
+      }
+      play.addEventListener('click', () => {
+        if (playing) return stop();
+        if (seconds >= duration) seconds = 0;
+        playing = true;
+        start = performance.now() - seconds * 1000;
+        play.textContent = '一時停止';
+        play.setAttribute('aria-pressed', 'true');
+        raf = requestAnimationFrame(tick);
+      });
+      scrub.addEventListener('input', () => { stop(); draw(Number(scrub.value)); });
+      for (const button of document.querySelectorAll('[data-at]')) {
+        button.addEventListener('click', () => { stop(); draw(Number(button.dataset.at)); });
+      }
+      document.addEventListener('visibilitychange', () => { if (document.hidden && playing) stop(); });
+      window.motionReady.then(() => { play.disabled = false; draw(seconds); }, err => {
+        status.textContent = '画像または ../capture-manifest.json を読み込めませんでした（' + (err && err.message ? err.message : err) + '）。ローカルのHTTPサーバーから開いてください。';
+      });
+    })();
+  </script>
+</body>
+</html>

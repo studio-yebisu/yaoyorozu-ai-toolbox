@@ -3,26 +3,32 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>OpenWeight｜八百万図AIツールボックス</title>
+  <title>OpenWeight｜Yaoyorozu AI ToolBox</title>
   <meta name="description" content="画像・音声・文字起こし・予測など、ツール用途のOpenWeightを入出力の模式図と公式・作者の作例から選べるページ。必要な環境、注意点、公開されている重み、ライセンスの原文もまとめています。">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#f2eee3">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="likes.css">
+  <link rel="stylesheet" href="item-actions.css">
   <link rel="stylesheet" href="open-models.css">
 </head>
 <body class="ow-page" id="top">
   <a class="skip" href="#ow-gallery">モデルの一覧へ移動</a>
 
   <header class="masthead">
-    <a class="wordmark" href="./" aria-label="八百万図AIツールボックス トップ">八百万図AIツールボックス</a>
+    <a class="wordmark" href="./" aria-label="Yaoyorozu AI ToolBox トップ">Yaoyorozu AI ToolBox</a>
     <nav class="masthead-nav" aria-label="サイト">
       <a href="./#cases">ツール</a>
       <a href="open-models.html" aria-current="page">OpenWeight</a>
       <a href="./#fields">分野</a>
       <a href="./#catalog">カタログ</a>
-      <a href="./#howto">頼み方</a>
     </nav>
     <a class="ow-mast-back" href="./#cases">道具箱へ</a>
+    <nav class="masthead-sites" aria-label="専門の案内サイト">
+      <a href="guides/ui-ux/">UI・UX</a>
+      <a href="https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-slides/">AIスライド</a>
+      <a href="https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-motion/">モーション</a>
+    </nav>
   </header>
 
   <main id="main">
@@ -86,7 +92,7 @@
   <footer class="colophon">
     <p><a href="media-rights.html">独自制作動画の利用条件とクレジット</a></p>
     <div class="colophon-main">
-      <p class="wordmark wordmark-small">八百万図AIツールボックス</p>
+      <p class="wordmark wordmark-small">Yaoyorozu AI ToolBox</p>
       <p>モデルの説明は、固定したモデルカード・ライセンスと紹介投稿をもとに日本語でまとめたものです。図は模式図で、今回の追加ではモデルを実行していません。使うときは原典の最新の条件を確かめてください。</p>
       <p class="colophon-updated">モデル一覧の更新日　<span data-ow-updated>—</span></p>
     </div>
@@ -100,6 +106,8 @@
 
   <p class="sr-only" role="status" aria-live="polite" data-announce></p>
   <script src="ui.js"></script>
+  <script src="likes.js"></script>
+  <script src="item-actions.js"></script>
   <script src="open-models.js"></script>
 </body>
 </html>

@@ -50,7 +50,7 @@ node render.mjs --project video --out out-portrait --width 720 --height 1280 --f
 - Motion reference: [earshot 0.4 original launch film](https://github.com/Leonxlnx/earshot/releases/tag/v0.4.0)
 
 本家映像は構成と動きの参考にしました。本家の映像・音楽・ロゴ素材は同梱していません。
-この作例のコードはMIT。書き出し動画の再利用条件は八百万図AIツールボックスの動画利用条件を参照してください。
+この作例のコードはMIT。書き出し動画の再利用条件はYaoyorozu AI ToolBoxの動画利用条件を参照してください。
 
 形式・非無音・各SFXのDSP検査・配置誤差は`assets/render-report.json`に記録。
 これらは聴感評価ではありません。フィット機能の精度と252音すべての検証は対象外です。

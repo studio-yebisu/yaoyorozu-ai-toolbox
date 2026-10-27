@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f7f3ea">
+  <title>Mem0 作例・動く概念図の編集ソース（32秒・無音）｜八百万図AIツールボックス</title>
+  <link rel="stylesheet" href="video.css">
+  <script src="video.js" defer></script>
+</head>
+<body>
+  <main id="editor" class="editor" data-state="loading">
+    <header class="intro chrome">
+      <p class="kicker">STUDIO YEBISU ・ MEM0 作例</p>
+      <h1>動く概念図の編集ソース</h1>
+      <p class="lede"><span class="silent">無音</span> 32秒。保存済みの実行結果から、好みの保存・検索・更新・削除・開き直しを、同じ図の部品の動きで見せます。</p>
+      <nav class="layouts" aria-label="画面の向き">
+        <a id="layout-tall" href="index.html">縦 720×1280</a>
+        <a id="layout-wide" href="index.html?layout=wide">横 1280×720</a>
+      </nav>
+    </header>
+
+    <div class="statusbar chrome">
+      <p id="asset-count" class="count" data-state="pending">0 / 7素材</p>
+      <p id="status" class="status" role="status" aria-live="polite">素材を照合しています…</p>
+    </div>
+
+    <section id="error" class="failure chrome" aria-labelledby="error-title" hidden>
+      <p id="error-title" class="failure-title">映像を描いていません</p>
+      <p id="error-text"></p>
+      <p class="hint">内蔵の代わりのデータは使いません。素材を確かめてから読み込み直してください。</p>
+      <button id="retry" type="button">もう一度読み込む</button>
+    </section>
+
+    <section id="stage" class="stage" hidden>
+      <canvas id="film" role="img" aria-label="架空の2人の好みがひとつの保存先へ入り、同じ問いで別々に引き出され、A02 が20秒から30秒へ書き換わり、A04 が履歴に残ったまま一覧から外れ、別の Python プロセスで開き直しても30秒のままである、保存済みの実行結果に基づく無音の概念図"></canvas>
+    </section>
+
+    <section class="controls chrome" aria-label="再生の操作">
+      <div class="buttons">
+        <button id="play" type="button" disabled>再生</button>
+        <button id="reset" type="button" disabled>先頭へ</button>
+      </div>
+      <div class="scrub">
+        <label for="time">時刻（秒）</label>
+        <input id="time" type="range" min="0" max="32" value="0" step="0.001" disabled>
+      </div>
+      <output id="clock" for="time">照合中</output>
+    </section>
+
+    <section class="info chrome" aria-labelledby="scenes-h">
+      <h2 id="scenes-h">場面へ移動</h2>
+      <ol id="scene-list" class="scene-list"></ol>
+    </section>
+
+    <details class="info chrome">
+      <summary>素材と出典</summary>
+      <p>assets/manifest.json の SHA-256 を固定値と照合し、そこに並ぶ7素材（元の実行記録・入力3件・原典のロック・samples.json・時刻表）のバイト数と SHA-256 を確かめてから描きます。図の値はすべて、制作時に Mem0（mem0ai/mem0 SDK 2.2.1・Apache-2.0）の Memory API と埋め込みモデルが返した保存済みの結果です。ブラウザーで Mem0・モデル・AI は動きません。</p>
+      <p>図の部品と動き、映像のコードは Claude Opus 5.5 が作りました（MIT License）。音声・ナレーションはありません。図の短い言葉は保存した本文を縮めた見出しで、Mem0 スコアは順位の値として順番だけを示します。user_id による分離は認証ではありません。</p>
+      <ol id="asset-list" class="asset-list"></ol>
+      <ul class="links">
+        <li><a href="storyboard.json">構成（storyboard.json）</a></li>
+        <li><a href="README.md">編集と書き出しの手順（README.md）</a></li>
+        <li><a href="../index.html">作例のページへ</a></li>
+        <li><a href="../comparison.html">8場面の記録</a></li>
+      </ul>
+    </details>
+  </main>
+</body>
+</html>

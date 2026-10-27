@@ -1,0 +1,23 @@
+{
+  "unit": "mm",
+  "cases": [
+    {
+      "id": "small",
+      "label": "机上の小物ケース",
+      "width": 100,
+      "depth": 70,
+      "height": 24,
+      "wall": 2.4,
+      "floor": 2.4
+    },
+    {
+      "id": "wide",
+      "label": "工具用に幅を広げる",
+      "width": 130,
+      "depth": 70,
+      "height": 24,
+      "wall": 2.4,
+      "floor": 2.4
+    }
+  ]
+}

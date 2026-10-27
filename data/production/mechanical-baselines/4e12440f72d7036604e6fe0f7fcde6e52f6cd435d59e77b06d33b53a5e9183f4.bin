@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f5efe2">
+<title>1件だけ進めて、続きはファイルへ。｜Harness Creatorの5つのファイルで小さな作業を引き継ぐ｜八百万図AIツールボックス</title>
+<meta name="description" content="Harness Creatorが作った5つのファイルで、架空の書店メモを探す1件の作業だけを進め、制作担当の実行記録を根拠に新しいセッションへ引き継いだ記録を、1枚のつながった図で見られます。">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">本文へ移動</a>
+
+<main id="main">
+  <section class="hero" aria-labelledby="page-title">
+    <header class="top">
+      <a class="back" href="../../case.html?id=learn-harness-engineering-example">← 記事</a>
+      <ul class="chips" aria-label="この画面の素材">
+        <li>保存済みの実行</li>
+        <li>架空のメモ8件</li>
+      </ul>
+    </header>
+    <h1 id="page-title">1件だけ進めて、続きはファイルへ。</h1>
+
+    <div class="controls">
+      <div class="stages" role="group" aria-label="どの時点の状態を図に出すか">
+        <button type="button" class="seg" data-stage="implementation" aria-pressed="false" disabled>実装後</button>
+        <button type="button" class="seg" data-stage="verification" aria-pressed="false" disabled>検証</button>
+        <button type="button" class="seg" data-stage="resume" aria-pressed="true" disabled>再開後</button>
+      </div>
+      <div class="queries" role="group" aria-label="保存した検索を選ぶ">
+        <button type="button" class="q" data-q="Q03" aria-pressed="false" disabled><span class="q-id">Q03</span><span class="q-label">2語</span></button>
+        <button type="button" class="q" data-q="Q05" aria-pressed="false" disabled><span class="q-id">Q05</span><span class="q-label">語＋タグ</span></button>
+        <button type="button" class="q" data-q="Q06" aria-pressed="false" disabled><span class="q-id">Q06</span><span class="q-label">0件</span></button>
+        <button type="button" class="q" data-q="Q07" aria-pressed="false" disabled><span class="q-id">Q07</span><span class="q-label">全角英字</span></button>
+      </div>
+    </div>
+
+    <figure class="diagram" id="diagram" data-layout="portrait">
+      <svg id="dg" class="dg" viewBox="0 0 360 528" role="group" aria-labelledby="dg-title" aria-describedby="diagram-desc">
+        <title id="dg-title">Harness Creatorの5つのファイルと、1件の作業が検証を通って新しいセッションへ渡る図</title>
+      </svg>
+      <div id="load-panel" class="load-panel" data-state="loading">
+        <p id="load-status" class="load-status" role="status" aria-live="polite">保存した実行記録を読み込み、照合しています…</p>
+        <div id="load-error" class="load-error" hidden>
+          <p class="err-title">図を表示できません</p>
+          <p id="load-error-text" class="err-text"></p>
+          <p class="err-hint">代わりのデータは使いません。</p>
+          <button type="button" id="retry" class="btn btn-main">もう一度読み込む</button>
+        </div>
+      </div>
+      <figcaption id="diagram-desc" class="visually-hidden" aria-live="polite"></figcaption>
+    </figure>
+
+    <div class="save-row">
+      <button id="download-record" type="button" class="btn btn-main" disabled>Q03の記録を保存</button>
+      <a id="compare-link" class="btn btn-quiet" href="comparison.html#Q03">比較画面</a>
+    </div>
+    <p id="download-status" class="save-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <div class="folds">
+    <details class="more" id="picker">
+      <summary>全8問から選ぶ<span id="picker-current" class="sum-note"></span></summary>
+      <div class="more-body">
+        <p class="hint">8問の条件は実装の前に固定したものです。選ぶと図の結果と保存ボタンが切り替わります。機能の状態（作業中・完了）は時点の切り替えだけで変わります。</p>
+        <p class="wait">記録の照合が終わると選べます。</p>
+        <ul id="picker-list" class="picker-list" data-live></ul>
+      </div>
+    </details>
+
+    <details class="more" id="record-box">
+      <summary>選んだ記録の全文<span id="record-sum" class="sum-note"></span></summary>
+      <div class="more-body">
+        <p class="wait">記録の照合が終わると表示します。</p>
+        <div data-live>
+          <p class="kicker">Node CLI（<code>node src/notes.mjs search</code>）を制作担当が実行した標準出力の保存記録です。</p>
+          <h3 id="record-title"></h3>
+          <dl id="record-fields" class="kv"></dl>
+          <p id="record-empty" class="empty" hidden></p>
+          <ol id="record-results" class="record-results" aria-label="保存記録の結果"></ol>
+          <p class="link-row"><a id="record-file" class="chip" href="project/outputs/queries/Q03.json">Q03.json を開く</a><a id="record-compare" class="chip" href="comparison.html#Q03">比較画面で開く</a></p>
+        </div>
+      </div>
+    </details>
+
+    <details class="more" id="search-box">
+      <summary>ブラウザー内の検索</summary>
+      <div class="more-body">
+        <p class="hint">保存した索引（<code>project/outputs/index.json</code>）を、このブラウザーの JavaScript で探します。Node・CLI・AI は動かず、上の保存記録も書き換えません。</p>
+        <form id="search-form" class="search-form" role="search" aria-label="ブラウザー内のメモ検索">
+          <div class="field">
+            <label for="query">語<span class="field-note">空白で区切ると、すべてを含むメモだけ</span></label>
+            <input id="query" name="query" type="search" autocomplete="off" enterkeyhint="search" spellcheck="false" disabled>
+          </div>
+          <div class="field">
+            <label for="tag">タグ</label>
+            <select id="tag" name="tag" disabled>
+              <option value="">すべてのタグ</option>
+            </select>
+          </div>
+          <div class="actions">
+            <button id="apply" type="submit" class="btn btn-main" disabled>探す</button>
+            <button id="reset" type="button" class="btn btn-quiet" disabled>すべて表示</button>
+          </div>
+        </form>
+        <p id="count" class="count" aria-live="polite"></p>
+        <p id="empty" class="empty" hidden>該当するメモはありません（0件）。語を減らすか「すべて表示」を押してください。</p>
+        <p id="relation" class="relation"></p>
+        <ul id="notes" class="notes" aria-label="ブラウザー内の検索結果"></ul>
+      </div>
+    </details>
+
+    <details class="more" id="files-box">
+      <summary>5つのファイル（スキルが作成）</summary>
+      <div class="more-body">
+        <p class="wait">記録の照合が終わると表示します。</p>
+        <div data-live>
+          <p>固定版の <code>create-harness.mjs</code> を改変せずに実行して5つのファイルを作りました。実装のセッションが4つをこの課題用に書き換え、<code>init.sh</code> は生成時のままです。</p>
+          <p class="mono small" id="created-command"></p>
+          <ul id="files-list" class="file-list"></ul>
+        </div>
+      </div>
+    </details>
+
+    <details class="more" id="sessions-box">
+      <summary>2つのセッションの状態ファイル</summary>
+      <div class="more-body">
+        <p class="wait">記録の照合が終わると表示します。</p>
+        <div data-live>
+          <p>どちらのセッションもシェルを実行していません。実行は間の「検証」で制作担当が行いました。今回の図の制作では、2つのセッションも実行もやり直していません。</p>
+          <div id="sessions-list" class="sessions"></div>
+          <p id="sessions-check" class="hint"></p>
+        </div>
+      </div>
+    </details>
+
+    <details class="more" id="verify-box">
+      <summary>検証（制作担当の実行）</summary>
+      <div class="more-body">
+        <p class="wait">記録の照合が終わると表示します。</p>
+        <div data-live>
+          <p>3つ目のAIセッションではありません。制作担当が <code>./init.sh</code>（中身は <code>node scripts/verify.mjs</code>）を実行した記録です。</p>
+          <dl id="verify-fields" class="kv"></dl>
+          <h3>8問</h3>
+          <ol id="verify-queries" class="mini-list"></ol>
+          <h3>不正な入力11件（正しく拒否）</h3>
+          <p class="hint">わざと壊した入力で、CLI が終了コード1で断り、成功の出力を作らないことの確認です。作業の失敗ではありません。NC05 は既にある出力先の中身を保つことも確かめています。</p>
+          <ol id="verify-controls" class="mini-list"></ol>
+          <p class="hint">固定版 <code>validate-harness.mjs</code> の構造の点検は、見出しや項目の有無を数える静的な点検で、上の実テストの代わりでも効果の測定でもありません。この画面では点数を扱いません。<a href="outputs/harness-assessment.json">構造の点検の記録</a></p>
+          <p class="link-row"><a class="chip" href="project/outputs/verification.json">verification.json</a><a class="chip" href="outputs/init.stdout.txt">init.sh の標準出力</a><a class="chip" href="outputs/exercise-run.json">実行のまとめ</a></p>
+        </div>
+      </div>
+    </details>
+
+    <details class="more" id="inputs">
+      <summary>入力：架空のメモ8件と8問</summary>
+      <div class="more-body">
+        <p class="wait">記録の照合が終わると表示します。</p>
+        <div data-live>
+          <p>書店名・運用はすべて架空です。1行目が id・title・tags の JSON、空行、本文の形です。</p>
+          <ul id="inputs-list" class="input-list"></ul>
+          <p class="link-row"><a class="chip" href="project/input/queries.json">8問と期待ID（queries.json）</a><a class="chip" href="project/outputs/index.json">CLIが作った索引（index.json）</a></p>
+        </div>
+      </div>
+    </details>
+
+    <details class="more" id="request-box">
+      <summary>同じ使い方を頼む依頼文</summary>
+      <div class="more-body">
+        <p>自分の小さな課題に差し替えて、AIや開発者に渡せる依頼文です。</p>
+        <p id="request-state" class="hint" role="status" aria-live="polite">依頼文を読み込んでいます…</p>
+        <label for="request-text" class="visually-hidden">依頼文</label>
+        <textarea id="request-text" class="request-text" rows="12" readonly hidden></textarea>
+        <div class="request-actions">
+          <button type="button" id="copy" class="btn btn-main" hidden>依頼文をコピー</button>
+          <button type="button" id="request-retry" class="btn btn-quiet" hidden>依頼文を読み込み直す</button>
+          <a class="chip" href="request.txt">request.txt を開く</a>
+        </div>
+        <p id="copy-state" class="hint" role="status" aria-live="polite"></p>
+      </div>
+    </details>
+
+    <details class="more">
+      <summary>原典・範囲・ライセンス</summary>
+      <div class="more-body">
+        <p>walkinglabs/learn-harness-engineering の固定コミット <span class="mono">38ddcd2bf8d65271f668b94e7c875ca1d629d622</span> から、Harness Creator スキルと必要なファイル25件を改変せずに同梱しています（固定版のGitの中身と照合済み）。MIT License、Copyright (c) 2025 WalkingLab。</p>
+        <p>書き下ろしの小さなCLI練習に、SKILL.md の「最小の5つの仕組み」「作業中は1件」「完了の前に証拠」「ファイルで引き継ぐ」を当てはめた記録です。講座の Project 01・02（ハーネスなしとの比較、Electron アプリ）ではなく、効果・信頼性・速度の向上は測っていません。自動で作業を回す仕組みもありません。</p>
+        <p>この画面は保存したファイルを読むだけで、Node・CLI・AIは動きません。図の動きは考え方の説明で、AIの記憶を写したものではありません。</p>
+        <ul class="link-list">
+          <li><a href="vendor/learn-harness-engineering/skills/harness-creator/SKILL.md">Harness Creator スキル（SKILL.md・固定版）</a></li>
+          <li><a href="vendor/learn-harness-engineering/skills/harness-creator/README.md">Harness Creator の README（固定版）</a></li>
+          <li><a href="vendor/learn-harness-engineering/skills/harness-creator/scripts/create-harness.mjs">create-harness.mjs（固定版）</a></li>
+          <li><a href="vendor/learn-harness-engineering/LICENSE">Learn Harness Engineering の LICENSE（MIT）</a></li>
+          <li><a href="https://github.com/walkinglabs/learn-harness-engineering/tree/38ddcd2bf8d65271f668b94e7c875ca1d629d622">GitHub の固定コミット</a></li>
+          <li><a href="project/docs/project.md">CLIの入出力（project/docs/project.md）</a></li>
+          <li><a href="outputs/method.md">入力・処理・状態・出力の分け方（outputs/method.md）</a></li>
+          <li><a href="project/src/notes.mjs">CLI（project/src/notes.mjs）</a>・<a href="project/scripts/verify.mjs">検証（project/scripts/verify.mjs）</a></li>
+          <li><a href="LICENSE">作例の LICENSE（MIT・八百万図AIツールボックス）</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <nav class="links" aria-label="関連するページとファイル">
+      <a href="../../case.html?id=learn-harness-engineering-example">作例の記事</a>
+      <a id="nav-compare" href="comparison.html#Q03">比較画面（元の検索画面）</a>
+      <a href="../../media/learn-harness-engineering-example.mp4">縦の動画（MP4）</a>
+      <a href="../../media/learn-harness-engineering-example-wide.mp4">横の動画（MP4）</a>
+      <a href="video/index.html">編集できる動画ソース</a>
+      <a href="source.zip">入力・結果・ソース一式（source.zip）</a>
+    </nav>
+  </div>
+</main>
+
+<footer class="foot">
+  <p>作例のコード・文章・架空のメモ：MIT License（Copyright (c) 2026 Studio Yebisu）。Learn Harness Engineering：MIT License（Copyright (c) 2025 WalkingLab）。ページを開いても Node・CLI・AI は動きません。</p>
+</footer>
+
+<p id="toast" class="toast" aria-hidden="true" hidden></p>
+<script src="app.js" defer></script>
+</body>
+</html>

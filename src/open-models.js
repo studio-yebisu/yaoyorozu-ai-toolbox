@@ -1,4 +1,4 @@
-/* 八百万図AIツールボックス — open-weight model guide (open-models.html). Load after ui.js.
+/* Yaoyorozu AI ToolBox — open-weight model guide (open-models.html). Load after ui.js.
    Reads data/open-models.json and data/categories.json only; every value from JSON is set as text.
    URL: ?q=<words>&field=<category id>#<model id>. Typing replaces the history entry, field chips and
    reset add one. A model hash always wins over filters that would hide it. Nothing here changes window.SY. */
@@ -299,6 +299,7 @@
           license ? h('span', {class: 'ow-lic'}, license) : null,
           model.weights?.gated === true ? h('span', {class: 'ow-gated'}, '取得に同意が必要') : null),
         text(model.headline) ? h('p', {class: 'ow-headline'}, text(model.headline)) : null,
+        window.SY.itemActions.create('owm-' + model.id, model.name, 'open-models.html#' + encodeURIComponent(model.id)),
         h('a', {class: 'ow-anchor', href: '#' + model.id, 'aria-label': (text(model.name) || model.id) + 'へのリンク'}, '#')),
       figure(model, index),
       h('div', {class: 'ow-card-body'},
@@ -362,7 +363,8 @@
   async function load() {
     if (loading) return;
     loading = true;
-    errorEl.hidden = true;
+    // The error box (with its retry button) stays visible while retrying so keyboard focus is not
+    // stranded; a successful build dismisses it below.
     emptyEl.hidden = true;
     list.hidden = false;
     list.setAttribute('aria-busy', 'true');
@@ -388,6 +390,8 @@
       fieldsEl.hidden = true;
       statusEl.textContent = '読み込めませんでした。';
       errorEl.hidden = false;
+    } else {
+      errorEl.hidden = true;
     }
   }
 
@@ -400,7 +404,20 @@
   input.addEventListener('input', () => setState({q: input.value, field: state.field}, 'replace'));
   resetBtn.addEventListener('click', resetAll);
   $('[data-ow-empty-reset]')?.addEventListener('click', resetAll);
-  $('[data-ow-retry]')?.addEventListener('click', load);
+  const owRetry = $('[data-ow-retry]');
+  owRetry?.addEventListener('click', () => {
+    // While retrying, the error box stays visible, so only a successful build — the one case that
+    // hides it — can leave the keyboard stranded; move it to the results section.
+    const restore = document.activeElement === owRetry;
+    load().then(() => {
+      if (!restore || !errorEl.hidden) return;
+      // Hiding the box blurs its button asynchronously: here the active element may still be the
+      // (hidden) retry button, or already the body. Both mean the focus is ours to restore; any
+      // other element means the user moved it, so leave it alone.
+      const active = document.activeElement;
+      if (active === document.body || errorEl.contains(active)) $('#ow-gallery')?.focus({preventScroll: true});
+    });
+  });
 
   window.addEventListener('popstate', () => {
     if (!models.length) return;

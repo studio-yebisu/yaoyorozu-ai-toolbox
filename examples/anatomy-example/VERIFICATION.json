@@ -1,0 +1,109 @@
+{
+  "date": "2026-10-22",
+  "ui": {
+    "status": "passed",
+    "checks": [
+      {
+        "width": 390,
+        "height": 844,
+        "primary_top": 744.53125,
+        "interactive_states": "passed",
+        "keyboard": "passed",
+        "overflow": false,
+        "page_errors": [],
+        "external_requests": [],
+        "non_get_requests": []
+      },
+      {
+        "width": 1280,
+        "height": 900,
+        "primary_top": 1038.953125,
+        "interactive_states": "passed",
+        "keyboard": "passed",
+        "overflow": false,
+        "page_errors": [],
+        "external_requests": [],
+        "non_get_requests": []
+      }
+    ]
+  },
+  "cad_runtime": "not-applicable",
+  "human_approval": false,
+  "real_ios_device": false,
+  "line_ends": {
+    "checker": "Official Anatomy scripts/line-ends.mjs, invoked in existing Playwright page; full drive.mjs CLI not run",
+    "commit": "1482e8469b0a9e0d8cc18ea2740a01423d29ae80",
+    "checks": [
+      {
+        "theme": "light",
+        "state": "full",
+        "ends": 62,
+        "lines": 26,
+        "problems": []
+      },
+      {
+        "theme": "light",
+        "state": "refused",
+        "ends": 62,
+        "lines": 18,
+        "problems": []
+      },
+      {
+        "theme": "light",
+        "state": "refilled",
+        "ends": 62,
+        "lines": 20,
+        "problems": []
+      },
+      {
+        "theme": "dark",
+        "state": "full",
+        "ends": 62,
+        "lines": 26,
+        "problems": []
+      },
+      {
+        "theme": "dark",
+        "state": "refused",
+        "ends": 62,
+        "lines": 18,
+        "problems": []
+      },
+      {
+        "theme": "dark",
+        "state": "refilled",
+        "ends": 62,
+        "lines": 20,
+        "problems": []
+      }
+    ]
+  },
+  "model_checks": {
+    "status": "passed",
+    "scope": "Independent explanation model only; no network API",
+    "checks": [
+      "burst8",
+      "empty-refusal",
+      "refill2-per-integer-second",
+      "capacity-clamp",
+      "immutable-input",
+      "invalid-time-rejected",
+      "400-step-conservation"
+    ],
+    "final_readout": "残り 0/8 · 許可 122 · 拒否 220 · 57秒"
+  },
+  "svg_states": [
+    "figure.svg",
+    "figure-refused.svg",
+    "figure-refilled.svg"
+  ],
+  "qa_corrections": [
+    {
+      "file": "examples/anatomy-example/figure.mjs",
+      "before_sha256": "4a54a2b2ae3b311b0be828307c7aa1d53b0fb9fafb046a37d23ec65d961ff51d",
+      "after_sha256": "86533d9087241d3ca764436dd6eca2c93437d3c83463ca5bfdf001ad21e18dfe",
+      "reason": "Root ruler ticks on the actual strip edge and keep them short; no free-end exemption or checker tolerance changes.",
+      "author": "coordinator QA correction after Opus completion"
+    }
+  ]
+}

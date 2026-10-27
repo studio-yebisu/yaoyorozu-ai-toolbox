@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pretty Mermaid の仕組み｜32秒・無音の解説映像の編集ソース｜八百万図AIツールボックス</title>
+  <script>
+    // 書き出し時は画面いっぱいの図だけを描く。確認用の操作は隠す。
+    if (window.__MOTION_RENDER__ || /[?&]render(=|&|$)/.test(location.search)) document.documentElement.classList.add('render');
+  </script>
+  <link rel="stylesheet" href="video.css?v=visual-r1-r2">
+  <script type="module" src="video.js?v=visual-r1-r2"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="top preview-only">
+      <h1>Pretty Mermaid の仕組み<span>32秒・無音の解説映像（編集ソース）</span></h1>
+      <nav aria-label="関連"><a href="../index.html">図解のページへ</a><a href="legacy.html">旧28秒の解説</a></nav>
+    </header>
+
+    <div class="stage">
+      <canvas id="film" width="720" height="1280" role="img"
+        aria-label="Pretty Mermaid の構造が1枚の図で動く32秒の無音映像。指示書と架空の依頼の印が作者AIへ移って.mmdの行になり、制作担当がその.mmdと設定をローカルのNode CLIへ渡す。beautiful-mermaidからSVGの経路とPNGの経路、別の文字図の経路に分かれ、出力は別工程で原文と照合され、.mmd・SVG・PNG・文字図の使い分けにつながる。"></canvas>
+    </div>
+
+    <div class="controls preview-only">
+      <div class="status-row">
+        <p id="asset-status" data-state="loading" role="status" aria-live="polite">保存済みのファイルを検証しています…</p>
+        <p id="asset-dims"></p>
+        <button type="button" id="retry" hidden>もう一度読み込む</button>
+      </div>
+      <div class="transport">
+        <button type="button" id="play" aria-pressed="false" disabled>再生</button>
+        <button type="button" id="reset" disabled>先頭へ</button>
+        <button type="button" id="replay" disabled>最初から再生</button>
+        <button type="button" id="end" disabled>最後へ</button>
+        <label class="scrub"><span class="sr">再生位置（秒）</span><input id="time" type="range" min="0" max="32" step="0.1" value="0" disabled></label>
+        <output id="clock" for="time">0.0 / 32.0秒</output>
+      </div>
+      <div class="orient" role="group" aria-label="映像の向き">
+        <button type="button" data-orient="portrait" aria-pressed="true" disabled>縦 720×1280</button>
+        <button type="button" data-orient="wide" aria-pressed="false" disabled>横 1280×720</button>
+      </div>
+      <ol class="jumps" aria-label="場面へ移動">
+        <li><button type="button" data-jump="0" disabled>0秒 指示書と依頼</button></li>
+        <li><button type="button" data-jump="4" disabled>4秒 作者AIが.mmdを書く</button></li>
+        <li><button type="button" data-jump="8" disabled>8秒 制作担当がCLIへ</button></li>
+        <li><button type="button" data-jump="14" disabled>14秒 3つの経路</button></li>
+        <li><button type="button" data-jump="20" disabled>20秒 読んで照合</button></li>
+        <li><button type="button" data-jump="26" disabled>26秒 使い分け</button></li>
+        <li><button type="button" data-jump="29" disabled>29秒 全体の地図</button></li>
+      </ol>
+      <p class="note">音声トラック・ナレーション・効果音はありません（audioEvents は空）。図の出力は ../concept.js の共有ローダーで28ファイルのSHA-256を確かめた保存済みの原出力で、その場で描画・生成・モデル呼び出しはしません。この操作は確認用で、書き出す映像には含まれません。制作担当の確認範囲は作例内の visual-verification.json に記録します。</p>
+    </div>
+  </div>
+</body>
+</html>

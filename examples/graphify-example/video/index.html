@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; connect-src 'self'; font-src 'self'; media-src 'none'; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>編集用ソース：送料の影響探索（無音24秒）｜八百万図AIツールボックス</title>
+  <link rel="stylesheet" href="video.css">
+  <script type="module" src="scene.js"></script>
+</head>
+<body>
+  <main class="preview">
+    <header class="head preview-only">
+      <h1>送料の関数を変えると、どこに響く？<span>無音24秒・編集用ソース</span></h1>
+      <nav aria-label="関連"><a href="../index.html">保存結果ビューアへ</a><a href="../README.md">README</a></nav>
+    </header>
+
+    <div class="stage" id="stage">
+      <canvas id="film" width="720" height="1280" role="img"
+        aria-label="無音24秒の解説動画。起点の関数 shipping_fee が現れ、独自のASTアダプターで読んだ呼び出し2本（checkout_total と delivery_estimate から）が実線で伸びる。次に手で対応を書いた仕様書3つが「手動」の印と点線でつながる。公式の affected.py が shipping_fee から逆向きにたどり、深さ1で3件、深さ2で2件、合計5件（グラフは6ノード・5エッジ）に印がつく。最後に残るファイル（result.json・graph.json・affected.txt・run.py・fixture）と、CLI・tree-sitter・LLM抽出・MCPは実行していないことを示す。"></canvas>
+    </div>
+
+    <div class="controls preview-only" id="controls">
+      <p class="status" id="status" role="status" aria-live="polite">保存結果を読み込んでいます…</p>
+      <div class="transport">
+        <button type="button" id="play" aria-pressed="false" disabled>再生</button>
+        <button type="button" id="rewind" disabled>最初へ</button>
+        <label class="scrub"><span class="visually-hidden">再生位置（秒）</span><input id="time" type="range" min="0" max="24" step="0.1" value="12" disabled></label>
+        <output id="clock" for="time">12.0 / 24.0 秒</output>
+      </div>
+      <div class="jumps" role="group" aria-label="場面へ移動">
+        <button type="button" data-jump="0" disabled>0秒 起点</button>
+        <button type="button" data-jump="3" disabled>3秒 コードの呼び出し</button>
+        <button type="button" data-jump="8" disabled>8秒 手動の仕様書</button>
+        <button type="button" data-jump="13" disabled>13秒 逆向きにたどる</button>
+        <button type="button" data-jump="19" disabled>19秒 残るファイル</button>
+      </div>
+      <div class="orient" role="group" aria-label="画面の向き">
+        <button type="button" data-orient="portrait" aria-pressed="true">縦 720×1280</button>
+        <button type="button" data-orient="wide" aria-pressed="false">横 1280×720</button>
+      </div>
+      <p class="hint">確認用の操作です。書き出し（renderモード）ではこの欄を出さず、タイマーも動かしません。図のノード・エッジ・影響の深さは ../outputs/result.json と ../outputs/graph.json から読みます。音声はありません。</p>
+    </div>
+  </main>
+</body>
+</html>

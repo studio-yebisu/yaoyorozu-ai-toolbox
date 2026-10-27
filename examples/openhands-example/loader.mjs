@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス — OpenHands Agent Canvas 作例の読み込み補助。MIT License, Copyright (c) 2026 Studio Yebisu.
+// Yaoyorozu AI ToolBox — OpenHands Agent Canvas 作例の読み込み補助。MIT License, Copyright (c) 2026 Studio Yebisu.
 // 固定版の原典 .ts を Node の型除去でそのまま読み込むため、解決だけを補う。
 //   ・原典（vendor/openhands）の中からの「#/名前」 → vendor/openhands/src/名前.ts
 //   ・原典の中からの拡張子なし相対 import（./x, ../x） → 同じ原典フォルダー内の x.ts

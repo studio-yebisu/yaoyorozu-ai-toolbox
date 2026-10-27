@@ -5,3 +5,12 @@
 /data/video-downloads.json -text
 /media/ryoshu-copy-renewal-20261026/** -text
 /media/ryoshu-copy-renewal-20261026/source-102/** whitespace=cr-at-eol
+# These public snapshots carry byte-level provenance across operating systems.
+integrations/motion/** -text
+integrations/slides/** -text
+/examples/** -text whitespace=cr-at-eol
+/data/cases/** -text whitespace=cr-at-eol
+/data/production/** -text whitespace=cr-at-eol
+/data/production/mechanical-baselines/** -text -diff
+/media/** -text whitespace=cr-at-eol
+/skills/brief-to-demo/SKILL.md -text whitespace=cr-at-eol

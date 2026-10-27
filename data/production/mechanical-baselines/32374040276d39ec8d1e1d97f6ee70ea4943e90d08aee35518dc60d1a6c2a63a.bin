@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ja" data-state="loading">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>Pretty Mermaid の仕組み｜AIが読む指示書と手元のNode CLI｜八百万図AIツールボックス</title>
+  <meta name="description" content="Pretty Mermaid は、AIが読むMarkdownの指示書・参照資料と、手元で動くNode CLIの組み合わせです。指示書と依頼から作者AIが.mmdを書き、制作担当がCLIでSVG・PNG・文字図に書き出し、別工程で原文と照合するまでを1枚の動く図で示します。">
+  <link rel="stylesheet" href="concept.css">
+  <script type="module" src="concept.js?v=visual-r1-r2"></script>
+</head>
+<body data-view="concept">
+  <a class="skip" href="#map-text">図の説明文へ移動</a>
+
+  <header class="mast">
+    <div class="mast-bar">
+      <a class="back" href="../../case.html?id=pretty-mermaid-first-diagram">← 作例の記事</a>
+      <span class="imprint">八百万図AIツールボックス・図解</span>
+    </div>
+    <h1 id="mermaid-title"><span class="kicker">Pretty Mermaid</span>AIが読む指示書と、手元で描くNode CLI</h1>
+    <div class="loadline">
+      <p id="load-status" role="status" aria-live="polite">保存済みのファイルを検証しています…</p>
+      <button type="button" id="retry" class="btn btn-quiet" hidden>もう一度読み込む</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="mermaid-title">
+      <div class="cases" role="group" aria-label="図の題材（すべて架空）">
+        <button type="button" data-case="flow" aria-pressed="true" disabled>流れ図</button>
+        <button type="button" data-case="sequence" aria-pressed="false" disabled>やり取り</button>
+        <button type="button" data-case="state" aria-pressed="false" disabled>状態</button>
+      </div>
+
+      <figure class="map">
+        <canvas id="concept-map" role="img" aria-describedby="map-text"
+          aria-label="Pretty Mermaid の構造図。指示書SKILL.mdと必要な構文・テーマの参照、架空の依頼が同じ作者AIへ入り、作者AIが.mmdを保存する。制作担当が同じ.mmdと設定をローカルのNode CLIへ渡し、beautiful-mermaidからSVG、同じSVGをResvgで画像化したPNG、別の関数で文字図を書き出す。出力は別工程で原文と照合し、用途ごとに使い分ける。"></canvas>
+      </figure>
+
+      <div class="stages" role="group" aria-label="図の段階">
+        <button type="button" data-stage="0" aria-pressed="true" disabled><span class="num">1</span>指示書と入力</button>
+        <button type="button" data-stage="1" aria-pressed="false" disabled><span class="num">2</span>CLIの3経路</button>
+        <button type="button" data-stage="2" aria-pressed="false" disabled><span class="num">3</span>照合と使い分け</button>
+        <button type="button" id="replay" class="replay" aria-label="この段階の動きをもう一度再生" title="動きをもう一度" disabled>↻</button>
+      </div>
+
+      <div class="primary">
+        <a id="open-desk" class="btn" href="desk.html#flow">元の読み比べ画面を開く</a>
+        <button type="button" id="save-record" class="btn btn-solid" disabled>SVGを保存</button>
+      </div>
+      <p id="record-name" class="record-name"></p>
+
+      <div class="save-row">
+        <label class="field">
+          <span>保存する形式</span>
+          <select id="save-format" disabled>
+            <option value="svg" selected>SVG（資料・拡大）</option>
+            <option value="png">PNG（共有）</option>
+            <option value="text">文字図（端末）</option>
+            <option value="mmd">.mmd（編集）</option>
+          </select>
+        </label>
+        <div class="themes" role="group" aria-label="SVGのテーマ">
+          <button type="button" data-theme="light" aria-pressed="true" disabled>明 github-light</button>
+          <button type="button" data-theme="dark" aria-pressed="false" disabled>暗 github-dark</button>
+        </div>
+      </div>
+      <p id="theme-note" class="note"></p>
+      <p id="save-status" class="note" role="status" aria-live="polite"></p>
+      <p id="case-meta" class="meta"></p>
+      <p id="phase-note" class="phase"></p>
+    </section>
+
+    <section id="map-text" class="sheet" aria-labelledby="map-text-title">
+      <h2 id="map-text-title">図を文章で読む</h2>
+      <p class="lede">Pretty Mermaid は、AIが読むMarkdownの指示書・参照資料と、手元で動くNode CLIの組み合わせです。AIのモデル、APIやクラウドのサービス、ブラウザーで描く仕組み、自動で全部を進める道具ではありません。</p>
+      <ol class="walk">
+        <li><strong>中身</strong>　SKILL.md に7つの手順と、図の種類・出力形式・テーマ・書き方・確認の指針があります。参照資料は DIAGRAM_TYPES.md・THEMES.md・api_reference.md の3件です。元の記述では構文とテーマを参照し、API資料の直接呼び出しは適用していません。</li>
+        <li><strong>AIへ渡すもの</strong>　指示書と架空の依頼（図の種類・目的・用語・関係・出力・テーマ）を同じ作者AIへ渡しました。元の制作では Opus 5.5 が1回の依頼で、流れ図・やり取り・状態の3つの <code>.mmd</code> を書きました。</li>
+        <li><strong>作者AIがしたこと</strong>　指示書に沿って短いラベル・条件のラベル・戻り道を選び、用語と関係を残した記述を保存しました。作者AIはCLIを実行していません。</li>
+        <li><strong>制作担当がしたこと</strong>　同じ <code>.mmd</code> と設定を、固定版の <code>node scripts/render.mjs</code> へ12回渡しました（3つの記述 × 4つの出力）。</li>
+        <li><strong>CLIの中</strong>　<code>.mmd</code> を読み、beautiful-mermaid の renderMermaidSVG がテーマとフォントを付けたSVGを作ります。PNGは同じSVGを png.mjs でCSSを整えてから Resvg で幅1200に画像化します。文字図はSVGの写しではなく、renderMermaidASCII の別経路でUnicodeの罫線を使って書き出します。ブラウザーやDOMは使いません。</li>
+        <li><strong>受け取ったもの</strong>　1つの記述につき、github-light のSVG、github-dark のSVG、github-light のPNG（幅1200）、色なしの文字図の4つ。明暗のSVGは同じ関係と名前を持ちます。</li>
+        <li><strong>読んで照合</strong>　制作担当が別工程で、12回の正常終了、空でないSVGが <code>&lt;svg</code> で始まること、PNGが開けること、文字図に図が出ていることを確かめ、日本語のラベル・矢印の向き・条件を原文と見比べました（関係は5・5・6本）。すべての意味を自動で保証するものでも、人の承認でもありません。</li>
+        <li><strong>次の使い方</strong>　直すときは <code>.mmd</code>、資料や拡大にはSVG、共有にはPNG、端末には文字図。元の読み比べ画面で、記述と出力を並べて読めます。</li>
+      </ol>
+    </section>
+
+    <section class="sheet parts" aria-labelledby="parts-title">
+      <h2 id="parts-title">指示書と描画の部品を、原文で確かめる</h2>
+      <p class="lede">6つの部品は、この図解のための整理です。原典に共通の決まった構造があるわけではありません。</p>
+      <div class="part-buttons" role="group" aria-label="部品">
+        <button type="button" data-part="instructions" aria-pressed="true" disabled>手順を選ぶ</button>
+        <button type="button" data-part="types" aria-pressed="false" disabled>図の文法</button>
+        <button type="button" data-part="theme" aria-pressed="false" disabled>見た目と用途</button>
+        <button type="button" data-part="source" aria-pressed="false" disabled>記述を残す</button>
+        <button type="button" data-part="render" aria-pressed="false" disabled>ローカル描画</button>
+        <button type="button" data-part="check" aria-pressed="false" disabled>原文と照合</button>
+      </div>
+      <div class="part-card">
+        <h3 id="part-label"></h3>
+        <p id="part-meaning"></p>
+        <blockquote><code id="part-quote"></code></blockquote>
+        <p class="links"><a id="part-source" rel="noopener"></a><a id="part-local"></a></p>
+      </div>
+    </section>
+
+    <section class="sheet record" aria-labelledby="record-title">
+      <h2 id="record-title">保存するファイルの中身</h2>
+      <p class="lede">形式とテーマを選ぶと、元の制作で保存したファイルの中から1つを選びます。その場で描き直したり生成したりはしません。SVGはページへ埋め込まず画像として表示するため、SVG内に残る外部フォントの指定は読み込まれません。</p>
+      <div class="preview">
+        <img id="record-preview" alt="" hidden>
+        <pre id="record-preview-text" tabindex="0" aria-label="保存するファイルの中身" hidden></pre>
+      </div>
+      <details>
+        <summary>記録（パス・大きさ・SHA-256・元のコマンド）</summary>
+        <dl id="record-content"></dl>
+      </details>
+    </section>
+
+    <section class="sheet cases-text" aria-labelledby="cases-title">
+      <h2 id="cases-title">3つの題材（すべて架空）</h2>
+      <p class="lede">申込の流れ、受付APIとのやり取り、ジョブの再試行は「図の題材」です。申込の処理・API・ジョブを作ったり動かしたりはしていません。</p>
+      <article id="flow">
+        <h3>申込の確認フロー <span class="tag" data-slot="count"></span></h3>
+        <p data-slot="summary"></p>
+        <ol class="relations" data-slot="relations"></ol>
+        <details><summary>記述（inputs/review-flow.mmd）</summary><pre data-slot="mmd"></pre></details>
+        <p class="files" data-slot="files"></p>
+      </article>
+      <article id="sequence">
+        <h3>申込を受け付けるやり取り <span class="tag" data-slot="count"></span></h3>
+        <p data-slot="summary"></p>
+        <ol class="relations" data-slot="relations"></ol>
+        <details><summary>記述（inputs/request-sequence.mmd）</summary><pre data-slot="mmd"></pre></details>
+        <p class="files" data-slot="files"></p>
+      </article>
+      <article id="state">
+        <h3>ジョブの状態 <span class="tag" data-slot="count"></span></h3>
+        <p data-slot="summary"></p>
+        <ol class="relations" data-slot="relations"></ol>
+        <details><summary>記述（inputs/job-state.mmd）</summary><pre data-slot="mmd"></pre></details>
+        <p class="files" data-slot="files"></p>
+      </article>
+    </section>
+
+    <section class="sheet request" aria-labelledby="request-title">
+      <h2 id="request-title">作者AIへ渡す依頼の型</h2>
+      <p class="lede">【】の部分を自分の手順に書き換えて使います。固定版のcheckoutと <code>npm ci --ignore-scripts</code> が済んでいることが前提です。</p>
+      <label class="sr" for="request-text">依頼文（request.txt）</label>
+      <textarea id="request-text" readonly rows="10" spellcheck="false"></textarea>
+      <div class="row">
+        <button type="button" id="copy-request" class="btn" disabled>依頼文をコピー</button>
+        <p id="copy-status" class="note" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="sheet films" aria-labelledby="films-title">
+      <h2 id="films-title">32秒の無音の解説映像</h2>
+      <p class="lede">同じ構造図が動き、指示書・依頼・記述・CLI・照合・使い分けを順につなぎます。音声・ナレーションはありません。</p>
+      <div class="film-pair">
+        <figure class="film film-portrait">
+          <video id="film-portrait" controls muted playsinline preload="metadata" width="720" height="1280" src="../../media/pretty-mermaid-first-diagram.mp4?v=visual-r1-r2"></video>
+          <figcaption>縦 720×1280</figcaption>
+        </figure>
+        <figure class="film film-wide">
+          <video id="film-wide" controls muted playsinline preload="metadata" width="1280" height="720" src="../../media/pretty-mermaid-first-diagram-wide.mp4?v=visual-r1-r2"></video>
+          <figcaption>横 1280×720</figcaption>
+        </figure>
+      </div>
+      <p class="links"><a id="open-editor" href="video/index.html">映像の編集ソースを開く</a><a href="video/legacy.html">旧28秒の解説（元の制作）</a></p>
+    </section>
+
+    <section class="sheet source" aria-labelledby="source-title">
+      <h2 id="source-title">原典と、この作例で試した範囲</h2>
+      <ul class="facts">
+        <li>原典：<a href="https://github.com/imxv/Pretty-mermaid-skills/tree/e234ab73c2992f03c36db04fd55ebb90abca9c45" rel="noopener">imxv/Pretty-mermaid-skills</a>、固定版 <code>e234ab73c2992f03c36db04fd55ebb90abca9c45</code>。MIT License（Copyright (c) 2026 Beautiful-Mermaid Contributors）。<a href="vendor/pretty-mermaid/LICENSE">同梱のLICENSE</a></li>
+        <li>元から同梱していた文書7件（SKILL.md・README 2件・参照資料3件・LICENSE）は改行がCRLFのまま保存しています。公式のLF版とは生のバイトが違い、CRLFだけを戻した内容が公式のGit blobと一致します。</li>
+        <li>この改訂で加えた描画・パッケージの4件（scripts/render.mjs・scripts/png.mjs・package.json・package-lock.json）は、公式の生のバイトと一致します。説明のための原典ソースで、インストール済みのCLIではありません。</li>
+        <li>SKILL.mdだけでは描けません。固定版のcheckout・scripts・npmの依存（beautiful-mermaid・@resvg/resvg-js）が別に必要で、この作例には依存を同梱していません。</li>
+        <li>試したのは6図種のうち3つ、15テーマのうち2つです。batch.mjs、純ASCIIの <code>--use-ascii</code>（<code>--format ascii</code> とは別物）、ほかの図種は使っていません。</li>
+        <li>日本語を含む文字図は罫線がずれます。元の出力をそのまま保存しているため、正確に共有するときはSVGやPNGを使います。</li>
+        <li>元のSVGにはGoogle Fontsの参照が残っており、単独で開くと外部へ読みに行くことがあります。SVGのバイトは変えていません。</li>
+        <li>元のモデル受領1件と12回のCLI実行は保全した記録で、この改訂では再推論・再描画・再インストールをしていません。実機のiOS・Safari・読み上げ・200%拡大での確認と、人による見た目の承認はまだです。</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <p>画面・図解・映像のソースは 八百万図AIツールボックス の独自制作（MIT License）。図の出力は元の制作で原典CLIが書き出したファイルです。</p>
+  </footer>
+</body>
+</html>

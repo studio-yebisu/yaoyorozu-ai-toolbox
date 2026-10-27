@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja" data-state="loading">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Motion Video Kit の仕組み — AIが読む動画制作の手順書｜八百万図AIツールボックス</title>
+<meta name="description" content="Motion Video Kit は、AIが読むMarkdownの手順書・参照文・測定スクリプトです。本と実入力を作者AIが読み、制作担当が描画し、別のAIが実MP4を見て指摘を返した原制作の流れを、一枚の動く図で示します。">
+<link rel="stylesheet" href="concept.css">
+</head>
+<body>
+<header class="mast">
+  <nav class="crumbs" aria-label="現在地"><a href="../../index.html">八百万図AIツールボックス</a><span aria-hidden="true"> ／ </span>モーション</nav>
+  <h1 id="kit-title">Motion Video Kit<span class="sub">AIが読む、動画制作の手順書</span></h1>
+  <p class="not">モデル・動画生成API・レンダラー・品質保証ではありません。</p>
+</header>
+
+<main>
+<section class="stage" aria-labelledby="kit-title">
+  <div class="case-switch" role="group" aria-label="原制作の記録を選ぶ">
+    <button type="button" data-case="selection" aria-pressed="false" disabled>選択枠<small>部品・4秒</small></button>
+    <button type="button" data-case="materialize" aria-pressed="false" disabled>組み上げ枠<small>部品・4秒</small></button>
+    <button type="button" data-case="studio-intro" aria-pressed="true" disabled>本編<small>20秒</small></button>
+  </div>
+  <p id="case-meta" class="case-meta" aria-live="polite"></p>
+
+  <figure class="map">
+    <canvas id="concept-map" role="img" aria-label="Motion Video Kitの仕組みの図。内容は下の一覧と同じです。" aria-describedby="map-text"></canvas>
+    <figcaption class="map-status">
+      <span id="load-status" role="status" aria-live="polite">25件の記録を確かめています…</span>
+      <button type="button" id="retry" hidden>もう一度読み込む</button>
+    </figcaption>
+  </figure>
+
+  <div class="stage-switch" role="group" aria-label="図のどこに注目するか">
+    <button type="button" data-stage="0" aria-pressed="false" disabled><b>1</b>本と入力</button>
+    <button type="button" data-stage="1" aria-pressed="false" disabled><b>2</b>制作</button>
+    <button type="button" data-stage="2" aria-pressed="false" disabled><b>3</b>評価·測定</button>
+    <button type="button" id="replay" aria-pressed="false" aria-label="図の動きを再生（説明のみ。原制作は再実行しません）" disabled>▶ 再生</button>
+  </div>
+  <p id="phase-note" class="phase-note" aria-live="polite"></p>
+
+  <div class="actions">
+    <a id="open-desk" class="act primary" href="desk.html#studio-intro">実際の20秒の作品を見る</a>
+    <button type="button" id="save-record" class="act" disabled>元の絵コンテを保存</button>
+  </div>
+  <p id="save-status" class="save-status" role="status" aria-live="polite"></p>
+
+  <ol id="map-text" class="sr-only">
+    <li>本（スキル）：Motion Video Kit の business-motion-film。AIが読むMarkdownの手順書・参照文・測定の補助スクリプトで、モデル・動画生成API・レンダラー・品質保証ではない。</li>
+    <li>実入力：八百万図AIツールボックス のサイト紹介1本。唯一のCTA「作例を見る」、20秒・1920×1080・60fps・2D・無音。全件に作例があるとは言わない。</li>
+    <li>作者AI（Opus 5.5）が本と実入力を読み、7回の別々の執筆でBRIEF・8場面の絵コンテ・部品2本（各4秒）・本編を書いた。7つの自動AIではない。</li>
+    <li>制作担当が別工程でMotion Reelを使って描画し、実MP4を作った。作者AIがシェルを動かしたのではない。</li>
+    <li>毎回新しい別のAIが実MP4・BRIEF・参照（再確認では前回の指摘）を見て評価し、指摘は作者の次の執筆へ戻った。部品2本はKEEP、本編はもう一度→もう一度→SHIP。</li>
+    <li>測定（静止5.5秒・最長1.7秒・原典の目安未達）、別のAIの判断SHIP、人の承認なし、は別々の記録。測定や指摘が映像を自動で直すことはない。</li>
+    <li>実出力：film.mp4（20秒・1920×1080・60fps・無音）、編集ソース film/index.html、8場面の storyboard.json。</li>
+  </ol>
+</section>
+
+<article id="studio-intro" class="real">
+  <h2>原制作の実物：八百万図AIツールボックス のサイト紹介（20秒・無音）</h2>
+  <p>このスキルを1件の実入力に当てはめた作品です。中身はサイトの紹介で、Motion Video Kit そのものの説明ではありません。</p>
+  <figure class="real-frame">
+    <img id="real-frame" alt="本編のMP4の12秒目（720フレーム目）から書き出した実フレーム。入力の帯と完成した結果を一つの輪郭が囲んでいる。" width="1920" height="1080" hidden>
+    <figcaption>本編MP4の12秒目から書き出した実フレーム（新しく描いた絵ではありません）。</figcaption>
+  </figure>
+  <p class="big-link"><a href="desk.html#studio-intro">作品を再生し、8場面へ移動する（desk.html）</a></p>
+  <ul class="files">
+    <li><a href="film.mp4">本編 film.mp4</a>（20秒・1920×1080・60fps・無音）</li>
+    <li><a href="film/index.html">編集できるソース film/index.html</a></li>
+    <li><a href="lab/selection-proof.mp4">選択枠の検証MP4</a>・<a href="lab/materialize-proof.mp4">組み上げ枠の検証MP4</a>（各4秒）</li>
+    <li><a href="storyboard.json">8場面の storyboard.json</a>・<a href="BRIEF.md">BRIEF.md</a></li>
+  </ul>
+</article>
+
+<section class="films" aria-labelledby="films-title">
+  <h2 id="films-title">図だけで見る仕組み（32秒・無音）</h2>
+  <p>上の図と同じ形が動き、本 → 作者 → 描画 → 別のAIの指摘 → 実出力をつなぎます。音声・ナレーションはありません。原制作の20秒とは別の、構造の説明です。</p>
+  <div class="film-pair">
+    <figure><video id="film-portrait" controls muted playsinline preload="metadata" src="../../media/motion-video-kit-example.mp4"></video><figcaption>縦 720×1280</figcaption></figure>
+    <figure><video id="film-wide" controls muted playsinline preload="metadata" src="../../media/motion-video-kit-example-wide.mp4"></video><figcaption>横 1280×720</figcaption></figure>
+  </div>
+  <p class="small"><a href="video/index.html">32秒の編集できるソース（video/index.html）</a>・<a href="video/storyboard.json">32秒の場面表</a></p>
+</section>
+
+<section class="parts" aria-labelledby="parts-title">
+  <h2 id="parts-title">本の中身：6つの区分</h2>
+  <p class="small">6区分は説明のための整理で、原典の共通スキーマではありません。引用は固定コミットの原文の該当行です。</p>
+  <div class="part-switch" role="group" aria-label="区分を選ぶ">
+    <button type="button" data-part="brief" aria-pressed="true" disabled>依頼</button>
+    <button type="button" data-part="grammar" aria-pressed="false" disabled>動き</button>
+    <button type="button" data-part="storyboard" aria-pressed="false" disabled>絵コンテ</button>
+    <button type="button" data-part="lab" aria-pressed="false" disabled>部品</button>
+    <button type="button" data-part="critic" aria-pressed="false" disabled>評価</button>
+    <button type="button" data-part="measure" aria-pressed="false" disabled>測定</button>
+  </div>
+  <div class="part-card" aria-live="polite">
+    <h3 id="part-label"></h3>
+    <p id="part-meaning"></p>
+    <blockquote id="part-quote" lang="en"></blockquote>
+    <p class="small"><a id="part-source"></a><br><a id="part-local"></a></p>
+  </div>
+</section>
+
+<section class="request" aria-labelledby="request-title">
+  <h2 id="request-title">AIへの依頼文（原制作の request.txt）</h2>
+  <p class="small">【】を自分の事業に置き換えて使います。実入力は <a href="input.md">input.md</a>、作者AIが書いた前提は <a href="BRIEF.md">BRIEF.md</a>。</p>
+  <textarea id="request-text" readonly rows="9" spellcheck="false" aria-label="原制作の依頼文"></textarea>
+  <div class="copy-row">
+    <button type="button" id="copy-request" disabled>依頼文をコピー</button>
+    <span id="copy-status" role="status" aria-live="polite"></span>
+  </div>
+</section>
+
+<section class="records" aria-labelledby="records-title">
+  <h2 id="records-title">記録</h2>
+  <details>
+    <summary>測定とAIの判断を分けて読む</summary>
+    <dl id="measure-detail" class="measure-detail"></dl>
+  </details>
+  <details>
+    <summary>レビューの順番（原制作・記録の原文）</summary>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">回</th><th scope="col">判断</th><th scope="col">指摘</th><th scope="col">直したこと</th></tr></thead>
+        <tbody id="ledger-rows"></tbody>
+      </table>
+    </div>
+  </details>
+  <details>
+    <summary>作者AIの7回の執筆（受領記録）</summary>
+    <p class="small">同じ作者AIの別々の執筆回です。7つの自動エージェントでも、シェルを使い続けた1つのモデルでもありません。</p>
+    <ol id="receipts"></ol>
+  </details>
+  <details id="record">
+    <summary>元の絵コンテ storyboard.json の中身</summary>
+    <p id="record-name" class="small"></p>
+    <pre id="record-content"></pre>
+  </details>
+</section>
+
+<section class="limits" aria-labelledby="limits-title">
+  <h2 id="limits-title">確かめていないこと・範囲</h2>
+  <ul>
+    <li>原典の参考28本の映像は見ていません。動きは同梱された文章分析だけから選びました。</li>
+    <li>この図と32秒の解説は保存した記録の説明です。原制作のモデル実行・描画・評価・測定はやり直していません。新しい図は原制作のレビューの対象外です。</li>
+    <li>音・音楽・生成素材・3Dの工程は原制作で使っていません。</li>
+    <li>実機のiOS/Safari、VoiceOver、200%拡大、人の審美的な承認、クリップボードの読み戻しは未確認です。保存の依頼とディスクへの保存完了は別です。</li>
+  </ul>
+</section>
+</main>
+
+<footer class="foot">
+  <ul>
+    <li>原典：<a href="https://github.com/echris6/motion-video-kit/tree/e4b1c0004080fe6a0deb883631bad5eba1e5f339/business-motion-film">echris6/motion-video-kit（固定コミット e4b1c00）</a>。同梱18ファイルは固定コミットの公式Git blobとバイト一致。<a href="vendor/motion-video-kit/LICENSE">MIT License, Copyright (c) 2026 echris6</a></li>
+    <li>描画：<a href="https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824">Motion Reel（Studio Yebisu、MIT）</a></li>
+    <li>この作例：<a href="LICENSE">MIT License, Copyright (c) 2026 Studio Yebisu</a>・<a href="README.md">再現手順</a></li>
+  </ul>
+  <p><a href="../../index.html">八百万図AIツールボックス のトップへ</a></p>
+</footer>
+
+<noscript><p class="noscript">図と記録の確認にはJavaScriptが必要です。実物は <a href="desk.html#studio-intro">desk.html</a> で見られます。</p></noscript>
+<script type="module">
+import { initMain } from './concept.js';
+initMain();
+</script>
+</body>
+</html>

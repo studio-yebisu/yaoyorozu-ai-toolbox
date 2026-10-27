@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>OpenVoice V2 作例：同じ案内を、声色で比べる｜八百万図AIツールボックス</title>
+  <meta name="description" content="架空の「紙の博物館」の案内音声（Irodori-TTSの合成音声）を、固定版 OpenVoice V2 の声色変換で2種類の合成参照声へ変換した、保存済みの3件を聞き比べて、気に入ったWAVを保存できるページです。">
+  <meta name="theme-color" content="#f4eee3">
+  <link rel="stylesheet" href="comparison.css">
+  <script src="comparison.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#result">聞き比べへ移動</a>
+
+  <header class="masthead">
+    <p class="eyebrow">OpenVoice V2 ・ 声色変換</p>
+    <h1 class="headline"><span class="phrase">同じ案内を、</span><span class="phrase">声色で比べる</span></h1>
+    <p class="scope">OpenVoice V2の実出力・保存済み3件。<a href="#about">確かめた範囲</a></p>
+  </header>
+
+  <main id="main">
+    <section id="result" class="result" aria-labelledby="sample-title" tabindex="-1">
+      <div id="status" class="status" data-state="loading" role="status" aria-live="polite">
+        <p id="status-text" class="status-text">保存した記録・入力・ロックを読み込み、固定版と SHA-256 を確かめています…</p>
+        <button id="retry" class="button" type="button" hidden>もう一度読み込む</button>
+      </div>
+
+      <div class="picker">
+        <label class="picker-label" for="sample-select">保存済みの3件から選ぶ</label>
+        <select id="sample-select" class="select" disabled></select>
+        <p class="picker-note">制作時に変換した3件です。</p>
+      </div>
+
+      <article id="viewer" class="viewer" hidden>
+        <p id="sample-kicker" class="kicker"></p>
+        <h2 id="sample-title" class="sample-title"></h2>
+        <p id="result-state" class="result-state"></p>
+
+        <section id="output-track" class="track track-output" data-track="output" aria-labelledby="output-title">
+          <div class="track-head">
+            <h3 id="output-title" class="track-title">変換後</h3>
+            <p id="output-voice" class="track-voice"></p>
+          </div>
+          <div id="output-wave" class="wave" role="img" aria-label="変換後の音声の波形"></div>
+          <div class="track-controls">
+            <button id="play-output" class="play" type="button" disabled>再生</button>
+            <span id="output-time" class="time" aria-hidden="true">0:00.0 / 0:00.0</span>
+          </div>
+          <audio id="output-audio" class="native-audio" controls preload="none"></audio>
+          <p id="audio-status" class="track-status" data-state="idle" role="status" aria-live="polite"></p>
+          <div class="track-actions">
+            <button id="output-retry" class="button button-quiet" type="button" hidden>この音声をもう一度読み込む</button>
+            <a id="download-wav" class="button" aria-disabled="true">このWAVを保存</a>
+          </div>
+        </section>
+
+        <section class="script" aria-labelledby="script-title">
+          <h3 id="script-title" class="script-title">読み上げ原稿</h3>
+          <p id="script-text" class="script-text"></p>
+        </section>
+
+        <p class="synthetic-note">音声は合成です。声の近さや自然さは、ご自身でもお確かめください。</p>
+
+        <div class="switch" role="group" aria-labelledby="switch-label">
+          <p id="switch-label" class="switch-label">切り替えて聞く</p>
+          <div class="switch-buttons">
+            <button id="switch-output" class="switch-button" type="button" data-target="output" aria-pressed="false" disabled>変換後</button>
+            <button id="switch-source" class="switch-button" type="button" data-target="source" aria-pressed="false" disabled>元の声</button>
+            <button id="switch-reference" class="switch-button" type="button" data-target="reference" aria-pressed="false" disabled>参照の声</button>
+          </div>
+          <p class="switch-note">変換後と元の声は同じ原稿・ほぼ同じ長さなので、同じ位置から続けて聞けます。参照の声は別の文なので、はじめから再生します。</p>
+        </div>
+
+        <section id="source-track" class="track track-source" data-track="source" aria-labelledby="source-title">
+          <div class="track-head">
+            <h3 id="source-title" class="track-title">元の声（入力）</h3>
+            <p id="source-voice" class="track-voice"></p>
+          </div>
+          <div id="source-wave" class="wave" role="img" aria-label="元の声の波形"></div>
+          <div class="track-controls">
+            <button id="play-source" class="play play-quiet" type="button" disabled>再生</button>
+            <span id="source-time" class="time" aria-hidden="true">0:00.0 / 0:00.0</span>
+          </div>
+          <audio id="source-audio" class="native-audio" controls preload="none"></audio>
+          <p id="source-status" class="track-status" data-state="idle" role="status" aria-live="polite"></p>
+          <div class="track-actions">
+            <button id="source-retry" class="button button-quiet" type="button" hidden>この音声をもう一度読み込む</button>
+            <a id="download-source" class="button button-quiet" aria-disabled="true">元のWAVを保存</a>
+          </div>
+        </section>
+
+        <section id="reference-track" class="track track-reference" data-track="reference" aria-labelledby="reference-title">
+          <div class="track-head">
+            <h3 id="reference-title" class="track-title">参照の声（声色の手本）</h3>
+            <p id="reference-voice" class="track-voice"></p>
+          </div>
+          <p class="reference-text-label">参照音声の原稿（案内とは別の文）</p>
+          <p id="reference-text" class="reference-text"></p>
+          <div id="reference-wave" class="wave" role="img" aria-label="参照の声の波形"></div>
+          <div class="track-controls">
+            <button id="play-reference" class="play play-quiet" type="button" disabled>再生</button>
+            <span id="reference-time" class="time" aria-hidden="true">0:00.0 / 0:00.0</span>
+          </div>
+          <audio id="reference-audio" class="native-audio" controls preload="none"></audio>
+          <p id="reference-status" class="track-status" data-state="idle" role="status" aria-live="polite"></p>
+          <div class="track-actions">
+            <button id="reference-retry" class="button button-quiet" type="button" hidden>この音声をもう一度読み込む</button>
+            <a id="download-reference" class="button button-quiet" aria-disabled="true">参照のWAVを保存</a>
+          </div>
+        </section>
+
+        <p class="wave-note">波形は、記録にある0.1秒ごとの実測RMSを、この3本の中の最大値を基準に描いたものです。聞こえ方の保証ではありません。</p>
+
+        <details class="raw">
+          <summary>この変換の数値</summary>
+          <dl id="facts" class="facts"></dl>
+        </details>
+
+        <div class="actions">
+          <button id="download-record" class="button button-quiet" type="button" disabled>この1件の記録を保存</button>
+          <button id="copy-request" class="button button-quiet" type="button" disabled>依頼文をコピー</button>
+          <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+          <label id="request-fallback-label" class="fallback-label" for="request-fallback" hidden>コピーできませんでした。下の全文を長押しして選び、コピーしてください。</label>
+          <textarea id="request-fallback" class="fallback" rows="8" readonly hidden></textarea>
+        </div>
+
+        <details class="raw">
+          <summary>入力（実行前に固定）の全文</summary>
+          <p class="raw-note">input/voice-requests.json のうち、この1件の組み合わせ・元の声・参照の声・変換の設定です。</p>
+          <pre id="raw-input" class="raw-text" tabindex="0"></pre>
+        </details>
+
+        <details class="raw">
+          <summary>実行記録（この1件の JSON 全文）</summary>
+          <p class="raw-note">outputs/voice-runs.json の results からこの1件をそのまま表示しています。「この1件の記録を保存」はこの JSON を保存します。</p>
+          <pre id="raw-output" class="raw-text" tabindex="0"></pre>
+        </details>
+      </article>
+    </section>
+
+    <section id="about" class="band" aria-labelledby="about-title">
+      <h2 id="about-title">このページで動いているもの</h2>
+      <p>制作側が手元の CPU で <code>python run.py</code> を1回実行し、固定版 OpenVoice の <code>ToneColorConverter</code> が書き出した3本の WAV と、その記録 <a href="outputs/voice-runs.json">outputs/voice-runs.json</a> を読んで再生します。ページを開いても OpenVoice は動かず、音声のアップロードや新しい変換はできません。再生の前に、各 WAV のバイト列を記録の SHA-256 と照合し、合ったものだけを再生と保存に使います。</p>
+      <ol class="flow">
+        <li><strong>原稿を書く</strong>　架空の「紙の博物館」の案内2文と、参照用の1文を書いて固定</li>
+        <li><strong>合成音声にする</strong>　Irodori-TTSで、案内は Irodori-TTSの元の案内声、参照は Irodori-TTSの落ち着いた声 と Irodori-TTSの明るい声 が読む（4本）</li>
+        <li><strong>声色をとる</strong>　4本それぞれに原典の <code>extract_se</code> をかけ、256次元の声色の埋め込みを作る</li>
+        <li><strong>変換する</strong>　原典の <code>convert</code> で、案内の声色を参照の声色へ（3件・tau 0.3・CPU 4スレッド・seed 20261017）</li>
+        <li><strong>聞いて選ぶ</strong>　変換後・元の声・参照の声を聞き比べ、気に入った WAV を保存</li>
+      </ol>
+    </section>
+
+    <section id="limits" class="band" aria-labelledby="limits-title">
+      <h2 id="limits-title">確かめた範囲と、確かめていないこと</h2>
+      <ul class="plain-list">
+        <li><strong>声色の変換だけです。</strong>OpenVoice のテキスト読み上げ・MeloTTS・6言語の読み上げ・別の言語への変換は使っていません。文を音声にしたのは Irodori-TTSです。</li>
+        <li><strong>人の声は使っていません。</strong>元の声も参照の声も、インストール済みの Irodori-TTSの合成音声です。原典のデモ音声も使っていません。実在の人の声を写す作例ではありません。</li>
+        <li><strong>透かしは原典の既定設定です。</strong>合成音声の目印「SYEBISU!」を付けています。圧縮や編集後の残存は確認していません。</li>
+        <li>参照音声の区切り（VAD・Whisper による <code>se_extractor</code>）、OpenVoiceのGPU推論、Gradio、ホストされたサービス、ブラウザー内の推論は使っていません。</li>
+        <li>記録にある確認は、ファイル・形式・長さ・SHA-256・埋め込みの数値の確認です。声がどれだけ近いか・自然かの点数はつけていません。聞いた印象と人による承認は、この記録には含まれません。</li>
+        <li>時間は1回の実行で測った値で、速さの約束ではありません。</li>
+      </ul>
+    </section>
+
+    <section id="film" class="band" aria-labelledby="film-title"><h2 id="film-title">図が動く、36秒の解説</h2><p><a href="../../media/openvoice-example.mp4">縦動画を見る</a> · <a href="../../media/openvoice-example-wide.mp4">横動画を見る</a> · <a href="video/index.html">編集ソース</a></p><p>実音声あり。元音声と声色の見本が合流し、変換後を聞いて保存する流れです。</p></section>
+
+    <section id="files" class="band" aria-labelledby="files-title">
+      <h2 id="files-title">ファイルと再実行</h2>
+      <ul class="file-links">
+        <li><a href="outputs/voice-runs.json">3件の実行記録（outputs/voice-runs.json）</a></li>
+        <li><a href="outputs/embeddings.json">声色の埋め込みの数値（outputs/embeddings.json・技術的な診断用）</a></li>
+        <li id="bundle-item" hidden><a id="bundle-link" href="outputs/audio-bundle.zip">7本の WAV をまとめた ZIP（outputs/audio-bundle.zip）</a></li>
+        <li><a href="input/voice-requests.json">入力と組み合わせ（input/voice-requests.json）</a>・<a href="input/expected.json">実行前に決めた期待（input/expected.json）</a></li>
+        <li><a href="synthesize.py">合成音声を作るスクリプト（synthesize.py）</a>・<a href="run.py">変換スクリプト（run.py）</a></li>
+        <li><a href="outputs/method.md">手順と読み方（outputs/method.md）</a></li>
+        <li><a href="request.txt">依頼文（request.txt）</a>・<a href="README.md">README.md（再実行の手順）</a></li>
+        <li><a href="vendor-lock.json">原典23ファイルのハッシュ（vendor-lock.json）</a>・<a href="model-lock.json">モデルの固定版とハッシュ（model-lock.json）</a></li>
+      </ul>
+      <p class="note">ページを見るだけなら Windows も Python も要りません（ローカルで開くときは、簡単な HTTP サーバーで開いてください）。変換をやり直すには Python 3.10・CPU 版 torch 2.5.1 と、公式の固定リビジョンから取得した変換器の重みが要ります。重みは同梱していません。手順は README.md にあります。</p>
+    </section>
+
+    <details id="source" class="band source">
+      <summary>原典・固定版・利用条件</summary>
+      <dl class="kv">
+        <div class="kv-row"><dt>原典</dt><dd><a href="https://github.com/myshell-ai/OpenVoice/tree/74a1d147b17a8c3092dd5430504bd83ef6c7eb23">myshell-ai/OpenVoice</a>（setup.py の版 0.0.0・変換器 V2）</dd></div>
+        <div class="kv-row"><dt>固定コミット</dt><dd><code class="hash">74a1d147b17a8c3092dd5430504bd83ef6c7eb23</code></dd></div>
+        <div class="kv-row"><dt>原典の利用条件</dt><dd>MIT（<a href="https://github.com/myshell-ai/OpenVoice/blob/74a1d147b17a8c3092dd5430504bd83ef6c7eb23/LICENSE">LICENSE</a>・<a href="vendor/openvoice/LICENSE">同梱の写し</a>）。README は V1・V2 とも MIT で商用も可と明記しています。</dd></div>
+        <div class="kv-row"><dt>使った原典</dt><dd><a href="vendor/openvoice/openvoice/api.py">openvoice/api.py</a> の <code>ToneColorConverter</code>（<code>load_ckpt</code>・<code>extract_se</code>・<code>convert</code>）。改変していません。</dd></div>
+        <div class="kv-row"><dt>モデル</dt><dd><a href="https://huggingface.co/myshell-ai/OpenVoiceV2/tree/f36e7edfe1684461a8343844af60babc2efbb727">myshell-ai/OpenVoiceV2</a> の <code>converter/</code>（固定リビジョン <code class="hash">f36e7edfe1684461a8343844af60babc2efbb727</code>・MIT）。重みは配布していません。原典の USAGE.md にある旧 S3 の配布先は、確認時に 404 でした。</dd></div>
+        <div class="kv-row"><dt>入力の音声</dt><dd>固定版Irodori-TTSで生成した合成音声（Irodori-TTSの元の案内声・Irodori-TTSの落ち着いた声・Irodori-TTSの明るい声）で作った作例用の素材です。音声エンジンは同梱していません。</dd></div>
+      </dl>
+      <dl id="run-facts" class="kv"></dl>
+      <details class="raw">
+        <summary id="checks-summary">記録にある確認の一覧</summary>
+        <ul id="checks-list" class="checks"></ul>
+      </details>
+      <p>run.py・synthesize.py・このページ・原稿・説明文は Claude Opus 5.5 が書いた作例で、MIT License（<a href="LICENSE">LICENSE</a>・Copyright (c) 2026 Studio Yebisu）です。<code>vendor/openvoice/</code> は固定コミットの原典を改変せずに置いたもので MIT（Copyright 2024 MyShell.ai）です。記録の値はモデルではなく、原典のコードが実際に返したものです。</p>
+    </details>
+  </main>
+
+  <footer class="footer">
+    <p>八百万図AIツールボックス ・ OpenVoice V2 作例。「紙の博物館」は架空です。八百万図AIツールボックス は MyShell の公式の製品・提携先ではありません。</p>
+  </footer>
+</body>
+</html>

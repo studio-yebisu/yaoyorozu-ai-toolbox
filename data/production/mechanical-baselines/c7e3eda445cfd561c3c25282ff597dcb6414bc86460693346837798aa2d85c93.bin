@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>声を、着替える。OpenVoice 声色変換の作例｜八百万図AIツールボックス</title>
+  <meta name="description" content="元の音声と声色の見本を OpenVoice で重ねた、制作済みの変換結果を図の上で聞き比べ、WAVを保存できる作例です。音声はすべて合成音声です。">
+  <meta name="theme-color" content="#f5f3eb">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="brand">
+    <a href="../../">八百万図AIツールボックス</a>
+    <span>OPENVOICE 作例</span>
+  </header>
+
+  <main id="main">
+    <section class="intro" aria-labelledby="title">
+      <p class="eyebrow">OPENVOICE ・ 声色変換</p>
+      <h1 id="title">声を、<br>着替える。</h1>
+      <p class="lead">ことばは元の音声から。<br>声色は、見本から。</p>
+      <div class="choices" role="group" aria-label="声色の見本を選ぶ">
+        <button id="choose-ichiro" class="choice" type="button" aria-pressed="true" data-case="V01" disabled><span class="dot ichiro" aria-hidden="true"></span>落ち着いた声</button>
+        <button id="choose-sayaka" class="choice" type="button" aria-pressed="false" data-case="V03" disabled><span class="dot sayaka" aria-hidden="true"></span>明るい声</button>
+      </div>
+      <p id="case-note" class="case-note" hidden>別の原稿「閉館案内」× 落ち着いた声 を表示中 · <a href="comparison.html#V02">3件の比較で見る</a></p>
+      <p class="scope">制作済み音声の比較 · 合成音声</p>
+    </section>
+
+    <section class="experience" aria-label="元の音声と声色の見本を OpenVoice で重ね、変換後の音声になる関係の図。各音声は図の再生ボタンで聞けます。">
+      <div id="diagram" class="diagram" data-tone="ichiro" data-playing="none">
+        <svg class="connections" viewBox="0 0 360 468" aria-hidden="true" focusable="false">
+          <defs>
+            <marker id="arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M1 1 5 3.5 1 6" fill="none" stroke="#77766d" stroke-width="1.25"/></marker>
+          </defs>
+          <path class="connector" d="M87 143v20q0 20 25 20h34q34 0 34 29" marker-end="url(#arrow)"/>
+          <path class="connector" d="M273 143v20q0 20-25 20h-34q-34 0-34 29"/>
+          <path class="connector" d="M180 284v38" marker-end="url(#arrow)"/>
+          <circle class="process-ring" cx="180" cy="249" r="42" fill="none"/>
+          <circle class="blend blend-a" cx="164" cy="242" r="25"/>
+          <circle class="blend blend-b" cx="196" cy="242" r="25"/>
+          <path class="merge-wave" d="M143 245q7-29 14 0t14 0t14 0t14 0t14 0" fill="none" stroke="#fffdf5" stroke-width="2.8" stroke-linecap="round"/>
+          <text x="180" y="307" text-anchor="middle" class="process-label">OpenVoice</text>
+          <path class="flow flow-a" d="M87 143v20q0 20 25 20h34q34 0 34 29"/>
+          <path class="flow flow-b" d="M273 143v20q0 20-25 20h-34q-34 0-34 29"/>
+          <path class="flow flow-out" d="M180 284v38"/>
+        </svg>
+
+        <button id="play-source" class="sound-node source" type="button" aria-pressed="false" aria-label="元の音声を再生" disabled>
+          <span class="node-art source-art"><svg id="wave-source" class="wave" viewBox="0 0 128 58" aria-hidden="true" focusable="false"></svg><span class="play-icon" aria-hidden="true">▶</span></span>
+          <span class="node-label">元の音声</span>
+          <span id="source-name" class="node-caption">ようこそ案内</span>
+        </button>
+        <span class="plus" aria-hidden="true">＋</span>
+        <button id="play-reference" class="sound-node reference" type="button" aria-pressed="false" aria-label="声色の見本を再生" disabled>
+          <span class="node-art reference-art"><svg id="wave-reference" class="wave" viewBox="0 0 128 58" aria-hidden="true" focusable="false"></svg><span class="play-icon" aria-hidden="true">▶</span></span>
+          <span class="node-label">声色の見本</span>
+          <span id="reference-name" class="node-caption">落ち着いた声</span>
+        </button>
+        <button id="play-output" class="sound-node output" type="button" aria-pressed="false" aria-label="変換後の音声を再生" disabled>
+          <span class="output-heading"><span>変換後</span><span id="duration" class="duration"></span></span>
+          <span class="output-art"><svg id="wave-output" class="wave" viewBox="0 0 246 54" aria-hidden="true" focusable="false"></svg><span class="output-play play-icon" aria-hidden="true">▶</span></span>
+          <span id="output-note" class="output-note">ようこそ案内 × 落ち着いた声 の声色</span>
+        </button>
+      </div>
+
+      <p id="status" class="status" data-state="loading" role="status" aria-live="polite">音声を確かめています…</p>
+      <button id="retry" class="retry" type="button" hidden>もう一度読み込む</button>
+      <div class="result-actions">
+        <button id="stop" type="button" disabled><span aria-hidden="true">■</span> 停止</button>
+        <a id="download" class="save" aria-disabled="true"><span aria-hidden="true">↓</span> WAVを保存</a>
+      </div>
+      <audio id="player" preload="none" hidden></audio>
+    </section>
+
+    <div class="folds">
+      <details class="fold" id="more">
+        <summary>ほかの案内・記録</summary>
+        <p>図では同じ「ようこそ案内」を、落ち着いた声 と 明るい声 の声色で比べます。同じ 落ち着いた声 の声色で別の原稿を変換した「閉館案内」もあります。</p>
+        <dl class="scripts">
+          <div><dt>ようこそ案内（元の音声）</dt><dd id="text-welcome">記録を読み込むと表示します。</dd></div>
+          <div><dt>閉館案内（元の音声）</dt><dd id="text-closing">記録を読み込むと表示します。</dd></div>
+        </dl>
+        <ul class="links">
+          <li><a href="comparison.html">3件の比較（元の音声・見本・変換後と記録）</a></li>
+          <li><a href="#V02">閉館案内 × 落ち着いた声 をこの図で開く</a></li>
+          <li><a href="outputs/voice-runs.json">変換の実行記録（JSON）</a></li>
+          <li><a href="outputs/independent-checks.json">音声ファイルの照合（JSON）</a></li>
+          <li><a href="outputs/transcript-checks.json">補助の自動書き起こし（JSON）</a></li>
+        </ul>
+      </details>
+
+      <details class="fold" id="film">
+        <summary>解説動画</summary>
+        <p>この図が動いて、聞き方から保存までを36秒で見せる動画です。音は実際の3つの音声だけで、ナレーションや音楽はありません。</p>
+        <ul class="links">
+          <li><a href="../../media/openvoice-example.mp4">動画を見る（MP4）</a></li>
+          <li><a href="video/index.html">動画の編集ソース</a></li>
+        </ul>
+      </details>
+
+      <details class="fold" id="request">
+        <summary>依頼文</summary>
+        <p>この作例を依頼した文です（<a href="request.txt">request.txt</a>）。依頼では透かしなしを指定していますが、固定版ではその指定が使えなかったため、実際の変換は原典の既定どおり透かしを入れて行いました。</p>
+        <button id="copy" class="copy" type="button" disabled>依頼文をコピー</button>
+        <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+        <label id="fallback-label" class="fallback-label" for="fallback" hidden>コピーできませんでした。下の全文を選んでコピーしてください。</label>
+        <textarea id="fallback" class="fallback" rows="8" readonly hidden></textarea>
+      </details>
+
+      <details class="fold" id="about">
+        <summary>この作例について</summary>
+        <p>図は「元の音声＋声色の見本 → OpenVoice → 変換後」の関係を表した説明図です。再生するのは、固定版の OpenVoice V2 の声色変換で制作時に実際に変換し、保存した WAV です。ページを開いても OpenVoice は動かず、新しい変換やアップロードはできません。</p>
+        <p>変えるのは声色（tone color）です。なまりや感情まで写し取ることを示す作例ではありません。</p>
+        <p>元の音声と見本は、Irodori-TTSの合成音声（Irodori-TTSの元の案内声・落ち着いた声・明るい声）です。人の声や原典のデモ音声は使っていません。文を音声にしたのはIrodori-TTS で、OpenVoice の読み上げ・MeloTTS・別の言語への変換・VAD・Gradio・クラウドは使っていません。</p>
+        <p>変換後の WAV には、原典の既定の透かし（WavMark）が入っています。保存した3本の WAV から、入れた目印「SYEBISU!」を読み出せました。動画の AAC 音声に残るかは確かめていません。</p>
+        <p>記録の確認は、ファイル・形式・長さ・ハッシュ・数値の確認です。補助に使った自動書き起こしは元の音声でも誤認識があり、変換後のほうが誤りの多いものもありました。書き起こしは聞こえ方の証明ではありません。発音・自然さ・声の近さの点数はつけておらず、聞き比べた印象や人による承認は記録にありません。</p>
+        <p>再生と保存の前に、各 WAV のバイト数と SHA-256 を記録と照らし、合ったものだけを使います。波形は記録にある0.1秒ごとの実測 RMS を、それぞれの音声の最大値を基準に描いたものです。</p>
+        <p>分担：声色の変換は OpenVoice の原典のコード、元の音声と見本は Irodori-TTS、図の構成案は 八百万図AIツールボックス の制作側、このページと解説動画は Claude Opus 5.5 が作りました。</p>
+        <ul class="links">
+          <li><a href="https://github.com/myshell-ai/OpenVoice/tree/74a1d147b17a8c3092dd5430504bd83ef6c7eb23">原典 myshell-ai/OpenVoice（固定コミット・MIT）</a></li>
+          <li><a href="https://huggingface.co/myshell-ai/OpenVoiceV2/tree/f36e7edfe1684461a8343844af60babc2efbb727">重み myshell-ai/OpenVoiceV2（固定リビジョン・MIT・同梱なし）</a></li>
+          <li><a href="source.zip">作例のソース一式（source.zip）</a></li>
+          <li><a href="README.md">README（見方と再実行の手順）</a></li>
+          <li><a href="LICENSE">作例の利用条件（MIT License）</a></li>
+        </ul>
+      </details>
+    </div>
+  </main>
+
+  <footer class="footer">八百万図AIツールボックス · 音声はすべて合成です · 「紙の博物館」は架空です · MyShell の公式の製品ではありません</footer>
+</body>
+</html>

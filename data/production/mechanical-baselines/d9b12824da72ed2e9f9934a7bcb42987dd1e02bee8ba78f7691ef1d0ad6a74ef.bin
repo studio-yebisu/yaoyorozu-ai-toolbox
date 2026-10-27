@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motion Video Kit の作例：サイトの紹介を20秒の無音コード動画に｜八百万図AIツールボックス</title>
+<meta name="description" content="短尺映像の制作手順のスキル Motion Video Kit を読んだ Opus 5.5 が、八百万図AIツールボックス のサイト紹介を20秒・無音のSVGコード動画にした作例。実入力、絵コンテ、部品の別担当レビュー、編集できるソース、依頼文。">
+<style>
+  :root { --paper: #F6F3EB; --face: #FBF9F3; --ink: #17282B; --sub: rgba(23, 40, 43, 0.72); --rule: rgba(23, 40, 43, 0.16); --teal: #0B615E; --ochre: #F1BE47;
+    --serif: 'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', 'Noto Serif JP', serif; --sans: 'Yu Gothic', 'YuGothic', 'Hiragino Sans', 'Noto Sans JP', sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.85 var(--sans); }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 20px 64px; }
+  a { color: var(--teal); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible, textarea:focus-visible, video:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+  .crumbs { margin: 0 0 24px; font-size: 14px; color: var(--sub); }
+  .kicker { margin: 0; font-weight: 700; color: var(--teal); font-size: 14px; letter-spacing: 0.04em; }
+  h1 { margin: 8px 0 16px; font: 600 clamp(1.8rem, 4.6vw, 3rem)/1.35 var(--serif); }
+  h1 span { display: block; }
+  h2 { margin: 56px 0 16px; padding-top: 16px; border-top: 1px solid var(--rule); font: 600 clamp(1.35rem, 3vw, 1.75rem)/1.45 var(--serif); }
+  h3 { margin: 24px 0 8px; font-size: 1.05rem; }
+  .lead { font-size: 1.08rem; max-width: 46em; }
+  .disclose { margin: 24px 0; padding: 14px 18px; border-left: 4px solid var(--ochre); background: var(--face); }
+  .disclose p { margin: 0; }
+  figure { margin: 0; }
+  video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: var(--face); border: 1px solid var(--rule); border-radius: 8px; }
+  figcaption { margin-top: 8px; font-size: 14px; color: var(--sub); }
+  .scenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
+  .scenes button { width: 100%; min-height: 44px; padding: 6px 10px; border: 1px solid var(--teal); border-radius: 6px; background: var(--face); color: var(--ink); font: inherit; font-size: 14px; line-height: 1.4; text-align: left; cursor: pointer; }
+  .scenes button b { display: block; color: var(--teal); font-variant-numeric: tabular-nums; }
+  .scenes button[aria-current="true"] { background: var(--teal); color: #fff; }
+  .scenes button[aria-current="true"] b { color: #fff; }
+  .links { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 16px 0 0; padding: 0; list-style: none; font-size: 15px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { padding: 10px 8px; border-bottom: 1px solid var(--rule); text-align: left; vertical-align: top; }
+  th { font-weight: 700; white-space: nowrap; }
+  td.time { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .table-wrap { overflow-x: auto; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pair > div { padding: 16px 18px; border: 1px solid var(--rule); border-radius: 8px; background: var(--face); }
+  .pair h3 { margin-top: 0; }
+  blockquote { margin: 8px 0; padding-left: 14px; border-left: 3px solid var(--ochre); font-family: var(--serif); }
+  ol.steps { padding-left: 1.4em; }
+  ol.steps li { margin-bottom: 8px; }
+  .request label { display: block; font-weight: 700; margin-bottom: 8px; }
+  textarea { width: 100%; min-height: 22rem; padding: 12px; border: 1px solid rgba(23, 40, 43, 0.3); border-radius: 8px; background: var(--face); color: inherit; font-family: inherit; font-size: 15px; line-height: 1.7; resize: vertical; }
+  .bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-top: 10px; }
+  .bar button { min-height: 44px; padding: 8px 20px; border: 0; border-radius: 6px; background: var(--ink); color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+  #copy-status { font-size: 14px; }
+  ul.limits li { margin-bottom: 6px; }
+  code { font-size: 0.92em; overflow-wrap: anywhere; }
+  @media (max-width: 680px) { .pair { grid-template-columns: 1fr; } main { padding-top: 20px; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="crumbs"><a href="../../index.html">八百万図AIツールボックス</a> ／ モーション ／ Motion Video Kit の作例</p>
+  <p class="kicker">作例｜モーション｜制作手順のスキル</p>
+  <h1><span>サイトの紹介を、</span><span>20秒の無音コード動画に。</span></h1>
+  <p class="lead">Motion Video Kit は、実在の事業の短い紹介映像を「ブリーフ → 絵コンテ → 部品ごとの検証 → 全編の別担当レビュー」の順に作るための、指示・資料・補助スクリプトのスキルです。映像を自動で作るツールではありません。この作例では Opus 5.5（claude-opus-5-5）が原典を読み、八百万図AIツールボックス のサイトを紹介する20秒・1920×1080・60fps・無音の映像を、SVG と JavaScript のコードで作りました。書き出しには Motion Reel を使います。</p>
+  <div class="disclose">
+    <p>このページは、制作して保存した作品と記録を表示するだけです。ページ上で映像を生成したり、AIを動かしたりはしません。映像の中の画面は紹介のために再構成した模式図で、実際のサイトの操作を録画したものではありません。</p>
+  </div>
+
+  <h2 id="studio-intro">作品（20秒・無音）</h2>
+  <figure>
+    <video id="film" controls preload="metadata" playsinline src="film.mp4" aria-labelledby="studio-intro" aria-describedby="film-caption"></video>
+    <figcaption id="film-caption">モーションのカードを囲む1本のティールの輪郭が、紹介の一覧、作例記事の模式図、実際の依頼文、結果、「依頼文をコピー」を経て「作例を見る」のボタンになります。音声はありません。</figcaption>
+  </figure>
+  <ul class="scenes" aria-label="場面へ移動（上の作品の再生位置を変えます）">
+    <li><button type="button" data-seek="0"><b>0.00秒</b>S01 表紙</button></li>
+    <li><button type="button" data-seek="2.4"><b>2.40秒</b>S02 カードの接写</button></li>
+    <li><button type="button" data-seek="4.2"><b>4.20秒</b>S03 紹介の一覧</button></li>
+    <li><button type="button" data-seek="6.55"><b>6.55秒</b>S04 作例記事の模式図</button></li>
+    <li><button type="button" data-seek="8.3"><b>8.30秒</b>S05 依頼文の引用</button></li>
+    <li><button type="button" data-seek="11.35"><b>11.35秒</b>S06 入力と結果</button></li>
+    <li><button type="button" data-seek="14.4"><b>14.40秒</b>S07 依頼文の節</button></li>
+    <li><button type="button" data-seek="16.85"><b>16.85秒</b>S08 作例を見る</button></li>
+  </ul>
+  <ul class="links">
+    <li><a href="film/index.html">編集できるソースで任意の時刻を見る（film/index.html）</a></li>
+    <li><a href="assets/film-contact.png">本編のコンタクトシート</a></li>
+    <li><a href="film.mp4" download>作品のMP4</a></li>
+  </ul>
+
+  <h2 id="explain-title">作り方の解説（22秒・無音）</h2>
+  <figure>
+    <video controls preload="metadata" playsinline src="video/legacy.mp4" poster="assets/legacy-explain.webp" aria-labelledby="explain-title"></video>
+    <figcaption>実入力 → 絵コンテ → できた作品 → 別担当の確認 → 依頼文で試す、の順に示す別の映像です。作品の画面は、本編のMP4から書き出したフレームだけを使っています。<a href="video/legacy.html">解説映像のソース（video/legacy.html）</a></figcaption>
+  </figure>
+
+  <h2>場面と、使った仕組み</h2>
+  <p>原典の motion-grammar.md から、「選ぶと広がる」「結果が組み上がる」「残る道筋」の3つを選び、主役を1本の輪郭にしました。</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">時刻</th><th scope="col">場面</th><th scope="col">見えるもの</th><th scope="col">仕組み</th></tr></thead>
+      <tbody>
+        <tr><td class="time">0.00</td><td>S01 表紙</td><td>最初のフレームから完成した表紙。モーションのカードを輪郭が囲む</td><td>一つの主役</td></tr>
+        <tr><td class="time">2.40</td><td>S02 カードの接写</td><td>輪郭ごとカードが広がり、黄土で満ちて分野の説明が出る</td><td>選ぶと広がる</td></tr>
+        <tr><td class="time">4.20</td><td>S03 紹介の一覧</td><td>名前を伏せた模式の行と「作例付きは一部」。輪郭が「制作した作例あり」の印へ縮む</td><td>選ぶと広がる</td></tr>
+        <tr><td class="time">6.55</td><td>S04 作例記事の模式図</td><td>印から記事の枠へ。「実入力と結果」、実際の依頼文の入った入力の枠、表紙と同じ cover() の構図が組み上がる結果の枠</td><td>結果が組み上がる</td></tr>
+        <tr><td class="time">8.30</td><td>S05 依頼文の引用</td><td>入力の枠が引用ごと広がり、実際の依頼文を約2.5秒読める</td><td>選ぶと広がる</td></tr>
+        <tr><td class="time">11.35</td><td>S06 入力と結果</td><td>引用は消えずに帯へ縮み、結果の枠が表紙と同じ cover() の構図を載せたまま下から着く。輪郭は入力と結果をまとめて囲む</td><td>結果が組み上がる</td></tr>
+        <tr><td class="time">14.40</td><td>S07 依頼文の節</td><td>記事が上へ送られ、輪郭は「依頼文をコピー」へ。依頼文の例の3行と、注意・出典の抜粋</td><td>残る道筋</td></tr>
+        <tr><td class="time">16.85</td><td>S08 作例を見る</td><td>左の手順の線が曲がってボタンへ入り、輪郭がボタンになる。最後の2.4秒以上読める</td><td>残る道筋</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>実入力と結果</h2>
+  <div class="pair">
+    <div>
+      <h3>入力（<a href="input.md">input.md</a>）</h3>
+      <blockquote>八百万図AIツールボックスの公開サイトを紹介する20秒の短いコード動画を作ってください。</blockquote>
+      <p>確認済みの事実（全紹介先に実作例があるわけではない、保存・アカウント・価格・保証はない）、見る人と唯一のCTA「作例を見る」、配色、音なし、2Dのみ、別の22秒の解説も作ること、を同じ入力に書いています。</p>
+    </div>
+    <div>
+      <h3>結果</h3>
+      <p>20秒・1920×1080・60fps・無音のMP4（<a href="film.mp4">film.mp4</a>）と、それを書き出す編集できるソース（<a href="film/index.html">film/</a>、部品の <code>components.mjs</code>）。制作の前提は <a href="BRIEF.md">BRIEF.md</a>、場面と時刻は <a href="storyboard.md">storyboard.md</a>・<a href="storyboard.json">storyboard.json</a>、入力と結果の対応は <a href="samples.json">samples.json</a> にあります。</p>
+    </div>
+  </div>
+
+  <h2>再現の手順</h2>
+  <ol class="steps">
+    <li>原典を固定コミットで入手し、SKILL.md と、工程ごとに指定された references を読む。</li>
+    <li>BRIEF.md に、事業・見る人・唯一の行動・言ってよい事実・言わないことを書く。</li>
+    <li>文章分析から機構を3つ選び、絵コンテを作る。別担当の評価を受けて直す。</li>
+    <li>主役の部品（選択枠・組み上げ枠）を単独の検証ページで書き出し、別担当のAIに実際のMP4で評価させ、直してから本編に入れる（<a href="lab/selection-proof.mp4">選択枠の検証</a>・<a href="lab/materialize-proof.mp4">組み上げ枠の検証</a>・<a href="lab/measurements.json">記録</a>）。</li>
+    <li>部品を変えずに、時刻とデータだけを渡して本編を組む。</li>
+    <li>本編を書き出し、別担当のAIが全編を評価する。frozen-time と、同じ時刻を別の順序で描いた一致を、実際のMP4で測る。</li>
+  </ol>
+  <p>コマンドは <a href="README.md">README.md</a> にあります。Python 3.10以上、Node.js 20以上、Chrome、FFmpeg と ffprobe、別途用意した Motion Reel が必要です。全編の実測値と評価は、この文面には含めず、<a href="review-summary.json">確認記録（実測・独立AIレビュー）</a>に示します。</p><p>静止差分は約5.5秒。原典の合計約1秒/30秒という数値目安は未達です。読む時間のある今回の無音作例として別担当AIが確認し、数値基準への完全適合とは扱っていません。</p>
+
+  <h2>AIへの頼み方</h2>
+  <div class="request">
+    <label for="request">依頼文の例（読み取り専用。【】を自分の事業と条件に置き換えて使います）</label>
+    <textarea id="request" readonly spellcheck="false">Motion Video Kit（echris6/motion-video-kit、固定コミット e4b1c0004080fe6a0deb883631bad5eba1e5f339）の business-motion-film/SKILL.md を読み、工程ごとに指定された references（motion-grammar.md・launch-film-notes.md・quality-bar.md・gauntlet.md・critic-prompts.md）を読んでから、次の事業の短い紹介映像を作ってください。
+
+事業と目的：【事業名、何をしているか、見た人にしてほしい一つの行動】
+確かな事実：【映像で言ってよい事実と、その根拠】
+言わないこと：【価格・実績・保証など、出さない主張】
+仕様：【尺・縦横・fps】、音なし
+ブランド：【色・書体・使ってよい自作の素材】
+
+進め方：BRIEF.md を書き、文章分析から機構を3つ選んで、時刻・見えるもの・役割・場面をまたいで残る対象を表にした絵コンテを作る。主役の部品は単独の検証ページで実際に書き出し、作った担当とは別の新しいレビュー担当に、MP4とブリーフだけを渡して評価させ、直してから本編に入れる。全編を書き出して別の新しい担当に評価させ、直したら、さらに新しい担当に前の指摘を項目ごとに確かめさせる。
+
+作り方：第三者の映像・音楽・生成素材を使わず、HTML/SVG と JavaScript のコードで無音の映像を作る。window.seek(秒) がその時刻の画面だけを描く作りにし、Motion Reel などの決定的なレンダラーで書き出して、編集できるソースを残す。
+
+確認：原典の scripts/frozen-time.sh で静止の長さを実際の MP4 で測り、同じ時刻を別の順序で描いて同じ画になるかを確かめる。測った値、AIのレビュー結果、人の承認を分けて報告し、確かめていない点を書く。</textarea>
+    <div class="bar">
+      <button type="button" id="copy">依頼文をコピー</button>
+      <span id="copy-status" role="status" aria-live="polite"></span>
+      <a href="request.html">依頼文だけのページ</a>
+    </div>
+  </div>
+
+  <h2>できないことと注意</h2>
+  <ul class="limits">
+    <li>無音です。原典の音楽・効果音・ラウドネスの工程は行っていません。音について選んだ・聴いたという記録はありません。</li>
+    <li>2Dの図形と文字だけです。3D、AIで生成した映像や画像、実写、第三者の素材は使っていません。HyperFrames や GSAP も使っていません。</li>
+    <li>試したのは、八百万図AIツールボックス 自身を紹介する1本だけです。原典が扱う顧客向けの案件、AI素材の生成、Three.js、音の仕上げは試していません。</li>
+    <li>画面は紹介用に再構成した模式図です。一覧の行は名前を伏せた例で、記事の題名は線で表しています。記事の中の文は、実際の入力・依頼文・この記事の本文からの短い抜粋です。</li>
+    <li>原典に記載された28本の参考映像は見ていません。動きの仕組みは、原典に同梱された文章分析だけを読んで選びました。</li>
+    <li>レビューは作った担当とは別のAIによるもので、人による承認ではありません。</li>
+    <li>書体はOSに入っているものを使うため、環境によって文字の幅が変わります。同じ時刻を描いて同じ画になる確認は、同じ実行環境の中での再現性です。</li>
+    <li>Motion Video Kit は手順のスキルで、映像を自動で作る機能はありません。同じ依頼でも、作る人やAIによって結果は変わります。</li>
+  </ul>
+
+  <h2>出典とライセンス</h2>
+  <ul>
+    <li><a href="vendor/motion-video-kit/business-motion-film/SKILL.md">Motion Video Kit business-motion-film/SKILL.md（同梱）</a>／<a href="https://github.com/echris6/motion-video-kit/tree/e4b1c0004080fe6a0deb883631bad5eba1e5f339/business-motion-film">原典（echris6/motion-video-kit、固定コミット e4b1c00）</a></li>
+    <li><a href="vendor/motion-video-kit/LICENSE">原典の LICENSE（MIT, Copyright (c) 2026 echris6）</a></li>
+    <li><a href="https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824">Motion Reel（Studio Yebisu、MIT）</a></li>
+    <li><a href="LICENSE">この作例の LICENSE（MIT, Copyright (c) 2026 Studio Yebisu）</a>：映像のソース・構成・文言・記録は 八百万図AIツールボックス の独自制作です。参考映像は使っていません。</li>
+    <li><a href="README.md">再現手順（README.md）</a>／<a href="source.zip">編集ソース一式（source.zip）</a></li>
+  </ul>
+  <p><a href="../../index.html">八百万図AIツールボックス のトップへ</a></p>
+</main>
+<script>
+  (() => {
+    const film = document.getElementById('film');
+    const buttons = Array.from(document.querySelectorAll('[data-seek]'));
+    const times = buttons.map(button => Number(button.dataset.seek));
+    const jump = time => {
+      if (film.readyState >= 1) film.currentTime = time;
+      else film.addEventListener('loadedmetadata', () => { film.currentTime = time; }, { once: true });
+    };
+    buttons.forEach((button, i) => button.addEventListener('click', () => jump(times[i])));
+    const mark = () => {
+      const now = film.currentTime;
+      const index = times.reduce((found, time, i) => (now + 0.001 >= time ? i : found), 0);
+      buttons.forEach((button, i) => button.setAttribute('aria-current', String(i === index)));
+    };
+    film.addEventListener('timeupdate', mark);
+    film.addEventListener('seeked', mark);
+    mark();
+
+    const area = document.getElementById('request');
+    const copy = document.getElementById('copy');
+    const status = document.getElementById('copy-status');
+    copy.addEventListener('click', async () => {
+      status.textContent = '';
+      let ok = false;
+      area.focus();
+      area.select();
+      area.setSelectionRange(0, area.value.length);
+      try { ok = document.execCommand('copy'); } catch { ok = false; }
+      if (!ok && navigator.clipboard && window.isSecureContext) {
+        try { await navigator.clipboard.writeText(area.value); ok = true; } catch { ok = false; }
+      }
+      status.textContent = ok ? '依頼文をコピーしました。' : 'コピーできませんでした。文章を選択してコピーしてください。';
+    });
+  })();
+</script>
+</body>
+</html>

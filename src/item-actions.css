@@ -1,0 +1,26 @@
+.item-actions-wrap { min-width: 0; }
+.item-actions { display: flex; align-items: flex-start; gap: .375rem; max-width: 26rem; }
+.item-actions > .like-control, .item-actions > .item-action { flex: 1; min-width: 0; }
+.item-actions .like-button, .item-action {
+  display: inline-flex; align-items: center; justify-content: center; gap: .35rem; width: 100%; min-width: 0;
+  min-height: 44px; padding: .5rem .4rem; border: 1px solid var(--rule); border-radius: 999px;
+  background: transparent; color: var(--ink-soft); font: 600 .75rem/1.3 var(--sans); white-space: nowrap; cursor: pointer;
+}
+.item-action { position: relative; z-index: 2; }
+.item-actions .like-button[aria-pressed="true"] { color: #b33435; border-color: #b3343538; background: #b334350a; }
+.item-action svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.item-save[aria-pressed="true"] { color: #4b5f26; border-color: #4b5f2640; background: #4b5f260b; }
+.item-save[aria-pressed="true"] svg { fill: currentColor; }
+.item-action:disabled { opacity: .65; cursor: wait; }
+.item-action-status { position: relative; z-index: 2; margin: .375rem 0 0; font-size: .75rem; line-height: 1.5; color: var(--ink-soft); overflow-wrap: anywhere; }
+.item-action-status:empty { display: none; }
+.gallery-body > .item-actions-wrap { margin-top: auto; padding-top: .875rem; }
+.entry > .item-actions-wrap, .article-head > .item-actions-wrap, .ow-card-head > .item-actions-wrap { margin-top: 1rem; }
+.preview-item-actions { margin-top: .75rem; }
+.saved-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem 1rem; margin-top: 1rem; }
+.saved-filter { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: .5rem .9rem; border: 1px solid var(--rule); border-radius: 999px; background: var(--field); color: var(--ink-soft); font: 600 .8125rem/1.3 var(--sans); }
+.saved-filter[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--field); }
+.saved-filter-count { font-variant-numeric: tabular-nums; }
+.saved-note { font-size: .75rem; color: var(--ink-soft); }
+@media (hover: hover) { .item-action:hover:not(:disabled) { border-color: currentColor; background: #17150f07; } }
+@media (max-width: 359px) { .item-actions { flex-wrap: wrap; } .item-actions > .like-control { flex-basis: 100%; align-items: flex-start; } .item-actions .like-button { width: auto; min-width: 96px; } }

@@ -3,12 +3,14 @@ from html.parser import HTMLParser
 import hashlib
 import json
 from check_open_models import check_open_models
-from production_records import check_download_provenance, check_production_artifacts
+from production_records import check_download_asset, check_production_artifacts
+from mechanical_maintenance import MechanicalMaintenance
 from pathlib import Path
 import subprocess
 import re
 from catalog import load_categories, model_entries
 from social_cards import check_social_pages
+from check_navigation import check_navigation
 from case_presentation import validate_presentation_aggregate
 from urllib.parse import unquote, urlsplit
 
@@ -70,6 +72,7 @@ def main():
     cases = [json.loads(p.read_text('utf-8')) for p in sorted((DIST / 'data/cases').glob('*.json'))]
     validate_presentation_aggregate(published_cases, cases)
     assert cases, 'No finished case'
+    maintenance = MechanicalMaintenance(DIST, cases)
     local_file('MEDIA-LICENSE.md')
     downloads = json.loads((DIST / 'data/video-downloads.json').read_text('utf-8'))
     download_assets = {(a['case_id'], a['orientation']): a for a in downloads['assets']}
@@ -89,8 +92,11 @@ def main():
         assert proof['runtime']['status'] == 'passed', 'Resource runtime proof is incomplete'
         assert proof['runtime']['sample_count'] > 0, 'Executed resource has no real sample'
         assert proof.get('artifacts_sha256'), 'Resource artifact hashes missing'
-        check_production_artifacts(DIST, case, proof_path, proof)
+        check_production_artifacts(DIST, case, proof_path, proof, maintenance)
     for case in cases:
+        for source in case.get('sources', []):
+            if source.get('url'):
+                local_file(source['url'])
         assert case['video_license']['id'] == 'LicenseRef-Yaoyorozu-Video-Credit', 'Video reuse conditions missing'
         assert case['video_license']['x_mention'] == '@studio_yebisu', 'Mandatory X attribution missing'
         local_file(case['video_license']['url'])
@@ -101,7 +107,7 @@ def main():
             assert asset['source'] == case['video_' + orientation], 'Download was composed from another source'
             assert hashlib.sha256((DIST / asset['source']).read_bytes()).hexdigest() == asset['source_sha256'], 'Playback source changed after watermarking'
             assert hashlib.sha256((DIST / asset['path']).read_bytes()).hexdigest() == asset['sha256'], 'Credited download changed after verification'
-            check_download_provenance(DIST, case, asset)
+            check_download_asset(DIST, case, asset)
         for key in ('demo', 'video', 'poster', 'skill', 'samples'):
             local_file(case[key])
         variants = {}
@@ -144,7 +150,8 @@ def main():
     assert not forbidden, 'Private workspace leaked into publication'
     models_result = check_open_models(DIST)
     social_result = check_social_pages(DIST, cases)
-    print(json.dumps({'status': 'passed', 'catalog_entries': len(ids), 'categories': len(category_ids), 'curated_resources': sum(e.get('verification_stage') in ('source-reviewed', 'runtime-reviewed') for e in catalog['entries']), 'new_resources_with_examples': sum(e.get('verification_stage') == 'runtime-reviewed' for e in catalog['entries']), 'cases': len(cases), 'html_pages': len(list(DIST.rglob('*.html'))), **models_result, **social_result}, ensure_ascii=False))
+    navigation_result = check_navigation(DIST)
+    print(json.dumps({'status': 'passed', 'catalog_entries': len(ids), 'categories': len(category_ids), 'curated_resources': sum(e.get('verification_stage') in ('source-reviewed', 'runtime-reviewed') for e in catalog['entries']), 'new_resources_with_examples': sum(e.get('verification_stage') == 'runtime-reviewed' for e in catalog['entries']), 'cases': len(cases), 'html_pages': len(list(DIST.rglob('*.html'))), **models_result, **social_result, **navigation_result}, ensure_ascii=False))
 
 
 if __name__ == '__main__':

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f6f1e6">
+<title>点数と根拠を、ひとつの図で。｜Ragas 作例・凪の図書室FAQ（架空）｜八百万図AIツールボックス</title>
+<meta name="description" content="架空の図書室FAQ 10問の変更前・変更後の固定回答を、Ragas の ExactMatch・NonLLMStringSimilarity・StringPresence で採点した保存済みの結果を、資料の本・回答の紙・3つの測る道具をつないだ1枚の図で読むページです。">
+<link rel="stylesheet" href="style.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#figure">図へ移動</a>
+
+<header class="top">
+  <h1 class="title">点数と根拠を、ひとつの図で。</h1>
+  <p class="chips"><span class="chip">保存済みの結果</span><span class="chip">架空の10問</span></p>
+</header>
+
+<main id="main">
+  <section class="viewer" aria-label="図で読む保存済みの結果">
+    <nav id="case-list" class="cases" aria-label="問いを選ぶ">
+      <button class="case" type="button" data-id="Q07" aria-pressed="false" aria-controls="figure" disabled><span class="case-id">Q07</span><span class="case-label">期限</span></button>
+      <button class="case" type="button" data-id="Q08" aria-pressed="false" aria-controls="figure" disabled><span class="case-id">Q08</span><span class="case-label">追記</span></button>
+      <button class="case" type="button" data-id="Q05" aria-pressed="false" aria-controls="figure" disabled><span class="case-id">Q05</span><span class="case-label">言い換え</span></button>
+      <button class="case" type="button" data-id="Q01" aria-pressed="false" aria-controls="figure" disabled><span class="case-id">Q01</span><span class="case-label">修正</span></button>
+      <button class="case" type="button" data-id="Q06" aria-pressed="false" aria-controls="figure" disabled><span class="case-id">Q06</span><span class="case-label">一致</span></button>
+    </nav>
+
+    <p id="status" class="status" data-state="loading" role="status" aria-live="polite">保存済みの結果を読み込み、照合しています…</p>
+    <div id="error-box" class="error-box" hidden>
+      <p id="error-text" class="error-text"></p>
+      <p class="error-hint">内蔵の代わりの結果は表示せず、点数の計算もし直しません。ファイルを確かめてから読み込み直してください。</p>
+      <button id="retry" class="button" type="button">もう一度読み込む</button>
+    </div>
+
+    <figure id="figure" class="figure" tabindex="-1" hidden>
+      <svg id="diagram" class="diagram" viewBox="0 0 340 530" role="img" aria-labelledby="diagram-title diagram-desc" focusable="false">
+        <title id="diagram-title"></title>
+        <desc id="diagram-desc"></desc>
+        <g id="diagram-root"></g>
+      </svg>
+    </figure>
+
+    <div class="actions">
+      <div class="phase" role="group" aria-label="測る固定回答">
+        <button id="phase-before" class="phase-btn" type="button" data-side="before" aria-pressed="false" aria-controls="figure" disabled>変更前</button>
+        <button id="phase-after" class="phase-btn" type="button" data-side="after" aria-pressed="true" aria-controls="figure" disabled>変更後</button>
+      </div>
+      <button id="export" class="button primary" type="button" disabled>この問いをJSONで保存</button>
+    </div>
+    <p id="export-state" class="action-status" role="status" aria-live="polite"></p>
+    <p class="caption"><span id="case-tag" class="case-tag"></span><span id="caption-text"></span></p>
+  </section>
+
+  <section class="folds" aria-label="全文と説明">
+    <details id="detail-fold" class="fold">
+      <summary>この問いの全文と値（<span id="detail-summary-id">—</span>）</summary>
+      <div id="detail-body" class="detail-body"></div>
+      <p class="fold-note">値は Ragas が返した数をそのまま保存したもので、図では小数第3位までに丸めて表示しています。照合メモは制作担当が入力に書いたもので、指標の結果ではありません。</p>
+      <p><a id="comparison-link" href="comparison.html#Q07">表形式の前の版で見る（comparison.html#Q07）</a></p>
+    </details>
+
+    <details id="picker-fold" class="fold">
+      <summary>10問から選ぶ</summary>
+      <p class="fold-note">どの問いも、保存した結果のその1行を同じ図に描きます。URL の末尾（例：#Q02）で直接開けます。検索や絞り込みは<a href="comparison.html">前の版のページ</a>で使えます。</p>
+      <ol id="picker" class="picker"></ol>
+    </details>
+
+    <details id="summary-fold" class="fold">
+      <summary>10問の平均と件数（変更前 → 変更後）</summary>
+      <div class="table-wrap">
+        <table class="summary-table">
+          <caption class="visually-hidden">3指標の10問の平均と、値が1だった問いの数</caption>
+          <thead><tr><th scope="col">指標</th><th scope="col">変更前</th><th scope="col">変更後</th></tr></thead>
+          <tbody id="summary-body"></tbody>
+        </table>
+      </div>
+      <p id="summary-note" class="fold-note"></p>
+      <p id="annotation-note" class="fold-note"></p>
+    </details>
+
+    <details id="request-box" class="fold">
+      <summary>同じ評価を頼む依頼文</summary>
+      <p class="fold-note">10問の入力を自分のものに差し替えて、AIや開発者に渡せる依頼文です。</p>
+      <p id="request-state" class="fold-note" role="status" aria-live="polite">依頼文を読み込んでいます…</p>
+      <label for="request-text" class="visually-hidden">依頼文</label>
+      <textarea id="request-text" class="request-text" rows="10" readonly hidden></textarea>
+      <div class="fold-actions">
+        <button id="copy" class="button" type="button" hidden>依頼文をコピー</button>
+        <a class="button-link" href="request.txt">request.txt を開く</a>
+      </div>
+      <p id="copy-state" class="action-status" role="status" aria-live="polite"></p>
+    </details>
+
+    <details id="film-fold" class="fold">
+      <summary>動く説明図（32秒・無音）</summary>
+      <p class="fold-note">同じ本・回答の紙・3つの道具の図で、Q07・Q08・Q05・Q01 の保存済みの値を順に見せる無音の映像です。</p>
+      <ul class="file-list">
+        <li><a href="../../media/ragas-example.mp4">縦の MP4（720×1280）</a></li>
+        <li><a href="../../media/ragas-example-wide.mp4">横の MP4（1280×720）</a></li>
+        <li><a href="video/index.html">映像の編集ソース（video/index.html）</a></li>
+        <li><a href="source.zip">入力・結果・ソース一式（source.zip）</a></li>
+      </ul>
+    </details>
+
+    <details id="source-fold" class="fold">
+      <summary>範囲・原典・ライセンス</summary>
+      <ul class="plain-list">
+        <li>このページは、制作側が実行して保存した結果を読んで図にするだけです。開いても Ragas も AI も動かず、点数の計算もし直しません。</li>
+        <li>3つの道具は、参照文と回答の文字だけを比べます。「同じ文字」は ExactMatch（完全に同じなら1、違えば0）、「文字の近さ」は NonLLMStringSimilarity（1 − Levenshtein の正規化距離、Unicode のまま）、「全文を含む」は StringPresence（参照文の全体が回答の中にあれば1）です。回答が根拠に忠実か、事実として正しいか、意味が同じかは判定しません。</li>
+        <li>0 は不合格、1 は合格という意味ではありません。採用や合否の基準値も置いていません。</li>
+        <li>変更前・変更後は、意図して誤り・言い換え・根拠のない追記を入れた2組の固定回答です。実際の RAG・モデル・検索器を変えて動かした結果ではなく、10問の架空データは代表的なベンチマークでもありません。</li>
+        <li>照合メモ（grounded・contradiction・unsupported_addition とメモ）は制作担当が入力に書いたものです。Ragas の出力でも LLM judge でもなく、人による承認でもありません。</li>
+      </ul>
+      <p id="runtime" class="fold-note"></p>
+      <p id="sha-state" class="fold-note"></p>
+      <ul class="file-list">
+        <li><a href="outputs/evaluation.json">結果JSON全体（outputs/evaluation.json）</a></li>
+        <li><a href="input/faq-pairs.json">入力JSON（input/faq-pairs.json）</a></li>
+        <li><a href="evaluate.py">採点スクリプト（evaluate.py）</a></li>
+        <li><a href="requirements.lock.txt">実行した依存の版（requirements.lock.txt）</a></li>
+        <li><a href="outputs/method.md">評価の方法（outputs/method.md）</a></li>
+        <li><a href="README.md">使い方と範囲（README.md）</a></li>
+        <li><a href="verification.json">今回の改修の確認記録（verification.json）</a></li>
+      </ul>
+      <p>原典：Ragas（vibrantlabsai/ragas）の固定コミット 298b68274234c060deacab3cf5fb52aa3a20e885。下の8ファイルは改変せずに同梱しています。Apache License 2.0、Copyright [2023] [Vibrant Labs]。手元の版名 0.0.0+studio.298b68274234 は Git 情報のないソース ZIP から入れたときのビルド用の名前で、Ragas の正式なリリース番号ではありません。</p>
+      <ul class="file-list">
+        <li><a href="vendor/ragas/src/ragas/metrics/collections/_string.py">指標の実装（_string.py）</a></li>
+        <li><a href="vendor/ragas/docs/concepts/metrics/available_metrics/traditional.md">指標のドキュメント（traditional.md）</a></li>
+        <li><a href="vendor/ragas/src/ragas/metrics/collections/base.py">基底クラス（base.py）</a></li>
+        <li><a href="vendor/ragas/src/ragas/metrics/result.py">結果の型（result.py）</a></li>
+        <li><a href="vendor/ragas/src/ragas/_analytics.py">利用状況の送信と停止（_analytics.py）</a></li>
+        <li><a href="vendor/ragas/pyproject.toml">pyproject.toml</a></li>
+        <li><a href="vendor/ragas/README.md">Ragas README</a></li>
+        <li><a href="vendor/ragas/LICENSE">Ragas LICENSE（Apache-2.0）</a></li>
+        <li><a href="https://github.com/vibrantlabsai/ragas/tree/298b68274234c060deacab3cf5fb52aa3a20e885">GitHub の固定コミット</a></li>
+        <li><a href="LICENSE">作例の LICENSE（MIT・八百万図AIツールボックス）</a></li>
+      </ul>
+      <p>作った人と動かしたもの：この図・ページ・映像ソースは、Claude Opus 5.5 が今回あらたに書きました。Ragas の公式の画面やロゴは使っていません。架空の入力と照合メモは制作担当が用意し、固定版の Ragas を手元の Python 3.12.9 の環境に入れて60回の ascore を実際に呼んだのは、前の制作での実行です。今回、指標・モデル・API を動かし直してはいません。</p>
+    </details>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>作例のコード・文章・図・架空のデータ：MIT License（Copyright (c) 2026 Studio Yebisu）。Ragas：Apache License 2.0（Copyright [2023] [Vibrant Labs]）。図書室・資料・質問・回答はすべて架空です。</p>
+  <a class="button-link" href="../../case.html?id=ragas-example">作例の記事へ戻る</a>
+</footer>
+</body>
+</html>

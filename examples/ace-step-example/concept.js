@@ -1,5 +1,5 @@
 /* ACE-Step V1 example: shared loader, scene and drawer for the page and the silent film.
-   八百万図AIツールボックス, MIT. Upstream ACE-Step files keep their Apache-2.0 notices. */
+   Yaoyorozu AI ToolBox, MIT. Upstream ACE-Step files keep their Apache-2.0 notices. */
 
 export const MANIFEST_SHA256 = '7858cef475daefb30ae1a4d0465fdbd7523705f842767c0dec7cecadfade8662';
 export const ASSET_COUNT = 25;

@@ -1,0 +1,217 @@
+{
+  "id": "crawl4ai-example",
+  "title": "Crawl4AI",
+  "title_lines": [
+    "WebページをAI向けのデータに変えるクローラー"
+  ],
+  "category": "research",
+  "summary": "PythonからWebページを開き、本文をMarkdownに変換したり、指定した項目を抽出したりできます。複数の公開ページを集め、検索や比較に使うデータへ整えられます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/crawl4ai-example/index.html",
+  "video": "media/crawl4ai-example.mp4",
+  "poster": "media/crawl4ai-example.webp",
+  "skill": "examples/crawl4ai-example/workflow.py",
+  "skill_label": "実行用Pythonソース",
+  "skill_description": "Agent Skill の SKILL.md や Markdown の手順書ではなく、この作例の実装そのものです。Crawl4AI の実際の API（AsyncWebCrawler・BrowserConfig・CrawlerRunConfig・JsonCssExtractionStrategy・DefaultMarkdownGenerator）でインストール済みの Chrome を動かし、手元で配った3ページと診断用の1ページを取得して、結果を元のソースと照合してから保存する Python スクリプトです。LLM は呼びません。",
+  "samples": "examples/crawl4ai-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "3ページと取得エラーの、リクエストとレスポンス",
+  "samples_intro": "input は workflow.py が arun に渡した URL と設定、output は Crawl4AI が返したレスポンス（HTTP ステータス・success・raw_markdown・extracted_content と、それを読んだ節）です。4件目は存在しないページへの診断で、成功には数えていません。URL のポートは実行時の一時ポートです。",
+  "demo_description": "「仕組み・開いて待つ・取り出す」で、同じページや節が動きます。3ページと4つの部品を選ぶと、Pythonの設定、JSによる追加、本文の選択、MarkdownとJSONの関係を確かめられます。「全体の結果メモを保存」は元のMarkdownを保存し、元の実結果ビューアでは生の応答も読めます。",
+  "demo_note": "制作時にCrawl4AIの実APIで取得した保存結果の図解です。この画面では取得・ブラウザー操作・AIを動かしません。要点はp.keypointの原文で、AIの要約ではありません。結果メモはworkflow.pyが複数の応答をまとめた文書で、ページごとの生Markdownとは区別しています。",
+  "request_intro": "同じ作りを自分のページで試すときの依頼文です。Crawl4AI の固定版を読めるAIエージェントや開発者に渡してください。対象の URL とセレクターは自分のものに置き換えます。",
+  "request": "Crawl4AI（unclecode/crawl4ai 固定コミット 6192d5e5b59cb21f9ca418fd6b798de47c0741d3、0.9.5）を使い、自分で用意した3ページだけを取得して、見出しと要点を JSON と Markdown に保存する Python スクリプトを書き、実際に実行してください。\n\n対象：手元の HTTP サーバー（127.0.0.1）で配る自作 HTML の /docs/start.html・/docs/review.html・/docs/export.html の3つだけ。リンクはたどらず、外部のサイトにも出ません。export.html の最後の節は、同じフォルダの JavaScript が読み込み後に追加します。\n\n取得：AsyncWebCrawler の arun を1ページずつ呼び、CrawlerRunConfig に cache_mode=BYPASS、check_robots_txt=True、css_selector=\"main#guide\"、excluded_tags=[\"nav\", \"footer\"]、wait_for='css:#guide[data-ready=\"true\"]' と、JsonCssExtractionStrategy（baseSelector=\"article.doc-section\"、h2 を heading、p.keypoint を keypoint）を渡す。LLM は使わない。\n\n保存：各結果の model_dump を非公開の raw フォルダに、Markdown・extracted_content・HTTP ステータスを runs.json に、入力と出力の対を samples.json に書く。\n\n診断：存在しない /docs/missing.html を別に1回取得し、HTTP ステータスと success フラグをそのまま記録する。success かつ HTTP 200 のときだけ受理とし、404 は成功に数えない。\n\n完了条件：3ページとも HTTP 200 で受理、節が6つで元の見出し・要点と一致、ナビ・フッター・選ばないページの目印が出力にない、JavaScript で追加した節がある、選ばないページへのアクセスがない。一つでも外れたら公開用の出力を書かずに失敗で終える。\n\n成果：保存結果を読むスマホ向けの日本語ビューアと、約28秒の無音動画。\n",
+  "applied_skills": [
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "掲載項目の依頼「公開ドキュメントの指定した3ページだけを取得し、見出しと要点をMarkdownに。際限なく巡回せず、成功・失敗URLを記録」を、目的「許可した3ページだけを Crawl4AI の実際の API で取得し、見出しと要点を元の段落のまま JSON と Markdown に保存して、取得エラーを成功と分ける」の一つに絞りました（brief.json）。取得先の許可と再現性のため、実在の公開ドキュメントの代わりに作例用の架空の手順書3ページを手元で配ることを assumptions に分けて書いています。入力は fixture/ の3ページ・dynamic-export.js・robots.txt・選ばないページと、診断用の存在しない1URL。完了条件は「3ページとも success かつ HTTP 200、節6つが元の文と一致、ナビ・フッター・選ばないページの目印が出力にない、JavaScript が足した節がある、選ばないページへのアクセスなし、404 は受理しない。どれか外れたら公開用の出力を書かない」です。ページはサンプルを読むだけなので、ライブ取得に見える表示は付けず、動画は「元の依頼 → 選んだ取得方法 → 実際の結果」で組む前提にしました。"
+    },
+    {
+      "name": "Crawl4AI",
+      "source": "https://github.com/unclecode/crawl4ai/blob/6192d5e5b59cb21f9ca418fd6b798de47c0741d3/README.md",
+      "applied": "ライブラリであり SKILL.md ではありません。固定版の README・docs/md_v2/core/markdown-generation.md・docs/md_v2/extraction/no-llm-strategies.md と、async_configs.py（BrowserConfig・CrawlerRunConfig の引数と既定値）、async_webcrawler.py（arun・check_robots_txt・success と status_code の決まり方）、extraction_strategy.py・models.py を読み、その API だけで workflow.py を書きました。BrowserConfig は channel と chrome_channel に chrome を渡し、use_persistent_context=False。CrawlerRunConfig は cache_mode=BYPASS・check_robots_txt=True・css_selector=main#guide・excluded_tags=[nav, footer]・word_count_threshold=0・wait_for=css:#guide[data-ready=\"true\"]・page_timeout=20000 と、JsonCssExtractionStrategy（baseSelector=article.doc-section、h2 と p.keypoint の text）、DefaultMarkdownGenerator（ignore_links・body_width=0）です。固定版では success が本文の有無とボット対策の判定で決まり HTTP 200 を意味しないため、受理は success かつ status_code==200 で別に判定し、404 の診断では wait_for と抽出を外してステータスをそのまま残すようにしました。generate_schema・LLM 抽出・Cloud は使っていません。固定版の86ファイルがインストール済みライブラリと一致することを照合し、実arun4回を実行。3文書の6節、JavaScript追加節、404・success:true・accepted:false、23個のDOMペイロードと元入力の一致を確認しました。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/crawl4ai-example/tools/motion-reel/render.mjs",
+      "applied": "原制作の28秒動画の確認記録は保持。今回の改修では、固定版のAPI構造と保存済みの実入力・出力を17素材に固定し、Opus5.5が概念図と32秒の無音動画の編集ソースを新しく執筆しました。任意時刻・代表/連続フレーム・縦横MP4の検査は原制作と分け、visual-verification.jsonに記録しています。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "URLと設定をPythonから渡す",
+      "body": "BrowserConfigでブラウザーを、CrawlerRunConfigで待つ条件・本文の範囲・2つの出力を設定します。AsyncWebCrawler.arunへ指定URLと実行設定を渡します。"
+    },
+    {
+      "title": "描画を待ち、本文を選ぶ",
+      "body": "今回はmain#guideのdata-readyがtrueになるまで待ち、navとfooterを除きます。書き出しページは元のHTMLに1節だけあり、ページのJSがもう1節を加えた後に取り出しています。"
+    },
+    {
+      "title": "文章と項目を並行して取り出す",
+      "body": "本文からDefaultMarkdownGeneratorでMarkdownを作る一方、JsonCssExtractionStrategyがarticle.doc-sectionごとのh2とp.keypointを原文のままJSONにします。MarkdownからJSONを作る工程やAIの要約ではありません。"
+    },
+    {
+      "title": "実結果を確かめて保存する",
+      "body": "元の実行では3ページ6節を入力と照合し、workflow.pyが全体の結果メモにまとめました。診断のHTTP404はsuccess=trueでも資料に受理しません。診断には待機・本文範囲・項目抽出の設定を渡していません。"
+    }
+  ],
+  "limitations": [
+    "図の4部品は今回使ったAPIを説明用に整理したもので、Crawl4AI全体の共通構造を示すものではありません。",
+    "元の4回のAPI実行・入力・出力は再生成していません。新しいOpus制作は図と動画の編集ソースで、制作側の補正・描画・確認・包装は分けて記録しています。",
+    "画面幅や操作、動画の確認は、実機iOS/VoiceOver、200%ズーム、人による審美的承認を意味しません。",
+    "取得したのは作例用に書いた架空の手順書3ページと、診断用の存在しない1ページだけです。公開Webの取得、リンクの巡回（deep crawl）、取得の深さは試しておらず、実在のサイトでの取得のしやすさや網羅性を示すものではありません。",
+    "抽出スキーマ（main#guide・article.doc-section・h2・p.keypoint）はこの fixture の HTML に合わせたものです。ほかのページには、DOM を見てセレクターを書き直す必要があります。",
+    "Crawl4AI の success は HTTP 200 の意味ではありません。この作例は success と status_code の両方で受理を判定しています。",
+    "JavaScript で中身が増えるページでは、wait_for に正しい印を指定しないと、足りないまま取り出すことがあります。",
+    "LLM による抽出・要約、Crawl4AI Cloud、有料API、プロキシ、ステルス、ボット対策の回避は使っていません。",
+    "サーバーの記録で確かめられるのは、手元のサーバーに届いたリクエストだけです。外部ホスト（example.invalid）への通信が無いことは、この記録では確かめていません。",
+    "Windows Python3.13.7・既存Chromeで実行しました。ほかのブラウザー、物理iPhone/Safari/VoiceOverは未確認です。",
+    "実在のサイトに向けるときは、取得の許可・利用条件・robots.txt・アクセスの頻度を利用者が確かめる必要があります。この作例は法的な判断や保証をしません。",
+    "閲覧ページは保存済みの結果を読むだけです。ページから取得し直すことはできません。"
+  ],
+  "sources": [
+    {
+      "label": "Crawl4AI（固定コミット 6192d5e）",
+      "url": "https://github.com/unclecode/crawl4ai/tree/6192d5e5b59cb21f9ca418fd6b798de47c0741d3"
+    },
+    {
+      "label": "Crawl4AI README（固定版・帰属表示の要件を含む）",
+      "url": "https://github.com/unclecode/crawl4ai/blob/6192d5e5b59cb21f9ca418fd6b798de47c0741d3/README.md"
+    },
+    {
+      "label": "Crawl4AI LICENSE（固定版）",
+      "url": "https://github.com/unclecode/crawl4ai/blob/6192d5e5b59cb21f9ca418fd6b798de47c0741d3/LICENSE"
+    },
+    {
+      "label": "Markdown Generation Basics（固定版）",
+      "url": "https://github.com/unclecode/crawl4ai/blob/6192d5e5b59cb21f9ca418fd6b798de47c0741d3/docs/md_v2/core/markdown-generation.md"
+    },
+    {
+      "label": "Extracting JSON (No LLM)（固定版）",
+      "url": "https://github.com/unclecode/crawl4ai/blob/6192d5e5b59cb21f9ca418fd6b798de47c0741d3/docs/md_v2/extraction/no-llm-strategies.md"
+    },
+    {
+      "label": "BrowserConfig と CrawlerRunConfig（async_configs.py・固定版）",
+      "url": "https://github.com/unclecode/crawl4ai/blob/6192d5e5b59cb21f9ca418fd6b798de47c0741d3/crawl4ai/async_configs.py"
+    },
+    {
+      "label": "AsyncWebCrawler.arun（async_webcrawler.py・固定版）",
+      "url": "https://github.com/unclecode/crawl4ai/blob/6192d5e5b59cb21f9ca418fd6b798de47c0741d3/crawl4ai/async_webcrawler.py"
+    },
+    {
+      "label": "実APIの入力・出力",
+      "url": "examples/crawl4ai-example/outputs/runs.json"
+    },
+    {
+      "label": "日本語の結果メモ",
+      "url": "examples/crawl4ai-example/outputs/result.md"
+    },
+    {
+      "label": "元の入力ページ",
+      "url": "examples/crawl4ai-example/fixture/docs/export.html"
+    },
+    {
+      "label": "原制作で確認した実APIの実行と検証の範囲",
+      "url": "examples/crawl4ai-example/verification.json"
+    },
+    {
+      "label": "実行した依存の版",
+      "url": "examples/crawl4ai-example/requirements-tested.txt"
+    },
+    {
+      "label": "原典のクレジット条件",
+      "url": "examples/crawl4ai-example/NOTICE.txt"
+    },
+    {
+      "label": "入力・結果・動画の一式",
+      "url": "examples/crawl4ai-example/source.zip"
+    },
+    {
+      "label": "Python呼び出し・設定・並列出力を説明する図の構造",
+      "url": "examples/crawl4ai-example/concept/structure.json"
+    },
+    {
+      "label": "今回の図と無音動画の確認範囲",
+      "url": "examples/crawl4ai-example/visual-verification.json"
+    },
+    {
+      "label": "保全した元の実結果ビューア",
+      "url": "examples/crawl4ai-example/desk.html"
+    },
+    {
+      "label": "縦横の無音動画を再現するスクリプト",
+      "url": "examples/crawl4ai-example/render-visual.py"
+    },
+    {
+      "label": "図の改修と原制作の違い",
+      "url": "examples/crawl4ai-example/visual-guide.md"
+    }
+  ],
+  "license": "MIT（作例）",
+  "license_note": "作例のコード・文章・架空の手順書はMIT License（Copyright (c) 2026 Studio Yebisu）。Crawl4AI は Apache License 2.0 で、原典の README と LICENSE が求める帰属表示（This project uses Crawl4AI (https://github.com/unclecode/crawl4ai) for web data extraction. と UncleCode の表示）をビューアのフッターと README に載せています。依存パッケージとブラウザーは同梱していません。Crawl4AI Cloud と取得先の利用条件は別です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "video_note": "32秒・30fps・無音。縦720×1280と横1280×720を別配置で描きます。同じURL・ページ・節が、Python呼び出し、ブラウザー、待機、本文の選択、並列するMarkdownとJSON、保存先へ動く概念図です。保存済みの実結果に基づく編集映像で、ライブ取得の録画ではありません。音声トラックはありません。",
+  "video_source": "examples/crawl4ai-example/video/index.html",
+  "skill_license": "examples/crawl4ai-example/vendor/crawl4ai/LICENSE",
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "guide_url": "case.html?id=crawl4ai-example",
+  "catalog_entry": {
+    "id": "resource-crawl4ai",
+    "name": "Crawl4AI",
+    "tagline": "WebページをAI向けのデータに変えるクローラー",
+    "category": "research",
+    "kind": "クローラー",
+    "summary": "PythonからWebページを開き、本文をMarkdownに変換したり、指定した項目を抽出したりできます。複数の公開ページを集め、検索や比較に使うデータへ整えられます。",
+    "use_case": "公開ドキュメントの複数ページを集め、検索や比較に使いたいとき。",
+    "tags": [
+      "Web",
+      "情報収集",
+      "クローラー"
+    ],
+    "workflow": [
+      "対象ドメイン・ページ数・取得する項目を決める",
+      "巡回してMarkdownやJSONへ保存する",
+      "欠落、重複、取得エラーを確認する"
+    ],
+    "requirements": [
+      "Python 3.10以上と、対応ブラウザー（この作例はインストール済みの Google Chrome を channel=\"chrome\" で使用）",
+      "この作例のようなCSSスキーマでの取り出しならAPIキーは不要。LLM抽出やCrawl4AI Cloudを使う場合は、その接続設定と費用が別に必要",
+      "取得対象の範囲（許可・利用条件・robots.txt）と保存先"
+    ],
+    "license": "Apache-2.0",
+    "license_url": "https://github.com/unclecode/crawl4ai/blob/6192d5e5b59cb21f9ca418fd6b798de47c0741d3/LICENSE",
+    "license_note": "原典はApache-2.0表記で、LICENSE末尾に追加のクレジット表記条件があります。原文と指定クレジットを同梱・表示しました。作例はMIT。Cloudと取得先の条件は別です。",
+    "source_url": "https://github.com/unclecode/crawl4ai/tree/6192d5e5b59cb21f9ca418fd6b798de47c0741d3",
+    "guide_url": "case.html?id=crawl4ai-example",
+    "readme_url": "https://github.com/unclecode/crawl4ai/blob/6192d5e5b59cb21f9ca418fd6b798de47c0741d3/README.md",
+    "source_repository": "unclecode/crawl4ai",
+    "source_commit": "6192d5e5b59cb21f9ca418fd6b798de47c0741d3",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "固定原典・利用条件を確認し、自作の架空ローカル文書で実際のPython APIを動かしました。CSSで元の段落を抽出する作例で、AI要約や公開Web巡回ではありません。",
+    "prompt": "Crawl4AI（unclecode/crawl4ai 固定コミット 6192d5e5b59cb21f9ca418fd6b798de47c0741d3、0.9.5）を使い、自分で用意した3ページだけを取得して、見出しと要点を JSON と Markdown に保存する Python スクリプトを書き、実際に実行してください。\n\n対象：手元の HTTP サーバー（127.0.0.1）で配る自作 HTML の /docs/start.html・/docs/review.html・/docs/export.html の3つだけ。リンクはたどらず、外部のサイトにも出ません。export.html の最後の節は、同じフォルダの JavaScript が読み込み後に追加します。\n\n取得：AsyncWebCrawler の arun を1ページずつ呼び、CrawlerRunConfig に cache_mode=BYPASS、check_robots_txt=True、css_selector=\"main#guide\"、excluded_tags=[\"nav\", \"footer\"]、wait_for='css:#guide[data-ready=\"true\"]' と、JsonCssExtractionStrategy（baseSelector=\"article.doc-section\"、h2 を heading、p.keypoint を keypoint）を渡す。LLM は使わない。\n\n保存：各結果の model_dump を非公開の raw フォルダに、Markdown・extracted_content・HTTP ステータスを runs.json に、入力と出力の対を samples.json に書く。\n\n診断：存在しない /docs/missing.html を別に1回取得し、HTTP ステータスと success フラグをそのまま記録する。success かつ HTTP 200 のときだけ受理とし、404 は成功に数えない。\n\n完了条件：3ページとも HTTP 200 で受理、節が6つで元の見出し・要点と一致、ナビ・フッター・選ばないページの目印が出力にない、JavaScript で追加した節がある、選ばないページへのアクセスがない。一つでも外れたら公開用の出力を書かずに失敗で終える。\n\n成果：保存結果を読むスマホ向けの日本語ビューアと、約28秒の無音動画。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "固定Crawl4AI0.9.5の86ファイルを照合し、既存Chromeで実arun4回。自作文書3ページ・6節とJavaScript追加節、HTTP404の別扱いを入力・実レスポンス・23DOMペイロードと照合。24画面状態と28秒無音動画を確認。公開Web巡回、LLM抽出、物理iOSは未確認。",
+    "reviewed_on": "2026-10-16",
+    "example_url": "examples/crawl4ai-example/index.html",
+    "image": "media/crawl4ai-example.webp"
+  },
+  "video_portrait": "media/crawl4ai-example.mp4",
+  "video_landscape": "media/crawl4ai-example-wide.mp4",
+  "poster_portrait": "media/crawl4ai-example.webp",
+  "poster_landscape": "media/crawl4ai-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/crawl4ai-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/crawl4ai-example-landscape-credited-ja-v3.mp4"
+}

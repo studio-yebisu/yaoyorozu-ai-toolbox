@@ -1,0 +1,201 @@
+{
+  "id": "defuddle-reading-room",
+  "title": "Defuddle",
+  "title_lines": [
+    "Webページから本文を取り出すライブラリ"
+  ],
+  "category": "research",
+  "summary": "HTMLから記事本文や題名、著者などを取り出せます。ナビゲーションなどの周辺情報を除き、見出しやリストを残した本文をMarkdownなどで扱えます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/defuddle-reading-room/index.html",
+  "video": "media/defuddle-reading-room.mp4",
+  "poster": "media/defuddle-reading-room.webp",
+  "skill": "examples/defuddle-reading-room/vendor/defuddle/README.md",
+  "skill_label": "原典のREADME",
+  "skill_description": "本文抽出ライブラリの使い方",
+  "samples": "examples/defuddle-reading-room/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "3つの架空記事と、取り出したMarkdown",
+  "samples_intro": "元のNode APIで実際に取り出して保存したMarkdownです。新しい図でも同じ固定版のfullバンドルをブラウザーで呼び、題名・著者・本文を照合します。3つの.mdは元のcontentをUTF8で包んだ実ファイルで、要約や新しいモデル出力ではありません。",
+  "demo_description": "渡す・取り出す・使うの3段階で、HTML、Document、題名と著者の経路、本文の選択と整理、Markdownへの変換、受け取って保存する関係を見られます。3記事を選び、実際に取り出したMarkdownを保存したり、元のページと全文を読み比べたりできます。",
+  "demo_note": "新しい図は、同じfull版のDefuddleをブラウザーで本当に呼び、3件の題名・著者・全文を保存済みのNode出力と全一致照合します。内部の削除ログや選択器を計測した図ではありません。元のモデル・Node抽出・ビルドは再実行していません。",
+  "request_intro": "Node.jsを使えるAIのコーディングエージェントに、次の文章を渡します。【】の部分を自分のページと条件に置き換えて使ってください。",
+  "request": "Defuddle（kepano/defuddle、固定コミット 556d74e8c8fd68c49912d4b11a4ae9ec04d7b2b5）で、手元のHTMLから記事の本文をMarkdownにしてください。\n\n使い方：Node.jsでは、jsdomなどで作ったDocumentと元のURLを Defuddle(document, url, { markdown: true, useAsync: false, removeImages: true }) に渡します。useAsync:false にして、外部サービスで補う機能は使わないでください。\n\n入力：【HTMLファイルのパスと、そのページのURL】\n残るべき条件：【日付・数値・手順など、本文に必ず残ってほしい語句】\n入らないでほしい文言：【広告・関連記事・購読の案内など、本文の外にある文の一部】\n\n出力は title・author・content（Markdown）にしてください。残るべき条件と入らないでほしい文言について、content に文字どおり含まれるか・含まれないかを一つずつ示してください。見つからない語句があれば、補わずにそのまま報告してください。",
+  "video_note": "32秒・30fps・完全無音。縦720×1280と横1280×720を別配置で描きます。HTML→DocumentとURL・設定→メタ情報と本文の別経路→Markdownへの変換→作例側の語句照合→実.mdと元のページへ、同じ形が動いてつながります。動画の読み込み時に同じライブラリを呼び、フレームごとに抽出を繰り返しません。",
+  "video_source": "examples/defuddle-reading-room/video/index.html",
+  "skill_license": "examples/defuddle-reading-room/vendor/defuddle/LICENSE",
+  "applied_skills": [
+    {
+      "name": "Defuddle（原典のAPI）",
+      "source": "https://github.com/kepano/defuddle/blob/556d74e8c8fd68c49912d4b11a4ae9ec04d7b2b5/README.md",
+      "applied": "固定版のREADMEのUsage（Browser・Node.js）、Options、Response、Bundles、Third-party servicesを読んで組んだ。Markdownへの変換はfull版とNode版に入っているため、ブラウザーではfull版のバンドルを読み込み、DOMParserで作ったDocumentを new Defuddle(document, {url, markdown: true, useAsync: false, removeImages: true}).parse() に渡した。READMEにあるとおり、本文が取れないページで外部APIへ切り替える機能は useAsync:false で止められるので、必ずfalseにした。画像を使わない記事なので removeImages を付けた。返す値のうち title・author・content だけを文字として表示し、parseTime は性能の指標として出していない。保存用の実出力は、Node API（jsdomのDocumentとURLを await Defuddle(document, url, options) に渡す形）で3件実際に作った。ブラウザーでも3件を実行し、本文・タイトル・著者がNode版と一致すること、指定の10条件が残り、本文外の3文言が各出力に含まれないことを確認した。Node版は内部で parseAsync() を呼ぶが、useAsync:false の分岐により外部APIでの補完は無効になっている。Defuddleは SKILL.md を持たないライブラリで、作例でもスキル文書は作っていない。 原制作のNode/ビルド/旧ブラウザーQAは保全。新図は同じfull版をブラウザーで3件呼び、題名・著者・全文を照合する別の実行として記録します。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824",
+      "applied": "元の28秒ソースと実入力・出力を保持し、新しい概念構造UIと32秒の無音映像をOpus5.5で執筆。21固定素材、任意時刻の描画、縦横の別配置、代表/連続/contact、実MP4を制作側の新QAで確認しました。"
+    },
+    {
+      "name": "frontend-design（新しい概念構造UI）",
+      "source": "https://github.com/anthropics/skills/blob/dbd4588f9e1033efb41dad4bef2f7947c8993d44/skills/frontend-design/SKILL.md",
+      "applied": "固定版を新しいOpusへ読ませ、元の紙・インク・藍色の方向、HTMLから本文のかたまりをMarkdownへ動かす図、スマホでの全体と主操作へ適用しました。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "原典と元の実出力を引き継ぐ",
+      "body": "Defuddle0.19.5の固定ソース、元のfullバンドル、架空の3記事とNodeの実出力を保全しました。原制作のモデル、Node抽出、依存の導入・ビルドは再実行していません。"
+    },
+    {
+      "title": "HTMLから、Documentと設定を渡す",
+      "body": "DOMParserで作ったDocumentに、元URLの文脈とmarkdown:true・useAsync:false・removeImages:trueを添えます。example.testのURLは取得せず、同梱の入力だけを使います。"
+    },
+    {
+      "title": "本文とメタ情報の経路を図にする",
+      "body": "題名と著者を本文とは別の値として受け取り、本文の選択と整理の後に、full版がMarkdownへ変換する構造を示します。入力と固定ソースから描いた概念図で、内部の削除ログや選択器の計測ではありません。"
+    },
+    {
+      "title": "同じライブラリを実際に呼び、全文を照合する",
+      "body": "新しいページは同じfullバンドルをブラウザーで3件呼び、title・author・contentを元のNode出力と照合します。日時・人数や保存失敗の条件、実務の効果は未検証という文も保ちます。"
+    },
+    {
+      "title": "受け取ったMarkdownを保存して読み比べる",
+      "body": "語句の残存・不在を調べるのは作例側の別工程です。意味や全文の品質を採点せず、元の本文と読み比べます。3件の実Markdownを保存でき、旧ビューアの抽出・コピー・保存も残しています。"
+    },
+    {
+      "title": "図を32秒の無音動画にする",
+      "body": "同じ図形がHTML、本文のかたまり、Markdownへ変わる映像と編集ソースをOpus5.5が執筆しました。制作側で縦横の描画・代表/連続フレーム・実MP4の新QAを行いました。"
+    }
+  ],
+  "limitations": [
+    "3つの記事は架空です。読書会・保存アプリ・検索画面の調査や人数は実在せず、その操作や調査を実行したものではありません。",
+    "Documentは同梱HTMLから作ります。任意のURLやファイルの入力、ネットからのページ取得、AIや外部APIへの接続はありません。",
+    "図の6部分と内部の見せ方は説明用整理で、原典の固定スキーマや実行中の削除ログ・選択器・性能計測ではありません。",
+    "本文の指定10語句が残り、各記事の本文外3文言が含まれないことを文字列で照合します。ほかの抜け、意味の同一性、読みやすさ、すべてのWebページでの成功を保証しません。",
+    "Markdownは見出しや段落・リストの文章構造を保ちます。元の色・配置・文字サイズを保存する画像ではありません。",
+    "元のNode3件の抽出、元のモデル、依存の導入・固定ビルドは再実行していません。新ページの実抽出はブラウザーでの呼び出しで、当時のNode実行記録ではありません。",
+    "useAsync:falseで外部API補完を無効にしています。今回のHTMLには画像がなく、removeImagesの効果は実証していません。CLI、HTML出力、数式・脚注・外部補完は未適用です。",
+    "元4資料のCRLF配布を保持しました。公式LFとの生バイトは異なり、CRLFだけ正規化した内容とGitblobが一致します。追加した公式ソース4件はLFの全バイト一致。元の生成バンドルの一致は原公開ビルドのハッシュとの照合で、公式ソースの生バイト一致とは分けています。",
+    "元18公開ファイルを履歴へ保全し、16件と2つの旧HTML別名は同じバイトで保持します。3つの.mdは元contentそのままの包装で、新しいモデルの出力ではありません。",
+    "新しい図・映像の8原本はOpus5.5が執筆し、制作側の構造データ・包装・補正・描画・QA・公開とは分けています。自動検査とエージェント確認を人の審美的承認にしません。",
+    "実機iOS/Safari/VoiceOver、200%ズーム、人の審美的承認、全入力や性能、クリップボード内容の再取得は未確認です。縦横の解説MP4に音声トラックはありません。"
+  ],
+  "sources": [
+    {
+      "label": "Defuddle README（kepano/defuddle、固定版）",
+      "url": "https://github.com/kepano/defuddle/blob/556d74e8c8fd68c49912d4b11a4ae9ec04d7b2b5/README.md"
+    },
+    {
+      "label": "Defuddle のソース（固定版）",
+      "url": "https://github.com/kepano/defuddle/tree/556d74e8c8fd68c49912d4b11a4ae9ec04d7b2b5"
+    },
+    {
+      "label": "Defuddle LICENSE（MIT、固定版から作例に同梱）",
+      "url": "examples/defuddle-reading-room/vendor/defuddle/LICENSE"
+    },
+    {
+      "label": "バンドルに含まれるライブラリの利用条件",
+      "url": "examples/defuddle-reading-room/vendor/defuddle/THIRD_PARTY_NOTICES.txt"
+    },
+    {
+      "label": "保存したDefuddleの実出力（extraction-results.json）",
+      "url": "examples/defuddle-reading-room/extraction-results.json"
+    },
+    {
+      "label": "Motion Reel（Studio Yebisu、MIT）",
+      "url": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824"
+    },
+    {
+      "label": "作例の再現手順（README）",
+      "url": "examples/defuddle-reading-room/README.md"
+    },
+    {
+      "label": "この作例の制作・確認記録",
+      "url": "data/production/defuddle-reading-room.json"
+    },
+    {
+      "label": "Defuddleの構造と実出力の対応",
+      "url": "examples/defuddle-reading-room/concept/structure.json"
+    },
+    {
+      "label": "読書会の実Markdown",
+      "url": "examples/defuddle-reading-room/outputs/reading.md"
+    },
+    {
+      "label": "原制作と新しい確認の区別",
+      "url": "examples/defuddle-reading-room/visual-verification.json"
+    },
+    {
+      "label": "保全した元ページとの比較",
+      "url": "examples/defuddle-reading-room/desk.html"
+    },
+    {
+      "label": "新しい図と映像の再現手順",
+      "url": "examples/defuddle-reading-room/visual-guide.md"
+    },
+    {
+      "label": "縦横動画の再現スクリプト",
+      "url": "examples/defuddle-reading-room/render-visual.py"
+    }
+  ],
+  "license": "MIT",
+  "license_note": "この作例の画面構成・文言・架空の記事・映像ソースは 八百万図AIツールボックス の独自制作で、MIT License です。vendor/defuddle/ の Defuddle は上流の MIT License（Copyright (c) 2025 Steph Ango (@kepano)）で、LICENSE を同梱しています。バンドルに含まれる turndown・mathml-to-latex・temml・@xmldom/xmldom の利用条件は、同梱の THIRD_PARTY_NOTICES.txt にまとめています。 元4資料はCRLFのまま保持し、公式LFとはCRLFだけ正規化した内容/Gitblobが一致します。追加の公式src4件は固定Gitblobと全バイト一致。元生成バンドルは原公開の同じバイトを維持しています。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "catalog_entry": {
+    "id": "resource-defuddle",
+    "name": "Defuddle",
+    "tagline": "Webページから本文を取り出すライブラリ",
+    "category": "research",
+    "kind": "ライブラリ・CLI",
+    "summary": "HTMLから記事本文や題名、著者などを取り出せます。ナビゲーションなどの周辺情報を除き、見出しやリストを残した本文をMarkdownなどで扱えます。",
+    "use_case": "ページのナビゲーションや脇の情報を除き、記事本文を調査用に読みたいとき。",
+    "tags": [
+      "Web",
+      "情報収集",
+      "ライブラリ・CLI"
+    ],
+    "workflow": [
+      "公開ページのURLまたはHTMLを渡す",
+      "本文を抽出してMarkdownへ変換する",
+      "見出し、リンク、本文の抜けを原ページと比べる"
+    ],
+    "requirements": [
+      "Node.jsなど、選ぶ実行方式の環境",
+      "取得できる公開ページまたは手元のHTML"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/kepano/defuddle/blob/556d74e8c8fd68c49912d4b11a4ae9ec04d7b2b5/LICENSE",
+    "license_note": "ライブラリはMIT。取得した文章・画像の権利はページの権利者に帰属します。",
+    "source_url": "https://github.com/kepano/defuddle/tree/556d74e8c8fd68c49912d4b11a4ae9ec04d7b2b5",
+    "guide_url": "case.html?id=defuddle-reading-room",
+    "example_url": "examples/defuddle-reading-room/index.html",
+    "image": "media/defuddle-reading-room.webp",
+    "readme_url": "https://github.com/kepano/defuddle/blob/556d74e8c8fd68c49912d4b11a4ae9ec04d7b2b5/README.md",
+    "source_repository": "kepano/defuddle",
+    "source_commit": "556d74e8c8fd68c49912d4b11a4ae9ec04d7b2b5",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。原典は確認時のコミットへ固定しています。作例で渡したのは架空の3記事の手元のHTMLだけで、インターネット上のすべてのページで本文を取り出せることは確かめていません。",
+    "prompt": "Defuddle の原典（https://github.com/kepano/defuddle/tree/556d74e8c8fd68c49912d4b11a4ae9ec04d7b2b5）を読んで、次を進めてください。\n公開されている技術記事1本をMarkdownにしてください。元URLを残し、見出し・コード・リンクの抜けがないか原文と照合してください。\n入力、出力、実行した検証、未確認の点を記録してください。",
+    "verification_stage": "runtime-reviewed",
+    "verification": "元の3架空HTML、Node3実出力とfullバンドルを保持。新図は同じブラウザーAPIを3件呼び、題名・著者・全文を照合。10条件と各3不在語句、実.md/元比較画面、21素材編集、32秒縦横無音動画を新QA。内部ログの計測、実調査、全ページの品質保証ではありません。",
+    "reviewed_on": "2026-10-19"
+  },
+  "updated_on": "2026-10-21",
+  "video_portrait": "media/defuddle-reading-room.mp4",
+  "video_landscape": "media/defuddle-reading-room-wide.mp4",
+  "poster_portrait": "media/defuddle-reading-room.webp",
+  "poster_landscape": "media/defuddle-reading-room-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/defuddle-reading-room-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/defuddle-reading-room-landscape-credited-ja-v3.mp4"
+}

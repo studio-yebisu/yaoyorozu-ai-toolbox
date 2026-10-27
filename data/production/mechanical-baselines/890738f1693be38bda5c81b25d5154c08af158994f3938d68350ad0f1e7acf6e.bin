@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja" data-state="loading">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'sha256-1/0V3gE4wuJdHeBm8r/fvFtrYBWyVwJiL6dCt2MkCvk=' 'sha256-WQPdUUwyqzgAeYJbgsMoJQxatw8ds5MAhL+rjt+Y4kk='; img-src 'self' blob:; connect-src 'self'; media-src 'none'; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="color-scheme" content="light">
+  <title>Diagram Design 紹介映像（32秒・無音）の編集ページ｜八百万図AIツールボックス</title>
+  <link rel="stylesheet" href="video.css?v=visual-r1">
+  <script type="module" src="video.js?v=visual-r1"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="top chrome">
+      <h1>Diagram Design 紹介映像の編集ページ</h1>
+      <nav aria-label="関連"><a href="../index.html">紹介ページ</a><a href="../../../case.html?id=diagram-design-example">作例の記事</a><a href="legacy.html">旧映像のソース</a></nav>
+    </header>
+
+    <div class="status-row chrome">
+      <p id="asset-status" data-state="loading" role="status">保存済みの27ファイルを照合しています…</p>
+      <button type="button" id="retry" hidden disabled>もう一度読み込む</button>
+    </div>
+
+    <div class="frame" id="frame">
+      <canvas id="film" width="720" height="1280" role="img" aria-label="Diagram Designの紹介映像。6つの見出しがある本と、3担当の依頼が1つのAIへ入り、AIがスイムレーンを選んでSVG入りのHTMLを書き、制作担当が点検してSVGとPNGを書き出し、実際の図で戻り道と完了をたどって、開く・編集に使うまでを1枚の図の動きで見せる32秒・無音の映像"></canvas>
+    </div>
+
+    <div class="controls chrome">
+      <button type="button" id="play" aria-pressed="false" disabled>再生</button>
+      <button type="button" id="reset" disabled>先頭へ</button>
+      <button type="button" id="replay" disabled>最初から再生</button>
+      <button type="button" id="end" disabled>最後へ</button>
+      <input id="time" type="range" min="0" max="32" step="0.1" value="0" aria-label="再生位置（秒）" disabled>
+      <output id="clock" for="time">0.0 / 32.0 秒</output>
+    </div>
+
+    <div class="row chrome" role="group" aria-label="場面へ移動">
+      <button type="button" data-jump="0" disabled>0 指針</button>
+      <button type="button" data-jump="4" disabled>4 依頼</button>
+      <button type="button" data-jump="8" disabled>8 執筆</button>
+      <button type="button" data-jump="14" disabled>14 点検・書出</button>
+      <button type="button" data-jump="20" disabled>20 実際の図</button>
+      <button type="button" data-jump="26" disabled>26 使う</button>
+      <button type="button" data-jump="29" disabled>29 全体</button>
+    </div>
+
+    <div class="row chrome" role="group" aria-label="画面の向き">
+      <button type="button" data-orient="portrait" aria-pressed="true" disabled>縦 720×1280</button>
+      <button type="button" data-orient="wide" aria-pressed="false" disabled>横 1280×720</button>
+    </div>
+
+    <p class="note chrome">32秒・30fps・音声なし。canvasだけで描き、音声・字幕・読み上げはありません。図の部品は紹介ページ（../concept.js）と同じ描画を使います。実際の図は保存済みの ../diagrams/intake.png を照合したバイトから表示し、描き直しません。紙やラベルの動きは説明用の図解で、AIや検査・書出しを再実行した記録ではありません。この操作パネルは書き出す映像に含まれません。</p>
+  </div>
+</body>
+</html>

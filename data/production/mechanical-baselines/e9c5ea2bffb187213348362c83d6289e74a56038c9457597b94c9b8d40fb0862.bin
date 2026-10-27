@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f6f1e6">
+  <title>Ragas 作例・動く説明図の編集ソース（32秒・無音）｜八百万図AIツールボックス</title>
+  <meta name="description" content="架空の図書室FAQの保存済みの Ragas 採点結果から、資料の本・2枚の回答の紙・3つの測る道具をつないだ1枚の図を動かす、32秒・無音の映像の編集ソースです。">
+  <link rel="stylesheet" href="video.css">
+  <script src="video.js" defer></script>
+</head>
+<body>
+  <main id="editor" class="editor" data-state="loading">
+    <header class="intro chrome">
+      <p class="kicker">STUDIO YEBISU ・ RAGAS 作例</p>
+      <h1>動く説明図の編集ソース</h1>
+      <p class="lede"><span class="silent">無音</span> 32秒。資料の本と、変更前・変更後の回答の紙が、3つの測る道具（同じ文字・文字の近さ・全文を含む）を通り、保存済みの値と1問の保存へつながる1枚の図です。</p>
+      <nav class="layouts" aria-label="画面の向き">
+        <a id="layout-tall" href="index.html">縦 720×1280</a>
+        <a id="layout-wide" href="index.html?layout=wide">横 1280×720</a>
+      </nav>
+    </header>
+
+    <div class="statusbar chrome">
+      <p id="asset-count" class="count" data-state="pending">0 / 7素材</p>
+      <p id="status" class="status" role="status" aria-live="polite">素材を照合しています…</p>
+    </div>
+
+    <section id="error" class="failure chrome" aria-labelledby="error-title" hidden>
+      <p id="error-title" class="failure-title">映像を描いていません</p>
+      <p id="error-text"></p>
+      <p class="hint">内蔵の代わりのデータは使わず、点数の計算もし直しません。素材を確かめてから読み込み直してください。</p>
+      <button id="retry" type="button">もう一度読み込む</button>
+    </section>
+
+    <section id="stage" class="stage" hidden>
+      <canvas id="film" role="img" aria-label="開いた資料の本から、変更前と変更後の2枚の回答の紙が出て、同じ文字・文字の近さ・全文を含むの3つの道具を通り、保存済みの値と保存できる1問のカードへつながる無音の説明図。Q07 は資料の18時と変更後の19時の時計がずれ、文字の近さは0.969でも同じ文字と全文を含むは0。Q08 は資料の全文が袖に収まり全文を含むは1、足した1文の紙が袖の外に残る。Q05 は予約なし・1回・7日間の3つの印が言い換えの紙の上へ移り、同じ文字は0。Q01 は9時と10時の時計が10時でそろい、3つとも1。本から下がる照合メモは制作担当の入力で、道具の判定ではない。最後に Q07 の図と保存の案内で止まる"></canvas>
+    </section>
+
+    <section class="controls chrome" aria-label="再生の操作">
+      <div class="buttons">
+        <button id="play" type="button" aria-pressed="false" disabled>再生</button>
+        <button id="reset" type="button" disabled>先頭へ</button>
+      </div>
+      <div class="scrub">
+        <label for="time">時刻（秒）</label>
+        <input id="time" type="range" min="0" max="32" value="0" step="0.001" disabled>
+      </div>
+      <output id="clock" for="time">照合中</output>
+    </section>
+
+    <section class="info chrome" aria-labelledby="scenes-h">
+      <h2 id="scenes-h">場面へ移動</h2>
+      <p class="hint">押すと、その場面の読みやすい時刻で止まります。</p>
+      <ol id="scene-list" class="scene-list"></ol>
+    </section>
+
+    <details class="info chrome">
+      <summary>素材と出典</summary>
+      <p>assets/manifest.json の SHA-256 を固定値と照合し、並ぶ7素材（保存した採点結果・架空の入力・指標の実装・前の版の確認記録・原典の情報・図の値・時刻表）のバイト数と SHA-256 を確かめてから描きます。さらに、固定コミット、60回の ascore 呼び出し、通信の試み0件、利用状況の送信停止、10問・10資料・20回答と照合メモが入力と同じこと、各値が0〜1で、平均と件数が各問の値と合うことを照らし合わせます。1つでも合わなければ図を描かず、理由だけを出します。</p>
+      <p>図に出る文字・時刻・値は、制作側が以前に固定版の Ragas で実際に採点して保存した結果から読みます。ブラウザーの中で Ragas・Python・AI は動かず、点数の計算もし直しません。metric-source.py（_string.py の原文）は文字として読み、照合するだけで実行しません。前の版の確認記録（original-verification.json）は前の映像とブラウザーの確認を含みますが、この映像の確認ではありません。</p>
+      <p>照合メモ（資料と合う・資料と矛盾・根拠のない追記）は、制作担当が入力に書いたものです。3つの道具の判定でも、LLM judge でも、人による承認でもありません。0 は不合格、1 は合格という意味でもありません。</p>
+      <p>本・紙・道具・動きと映像のコードは、Claude Opus 5.5 が今回あらたに作りました（MIT License）。Ragas の公式の画面やロゴは使っていません。音声はありません。</p>
+      <ol id="asset-list" class="asset-list"></ol>
+      <ul id="focus-list" class="focus-list"></ul>
+      <ul class="links">
+        <li><a href="storyboard.json">構成（storyboard.json）</a></li>
+        <li><a href="README.md">編集と書き出しの手順（README.md）</a></li>
+        <li><a href="../index.html">作例のページへ</a></li>
+        <li><a href="../comparison.html">前の版のページ（comparison.html）</a></li>
+        <li><a href="../vendor/ragas/LICENSE">Ragas LICENSE（Apache-2.0・固定版の全文）</a></li>
+      </ul>
+    </details>
+  </main>
+</body>
+</html>

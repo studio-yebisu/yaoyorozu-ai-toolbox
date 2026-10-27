@@ -116,7 +116,7 @@ for (const sample of samples) {
 
 - `vendor/defuddle/` は Defuddle（MIT License、Copyright (c) 2025 Steph Ango (@kepano)）です。`vendor/defuddle/LICENSE` をそのまま残しています。
 - `defuddle.full.js` に含まれる turndown・mathml-to-latex・temml・@xmldom/xmldom の利用条件は、`vendor/defuddle/THIRD_PARTY_NOTICES.txt` にまとめています。
-- `index.html`・`styles.css`・`app.js`・`samples.json`・`fixtures/`・`video/`・この README は 八百万図AIツールボックス の独自制作で、MIT License です。
+- `index.html`・`styles.css`・`app.js`・`samples.json`・`fixtures/`・`video/`・この README は Yaoyorozu AI ToolBox の独自制作で、MIT License です。
 
 ## 今回の実行と確認
 

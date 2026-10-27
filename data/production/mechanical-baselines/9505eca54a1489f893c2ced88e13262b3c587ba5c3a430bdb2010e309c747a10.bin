@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HatchZip 作例：展開しながらアーカイブを縮める実測トレース｜八百万図AIツールボックス</title>
+  <meta name="description" content="HatchZip v0.1.2を、新規作成した使い捨てコピーのみに対して3回実行した実測トレースの再生。アーカイブがバッチで縮み、出力が育つ様子と、観測最大と従来の共存サイズの比較を見られます。">
+  <link rel="stylesheet" href="style.css?v=e2c203746d31">
+</head>
+<body>
+  <header class="masthead">
+    <p class="kicker"><a href="../../index.html">八百万図AIツールボックス</a><span aria-hidden="true">／</span><a href="../../case.html?id=hatchzip-example">作例・開発</a></p>
+    <h1>展開しながら、アーカイブを縮める。</h1>
+    <p class="identity">HatchZip v0.1.2 — ZIP・7z・tarを展開しながら元アーカイブを段階的に削る解凍ツール。新規作成した<strong>使い捨てのコピーだけ</strong>に3回実行した実測トレースを再生します。原本には一切実行していません。</p>
+  </header>
+
+  <main>
+    <section class="lab" aria-labelledby="lab-title">
+      <div class="section-head">
+        <h2 id="lab-title">実測トレースの再生</h2>
+        <div class="sample-switch" role="group" aria-label="実行サンプルの切り替え">
+          <button type="button" data-sample="zip-stored" aria-pressed="true" disabled>ZIP・4,096ファイル</button>
+          <button type="button" data-sample="zip-deflate" aria-pressed="false" disabled>ZIP・圧縮あり 16ファイル</button>
+          <button type="button" data-sample="tar" aria-pressed="false" disabled>tar・1,024ファイル</button>
+        </div>
+      </div>
+
+      <div class="counters" aria-label="いまの値">
+        <div class="counter"><span class="counter-k">出力ファイル</span><span class="counter-v" id="c-files">0</span></div>
+        <div class="counter"><span class="counter-k">残りアーカイブ</span><span class="counter-v" id="c-archive">—</span></div>
+        <div class="counter"><span class="counter-k">出力バイト</span><span class="counter-v" id="c-output">—</span></div>
+        <div class="counter"><span class="counter-k">合計（観測）</span><span class="counter-v" id="c-total">—</span></div>
+      </div>
+
+      <div class="stage">
+        <canvas id="trace" role="img" aria-label="アーカイブが縮み、出力が育つ実測トレースの図"></canvas>
+        <p class="seal" id="seal" hidden>すべてのSHA-256が一致しました</p>
+      </div>
+
+      <div class="transport">
+        <button type="button" id="play" aria-pressed="false" disabled>再生</button>
+        <label class="scrub"><span class="sr-only">再生位置</span>
+          <input type="range" id="scrub" min="0" max="15" step="0.05" value="0" disabled>
+        </label>
+        <output id="clock" for="scrub">0.0 / 15.0秒</output>
+      </div>
+      <p class="statusline" id="status" role="status" aria-live="polite">実測記録を読み込んでいます…</p>
+
+      <div class="compare" aria-label="サイズの比較">
+        <p class="compare-title">観測最大 と、従来の展開の比較</p>
+        <div class="bar-row">
+          <span class="bar-k">この実行の観測最大<br><small>ファイルサイズ合計</small></span>
+          <span class="bar"><span class="bar-fill is-peak" id="bar-peak"></span></span>
+          <span class="bar-v" id="bar-peak-v">—</span>
+        </div>
+        <div class="bar-row">
+          <span class="bar-k">従来どおり展開<br><small>アーカイブ+出力の共存</small></span>
+          <span class="bar"><span class="bar-fill is-conv" id="bar-conv"></span></span>
+          <span class="bar-v" id="bar-conv-v">—</span>
+        </div>
+        <p class="compare-note">「観測最大」は対象フォルダー内のファイルサイズ合計の、不等間隔サンプリングで観測した最大値です。瞬間最大や物理ディスクの使用量を保証しません。</p>
+      </div>
+    </section>
+
+    <div class="details">
+      <details>
+        <summary>今回やったこと（2026-10-24・実実行）</summary>
+        <dl class="rows">
+          <dt>版</dt><dd>HatchZip <strong>v0.1.2</strong>（公式Windowsバイナリ。バイナリのSHA-256を検証済み）。実行したソース／タグのコミット <code>2b754c85b9322da64186e5e199ed22b1e45a5cce</code>。</dd>
+          <dt>実行</dt><dd>新規作成した架空ファイルの<strong>使い捨てコピー</strong>に対して3回（ZIP・4,096ファイル／圧縮ZIP・16ファイル／tar・1,024ファイル）。いずれも <code>list</code>→<code>test</code>→<code>check</code> を先に済ませてから展開。</dd>
+          <dt>結果</dt><dd>出力は計5,136件、そのSHA-256が<strong>すべて一致</strong>。検証コピーは消費され、参照用の原本アーカイブは保持されました。</dd>
+          <dt>条件</dt><dd>既定の空き確保（2GB）のまま、十分に余裕のあるディスクで実行。ディスクを満たす試験や、クラッシュ・復旧の試験はしていません。</dd>
+        </dl>
+      </details>
+
+      <details>
+        <summary>再現手順（コピーを作ってから実行）</summary>
+        <p class="small">再現用コードは <a href="reproduce.py"><code>reproduce.py</code></a> です。このツールは<strong>展開とともにアーカイブを消費します</strong>。実際の制作素材・唯一の原本に対して実行しないでください。</p>
+        <ol class="steps">
+          <li>新規フォルダーに架空のファイルを作り、通常のZIP／tarでアーカイブ（原本）。</li>
+          <li>原本の<strong>コピー</strong>を別の検証フォルダーへ置く（原本は手を付けない）。</li>
+          <li><code>hatchzip list / test / check</code> で中身・整合性・必要容量を確認する。</li>
+          <li>コピーに対して <code>hatchzip extract</code> を実行する。コピーは段階的に削られ、完了時には消える。</li>
+          <li>出力を原本側のファイルとSHA-256で照合する。</li>
+        </ol>
+        <pre class="code" tabindex="0"><code>python reproduce.py    # HatchZip CLI が必要（HATCHZIP_EXE でバイナリを指定可）
+                       # 実行のたびに out/&lt;日時&gt;/ に新しい検証セットを作る</code></pre>
+        <p class="small">実行の全記録は <code>out/</code> へ書き込まれ、公開物には含まれません。</p>
+      </details>
+
+      <details>
+        <summary>ソースと固定版</summary>
+        <ul class="links">
+          <li><a href="https://github.com/xevrion/hatchzip/tree/2b754c85b9322da64186e5e199ed22b1e45a5cce">xevrion/hatchzip @ 2b754c85b9322da64186e5e199ed22b1e45a5cce（実行したv0.1.2）</a></li>
+          <li><a href="https://github.com/xevrion/hatchzip/blob/2b754c85b9322da64186e5e199ed22b1e45a5cce/README.md">README</a>・<a href="https://github.com/xevrion/hatchzip/blob/2b754c85b9322da64186e5e199ed22b1e45a5cce/LICENSE-MIT">MIT（原文）</a>・<a href="third-party/hatchzip-LICENSE">同梱のコピー</a></li>
+          <li><a href="samples.json">公開用の実測記録（samples.json）</a>・<a href="runtime-results.json">照合結果の要約（runtime-results.json）</a></li>
+        </ul>
+        <p class="small">コードはMITまたはApache-2.0を選択できます（リンク先はMITの原文）。展開する素材自体の権利や利用条件は別です。</p>
+      </details>
+
+      <details>
+        <summary>制限と未確認</summary>
+        <ul class="limits">
+          <li>「観測最大」は対象フォルダー内のファイルサイズ合計の、不等間隔サンプリングで観測した最大値です。瞬間最大や物理ディスクのピークを保証しません。</li>
+          <li>トレースの時間はこのPCの実行記録で、速度のベンチマークではありません。</li>
+          <li>圧縮ZIPでは削れる量が小さくなることがあります。追加容量が常にゼロになるわけではありません。</li>
+          <li>容量枠を約8.5MiBにした追加試験は途中停止しました。通常の予約容量2GBへ戻して再開すると24件が一致しました。容量逼迫時の完走、ディスクを満たす状況、クラッシュ・強制中断からの復旧は未確認です（<a href="additional-probe.json">追加試験の記録</a>）。</li>
+          <li>別ドライブへの展開では、元アーカイブの削除で展開先の容量は増えません。</li>
+          <li>試したのは3件の小さな使い捨てデータです。大きな実データや7zのsolidブロックでの挙動はこの作例の範囲外です。</li>
+        </ul>
+      </details>
+    </div>
+
+    <section class="panel" aria-labelledby="fixture-downloads">
+      <h2 id="fixture-downloads">小さい入出力サンプル</h2>
+      <p>圧縮ZIPの実入力と、実際に展開した最初の1ファイルです。再現コードは毎回新しい使い捨てコピーを作ります。</p>
+      <p><a href="assets/sample.zip" download>実入力のZIP（22,774 B）</a> ／ <a href="assets/extracted-fixture-01.bin" download>実出力の1ファイル（524,288 B）</a> ／ <a href="assets/files-manifest.json">SHA-256一覧</a></p>
+    </section>
+
+    <p class="source-package"><a href="source.zip" download>再現コード・入出力・編集ソース一式（ZIP）</a></p>
+    <footer class="colophon">
+      <p>ページ・図・説明映像の編集ソース：八百万図AIツールボックス（<a href="LICENSE">MIT</a>）。HatchZip のソースは MIT OR Apache-2.0 で、別物です（<a href="third-party/hatchzip-LICENSE">同梱のコピー</a>）。</p>
+      <p>説明映像：<a href="../../media/hatchzip-example.mp4">縦・540×960（MP4）</a> ／ <a href="../../media/hatchzip-example-wide.mp4">横・960×540（MP4）</a> ／ <a href="../../case.html?id=hatchzip-example">作例の記事</a>。映像の編集ソースは <a href="video/index.html"><code>video/</code></a>、概要は <a href="README.md">README</a> です。</p>
+    </footer>
+  </main>
+  <script src="app.js?v=3e3282654c2d"></script>
+</body>
+</html>

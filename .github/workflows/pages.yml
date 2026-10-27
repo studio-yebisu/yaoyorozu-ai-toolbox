@@ -1,4 +1,4 @@
-name: Publish 八百万図AIツールボックス
+name: Publish Yaoyorozu AI ToolBox
 on:
   push:
     branches: [main]
@@ -22,6 +22,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - run: python scripts/test_site_structure.py
       - run: python scripts/build.py
       - run: python scripts/check.py
       - uses: actions/configure-pages@v5

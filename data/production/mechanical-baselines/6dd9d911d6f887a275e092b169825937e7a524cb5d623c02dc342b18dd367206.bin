@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AssetFurnace 作例：GLBのテクスチャを3つの上限で縮める｜八百万図AIツールボックス</title>
+  <meta name="description" content="手元で動く3DアプリAssetFurnaceの補助CLIで、CC0の木箱のGLBのテクスチャを1024・512・256の上限で圧縮した作例。形はそのまま画像だけが小さい時に置き換わる流れを1枚の構造図で見て、実際の出力GLBを回し、保存できます。">
+  <link rel="stylesheet" href="concept.css">
+  <script type="importmap">{"imports": {"three": "./vendor/three/build/three.module.js"}}</script>
+</head>
+<body>
+  <header class="masthead">
+    <p class="kicker"><a href="../../index.html">八百万図AIツールボックス</a><span aria-hidden="true">／</span>作例・3D</p>
+    <h1>AssetFurnaceのテクスチャ圧縮</h1>
+    <p class="identity">手元で動く3Dアプリ／パイプライン（旧 Image to 3D Lab）。今回はその補助CLIのうち、テクスチャ圧縮だけを実行しました。</p>
+  </header>
+
+  <main>
+    <section class="stage" aria-labelledby="map-title">
+      <h2 id="map-title" class="sr-only">構造図と、実際に返ったGLB</h2>
+      <div class="cases" role="group" aria-label="テクスチャの上限（保存済みの3つの結果を読む）">
+        <button type="button" data-case="cap1024" aria-pressed="true" disabled>1024上限</button>
+        <button type="button" data-case="cap512" aria-pressed="false" disabled>512上限</button>
+        <button type="button" data-case="cap256" aria-pressed="false" disabled>256上限</button>
+      </div>
+      <div class="tabs" role="group" aria-label="図の段階">
+        <button type="button" data-stage="0" aria-pressed="true" disabled>①何か</button>
+        <button type="button" data-stage="1" aria-pressed="false" disabled>②渡す</button>
+        <button type="button" data-stage="2" aria-pressed="false" disabled>③返る</button>
+      </div>
+
+      <figure class="map" id="map">
+        <canvas id="concept" role="img" aria-label="構造図を読み込んでいます"></canvas>
+        <div class="parts" id="parts" hidden>
+          <button type="button" data-part="app" disabled><span class="sr-only">部品1 持ち込み3Dも扱う：原典の該当行を開く</span></button>
+          <button type="button" data-part="container" disabled><span class="sr-only">部品2 形と画像を分ける：原典の該当行を開く</span></button>
+          <button type="button" data-part="roles" disabled><span class="sr-only">部品3 色と数値の役割：原典の該当行を開く</span></button>
+          <button type="button" data-part="cap" disabled><span class="sr-only">部品4 上限で画素を縮める：原典の該当行を開く</span></button>
+          <button type="button" data-part="gate" disabled><span class="sr-only">部品5 小さい時だけ置換：原典の該当行を開く</span></button>
+          <button type="button" data-part="rebuild" disabled><span class="sr-only">部品6 同じ形と画像を再結合：原典の該当行を開く</span></button>
+        </div>
+        <div class="map-state" id="map-state">
+          <p id="state-text">保存済みのファイルを確かめています…</p>
+          <p id="state-detail" class="state-detail"></p>
+          <button type="button" id="retry" class="retry" hidden>もう一度確かめる</button>
+        </div>
+      </figure>
+
+      <div class="saves" aria-label="保存">
+        <a id="save-output" class="save" aria-disabled="true"><span>出力GLB</span><span class="save-sub" id="save-output-name">—</span></a>
+        <a id="save-input" class="save" aria-disabled="true"><span>入力GLB</span><span class="save-sub">packed_input.glb</span></a>
+        <a id="save-results" class="save" aria-disabled="true"><span>実測の記録</span><span class="save-sub">results.json</span></a>
+      </div>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="caption" aria-label="いまの段階の説明">
+      <p id="caption" class="caption-text"></p>
+      <p class="caption-note">箱の分け方はこの作例のための説明で、公式の部品表ではありません。動きは説明用で、実際の処理時間ではありません。このページは保存済みのファイルを読むだけで、圧縮もモデルの実行もしません。</p>
+    </section>
+
+    <div class="result-grid">
+      <section class="panel viewer" aria-labelledby="viewer-title">
+        <h2 id="viewer-title">実際のGLBを回す</h2>
+        <div class="model-toggle" role="group" aria-label="表示するGLB">
+          <button type="button" data-model="output" aria-pressed="true" disabled id="model-output">出力GLB</button>
+          <button type="button" data-model="input" aria-pressed="false" disabled>入力GLB（包装後）</button>
+        </div>
+        <div class="viewer-frame" id="viewer-frame">
+          <canvas id="model" tabindex="0" role="img" aria-label="3D表示を準備しています"></canvas>
+          <div class="viewer-state" id="viewer-state">
+            <p id="viewer-state-text">保存済みのファイルを確かめています…</p>
+            <p id="viewer-state-detail" class="state-detail"></p>
+            <button type="button" id="viewer-retry" class="retry" hidden>もう一度確かめる</button>
+          </div>
+        </div>
+        <div class="turns" role="group" aria-label="向き（左右のドラッグと矢印キーでも回せます）">
+          <button type="button" data-turn="left" disabled>左へ</button>
+          <button type="button" data-turn="right" disabled>右へ</button>
+          <button type="button" data-turn="top" aria-pressed="false" disabled>上から</button>
+          <button type="button" data-turn="reset" disabled>元の向き</button>
+        </div>
+        <p id="viewer-note" class="small"></p>
+      </section>
+
+      <section class="panel images" aria-labelledby="images-title">
+        <h2 id="images-title">画像3枚：要求と実際</h2>
+        <p id="images-request" class="small"></p>
+        <div class="table-wrap">
+          <table class="img-table" id="image-table">
+            <thead><tr><th scope="col">画像</th><th scope="col">入力GLB</th><th scope="col">出力GLB</th><th scope="col">結果</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <div id="details" class="details"></div>
+
+    <footer class="colophon">
+      <p>ページ・図・説明映像：八百万図AIツールボックス（MIT）。AssetFurnace のソースは Apache-2.0、木箱は Poly Haven の CC0、three.js は MIT で、この作例のMITとは別です（<a href="THIRD_PARTY_NOTICES.md">第三者の表示</a>）。</p>
+      <p><a href="video/index.html">無音の説明映像の編集ソース</a> ／ <a href="../../media/assetfurnace-example.mp4">縦の32秒MP4</a> ／ <a href="../../media/assetfurnace-example-wide.mp4">横の32秒MP4</a> ／ <a href="../../case.html?id=assetfurnace-example">作例の記事</a></p>
+    </footer>
+  </main>
+
+  <dialog id="part-dialog" aria-labelledby="part-title">
+    <div class="dialog-body">
+      <p class="dialog-kicker" id="part-kicker"></p>
+      <h2 id="part-title"></h2>
+      <p id="part-meaning"></p>
+      <dl id="part-rows" class="rows"></dl>
+      <h3>原典の該当行</h3>
+      <p id="part-links" class="part-links"></p>
+      <pre class="excerpt" tabindex="0" aria-label="原典の引用"><code id="part-excerpt"></code></pre>
+      <form method="dialog"><button type="submit" class="close">閉じる</button></form>
+    </div>
+  </dialog>
+
+  <script type="module">
+    import {loadData, disposeData, sceneAt, drawConcept, layoutConcept, createModelView, partInfo, imageRole, fmtInt, pct,
+      PALETTES, STAGE_TIMES, STAGE_FOCUS, CASE_IDS, SOURCE_COMMIT} from './concept.js';
+
+    const $ = s => document.querySelector(s);
+    const canvas = $('#concept'), ctx = canvas.getContext('2d'), map = $('#map'), partsLayer = $('#parts');
+    const status = $('#status'), details = $('#details'), modelCanvas = $('#model'), frame = $('#viewer-frame');
+    const stageButtons = [...document.querySelectorAll('[data-stage]')];
+    const caseButtons = [...document.querySelectorAll('[data-case]')];
+    const modelButtons = [...document.querySelectorAll('[data-model]')];
+    const turnButtons = [...document.querySelectorAll('[data-turn]')];
+    const partButtons = [...document.querySelectorAll('[data-part]')];
+    const saves = {output: $('#save-output'), input: $('#save-input'), results: $('#save-results')};
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    const dark = matchMedia('(prefers-color-scheme: dark)');
+    const HOME = {yaw: 0.62, pitch: 0.36}, TOP = 1.05, CLI_PATH = 'scripts/compress_glb_textures.py';
+
+    let gen = 0, data = null, view = null, urls = [], caseUrls = {}, stage = 0, caseId = CASE_IDS[0], modelId = 'output';
+    let t = STAGE_TIMES[0], anim = 0, size = '', queued = 0, queued3d = 0, yaw = HOME.yaw, pitch = HOME.pitch, drag = null;
+
+    const el = (tag, attrs = {}, ...kids) => {
+      const n = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs)) if (v != null) n.setAttribute(k, v);
+      for (const k of kids.flat(Infinity)) if (k != null) n.append(k);
+      return n;
+    };
+    const base = p => p.split('/').pop();
+    const caseFromHash = () => {
+      let h = '';
+      try { h = decodeURIComponent(location.hash.slice(1)); } catch (_) { return CASE_IDS[0]; }
+      return CASE_IDS.includes(h) ? h : CASE_IDS[0];
+    };
+    const ease = k => (k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2);
+    const errText = e => (e && e.message ? e.message : String(e)) + (e && e.detail ? '：' + e.detail : '');
+
+    function enable(on) {
+      for (const b of [...stageButtons, ...caseButtons, ...partButtons]) b.disabled = !on;
+      partsLayer.hidden = !on;
+      enableViewer(on && !!view);
+      if (!on) for (const a of Object.values(saves)) { a.removeAttribute('href'); a.removeAttribute('download'); a.removeAttribute('title'); a.setAttribute('aria-disabled', 'true'); }
+      if (!on) $('#save-output-name').textContent = '—';
+    }
+    function enableViewer(on) { for (const b of [...modelButtons, ...turnButtons]) b.disabled = !on; }
+
+    function viewerState(kind, message, err) {
+      const box = $('#viewer-state');
+      box.hidden = kind === 'ready';
+      box.classList.toggle('is-failed', kind === 'failed');
+      $('#viewer-retry').hidden = kind !== 'failed';
+      $('#viewer-state-text').textContent = message || '';
+      $('#viewer-state-detail').textContent = err ? errText(err) : '';
+    }
+
+    function clear() {
+      cancelAnimationFrame(anim); cancelAnimationFrame(queued3d); queued3d = 0;
+      if (view) { view.dispose(); view = null; }
+      const old = data; data = null; disposeData(old);
+      for (const u of urls) URL.revokeObjectURL(u);
+      urls = []; caseUrls = {};
+      enable(false);
+      details.replaceChildren();
+      $('#image-table tbody').replaceChildren();
+      $('#images-request').textContent = ''; $('#viewer-note').textContent = ''; $('#caption').textContent = '';
+      canvas.setAttribute('aria-label', '構造図はまだ表示していません');
+      modelCanvas.setAttribute('aria-label', '3D表示はまだありません');
+      const d = $('#part-dialog'); if (d.open) d.close();
+      paint();
+    }
+
+    function state(kind, err) {
+      const box = $('#map-state'), retry = $('#retry');
+      box.hidden = kind === 'ready'; box.classList.toggle('is-failed', kind === 'failed');
+      retry.hidden = kind !== 'failed';
+      $('#state-text').textContent = kind === 'failed' ? '確かめられなかったため、図・3D・保存を止めています。' : '保存済みのファイルを確かめています…';
+      $('#state-detail').textContent = kind === 'failed' ? errText(err) : '';
+      if (kind === 'failed') { status.textContent = '読み込みに失敗しました。'; viewerState('failed', '確かめられなかったため、3D表示を止めています。'); }
+      else if (kind === 'loading') { status.textContent = ''; viewerState('loading', '保存済みのファイルを確かめています…'); }
+    }
+
+    async function load() {
+      const my = ++gen;
+      clear(); state('loading');
+      try {
+        const d = await loadData();
+        if (my !== gen) { disposeData(d); return; }
+        if (document.fonts) await document.fonts.ready;
+        if (my !== gen) { disposeData(d); return; }
+        ready(d);
+      } catch (e) {
+        if (my !== gen) return;
+        clear(); state('failed', e);
+      }
+    }
+
+    function ready(d) {
+      const blob = (bytes, type) => { const u = URL.createObjectURL(new Blob([bytes], {type})); urls.push(u); return u; };
+      data = d;
+      for (const id of CASE_IDS) caseUrls[id] = blob(d.cases[id].buf, 'model/gltf-binary');
+      const set = (a, href, name, title) => { a.href = href; a.download = name; a.title = title; a.removeAttribute('aria-disabled'); };
+      set(saves.input, blob(d.packed.buf, 'model/gltf-binary'), base(d.packed.path), '入力GLB ' + fmtInt(d.packed.bytes) + 'バイト（Blenderで包装したもの）');
+      set(saves.results, blob(d.resultsBytes, 'application/json'), base(d.facts.results), '制作担当のランナーが測った記録 ' + fmtInt(d.resultsBytes.byteLength) + 'バイト');
+      try {
+        view = createModelView(d, {canvas: modelCanvas, width: Math.max(1, frame.clientWidth), height: Math.max(1, frame.clientHeight),
+          pixelRatio: Math.min(2, window.devicePixelRatio || 1)});
+        viewerState('ready');
+      } catch (e) {
+        view = null;
+        viewerState('failed', '3D表示を始められませんでした。図と保存はそのまま使えます。', e);
+      }
+      renderDetails(d);
+      enable(true);
+      state('ready');
+      status.textContent = fmtInt(d.assets.length) + 'ファイルの大きさとSHA-256、原典の引用6か所、4つのGLBの画像・形・三角形の数を確かめました。';
+      setCase(caseFromHash(), true);
+      setStage(stage, true);
+    }
+
+    function paint() {
+      const w = Math.max(280, Math.round(map.clientWidth));
+      const orient = w < 640 ? 'tall' : 'wide';
+      const L = layoutConcept(w, null, {orient, maxFont: orient === 'tall' ? 14 : 18, minFont: 14});
+      const dpr = Math.min(3, window.devicePixelRatio || 1);
+      const key = w + 'x' + L.height + '@' + dpr;
+      if (key !== size) {
+        size = key;
+        canvas.style.height = L.height + 'px';
+        canvas.width = Math.round(w * dpr); canvas.height = Math.round(L.height * dpr);
+      }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, L.height);
+      if (!data) return;
+      drawConcept(ctx, data, sceneAt(t, {data, caseId}), {layout: L, palette: dark.matches ? PALETTES.dark : PALETTES.light, mode: 'page', focus: STAGE_FOCUS[stage]});
+      for (const b of partButtons) {
+        const n = Object.values(L.nodes).find(x => x.part === b.dataset.part);
+        Object.assign(b.style, {left: n.x + 'px', top: n.y + 'px', width: n.w + 'px', height: n.h + 'px'});
+      }
+    }
+    const repaint = () => { if (!queued) queued = requestAnimationFrame(() => { queued = 0; paint(); }); };
+
+    function draw3d() {
+      if (!view || queued3d) return;
+      queued3d = requestAnimationFrame(() => { queued3d = 0; if (view) view.render(modelId === 'input' ? 'input' : caseId, yaw, pitch); });
+    }
+    function resize3d() {
+      if (!view) return;
+      view.resize(Math.max(1, frame.clientWidth), Math.max(1, frame.clientHeight), Math.min(2, window.devicePixelRatio || 1));
+      draw3d();
+    }
+
+    function caseLine(c) {
+      const N = c.request.max_size, nonImage = fmtInt(data.packed.info.nonImageBytes);
+      if (c.identical) return N + '上限：1024×1024の画像は上限を超えないので縮めず、PNGにした候補が元のJPEGより小さくならなかったため、3枚とも元のまま保持しました。出力GLBは入力とまったく同じ ' + fmtInt(c.output.bytes) + 'B です。';
+      const sizes = [...new Set(c.images.map(im => im.after.width + '×' + im.after.height))].join('・');
+      return N + '上限：' + (c.replaced === 3 ? '3枚とも' : c.replaced + '枚が') + sizes + 'のPNGになって元より小さく、置き換わりました' +
+        (c.kept ? '（' + c.kept + '枚は保持）' : '') + '。画像以外の12view（' + nonImage + 'B）はそのまま運ばれ、出力GLBは ' + fmtInt(c.output.bytes) +
+        'B（入力の' + pct(c.output.bytes, data.packed.bytes) + '%）です。縮小で画素は変わるので、見た目は下の3Dで確かめてください。';
+    }
+    function captionText() {
+      if (!data) return '';
+      if (stage === 0) return 'AssetFurnace（旧 Image to 3D Lab）は、文章や画像から手元で3Dを作り、ゲーム向けに仕上げるアプリ／パイプラインです。この作例はその仕上げに使う補助CLIのうち、GLBのテクスチャ圧縮だけを実行しました。点線の「生成・Finish」は文脈で、実行していません。';
+      if (stage === 1) return '作者AI（1体）が原典を読んで準備とジョブを書き、制作担当がPoly HavenのCC0の木箱（既存の5ファイル）をBlenderで1つのGLBに包んで、無改変の原典CLIを同じGLBから3回実行しました。CLIは材料の割り当てから画像3枚（色1・数値2。法線は数値の一つ）を見つけ、残りの12viewは形としてそのまま運びます。';
+      return caseLine(data.cases[caseId]);
+    }
+
+    function setStage(s, instant) {
+      stage = s;
+      for (const b of stageButtons) b.setAttribute('aria-pressed', String(Number(b.dataset.stage) === s));
+      $('#caption').textContent = captionText();
+      cancelAnimationFrame(anim);
+      const target = STAGE_TIMES[s];
+      if (instant || reduce.matches) { t = target; paint(); return; }
+      const from = t, start = performance.now(), dur = 400 + Math.abs(target - from) * 45;
+      const step = now => {
+        const k = Math.min(1, (now - start) / dur);
+        t = from + (target - from) * ease(k); paint();
+        if (k < 1) anim = requestAnimationFrame(step);
+      };
+      anim = requestAnimationFrame(step);
+    }
+
+    // Choosing a setting reads one of the three saved results. Nothing is recompressed.
+    function setCase(id, quiet) {
+      if (!data) return;
+      caseId = CASE_IDS.includes(id) ? id : CASE_IDS[0];
+      const c = data.cases[caseId], name = base(c.output.path);
+      for (const b of caseButtons) b.setAttribute('aria-pressed', String(b.dataset.case === caseId));
+      const a = saves.output;
+      a.href = caseUrls[caseId]; a.download = name; a.removeAttribute('aria-disabled');
+      a.title = c.request.max_size + '上限の出力GLB ' + fmtInt(c.output.bytes) + 'バイト（原典CLIが書いたファイルそのまま）';
+      $('#save-output-name').textContent = name;
+      $('#model-output').textContent = '出力GLB（' + c.request.max_size + '上限）';
+      $('#caption').textContent = captionText();
+      canvas.setAttribute('aria-label', '構造図：原典のREADMEと圧縮CLI、架空の依頼が作者AI 1体へ。作者が書いた準備とジョブを、制作担当がBlenderの包装1回と原典CLI 3回で実行。' +
+        '元の5ファイルが入力GLB 1つ（' + fmtInt(data.packed.bytes) + 'B）になり、形（画像以外の12view）はそのまま、画像3枚は上限' + c.request.max_size + 'pxの候補と比べられ、' +
+        (c.identical ? '3枚とも保持' : c.replaced + '枚が置換') + '。同じ形と画像が出力GLB（' + fmtInt(c.output.bytes) + 'B）に戻り、容量を比べて保存へ。点線の生成・Finishは今回未実行。');
+      renderTable();
+      updateViewerText();
+      if (!quiet) status.textContent = c.request.max_size + '上限の保存済みの結果を表示しています（CLIは再実行していません）。';
+      paint(); draw3d();
+    }
+
+    function updateViewerText() {
+      if (!data) return;
+      const c = data.cases[caseId], input = modelId === 'input';
+      for (const b of modelButtons) b.setAttribute('aria-pressed', String(b.dataset.model === modelId));
+      const name = input ? base(data.packed.path) : base(c.output.path);
+      const what = input ? '入力GLB（Blenderで包装・' + fmtInt(data.packed.bytes) + 'B）' :
+        c.request.max_size + '上限の出力GLB（' + fmtInt(c.output.bytes) + 'B' + (c.identical ? '・入力と同一バイト' : '') + '）';
+      $('#viewer-note').textContent = '表示中：' + name + '＝' + what + '。埋め込みテクスチャは実ファイルのままで、カメラ・照明・大きさは4つのGLBで共通です。画質の判定やゲームでの見え方の保証ではありません。';
+      modelCanvas.setAttribute('aria-label', '3D表示：' + what + '。メッシュ3・三角形' + fmtInt(data.packed.info.triangles) + '。左右のドラッグか矢印キーで回せます。');
+    }
+    function setModel(id) { modelId = id === 'input' ? 'input' : 'output'; updateViewerText(); draw3d(); }
+    function turn(kind) {
+      if (kind === 'left') yaw -= Math.PI / 6;
+      else if (kind === 'right') yaw += Math.PI / 6;
+      else if (kind === 'top') pitch = pitch > (HOME.pitch + TOP) / 2 ? HOME.pitch : TOP;
+      else { yaw = HOME.yaw; pitch = HOME.pitch; }
+      $('[data-turn="top"]').setAttribute('aria-pressed', String(pitch > (HOME.pitch + TOP) / 2));
+      draw3d();
+    }
+
+    function renderTable() {
+      const c = data.cases[caseId], N = c.request.max_size;
+      $('#images-request').textContent = '要求：' + c.request.format.toUpperCase() + '・最長辺 ' + N + 'px まで（色・数値・法線とも同じ値）。quality 90 は引数として渡しましたが、PNGでは使われません。下の値は出力GLBを読み直した実際の値です。';
+      const cell = x => [x.format + ' ' + x.width + '×' + x.height, el('br'), fmtInt(x.bytes) + 'B'];
+      const rows = data.order.map(ix => {
+        const im = c.images.find(x => x.index === ix), role = imageRole(im);
+        return el('tr', {},
+          el('th', {scope: 'row'}, role.short, el('br'), el('span', {class: 'small'}, im.slots.join('・'))),
+          el('td', {}, cell(im.before)), el('td', {}, cell(im.after)),
+          el('td', {class: im.outcome === 'kept' ? 'is-kept' : 'is-replaced'}, im.outcome === 'kept' ? '保持' : '置換',
+            el('br'), el('span', {class: 'small'}, im.outcome === 'kept' ? '候補が小さくならず' : '−' + pct(im.before.bytes - im.after.bytes, im.before.bytes) + '%')));
+      });
+      const P = data.packed.info;
+      rows.push(el('tr', {}, el('th', {scope: 'row'}, '画像以外', el('br'), el('span', {class: 'small'}, P.nonImage.length + 'view')),
+        el('td', {}, fmtInt(P.nonImageBytes) + 'B'), el('td', {}, fmtInt(c.info.nonImageBytes) + 'B'), el('td', {class: 'is-replaced'}, '同じバイト列')));
+      rows.push(el('tr', {class: 'is-total'}, el('th', {scope: 'row'}, 'GLB全体'),
+        el('td', {}, fmtInt(data.packed.bytes) + 'B'), el('td', {}, fmtInt(c.output.bytes) + 'B'),
+        el('td', {}, c.identical ? '入力と同一' : '入力の' + pct(c.output.bytes, data.packed.bytes) + '%')));
+      $('#image-table tbody').replaceChildren(...rows);
+    }
+
+    function renderDetails(d) {
+      const f = d.facts, prep = f.preparation, P = d.packed.info;
+      const dl = rows => el('dl', {class: 'rows'}, rows.map(([k, v]) => [el('dt', {}, k), el('dd', {}, v)]));
+      const sec = (title, ...kids) => el('section', {class: 'block'}, el('h2', {}, title), ...kids);
+      const link = (href, label) => el('a', {href}, label);
+      const gh = p => 'https://github.com/Bingeljell/image-to-3dlab/blob/' + SOURCE_COMMIT + '/' + p;
+      details.replaceChildren(
+        sec('AssetFurnaceとは・今回の範囲',
+          dl([
+            ['何か', 'Bingeljell/image-to-3dlab（Apache-2.0）。手元で動く3Dアプリ／パイプラインと、Pythonの補助CLI群です。SKILL.md、1つの生成モデル、ホスト型API、ブラウザーの中の生成器、自動で動く複数のAIエージェントではありません。'],
+            ['広い機能（今回は未実行）', 'READMEは、文章→画像、画像→3D（Pixal3D・TRELLIS.2・Hunyuan3D・Stable Fast 3D）、Finish（リトポロジー・Pixel Match・圧縮）、リグと動き、Prop sheets を説明しています。どれも別の環境・重み・利用条件が要り、この作例では選んでいません。'],
+            ['実行した部分', 'scripts/compress_glb_textures.py を無改変で3回。持ち込んだGLBのテクスチャを、形に触れずに再エンコードする補助CLIです。Finishの連鎖（scripts/retopo_repaint.py）の4段目「Compress」も同じ compress() を呼びますが、今回はその連鎖ではなくCLIを直接呼びました。'],
+            ['版', 'コミット ' + SOURCE_COMMIT + ' で特定。CHANGELOGの最新は0.4.4（2026-10-14）、READMEの冒頭は0.4.0の下書き注記のままです。']
+          ])),
+        sec('入力：同じ1つのGLB',
+          el('p', {}, '架空の依頼（説明用のラベル）：'),
+          el('blockquote', {}, f.request.request_ja),
+          dl([
+            ['元の5ファイル', 'Poly Haven「Wooden Crate 01」（James Ray Cock・CC0）。以前の3D Asset Server作例で取得したものを、バイト単位でそのまま再利用しました。新しいダウンロードやAIによる生成はしていません。'],
+            ['包装（AssetFurnaceではない）', '制作担当が Blender ' + prep.blender.version_string + '（glTF I/O ' + prep.blender.gltf_addon_version.join('.') + '）で1回、5ファイルを1つのGLBに書き出しました（' + prep.call.elapsed_seconds + '秒）。結合・間引き・リメッシュ・ベイクはしていません。'],
+            ['入力GLB', fmtInt(d.packed.bytes) + 'B・メッシュ' + P.doc.meshes.length + '・三角形' + fmtInt(P.triangles) + '・マテリアル1・画像3枚。SHA-256 ' + d.packed.sha256],
+            ['元との関係', '画像3枚のバイト列は元のJPEGと同じです。Blenderでの書き出しなので、BINの並びは元の .bin と同じではありません。圧縮の前後の比較は、この入力GLBに対して行っています。']
+          ]),
+          el('ul', {class: 'links'}, d.original.map(x => el('li', {}, link(x.path, base(x.path)), ' ' + fmtInt(x.bytes) + 'B')))),
+        sec('実行した3つの設定',
+          el('p', {class: 'small'}, '3回とも同じ入力GLBから、Python ' + f.environment.cli_python + '・Pillow ' + f.environment.cli_pillow + '（-I）で実行しました。時間はインタプリタの起動を含む1回きりの壁時計の値で、性能の指標ではありません。'),
+          ...CASE_IDS.map(id => {
+            const c = d.cases[id];
+            return el('details', {}, el('summary', {}, c.request.max_size + '上限：コマンドと原典CLIの出力'),
+              el('pre', {class: 'code', tabindex: '0'}, c.fact.command.join(' ')),
+              el('p', {class: 'small'}, '標準出力の全文（' + base(c.stdoutPath) + '・' + c.stdout.length + '字）。終了コード0・' + c.elapsed + '秒：'),
+              el('pre', {class: 'code', tabindex: '0'}, c.stdout.replace(/\s+$/, '')));
+          })),
+        sec('形の照合',
+          dl([
+            ['制作担当（別工程）', '3つの出力それぞれで、画像とbuffer以外のJSON、画像以外の12viewの全バイト（' + fmtInt(P.nonImageBytes) + 'B）、三角形と頂点の数が入力GLBと一致しました。'],
+            ['このページ', '表示の前に、4つのGLBのJSONとBINを読み直し、12viewのSHA-256、画像以外のJSON、画像3枚のバイト列・形式・寸法を記録と照合し、three.js で読んだメッシュ3・三角形' + fmtInt(P.triangles) + '・テクスチャの寸法も確かめています。'],
+            ['範囲', 'この入力の3つの出力についての照合です。ほかの種類のGLBや、ライブラリ全般の正しさ、見た目の同等性、ゲームでの適性、表示性能は示しません。']
+          ])),
+        sec('誰が何をしたか',
+          dl([
+            ['作者AI（Claude Opus 5.5・1体）', '原典を読み、prepare_input.py・run_example.py・inputs/jobs.json・implementation.md を書きました。第2段階でこのページ・図・無音の説明映像・README・記事を書きました。コマンドもCLIも実行していません。'],
+            ['制作担当', '固定版の原典（公式 Git blob ' + f.identity.official_gitblobs_raw_verified_privately + '件）と入力・専用環境を確かめ、Blenderの包装1回と原典CLI 3回を実行し、バイトと数値を測りました。'],
+            ['このページ', '保存済みのファイルを確かめてから、同じ実GLBを three.js r' + d.three.REVISION + ' で表示し、保存を手渡します。圧縮・生成・アップロード・外部APIはありません。']
+          ])),
+        sec('まだ確かめていないこと',
+          el('ul', {class: 'limits'},
+            f.boundaries.map(x => el('li', {}, x)),
+            el('li', {}, 'Blender 5.2.1 の読み取りだけの事前確認では quadriflow_remesh が無く、リトポロジーは試していません。回避策の追加もしていません。'),
+            el('li', {}, '別の生成バックエンドは、それぞれ別の環境・重み・利用条件が要るため選んでいません。ComfyUI（8190番）とほかの作業には接続も変更もしていません。'),
+            el('li', {}, '人による見た目の承認、実機の iOS Safari・VoiceOver・200%拡大、すべての入力や性能は未確認です。'),
+            el('li', {}, 'このページと説明映像は、作者の執筆時点では表示も書き出しも確かめていません。制作担当が別工程で確かめ、visual-verification.json に記録します。'))),
+        sec('原典とファイル',
+          el('ul', {class: 'links'},
+            el('li', {}, link('vendor/assetfurnace/README.md', '原典のREADME（固定版・同梱）'), '：アプリの一次資料です。SKILL.mdではありません'),
+            el('li', {}, link('vendor/assetfurnace/scripts/compress_glb_textures.py', '実行した原典CLI（同梱）'), '・', link(gh(CLI_PATH), 'GitHubの固定版')),
+            el('li', {}, link('vendor/assetfurnace/scripts/retopo_repaint.py', 'Finishの連鎖 retopo_repaint.py'), '（読むためだけ。今回は未実行）'),
+            el('li', {}, link('https://github.com/Bingeljell/image-to-3dlab/tree/' + SOURCE_COMMIT, 'Bingeljell/image-to-3dlab @ ' + SOURCE_COMMIT.slice(0, 8)), '（同梱は読むための' + f.identity.selected_source_files + 'ファイルで、これだけではアプリは動きません）'),
+            el('li', {}, link('run_example.py', 'run_example.py'), '・', link('prepare_input.py', 'prepare_input.py'), '・', link('inputs/jobs.json', 'inputs/jobs.json'), '・', link('implementation.md', 'implementation.md'), '（作者AIが執筆）'),
+            el('li', {}, '出力GLB：', CASE_IDS.map((id, i) => [i ? '・' : '', link(d.cases[id].output.path, base(d.cases[id].output.path))]), '／入力GLB：', link(d.packed.path, base(d.packed.path))),
+            el('li', {}, link(f.results, '実測の記録 results.json'), '（制作担当のランナーが測った値。原典のネイティブJSONでもモデル出力でもありません）・', link('outputs/preparation.json', '包装の記録')),
+            el('li', {}, link('README.md', 'この作例のREADME'), '・', link('THIRD_PARTY_NOTICES.md', '第三者の表示'), '・', link('vendor/assetfurnace/LICENSE', 'Apache-2.0'), '・', link('vendor/assetfurnace/NOTICE', 'NOTICE'), '・', link('LICENSE', 'MIT'), '・', link('vendor/three/LICENSE', 'three.js MIT')),
+            el('li', {}, link('source.zip', '編集ソースと実出力一式 ZIP'), '・', link('visual-verification.json', '図と映像の確認範囲'), '（制作担当の後工程で梱包・記録した範囲です）')),
+          el('details', {}, el('summary', {}, '確かめた' + d.assets.length + 'ファイル（大きさとSHA-256）'),
+            el('ul', {class: 'inventory'}, d.assets.map(a => el('li', {}, el('a', {href: a.path}, a.path), ' ', fmtInt(a.bytes) + 'B ', el('code', {}, a.sha256.slice(0, 12) + '…')))),
+            el('p', {class: 'small'}, '素材一覧 concept/manifest.json の SHA-256：', el('code', {}, d.manifestSha)))));
+    }
+
+    function openPart(id) {
+      if (!data) return;
+      const info = partInfo(data, id, caseId), s = info.source;
+      $('#part-kicker').textContent = '部品' + info.n + '／6（説明のための区切り）';
+      $('#part-title').textContent = info.label;
+      $('#part-meaning').textContent = info.meaning;
+      $('#part-rows').replaceChildren(...info.rows.flatMap(([k, v]) => [el('dt', {}, k), el('dd', {}, v)]));
+      $('#part-links').replaceChildren(
+        el('a', {href: s.path}, s.path.replace('vendor/assetfurnace/', '') + ' L' + s.start_line + '–' + s.end_line + '（同梱の原典）'), '　',
+        el('a', {href: s.url}, '固定版の該当行（GitHub）'));
+      $('#part-excerpt').textContent = info.excerpt;
+      const d = $('#part-dialog');
+      if (d.showModal) d.showModal(); else d.setAttribute('open', '');
+    }
+
+    stageButtons.forEach(b => b.addEventListener('click', () => setStage(Number(b.dataset.stage))));
+    caseButtons.forEach(b => b.addEventListener('click', () => {
+      history.replaceState(null, '', '#' + b.dataset.case);
+      setCase(b.dataset.case);
+    }));
+    modelButtons.forEach(b => b.addEventListener('click', () => setModel(b.dataset.model)));
+    turnButtons.forEach(b => b.addEventListener('click', () => turn(b.dataset.turn)));
+    partButtons.forEach(b => b.addEventListener('click', () => openPart(b.dataset.part)));
+    for (const [key, a] of Object.entries(saves)) a.addEventListener('click', e => {
+      if (!data || !a.getAttribute('href')) { e.preventDefault(); return; }
+      const label = {output: data.cases[caseId].request.max_size + '上限の出力GLB（' + a.download + '）', input: '入力GLB（' + a.download + '）', results: '実測の記録（' + a.download + '）'}[key];
+      status.textContent = label + 'の保存をブラウザーに依頼しました。保存できたかはブラウザーの表示で確かめてください。';
+    });
+    $('#retry').addEventListener('click', load);
+    $('#viewer-retry').addEventListener('click', load);
+    window.addEventListener('hashchange', () => { if (data) setCase(caseFromHash()); });
+
+    // Horizontal drag turns the model; vertical swipes keep scrolling the page.
+    modelCanvas.addEventListener('pointerdown', e => {
+      if (!view) return;
+      drag = {x: e.clientX, yaw, id: e.pointerId};
+      modelCanvas.setPointerCapture(e.pointerId);
+    });
+    modelCanvas.addEventListener('pointermove', e => {
+      if (!drag || e.pointerId !== drag.id) return;
+      yaw = drag.yaw - (e.clientX - drag.x) * 0.01; draw3d();
+    });
+    for (const ev of ['pointerup', 'pointercancel']) modelCanvas.addEventListener(ev, () => { drag = null; });
+    modelCanvas.addEventListener('keydown', e => {
+      if (!view) return;
+      const k = {ArrowLeft: 'left', ArrowRight: 'right', Home: 'reset'}[e.key];
+      if (k) { e.preventDefault(); turn(k); return; }
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+        e.preventDefault(); pitch = Math.max(-0.1, Math.min(1.2, pitch + (e.key === 'ArrowUp' ? 0.15 : -0.15))); draw3d();
+      }
+    });
+    modelCanvas.addEventListener('webglcontextlost', e => {
+      e.preventDefault();
+      if (view) { view.dispose(); view = null; }
+      enableViewer(false);
+      viewerState('failed', 'WebGLの描画が中断されたため、3D表示を止めています。', null);
+    });
+
+    dark.addEventListener('change', repaint);
+    new ResizeObserver(repaint).observe(map);
+    new ResizeObserver(resize3d).observe(frame);
+    load();
+  </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス — OpenVoice 声色変換の作例ページ。MIT License, Copyright (c) 2026 Studio Yebisu.
+// Yaoyorozu AI ToolBox — OpenVoice 声色変換の作例ページ。MIT License, Copyright (c) 2026 Studio Yebisu.
 // 制作時に保存した記録と WAV を読むだけのページ。ブラウザーで OpenVoice は動かさない。
 // WAV は記録のバイト数・SHA-256 と照合したバイト列だけを Blob にし、再生と保存に使う。自動では再生しない。
 // 記録の文字列は textContent で書き、HTML として解釈しない。

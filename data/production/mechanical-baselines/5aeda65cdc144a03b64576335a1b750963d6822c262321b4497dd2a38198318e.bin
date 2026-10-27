@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ja" data-page="yomiyasu-concept" data-state="loading" data-theme="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>推敲の指示書と、点検の道具｜yomiyasu 作例 — 八百万図AIツールボックス</title>
+  <meta name="description" content="yomiyasuは、AIに読ませる日本語推敲の指示書（SKILL.mdと参照資料）と、2つのPythonスクリプトからなるスキルです。原文・用途・残す条件を同じAIへ渡して推敲し、別の工程のlintとdiffが見直し候補を返し、原文と読み比べた保存済みの出力を持ち帰る流れを、架空の文章3件の実記録から図で示します。ページではAIもPythonも実行しません。">
+  <meta name="color-scheme" content="light dark">
+  <script>try{var t=localStorage.getItem('studio-yebisu.yomiyasu-before-after.theme');if(t==='light'||t==='dark'||t==='system')document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <link rel="stylesheet" href="concept.css">
+  <script type="module" src="concept.js"></script>
+</head>
+<body>
+  <a class="skip" href="#cases">保存済みの3件へ</a>
+
+  <header class="top wrap">
+    <h1>推敲の指示書と、点検の道具</h1>
+    <p class="definition">AIに読ませる日本語スキルと、2つのPythonスクリプト</p>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <h2 id="hero-title" class="visually-hidden">yomiyasuの中身と使い方を示す図</h2>
+      <div class="stages" role="group" aria-label="図の段階">
+        <button type="button" class="stage" data-stage="0" aria-pressed="true" disabled>渡す</button>
+        <button type="button" class="stage" data-stage="1" aria-pressed="false" disabled>推敲</button>
+        <button type="button" class="stage" data-stage="2" aria-pressed="false" disabled>点検</button>
+        <button type="button" id="replay" class="replay" aria-label="この段階の動きをもう一度" title="この段階の動きをもう一度" disabled>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 5a7 7 0 1 1-6.6 4.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <figure class="map" id="map-figure">
+        <canvas id="concept-map" role="img" aria-describedby="stage-note" aria-label="yomiyasuの図。SKILL.mdの本には4つの優先事項（主張・比重・言い切りの強さ・文の働き）と「勝手に足さない」があり、参照資料は今回使った業務文書（business）と、使っていない技術記事・個人発信、構文と語彙の資料です。本と参照資料、原文の紙、用途と読み手の封筒、残す条件の札が、同じ1つのAIへ入ります。AIの作業台で紙の言い回しが直り、条件の札は紙に付いたまま推敲後の紙になります。別の工程のPythonでは、lintが推敲後だけを、diffが原文と推敲後を読み、見直し候補の札を返します。候補は原文との読み比べにつながり、最後に保存済みの出力JSONのファイルへつながります。"></canvas>
+      </figure>
+
+      <div class="actions">
+        <a id="save-json" class="btn btn-primary" aria-disabled="true">作例のJSONを保存</a>
+        <a id="open-desk" class="btn" aria-disabled="true">原文と読み比べる</a>
+      </div>
+      <p id="save-meta" class="save-meta"></p>
+      <p id="stage-note" class="caption" aria-live="polite"></p>
+      <p id="load-status" class="load-status" role="status" data-state="loading">保存済みの素材19件を照合しています…</p>
+      <p class="retry-row"><button id="retry" class="btn" type="button" hidden>もう一度読み込む</button></p>
+      <noscript><p class="load-status" data-state="error">図と選択には JavaScript が必要です。下の一覧から実ファイルを直接開けます。</p></noscript>
+    </section>
+
+    <section id="cases" class="cases wrap" aria-labelledby="cases-title">
+      <h2 id="cases-title">保存済みの3件</h2>
+      <p class="lead">架空の業務文書3件に、制作時に Opus 5.5（claude-opus-5-5）がSKILL.mdと参照資料を読んで推敲した結果です。選ぶと図の札・紙・保存するJSONが切り替わります。AIを実行し直すことはありません。</p>
+      <div class="case-buttons" role="group" aria-label="保存済みの3件">
+        <button type="button" class="case" data-case="release" aria-pressed="true" disabled><span class="case-id">release</span><span class="case-label">機能のお知らせ</span></button>
+        <button type="button" class="case" data-case="operation" aria-pressed="false" disabled><span class="case-id">operation</span><span class="case-label">保存操作の説明</span></button>
+        <button type="button" class="case" data-case="research" aria-pressed="false" disabled><span class="case-id">research</span><span class="case-label">架空の調査メモ</span></button>
+      </div>
+
+      <div class="case-body">
+        <h3 id="case-title"></h3>
+        <dl class="fields">
+          <div><dt>用途と読み手</dt><dd id="case-context"></dd></div>
+          <div><dt>原文</dt><dd id="case-input" class="mincho"></dd></div>
+        </dl>
+
+        <label class="field-label" for="output-text">推敲後（保存済み・読み取り専用）</label>
+        <textarea id="output-text" class="text-box mincho" rows="5" readonly spellcheck="false"></textarea>
+        <p class="row-actions">
+          <button id="copy-output" class="btn" type="button" disabled>推敲後をコピー</button>
+          <a id="case-desk" class="btn btn-quiet" aria-disabled="true">原文と読み比べる</a>
+          <a id="case-raw" class="btn btn-quiet" aria-disabled="true">出力ファイル</a>
+        </p>
+        <p id="output-status" class="copy-status" role="status"></p>
+
+        <details class="fold">
+          <summary>変えたところ</summary>
+          <ol id="change-list" class="changes"></ol>
+        </details>
+        <details class="fold">
+          <summary>残す条件と、原文・推敲後の引用</summary>
+          <p class="note">入力と出力の文字列の対応です。意味が同じことの保証や、品質の点数ではありません。</p>
+          <ul id="condition-list" class="conditions"></ul>
+        </details>
+        <details class="fold">
+          <summary>Pythonが返した見直し候補（保存済み）</summary>
+          <p class="note">制作担当が推敲のあとに各件1回ずつ実行した出力を写したものです。このページでは実行しません。候補は文字列と分類による見分けで、文法上の正しさの判定や承認ではありません。lintの点数は使っていません。</p>
+          <div id="checks-body" class="checks"></div>
+        </details>
+      </div>
+    </section>
+
+    <section class="parts wrap" aria-labelledby="parts-title">
+      <h2 id="parts-title">スキルの中の6つの場所</h2>
+      <p class="lead">この作例の説明のための整理です。原典が決めた入力形式ではありません。選ぶと図の該当箇所に枠が付きます。</p>
+      <div class="chip-buttons" role="group" aria-label="6つの場所">
+        <button type="button" data-part="manual" aria-pressed="false" disabled>指示書と4つの原則</button>
+        <button type="button" data-part="context" aria-pressed="false" disabled>用途に合う参照資料</button>
+        <button type="button" data-part="rewrite" aria-pressed="false" disabled>同じAIが推敲</button>
+        <button type="button" data-part="lint" aria-pressed="false" disabled>推敲後を静的検査</button>
+        <button type="button" data-part="diff" aria-pressed="false" disabled>原文と推敲後を差分検査</button>
+        <button type="button" data-part="use" aria-pressed="false" disabled>原文と読み比べて使う</button>
+      </div>
+      <div class="readout" aria-live="polite">
+        <h3 id="part-label"></h3>
+        <p id="part-meaning"></p>
+        <pre class="quote"><code id="part-quote"></code></pre>
+        <p id="part-source" class="source-link"></p>
+      </div>
+    </section>
+
+    <section class="principles wrap" aria-labelledby="principles-title">
+      <h2 id="principles-title">意味の保持：4つの優先事項</h2>
+      <p class="lead">SKILL.mdが書き直しの前後で同じに保つよう求める4点です。目標を示す決まりで、守られたことの自動の保証ではありません。選ぶと図の本の該当する札が色付きになります。</p>
+      <div class="chip-buttons" role="group" aria-label="4つの優先事項">
+        <button type="button" data-principle="claim" aria-pressed="false" disabled>主張</button>
+        <button type="button" data-principle="weight" aria-pressed="false" disabled>比重</button>
+        <button type="button" data-principle="strength" aria-pressed="false" disabled>言い切りの強さ</button>
+        <button type="button" data-principle="function" aria-pressed="false" disabled>文の働き</button>
+      </div>
+      <div class="readout" aria-live="polite">
+        <h3 id="principle-label"></h3>
+        <p id="principle-meaning"></p>
+        <pre class="quote"><code id="principle-quote"></code></pre>
+        <p id="principle-source" class="source-link"></p>
+      </div>
+    </section>
+
+    <section class="request wrap" aria-labelledby="request-title">
+      <h2 id="request-title">依頼文</h2>
+      <p class="lead">元の作例で使った依頼文です。【】に用途と読み手、残す条件、原文を書き入れ、SKILL.mdと参照資料を読めるAIエージェントに渡します。</p>
+      <label class="field-label" for="request-text">request.txt（読み取り専用）</label>
+      <textarea id="request-text" class="text-box" rows="9" readonly spellcheck="false"></textarea>
+      <p class="row-actions">
+        <button id="copy-request" class="btn" type="button" disabled>依頼文をコピー</button>
+        <a class="btn btn-quiet" href="request.txt">request.txt</a>
+      </p>
+      <p id="request-status" class="copy-status" role="status"></p>
+    </section>
+
+    <section class="films wrap" aria-labelledby="films-title">
+      <h2 id="films-title">図解32秒・無音</h2>
+      <p class="lead">同じ図の形が動く無音の動画です。ナレーションや音声ガイドはありません。例は保存操作の説明（operation）です。</p>
+      <video id="film-portrait" class="film film--portrait" controls playsinline muted preload="metadata" poster="../../media/yomiyasu-before-after.webp" width="720" height="1280" aria-label="図解動画（縦・32秒・無音）">
+        <source src="../../media/yomiyasu-before-after.mp4" type="video/mp4">
+        <a href="../../media/yomiyasu-before-after.mp4">MP4を開く</a>
+      </video>
+      <details class="fold">
+        <summary>横長版（1280×720）</summary>
+        <video id="film-wide" class="film film--wide" controls playsinline muted preload="none" width="1280" height="720" aria-label="図解動画（横・32秒・無音）">
+          <source src="../../media/yomiyasu-before-after-wide.mp4" type="video/mp4">
+          <a href="../../media/yomiyasu-before-after-wide.mp4">MP4を開く</a>
+        </video>
+      </details>
+      <p class="links"><a href="video/index.html">編集できる図解ソース</a><a href="source.zip">入力・出力・ソース一式（source.zip）</a></p>
+    </section>
+
+    <section class="evidence wrap" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">実ファイル</h2>
+      <ul class="files">
+        <li><a href="outputs/release.json">outputs/release.json</a><span>機能のお知らせ：原文・推敲後・変えたところ・残した条件（2,773 B）</span></li>
+        <li><a href="outputs/operation.json">outputs/operation.json</a><span>保存操作の説明（2,402 B）</span></li>
+        <li><a href="outputs/research.json">outputs/research.json</a><span>架空の調査メモ（2,953 B）</span></li>
+        <li><a href="samples.json">samples.json</a><span>3件をまとめた保存済みの出力</span></li>
+        <li><a href="inputs/original-jobs.json">inputs/original-jobs.json</a><span>原文・用途・残す条件（must_preserve）の元の入力</span></li>
+        <li><a href="concept/checks.json">concept/checks.json</a><span>lintとdiffの保存済み出力（使わない点数を除いた写し）</span></li>
+        <li><a href="concept/structure.json">concept/structure.json</a><span>6つの場所・4つの優先事項・3件の引用の対応</span></li>
+        <li><a href="concept/manifest.json">concept/manifest.json</a><span>照合する19件の大きさとSHA-256</span></li>
+        <li><a href="desk.html">desk.html</a><span>以前のビューア：原文と推敲後の全文、変更の印、条件の囲み</span></li>
+        <li><a href="request.txt">request.txt</a><span>元の作例の依頼文</span></li>
+        <li><a href="vendor/yomiyasu/SKILL.md">vendor/yomiyasu/SKILL.md</a><span>固定版の指示書</span></li>
+        <li><a href="vendor/yomiyasu/references/domains/business.md">references/domains/business.md</a><span>今回使った業務文書向けの参照資料</span></li>
+        <li><a href="vendor/yomiyasu/references/gemini-syntax.md">references/gemini-syntax.md</a><span>構文変換の原則</span></li>
+        <li><a href="vendor/yomiyasu/references/slop-catalog.md">references/slop-catalog.md</a><span>不自然な語彙・構文の一覧</span></li>
+        <li><a href="vendor/yomiyasu/scripts/yomiyasu_lint.py">scripts/yomiyasu_lint.py</a><span>静的検査（lint）</span></li>
+        <li><a href="vendor/yomiyasu/scripts/yomiyasu_diff.py">scripts/yomiyasu_diff.py</a><span>原文と推敲後の差分検査（diff）</span></li>
+        <li><a href="vendor/yomiyasu/LICENSE">vendor/yomiyasu/LICENSE</a><span>MIT License, Copyright (c) 2026 nanaism</span></li>
+        <li><a href="vendor/yomiyasu/UNICODE-LICENSE.txt">vendor/yomiyasu/UNICODE-LICENSE.txt</a><span>lintスクリプトのUnicode由来データに付く Unicode License V3</span></li>
+        <li><a href="visual-guide.md">visual-guide.md</a><span>現在の図と32秒動画の開き方・再現手順</span></li>
+        <li><a href="README.md">原制作のREADME.md</a><span>全文比較と旧28秒映像の履歴</span></li>
+        <li><a href="source.zip">source.zip</a><span>入力・出力・ソース一式</span></li>
+      </ul>
+      <p class="links">
+        <a href="https://github.com/nanaism/yomiyasu/tree/60bf877acebc86651e0b67d70112a66245f87758/skills/yomiyasu" rel="noopener">nanaism/yomiyasu 固定コミット 60bf877</a>
+      </p>
+    </section>
+
+    <section class="scope wrap" aria-labelledby="scope-title">
+      <h2 id="scope-title">確かめた範囲</h2>
+      <details class="fold">
+        <summary>分かること・まだ分からないこと</summary>
+        <ul class="plain">
+          <li>yomiyasuは、Markdownの指示書（SKILL.md）と参照資料、2つのPythonスクリプトからなるスキルです。モデル、書き直しのAPI、AIが書いた文章の検出器ではありません。指示書は読んだAIが従うもので、それ自体が動くわけではありません。</li>
+          <li>このページではAIもPythonも実行しません。表示するのは、制作時に Opus 5.5 がSKILL.mdと参照資料（business.md・gemini-syntax.md・slop-catalog.md）を読んで3件に適用し、保存した出力です。今回の図の改修で推敲をやり直してはいません。</li>
+          <li>参照資料は、3つの別のAIや3回の実行ではありません。同じ1つのAIに渡した資料です。</li>
+          <li>lintとdiffは、推敲のあとで制作担当が別に、各件1回ずつ実行しました。lintは推敲後を、diffは原文と推敲後を <code>--stance=説明</code> で読みました。返ったのは見直し候補で、点数・合格・意味の保証ではありません。lintの指摘は3件とも空でした。</li>
+          <li>候補を見たあとに、別の書き直しをした記録はありません。人による校閲・承認もありません。</li>
+          <li>残す条件14件は、原文と推敲後の引用の対応です。意味が同じことを自動で保証するものではありません。</li>
+          <li>4つの優先事項と「勝手に足さない」は、SKILL.mdが求める目標です。守られたことの証明ではありません。</li>
+          <li>試した分野は業務文書（business）だけです。技術記事（tech）と個人発信（essay）の参照資料は使っていません。</li>
+          <li>文章と調査データはすべて架空です。調査メモの8人・6人・5分は、実在の試用や利用者調査の結果ではありません。保存操作の説明も架空のマニュアルの文章で、アプリの保存や音声ファイルの処理を動かしてはいません。機能のお知らせも、実在の予約サービスを動かしたものではありません。</li>
+          <li>6つの場所は、この作例の説明のための整理です。原典が決めた入力形式ではありません。</li>
+        </ul>
+      </details>
+      <details class="fold">
+        <summary>原典の固定版と同梱ファイル</summary>
+        <ul class="plain">
+          <li>原典は <a href="https://github.com/nanaism/yomiyasu/tree/60bf877acebc86651e0b67d70112a66245f87758" rel="noopener">nanaism/yomiyasu</a> のコミット <code>60bf877acebc86651e0b67d70112a66245f87758</code> で固定しています。バージョン番号ではなく、このコミットが版です。</li>
+          <li><code>vendor/yomiyasu/</code> の公式ファイル15件のうち、画像1件は公開時のバイトと一致します。テキスト14件は、この作例で配ったときの改行がCRLFで、上流のGitはLFです。改行をLFにそろえた内容とGitのblobは、固定コミットと一致します。配ったCRLFのファイルとハッシュは、そのまま保っています。</li>
+          <li><code>vendor/yomiyasu/UPSTREAM.json</code> は以前の梱包で付けた目印で、公式のファイルではありません。</li>
+          <li>yomiyasuは MIT License（Copyright (c) 2026 nanaism）です。lintスクリプトに含まれるUnicode由来のデータには、別に Unicode License V3 の通知が付きます。</li>
+        </ul>
+      </details>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <div class="theme" role="group" aria-label="表示の色">
+      <button type="button" data-theme-choice="system" aria-pressed="true">端末に合わせる</button>
+      <button type="button" data-theme-choice="light" aria-pressed="false">ライト</button>
+      <button type="button" data-theme-choice="dark" aria-pressed="false">ダーク</button>
+    </div>
+    <p>yomiyasu：MIT License, Copyright (c) 2026 nanaism（<a href="vendor/yomiyasu/LICENSE">LICENSE</a>・<a href="vendor/yomiyasu/UNICODE-LICENSE.txt">Unicode License V3</a>）。作例の入力・コード・画面・図解：MIT License, Copyright (c) 2026 Studio Yebisu（<a href="LICENSE">LICENSE</a>）。文章はすべて架空です。原作者による承認や推奨を示すものではありません。</p>
+    <p><a href="../../case.html?id=yomiyasu-before-after">作例の解説記事へ</a></p>
+  </footer>
+</body>
+</html>

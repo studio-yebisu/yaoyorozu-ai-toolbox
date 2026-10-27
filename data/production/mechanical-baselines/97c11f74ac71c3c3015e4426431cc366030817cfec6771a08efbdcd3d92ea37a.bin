@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Reach 作例：公開URL2件を根拠メモに仕分ける｜八百万図AIツールボックス</title>
+  <meta name="description" content="Agent Reachのdoctorと読み取り経路に従って実際に読んだ結果を、原典・実取得・未確認に分けた根拠カードと日本語の調査メモで閲覧できます。">
+  <link rel="stylesheet" href="desk.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#main">本文へ移動</a>
+
+  <header class="masthead">
+    <div class="wrap">
+      <p class="eyebrow">Agent Reach ／ 接続を確認し、既存のCLIへ読み取りを振り分けるスキル</p>
+      <h1>URLから根拠メモへ<span class="h1-sub">公開URL2件を、根拠の種類ごとに仕分ける</span></h1>
+      <p class="lede">作例：第三者の紹介投稿1件と、固定コミットのAgent Reach原典。制作時に実際に読んだ結果を「原典で確認」「今回実際に読んだ」「未確認」に分けて保存しました。このページは保存済みの結果を表示するだけで、新しい取得やAIの実行はしません。</p>
+
+      <section class="inputs" aria-labelledby="inputs-title">
+        <h2 id="inputs-title" class="label">入力した公開URL</h2>
+        <ol class="input-list">
+          <li>
+            <span class="input-kind">リポジトリ（固定版）</span>
+            <a href="https://github.com/Panniantong/Agent-Reach/tree/94f06c1969dfc1834001269d79d3ad0972d9dee6">github.com/Panniantong/Agent-Reach @ 94f06c1</a>
+          </li>
+          <li>
+            <span class="input-kind">紹介投稿（第三者・本文は転載していません）</span>
+            <a href="https://x.com/BentoBoiNFT/status/2110111219172712922">x.com/BentoBoiNFT/status/2110111219172712922</a>
+          </li>
+        </ol>
+      </section>
+
+      <div class="memo-action">
+        <a class="button primary" href="outputs/research-note.md" download="agent-reach-research-note.md">調査メモ（Markdown）をダウンロード</a>
+        <p class="memo-note"><a href="outputs/research-note.md">メモを開く</a> · 制作時に作成済みのメモです。入力URL・固定版・doctorと実取得の結果・実行手順・未確認の点・ライセンスをまとめています。</p>
+      </div>
+
+      <nav class="can-do" aria-label="このページでできること">
+        <ul>
+          <li><a href="#evidence-title">根拠を分類で絞り込む</a></li>
+          <li><a href="#evidence-title">原典の該当行を開く</a></li>
+          <li><a href="outputs/research-note.md" download="agent-reach-research-note.md">メモを保存する</a></li>
+          <li><a href="#reuse-title">依頼文を再利用する</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <noscript>
+      <div class="wrap">
+        <p class="error">保存データの表示にはJavaScriptが必要です。<a href="outputs/research-note.md">調査メモ（Markdown）</a>、<a href="outputs/comparison.json">比較データ（JSON）</a>、<a href="outputs/collection.json">実行記録（JSON）</a>は直接開けます。</p>
+      </div>
+    </noscript>
+
+    <section class="wrap block" aria-labelledby="snapshot-title">
+      <h2 id="snapshot-title">保存された実行結果</h2>
+      <p id="load-status" class="load-status">保存データを読み込んでいます…</p>
+      <div id="load-error" class="error" role="alert" hidden></div>
+      <dl id="facts" class="facts" hidden></dl>
+    </section>
+
+    <section id="sequence" class="wrap block" aria-labelledby="sequence-title" hidden>
+      <h2 id="sequence-title">制作時に完了した手順</h2>
+      <p class="section-note">下の4段階は制作側で実行済みです。<span id="sequence-date"></span>このページはその結果を読み込んで表示しているだけです。</p>
+      <ol class="sequence">
+        <li>
+          <h3>接続確認</h3>
+          <p id="step-doctor"></p>
+        </li>
+        <li>
+          <h3>実際に読む</h3>
+          <p id="step-read"></p>
+        </li>
+        <li>
+          <h3>根拠を整理</h3>
+          <p id="step-sort"></p>
+        </li>
+        <li>
+          <h3>メモを保存</h3>
+          <p id="step-save"></p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="evidence" class="wrap block" aria-labelledby="evidence-title" hidden>
+      <h2 id="evidence-title">根拠カード</h2>
+      <p id="comparison-summary" class="section-note"></p>
+      <div class="filters" role="group" aria-label="根拠の分類で絞り込む">
+        <button type="button" class="filter" data-filter="all" aria-pressed="true">すべて<span class="count" data-count="all"></span></button>
+        <button type="button" class="filter" data-filter="source" aria-pressed="false">原典で確認<span class="count" data-count="source"></span></button>
+        <button type="button" class="filter" data-filter="runtime" aria-pressed="false">今回実際に読んだ<span class="count" data-count="runtime"></span></button>
+        <button type="button" class="filter" data-filter="unknown" aria-pressed="false">未確認<span class="count" data-count="unknown"></span></button>
+      </div>
+      <p id="result-count" class="result-count" role="status" aria-live="polite"></p>
+      <div id="cards" class="cards"></div>
+      <p id="scope-note" class="scope-note"></p>
+    </section>
+
+    <section class="wrap block" aria-labelledby="reuse-title">
+      <h2 id="reuse-title">依頼文を再利用する</h2>
+      <p class="section-note">別のリポジトリと投稿で同じ調べ方をするときの依頼文です。3つの欄を埋めて、Agent Reachの固定版を読めるAIエージェントに渡してください。</p>
+      <div class="reuse-actions">
+        <button type="button" id="copy-request" class="button" hidden>依頼文をコピー</button>
+        <a class="button secondary" href="request.txt" download="agent-reach-request.txt">request.txt を保存</a>
+      </div>
+      <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+      <div id="request-error" class="error" role="alert" hidden></div>
+      <pre id="request-text" class="request-text" tabindex="0" aria-label="依頼文" hidden></pre>
+    </section>
+
+    <section class="wrap block tech" aria-labelledby="tech-title">
+      <h2 id="tech-title">再現・制限・ライセンス</h2>
+
+      <details>
+        <summary>実行記録（保存したcollection.jsonより）</summary>
+        <div class="details-body">
+          <p>コマンド・終了コード・出力のSHA-256です。時刻は記録用で、速度の比較には使えません。認証の値や生の出力は公開していません。</p>
+          <ol id="executions" class="executions"></ol>
+          <dl id="versions" class="versions"></dl>
+          <p id="credential-note"></p>
+          <p id="warning-note"></p>
+        </div>
+      </details>
+
+      <details>
+        <summary>再現するには</summary>
+        <div class="details-body">
+          <p>このページはHTTPで配信して開いてください。ソースバンドルのルート（<code>examples/</code> と <code>media/</code> がある階層）で <code>python -m http.server 8000</code> を実行し、<code>http://localhost:8000/examples/agent-reach-example/</code> を開きます。<code>file://</code> で開くと保存データを読み込めず、エラーを表示します。</p>
+          <p>取得をやり直す補助コマンド <code>python examples/agent-reach-example/collect.py --private-out PATH</code> は、この環境で実際に実行し、原典6ファイルの一致と公開投稿のID・非空本文を確認しました。固定版Agent Reachの依存が入ったPython環境、gh、twitter-cli 0.8.5と既存の認証設定が必要で、これらは同梱していません。出力先は公開フォルダの外にし、生の投稿やCookieをコミットしないでください。</p>
+          <p>同梱の原典 <code>vendor/agent-reach/</code> は固定コミットの54ファイルを書き換えていません。X の読み取りでは、呼び出し側がtwitter-cliのブラウザーCookie自動読み取りだけを無効にしてから本物のコマンドを起動しました。認証の検証と返ってきた出力は変えていません。</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>制限</summary>
+        <div class="details-body">
+          <ul id="unverified-list" class="plain-list"></ul>
+          <ul class="plain-list">
+            <li>原典skillの「あらゆるURLで必ず使う」という広い起動条件と、作業後の自動バージョン確認は採用していません。今回の目的に合わせ、GitHubとXの読み取りだけに絞っています。</li>
+            <li>初回インストール、自動設定、複数プラットフォーム横断の検索、ほかのバックエンドは試していません。</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>ライセンスと同梱した原典</summary>
+        <div class="details-body">
+          <p>この作例の文章・データ・コード：MIT License、Copyright (c) 2026 Studio Yebisu（<a href="LICENSE">LICENSE</a>）。</p>
+          <p>Agent Reach原典：MIT License、Copyright (c) 2025 Agent Eyes（<a href="vendor/agent-reach/LICENSE">同梱のLICENSE</a>／<a href="https://github.com/Panniantong/Agent-Reach/blob/94f06c1969dfc1834001269d79d3ad0972d9dee6/LICENSE">固定版</a>）。MITはAgent Reachの条件で、X・GitHubなどのサービス規約や、ほかのCLIのライセンス、第三者の投稿には及びません。</p>
+          <p>紹介投稿の本文・引用・返信・動画・画像・数値は同梱していません。</p>
+          <ul class="plain-list source-files">
+            <li><a href="vendor/agent-reach/agent_reach/skill/SKILL.md">SKILL.md（同梱）</a>／<a href="https://github.com/Panniantong/Agent-Reach/blob/94f06c1969dfc1834001269d79d3ad0972d9dee6/agent_reach/skill/SKILL.md">固定版</a></li>
+            <li><a href="vendor/agent-reach/agent_reach/skill/references/dev.md">references/dev.md（同梱）</a>／<a href="https://github.com/Panniantong/Agent-Reach/blob/94f06c1969dfc1834001269d79d3ad0972d9dee6/agent_reach/skill/references/dev.md">固定版</a></li>
+            <li><a href="vendor/agent-reach/agent_reach/skill/references/social.md">references/social.md（同梱）</a>／<a href="https://github.com/Panniantong/Agent-Reach/blob/94f06c1969dfc1834001269d79d3ad0972d9dee6/agent_reach/skill/references/social.md">固定版</a></li>
+            <li><a href="vendor/agent-reach/agent_reach/channels/twitter.py">channels/twitter.py（同梱）</a>／<a href="https://github.com/Panniantong/Agent-Reach/blob/94f06c1969dfc1834001269d79d3ad0972d9dee6/agent_reach/channels/twitter.py">固定版</a></li>
+            <li><a href="vendor/agent-reach/README.md">README.md（同梱）</a>／<a href="https://github.com/Panniantong/Agent-Reach/blob/94f06c1969dfc1834001269d79d3ad0972d9dee6/README.md">固定版</a></li>
+          </ul>
+        </div>
+      </details>
+    </section>
+  <section class="movie-section" style="max-width:70rem;margin:3rem auto;padding:1.5rem" aria-labelledby="movie-title"><h2 id="movie-title">28秒で、URLから根拠メモへ</h2><p>実際に取得した結果と作例画面を使う、無音の編集動画です。連続操作の録画ではありません。</p><video controls playsinline preload="metadata" poster="../../media/agent-reach-example.webp" style="width:100%;height:auto" aria-label="Agent Reachの実取得から根拠メモへ。28秒・無音"><source src="../../media/agent-reach-example.mp4" type="video/mp4"><a href="../../media/agent-reach-example.mp4">MP4を開く</a></video><p><a href="video/index.html">動画の編集ソース</a> · <a href="source.zip">作例・実結果・動画のソース一式</a> · <a href="verification.json">実行と確認の範囲</a></p></section>
+</main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p>八百万図AIツールボックス 作例 ・ 比較の更新日 <span id="updated-on">2026-10-16</span> ・ 表示しているのは制作時に保存したデータです。</p>
+    </div>
+  </footer>
+</body>
+</html>

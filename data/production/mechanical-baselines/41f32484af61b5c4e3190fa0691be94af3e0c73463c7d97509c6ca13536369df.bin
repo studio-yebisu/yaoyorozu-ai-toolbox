@@ -1,0 +1,205 @@
+{
+  "id": "effekseer-vfx-example",
+  "title": "Effekseer VFX Skill",
+  "title_lines": [
+    "ゲーム向けVFXをAIで制作するスキル"
+  ],
+  "category": "games",
+  "summary": "ヒット、魔法、ビームなどのエフェクトを、AIへの指示とPythonのレシピで制作できます。Effekseerで組み立てた効果をGodotで描画し、見た目を確かめながら調整できます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/effekseer-vfx-example/index.html",
+  "video": "media/effekseer-vfx-example.mp4",
+  "poster": "media/effekseer-vfx-example.webp",
+  "skill": "examples/effekseer-vfx-example/vendor/effekseer-vfx/SKILL.md",
+  "skill_label": "原典のSKILL.md",
+  "skill_description": "Effekseerの効果をコードで作り、Godotの実描画で確かめる手順",
+  "samples": "examples/effekseer-vfx-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "架空のガードの依頼と、Godotで描画した結果",
+  "samples_intro": "元の架空ガード1件と同じ実入力・実出力です。0.5秒/60FPS、f0〜f30の31枚と追加f36、15レシピ項目（不可視の基準点2つを含む）、3制作回を保持します。新しい紹介映像32秒とは別の時間です。",
+  "demo_description": "渡す・作って見る・使うの3段階で、手順書と依頼→ブリーフ/レシピ→Core/Godot→実画像を見て作者へ戻る道→別AIと効果一式、を一枚の図で見られます。6つの要所の実画像を選び、元の31枚ビューアとライブラリ保存へ進めます。",
+  "demo_note": "紹介図は保存済みのGodot PNGと制作記録を読むだけです。ブラウザーではAI・Python・Effekseer Core・Godotを動かしません。元のガードの推論、3回のビルド/描画、独立レビューとAPI検査は再実行せず、実画像の効果を描き直していません。",
+  "request_intro": "Effekseer VFX スキルを入れたAIのコーディングエージェントに、次の文章を渡します。【】の部分を自分のゲームの効果に置き換えて使ってください。ビルドと描画には、Windows x64 または Apple silicon の macOS と、自分で導入したGodot 4が必要です。",
+  "request": "Effekseer VFX スキル（kanaworksai-hue/effekseer-vfx-skill、固定コミット c28919890f0483c0f968a884ea03979803d3b528）の SKILL.md と、そこで必ず読むよう書かれた references を読んでから、次の効果を作ってください。\n\n依頼：【架空のアクションゲームで、攻撃を受け止めた瞬間だけ出る青い防御ヒット。約0.5秒。薄い盾の輪郭→短い白い接点→青い面の波紋→隙間を開けた破片→消失。キャラクターを隠さない。一回のガード反応。】\n\n進め方：まず vfx doctor でこの環境にできることを確かめ、ダウンロードが必要なら実行する前に私に確認してください。ブリーフとレシピを書き、brief-validate・lint・build のあと review でGodotの画像を実際に開いて見てください。1回に直すのは1種類の問題だけにします。仕上がったら review-handoff の指示書を、レシピを見ていない別のエージェントに渡して採点してもらい、overview と effect-verify まで進めてください。\n\n報告：effect-verify が verified: true になったか、開いた画像、各回で直したこと、確かめていないこと（端末での性能、ゲームへの組み込みなど）を分けて書いてください。",
+  "video_note": "32秒・30fps・完全無音。縦720×1280/横1280×720を別配置で描きます。手順書と5拍の依頼が作者AIへ入り、設計メモとレシピがCore/Godotへ渡り、実画像が見直しの道を戻り、画像と基準だけが別のAIへ進みます。効果の画は元のGodot PNGだけで、新しい描画や採点ではありません。元0.5秒の実動画と旧28秒の解説は別に保全しています。",
+  "video_source": "examples/effekseer-vfx-example/video/index.html",
+  "skill_license": "examples/effekseer-vfx-example/vendor/effekseer-vfx/LICENSE",
+  "applied_skills": [
+    {
+      "name": "Effekseer VFX（原典のスキル）",
+      "source": "https://github.com/kanaworksai-hue/effekseer-vfx-skill/blob/c28919890f0483c0f968a884ea03979803d3b528/skills/effekseer-vfx/SKILL.md",
+      "applied": "固定版（skill 0.2.0）のSKILL.mdの手順「ブリーフ→レシピ→EffekseerCoreでビルド→Godotの実描画→見る→1つ直す→独立したレビュー」に沿って作った。ブリーフには f2・f5・f10・f16・f18・f23・f30 の見え方、層の計画、合格の条件、避けることを書いた。時間の構造（予兆→接点→本体→二次→消失）を、輪郭→白い星→青い面と波紋→破片と欠片→消失に当て、接点の白い星だけを最も明るく短くした。engine-conventions.md のとおり、Ringの角度は上が0°で反時計回り、攻撃の線を横切る面は (0,58,0) だけ回して縦長の楕円に見せ、穴のあく崩れは Easing のcutoffで書いた。破片は実際のすき間を持つ6枚の扇形にし、離れる動きは速く出て遅くなる EaseOutCubic にした。原典のbrief-validate・lint・build（保存して開き直す読み戻し）を実行し、Godot 4.7（Forward+）と公式EffekseerForGodot4 1.80.5.1 で描いた画像を毎回開いて見た。1回目は破片が白く光った。コンパイラーのソースを読むと、時間で変わる色はSpriteとModelにだけ書き出され、Ringは3つの固定の頂点色で描かれていたので、2回目は破片の頂点色そのものを青と紺にした。3回目は効かない色の指定を消して説明を実際の描かれ方に合わせ、2回目と32枚のフレームがすべて同じ画像になることを確かめた。review-handoff の指示書を、レシピと経緯を見ていない別のAIに渡して採点してもらい（ship）、review-submit・overview・effect-verify で verified: true になった。Godotでの呼び出しは原典の TestApi.gd で12項目を確かめた。実機の性能やゲームへの組み込みは、SKILL.md のとおり、試していないので完了とは書いていない。 原の推論/ビルド/Godot/独立レビューは保全して再実行していません。新しい概念図は指示書、作者と制作担当、見直しの戻り道、別の採点AI、使う成果を示す紹介で、元の効果と区別します。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/effekseer-vfx-example/tools/motion-reel/render.mjs",
+      "applied": "新しい図と32秒縦横無音映像の8原本をOpus5.5が執筆。51固定素材/33実PNGの照合、任意時刻、縦横別配置、代表/連続/contact、MP4再生を制作側で新QAしました。旧28秒と原VFX0.5秒の映像・検査は保全し流用しません。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "スキルの中身を分ける",
+      "body": "Markdownの指示と参照、Pythonのレシピ/CLI、Coreコンパイラー、Godot Lab、別AI用vfx-reviewをつなぎます。6部品は説明用整理で原典の共通スキーマではありません。"
+    },
+    {
+      "title": "依頼を時間と層へ渡す",
+      "body": "同じ架空入力279Bとスキルから、元のOpusがブリーフとレシピを執筆。輪郭→接点→波紋→破片→消失の見え方を7場面の設計と15項目へまとめました。粒子上限27は端末の性能測定ではありません。"
+    },
+    {
+      "title": "制作担当がCoreとGodotを実行する",
+      "body": "元の制作担当が別工程でbrief-validate/lint/build/reviewを実行し、Core 1.80.7/.NET 9.0.20とGodot 4.7 Forward+/プラグイン1.80.5.1で実描画を保存。作者AIの執筆とツール実行を分けます。"
+    },
+    {
+      "title": "実画像から1種類ずつ直す",
+      "body": "1回目f16の白いRing破片を見て、2回目は固定の頂点色を青と紺へ。3回目は効かない色指定を消し説明を合わせただけで、既存の2/3回目の32画像は全バイト一致です。今回ビルドやGodot描画は再実行していません。"
+    },
+    {
+      "title": "別のAIへ画像と基準を渡す",
+      "body": "元の独立AIはレシピと作者履歴を見ず、実画像と引き継ぎ書・基準でshipと判定しました。effect-verify:trueは同じレシピ/画像/記録の対応確認で、任意のf2〜f4の薄い楕円の提案は未適用のまま。新しい紹介図の採点でも人の承認でもありません。"
+    },
+    {
+      "title": "実物を見る・効果一式を保存する",
+      "body": "元の31枚ビューアでフレームと速さを選べます。効果一式ZIPは元28ライブラリファイルと説明/通知を包んだデータで、ツールチェーンやGodotプラグインは含みません。新しい図・編集・縦横32秒無音動画を新QAしました。"
+    }
+  ],
+  "limitations": [
+    "新しい紹介図は保存された実画像と原記録を読むものです。AI・Core・Godot・原典CLIや独立レビューをブラウザーで実行せず、新しいVFXも作りません。",
+    "元の架空ガード1件だけです。ゲーム・ダミーは架空で、実際のゲームへの組み込みと端末での性能、飛び道具やビームは試していません。",
+    "15レシピ項目には見えない基準点2つを含みます。粒子の上限27はGPU負荷や速度の実測ではありません。",
+    "2/3回目の32枚の一致は既存ファイルの比較です。3回目に見た目を良くした、Ringの色が時間で変化する、といった結果ではありません。",
+    "元の独立レビューは元の効果と捕捉画像に対する別AIの判断です。新しい紹介図や動画の独立レビュー・人の審美的承認ではありません。元の任意の薄い楕円の提案は追加していません。",
+    "元の4Opus受領とCore/Godot/独立レビュー/TestApi12項目を保全し再実行なし。新しい図と映像の8原本の受領・QAへ付け替えません。",
+    "元134配布は133件が公式の生バイト一致、vfx.cmdの1件だけ元CRLFを保ち公式LFとの正規化内容一致です。固定Windowsコピーの一致と区別します。",
+    "効果一式ZIPは元28ライブラリファイルとREADME/LICENSE/通知の31ファイル包装です。全ソースZIPと異なりスキルやビルド道具を含まず、同梱の旧READMEの再現コマンドには全ソースと別途の環境が必要です。",
+    "元のverified:trueの私的実行根拠は同梱していません。保存したデータへ完了状態は移植されず、レシピ・ブリーフ・テクスチャを変えた効果は改めて確認が必要です。",
+    "明るい背景で加算する光が淡く見える元の制限を保ちます。あらゆる背景や端末で同じ見た目・読みやすさを保証しません。",
+    "実機iOS/Safari/VoiceOver、200%ズーム、人の審美的承認、全入力や意味/性能、クリップボード内容の再取得は未確認です。動画と編集ソースに音声ガイド・原稿・音源・音声トラックはありません。",
+    "PNG/JSON/ZIPの保存要求、公開原本のバイト一致、ブラウザー保存ツールからの返却ファイルは分けて記録します。"
+  ],
+  "sources": [
+    {
+      "label": "Effekseer VFX SKILL.md（kanaworksai-hue/effekseer-vfx-skill、固定版）",
+      "url": "https://github.com/kanaworksai-hue/effekseer-vfx-skill/blob/c28919890f0483c0f968a884ea03979803d3b528/skills/effekseer-vfx/SKILL.md"
+    },
+    {
+      "label": "Effekseer VFX のリポジトリ（固定版）",
+      "url": "https://github.com/kanaworksai-hue/effekseer-vfx-skill/tree/c28919890f0483c0f968a884ea03979803d3b528"
+    },
+    {
+      "label": "Effekseer VFX README（固定版）",
+      "url": "https://github.com/kanaworksai-hue/effekseer-vfx-skill/blob/c28919890f0483c0f968a884ea03979803d3b528/README.md"
+    },
+    {
+      "label": "確かめられたエンジンの決まり engine-conventions.md（固定版）",
+      "url": "https://github.com/kanaworksai-hue/effekseer-vfx-skill/blob/c28919890f0483c0f968a884ea03979803d3b528/skills/effekseer-vfx/references/engine-conventions.md"
+    },
+    {
+      "label": "Effekseer VFX LICENSE（MIT、固定版から作例に同梱）",
+      "url": "examples/effekseer-vfx-example/vendor/effekseer-vfx/LICENSE"
+    },
+    {
+      "label": "第三者のコンポーネントの通知（THIRD_PARTY_NOTICES.md）",
+      "url": "examples/effekseer-vfx-example/vendor/effekseer-vfx/THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "label": "EffekseerForGodot4 1.80.5.1（公式の配布）",
+      "url": "https://github.com/effekseer/EffekseerForGodot4/releases/tag/1.80.5.1"
+    },
+    {
+      "label": "撮影したフレームの一覧（capture-manifest.json）",
+      "url": "examples/effekseer-vfx-example/capture-manifest.json"
+    },
+    {
+      "label": "Motion Reel（Studio Yebisu、MIT）",
+      "url": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824"
+    },
+    {
+      "label": "作例の再現手順（README）",
+      "url": "examples/effekseer-vfx-example/README.md"
+    },
+    {
+      "label": "手順からビルド・実描画・見直しへの構造",
+      "url": "examples/effekseer-vfx-example/concept/structure.json"
+    },
+    {
+      "label": "元の31枚の実描画ビューア",
+      "url": "examples/effekseer-vfx-example/desk.html#yebisu-guard"
+    },
+    {
+      "label": "元の効果ライブラリ一式（ZIP）",
+      "url": "examples/effekseer-vfx-example/effect-library.zip"
+    },
+    {
+      "label": "原制作と新しい紹介図の確認の区別",
+      "url": "examples/effekseer-vfx-example/visual-verification.json"
+    },
+    {
+      "label": "図と縦横映像の再現手順",
+      "url": "examples/effekseer-vfx-example/visual-guide.md"
+    },
+    {
+      "label": "映像の再現スクリプト",
+      "url": "examples/effekseer-vfx-example/render-visual.py"
+    }
+  ],
+  "license": "MIT",
+  "license_note": "この作例の画面構成・文言・依頼・レシピ・ブリーフ・映像ソースと、撮影した画像・動画は 八百万図AIツールボックス の独自制作で、MIT License です。vendor/ の effekseer-vfx と vfx-review は KanaWorks_AI による MIT License（Copyright (c) 2026 KanaWorks_AI）のスキルで、LICENSE と THIRD_PARTY_NOTICES.md を変更せずに同梱しています。library/vfx/ のマテリアルと数式で作るテクスチャは、原典スキルのコードが書き出したものです。Effekseer Core・EffekseerForGodot4・.NET ランタイムは初回の準備で公式の配布元から取得するもので、作例には含みません。Godot は各自で導入します。 元134配布の133件は公式rawbytes一致、vfx.cmd1件だけCRLFを保持した正規化内容一致です。追加ZIPは元の同じファイルの包装です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "catalog_entry": {
+    "id": "resource-effekseer-vfx",
+    "name": "Effekseer VFX Skill",
+    "tagline": "ゲーム向けVFXをAIで制作するスキル",
+    "category": "games",
+    "kind": "スキル",
+    "summary": "ヒット、魔法、ビームなどのエフェクトを、AIへの指示とPythonのレシピで制作できます。Effekseerで組み立てた効果をGodotで描画し、見た目を確かめながら調整できます。",
+    "use_case": "ヒット、魔法、ビームなどの効果を、制作から実画面の確認まで進めたいとき。",
+    "tags": [
+      "ゲーム",
+      "VFX",
+      "Agent Skills"
+    ],
+    "workflow": [
+      "効果の役割・タイミング・見た目をブリーフにする",
+      "テクスチャとレシピを作り、Effekseerでビルドする",
+      "Godotのフレーム画像を見て動きと読みやすさを直す"
+    ],
+    "requirements": [
+      "Python・Godotと原典の対応ツールチェーン",
+      "描画確認は対応するWindowsまたはmacOS環境"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/kanaworksai-hue/effekseer-vfx-skill/blob/c28919890f0483c0f968a884ea03979803d3b528/LICENSE",
+    "license_note": "スキルはMIT。Effekseer・Godotなどの第三者コンポーネントには別の通知があります。原典に収録された作例の評価は、この掲載で再検証したものではありません。",
+    "source_url": "https://github.com/kanaworksai-hue/effekseer-vfx-skill/tree/c28919890f0483c0f968a884ea03979803d3b528/skills/effekseer-vfx",
+    "guide_url": "case.html?id=effekseer-vfx-example",
+    "example_url": "examples/effekseer-vfx-example/index.html",
+    "image": "media/effekseer-vfx-example.webp",
+    "readme_url": "https://github.com/kanaworksai-hue/effekseer-vfx-skill/blob/c28919890f0483c0f968a884ea03979803d3b528/README.md",
+    "source_repository": "kanaworksai-hue/effekseer-vfx-skill",
+    "source_commit": "c28919890f0483c0f968a884ea03979803d3b528",
+    "source_path": "skills/effekseer-vfx",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。スキルは入口または代表の本文も参照しています。原典は確認時のコミットへ固定しています。作例で作って確かめたのは架空のガードの効果1つで、Windows x64 の Godot 4.7 で描画しています。",
+    "prompt": "Effekseer VFX Skill の原典（https://github.com/kanaworksai-hue/effekseer-vfx-skill/tree/c28919890f0483c0f968a884ea03979803d3b528/skills/effekseer-vfx）を読んで、次を進めてください。\n架空のゲーム向けに0.5秒の青い防御ヒット効果を作ってください。レシピ、ビルド結果、Godotでの代表フレームを揃え、発生と消失の見え方を確認してください。\n入力、出力、実行した検証、未確認の点を記録してください。",
+    "verification_stage": "runtime-reviewed",
+    "verification": "元1効果/3制作回/4受領とCore/Godot/独立AI/TestApi12を保全。新図は51素材と33原PNGを読み、32秒縦横無音動画を別QA。再生成や人の承認・実機性能保証ではありません。",
+    "reviewed_on": "2026-10-19"
+  },
+  "updated_on": "2026-10-21",
+  "video_portrait": "media/effekseer-vfx-example.mp4",
+  "video_landscape": "media/effekseer-vfx-example-wide.mp4",
+  "poster_portrait": "media/effekseer-vfx-example.webp",
+  "poster_landscape": "media/effekseer-vfx-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/effekseer-vfx-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/effekseer-vfx-example-landscape-credited-ja-v3.mp4"
+}

@@ -1,4 +1,4 @@
-// 八百万図AIツールボックス — Letta Code 作例の実行CLI。MIT License, Copyright (c) 2026 Studio Yebisu.
+// Yaoyorozu AI ToolBox — Letta Code 作例の実行CLI。MIT License, Copyright (c) 2026 Studio Yebisu.
 //
 //   node run.mjs --artifact-dir <このフォルダーの外の、まだ無いフォルダー>
 //
@@ -73,7 +73,7 @@ const HOOK_REL = ".git/hooks/pre-commit";
 const HOOK_TEXT = "#!/bin/sh\nexec node .git/letta-memory-constraints.cjs --layout root-marker\n";
 const CLI_ARGS = Object.freeze([VALIDATOR_REL, "--layout", "root-marker"]);
 const CLI_COMMAND = "node .git/letta-memory-constraints.cjs --layout root-marker";
-const GIT_USER = Object.freeze({ name: "八百万図AIツールボックス fictional memory", email: "fictional@example.invalid" });
+const GIT_USER = Object.freeze({ name: "Yaoyorozu AI ToolBox fictional memory", email: "fictional@example.invalid" });
 const BASELINE_DATE = "2026-10-17T09:00:00+09:00";
 const ATTEMPT_DATE = "2026-10-17T09:10:00+09:00";
 const BASELINE_MESSAGE = "Baseline fictional book-club memory";
@@ -653,7 +653,7 @@ async function runCase(item, api, scriptBytes, dirs, check) {
     change: { removed, written, staged_name_status: changesBefore },
     unicode: { files: unicodeFiles, root_markdown_code_points: rootMarkdownCodePoints },
     skill_structure: {
-      note: "initializing-memory SKILL.md 9. Verify の「foo.md と foo/ を並べない」条件を stage のパスへ当てはめた 八百万図AIツールボックス の照合。原典のコードではない。",
+      note: "initializing-memory SKILL.md 9. Verify の「foo.md と foo/ を並べない」条件を stage のパスへ当てはめた Yaoyorozu AI ToolBox の照合。原典のコードではない。",
       stem_conflicts: stemConflicts([...allPaths]),
     },
     api: {

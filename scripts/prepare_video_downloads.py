@@ -10,8 +10,8 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / 'data/video-downloads.json'
-LINES = ['引用元:八百万図AIツールボックス', 'made by studio_yebisu']
-SPEC = 'credit-footer-japanese-brand-v3'
+LINES = [json.loads((ROOT / 'data/projects.json').read_text('utf-8'))['title'], '@studio_yebisu']
+SPEC = 'credit-footer-english-v4'
 
 
 def sha(path):
@@ -26,7 +26,7 @@ def probe(path):
 
 def render(case, orientation, encoder, text_paths, prior, font, site_url):
     source = ROOT / case['video_' + orientation]
-    destination = ROOT / 'media/downloads' / (case['id'] + '-' + orientation + '-credited-ja-v3.mp4')
+    destination = ROOT / 'media/downloads' / (case['id'] + '-' + orientation + '-credited-v4.mp4')
     source_hash = sha(source)
     font_hash = sha(font)
     if destination.exists():
@@ -38,13 +38,19 @@ def render(case, orientation, encoder, text_paths, prior, font, site_url):
     before = probe(source)
     bv = next(s for s in before['streams'] if s['codec_type'] == 'video')
     width, height = bv['width'], bv['height']
-    # Keep every diagram label visible: fit the complete frame above a dedicated credit strip.
-    filters = [f'scale={width}:{height - 76}:force_original_aspect_ratio=decrease:force_divisible_by=2',
+    # A slim, single-line signature; fit the full diagram without covering any labels.
+    short_side = min(width, height)
+    strip = max(36, round(short_side * .06 / 2) * 2)
+    size = max(13, round(short_side * .0236))
+    inset = max(18, round(width * .025))
+    filters = [f'scale={width}:{height - strip}:force_original_aspect_ratio=decrease:force_divisible_by=2',
                f'pad={width}:{height}:(ow-iw)/2:0:color=0xf2eee3',
-               'drawbox=x=0:y=ih-76:w=iw:h=76:color=0x25241f:t=fill']
-    for text_path, size, y in [(text_paths[0], 24, 'h-65'), (text_paths[1], 19, 'h-33')]:
+               f'drawbox=x=0:y=ih-{strip}:w=iw:h={strip}:color=0x111817:t=fill',
+               f'drawbox=x={inset}:y=ih-{strip}/2-2:w=4:h=4:color=0xff7046:t=fill']
+    for text_path, color, x in [(text_paths[0], '0xeef1ee', str(inset + 12)),
+                                (text_paths[1], '0xa8b5b0', f'w-tw-{inset}')]:
         filters.append(f"drawtext=fontfile='{ffpath(font)}':textfile='{ffpath(text_path)}':expansion=none:"
-                       f'fontsize={size}:fontcolor=white:x=28:y={y}')
+                       f'fontsize={size}:fontcolor={color}:x={x}:y=h-{strip}/2-th/2')
     temporary = destination.with_name(destination.stem + '.working.mp4')
     encoding = ['-c:v', 'h264_nvenc', '-preset', 'p5', '-rc', 'vbr', '-cq', '19', '-b:v', '0'] if encoder == 'h264_nvenc' else ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '19', '-threads', '6']
     try:
@@ -80,9 +86,9 @@ def main():
         cases = [c for c in cases if c['id'] == args.case]
         if not cases:
             parser.error('Unknown case id')
-    font = Path(os.environ.get('WINDIR', 'C:/Windows')) / 'Fonts/meiryo.ttc'
+    font = Path(os.environ.get('WINDIR', 'C:/Windows')) / 'Fonts/segoeui.ttf'
     if not font.is_file():
-        parser.error('Install the Meiryo Japanese font before rendering credits')
+        parser.error('Install Segoe UI before rendering credits')
     cache = ROOT / '.local/video-downloads'
     cache.mkdir(parents=True, exist_ok=True)
     texts = [cache / f'line-{i + 1}.txt' for i in range(len(LINES))]

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ひと言を、作れる依頼に。｜3件のブリーフ｜八百万図AIツールボックス</title>
+  <meta name="description" content="短い依頼が、分野・読むスキル・完成条件のそろった制作ブリーフになるまでを、実際の3件で見比べられるページです。">
+  <meta name="color-scheme" content="light">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="bar">
+    <a class="bar-home" href="../../index.html">八百万図AIツールボックスへ戻る</a>
+    <nav class="bar-links" aria-label="関連">
+      <a href="../../case.html?id=brief-to-demo">作例の記事</a>
+      <a href="../../skills/brief-to-demo/SKILL.md">SKILL.mdを読む</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <header class="intro">
+      <h1 class="intro-title">ひと言を、<br>作れる依頼に。</h1>
+      <div class="intro-text">
+        <p>短い依頼を選ぶと、欲しい成果物から選んだ分野、読むスキル、そのまま制作に渡せるブリーフが並びます。</p>
+        <p class="intro-note">Opus 5.5で制作した3件のサンプルです。このページでAIを実行することはありません。</p>
+      </div>
+    </header>
+
+    <div class="viewer">
+      <section class="picker" aria-labelledby="picker-title">
+        <h2 id="picker-title" class="picker-title">依頼を選ぶ</h2>
+        <div class="tabs" role="tablist" aria-orientation="vertical" aria-labelledby="picker-title" data-tabs>
+          <p class="state" data-state>サンプルを読み込んでいます…</p>
+        </div>
+      </section>
+
+      <section id="panel" class="result" role="tabpanel" tabindex="0" data-panel aria-live="off" hidden>
+        <div class="route">
+          <div class="route-cat">
+            <h2 class="route-head">分野</h2>
+            <p class="route-cat-name" data-cat-name></p>
+            <p class="route-reason" data-reason></p>
+          </div>
+          <div class="route-skills">
+            <h2 class="route-head">読むスキル</h2>
+            <ul data-skills></ul>
+          </div>
+        </div>
+
+        <article class="brief" aria-labelledby="brief-title">
+          <header class="brief-head">
+            <p class="brief-kind">制作ブリーフ</p>
+            <h2 id="brief-title" class="brief-title" data-title></h2>
+            <p class="brief-request">元の依頼　<q data-request></q></p>
+          </header>
+          <dl class="brief-fields" data-fields></dl>
+        </article>
+
+        <div class="actions">
+          <button type="button" class="btn btn-ink" data-copy>依頼文をコピー</button>
+          <button type="button" class="btn btn-line" data-download>JSONを保存</button>
+        </div>
+        <p class="actions-note">コピーされる依頼文は、このブリーフに「先にスキルを読む、仮の条件を確かめる、完成条件で報告する」の3点を添えたものです。</p>
+
+        <details class="raw">
+          <summary>JSONをそのまま見る</summary>
+          <pre data-json tabindex="0"></pre>
+        </details>
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <p>八百万図AIツールボックス　brief-to-demo（MIT License）</p>
+    <p><a href="../../skills/brief-to-demo/SKILL.md">SKILL.md</a>　<a href="samples.json" download>3件のJSON</a>　<a href="video/index.html">解説動画のソース</a></p>
+  </footer>
+
+  <p class="sr-only" role="status" aria-live="polite" data-announce></p>
+  <script src="app.js"></script>
+</body>
+</html>

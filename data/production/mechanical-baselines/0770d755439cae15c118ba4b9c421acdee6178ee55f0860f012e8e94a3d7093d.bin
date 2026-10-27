@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TanStack AI 作例：チャットに型付きの読み取り道具を足す｜八百万図AIツールボックス</title>
+  <meta name="description" content="@tanstack/ai 1.0.0系で小さな読み取り専用ツールを1つ定義し、実モデルに2問を実行した記録を再生する作例。ブラウザーからモデルを呼ばず、実際の応答と道具の入出力を時系列どおり見られます。">
+  <link rel="stylesheet" href="style.css?v=ae39366914ab">
+</head>
+<body>
+  <header class="masthead">
+    <p class="kicker"><a href="../../index.html">八百万図AIツールボックス</a><span aria-hidden="true">／</span><a href="../../case.html?id=tanstack-ai-example">作例・開発</a></p>
+    <h1>チャットに、型付きの道具を足す。</h1>
+    <p class="identity">TanStack AI（<code>@tanstack/ai</code> 1.0.0系）。2026-10-24に実モデルで2問を実行し、その記録をこのページで再生します。ブラウザーからモデルを呼び出すことはありません。</p>
+  </header>
+
+  <main>
+    <section class="replay" aria-labelledby="replay-title">
+      <div class="section-head">
+        <h2 id="replay-title">実行記録の再生</h2>
+        <div class="sample-switch" role="group" aria-label="記録の切り替え">
+          <button type="button" data-sample="blue-mug" aria-pressed="true" disabled>質問1・青いマグを探す</button>
+          <button type="button" data-sample="budget" aria-pressed="false" disabled>質問2・予算内を探す</button>
+        </div>
+      </div>
+
+      <div class="stage">
+        <ol class="flow" id="flow">
+          <li class="node is-question" id="node-question">
+            <span class="node-k">質問</span>
+            <p class="ask" id="ask"></p>
+          </li>
+          <li class="node is-tool" id="node-tool" aria-hidden="true">
+            <span class="node-k">道具の呼び出し</span>
+            <div class="toolcard">
+              <p class="tool-name">get_products<span class="tool-kind">server tool・読み取り専用</span></p>
+              <div class="gate" aria-label="入力の型">
+                <span class="gate-title">入力の型</span>
+                <span class="slot" id="slot-query"><b>query</b><i>string</i><em id="slot-query-value"></em></span>
+                <span class="slot" id="slot-max"><b>maxPrice?</b><i>number</i><em id="slot-max-value"></em></span>
+              </div>
+              <p class="tool-result" id="tool-result"></p>
+            </div>
+          </li>
+          <li class="node is-answer" id="node-answer" aria-hidden="true">
+            <span class="node-k">モデルの応答</span>
+            <p class="answer"><span id="answer"></span><span class="cursor" id="cursor"></span></p>
+          </li>
+        </ol>
+
+        <div class="products" id="products" aria-label="道具が返した商品"></div>
+
+        <div class="transport">
+          <button type="button" id="play" aria-pressed="false" disabled>再生</button>
+          <label class="scrub"><span class="sr-only">再生位置（秒）</span>
+            <input type="range" id="scrub" min="0" max="9" step="0.05" value="0" disabled>
+          </label>
+          <output id="clock" for="scrub">0.0 / 0.0秒</output>
+        </div>
+        <p class="statusline" id="status" role="status" aria-live="polite">保存済みの実行記録を読み込んでいます…</p>
+      </div>
+    </section>
+
+    <div class="details">
+      <details>
+        <summary>今回やったこと（2026-10-24・実実行）</summary>
+        <dl class="rows">
+          <dt>実行日</dt><dd>2026-10-24。2問とも成功し、道具の呼び出しは計2回。返った商品が期待どおりであることも確認しました。</dd>
+          <dt>SDK</dt><dd><code>@tanstack/ai</code> 1.0.0・<code>@tanstack/ai-claude-code</code> 1.0.0・<code>@tanstack/ai-sandbox</code> 1.0.0・<code>@tanstack/ai-sandbox-local-process</code> 1.0.0。実際のバージョンと整合性は <code>package-lock.json</code> に記録されています。</dd>
+          <dt>モデルと接続</dt><dd>モデルは <code>claude-opus-5-5</code>。接続は既存のClaude Codeホストのログインを使い、APIキーは注入していません。Node.js は v24.18.0。</dd>
+          <dt>道具</dt><dd>架空の商品カタログ3件を読む <code>get_products</code> だけ。入力 <code>{query: string, maxPrice?: number}</code>・出力 <code>{products: Product[]}</code> の型をzodで定義し、サーバー側で実行しました。</dd>
+          <dt>実行の流れ</dt><dd>質問文を送る → モデルが道具を型つきで呼ぶ → 実際にサーバーツールが実行され商品を返す → モデルが日本語で短く答える。サンプル1は「青いマグカップ」（1,800円）1件、サンプル2は予算2,500円以内のマグ2点でした。</dd>
+        </dl>
+      </details>
+
+      <details>
+        <summary>再現手順</summary>
+        <p class="small">再現用コードは <a href="run.mjs"><code>run.mjs</code></a> です。実行には既存のClaude Codeログインが必要で、新しい課金や認証は始めません。</p>
+        <pre class="code" tabindex="0"><code>npm ci          # package-lock.json どおりに依存を揃える
+node run.mjs    # 2問を実行し out/&lt;日時&gt;/ に記録を書く</code></pre>
+        <p class="small">実行の記録は <code>out/</code> へ書き込まれ、公開物には含まれません。公開データに認証情報やセッションの生ログは入っていません。</p>
+        <details class="nested">
+          <summary>この作例の道具の縛りについて</summary>
+          <p class="small">この作例は、自分が定義した読み取り専用の <code>get_products</code> だけを許可し、ファイルやシェルの道具は使えない構成にしています。ただし local-process のサンドボックスは<strong>セキュリティ上の隔離ではありません</strong>。本番で使う場合は、信頼できる道具だけを選び、サーバー側の権限と実行環境を別途設計してください。権限の回避を指示するオプションは使っていません。</p>
+        </details>
+      </details>
+
+      <details>
+        <summary>ソースと固定版</summary>
+        <ul class="links">
+          <li><a href="https://github.com/TanStack/ai/tree/98055ca01af9e449d039f61e380b0d3c158acbb1">TanStack/ai @ 98055ca01af9e449d039f61e380b0d3c158acbb1</a></li>
+          <li><a href="https://github.com/TanStack/ai/blob/98055ca01af9e449d039f61e380b0d3c158acbb1/LICENSE">MITライセンスの原文</a>・<a href="third-party/tanstack-LICENSE">同梱のコピー</a></li>
+          <li><a href="samples.json">公開用の実行記録（samples.json）</a>・<a href="runtime-results.json">実行結果の要約（runtime-results.json）</a></li>
+        </ul>
+        <p class="small">SDKのコードはMIT。接続先のモデル・API・クラウドの利用条件と料金は別です。core 1.0の安定化は、実験段階の <code>@tanstack/ai-harness</code> と <code>@tanstack/ai-harness-cli</code> のAPI安定性を保証しません。</p>
+      </details>
+
+      <details>
+        <summary>制限と未確認</summary>
+        <ul class="limits">
+          <li>このページは保存済みの記録を再生するだけで、ブラウザーからモデルやツールを呼びません。記録された2回の実行にはエラーは含まれていません。</li>
+          <li>試したのは2問だけです。長い会話・複数ツール・並列呼び出し・UI向けパッケージ（Reactなど）による表示は今回の範囲外です。</li>
+          <li>実験段階の harness と harness-cli は今回の必須構成に含めていません。</li>
+          <li>性能・料金・接続先のサービス条件は測定していません。</li>
+        </ul>
+      </details>
+    </div>
+
+    <p class="source-package"><a href="source.zip" download>再現コード・入出力・編集ソース一式（ZIP）</a></p>
+    <footer class="colophon">
+      <p>ページ・図・説明映像の編集ソース：八百万図AIツールボックス（<a href="LICENSE">MIT</a>）。TanStack AI のソースはMITで、別物です（<a href="third-party/tanstack-LICENSE">同梱のコピー</a>）。</p>
+      <p>説明映像：<a href="../../media/tanstack-ai-example.mp4">縦・540×960（MP4）</a> ／ <a href="../../media/tanstack-ai-example-wide.mp4">横・960×540（MP4）</a> ／ <a href="../../case.html?id=tanstack-ai-example">作例の記事</a>。映像の編集ソースは <a href="video/index.html"><code>video/</code></a>、概要は <a href="README.md">README</a> です。</p>
+    </footer>
+  </main>
+  <script src="app.js?v=0a93e4b4788c"></script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+{
+  "id": "langgraph-example",
+  "title": "LangGraph",
+  "title_lines": [
+    "状態と分岐を管理するAIエージェント開発基盤"
+  ],
+  "category": "agents",
+  "summary": "AI処理を工程と分岐に分け、共有する状態を管理しながら実行できます。途中で人の確認を待ったり、保存した状態から再開したりする処理を組み立てられます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/langgraph-example/index.html",
+  "video": "media/langgraph-example.mp4",
+  "poster": "media/langgraph-example.webp",
+  "skill": "examples/langgraph-example/workflow.py",
+  "skill_label": "LangGraph作例のPythonソース",
+  "skill_description": "Agent Skill の SKILL.md ではなく、この作例の実装そのものです。LangGraph の StateGraph・InMemorySaver・interrupt・Command を使って架空の申請3件を処理し、停止・再開の前後の状態とチェックポイントを JSON に保存する Python スクリプトです。各ノードは決まった規則で動き、モデルは呼びません。",
+  "samples": "examples/langgraph-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "3件の申請と、グラフが残した最終 state",
+  "samples_intro": "inputは元のinputs/requests.json、outputは元のworkflow.pyが実際に処理した最終stateです。同じ3件・同じID・同じ固定版を保持します。承認と差し戻しは入力のtest_resumeをスクリプトが渡した結果で、人の承認ではありません。",
+  "demo_description": "組む・止まるまで・再開後の3段階と、同じ架空申請3件を切り替えます。状態の紙がPython関数の道を進み、確認待ちの門とメモリの置き場、別経路のテスト回答、保存できる元の実記録へつながります。",
+  "demo_note": "図は保存された実行結果を読むものです。ブラウザーでPython・LangGraph・AIを実行しません。元の3グラフ実行・インストール・推論は再実行せず、通常8000円と高額36000円の両方が停止すること、返却日なしは見積も停止もしないことを保持します。",
+  "request_intro": "同じ作りを自分の申請データで試すときの依頼文です。LangGraph の固定版を読めるAIエージェントや開発者に渡してください。",
+  "request": "LangGraph（langchain-ai/langgraph 固定コミット d4149cc1f5384364d1a21092b4c2f582a6e7af8f、langgraph 1.2.15）を使い、機材の貸出申請を処理する Python の StateGraph を作って、実際に実行してください。\n\n入力：inputs/requests.json（架空の申請3件、単価表、期待値）。各申請の項目は applicant・event・start_date・end_date・items（sku と quantity）です。\n\n処理：\n1. validate ノードで、必須5項目の空欄、YYYY-MM-DD 形式の日付、貸出日が返却日より後でないこと、単価表にない sku、1未満の数量を調べる。\n2. add_conditional_edges で、不備があれば needs_input ノードに進めて終了する（interrupt しない）。不備がなければ estimate へ進める。\n3. estimate で「数量×単価」を合計する（日数は掛けない）。合計が30,000円以上なら budget_flag を true にする。\n4. review ノードで interrupt を呼び、申請・見積・budget_flag を payload にして止める。金額に関係なく、完全な申請はすべて止める。interrupt より前に副作用を置かない。\n5. checkpointer に InMemorySaver を使い、申請ごとに固定の thread_id を付ける。同じプロセスの同じグラフに Command(resume=テスト値) を渡して再開し、approved と comment を state に残す。\n6. finalize で日本語の要約を作る。\n\n保存：再開前・後の get_state と get_state_history（古い順）を outputs/runs.json に、入力と最終 state の対を samples.json に、結果メモを outputs/result.md に書く。\n\n完了条件：通常の8,000円が承認、返却日のない申請が needs_input（missing_fields は end_date だけ、interrupt 0件）、高額の36,000円が差し戻しになり、3件とも期待値と一致すること。一致しなければ出力を書かずに失敗すること。\n\n範囲：規則だけで動く処理なので、LLM や API キーは使いません。テスト値は人の承認ではありません。実際に人が確認するには、回答する画面と、プロセスを再起動しても残る保存先（例：Postgres のチェックポインター）が別に必要です。\n",
+  "applied_skills": [
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "依頼を、目的「申請を止めて確かめてから続きを動かす流れを、LangGraph の実際のAPIで動かす」の一つに絞りました。入力は渡された架空申請3件（通常・返却日なし・高額）と単価表の inputs/requests.json、成果物は workflow.py・保存結果のJSON・閲覧ページ・依頼文、完了条件は「8,000円→approved／end_date だけが不足→needs_input・interrupt 0件／36,000円→rejected、どれか違えば出力を書かない」に決めています。単価に日数を掛けないことと、完全な申請はすべて確認待ちにすることは入力ファイルの規則として明記されたものに従いました。ページはサンプルを読むだけなので、ライブ実行に見える表示は付けていません。"
+    },
+    {
+      "name": "LangGraph",
+      "source": "https://github.com/langchain-ai/langgraph/blob/d4149cc1f5384364d1a21092b4c2f582a6e7af8f/README.md",
+      "applied": "フレームワークであり SKILL.md ではありません。固定版の StateGraph・add_conditional_edges・interrupt（response_schema 付き）・Command・InMemorySaver の定義と docstring を読み、その API だけで workflow.py を書きました。compile(checkpointer=InMemorySaver()) したグラフを申請ごとの thread_id で invoke し、戻り値の __interrupt__ を数え、get_state で停止位置（next が review）を確かめてから、同じ config に Command(resume=...) を渡します。最後に get_state_history を古い順に保存します。「再開時は interrupt したノードが先頭から再実行される」という docstring の注意に合わせ、review ノードの interrupt より前には副作用を置いていません。 元の推論と3グラフ実行は保全して再実行していません。紹介図の6部品は今回選んだAPIの説明用整理で、元の処理と新しい映像を分けます。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/langgraph-example/tools/motion-reel/render.mjs",
+      "applied": "新しい図と32秒縦横無音映像の8原本をOpus5.5が執筆。制作側が21固定素材/3実記録/6引用/任意時刻/縦横別配置/代表連続contact/MP4再生を新QAしました。旧28秒と元グラフの検査は保全し流用しません。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "共有状態と工程を組む",
+      "body": "StateGraphの共有状態、条件の道、compile、InMemorySaver、interrupt、Commandの6部品を図でつなぎます。6つは選んだAPIの説明用整理で、6人のAIや原典の共通スキーマではありません。"
+    },
+    {
+      "title": "執筆と実行を分ける",
+      "body": "元のOpus5.5が依頼と固定APIを読みworkflow.pyを執筆し、制作担当が別工程でPythonを実行しました。実行中の5ノードはPythonの規則で、LLM推論をしません。"
+    },
+    {
+      "title": "入力の不備だけで道を分ける",
+      "body": "返却日が空ならneeds_inputで終了し、見積もinterruptもありません。完全な通常8000円と高額36000円は、どちらもreviewで一度止まります。30000円以上のbudget_flagは目印だけで拒否条件ではありません。"
+    },
+    {
+      "title": "同じメモリ・同じthreadへ回答を渡す",
+      "body": "InMemorySaverは同一Pythonプロセスのメモリです。Command(resume=テスト値)を同じグラフ/threadへ渡すと、reviewノードの先頭から再実行されます。interruptより前に送信などの副作用を置かず、回答が型を通った後にfinalizeへ進みます。"
+    },
+    {
+      "title": "保存した実記録を使う",
+      "body": "3つのJSONは元のruns.jobsオブジェクトそのままの包装です。元の全実行記録、結果メモと全文ビューアへ進めます。新しい図・編集・縦横32秒無音動画を新QAしました。"
+    }
+  ],
+  "limitations": [
+    "新しい紹介図は保存済みの実記録を読み、状態と関係を説明するものです。Python/LangGraph/モデルを再実行した証拠ではありません。元の推論・インストール・3実グラフを再実行していません。",
+    "6部品は選んだAPIの説明用整理です。StateGraphの5ノードは決まった規則のPython関数で、5つのAIではありません。",
+    "通常8000円と高額36000円は、どちらも確認待ちで停止します。金額のフラグは拒否条件ではなく、承認・差し戻しはスクリプトから渡すテスト値です。人による承認ではありません。",
+    "返却日が空の申請はneeds_inputで終了します。見積/interrupt/再開がないため、金額0や確認待ちを作って表示しません。",
+    "InMemorySaverは同一プロセスのメモリだけです。6/4/6件のチェックポイントは保存された件数で、速さや品質の点数ではありません。再起動後の再開や永続化は試していません。",
+    "再開はreviewノードの先頭からです。途中のCPU命令やfinalizeから再開するものではありません。",
+    "元の申請・氏名・催し・単価・基準額は架空です。LLM推論、LangSmith/Cloud、実予約、在庫確保、送信、決済は行っていません。",
+    "4Pythonパッケージの固定版1.2.15/4.3.0/1.1.0/0.4.7と172公式Gitblobを確認しました。元の157インストール済みファイル確認や3実行の検査を、新しい図や動画の検査へ流用しません。",
+    "新しい3JSONは元jobsオブジェクトのUTF8/LF包装です。新しいモデル出力やグラフ実行記録ではありません。公開request.txtは再現の依頼文で、私的な原推論promptそのものではありません。",
+    "実機iOS/Safari/VoiceOver、200%ズーム、人の審美的承認、全入力や意味/性能の保証、クリップボード内容の再取得は未確認です。音声ガイド・原稿・音源・音声トラックは作っていません。",
+    "JSON/メモの保存要求、公開原本のバイト一致、ブラウザー保存ツールから返却されたファイルは区別して記録します。"
+  ],
+  "sources": [
+    {
+      "label": "LangGraph（固定コミット d4149cc）",
+      "url": "https://github.com/langchain-ai/langgraph/tree/d4149cc1f5384364d1a21092b4c2f582a6e7af8f"
+    },
+    {
+      "label": "LangGraph README（固定版）",
+      "url": "https://github.com/langchain-ai/langgraph/blob/d4149cc1f5384364d1a21092b4c2f582a6e7af8f/README.md"
+    },
+    {
+      "label": "StateGraph と add_conditional_edges（graph/state.py・固定版）",
+      "url": "https://github.com/langchain-ai/langgraph/blob/d4149cc1f5384364d1a21092b4c2f582a6e7af8f/libs/langgraph/langgraph/graph/state.py"
+    },
+    {
+      "label": "interrupt と Command（types.py・固定版）",
+      "url": "https://github.com/langchain-ai/langgraph/blob/d4149cc1f5384364d1a21092b4c2f582a6e7af8f/libs/langgraph/langgraph/types.py"
+    },
+    {
+      "label": "InMemorySaver（checkpoint/memory・固定版）",
+      "url": "https://github.com/langchain-ai/langgraph/blob/d4149cc1f5384364d1a21092b4c2f582a6e7af8f/libs/checkpoint/langgraph/checkpoint/memory/__init__.py"
+    },
+    {
+      "label": "LangGraph LICENSE（固定版）",
+      "url": "https://github.com/langchain-ai/langgraph/blob/d4149cc1f5384364d1a21092b4c2f582a6e7af8f/LICENSE"
+    },
+    {
+      "label": "架空申請3件と単価表",
+      "url": "examples/langgraph-example/inputs/requests.json"
+    },
+    {
+      "label": "実行時の状態とチェックポイント",
+      "url": "examples/langgraph-example/outputs/runs.json"
+    },
+    {
+      "label": "日本語の結果メモ",
+      "url": "examples/langgraph-example/outputs/result.md"
+    },
+    {
+      "label": "実行と確認の範囲",
+      "url": "examples/langgraph-example/verification.json"
+    },
+    {
+      "label": "作例・固定ソース・図と動画の編集ソース一式",
+      "url": "examples/langgraph-example/source.zip"
+    },
+    {
+      "label": "状態と工程・停止・再開の構造",
+      "url": "examples/langgraph-example/concept/structure.json"
+    },
+    {
+      "label": "元の全文・状態・チェックポイントのビューア",
+      "url": "examples/langgraph-example/desk.html#approved"
+    },
+    {
+      "label": "原制作と新しい紹介図の確認の区別",
+      "url": "examples/langgraph-example/visual-verification.json"
+    },
+    {
+      "label": "図と縦横映像の再現手順",
+      "url": "examples/langgraph-example/visual-guide.md"
+    },
+    {
+      "label": "新32秒映像の再現スクリプト",
+      "url": "examples/langgraph-example/render-visual.py"
+    }
+  ],
+  "license": "MIT",
+  "license_note": "作例のコード・文章・データはMIT License（Copyright (c) 2026 Studio Yebisu）。同梱した LangGraph の4パッケージはMIT License（Copyright (c) 2024 LangChain, Inc.）で、ルートと各パッケージの LICENSE を残しています。MITは LangGraph の条件で、モデルAPIやホスト型サービス（LangSmith など）の料金・利用条件は別です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "video_note": "32秒・30fps・完全無音。縦720×1280/横1280×720を別配置で描きます。API部品と依頼→元のAIが実装を執筆→制作担当がPythonで実行→同じ状態が分岐/メモリ/中断/テスト回答の道を通る→実記録を使う、という構造の図解です。連続操作の録画や新しいLangGraph実行ではありません。元の28秒映像と検査は履歴へ保全し、編集ソースはlegacyへ残します。",
+  "video_source": "examples/langgraph-example/video/index.html",
+  "skill_license": "examples/langgraph-example/vendor/langgraph/LICENSE",
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "guide_url": "case.html?id=langgraph-example",
+  "catalog_entry": {
+    "id": "resource-langgraph",
+    "name": "LangGraph",
+    "tagline": "状態と分岐を管理するAIエージェント開発基盤",
+    "category": "agents",
+    "kind": "フレームワーク",
+    "summary": "AI処理を工程と分岐に分け、共有する状態を管理しながら実行できます。途中で人の確認を待ったり、保存した状態から再開したりする処理を組み立てられます。",
+    "use_case": "調査、下書き、検証などの工程を分け、途中から再開できるAI処理を作りたいとき。",
+    "tags": [
+      "エージェント",
+      "実行管理",
+      "フレームワーク"
+    ],
+    "workflow": [
+      "状態と各工程の入力・出力を定義する",
+      "ノードと分岐を接続して実行する",
+      "失敗・中断後の状態と再開を確認する"
+    ],
+    "requirements": [
+      "Python 3.10以上（JavaScript版は別ライブラリ）",
+      "この作例のような規則だけの処理ならAPIキーは不要。モデルを組み込む場合は、その接続設定と費用が別に必要",
+      "中断からの再開を本番で使うには、Postgresなどの永続的なチェックポインター"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/langchain-ai/langgraph/blob/d4149cc1f5384364d1a21092b4c2f582a6e7af8f/LICENSE",
+    "license_note": "ライブラリはMIT。モデルAPIや任意のホスト型サービスの料金・利用条件は別です。",
+    "source_url": "https://github.com/langchain-ai/langgraph/tree/d4149cc1f5384364d1a21092b4c2f582a6e7af8f",
+    "guide_url": "case.html?id=langgraph-example",
+    "readme_url": "https://github.com/langchain-ai/langgraph/blob/d4149cc1f5384364d1a21092b4c2f582a6e7af8f/README.md",
+    "source_repository": "langchain-ai/langgraph",
+    "source_commit": "d4149cc1f5384364d1a21092b4c2f582a6e7af8f",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。原典は確認時のコミットへ固定しています。",
+    "prompt": "LangGraph（langchain-ai/langgraph 固定コミット d4149cc1f5384364d1a21092b4c2f582a6e7af8f、langgraph 1.2.15）を使い、機材の貸出申請を処理する Python の StateGraph を作って、実際に実行してください。\n\n入力：inputs/requests.json（架空の申請3件、単価表、期待値）。各申請の項目は applicant・event・start_date・end_date・items（sku と quantity）です。\n\n処理：\n1. validate ノードで、必須5項目の空欄、YYYY-MM-DD 形式の日付、貸出日が返却日より後でないこと、単価表にない sku、1未満の数量を調べる。\n2. add_conditional_edges で、不備があれば needs_input ノードに進めて終了する（interrupt しない）。不備がなければ estimate へ進める。\n3. estimate で「数量×単価」を合計する（日数は掛けない）。合計が30,000円以上なら budget_flag を true にする。\n4. review ノードで interrupt を呼び、申請・見積・budget_flag を payload にして止める。金額に関係なく、完全な申請はすべて止める。interrupt より前に副作用を置かない。\n5. checkpointer に InMemorySaver を使い、申請ごとに固定の thread_id を付ける。同じプロセスの同じグラフに Command(resume=テスト値) を渡して再開し、approved と comment を state に残す。\n6. finalize で日本語の要約を作る。\n\n保存：再開前・後の get_state と get_state_history（古い順）を outputs/runs.json に、入力と最終 state の対を samples.json に、結果メモを outputs/result.md に書く。\n\n完了条件：通常の8,000円が承認、返却日のない申請が needs_input（missing_fields は end_date だけ、interrupt 0件）、高額の36,000円が差し戻しになり、3件とも期待値と一致すること。一致しなければ出力を書かずに失敗すること。\n\n範囲：規則だけで動く処理なので、LLM や API キーは使いません。テスト値は人の承認ではありません。実際に人が確認するには、回答する画面と、プロセスを再起動しても残る保存先（例：Postgres のチェックポインター）が別に必要です。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "元3実グラフ/2Opus受領/157installed確認と172固定ソースを保全。新図は21素材と3保存記録を読み、32秒縦横無音動画を別QA。LLM判断/人の承認/再起動後の永続化は未実行。",
+    "reviewed_on": "2026-10-19",
+    "example_url": "examples/langgraph-example/index.html#approved",
+    "image": "media/langgraph-example.webp"
+  },
+  "video_portrait": "media/langgraph-example.mp4",
+  "video_landscape": "media/langgraph-example-wide.mp4",
+  "poster_portrait": "media/langgraph-example.webp",
+  "poster_landscape": "media/langgraph-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/langgraph-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/langgraph-example-landscape-credited-ja-v3.mp4"
+}

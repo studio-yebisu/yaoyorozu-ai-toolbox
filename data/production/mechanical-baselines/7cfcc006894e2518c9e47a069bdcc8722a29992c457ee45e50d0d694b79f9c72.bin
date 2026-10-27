@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ja" data-state="loading">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <title>Motion Primitives：写したAccordionが、Appの状態で開閉する｜八百万図AIツールボックス</title>
+  <meta name="description" content="Motion Primitives はReactのアニメーション付きUI部品集です。原典のAccordionのソースを1つ写して実際のReact画面に入れ、Appが持つ開く1件の状態で、同じ本文の箱が開き、切り替わり、閉じる仕組みを、保存した実操作記録から1枚の図で見せます。">
+  <link rel="stylesheet" href="concept.css?v=visual-r1">
+  <script type="module" src="concept.js?v=visual-r1"></script>
+</head>
+<body class="mp">
+  <main>
+    <section class="mp-hero" aria-labelledby="mp-title">
+      <header class="mp-head">
+        <h1 id="mp-title">Motion Primitives</h1>
+        <p class="mp-line">Reactの動く部品集。Accordionを1つ写し、Appの状態で開閉する</p>
+      </header>
+
+      <div class="mp-cases" role="group" aria-label="保存した実操作記録を選ぶ">
+        <button type="button" data-case="search-two" aria-pressed="false" disabled>2件に絞る</button>
+        <button type="button" data-case="open-pdf" aria-pressed="true" disabled>PDFを開く</button>
+        <button type="button" data-case="switch-images" aria-pressed="false" disabled>画像へ切替</button>
+        <button type="button" data-case="manual-reduced" aria-pressed="false" disabled>動きを抑える</button>
+        <button type="button" data-case="empty" aria-pressed="false" disabled>0件</button>
+      </div>
+
+      <figure class="mp-map">
+        <canvas id="concept-map" data-layout="portrait" role="img" aria-label="Motion Primitivesの構造図（保存した実操作記録の図）。上の段：原典の部品ソース（固定コミット120f64f）と、依頼文と架空の手順書6件を、元の制作で1つの作者AIが読み、画面（App）と最小adapter付きの部品を書いた。型検査・ビルド・実ブラウザーでの操作は制作担当の別工程。中央のブラウザーの中では、作例のAppが検索語と件数、OSとページの動きの設定（どちらかがオンなら0秒、それ以外は0.18秒）、開く1件の状態を持つ。その中に写したAccordionがあり、MotionConfigがtransitionを配り、ProviderがtoggleItemを共有する。各Itemはidを持ち、押す入口（button）と本文の箱（Content）がある。buttonを押すとidがonValueChangeでAppの状態へ戻り、expandedValueとして下へ配られ、同じ本文の箱が開く。下の段：制作担当が保存した15状態の実操作記録と、元の実JSON（2529B）。" aria-describedby="map-summary"></canvas>
+        <figcaption class="mp-readout">
+          <span class="mp-kicker">保存した実操作記録の図</span>
+          <output id="case-meta" class="mp-meta"></output>
+          <span id="load-status" class="mp-status" role="status" aria-live="polite">読み込み中</span>
+          <button type="button" id="retry" class="mp-btn" hidden disabled>もう一度読み込む</button>
+        </figcaption>
+      </figure>
+
+      <div class="mp-stages" role="group" aria-label="図を段階で見る">
+        <button type="button" data-stage="0" aria-pressed="true" disabled>写して書く</button>
+        <button type="button" data-stage="1" aria-pressed="false" disabled>入れ子</button>
+        <button type="button" data-stage="2" aria-pressed="false" disabled>押して戻る</button>
+        <button type="button" id="replay" aria-label="図の動きをもう一度（部品もAIも動かしません）" disabled><span aria-hidden="true">↻</span></button>
+      </div>
+      <p id="phase-note" class="mp-note" aria-live="polite"></p>
+
+      <div class="mp-primary">
+        <a id="open-desk" class="mp-btn mp-btn-primary" href="desk.html">実部品を動かす</a>
+        <button type="button" id="save-record" class="mp-btn" disabled>元の実JSONを保存</button>
+      </div>
+      <p id="save-status" class="mp-save" role="status" aria-live="polite"></p>
+      <button type="button" id="linked-jump" class="mp-btn" aria-controls="linked-record" hidden>記事で選んだ実記録を見る（図の5例の対象外）</button>
+    </section>
+
+    <section class="mp-section" aria-labelledby="what-title">
+      <h2 id="what-title">これは何か</h2>
+      <p>Motion Primitives は、<a href="https://motion.dev/" rel="noreferrer">motion</a>（旧 Framer Motion）と Tailwind CSS で作られた、React のアニメーション付きUI部品集です。原典はベータとされています。Agent Skill の Markdown 指示書でも、モデルや推論API、検索サービスでもありません。この作例は <code>motion-primitives</code> という npm パッケージを入れず、原典の説明（Manual）どおり Accordion のソース（<code>components/core/accordion.tsx</code> と <code>lib/utils.ts</code>）を1つ写し、読み込み先の変更と、ボタン・パネルへ id と aria 属性を渡す最小限の adapter だけを加えて、実際の React 画面で motion/react を動かしました。</p>
+      <h3>図の流れ</h3>
+      <ol class="mp-steps" id="map-summary">
+        <li data-step="0"><b>写して書く</b>　固定版の部品ソース、依頼文、作例用に書いた架空の手順書6件を、元の制作で1つの作者AI（Claude Opus 5.5）が読み、React の画面（<code>src/app.tsx</code>）と最小 adapter 付きの部品（<code>src/accordion.tsx</code>）、旧28秒動画のソースを書きました。AIはシェルを実行していません。型検査・ビルド（esbuild）と、実ブラウザーでの操作と記録は、制作担当が別の工程で行いました。</li>
+        <li data-step="1"><b>入れ子</b>　実行時は App が開く1件の状態を持ち、Accordion に <code>expandedValue</code>・<code>onValueChange</code>・<code>transition</code> を渡します。Accordion の中では MotionConfig が transition を配り、Provider が開いている値と <code>toggleItem</code> を子へ共有します。各 AccordionItem は手順書の id を <code>value</code> に持ち、AccordionTrigger は本物の button、AccordionContent は AnimatePresence と motion.div で高さと透明度を切り替えます。</li>
+        <li data-step="2"><b>押して戻る</b>　button を押すと <code>toggleItem</code> が呼ばれ、同じ id なら null、別の id ならその id を <code>onValueChange</code> で App へ戻します。App の状態が変わると新しい <code>expandedValue</code> が下へ配られ、古い本文が閉じて新しい本文が開きます。開くのは常に1件です。</li>
+      </ol>
+      <h3>選べる5つの記録</h3>
+      <ul class="mp-notes">
+        <li><b>2件に絞る（記録3）</b>　「書き出し」で検索し、export-pdf と export-images の2件。どれも閉じています。</li>
+        <li><b>PDFを開く（記録4）</b>　「PDFを書き出す」を押し、export-pdf だけが開いて本文2段落が region として出ます。</li>
+        <li><b>画像へ切替（記録5）</b>　「画像を書き出す」を押すと PDF が閉じ、画像の本文が開きます。</li>
+        <li><b>動きを抑える（記録12）</b>　ページの「動きを抑える」をオン、OS設定はオフで PDF を開きました。同じ本文とタグです。</li>
+        <li><b>0件（記録10）</b>　「存在しないキーワード」で0件。Accordion は描かれず、全件に戻すボタンが出ます。</li>
+      </ul>
+      <p class="mp-small">図は、制作担当が実ブラウザーで記録した15状態のうちの5つを描いています。図の動きは保存した2つの状態の間を説明のためにつないだもので、部品そのものの実行や連続した画面録画、開閉速度の計測ではありません。開閉は見やすいよう遅く描いています。本物の Accordion は「<a href="desk.html">実部品を動かす</a>」（desk.html）で今も操作できます。</p>
+    </section>
+
+    <section class="mp-section" aria-labelledby="app-title">
+      <h2 id="app-title">App が持つもの：検索と動きの設定</h2>
+      <ul class="mp-notes">
+        <li><b>検索は作例の App の処理</b>　部品の機能ではありません。NFKC で正規化して小文字にし、見出し・分類・要約・本文・タグをまとめて、空白で区切った語すべてを部分一致で探します（全角の「ＰＤＦ」も「PDF」と同じ）。結果が変わるのは検索ボタンを押したときだけで、入力しただけでは6件のままです（記録2）。検索すると、開いていた1件は App が閉じます。</li>
+        <li><b>動きの設定も App 側</b>　OSの「視差効果を減らす」などの設定（prefers-reduced-motion）か、ページの「動きを抑える」のどちらかがオンなら transition を 0秒、それ以外は 0.18秒・easeOut にします。これは設定値で、応答時間や描画速度を測ったものではありません。見出し・本文・タグと操作はそのまま残ります。元の確認でのOS設定は Chrome の CDP で模擬したもので、実機の iPhone での確認や、アクセシビリティ全般の保証ではありません。</li>
+        <li><b>そのほかの App の作り</b>　App はさらに外側の MotionConfig に reducedMotion も渡します。0件のときは Accordion を描かず、全件に戻すボタンを出します。どれもこの作例の App の作りで、ライブラリの部品が自動で用意するものではありません。</li>
+      </ul>
+    </section>
+
+    <section class="mp-section" aria-labelledby="parts-title">
+      <h2 id="parts-title">部品を6つに分けて見る</h2>
+      <p class="mp-small">6つはこの説明のための整理で、原典の決まった形式ではありません。押すと図の該当箇所に印が付きます。引用は固定コミットの原典と、同じバイトで同梱したファイルの同じ行です。</p>
+      <div class="mp-parts" role="group" aria-label="6つの部品">
+        <button type="button" data-part="copy" aria-pressed="false" disabled>ソースを写す<span>Manual</span></button>
+        <button type="button" data-part="state" aria-pressed="false" disabled>開く1件を持つ<span>AccordionProvider</span></button>
+        <button type="button" data-part="container" aria-pressed="false" disabled>部品を包む<span>Accordion</span></button>
+        <button type="button" data-part="item" aria-pressed="false" disabled>1件を識別する<span>AccordionItem</span></button>
+        <button type="button" data-part="trigger" aria-pressed="false" disabled>押す入口<span>AccordionTrigger</span></button>
+        <button type="button" data-part="content" aria-pressed="false" disabled>本文の箱を開く<span>AccordionContent</span></button>
+      </div>
+      <div class="mp-part" aria-live="polite">
+        <h3 id="part-label"></h3>
+        <p id="part-meaning"></p>
+        <blockquote lang="en"><p id="part-quote"></p></blockquote>
+        <p class="mp-src">原典 <a id="part-source" rel="noreferrer"></a><br>手元 <a id="part-local"></a></p>
+      </div>
+      <p class="mp-small">作例側の変更は <a href="vendor/motion-primitives/accordion-adapter.patch">accordion-adapter.patch</a> にまとめています（読み込み先、id・aria の受け渡し、TypeScript の型、aria-orientation の削除）。開閉の仕組みと motion の使い方は原典のままです。</p>
+    </section>
+
+    <section id="linked-record" class="mp-section" aria-labelledby="linked-title" tabindex="-1" hidden>
+      <h2 id="linked-title"></h2>
+      <p id="linked-boundary" class="mp-small"></p>
+      <h3>元の入力</h3>
+      <pre id="linked-input" class="mp-record" tabindex="0"></pre>
+      <h3>保存した実結果</h3>
+      <pre id="linked-output" class="mp-record" tabindex="0"></pre>
+      <p class="mp-small">記事の同じIDの入力と結果を、そのまま表示しています。元の制御試験のHTTP 503は正常な0件検索とは別です。図の素材読み込み失敗とも区別します。元の推論・ビルド・検査を新しく実行した記録ではありません。</p>
+      <a class="mp-link" href="desk.html">実部品を動かす画面を開く</a>
+    </section>
+
+    <section class="mp-section" aria-labelledby="record-title">
+      <h2 id="record-title">返ってくるもの：元の実JSON</h2>
+      <p class="mp-small">「元の実JSONを保存」は、元の制作の実ブラウザーで画面の「この表示をJSONで保存」から書き出したファイル（<code>outputs/downloaded-state.json</code>・2529B・saved_at 2026-10-16T08:39:23.439Z）を、1バイトも変えずにブラウザーのダウンロードへ渡します。渡す前に大きさとSHA-256を確かめます。中身は「書き出し」で2件、export-pdf が開き、手動の動きを抑える＝オン・OS＝オフの状態で、記録12と同じです。選んだほかの記録の状態ではありません。いまの状態を書き出すには、元の画面（desk.html）で操作して保存してください。ブラウザーへ渡したことと、ディスクへの保存の完了は別です。</p>
+      <details class="mp-details">
+        <summary>元の実JSONの全文を読む</summary>
+        <p class="mp-small"><code id="record-name"></code></p>
+        <pre id="record-content" class="mp-record" tabindex="0"></pre>
+      </details>
+      <p class="mp-small">手順書6件は作例用の架空のアプリ「しおり工房」のものです。本文にある PDF や画像の書き出しは、この作例では実行していません。実際に動くのは、ブラウザー内の検索と開閉だけです。</p>
+    </section>
+
+    <section class="mp-section" aria-labelledby="request-title">
+      <h2 id="request-title">同じように頼む</h2>
+      <p class="mp-small">元の制作で使った依頼文（request.txt）そのままです。検索の対象と文は自分のものに置き換えてください。</p>
+      <label class="mp-label" for="request-text">依頼文（読み取り専用）</label>
+      <textarea id="request-text" class="mp-request" readonly rows="9" spellcheck="false"></textarea>
+      <div class="mp-row">
+        <button type="button" id="copy-request" class="mp-btn" disabled>依頼文をコピー</button>
+        <a class="mp-link" href="request.txt" download="request.txt">request.txt を保存</a>
+        <p id="copy-status" class="mp-small" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="mp-section" aria-labelledby="film-title">
+      <h2 id="film-title">32秒の図解動画（無音）</h2>
+      <video id="film-portrait" class="mp-film" src="../../media/motion-primitives-example.mp4" width="720" height="1280" controls muted playsinline preload="metadata" aria-label="Motion Primitivesの32秒・無音の図解動画（縦長）"></video>
+      <details class="mp-details">
+        <summary>横長版（1280×720・32秒・無音）</summary>
+        <video id="film-wide" class="mp-film mp-film-wide" src="../../media/motion-primitives-example-wide.mp4" width="1280" height="720" controls muted playsinline preload="metadata" aria-label="Motion Primitivesの32秒・無音の図解動画（横長）"></video>
+      </details>
+      <p class="mp-small">上の図と同じ構造が動く32秒の図解で、音声・ナレーションはありません。部品の設計図が箱の入れ子になり、押した id が App へ戻り、同じ本文の箱が開く・切り替わる・閉じる、動きを抑えても同じ文が残る、元の実JSONと実画面へつながる、の順です。動画の中で部品やAIを新しく動かしてはいません。</p>
+      <p class="mp-small"><a href="video/index.html">動画のソース（編集用）</a>　<a href="video/legacy.html">以前の28秒の動画のソース</a></p>
+    </section>
+
+    <section class="mp-section" aria-labelledby="scope-title">
+      <h2 id="scope-title">この作例の範囲</h2>
+      <ul class="mp-notes">
+        <li><b>原典と版</b>　<a href="https://github.com/ibelick/motion-primitives/tree/120f64f6ca60348e251f929e9c81f11ccbe45eda" rel="noreferrer">ibelick/motion-primitives</a> 固定コミット <code>120f64f6ca60348e251f929e9c81f11ccbe45eda</code>（MIT License, Copyright (c) 2024 ibelick・ベータ）。React 18.3.1・react-dom 18.3.1・motion 11.12.0 で固定しました。</li>
+        <li><b>限定した使い方</b>　原典ベータの Accordion 1つだけを、この検索ヘルプに使いました。ライブラリ全体・性能・アクセシビリティの保証ではありません。</li>
+        <li><b>図は説明</b>　新しい図と動画は、保存した元の操作記録の説明です。このページでは部品を動かしていません。実物は desk.html で試せます。</li>
+        <li><b>まだ確かめていないこと</b>　実機の iOS/Safari、VoiceOver、ブラウザーの200%拡大、人による見た目の承認。</li>
+        <li><b>このページがしていること</b>　開くたびに、固定した22件の大きさとSHA-256、原典7ファイルの固定版、6つの引用の行、15状態と12の入出力例、検索の規則と保存した結果、元の実JSONの中身、実画面4枚の寸法を照合します。モデルを呼ばず、ビルドや元の確認を再実行しません。合わないときは図・JSON・引用・依頼文を出さずに止まります。HTTPS か localhost で開いてください。</li>
+      </ul>
+    </section>
+
+    <section class="mp-section" aria-labelledby="files-title">
+      <h2 id="files-title">ファイル</h2>
+      <ul class="mp-files">
+        <li><a href="desk.html">元の検索ヘルプ（実部品が動く画面）</a> <span>desk.html</span></li>
+        <li><a href="src/app.tsx">画面・検索・動きの設定</a> <span>src/app.tsx</span></li>
+        <li><a href="src/accordion.tsx">写して最小限に直した部品</a> <span>src/accordion.tsx</span></li>
+        <li><a href="vendor/motion-primitives/accordion.original.tsx">原典の部品（固定版・同じバイト）</a> <span>vendor/motion-primitives/accordion.original.tsx</span></li>
+        <li><a href="vendor/motion-primitives/accordion-docs.mdx">原典の説明（Manual を含む）</a> <span>accordion-docs.mdx</span></li>
+        <li><a href="input/articles.json">架空の手順書6件</a> <span>input/articles.json</span></li>
+        <li><a href="outputs/operations.json">実操作の15状態</a> <span>outputs/operations.json</span></li>
+        <li><a href="samples.json">12の入力と結果</a> <span>samples.json</span></li>
+        <li><a href="outputs/downloaded-state.json" download="downloaded-state.json">元の実JSON</a> <span>outputs/downloaded-state.json・2529B</span></li>
+        <li><a href="dependency-versions.json">固定した依存の版</a> <span>dependency-versions.json</span></li>
+        <li><a href="verification.json">元の確認の範囲</a> <span>verification.json</span></li>
+      </ul>
+      <details class="mp-details">
+        <summary>元の実画面（4枚・補足の証拠）</summary>
+        <ul class="mp-files">
+          <li><a href="video/assets/phone.png">最初の画面（375×812）</a></li>
+          <li><a href="video/assets/search.png">「書き出し」で2件（1265×889）</a></li>
+          <li><a href="video/assets/pdf.png">PDFを開いた全体（1265×2023）</a></li>
+          <li><a href="video/assets/images.png">画像へ切り替えた全体（1265×2023）</a></li>
+        </ul>
+        <p class="mp-small">ローカルの Chromium で撮った実画面です。連続した録画や、実機の iPhone の画面ではありません。</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="mp-footer">
+    <p>Motion Primitives：MIT License, Copyright (c) 2024 ibelick。<a href="vendor/motion-primitives/LICENCE.md">LICENCE.md</a>・<a href="vendor/motion-primitives/README.md">README.md</a> を変えずに残しています。React・motion などの依存は、それぞれのライセンスに従います。</p>
+    <p>作例のコード・文章・架空の手順書・図：MIT License, Copyright (c) 2026 Studio Yebisu。この作例は原典の作者と関係ありません。</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,236 @@
+{
+  "id": "learn-harness-engineering-example",
+  "title": "Learn Harness Engineering",
+  "title_lines": [
+    "AIエージェントの実行環境を学ぶ教材"
+  ],
+  "category": "learning",
+  "summary": "エージェントを動かす環境、状態の保存、検証、実行の制御を、講義と小さな実践課題で学べます。AIへ継続的に仕事を任せる仕組みを、自分で作りながら理解できます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/learn-harness-engineering-example/index.html",
+  "video": "media/learn-harness-engineering-example.mp4",
+  "poster": "media/learn-harness-engineering-example.webp",
+  "skill": "examples/learn-harness-engineering-example/vendor/learn-harness-engineering/skills/harness-creator/SKILL.md",
+  "skill_label": "Harness Creatorスキル（固定版）",
+  "skill_description": "walkinglabs/learn-harness-engineering の skills/harness-creator/SKILL.md（固定コミット 38ddcd2）です。5つの仕組み（指示・状態・検証・範囲・引き継ぎ）を最小のファイルで置くこと、作業中の機能は1つ、証拠より先に完了にしない、次のセッションに要る状態をファイルに残す、という指示を適用しました。同梱の create-harness.mjs を改変せずに実行し、validate-harness.mjs の点数は構造の点検としてテストと分けて扱います。benchmark や references の追加パターンは使っていません。",
+  "samples": "examples/learn-harness-engineering-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "8問の検索条件と、Node CLIが実際に返した結果",
+  "samples_intro": "実装前に固定した8条件を実際のNode CLIへ渡した入力と出力です。2語AND、タグ併用、全角英字、0件も実際の出力と照合しました。",
+  "demo_description": "5ファイル・1つの作業カード・検証の門・保存フォルダー・次のセッションがつながる大きな図です。実装後、制作担当の検証、再開後の状態を選び、8問の実際の検索結果と元のメモを見て、選んだ記録をJSONで保存できます。",
+  "demo_note": "保存済みの原実行を読む図です。実際に検証したのは制作担当で、元の2つのOpusセッションはコードやファイルを読み書きしました。ページ内でNode・CLI・AIは動きません。ブラウザー内の検索と保存されたCLI結果は区別します。書店メモは架空です。",
+  "request_intro": "同じ練習を自分の小さな課題で試すときの依頼文です。入力の欄を自分のメモ・問い・検証のコマンドに差し替え、固定版の Harness Creator を読めるAIや開発者に渡してください。",
+  "request": "Learn Harness Engineering（walkinglabs/learn-harness-engineering 固定コミット 38ddcd2bf8d65271f668b94e7c875ca1d629d622、MIT）の Harness Creator スキルを使い、最初の小さな学習課題として、メモ8件を探す Node.js の CLI を、機能1つだけで作ってください。状態はファイルに残し、検証を実際に実行した記録がそろうまでは完了にしないでください。そのあと、新しいセッションが保存ファイルだけを読んで続きを判断できるかを確かめます。\n\n読む原典（固定版）\n・スキル：https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/skills/harness-creator/SKILL.md\n・生成スクリプト：https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/skills/harness-creator/scripts/create-harness.mjs\n・構造の点検：https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/skills/harness-creator/scripts/validate-harness.mjs\n・ライセンス：https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/LICENSE\n\n入力（ここを差し替える）\n・メモ8件：1ファイル1件。1行目は id・title・tags だけの JSON、2行目は空行、3行目から本文。架空か実在か：\n・検索の問い8つ：語、タグ、期待するIDの並び。実装の前に決めて、あとから変えない\n・検証のコマンド：\n\n進め方\n1. 空のプロジェクトで create-harness.mjs を改変せずに実行し、--commands に検証のコマンドを渡して、AGENTS.md・feature_list.json・progress.md・session-handoff.md・init.sh の5ファイルを作る。生成した原本は別の場所に残す。既にあるファイルは上書きしない（--force は使わない）。\n2. 雛形の項目を、この課題の内容に書き換える。feature_list.json の機能は2つだけ：feat-001（メモの索引と検索）を in-progress、次の候補の feat-002 を not-started にする。作業中の機能は常に1つ。\n3. feat-001 だけを実装する。Node の組み込みモジュールだけを使い、外部API・キー・アカウント・通信・パッケージの導入は使わない。\n・build：メモのフォルダから索引の JSON を作る。各メモの全項目、元ファイルのバイト列の SHA-256、相対パスの source を入れる。壊れた入力・IDの重複・既にある出力先では、何も書かずに終了コード1で止まる。\n・search：NFKC と小文字にそろえ、空白で区切った語をすべて含むメモを、タグの完全一致と組み合わせて探す。並びは入力の順。点数・あいまい検索・LLM は使わない。\n4. 検証スクリプトは CLI を子プロセスとして実際に実行し、8問の結果のIDと全項目を期待と照合する。壊れたメタデータ・IDの重複・知らない引数・必須の引数の欠落・既にある出力先・壊れた索引は、意図的な失敗として別に記録し、作業の失敗と混ぜない。標準出力は JSON 1つだけにし、時刻と手元のパスは書かない。\n5. init.sh を実際に実行し、その出力を検証の記録として保存する。実行していない検証を、実行したと書かない。シェルを使えない場合は実行を人に頼み、記録が届くまで feat-001 を in-progress のままにする。\n6. progress.md と session-handoff.md に、変えたファイル・未実行の確認・リスク・次のセッションが読む順番を書く。\n7. 新しいセッションを始め、AGENTS.md → feature_list.json・progress.md・session-handoff.md → 検証の記録、の順に読ませる。記録が全条件を満たすときだけ feat-001 を done にして証拠の場所を書かせる。そのセッションではコードを直さず、feat-002 も始めない。\n8. validate-harness.mjs の点数は、見出しや項目がそろっているかの構造の点検として、テストとは別に記録する。\n\n出力\n・5ファイルの生成記録（実行したコマンド・終了コード・各ファイルの SHA-256）\n・CLI、検証スクリプト、索引の JSON、8問の検索結果、検証の記録\n・実装セッション後と再開セッション後の feature_list.json・progress.md・session-handoff.md\n\n書かないこと\n・構造の点数を、ハーネスの効果や信頼性の向上として書かない。ハーネスなしとの比較をしていないなら、比較したと書かない。\n・検索の結果を、AIの回答や引用のように書かない。\n・feat-002 に手を付けない。\n\n最後に、作ったファイル、実際に実行した確認とその出力、まだ確かめていない点を分けて書いてください。\n",
+  "applied_skills": [
+    {
+      "name": "Harness Creatorスキル（skills/harness-creator/SKILL.md）",
+      "source": "https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/skills/harness-creator/SKILL.md",
+      "applied": "固定版のHarness Creatorスキルを読み、無改変のcreate-harness.mjsで5ファイルを実生成しました。Opus5.5の実装はfeat-001だけをin-progressで残し、制作側が./init.sh、実buildと8条件のsearch、負例11件を実行したあと、新しいOpus5.5セッションが保存済みの根拠を読んで3つの状態ファイルだけを更新しました。feat-001はdone、feat-002はnot-startedです。生成されたinit.shと原典25ファイルは無改変で、構造点検の結果もテストと区別して記録しています。"
+    },
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "掲載項目の依頼「最初の小さなエージェント実行課題を選び、入力・処理・状態・出力の流れを説明しながら進め、失敗の記録も残す」を、目的「固定版 Harness Creator の5ファイルで、架空の書店メモ8件を探す CLI の feat-001 だけを進め、実行記録がそろってから次のセッションが閉じる」の一つに絞りました（brief.json）。講座の Project 01・02 ではなく書き下ろしの練習であること、制作環境の指示ファイルのためハーネスなしとの比較をしないこと、失敗の記録を意図的な失敗として作業の失敗と分けることを assumptions に分けています。ページは保存した記録を読むだけなので、ライブの AI が動いているような表示は付けていません。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/learn-harness-engineering-example/tools/motion-reel/render.mjs",
+      "applied": "元の実入力・CLI結果・検証・5ファイル・2セッションの状態など10素材を固定し、同じ書類と1枚の作業カードが検証と保存フォルダーを通る大きな図と32秒の無音縦横動画を制作。任意時刻の再現、代表/連続フレーム、スマホの図と保存、実MP4再生を確認。音声ガイドなし。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "架空のメモと8問を固定する",
+      "body": "架空の書店メモ8件（N01〜N08：1行目に id・title・tags の JSON、空行、本文）を project/input/notes/ に、8問の語・タグ・期待IDを project/input/queries.json に置きました。期待IDは実装の前に決めた照合の条件で、結果の記録には使いません。"
+    },
+    {
+      "title": "上流の CLI で5ファイルを作る",
+      "body": "固定版の create-harness.mjs を改変せずに --target project --commands \"node scripts/verify.mjs\" で実行し、AGENTS.md・feature_list.json・progress.md・session-handoff.md・init.sh を作りました。コマンド・終了コード0・各ファイルの SHA-256 は outputs/harness-created.json、生成時の原本は outputs/scaffold/ にあります。"
+    },
+    {
+      "title": "1機能だけを実装し、未検証で残す",
+      "body": "Claude Opus 5.5 の実装セッションが、雛形の4ファイルをこの練習用に書き換え、src/notes.mjs（build・search）と scripts/verify.mjs（8問と意図的な失敗11件）を書きました。シェルを使えないため、feat-001 は in-progress・未検証のまま progress.md と session-handoff.md に残しています。"
+    },
+    {
+      "title": "検証と CLI を実際に実行する",
+      "body": "制作担当が生成時のままの./init.shを実行し、メモ8件・検索8条件・負例11件を確認しました。さらに実buildとsearchの標準出力を独立して元のメモと照合し、project/outputs/verification.jsonとoutputs/exercise-run.jsonに記録しました。負例の終了コード1はCLIが正しく断った確認です。"
+    },
+    {
+      "title": "新しいセッションが引き継ぎを読む",
+      "body": "新しいOpus5.5セッションがAGENTS.md、機能一覧、進捗、引き継ぎ、実検証の出力を読みました。記録の条件を確認して状態3ファイルだけを更新し、feat-001をdone、feat-002をnot-startedにしました。実装コードと入力のSHA-256は再開前後で一致しています。"
+    },
+    {
+      "title": "1件の作業を、動く図で引き継ぐ",
+      "body": "元のCLI・生成5ファイル・実検証・2セッションと実出力を保持し、大きな概念図と32秒の無音縦横動画へ改修しました。実装後・制作担当の検証・再開後を読み比べ、8問の元の結果を保存できます。元の処理は再実行していません。"
+    }
+  ],
+  "limitations": [
+    "名称や運用は、この作例だけの架空の書店メモ8件です。実在の店舗や現行の運用案内ではありません。",
+    "実行したのは、原典のHarness Creatorスキルと無改変の生成・構造点検CLIを使う独自の小さな検索課題です。教材Project01/02の条件をそろえた比較実験やElectronアプリの実装ではありません。",
+    "構造点検は英語の見出し・語句などを含む静的なヒューリスティックです。実際の検索テスト、エージェントの有効性や因果関係、人による内容の承認とは区別します。",
+    "実装セッションの後に制作側が検証を実行し、新しいOpus5.5セッションがファイルの根拠を読んで状態だけを更新しました。AI自身がそのセッションでシェル実行したとは扱っていません。意図的な不正入力は負例テストです。",
+    "feat-002の引用付き回答はnot-startedです。LLMによる回答、自律実行ループ、会話記憶の優劣や開発速度の改善は検証していません。",
+    "公開画面の検索はJavaScriptで動き、保存済みのNode CLI出力と引き継ぎ記録を表示します。閲覧者側でNodeやAIは実行しません。",
+    "改修した図・8問の実出力・3段階の状態・実JSON保存・29実ファイルと10素材の照合・失敗復旧・32秒の無音縦横動画の再生を確認しました。実機iOS/Safari/VoiceOver・支援技術・CoreWebVitals・人による内容や見た目の承認は未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "walkinglabs/learn-harness-engineering（固定コミット 38ddcd2）",
+      "url": "https://github.com/walkinglabs/learn-harness-engineering/tree/38ddcd2bf8d65271f668b94e7c875ca1d629d622"
+    },
+    {
+      "label": "Harness Creator スキル（skills/harness-creator/SKILL.md・固定版）",
+      "url": "https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/skills/harness-creator/SKILL.md"
+    },
+    {
+      "label": "5ファイルを作るスクリプト（scripts/create-harness.mjs・固定版）",
+      "url": "https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/skills/harness-creator/scripts/create-harness.mjs"
+    },
+    {
+      "label": "構造の点検（scripts/validate-harness.mjs・固定版）",
+      "url": "https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/skills/harness-creator/scripts/validate-harness.mjs"
+    },
+    {
+      "label": "Learn Harness Engineering LICENSE（MIT・固定版）",
+      "url": "https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/LICENSE"
+    },
+    {
+      "label": "8問と期待ID（project/input/queries.json）",
+      "url": "examples/learn-harness-engineering-example/project/input/queries.json"
+    },
+    {
+      "label": "メモを探す CLI（project/src/notes.mjs）",
+      "url": "examples/learn-harness-engineering-example/project/src/notes.mjs"
+    },
+    {
+      "label": "検証スクリプト（project/scripts/verify.mjs）",
+      "url": "examples/learn-harness-engineering-example/project/scripts/verify.mjs"
+    },
+    {
+      "label": "5ファイルの生成記録（outputs/harness-created.json）",
+      "url": "examples/learn-harness-engineering-example/outputs/harness-created.json"
+    },
+    {
+      "label": "入力・処理・状態・出力の分け方（outputs/method.md）",
+      "url": "examples/learn-harness-engineering-example/outputs/method.md"
+    },
+    {
+      "label": "CLI が作った索引（project/outputs/index.json）",
+      "url": "examples/learn-harness-engineering-example/project/outputs/index.json"
+    },
+    {
+      "label": "検証の出力（project/outputs/verification.json）",
+      "url": "examples/learn-harness-engineering-example/project/outputs/verification.json"
+    },
+    {
+      "label": "実行の記録（outputs/exercise-run.json）",
+      "url": "examples/learn-harness-engineering-example/outputs/exercise-run.json"
+    },
+    {
+      "label": "入力・結果・編集ソース一式",
+      "url": "examples/learn-harness-engineering-example/source.zip"
+    },
+    {
+      "label": "実際の生成記録",
+      "url": "examples/learn-harness-engineering-example/outputs/harness-created.json"
+    },
+    {
+      "label": "実CLIの入力・出力と状態",
+      "url": "examples/learn-harness-engineering-example/outputs/exercise-run.json"
+    },
+    {
+      "label": "実際の検証結果",
+      "url": "examples/learn-harness-engineering-example/project/outputs/verification.json"
+    },
+    {
+      "label": "次のセッション用の引き継ぎ",
+      "url": "examples/learn-harness-engineering-example/project/session-handoff.md"
+    },
+    {
+      "label": "確認の範囲",
+      "url": "examples/learn-harness-engineering-example/verification.json"
+    },
+    {
+      "label": "入力・結果・編集ソース一式",
+      "url": "examples/learn-harness-engineering-example/source.zip"
+    },
+    {
+      "label": "図中心の使い方",
+      "url": "examples/learn-harness-engineering-example/visual-guide.md"
+    },
+    {
+      "label": "29実ファイルとハッシュ",
+      "url": "examples/learn-harness-engineering-example/data-manifest.json"
+    },
+    {
+      "label": "動画の10素材とハッシュ",
+      "url": "examples/learn-harness-engineering-example/video/assets/manifest.json"
+    }
+  ],
+  "license": "MIT",
+  "license_note": "作例のコード・文章・架空のメモは MIT License（Copyright (c) 2026 Studio Yebisu）。vendor/learn-harness-engineering/ のファイルは walkinglabs/learn-harness-engineering の固定コミット 38ddcd2 のものを改変せずに置いたもので、MIT License（Copyright (c) 2025 WalkingLab）です。原典の LICENSE はそのまま同梱し、講座全体や画像などの素材は同梱していません。検索CLIの再実行に外部API・キー・アカウントは使いません。ソース制作に用いたOpus5.5の利用環境は別に必要です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "video_note": "32秒・無音。5つの書類と1枚の作業カードが、実際の検証の根拠を入れたフォルダーで次のセッションへ渡る概念図です。縦版と横版を用意しました。元のCLIと2セッションの保存記録を使い、実操作や会話記憶の録画ではありません。",
+  "video_source": "examples/learn-harness-engineering-example/video/index.html",
+  "skill_license": "examples/learn-harness-engineering-example/vendor/learn-harness-engineering/LICENSE",
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "guide_url": "case.html?id=learn-harness-engineering-example",
+  "catalog_entry": {
+    "id": "resource-learn-harness-engineering",
+    "name": "Learn Harness Engineering",
+    "tagline": "AIエージェントの実行環境を学ぶ教材",
+    "category": "learning",
+    "kind": "教材",
+    "summary": "エージェントを動かす環境、状態の保存、検証、実行の制御を、講義と小さな実践課題で学べます。AIへ継続的に仕事を任せる仕組みを、自分で作りながら理解できます。",
+    "use_case": "AIへ仕事を任せる仕組みを、自分で作りながら理解したいとき。",
+    "tags": [
+      "学習",
+      "研究",
+      "教材"
+    ],
+    "workflow": [
+      "学びたい課題に合う講義を選ぶ",
+      "対応する小さなプロジェクトを動かす",
+      "状態、失敗、再開の流れを説明できるか確かめる"
+    ],
+    "requirements": [
+      "対象課題に対応する開発環境",
+      "必要に応じてモデルへの接続"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/LICENSE",
+    "license_note": "MIT。サンプルを動かすモデルAPIや外部環境の料金・条件は別です。",
+    "source_url": "https://github.com/walkinglabs/learn-harness-engineering/tree/38ddcd2bf8d65271f668b94e7c875ca1d629d622",
+    "guide_url": "case.html?id=learn-harness-engineering-example",
+    "readme_url": "https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/README.md",
+    "source_repository": "walkinglabs/learn-harness-engineering",
+    "source_commit": "38ddcd2bf8d65271f668b94e7c875ca1d629d622",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "固定原典25ファイルを無改変で保持。MIT2025WalkingLabと原典の通知を同梱。独自の架空メモ検索課題へ最小ハーネスを適用した作例で、有効性の比較実験ではありません。",
+    "prompt": "Learn Harness Engineering（walkinglabs/learn-harness-engineering 固定コミット 38ddcd2bf8d65271f668b94e7c875ca1d629d622、MIT）の Harness Creator スキルを使い、最初の小さな学習課題として、メモ8件を探す Node.js の CLI を、機能1つだけで作ってください。状態はファイルに残し、検証を実際に実行した記録がそろうまでは完了にしないでください。そのあと、新しいセッションが保存ファイルだけを読んで続きを判断できるかを確かめます。\n\n読む原典（固定版）\n・スキル：https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/skills/harness-creator/SKILL.md\n・生成スクリプト：https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/skills/harness-creator/scripts/create-harness.mjs\n・構造の点検：https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/skills/harness-creator/scripts/validate-harness.mjs\n・ライセンス：https://github.com/walkinglabs/learn-harness-engineering/blob/38ddcd2bf8d65271f668b94e7c875ca1d629d622/LICENSE\n\n入力（ここを差し替える）\n・メモ8件：1ファイル1件。1行目は id・title・tags だけの JSON、2行目は空行、3行目から本文。架空か実在か：\n・検索の問い8つ：語、タグ、期待するIDの並び。実装の前に決めて、あとから変えない\n・検証のコマンド：\n\n進め方\n1. 空のプロジェクトで create-harness.mjs を改変せずに実行し、--commands に検証のコマンドを渡して、AGENTS.md・feature_list.json・progress.md・session-handoff.md・init.sh の5ファイルを作る。生成した原本は別の場所に残す。既にあるファイルは上書きしない（--force は使わない）。\n2. 雛形の項目を、この課題の内容に書き換える。feature_list.json の機能は2つだけ：feat-001（メモの索引と検索）を in-progress、次の候補の feat-002 を not-started にする。作業中の機能は常に1つ。\n3. feat-001 だけを実装する。Node の組み込みモジュールだけを使い、外部API・キー・アカウント・通信・パッケージの導入は使わない。\n・build：メモのフォルダから索引の JSON を作る。各メモの全項目、元ファイルのバイト列の SHA-256、相対パスの source を入れる。壊れた入力・IDの重複・既にある出力先では、何も書かずに終了コード1で止まる。\n・search：NFKC と小文字にそろえ、空白で区切った語をすべて含むメモを、タグの完全一致と組み合わせて探す。並びは入力の順。点数・あいまい検索・LLM は使わない。\n4. 検証スクリプトは CLI を子プロセスとして実際に実行し、8問の結果のIDと全項目を期待と照合する。壊れたメタデータ・IDの重複・知らない引数・必須の引数の欠落・既にある出力先・壊れた索引は、意図的な失敗として別に記録し、作業の失敗と混ぜない。標準出力は JSON 1つだけにし、時刻と手元のパスは書かない。\n5. init.sh を実際に実行し、その出力を検証の記録として保存する。実行していない検証を、実行したと書かない。シェルを使えない場合は実行を人に頼み、記録が届くまで feat-001 を in-progress のままにする。\n6. progress.md と session-handoff.md に、変えたファイル・未実行の確認・リスク・次のセッションが読む順番を書く。\n7. 新しいセッションを始め、AGENTS.md → feature_list.json・progress.md・session-handoff.md → 検証の記録、の順に読ませる。記録が全条件を満たすときだけ feat-001 を done にして証拠の場所を書かせる。そのセッションではコードを直さず、feat-002 も始めない。\n8. validate-harness.mjs の点数は、見出しや項目がそろっているかの構造の点検として、テストとは別に記録する。\n\n出力\n・5ファイルの生成記録（実行したコマンド・終了コード・各ファイルの SHA-256）\n・CLI、検証スクリプト、索引の JSON、8問の検索結果、検証の記録\n・実装セッション後と再開セッション後の feature_list.json・progress.md・session-handoff.md\n\n書かないこと\n・構造の点数を、ハーネスの効果や信頼性の向上として書かない。ハーネスなしとの比較をしていないなら、比較したと書かない。\n・検索の結果を、AIの回答や引用のように書かない。\n・feat-002 に手を付けない。\n\n最後に、作ったファイル、実際に実行した確認とその出力、まだ確かめていない点を分けて書いてください。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "Harness Creator固定25原典と元CLI・5ファイル生成・8問/不正入力11件の実検証・2セッションの状態を保持し、1件の作業が検証と保存フォルダーを経て次のセッションへ渡る大きな図と32秒の無音縦横動画へ改修。元の処理は再実行せず、feat-002は未着手。実保存・素材照合・再生を確認。実機iOSと人の承認は未確認。",
+    "reviewed_on": "2026-10-17",
+    "example_url": "examples/learn-harness-engineering-example/index.html",
+    "image": "media/learn-harness-engineering-example.webp",
+    "updated_on": "2026-10-18"
+  },
+  "video_portrait": "media/learn-harness-engineering-example.mp4",
+  "video_landscape": "media/learn-harness-engineering-example-wide.mp4",
+  "poster_portrait": "media/learn-harness-engineering-example.webp",
+  "poster_landscape": "media/learn-harness-engineering-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/learn-harness-engineering-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/learn-harness-engineering-example-landscape-credited-ja-v3.mp4"
+}

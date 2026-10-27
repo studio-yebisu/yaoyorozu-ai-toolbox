@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja" data-state="loading">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>PDF Creator の中身：手順書と変換スクリプトで、1つの原稿を2つのPDFへ｜八百万図AIツールボックス</title>
+  <meta name="description" content="PDF Creator は、AIが読むMarkdownの手順書にPythonの変換スクリプトとCSSテーマが付いたスキル。同じ日本語の原稿から、A4 1ページと148×210mm 2ページの保存済みPDFができるまでを1枚の図で示します。">
+  <link rel="stylesheet" href="concept.css">
+  <script type="module">
+    import { initMain } from './concept.js?v=visual-r1-final';
+    initMain();
+  </script>
+</head>
+<body>
+  <header class="top">
+    <p class="kicker">八百万図AIツールボックス 作例 ・ 文書・PDF</p>
+    <h1 id="pdf-title">PDF Creator：手順書と変換スクリプトで、1つの原稿を2つのPDFへ</h1>
+    <p id="load-status" class="status" role="status" aria-live="polite">保存済みの23ファイルを照合しています…</p>
+    <button id="retry" class="retry" type="button" hidden>もう一度読み込む</button>
+  </header>
+
+  <main>
+    <section class="hero" aria-label="PDF Creator の全体図">
+      <div class="cases" role="group" aria-label="版を選ぶ">
+        <button type="button" data-case="paper" aria-pressed="true" disabled>A4で配る<small>1ページ</small></button>
+        <button type="button" data-case="phone" aria-pressed="false" disabled>細いページで読む<small>2ページ</small></button>
+      </div>
+
+      <figure class="map">
+        <canvas id="concept-map" role="img" aria-describedby="map-text"
+          aria-label="PDF Creator の全体図。手順書と依頼・案内の材料を同じ作者AIが読み、Markdown原稿へ整え、制作担当が別工程で原典の変換を実行し、A4 1ページと細いページ2ページのPDFをページ画像にして原稿と読み比べ、保存済みの原PDFを使う流れ。"></canvas>
+      </figure>
+
+      <div class="stages" role="group" aria-label="図の段階を前に出す">
+        <button type="button" data-stage="0" aria-pressed="false" disabled>入れる<small>手順書・原稿・AI</small></button>
+        <button type="button" data-stage="1" aria-pressed="false" disabled>変換する<small>制作担当・原典</small></button>
+        <button type="button" data-stage="2" aria-pressed="false" disabled>確かめて使う<small>画像・読み比べ</small></button>
+      </div>
+
+      <div class="actions">
+        <a id="open-desk" class="action primary" aria-disabled="true">実PDFと全ページを見る</a>
+        <button id="save-record" class="action" type="button" disabled>原PDFを保存</button>
+      </div>
+      <p id="save-status" class="note" role="status" aria-live="polite"></p>
+      <p id="case-meta" class="meta"></p>
+      <p id="phase-note" class="phase" aria-live="polite"></p>
+      <button id="replay" class="quiet" type="button" disabled>図の動きをもう一度見る</button>
+    </section>
+
+    <section class="block" aria-labelledby="what-title">
+      <h2 id="what-title">これは何か</h2>
+      <p>PDF Creator は、AIが読むMarkdownの手順書（SKILL.md）に、Pythonの変換スクリプト（md_to_pdf.py）とCSSテーマが付いたスキルです。AIモデルでも、ホスト型のPDF変換APIでも、ブラウザーで動く変換サービスでも、品質の保証でもありません。</p>
+      <p>原典は daymade/claude-code-skills の固定コミット <code>e37b50c</code>（MIT License、Copyright (c) 2025 daymade）。同梱した18ファイルは公式のGitの内容と一致を確かめています。下の6部品は説明のための整理で、原典の共通スキーマではありません。</p>
+    </section>
+
+    <section class="block" aria-labelledby="read-title">
+      <h2 id="read-title">図の読み方</h2>
+      <ol id="map-text" class="flow">
+        <li><b>手順書</b>：①版の選び方 ②5テーマ（今回はwarm-terraとmobileだけ） ③Pythonの変換とプレビュー ④生成後に全ページを読む指示。</li>
+        <li><b>材料と原稿</b>：作者への入力は依頼 input.md と正本 inputs/event.json。作者が同じ事実から29ブロックの event.md を執筆しました。図の紙の模様は材料と原稿で共通の内容を示し、元JSONの表示やAIが原稿を受け取った証拠ではありません。</li>
+        <li><b>作者AI</b>：同じ1つのAI（元のOpus 5.5）が手順書と依頼・正本JSONを読み、Markdown原稿・版の選択・和文CSSを用意。シェルは実行していません。</li>
+        <li><b>制作担当（別工程）</b>：build_pdfs.py で原典の markdown_to_pdf を実行。Chrome指定・lang=ja・静的TrueType・UTF-8の補助つき。</li>
+        <li><b>変換の中</b>：同じMarkdown → PandocでHTML → 原典テーマ＋CJKパッチ＋後置の和文CSS → 指定したChromeでPDF。</li>
+        <li><b>折り返し</b>：同じ原稿が版の枠で折り返し、A4は1ページ、148×210mmは流れの4〜6番から2ページ目へ（生成後の実測）。</li>
+        <li><b>ページ画像</b>：PDF → Popplerのページ画像3枚と字組みlint（警告はエラーではない）。表がないため罫線検査は対象外。</li>
+        <li><b>読み比べ</b>：原稿とページを別工程で見比べ（全3ページ・各29ブロック・埋込TrueType）。人の承認はなし。</li>
+        <li><b>使う</b>：保存済みの原PDF 2点と、原稿・追加CSS・再現手順。</li>
+      </ol>
+    </section>
+
+    <section class="block" aria-labelledby="cases-title">
+      <h2 id="cases-title">選んだ版の原PDF</h2>
+      <article id="paper" class="case-card" aria-labelledby="paper-title">
+        <h3 id="paper-title">A4で配る</h3>
+        <dl class="facts" data-facts></dl>
+        <div class="thumbs" data-thumbs></div>
+        <p><a href="desk.html#paper">A4版の実PDFと全ページを開く</a></p>
+      </article>
+      <article id="phone" class="case-card" aria-labelledby="phone-title" hidden>
+        <h3 id="phone-title">細いページで読む</h3>
+        <dl class="facts" data-facts></dl>
+        <div class="thumbs" data-thumbs></div>
+        <p><a href="desk.html#phone">細いページ版の実PDFと全ページを開く</a></p>
+      </article>
+      <details class="fold">
+        <summary>保存する原PDFの記録</summary>
+        <p id="record-name" class="mono"></p>
+        <p id="record-content" class="mono small"></p>
+        <p class="small">「原PDFを保存」は、照合を通った保存済みの原本をそのままブラウザーに渡します。新しく生成したPDFではありません。</p>
+      </details>
+    </section>
+
+    <section class="block" aria-labelledby="parts-title">
+      <h2 id="parts-title">6つの部品と原典の行</h2>
+      <div class="parts" role="group" aria-label="部品を選ぶ">
+        <button type="button" data-part="instructions" aria-pressed="false" disabled>用途と手順</button>
+        <button type="button" data-part="theme" aria-pressed="false" disabled>版のCSS</button>
+        <button type="button" data-part="convert" aria-pressed="false" disabled>変換スクリプト</button>
+        <button type="button" data-part="backend" aria-pressed="false" disabled>描画の選択</button>
+        <button type="button" data-part="preview" aria-pressed="false" disabled>ページを画像へ</button>
+        <button type="button" data-part="review" aria-pressed="false" disabled>原稿と読み比べる</button>
+      </div>
+      <div class="part-panel" aria-live="polite">
+        <h3 id="part-label"></h3>
+        <p id="part-meaning"></p>
+        <blockquote><code id="part-quote"></code></blockquote>
+        <p class="small"><a id="part-source" rel="noopener"></a></p>
+        <p class="small"><a id="part-local"></a></p>
+      </div>
+    </section>
+
+    <section class="block" aria-labelledby="films-title">
+      <h2 id="films-title">32秒の動く図（無音）</h2>
+      <p>同じ図の部品が移動・合流・折り返しをして、手順書から保存済みPDFの利用までを示します。ナレーションと音声トラックはありません。</p>
+      <div class="films">
+        <video id="film-portrait" controls muted playsinline preload="metadata" src="../../media/pdf-creator-example.mp4" aria-label="縦長・32秒・無音の動く図"></video>
+        <video id="film-wide" controls muted playsinline preload="metadata" src="../../media/pdf-creator-example-wide.mp4" aria-label="横長・32秒・無音の動く図"></video>
+      </div>
+      <p><a id="open-editor" href="video/index.html">動く図の編集ソースを開く</a> ・ <a href="video/legacy.html">旧28秒の解説（ページ画像の編集版）</a></p>
+    </section>
+
+    <section class="block" aria-labelledby="request-title">
+      <h2 id="request-title">再利用できる依頼文</h2>
+      <p>［ ］の中を書き換えて使えます。照合済みの request.txt と同じ文面です。</p>
+      <label class="small" for="request-text">依頼文（読み取り専用）</label>
+      <textarea id="request-text" rows="12" readonly spellcheck="false"></textarea>
+      <div class="row">
+        <button id="copy-request" class="action" type="button" disabled>依頼文をコピー</button>
+        <p id="copy-status" class="note" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="block" aria-labelledby="files-title">
+      <h2 id="files-title">原稿・記録・コード</h2>
+      <ul class="files">
+        <li>原稿：<a href="inputs/event.md">inputs/event.md</a>・<a href="inputs/event.json">inputs/event.json</a>・依頼の要件 <a href="input.md">input.md</a></li>
+        <li>結果と記録：<a href="outputs/manifest.json">outputs/manifest.json</a>・<a href="validation.json">validation.json</a>・<a href="samples.json">samples.json</a>・<a href="concept/structure.json">concept/structure.json</a>・<a href="concept/original-run.json">concept/original-run.json</a>・<a href="concept/manifest.json">concept/manifest.json</a></li>
+        <li>再現：<a href="build_pdfs.py">build_pdfs.py</a>（新しい空のフォルダーへ書き出す）</li>
+        <li>追加CSS：<a href="themes/japanese-a4.css">themes/japanese-a4.css</a>・<a href="themes/japanese-phone.css">themes/japanese-phone.css</a></li>
+        <li>原典：<a href="vendor/pdf-creator/daymade-docs/pdf-creator/SKILL.md">SKILL.md</a>・<a href="vendor/pdf-creator/daymade-docs/pdf-creator/scripts/md_to_pdf.py">scripts/md_to_pdf.py</a>・<a href="vendor/pdf-creator/daymade-docs/pdf-creator/themes/warm-terra.css">themes/warm-terra.css</a>・<a href="vendor/pdf-creator/daymade-docs/pdf-creator/themes/mobile.css">themes/mobile.css</a>・<a href="vendor/pdf-creator/LICENSE">LICENSE</a></li>
+        <li>実PDF：<a href="outputs/atelier-a4.pdf">outputs/atelier-a4.pdf</a>・<a href="outputs/atelier-phone.pdf">outputs/atelier-phone.pdf</a>（<a href="desk.html">閲覧ページ</a>）</li>
+      </ul>
+    </section>
+
+    <section class="block" aria-labelledby="limits-title">
+      <h2 id="limits-title">範囲と未確認の点</h2>
+      <details class="fold">
+        <summary>試した範囲・試していないこと</summary>
+        <ul>
+          <li>案内は架空です。開催・申込窓口・外部送信はありません。</li>
+          <li>固定した日本語の原稿1つ・2つの版・Chromeだけ。WeasyPrint・自動選択・一括変換・表は実行していません。</li>
+          <li>原典は主に中国語の組版向けです。和文の禁則すべてや、別の文書での品質は保証しません。</li>
+          <li>ページ数（1ページ・2ページ）は生成後に数えた結果で、別の環境やフォントでは変わることがあります。</li>
+          <li>macOSのプレビュー・Adobe Reader・実際の印刷・人による最終承認は確認していません。</li>
+          <li>実機のiOS・Safari・VoiceOver・200%拡大・クリップボードの読み戻しは確認していません。</li>
+          <li>この図は保存済みの原制作の構造説明です。元のモデル・PDF生成・lintは再実行していません。</li>
+          <li>フォントはインストール済みの Noto Sans JP（SIL OFL 1.1、<a href="FONT-OFL.txt">FONT-OFL.txt</a>）を一時的に静的TrueTypeへ展開して使い、フォント本体は配布していません。</li>
+        </ul>
+      </details>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <p>八百万図AIツールボックス ／ PDF Creator 作例。原典 daymade/claude-code-skills（MIT）。この作例の原稿・追加CSS・ページのコードと文章は MIT License、© 2026 Studio Yebisu（<a href="LICENSE">LICENSE</a>）。</p>
+  </footer>
+</body>
+</html>

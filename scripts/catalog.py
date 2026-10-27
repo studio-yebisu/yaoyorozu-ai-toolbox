@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import re
+from site_structure import unified_url
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -32,6 +33,8 @@ def build_catalog(cases):
         if case.get('catalog_entry'):
             by_id[case['catalog_entry']['id']] = case['catalog_entry']
     for entry in by_id.values():
+        if entry.get('guide_url'):
+            entry['guide_url'] = unified_url(entry['guide_url'])
         if entry.get('category') not in category_ids:
             raise ValueError(f'Unknown catalog category: {entry.get("category")}')
         for key in ('id', 'name', 'summary', 'kind', 'source_url', 'license'):

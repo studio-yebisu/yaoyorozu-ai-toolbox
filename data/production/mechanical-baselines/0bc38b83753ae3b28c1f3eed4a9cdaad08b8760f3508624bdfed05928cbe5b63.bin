@@ -1,0 +1,37 @@
+/* 八百万図AIツールボックス existing fixture tokens, MIT */
+:root{--paper:#f6f2e8;--surface:#fffdf7;--ink:#191919;--muted:#57564f;--line:#c7c1b6;--accent:#8c2c0b;--gap:.5rem}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.6 'Yu Gothic UI',Meiryo,sans-serif}main{max-width:960px;margin:0 auto;padding:2rem 1rem}h1{font:600 2.5rem/1.3 'Yu Mincho',serif;margin:.5rem 0}h2{font-size:1.5rem}.eyebrow{color:var(--accent);font-weight:700;font-size:.875rem}section{margin:2rem 0}.filters,form{display:flex;align-items:end;gap:1rem;flex-wrap:wrap}label{display:grid;gap:.5rem}input,select,button{font:inherit;min-height:44px;padding:.5rem .75rem;border:1px solid var(--ink);border-radius:0;background:var(--surface);max-width:100%}button{background:var(--accent);color:white;cursor:pointer}button:disabled{background:var(--surface);color:var(--muted);border-color:var(--line);cursor:default}a{color:var(--accent)}:focus-visible{outline:3px solid var(--accent);outline-offset:3px}ul{list-style:none;padding:0}#tasks>li{border-top:1px solid var(--line);background:var(--surface);padding:1rem;display:flex;align-items:center;gap:1rem}#tasks label{display:flex;align-items:center;gap:1rem;flex:1;min-width:0;overflow-wrap:anywhere}#tasks input{min-height:24px;width:24px;flex-shrink:0}#tasks time,#tasks .no-date{white-space:nowrap;color:var(--muted);font-size:1rem}#tasks .done{text-decoration:line-through;color:var(--muted)}#error,#cutoff-error{color:var(--accent);font-weight:700}[hidden]{display:none!important}@media(max-width:480px){form,label{width:100%}#tasks>li{align-items:start;flex-direction:column;gap:.5rem}#tasks time,#tasks .no-date{margin-left:40px}}
+
+/* Guide additions for the public example. Same tokens, 4px steps, no radius. */
+h2,h3{font-family:'Yu Mincho',serif;font-weight:600}
+h2{border-top:1px solid var(--ink);padding-top:1rem}
+h3{font-size:1.125rem;margin:0 0 .5rem}
+.lede{max-width:40rem}
+code{font:.875em/1.4 Consolas,'BIZ UDGothic',monospace;background:var(--surface);border:1px solid var(--line);padding:0 .25rem;overflow-wrap:anywhere}
+.presets{margin:0 0 1.5rem}
+.presets h3{font:700 .875rem/1.4 'Yu Gothic UI',Meiryo,sans-serif;color:var(--muted)}
+.presets ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;margin:0}
+.presets a{display:grid;gap:.25rem;min-height:44px;height:100%;padding:.75rem 1rem;border:1px solid var(--ink);background:var(--surface);color:var(--ink);text-decoration:none}
+.presets a span{font-size:.875rem;color:var(--muted)}
+.presets a:hover{border-color:var(--accent)}
+.presets a[aria-current]{background:var(--ink);color:var(--paper);box-shadow:inset 0 -4px 0 var(--accent)}
+.presets a[aria-current] span{color:var(--paper)}
+.presets a[aria-current] b::after{content:'・表示中';font-weight:400}
+.origin{border-left:4px solid var(--accent);padding:.25rem 0 .25rem .75rem;color:var(--muted);font-size:1rem;margin:0 0 1rem}
+.origin:empty{display:none}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.5rem}
+.checks li{border-top:1px solid var(--line);padding:.5rem 0;font-size:1rem;overflow-wrap:anywhere}
+.tag{display:inline-block;margin-right:.5rem;padding:0 .5rem;border:1px solid var(--ink);font-size:.875rem;font-weight:700}
+.tag-pending{border-style:dashed;color:var(--accent);border-color:var(--accent)}
+.request-label{gap:.25rem;font-weight:700}
+textarea{width:100%;font:400 1rem/1.7 'Yu Gothic UI',Meiryo,sans-serif;padding:.75rem;border:1px solid var(--ink);border-radius:0;background:var(--surface);color:var(--ink);resize:vertical}
+.copy-row{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;margin-top:.75rem}
+.copy-row a{min-height:44px;display:inline-flex;align-items:center}
+#copy-status{font-weight:700}
+#copy-status:empty{display:none}
+summary{cursor:pointer;font-weight:700;padding:.5rem 0;min-height:44px}
+.files{display:grid;grid-template-columns:minmax(0,16rem) minmax(0,1fr);gap:.5rem 1rem;margin:1rem 0 0;font-size:1rem;overflow-wrap:anywhere}
+.files dd{margin:0;color:var(--muted)}
+.license{font-size:.875rem;color:var(--muted)}
+@media(max-width:768px){.presets ul,.checks{grid-template-columns:1fr}}
+@media(max-width:480px){.files{grid-template-columns:1fr;gap:0}.files dd{margin-bottom:.75rem}}

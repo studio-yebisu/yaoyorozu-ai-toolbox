@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>受け止めた瞬間の、青い防御ヒット｜Effekseer VFXの作例｜八百万図AIツールボックス</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <p class="back"><a href="../../case.html?id=effekseer-vfx-example">作例の記事へ戻る</a></p>
+      <p class="eyebrow">Effekseer VFX の作例　ゲーム</p>
+      <h1>受け止めた瞬間だけ光る、<br>青い防御ヒット</h1>
+      <p class="lead">架空のアクションゲームのガードを、文章で依頼しました。AIがブリーフとレシピを書き、Effekseerでビルドし、Godotで実際に描画したフレームを見て直しています。下の画面で、その0.5秒の実際の描画を1フレームずつ確かめられます。</p>
+      <ol class="flow" aria-label="この作例の流れ">
+        <li><span class="flow-num" aria-hidden="true">1</span>ガードを依頼する</li>
+        <li><span class="flow-num" aria-hidden="true">2</span>レシピを書く</li>
+        <li><span class="flow-num" aria-hidden="true">3</span>Godotで描く</li>
+        <li><span class="flow-num" aria-hidden="true">4</span>見て直す</li>
+      </ol>
+    </header>
+
+    <main>
+      <section class="block viewer-block" id="yebisu-guard" aria-labelledby="viewer-title">
+        <div class="block-head">
+          <h2 id="viewer-title">Godotの実際の描画を、1フレームずつ見る</h2>
+          <p class="block-note">60FPSで撮った f0〜f30（0〜0.5秒）の31枚です。ブラウザーで効果を作り直しているのではなく、制作時に Godot 4.7 と EffekseerForGodot4 で描画して保存したPNGを順に表示しています。</p>
+        </div>
+
+        <div class="viewer" id="viewer">
+          <div class="view-switch" role="group" aria-label="表示する範囲">
+            <button type="button" class="seg" id="view-full" aria-pressed="true">舞台全体</button>
+            <button type="button" class="seg" id="view-crop" aria-pressed="false">防御側を拡大</button>
+          </div>
+
+          <figure class="stage-figure">
+            <div class="stage" id="stage" data-view="full" tabindex="0" aria-describedby="viewer-keys">
+              <div class="crop-box">
+                <img id="frame" src="assets/frames/guard-f010.png" width="1280" height="800" alt="Godotで描画したf10（0.167秒）。左のダミーの横で、青い面に波紋が広がっている。">
+              </div>
+              <p class="crop-tag" id="crop-tag" hidden>Godotの実際の描画を切り抜いて拡大</p>
+            </div>
+            <figcaption class="readout">
+              <span class="readout-frame"><output id="readout-frame" for="scrub">f10</output><span class="readout-sep" aria-hidden="true">／</span><output id="readout-time" for="scrub">0.167秒</output></span>
+              <span class="readout-phase" id="readout-phase">波紋</span>
+            </figcaption>
+          </figure>
+
+          <div class="phase-track" aria-hidden="true">
+            <div class="track-row">
+              <span class="band band-outline">輪郭</span>
+              <span class="band band-contact">接点</span>
+              <span class="band band-face">青い面・波紋</span>
+              <span class="band band-shards">破片・欠片</span>
+            </div>
+            <span class="track-marker" id="track-marker"></span>
+          </div>
+
+          <div class="scrub-row">
+            <label class="visually-hidden" for="scrub">表示するフレーム（0〜30）</label>
+            <input type="range" id="scrub" min="0" max="30" step="1" value="10" aria-valuetext="f10、0.167秒、波紋">
+            <div class="scrub-scale" aria-hidden="true"><span>f0</span><span>f10</span><span>f20</span><span>f30</span></div>
+          </div>
+
+          <div class="controls">
+            <button type="button" id="prev" class="ctl" aria-label="前のフレーム">◀ 前</button>
+            <button type="button" id="play" class="ctl primary" aria-pressed="false" disabled>最初から再生</button>
+            <button type="button" id="next" class="ctl" aria-label="次のフレーム">次 ▶</button>
+            <fieldset class="speed">
+              <legend>再生の速さ</legend>
+              <label><input type="radio" name="speed" value="1" checked> 等速（0.5秒）</label>
+              <label><input type="radio" name="speed" value="0.25"> 1/4（2秒）</label>
+            </fieldset>
+          </div>
+          <p class="hint" id="viewer-keys">画像を選んで ← → で1フレームずつ、Home・End で最初と最後へ移動できます。再生は一度だけ進んで f30 で止まり、繰り返しません。白い接点は f4〜f8 の短い光です。</p>
+
+          <p class="phase-text" id="phase-text" role="status" aria-live="polite">f10：星は消え、青い面の上を波紋が広がり、模様が流れます。左のダミーは面の横と奥に見えています。</p>
+          <p class="load-status" id="load-status" role="status" aria-live="polite">フレームを読み込んでいます。</p>
+
+          <h3 class="keys-title">要所のフレーム</h3>
+          <ol class="keys" id="keys">
+            <li><button type="button" data-frame="2"><span class="key-thumb"><img src="assets/frames/guard-f002.png" width="1280" height="800" alt=""></span><span class="key-label"><b>f2</b> 輪郭が伸びる</span></button></li>
+            <li><button type="button" data-frame="6"><span class="key-thumb"><img src="assets/frames/guard-f006.png" width="1280" height="800" alt=""></span><span class="key-label"><b>f6</b> 白い接点</span></button></li>
+            <li><button type="button" data-frame="10"><span class="key-thumb"><img src="assets/frames/guard-f010.png" width="1280" height="800" alt=""></span><span class="key-label"><b>f10</b> 青い面の波紋</span></button></li>
+            <li><button type="button" data-frame="16"><span class="key-thumb"><img src="assets/frames/guard-f016.png" width="1280" height="800" alt=""></span><span class="key-label"><b>f16</b> 隙間が開く</span></button></li>
+            <li><button type="button" data-frame="23"><span class="key-thumb"><img src="assets/frames/guard-f023.png" width="1280" height="800" alt=""></span><span class="key-label"><b>f23</b> 離れる破片</span></button></li>
+            <li><button type="button" data-frame="30"><span class="key-thumb"><img src="assets/frames/guard-f030.png" width="1280" height="800" alt=""></span><span class="key-label"><b>f30</b> 何も残らない</span></button></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="block" aria-labelledby="request-title">
+        <div class="block-head">
+          <h2 id="request-title"><span class="num" aria-hidden="true">1</span>ガードを依頼する</h2>
+          <p class="block-note">AIのコーディングエージェントに渡した依頼の形です。効果の部分（【】）を自分のゲームの言葉に置き換えて使えます。この依頼は作例のための架空のものです。</p>
+        </div>
+        <pre class="request" id="request-text" tabindex="0" aria-label="依頼の文章">Effekseer VFX スキル（kanaworksai-hue/effekseer-vfx-skill、固定コミット c28919890f0483c0f968a884ea03979803d3b528）の SKILL.md と、そこで必ず読むよう書かれた references を読んでから、次の効果を作ってください。
+
+依頼：【架空のアクションゲームで、攻撃を受け止めた瞬間だけ出る青い防御ヒット。約0.5秒。薄い盾の輪郭→短い白い接点→青い面の波紋→隙間を開けた破片→消失。キャラクターを隠さない。一回のガード反応。】
+
+進め方：まず vfx doctor でこの環境にできることを確かめ、ダウンロードが必要なら実行する前に私に確認してください。ブリーフとレシピを書き、brief-validate・lint・build のあと review でGodotの画像を実際に開いて見てください。1回に直すのは1種類の問題だけにします。仕上がったら review-handoff の指示書を、レシピを見ていない別のエージェントに渡して採点してもらい、overview と effect-verify まで進めてください。
+
+報告：effect-verify が verified: true になったか、開いた画像、各回で直したこと、確かめていないこと（端末での性能、ゲームへの組み込みなど）を分けて書いてください。</pre>
+        <div class="copy-row">
+          <button type="button" id="copy" class="ctl">依頼の文章をコピー</button>
+          <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="block" aria-labelledby="recipe-title">
+        <div class="block-head">
+          <h2 id="recipe-title"><span class="num" aria-hidden="true">2</span>レシピを書く</h2>
+          <p class="block-note">依頼を、要所のフレームを決めたブリーフにし、Pythonのレシピで層を組みます。時間は60FPSのフレームで数えます。</p>
+        </div>
+        <div class="two-col">
+          <dl class="facts">
+            <div><dt>効果のID</dt><dd><code>VFX_Yebisu_Guard</code></dd></div>
+            <div><dt>長さ</dt><dd>0.5秒（60FPSで30フレーム）</dd></div>
+            <div><dt>層と粒子</dt><dd>15層、粒子の上限27</dd></div>
+            <div><dt>乱数の種</dt><dd>1729</dd></div>
+            <div><dt>出る場所</dt><dd>防御する側（左のダミー）の、攻撃が来る側</dd></div>
+          </dl>
+          <ol class="beats">
+            <li><b>f2</b>　下から伸びる薄い輪郭。まだ塗りも星もない</li>
+            <li><b>f5</b>　胸の高さに短い白い星。いちばん明るい瞬間</li>
+            <li><b>f10</b>　星は消え、青い面に波紋。ダミーの頭と胴が読める</li>
+            <li><b>f16</b>　面が崩れ、暗い隙間で6枚の破片に分かれる</li>
+            <li><b>f23</b>　破片が離れ、向きがばらけ、薄くなる</li>
+            <li><b>f30</b>　何も残らない</li>
+          </ol>
+        </div>
+        <p class="files-inline"><a href="library/vfx/briefs/VFX_Yebisu_Guard.json">ブリーフ（JSON）</a>　<a href="library/vfx/src/VFX_Yebisu_Guard.py">レシピ（Python）</a></p>
+      </section>
+
+      <section class="block" aria-labelledby="render-title">
+        <div class="block-head">
+          <h2 id="render-title"><span class="num" aria-hidden="true">3</span>Godotで描く</h2>
+          <p class="block-note">レシピは原典スキルのコマンドで公式のEffekseer Coreに渡され、<code>.efkefc</code> と実行用の <code>.efk</code> になります。それをGodotの確認用の舞台で再生し、1280×800のフレームを撮ります。</p>
+        </div>
+        <dl class="facts facts-wide">
+          <div><dt>描画した環境</dt><dd>Windows x64、Godot 4.7 stable（Forward+）、公式 EffekseerForGodot4 1.80.5.1</dd></div>
+          <div><dt>ビルド</dt><dd>Effekseer Core 1.80.7、.NET 9.0.20。保存して開き直し、値を読み戻す確認つき</dd></div>
+          <div><dt>撮ったフレーム</dt><dd>標準の舞台で f0〜f30 と、終わったあとの f36。欠けたフレームなし</dd></div>
+          <div><dt>舞台</dt><dd>左が防御する側、右が攻撃する側のダミー。どちらも形だけの仮の人形です</dd></div>
+        </dl>
+        <p class="files-inline"><a href="assets/guard-contact-sheet.png">代表フレームの一覧</a>　<a href="assets/guard-keyframes.png">要所のフレームのシート</a>　<a href="assets/guard-real-render.mp4">0.5秒の動画（f1〜f30、無音）</a></p>
+      </section>
+
+      <section class="block" aria-labelledby="fix-title">
+        <div class="block-head">
+          <h2 id="fix-title"><span class="num" aria-hidden="true">4</span>見て直す：f16の破片</h2>
+          <p class="block-note">1回目の実描画では、冷えた青になるはずの破片が、白く光っていました。接点の白い星のあとに、2回目の白い出来事があるように見えてしまいます。</p>
+        </div>
+        <div class="compare">
+          <figure>
+            <div class="crop-box crop-tight"><img src="assets/first-pass-f016.png" width="1280" height="800" alt="1回目の実描画のf16。6枚の破片が白い模様で光っている。"></div>
+            <figcaption><b>1回目</b>　f16：破片が白い<br><a href="assets/first-pass-f016.png">全体の画像</a></figcaption>
+          </figure>
+          <figure>
+            <div class="crop-box crop-tight"><img src="assets/frames/guard-f016.png" width="1280" height="800" alt="最終の実描画のf16。6枚の破片が青く、縁が暗い。"></div>
+            <figcaption><b>最終</b>　f16：破片が青い<br><a href="assets/frames/guard-f016.png">全体の画像</a></figcaption>
+          </figure>
+        </div>
+        <p class="caption-note">どちらもGodotの実際の描画を、同じ範囲で切り抜いて拡大しています。</p>
+        <ol class="rounds">
+          <li><b>原因を調べる</b>　原典のコンパイラーは、時間で変わる色（color_curve）をSpriteとModelにだけ書き出します。破片に使ったRingは、外側・中央・内側の3つの固定の頂点色で描かれ、色の変化の指定は無視されていました。1回目の破片は、その頂点色が白だったため白く描かれていました。</li>
+          <li><b>2回目</b>　破片の頂点色そのものを、中央が鮮やかな青、縁が暗い紺になるよう変えました。f16の破片は青くなり、白い星だけがいちばん明るい出来事になりました。</li>
+          <li><b>3回目</b>　青い面のレシピに残っていた、効かない色の指定を消し、説明を実際の描かれ方に合わせました。見た目を変える回ではなく、2回目と3回目の32枚のフレームはすべて同じ画像でした。</li>
+        </ol>
+        <p>青い面の見え方は、色が移り変わるのではなく、流れる模様、穴のあく崩れ方、形の動き、薄れ方で変わります。</p>
+      </section>
+
+      <section class="block" aria-labelledby="check-title">
+        <div class="block-head">
+          <h2 id="check-title">確かめたこと</h2>
+        </div>
+        <div class="two-col">
+          <div>
+            <h3>別のAIによる採点</h3>
+            <p>レシピも制作の経緯も見ていない別のAIが、最終のフレームの一覧を0〜3で採点し、<b>ship（出してよい）</b>と判定しました。人による承認ではありません。</p>
+            <table class="scores">
+              <caption class="visually-hidden">独立したAIレビューの点数（0〜3）</caption>
+              <tbody>
+                <tr><th scope="row">すぐ何か分かる</th><td>2</td></tr>
+                <tr><th scope="row">時間の流れ</th><td>3</td></tr>
+                <tr><th scope="row">明るさの重なり</th><td>3</td></tr>
+                <tr><th scope="row">形の変化</th><td>3</td></tr>
+                <tr><th scope="row">粒の動き</th><td>2</td></tr>
+                <tr><th scope="row">置き場所</th><td>3</td></tr>
+                <tr><th scope="row">消え方</th><td>3</td></tr>
+                <tr><th scope="row">見分けやすさ</th><td>2</td></tr>
+              </tbody>
+            </table>
+            <p class="small">任意の改善点として「f2〜f4に、ごく薄い楕円の全体を見せると、最初の輪郭が盾だと分かりやすい」と挙げられました。出すのを止める指摘は残っていません。原典の review-submit・overview・effect-verify で <code>verified: true</code> になっています。</p>
+          </div>
+          <div>
+            <h3>Godotでの呼び出し</h3>
+            <p>原典の <code>TestApi.gd</code> で12項目の確認が通りました。</p>
+            <ul class="checks">
+              <li>再生の呼び出しと、置く位置・大きさ</li>
+              <li>速さと一時停止の反映、止めている間の時計</li>
+              <li>終わったあとの後片付けと、再生中の一覧からの削除</li>
+              <li>繰り返し再生、発生源の再開始、停止後の後片付け</li>
+            </ul>
+            <p class="small">飛び道具・ビームの呼び出しと、実機での性能は試していません。</p>
+            <h3>明るい背景</h3>
+            <p class="small">効果だけを見る設定と、明るい背景でも描画して確認しました。明るい背景では、光を足して描く部分が淡く見えます。どんな背景でも同じように読みやすいとは言えません。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="block" aria-labelledby="files-title">
+        <div class="block-head">
+          <h2 id="files-title">ファイル</h2>
+          <p class="block-note">ゲームで使う、または手元で作り直すためのファイルです。<a href="README.md">README</a> に、この作例のフォルダから実行するコマンドがあります。</p>
+        </div>
+        <div class="files">
+          <div>
+            <h3>効果</h3>
+            <ul>
+              <li><a href="library/vfx/src/VFX_Yebisu_Guard.py">レシピ</a> <span class="path">library/vfx/src/VFX_Yebisu_Guard.py</span></li>
+              <li><a href="library/vfx/briefs/VFX_Yebisu_Guard.json">ブリーフ</a> <span class="path">library/vfx/briefs/VFX_Yebisu_Guard.json</span></li>
+              <li><a href="library/vfx/exports/VFX_Yebisu_Guard.efk" download>実行用の .efk</a> <span class="path">library/vfx/exports/（テクスチャは resources/）</span></li>
+              <li><a href="library/vfx/effects/VFX_Yebisu_Guard.efkefc" download>Effekseerの .efkefc</a> <span class="path">library/vfx/effects/</span></li>
+              <li><a href="library/vfx/recipes/VFX_Yebisu_Guard.json">展開したレシピ</a> <span class="path">テクスチャ等のパスだけ相対パスに直しています</span></li>
+              <li><a href="library/vfx/vfx_manifest.json">vfx_manifest.json</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>描画と記録</h3>
+            <ul>
+              <li><a href="assets/guard-real-render.mp4" download>0.5秒の動画</a> <span class="path">1280×800、60FPS、無音</span></li>
+              <li><a href="capture-manifest.json">capture-manifest.json</a> <span class="path">各フレームの時刻とSHA-256</span></li>
+              <li><a href="assets/guard-contact-sheet.png">代表フレームの一覧</a>・<a href="assets/guard-overview.png">ライブラリの一覧</a></li>
+              <li><a href="samples.json">samples.json</a> <span class="path">依頼と結果</span></li>
+              <li><a href="video/legacy.html">解説動画のソース</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3>原典</h3>
+            <ul>
+              <li><a href="vendor/effekseer-vfx/SKILL.md">effekseer-vfx の SKILL.md</a></li>
+              <li><a href="vendor/vfx-review/SKILL.md">vfx-review の SKILL.md</a></li>
+              <li><a href="vendor/effekseer-vfx/LICENSE">LICENSE（MIT）</a>・<a href="vendor/effekseer-vfx/THIRD_PARTY_NOTICES.md">第三者の通知</a></li>
+              <li><a href="https://github.com/kanaworksai-hue/effekseer-vfx-skill/tree/c28919890f0483c0f968a884ea03979803d3b528" rel="noreferrer">GitHub（固定コミット c289198）</a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="about" aria-labelledby="about-title">
+        <h2 id="about-title">この作例について</h2>
+        <ul>
+          <li>このページは、保存した実際の描画を見るための画面です。ブラウザーでGodotやEffekseerを動かしたり、新しい効果を作ったりはしません。AIや外部のサービスにも接続しません。</li>
+          <li>依頼・ゲーム・ダミーの人形は架空のものです。実際のゲームへの組み込みと、端末での性能は試していません。</li>
+          <li>採点は別のAIによるもので、人の承認ではありません。レシピ・テクスチャ・ブリーフを変えた効果には、この確認は引き継がれません。変えたあとは、改めてレビューしてください。</li>
+          <li>0.5秒の動画と解説動画には、音声はありません。</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="colophon">
+      <p>画面・文章・レシピ・ブリーフ・映像ソースは 八百万図AIツールボックス の独自制作で、<a href="LICENSE">MIT License</a> です。vendor/ の effekseer-vfx と vfx-review は KanaWorks_AI による MIT License のスキルで、<a href="vendor/LICENSE">LICENSE</a> と <a href="vendor/effekseer-vfx/THIRD_PARTY_NOTICES.md">THIRD_PARTY_NOTICES.md</a> を変更せずに残しています。Effekseer Core・EffekseerForGodot4・.NET は初回の準備で公式の配布元から取得するもので、この作例には含みません。Godot は各自で導入します。Effekseer と Godot はそれぞれの権利者の商標で、この作例はそれらの団体と関係ありません。</p>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

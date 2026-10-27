@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="架空の問い合わせ業務を、顧客・受付・専門担当の3段のスイムレーン図にしたDiagram Designの作例。分かれ道・戻り道・完了の条件を番号でたどれます。">
+  <title>問い合わせ対応の担当と分岐を、1枚の図に｜Diagram Design の作例｜八百万図AIツールボックス</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#intake-flow">図へ移動</a>
+
+  <header class="top">
+    <div class="wrap top-row">
+      <a class="brand" href="../../index.html">八百万図AIツールボックス</a>
+      <nav aria-label="関連のページ">
+        <ul>
+          <li><a href="../../case.html?id=diagram-design-example" id="link-article">作例の記事</a></li>
+          <li><a href="video/legacy.html" id="link-video">解説動画のソース</a></li>
+          <li><a href="README.md" id="link-readme">再現の手順</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <p class="kicker">Diagram Design の作例 ／ スイムレーン図</p>
+      <h1 id="hero-title">問い合わせ対応の担当と分岐を、<br>1枚の図に。</h1>
+      <p class="lead">架空の共同作業スペース「よりみちラボ」の問い合わせ業務を、顧客・受付・専門担当の3段に分けたスイムレーン図にしました。図は、Diagram Design の手順書（SKILL.md）とスイムレーンの参照資料に沿って、Opus 5.5 が依頼の文章から直接HTMLとSVGで書いたものです。</p>
+      <dl class="facts" id="diagram-facts">
+        <div class="fact-wide"><dt>段（担当）</dt><dd>顧客・受付・専門担当の3段</dd></div>
+        <div><dt>工程</dt><dd>9（顧客3・受付5・専門担当1）</dd></div>
+        <div><dt>矢印</dt><dd>10（分かれ道2か所・戻り道2本）</dd></div>
+        <div class="fact-wide"><dt>完了の条件</dt><dd>顧客が解決を確認し、受付が対応記録を残したとき</dd></div>
+      </dl>
+    </section>
+
+    <section id="intake-flow" class="figure" aria-labelledby="intake-flow-title">
+      <div class="wrap figure-head">
+        <h2 id="intake-flow-title">できあがった図</h2>
+        <p>下の枠は <code>diagrams/intake.html</code> をそのまま表示しています。図の文字が小さくならないよう幅は1280pxのままにしてあり、狭い画面では図の中だけを横にスクロールできます。</p>
+      </div>
+      <div class="figure-frame">
+        <iframe id="diagram-frame" src="diagrams/intake.html" title="よりみちラボの問い合わせ対応のスイムレーン図（diagrams/intake.html）"></iframe>
+      </div>
+      <div class="wrap">
+        <ul class="figure-links" id="figure-downloads" aria-label="図のファイル">
+          <li><a href="diagrams/intake.html" id="open-diagram">図だけを開く</a></li>
+          <li><a href="diagrams/intake.html" download id="dl-html">HTMLを保存<small>正本</small></a></li>
+          <li><a href="diagrams/intake.svg" download id="dl-svg">SVGを保存<small>編集用</small></a></li>
+          <li><a href="diagrams/intake.png" download id="dl-png">PNGを保存<small>画像</small></a></li>
+          <li><a href="diagram-data.json" download id="dl-data">工程と矢印の記録<small>JSON</small></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="branch-guide" class="wrap guide" aria-labelledby="branch-guide-title">
+      <h2 id="branch-guide-title">分かれ道と戻り道を、番号でたどる</h2>
+      <p class="section-lead">図の箱の左上にある番号（C は顧客、R は受付、S は専門担当）と、矢印の番号（E01〜E10）は、<a href="diagram-data.json">diagram-data.json</a> の記録と同じです。経路を選ぶと、通る工程と矢印が順に並びます。</p>
+
+      <div class="tabs" id="route-tabs" role="tablist" aria-label="たどる経路" hidden>
+        <button type="button" role="tab" id="tab-route-main" aria-controls="route-main" aria-selected="true">基本の流れ</button>
+        <button type="button" role="tab" id="tab-route-missing" aria-controls="route-missing" aria-selected="false" tabindex="-1">情報が足りないとき</button>
+        <button type="button" role="tab" id="tab-route-unresolved" aria-controls="route-unresolved" aria-selected="false" tabindex="-1">解決しなかったとき</button>
+        <button type="button" role="tab" id="tab-route-complete" aria-controls="route-complete" aria-selected="false" tabindex="-1">完了の条件</button>
+      </div>
+
+      <div class="routes">
+        <section class="route" id="route-main" aria-labelledby="route-main-title">
+          <h3 id="route-main-title">基本の流れ</h3>
+          <ol class="route-steps">
+            <li><span class="step"><b class="sid">C1</b><span class="sname">問い合わせを送る</span><span class="slane">顧客</span></span></li>
+            <li><span class="via">E01</span><span class="step"><b class="sid">R1</b><span class="sname">チケットを作る</span><span class="slane">受付</span></span></li>
+            <li><span class="via">E02</span><span class="step"><b class="sid">R2</b><span class="sname">3情報を確認する</span><span class="slane">受付・判断</span></span></li>
+            <li><span class="via"><strong>揃った</strong> E05</span><span class="step"><b class="sid">R3</b><span class="sname">専門担当へ渡す</span><span class="slane">受付</span></span></li>
+            <li><span class="via">E06</span><span class="step"><b class="sid">S1</b><span class="sname">調べて回答案を作る</span><span class="slane">専門担当</span></span></li>
+            <li><span class="via">E07</span><span class="step"><b class="sid">R4</b><span class="sname">顧客へ回答する</span><span class="slane">受付</span></span></li>
+            <li><span class="via">E08</span><span class="step"><b class="sid">C3</b><span class="sname">解決を確認する</span><span class="slane">顧客・判断</span></span></li>
+            <li><span class="via accent"><strong>解決した</strong> E09</span><span class="step step-done"><b class="sid">R5</b><span class="sname">対応記録を残す</span><span class="slane">受付・完了</span></span></li>
+          </ol>
+          <p class="route-note">段をまたぐ矢印は8本あり、どれも片方の端が受付の工程です。受付が真ん中の段で、顧客と専門担当の間をつなぎます。</p>
+        </section>
+
+        <section class="route" id="route-missing" aria-labelledby="route-missing-title">
+          <h3 id="route-missing-title">情報が足りないとき</h3>
+          <ol class="route-steps">
+            <li><span class="step"><b class="sid">R2</b><span class="sname">3情報を確認する</span><span class="slane">受付・判断</span></span></li>
+            <li><span class="via"><strong>不足あり：追加を依頼</strong> E03</span><span class="step"><b class="sid">C2</b><span class="sname">情報を補足する</span><span class="slane">顧客</span></span></li>
+            <li><span class="via dashed"><strong>確認へ戻る</strong> E04・破線</span><span class="step"><b class="sid">R2</b><span class="sname">3情報を確認する</span><span class="slane">受付・判断</span></span></li>
+          </ol>
+          <p class="route-note">依頼の文：「不足があれば受付が追加情報を依頼し、顧客が補足して内容確認へ戻る。」確かめる3情報は、困りごと・利用日・返信先です。戻る先はR2の確認で、チケットを作り直す（R1）には戻りません。追加の依頼は受付から顧客への受け渡しなので、箱ではなく、受付の段から出る矢印E03のラベルにしました。</p>
+        </section>
+
+        <section class="route" id="route-unresolved" aria-labelledby="route-unresolved-title">
+          <h3 id="route-unresolved-title">解決しなかったとき</h3>
+          <ol class="route-steps">
+            <li><span class="step"><b class="sid">C3</b><span class="sname">解決を確認する</span><span class="slane">顧客・判断</span></span></li>
+            <li><span class="via dashed"><strong>未解決なら戻す</strong> E10・破線</span><span class="step"><b class="sid">R3</b><span class="sname">専門担当へ渡す</span><span class="slane">受付</span></span></li>
+            <li><span class="via">E06</span><span class="step"><b class="sid">S1</b><span class="sname">調べて回答案を作る</span><span class="slane">専門担当</span></span></li>
+            <li><span class="via">E07</span><span class="step"><b class="sid">R4</b><span class="sname">顧客へ回答する</span><span class="slane">受付</span></span></li>
+            <li><span class="via">E08</span><span class="step"><b class="sid">C3</b><span class="sname">解決を確認する</span><span class="slane">顧客・判断</span></span></li>
+          </ol>
+          <p class="route-note">依頼の文：「未解決なら専門担当へ戻す。」誰が戻すかは書かれていません。顧客と専門担当の両方と連絡を取るのは受付だけなので、受付が戻すと読み、矢印を受付の工程R3へつなぎました（仮の条件）。顧客から専門担当へ直接つながる線はありません。R3の補足の行は「初回も、未解決の時も」です。</p>
+        </section>
+
+        <section class="route" id="route-complete" aria-labelledby="route-complete-title">
+          <h3 id="route-complete-title">完了の条件</h3>
+          <ol class="route-steps">
+            <li><span class="step"><b class="sid">C3</b><span class="sname">解決を確認する</span><span class="slane">顧客・判断</span></span></li>
+            <li><span class="via accent"><strong>解決した</strong> E09</span><span class="step step-done"><b class="sid">R5</b><span class="sname">対応記録を残す</span><span class="slane">受付・完了</span></span></li>
+          </ol>
+          <ol class="conditions" aria-label="完了になる2つの条件">
+            <li>顧客が解決を確認した（C3 から「解決した」）</li>
+            <li>受付が対応記録を残した（R5）</li>
+          </ol>
+          <p class="route-note">完了の印があるのはR5だけで、R5へ入る矢印は「解決した」のE09だけです。図の朱色は、このR5とE09の2か所にしか使っていません。</p>
+        </section>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="wrap" aria-labelledby="how-it-works-title">
+      <h2 id="how-it-works-title">スキルがしたこと、このページがすること</h2>
+      <div class="split">
+        <div class="did">
+          <h3>制作のときに、スキルの手順に沿って決めたこと</h3>
+          <dl class="applied">
+            <div><dt>図の種類</dt><dd>スイムレーン。読む人が知りたいのは担当の間の受け渡しです。完了や戻りがあっても、1つの対象の状態が移り変わる話ではないので、状態遷移図にはしていません。</dd></div>
+            <div><dt>量</dt><dd>工程9・矢印10・段3。1枚の上限（工程9・矢印12・段5）に収まるので、全体図と詳細図には分けていません。</dd></div>
+            <div><dt>担当</dt><dd>どの工程も1つの段だけに置き、2つの段にまたがる箱は作っていません。</dd></div>
+            <div><dt>分岐と戻り道</dt><dd>分かれ道のある工程に「判断」の印。前の工程へ戻る矢印は破線。ラベルを付けたのは、分かれ道と戻り道の5本だけです。</dd></div>
+            <div><dt>強調</dt><dd>朱色は完了の工程R5と、そこへ進む矢印E09の2か所だけ。影や光彩は使っていません。</dd></div>
+            <div><dt>線</dt><dd>直角の折れ線で、角の半径は8。同じ辺から出入りする矢印は付け根を離し、関係のない箱の裏は通しません。ラベルの下地は線から8px離しています。</dd></div>
+            <div><dt>文字</dt><dd>工程名16px、ラベル12px。OSの日本語書体を使い、Webフォントは読み込みません。</dd></div>
+            <div><dt>保存</dt><dd>HTMLが正本です。SVGとPNGは、そのHTMLから書き出すファイルです。</dd></div>
+          </dl>
+        </div>
+        <aside class="page-does" aria-labelledby="page-does-title">
+          <h3 id="page-does-title">このページがすること</h3>
+          <p>保存してある図のHTMLを、枠の中にそのまま表示します。経路の切り替えは、このページの説明を切り替えるだけで、図のファイルには手を加えません。</p>
+          <ul>
+            <li>その場で図を描いたり、生成したりしません。</li>
+            <li>AIを動かしません。</li>
+            <li>外部のサービスやWebフォントに接続しません。</li>
+            <li>図のHTMLには、スクリプトが入っていません。</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="table-vs-figure" class="wrap" aria-labelledby="table-vs-figure-title">
+      <h2 id="table-vs-figure-title">表ではなく、図にした理由</h2>
+      <p class="section-lead">同じ事実を表にすると、次のようになります。</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="比べるための表（横にスクロールできます）">
+        <table>
+          <thead><tr><th scope="col">担当</th><th scope="col">工程</th><th scope="col">次へ</th></tr></thead>
+          <tbody>
+            <tr><td>顧客</td><td>C1 問い合わせを送る</td><td>R1</td></tr>
+            <tr><td>受付</td><td>R1 チケットを作る</td><td>R2</td></tr>
+            <tr><td>受付</td><td>R2 3情報を確認する</td><td>揃った → R3／不足あり → C2</td></tr>
+            <tr><td>顧客</td><td>C2 情報を補足する</td><td><mark>R2へ戻る</mark></td></tr>
+            <tr><td>受付</td><td>R3 専門担当へ渡す</td><td>S1</td></tr>
+            <tr><td>専門担当</td><td>S1 調べて回答案を作る</td><td>R4</td></tr>
+            <tr><td>受付</td><td>R4 顧客へ回答する</td><td>C3</td></tr>
+            <tr><td>顧客</td><td>C3 解決を確認する</td><td>解決した → R5／<mark>未解決 → R3へ戻る</mark></td></tr>
+            <tr><td>受付</td><td>R5 対応記録を残す</td><td>完了</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>印を付けた「R2へ戻る」「R3へ戻る」は、行の並び順から外れた飛び先です。表では、番号を頼りに行を探し直さないと戻り先にたどり着けず、戻り道が2本あることも、担当をまたぐ受け渡しが8回あることも、形からは読み取れません。図なら、破線の戻り道と段をまたぐ矢印を、指でなぞるように追えます。</p>
+    </section>
+
+    <section id="workflow" class="wrap" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">使い方の流れ</h2>
+      <ol class="flow-steps">
+        <li>
+          <span class="num" aria-hidden="true">1</span>
+          <h3>業務の事実を書く</h3>
+          <p>担当・順番・分かれ道の条件・完了の条件を文章にします。図に足したくない情報（日数など）も書いておきます。</p>
+          <p class="files"><a href="request.txt">request.txt</a></p>
+        </li>
+        <li>
+          <span class="num" aria-hidden="true">2</span>
+          <h3>スキルに沿ってHTMLとSVGを書く</h3>
+          <p>AIに SKILL.md、選んだ図の種類の参照資料、配色の決まり、事実の文章を読ませます。図はAIが手順に沿って直接書きます。</p>
+          <p class="files"><a href="vendor/diagram-design/SKILL.md">SKILL.md</a> <a href="vendor/diagram-design/references/type-swimlane.md">type-swimlane.md</a> <a href="design-profile.md">design-profile.md</a></p>
+        </li>
+        <li>
+          <span class="num" aria-hidden="true">3</span>
+          <h3>分かれ道と担当を確かめる</h3>
+          <p>原典の検査スクリプトとブラウザーで、矢印の重なり・ラベル・横スクロールを見ます。そのうえで依頼の文と図の工程・矢印を1つずつ照らし合わせます。</p>
+          <p class="files"><a href="diagram-data.json">diagram-data.json</a></p>
+        </li>
+        <li>
+          <span class="num" aria-hidden="true">4</span>
+          <h3>HTMLとSVGで保存する</h3>
+          <p>原典の書き出し用スクリプトでSVGを作り、PNGはブラウザーで図の部分だけを撮ります。SVGなら文字や矢印をあとから直せます。</p>
+          <p class="files"><a href="diagrams/intake.svg">intake.svg</a> <a href="diagrams/intake.png">intake.png</a></p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="request" class="wrap" aria-labelledby="request-title">
+      <h2 id="request-title">渡した依頼（入力）</h2>
+      <p class="section-lead">架空の業務の説明です。この文章と、スキルの手順書・参照資料・配色の決まりから図を書きました。</p>
+      <pre id="request-text" tabindex="0" aria-label="依頼の文章">架空の共同作業スペース「よりみちラボ」の問い合わせ業務を、新しく入る受付スタッフへ説明したい。顧客・受付・専門担当の3者で、誰がどこまで担当するかを図で示す。
+顧客が問い合わせを送る。受付はチケットを作り、困っていること・利用日・返信先の3情報を確認する。不足があれば受付が追加情報を依頼し、顧客が補足して内容確認へ戻る。情報が揃ったら受付が専門担当へ引き継ぐ。専門担当が調べて回答案を作り、受付が顧客へ回答する。顧客が解決を確認した後、受付が対応記録を残して完了とする。未解決なら専門担当へ戻す。日数や自動処理、架空の達成率は足さない。
+独立して開けるHTMLと編集可能なSVGにする。担当者・分岐・差戻し・完了条件を残し、スマホでは図の中を横にスクロールして読めるようにする。</pre>
+      <div class="copy-row">
+        <button type="button" id="copy-request" class="btn">依頼文をコピー</button>
+        <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section id="downloads" class="wrap" aria-labelledby="downloads-title">
+      <h2 id="downloads-title">ファイル</h2>
+      <div class="file-groups">
+        <div class="file-group">
+          <h3>図</h3>
+          <ul>
+            <li><a href="diagrams/intake.html" download>diagrams/intake.html</a><span>正本。単独で開ける静的なHTML</span></li>
+            <li><a href="diagrams/intake.svg" download>diagrams/intake.svg</a><span>編集用。HTMLから書き出したSVG</span></li>
+            <li><a href="diagrams/intake.png" download>diagrams/intake.png</a><span>画像。ブラウザーで図だけを撮影</span></li>
+          </ul>
+        </div>
+        <div class="file-group">
+          <h3>入力と記録</h3>
+          <ul>
+            <li><a href="request.txt" download>request.txt</a><span>渡した依頼の文章</span></li>
+            <li><a href="diagram-data.json" download>diagram-data.json</a><span>工程・矢印・依頼の文の対応</span></li>
+            <li><a href="samples.json" download>samples.json</a><span>入力と結果</span></li>
+            <li><a href="design-profile.md" download>design-profile.md</a><span>配色と書体の決まり</span></li>
+          </ul>
+        </div>
+        <div class="file-group">
+          <h3>原典のスキル（変更なし）</h3>
+          <ul>
+            <li><a href="vendor/diagram-design/SKILL.md">SKILL.md</a><span>図の手順書</span></li>
+            <li><a href="vendor/diagram-design/references/type-swimlane.md">type-swimlane.md</a><span>スイムレーンの参照資料</span></li>
+            <li><a href="vendor/diagram-design/LICENSE">LICENSE</a><span>MIT License</span></li>
+            <li><a href="vendor/diagram-design/THIRD_PARTY_LICENSES.md">THIRD_PARTY_LICENSES.md</a><span>原典が同梱する第三者の利用条件</span></li>
+          </ul>
+        </div>
+        <div class="file-group">
+          <h3>この作例</h3>
+          <ul>
+            <li><a href="README.md">README.md</a><span>再現の手順</span></li>
+            <li><a href="LICENSE">LICENSE</a><span>MIT License</span></li>
+            <li><a href="video/legacy.html">video/index.html</a><span>28秒の解説動画のソース</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="limits" class="wrap" aria-labelledby="limits-title">
+      <h2 id="limits-title">この作例の範囲</h2>
+      <ul class="limits">
+        <li>この作例の「よりみちラボ」と業務は架空です。所要日数・自動処理・達成率は描いていません。</li>
+        <li>このページは保存した図を表示するだけです。自分の文章から図を作る機能はありません。</li>
+        <li>試したのは、スイムレーン1種類と、Webフォントを使わないSVGの書き出しです。原典が扱うほかの図の種類、draw.io・Mermaid・Excalidrawからの取り込み、動きのある図は試していません。</li>
+        <li>書体はOSに入っているものを使うため、OSによって文字の幅や見え方が少し変わります。SVGを編集ソフトで開くと、書体が置き換わることがあります。</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <p>この作例の画面・図・文言・記録・映像ソースは 八百万図AIツールボックス の独自制作で、MIT License です。<code>vendor/diagram-design/</code> は Diagram Design（cathrynlavery/diagram-design、固定コミット d97c5c7477e54cee17cfa6459190610da0643a05）を変更せずに置いたもので、上流の MIT License（Copyright (c) 2025 Cathryn Lavery）に従います。図に第三者のアイコンや画像は使っていません。</p>
+    </div>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self'; base-uri 'none'; form-action 'none'"><title>依頼文 | 工房のTODO 期限の絞り込み作例</title><link rel="stylesheet" href="style.css"></head><body><main>
+<p class="eyebrow">八百万図AIツールボックス / 合成データの作例</p>
+<h1>依頼文</h1>
+<p>Agent Skills のファイルを読めるコーディングエージェントに渡します。【】を自分の依頼と対象に置き換えてください。文章は <a href="request.txt">request.txt</a> と同じです。</p>
+<label class="request-label">依頼文（選択してコピーできます）<textarea readonly rows="30">Addy Osmani の Agent Skills（addyosmani/agent-skills、固定コミット aeac41d4d005999432bb7312f7ff06383a91d59d）から、次のファイルを読んでから作業してください。スキルを1つずつ入れる方法ではリポジトリ直下の references/ が付いてこないため、下の参照ファイルもリポジトリから直接読んでください。
+- skills/using-agent-skills/SKILL.md（工程に合うスキルの選び方）
+- skills/spec-driven-development/SKILL.md と references/definition-of-done.md
+- skills/planning-and-task-breakdown/SKILL.md
+- skills/incremental-implementation/SKILL.md
+- skills/test-driven-development/SKILL.md と references/testing-patterns.md
+- skills/code-review-and-quality/SKILL.md
+- 画面を変えるときは skills/frontend-ui-engineering/SKILL.md と references/accessibility-checklist.md
+
+依頼：【例：小さなTODOアプリへ期限の絞り込みを追加して。まず仕様と完成条件を整理し、実装後に境界値と既存操作も確認してほしい。】
+対象のフォルダとファイル：【例：todo/ の tasks.mjs・app.mjs・index.html】
+テストと確認のコマンド：【例：npm test と npm run check】
+変えてはいけないもの：【例：依存パッケージ、保存の方法、既存の追加と完了の切り替え】
+
+進め方：
+1. コードはまだ書かず、SPEC.md に仕様だけを書いてください。目的・コマンド・ファイル構成・コードの書き方・テストの方針・境界（必ず行う／先に聞く／行わない）の6つを含め、曖昧な点は推測で埋めずに前提として並べ、入力と期待値を固定した受入条件と、未確認の点を分けてください。書いたら止まり、私の確認を待ってください。
+2. 確認のあと、tasks/plan.md と tasks/todo.md に、画面まで通る小さな増分ごとの計画を作り、各増分に受入条件と確認方法を付けてください。
+3. 増分ごとに、新しいテストを先に足して実行し、狙いどおりの理由で失敗するのを確かめてから、通るだけの最小の変更をしてください。全テストと確認コマンドが成功してから commit し、次の増分へ進んでください。
+4. 全増分のあと、境界値（例：当日、前日、翌日、期限なし、実在しない日付、別のタイムゾーン）と既存の操作を確かめてください。さらに、追加した条件を1か所わざと反転してテストが失敗することを確かめ、元に戻してください。
+5. 正しさ・読みやすさ・設計・セキュリティ・性能の5つの観点で差分をレビューし、指摘と対応を書いてください。
+6. 画面を変えた場合は、ラベル、見出しの順、キーボード操作とフォーカスの見え方、色だけに頼らない表示、0件と入力エラーの表示、幅320・768・1024・1440pxを実際のブラウザーで確かめてください。確かめられなければ「未確認」と書いてください。
+
+報告では、各段の実行コマンド・終了コード・テストの成功数と失敗数を実際の出力から書き、確かめたことと未確認のこと、人が承認したことと承認していないことを分けてください。</textarea></label>
+<p><a href="index.html">作例のページへ戻る</a></p></main></body></html>

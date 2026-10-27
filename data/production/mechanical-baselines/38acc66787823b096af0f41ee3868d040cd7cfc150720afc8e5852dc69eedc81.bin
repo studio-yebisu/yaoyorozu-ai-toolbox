@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ACE-Step V1 作例：説明文から20秒の音楽WAVへ｜八百万図AIツールボックス</title>
+  <meta name="description" content="手元のPythonで動く音楽生成モデルACE-Step V1（3.5B）を、原典のAPIで1回だけ実行した作例。依頼・実装・実行・保存されたWAVの関係を1枚の構造図で見て、実際のWAVを聞き、保存できます。">
+  <link rel="stylesheet" href="concept.css">
+</head>
+<body>
+  <header class="masthead">
+    <p class="kicker"><a href="../../index.html">八百万図AIツールボックス</a><span aria-hidden="true">／</span>作例・音楽生成</p>
+    <h1>ACE-Step V1で、<br>説明文から音楽WAVへ</h1>
+    <p class="identity">手元のPythonで動く音楽生成モデル（V1・3.5B）。SKILL.mdでもホスト型APIでもありません。</p>
+  </header>
+
+  <main>
+    <section class="stage" aria-labelledby="map-title">
+      <h2 id="map-title" class="sr-only">構造図と、実際に返ったWAV</h2>
+      <div class="tabs" role="group" aria-label="図の段階">
+        <button type="button" data-stage="0" aria-pressed="true" disabled>①何か</button>
+        <button type="button" data-stage="1" aria-pressed="false" disabled>②渡す</button>
+        <button type="button" data-stage="2" aria-pressed="false" disabled>③返る</button>
+      </div>
+
+      <figure class="map" id="map">
+        <canvas id="concept" role="img" aria-label="構造図を読み込んでいます"></canvas>
+        <div class="parts" id="parts" hidden>
+          <button type="button" data-part="pipeline" disabled><span class="sr-only">部品1 Pythonの入口：原典の該当行を開く</span></button>
+          <button type="button" data-part="text" disabled><span class="sr-only">部品2 説明を条件へ：原典の該当行を開く</span></button>
+          <button type="button" data-part="noise" disabled><span class="sr-only">部品3 長さとseed：原典の該当行を開く</span></button>
+          <button type="button" data-part="flow" disabled><span class="sr-only">部品4 反復して形へ：原典の該当行を開く</span></button>
+          <button type="button" data-part="decode" disabled><span class="sr-only">部品5 潜在から音へ：原典の該当行を開く</span></button>
+          <button type="button" data-part="wav" disabled><span class="sr-only">部品6 同じWAVを使う：原典の該当行を開く</span></button>
+        </div>
+        <div class="map-state" id="map-state">
+          <p id="state-text">保存済みのファイルを確かめています…</p>
+          <p id="state-detail" class="state-detail"></p>
+          <button type="button" id="retry" hidden>もう一度確かめる</button>
+        </div>
+      </figure>
+
+      <div class="listen">
+        <div class="views" role="group" aria-label="同じWAVのどこから聞くか">
+          <button type="button" data-view="whole" aria-pressed="true" disabled>全体</button>
+          <button type="button" data-view="begin" aria-pressed="false" disabled>冒頭3秒へ</button>
+          <button type="button" data-view="end" aria-pressed="false" disabled>終わり3秒へ</button>
+        </div>
+        <audio id="output-audio" controls preload="metadata">お使いのブラウザーでは音声を再生できません。</audio>
+        <div class="saves" aria-label="保存">
+          <a id="download-audio" class="save" aria-disabled="true">全体のWAV</a>
+          <a id="download-params" class="save" aria-disabled="true">設定JSON</a>
+          <a id="download-execution" class="save" aria-disabled="true">実行の記録</a>
+        </div>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="caption" aria-label="いまの段階の説明">
+      <p id="caption" class="caption-text"></p>
+      <p class="caption-note">図の箱の分け方は、この作例のために原典を読んで整理した説明です。公式の部品表ではありません。動きは説明用で、実際の処理時間ではありません。</p>
+    </section>
+
+    <div id="details" class="details"></div>
+
+    <footer class="colophon">
+      <p>ページ・図・説明映像：八百万図AIツールボックス（MIT）。ACE-Step のソースとモデルは Apache-2.0 で、この作例のMITとは別です（<a href="THIRD_PARTY_NOTICES.md">第三者の表示</a>）。</p>
+      <p><a href="video/index.html">無音の説明映像の編集ソース</a> ／ <a href="../../media/ace-step-example.mp4">縦の32秒MP4</a> ／ <a href="../../media/ace-step-example-wide.mp4">横の32秒MP4</a>／<a href="../../case.html?id=ace-step-example">作例の記事</a></p>
+    </footer>
+  </main>
+
+  <dialog id="part-dialog" aria-labelledby="part-title">
+    <div class="dialog-body">
+      <p class="dialog-kicker" id="part-kicker"></p>
+      <h2 id="part-title"></h2>
+      <p id="part-meaning"></p>
+      <dl id="part-rows" class="rows"></dl>
+      <h3>原典の該当行</h3>
+      <p id="part-links" class="part-links"></p>
+      <pre class="excerpt" tabindex="0" aria-label="原典の引用"><code id="part-excerpt"></code></pre>
+      <form method="dialog"><button type="submit" class="close">閉じる</button></form>
+    </div>
+  </dialog>
+
+  <script type="module">
+    import {loadData, sceneAt, drawConcept, layoutConcept, partInfo, fmtInt, PALETTES, STAGE_TIMES, STAGE_FOCUS, VIEW_IDS} from './concept.js';
+
+    const $ = s => document.querySelector(s);
+    const canvas = $('#concept'), ctx = canvas.getContext('2d'), map = $('#map'), partsLayer = $('#parts');
+    const audio = $('#output-audio'), status = $('#status'), details = $('#details');
+    const stageButtons = [...document.querySelectorAll('[data-stage]')];
+    const viewButtons = [...document.querySelectorAll('[data-view]')];
+    const partButtons = [...document.querySelectorAll('[data-part]')];
+    const saves = {audio: $('#download-audio'), params: $('#download-params'), execution: $('#download-execution')};
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    const dark = matchMedia('(prefers-color-scheme: dark)');
+    const CAPTIONS = [
+      'ACE-Step V1は、ace-step/ACE-Step のPythonパッケージ（0.2.0）と、別に配布される重み ACE-Step-v1-3.5B で動く、手元の音楽生成モデル／パイプラインです。12個の箱は、依頼から保存されたWAVまでの1回の流れです。',
+      '作者AI（Claude Opus 5.5・1体）がREADMEと原典のPython APIを読み、架空の依頼から run_example.py と inputs/jobs.json を書きました。実行したのは制作担当です。英語の説明文はUMT5で条件に、20.0秒とseedは初期の潜在の大きさと乱数に、空の歌詞は原典の既定値（ID/mask 0）になります。',
+      'Transformer（Euler／APG、27stepは設定値）が整えた圧縮潜在を、DCAE→メル→vocoderが左右の波形にし、原典の内部で44.1kHzから48kHzへ変換して、原典の save_wav_file がWAVを、隣に設定JSONを書きました。図の潜在・メルの模様は説明用で、下の波形だけが保存WAVの実測です。'
+    ];
+
+    let gen = 0, data = null, urls = [], stage = 0, view = 'whole', t = STAGE_TIMES[0], anim = 0, pendingSeek = null, size = '', queued = 0;
+
+    const el = (tag, attrs = {}, ...kids) => {
+      const n = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs)) if (v != null) n.setAttribute(k, v);
+      for (const k of kids.flat(Infinity)) if (k != null) n.append(k);
+      return n;
+    };
+    const base = p => p.split('/').pop();
+    const viewFromHash = () => { let h; try { h = decodeURIComponent(location.hash.slice(1)); } catch (_) { return 'whole'; } return VIEW_IDS.includes(h) ? h : 'whole'; };
+    const ease = k => k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+
+    function enable(on) {
+      for (const b of [...stageButtons, ...viewButtons, ...partButtons]) b.disabled = !on;
+      partsLayer.hidden = !on;
+      if (!on) for (const a of Object.values(saves)) { a.removeAttribute('href'); a.removeAttribute('download'); a.setAttribute('aria-disabled', 'true'); }
+    }
+
+    function clear() {
+      cancelAnimationFrame(anim);
+      data = null; pendingSeek = null;
+      audio.pause(); audio.removeAttribute('src'); audio.load();
+      for (const u of urls) URL.revokeObjectURL(u);
+      urls = [];
+      enable(false);
+      details.replaceChildren();
+      $('#caption').textContent = '';
+      canvas.setAttribute('aria-label', '構造図はまだ表示していません');
+      const d = $('#part-dialog'); if (d.open) d.close();
+      paint();
+    }
+
+    function state(kind, err) {
+      const box = $('#map-state'), retry = $('#retry');
+      box.hidden = kind === 'ready'; box.classList.toggle('is-failed', kind === 'failed');
+      retry.hidden = kind !== 'failed';
+      $('#state-text').textContent = kind === 'failed' ? '確かめられなかったため、図・音声・保存を止めています。' : '保存済みのファイルを確かめています…';
+      $('#state-detail').textContent = kind === 'failed' ? (err && err.message ? err.message : String(err)) + (err && err.detail ? '：' + err.detail : '') : '';
+      status.textContent = kind === 'failed' ? '読み込みに失敗しました。' : '';
+    }
+
+    async function load() {
+      const my = ++gen;
+      clear(); state('loading');
+      try {
+        const d = await loadData();
+        if (my !== gen) return;
+        if (document.fonts) await document.fonts.ready;
+        if (my !== gen) return;
+        ready(d, my);
+      } catch (e) {
+        if (my !== gen) return;
+        clear(); state('failed', e);
+      }
+    }
+
+    function ready(d, my) {
+      const blob = (bytes, type) => { const u = URL.createObjectURL(new Blob([bytes], {type})); urls.push(u); return u; };
+      const out = d.facts.actual_output;
+      const wavUrl = blob(d.wav.bytes, 'audio/wav');
+      audio.src = wavUrl;
+      const set = (a, href, name) => { a.href = href; a.download = name; a.removeAttribute('aria-disabled'); };
+      set(saves.audio, wavUrl, base(out.audio));
+      set(saves.params, blob(d.paramsBytes, 'application/json'), base(out.params));
+      set(saves.execution, blob(d.executionBytes, 'application/json'), 'ace-step-example_' + base(out.execution));
+      saves.audio.title = '全体のWAV ' + fmtInt(out.wav_bytes) + 'バイト';
+      data = d;
+      canvas.setAttribute('aria-label', '構造図：READMEと原典のAPI、架空の依頼が作者AI 1体へ。作者が書いた実装と入力を制作担当がPythonで1回実行。説明文はUMT5の条件、20秒とseedは初期の潜在、歌詞は空でID/mask 0。Transformer（27stepは設定値）が圧縮潜在 ' + d.latentShape.join('×') + ' を返し、DCAE・メル・vocoderで左右の波形、原典がWAVと設定JSONを保存。再生・保存して聴いて判断。下は保存WAVの実波形 ' + d.wav.duration.toFixed(3) + '秒。');
+      renderDetails(d);
+      enable(true);
+      state('ready');
+      status.textContent = fmtInt(d.assets.length) + 'ファイルの大きさとSHA-256、原典の引用6か所、WAVの形式と長さを確かめました。';
+      setStage(stage, true);
+      applyView(viewFromHash(), true);
+    }
+
+    function currentView() {
+      if (!data) return null;
+      const v = data.views.find(x => x.id === view);
+      const label = view === 'whole' ? '全体' : v.label + ' ' + v.start_s.toFixed(2) + '–' + v.end_s.toFixed(2) + '秒';
+      return {start: v.start_s, end: v.end_s, label};
+    }
+
+    function paint() {
+      const w = Math.max(280, Math.round(map.clientWidth));
+      const orient = w < 640 ? 'tall' : 'wide';
+      const L = layoutConcept(w, null, {orient, maxFont: orient === 'tall' ? 14.5 : 18, minFont: 14});
+      const dpr = Math.min(3, window.devicePixelRatio || 1);
+      const key = w + 'x' + L.height + '@' + dpr;
+      if (key !== size) {
+        size = key;
+        canvas.style.height = L.height + 'px';
+        canvas.width = Math.round(w * dpr); canvas.height = Math.round(L.height * dpr);
+      }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, L.height);
+      if (!data) return;
+      drawConcept(ctx, data, sceneAt(t), {layout: L, palette: dark.matches ? PALETTES.dark : PALETTES.light, mode: 'page',
+        focus: STAGE_FOCUS[stage], view: currentView(), playhead: audio.currentTime});
+      for (const b of partButtons) {
+        const n = Object.values(L.nodes).find(x => x.part === b.dataset.part);
+        Object.assign(b.style, {left: n.x + 'px', top: n.y + 'px', width: n.w + 'px', height: n.h + 'px'});
+      }
+    }
+    const repaint = () => { if (!queued) queued = requestAnimationFrame(() => { queued = 0; paint(); }); };
+
+    function setStage(s, instant) {
+      stage = s;
+      for (const b of stageButtons) b.setAttribute('aria-pressed', String(Number(b.dataset.stage) === s));
+      $('#caption').textContent = CAPTIONS[s];
+      cancelAnimationFrame(anim);
+      const target = STAGE_TIMES[s];
+      if (instant || reduce.matches) { t = target; paint(); return; }
+      const from = t, start = performance.now(), dur = 400 + Math.abs(target - from) * 45;
+      const step = now => {
+        const k = Math.min(1, (now - start) / dur);
+        t = from + (target - from) * ease(k); paint();
+        if (k < 1) anim = requestAnimationFrame(step);
+      };
+      anim = requestAnimationFrame(step);
+    }
+
+    function seekTo(s) {
+      if (audio.readyState >= 1) { audio.currentTime = s; pendingSeek = null; } else pendingSeek = s;
+    }
+    function applyView(id, quiet) {
+      if (!data) return;
+      view = VIEW_IDS.includes(id) ? id : 'whole';
+      for (const b of viewButtons) b.setAttribute('aria-pressed', String(b.dataset.view === view));
+      const v = data.views.find(x => x.id === view);
+      audio.pause(); seekTo(v.start_s);
+      if (!quiet) status.textContent = (view === 'whole' ? '全体の先頭' : v.label + '（' + v.start_s.toFixed(3) + '〜' + v.end_s.toFixed(3) + '秒）') +
+        'へ移動しました。同じ全体のWAVなので、そのまま最後まで再生できます。';
+      paint();
+    }
+
+    function renderDetails(d) {
+      const f = d.facts, out = f.actual_output, api = f.input.api_params, m = out.measurements, sig = m.signal;
+      const ex = d.execution, rt = ex.execution.runner_timings_s, tc = ex.execution.source_reported_timecosts_s;
+      const dl = rows => el('dl', {class: 'rows'}, rows.map(([k, v]) => [el('dt', {}, k), el('dd', {}, v)]));
+      const sec = (title, ...kids) => el('section', {class: 'block'}, el('h2', {}, title), ...kids);
+      const link = (href, label) => el('a', {href}, label);
+      const n6 = x => x.toFixed(8).replace(/0+$/, '');
+      const settings = JSON.stringify(api, null, 2);
+      details.replaceChildren(
+        sec('この1回の入力',
+          el('p', {}, '架空のゲーム向けの依頼（日本語の説明ラベル。モデルには渡していません）：'),
+          el('blockquote', {}, f.input.request),
+          dl([
+            ['モデルに渡した説明文', el('code', {lang: 'en'}, api.prompt)],
+            ['歌詞', '空文字（""）。インストゥルメンタルを要望しただけで、歌声が無いことは確かめていません'],
+            ['長さ', api.audio_duration.toFixed(1) + '秒（要求値）'],
+            ['seed', api.manual_seeds],
+            ['主な設定', 'task ' + api.task + '・infer_step ' + api.infer_step + '（設定値）・' + api.scheduler_type + '・' + api.cfg_type + '・guidance_scale ' + api.guidance_scale + '・batch_size ' + api.batch_size],
+            ['使っていないもの', '参照音声・LoRA・audio2audio・retake・repaint・edit・extend・既存の曲名や作者名']
+          ]),
+          el('details', {}, el('summary', {}, '__call__ に渡した全設定（' + Object.keys(api).length + '項目）'), el('pre', {class: 'code', tabindex: '0'}, settings))),
+        sec('返ったものと、使い方',
+          dl([
+            ['WAV', base(out.audio) + '：' + fmtInt(out.wav_bytes) + 'バイト・' + fmtInt(m.container.samplerate) + 'Hz・' + m.container.channels + 'ch・32-bit浮動小数（IEEE float）'],
+            ['実際の長さ', fmtInt(m.container.frames) + 'フレーム＝' + m.duration.actual_duration_s + '秒。要求の' + m.duration.requested_audio_duration_s.toFixed(1) + '秒より' + Math.abs(m.duration.actual_minus_requested_s * 1000).toFixed(3) + 'ミリ秒短い'],
+            ['設定JSON', base(out.params) + '：原典がWAVの隣に書いた入力記録（' + fmtInt(out.params_bytes) + 'バイト）。中の audio_path は原典が書いたWindowsの相対パスのままで、ブラウザーのURLではありません'],
+            ['加工', '制作担当はトリミング・正規化・フェード・再エンコード・ループ加工・追加のリサンプリングをしていません。44.1kHz→48kHzの変換は原典のデコードの中で起きています'],
+            ['試聴の区間', '「全体・冒頭3秒へ・終わり3秒へ」は、同じ1つのWAVの再生位置です。3つの別の生成や切り出したファイルではなく、どれを選んでも保存されるのは同じ全体のWAVです'],
+            ['次にすること', '全体のWAVを保存し、冒頭・終わり・ノイズ・歌声らしい音の有無を自分の耳で確かめてから、タイトル画面の候補として試します。ループさせるなら編集と確認が別に必要です。公開するときはAI生成であることを明記します']
+          ]),
+          el('p', {class: 'small'}, 'SHA-256：', el('code', {}, out.wav_sha256))),
+        sec('別工程で測った数値',
+          dl([
+            ['全体', 'ピーク ' + n6(sig.whole.peak_abs) + '・RMS ' + n6(sig.whole.rms) + '（' + sig.whole.rms_dbfs + ' dBFS）・有限でない値 ' + sig.nonfinite_samples + '・|x|≥1 ' + sig.samples_abs_ge_1],
+            ['冒頭0.5秒', 'ピーク ' + n6(sig.first_0_5_s.peak_abs) + '・RMS ' + n6(sig.first_0_5_s.rms) + '（' + sig.first_0_5_s.rms_dbfs + ' dBFS）'],
+            ['末尾0.5秒', 'ピーク ' + sig.last_0_5_s.peak_abs.toExponential(4) + '・RMS ' + sig.last_0_5_s.rms.toExponential(5) + '（' + sig.last_0_5_s.rms_dbfs + ' dBFS）']
+          ]),
+          el('p', {class: 'small'}, 'soundfile/numpy で読んだ数値です。ノイズが無いこと、終わり方が自然なこと、無音で終わること、歌声が無いこと、ループできることは、これらの数値からは言えません。人による試聴はしていません。')),
+        sec('誰が何をしたか',
+          dl([
+            ['作者AI', f.roles.author],
+            ['制作担当', f.roles.operator + ' Python ' + f.execution.python + '・torch ' + f.execution.torch + '・CPU。読み込み ' + rt.load_checkpoint + '秒と __call__ ' + rt.pipeline_call + '秒は1回きりの壁時計の値（原典の内訳：前処理 ' + tc.preprocess.toFixed(3) + '・拡散 ' + tc.diffusion.toFixed(3) + '・デコード ' + tc.latent2audio.toFixed(3) + '秒）で、速さの比較ではありません。CPUにしたのは、承認済みの別のGPU作業が動いていたためです'],
+            ['このページ', f.roles.browser + ' 25ファイルを確かめてから表示し、合わなければ止めます']
+          ])),
+        sec('まだ確かめていないこと', el('ul', {class: 'limits'}, f.limits.map(x => el('li', {}, x)))),
+        sec('原典とファイル',
+          el('ul', {class: 'links'},
+            el('li', {}, link('vendor/ace-step/README.md', '原典のREADME（固定版・同梱）'), '：Python APIと用途の一次資料。SKILL.mdではありません'),
+            el('li', {}, link('https://github.com/ace-step/ACE-Step/tree/' + f.identity.source_commit, 'ace-step/ACE-Step @ ' + f.identity.source_commit.slice(0, 8)), '（同梱は読むための' + f.identity.source_public_selected_files_raw + 'ファイルだけで、これだけでは動きません）'),
+            el('li', {}, link('https://huggingface.co/' + f.identity.model_repository + '/tree/' + f.identity.model_revision, f.identity.model_repository + ' @ ' + f.identity.model_revision.slice(0, 8)), '・', link('model-card/README.md', 'モデルカード'), '（重みは同梱していません）'),
+            el('li', {}, link('run_example.py', 'run_example.py'), '・', link('inputs/jobs.json', 'inputs/jobs.json'), '・', link('implementation.md', 'implementation.md'), '（作者AIが執筆）'),
+            el('li', {}, link(out.return, '原典の戻り値の公開用の写し'), '・', link(out.execution, '実行の記録（制作担当が選んだ要約）')),
+            el('li', {}, link('README.md', 'この作例のREADME'), '・', link('THIRD_PARTY_NOTICES.md', '第三者の表示'), '・', link('vendor/ace-step/LICENSE', 'Apache-2.0'), '・', link('LICENSE', 'MIT')),
+            el('li', {}, link('source.zip', '編集ソースと実出力一式 ZIP'), '・', link('visual-verification.json', '図と映像の確認範囲'), '（制作担当の別工程で梱包・確認）')),
+          el('details', {}, el('summary', {}, '確かめた' + d.assets.length + 'ファイル（大きさとSHA-256）'),
+            el('ul', {class: 'inventory'}, d.assets.map(a => el('li', {}, el('a', {href: a.path}, a.path), ' ', fmtInt(a.bytes) + 'B ', el('code', {}, a.sha256.slice(0, 12) + '…')))),
+            el('p', {class: 'small'}, '素材一覧 concept/manifest.json の SHA-256：', el('code', {}, d.manifestSha)))));
+    }
+
+    function openPart(id) {
+      if (!data) return;
+      const info = partInfo(data, id), s = info.source;
+      $('#part-kicker').textContent = '部品' + info.n + '／6（説明のための区切り）';
+      $('#part-title').textContent = info.label;
+      $('#part-meaning').textContent = info.meaning;
+      $('#part-rows').replaceChildren(...info.rows.flatMap(([k, v]) => [el('dt', {}, k), el('dd', {}, v)]));
+      $('#part-links').replaceChildren(
+        el('a', {href: s.path}, s.path.replace('vendor/ace-step/', '') + ' L' + s.start_line + '–' + s.end_line + '（同梱の原典）'), '　',
+        el('a', {href: s.url}, '固定版の該当行（GitHub）'));
+      $('#part-excerpt').textContent = info.excerpt;
+      const d = $('#part-dialog');
+      if (d.showModal) d.showModal(); else d.setAttribute('open', '');
+    }
+
+    stageButtons.forEach(b => b.addEventListener('click', () => setStage(Number(b.dataset.stage))));
+    viewButtons.forEach(b => b.addEventListener('click', () => {
+      history.replaceState(null, '', '#' + b.dataset.view);
+      applyView(b.dataset.view);
+    }));
+    partButtons.forEach(b => b.addEventListener('click', () => openPart(b.dataset.part)));
+    for (const [key, a] of Object.entries(saves)) a.addEventListener('click', e => {
+      if (!data || !a.href) { e.preventDefault(); return; }
+      status.textContent = {audio: '全体のWAV', params: '原典の設定JSON', execution: '実行の記録'}[key] + 'の保存をブラウザーに依頼しました。保存できたかはブラウザーの表示で確かめてください。';
+    });
+    $('#retry').addEventListener('click', load);
+    window.addEventListener('hashchange', () => applyView(viewFromHash()));
+    audio.addEventListener('loadedmetadata', () => { if (data && pendingSeek != null) { audio.currentTime = pendingSeek; pendingSeek = null; } });
+    for (const ev of ['timeupdate', 'seeked', 'ended', 'emptied']) audio.addEventListener(ev, repaint);
+    dark.addEventListener('change', repaint);
+    new ResizeObserver(repaint).observe(map);
+    load();
+  </script>
+</body>
+</html>

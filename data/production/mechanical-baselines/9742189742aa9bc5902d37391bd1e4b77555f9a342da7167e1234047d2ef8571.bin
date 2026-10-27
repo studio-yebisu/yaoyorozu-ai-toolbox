@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDF Creator の中身：32秒・無音の動く図（編集ソース）｜八百万図AIツールボックス</title>
+  <script>if (window.__MOTION_RENDER__ === true) document.documentElement.classList.add('render');</script>
+  <link rel="stylesheet" href="video.css?v=visual-r1-final">
+  <link rel="modulepreload" href="../concept.js?v=visual-r1-final">
+  <script type="module" src="video.js?v=visual-r1-final"></script>
+</head>
+<body>
+  <header class="chrome bar">
+    <h1>PDF Creator の中身 — 32秒・無音の動く図</h1>
+    <p id="asset-status" data-state="loading" role="status" aria-live="polite">保存済みの素材を照合しています…</p>
+    <p id="asset-dims" class="dims"></p>
+    <button id="retry" type="button" hidden>もう一度読み込む</button>
+  </header>
+
+  <main class="stage">
+    <canvas id="stage" width="720" height="1280" role="img"
+      aria-label="手順書と案内の材料を同じ作者AIが読み、Markdown原稿に整え、制作担当が別工程で原典の変換を実行し、同じ原稿がA4 1ページと細いページ2ページに折り返し、ページ画像を原稿と読み比べ、保存済みの原PDFを使うまでの動く図。無音。"></canvas>
+  </main>
+
+  <section class="chrome controls" aria-label="再生の操作">
+    <div class="row">
+      <button id="play" type="button" disabled>再生</button>
+      <button id="reset" type="button" disabled>先頭へ</button>
+      <button id="replay" type="button" disabled>最初から再生</button>
+      <button id="end" type="button" disabled>最後へ</button>
+      <output id="clock" for="time">0.0 / 32.0 秒</output>
+    </div>
+    <label class="time"><span>時刻</span>
+      <input id="time" type="range" min="0" max="32" step="0.1" value="31" disabled>
+    </label>
+    <div class="row jumps" role="group" aria-label="場面へ移動">
+      <button type="button" data-jump="0" disabled>0秒 手順書と材料</button>
+      <button type="button" data-jump="4" disabled>4秒 作者AIと制作担当</button>
+      <button type="button" data-jump="8" disabled>8秒 HTML→CSS→Chrome</button>
+      <button type="button" data-jump="14" disabled>14秒 1ページと2ページ</button>
+      <button type="button" data-jump="20" disabled>20秒 画像と読み比べ</button>
+      <button type="button" data-jump="26" disabled>26秒 原PDFを使う</button>
+      <button type="button" data-jump="29" disabled>29秒 全体図</button>
+    </div>
+    <div class="row" role="group" aria-label="画面の向き">
+      <button type="button" data-orient="portrait" aria-pressed="true">縦 720×1280</button>
+      <button type="button" data-orient="wide" aria-pressed="false">横 1280×720</button>
+    </div>
+    <p class="small">音声トラック・ナレーション・読み上げはありません。図は保存済みの原制作から描いており、PDFは生成しません。<a href="../index.html">作例ページへ戻る</a></p>
+  </section>
+</body>
+</html>

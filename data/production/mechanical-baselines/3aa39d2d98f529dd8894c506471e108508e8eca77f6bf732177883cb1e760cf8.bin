@@ -1,0 +1,242 @@
+{
+  "id": "agency-agents-example",
+  "title": "Agency Agents",
+  "title_lines": [
+    "専門職の役割をAIに渡す指示書集"
+  ],
+  "category": "agents",
+  "summary": "デザイン、開発、調査など、仕事に合う専門家の役割をAIに設定できます。担当する仕事や進め方、完成条件を指示書で揃え、複数の役割を使い分けられます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/agency-agents-example/index.html",
+  "video": "media/agency-agents-example.mp4",
+  "poster": "media/agency-agents-example.webp",
+  "skill": "examples/agency-agents-example/vendor/agency-agents/design/design-ux-architect.md",
+  "skill_label": "UX Architect / Frontend Developer",
+  "skill_description": "Agency Agents の役割ファイルは、AIに担当の役割を与えるMarkdownの定義で、身元・使命・守ること・成果物の例・進め方・成功の指標を書いたものです。インストールして使うスキルの束ではなく、この作例では README の「Option 3: Use as Reference」に沿って、固定版の2ファイルを読んで順に当てはめました。UX Architect（design/design-ux-architect.md）からは、CSSの変数と余白の段階、Grid/Flexboxのレイアウト、部品の命名、モバイルファーストの段階、ライト／ダーク／システムのテーマ切替、データの契約と引き継ぎ書を使いました。Frontend Developer（engineering/engineering-frontend-developer.md）からは、モバイルファーストとアクセシビリティの既定、意味のあるHTMLとARIA、キーボード操作、エラー処理と利用者への知らせ方、状態の分け方を使いました。Reactの例、エディター連携、Lighthouse・Core Web Vitalsの目標、テスト基盤は入力に合わないため使っていません。リンク先は UX Architect の役割ファイルで、Frontend Developer の役割ファイルも同じ vendor/agency-agents/ に改変せずに置いています。",
+  "samples": "examples/agency-agents-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "架空イベントの入力と、2段階の成果",
+  "samples_intro": "以下は元の架空イベント案内を実際に作り、ブラウザーで確かめた入出力です。新しい入口では役割定義の構造を図解し、元の案内ページと保存済みの成果へつなぎます。元の推論や引き継ぎ書は作り直していません。",
+  "demo_description": "最初にAgency Agentsの役割ファイルを開いた概念図が出ます。UX設計と画面実装を切り替え、担当・仕事・約束・進め方・成果物・確認観点を選ぶと、この作例でどう使ったかと原典の箇所を確認できます。指示書と依頼・素材をAIへ渡し、出てきた引き継ぎ書とCSSの土台を次の実装へつなぐ関係を示します。「できあがった作例を触る」から、元の架空イベント6企画を比べ、重ならない予定をJSONに保存する実装へ進めます。",
+  "demo_note": "図の切り替えは、保存済みの制作の流れを説明するものです。ページ内でAIを実行しません。元の制作では、同じOpus5.5の別実行にUX Architect、Frontend Developerを順に適用し、制作担当がファイルを渡しました。6つの部品は選んだ2役の共通構造を説明用に整理したもので、全役割共通の機械的な書式ではありません。",
+  "request_intro": "同じ2段階を自分のイベント情報で繰り返すときの依頼文です。イベント情報の欄を差し替え、固定版の2つの役割ファイルを読めるAIに渡してください。要らない機能は消してかまいません。",
+  "request": "次の2つの役割ファイルを、この順番で1つずつ読んで当てはめ、下のイベント情報から、スマホで使える企画ガイドのページを作ってください。2つの役割は同じAIが順番に適用するもので、別々のエージェントを起動したり、自動で受け渡したりはしません。\n\n役割ファイル（msitarzewski/agency-agents 固定コミット bd956db032d907387e6b9ddebff3e18f1de8c679。MIT。コミュニティ作成で、Anthropic公式ではありません）\n1. UX Architect\nhttps://github.com/msitarzewski/agency-agents/blob/bd956db032d907387e6b9ddebff3e18f1de8c679/design/design-ux-architect.md\n2. Frontend Developer\nhttps://github.com/msitarzewski/agency-agents/blob/bd956db032d907387e6b9ddebff3e18f1de8c679/engineering/engineering-frontend-developer.md\n\nイベント情報（ここを差し替える。JSONで渡す）\n・架空か実在か：\n・題名、日付、タイムゾーン、会場、開場と閉場の時刻、入場の条件：\n・企画ごとに：ID、種類、題名、開始、終了、部屋、対象年齢、費用（円）、定員（設定がなければ null）、予約の要否、説明、メモ\n\n段階1：UX Architect\n・UX Architect の役割ファイルだけを読み、イベント情報を入力にして、引き継ぎ書（JSONとMarkdown）とCSSの土台（foundation.css）を作る。\n・引き継ぎ書には、目的、2つの役割それぞれの入力・成果物・確認項目、画面の流れ、部品と状態、データの検証規則、時間の重なりの判定式、書き出すJSONの形、画面幅ごとの振る舞い、受け入れ条件を書く。\n・CSSの土台には、色・文字・余白のトークン、ライト／ダーク／システムのテーマ、44px以上・16px以上の操作部品、3pxのフォーカス表示、hidden属性の要素を必ず隠す規則を入れる。\n・受け入れ条件は、まだ確かめていない将来の確認項目として書く。\n\n段階2：Frontend Developer\n・次に Frontend Developer の役割ファイルを読み、段階1の引き継ぎ書・foundation.css・イベント情報を入力にして、index.html・style.css・app.js と実装の記録を作る。\n・引き継ぎ書と違う判断をしたときは、採用しなかった項目と理由を実装の記録に書く。\n・ページの内容はイベント情報のJSONを読み込んで表示する。形が正しくなければ理由と「もう一度読み込む」を出し、内蔵の代わりのデータは使わない。\n\nページでできること（要らないものは消す）\n・企画ごとに、開始と終了の時刻、費用、対象年齢、定員、予約の要否を比べる。\n・種類・時間帯・費用・キーワードで絞り込み、表示している件数を出す。\n・「回る予定」に企画を入れ、時間順の一覧と費用の合計を見る。\n・時間が重なる企画は入れず、どの企画と重なるかを知らせる。今の予定を黙って入れ替えない。終了と開始が同時刻なら重ならない。予約不要の企画も、開始から終了までの枠全体を使う。\n・回る予定をJSONファイルで保存する。\n・ライト／ダーク／システムの表示テーマを選べる。\n・320px幅のスマホから1280px幅のパソコンまで、横スクロールなしで使える。\n\n守ること\n・架空のイベントなら、最初の画面でそう書く。予約・支払い・残席・住所・地図・連絡先の操作は作らない。\n・費用・対象年齢・定員は入力の値をそのまま出す。定員は企画上の設定として書き、残席として書かない。入力にない値（曜日・定員・費用など）を補わない。\n・外部のフォント・画像・CDN・計測・AIの呼び出しを使わない。\n・役割ファイルにあるフレームワーク・性能の数値目標・アクセシビリティ基準への準拠などは、今回に合うものだけ当てる。測っていない数値や、確かめていない準拠を成果として書かない。\n・最後に、作ったファイル、実際に行った確認、まだ確かめていない点を分けて書く。\n",
+  "applied_skills": [
+    {
+      "name": "UX Architect（Agency Agents・design/design-ux-architect.md）",
+      "source": "https://github.com/msitarzewski/agency-agents/blob/bd956db032d907387e6b9ddebff3e18f1de8c679/design/design-ux-architect.md",
+      "applied": "1回目の実行で固定版の役割ファイルを全文読み、input/event.json だけを入力にして、outputs/ux-handoff.json・outputs/ux-handoff.md・foundation.css を書きました。「Create Developer-Ready Foundations」に沿って、紙と墨・テラコッタ・緑の色の役割名トークン、4px単位の余白、文字の段階、44px・16pxの操作部品、3pxのフォーカスを foundation.css に定義し、「Default requirement」のライト／ダーク／システムのテーマ切替を、radio ではなく aria-pressed の3ボタンにして引き継ぎました。「System Architecture Leadership」のデータ契約として、入力の検証規則、重なりの式（startA < endB かつ startB < endA、接するだけは可）、書き出すJSONの形、4種類の読み込み失敗を書き、受け入れ条件 A01〜A26 を未確認の将来の項目として残しています。テンプレートの全画面ヒーロー、css/ を5ファイルに分ける構成、ai/memory-bank の資料、性能予算とSLAは、入力と目的に合わないため採用せず、理由を書きました。参照先の ai/agents/architect.md は固定コミットにないため、内容を補っていません。"
+    },
+    {
+      "name": "Frontend Developer（Agency Agents・engineering/engineering-frontend-developer.md）",
+      "source": "https://github.com/msitarzewski/agency-agents/blob/bd956db032d907387e6b9ddebff3e18f1de8c679/engineering/engineering-frontend-developer.md",
+      "applied": "2回目の実行で固定版の役割ファイルを全文読み、引き継ぎ書・foundation.css・input/event.json を入力に、index.html・style.css・app.js・outputs/implementation.md を書きました。「Default requirement」のモバイルファーストとアクセシビリティを、320px基準のレイアウト、意味のあるHTML、企画名を含むボタン名、aria-pressed、role=status での知らせ、キーボードで使えるネイティブの部品として当てています。「proper error handling and user feedback」に沿って、3つのファイルの取得ごとに通信・HTTP・JSON・形の失敗を分けて理由と再読み込みを出し、内蔵の代わりのデータは使いません。引き継ぎ書の「入れ替える」（A09）は採用せず、重なる追加を止めて今の選択を残す形にし、そのほかの違い（費用の絞り込み、追従しないリンク、読み込むファイルの範囲など）とともに implementation.md に記録しました。Reactなどのフレームワーク例、エディター連携、Lighthouse・Core Web Vitals・PWA・テスト基盤は6企画の静的ページに合わないため使わず、測っていない数値や準拠は書いていません。"
+    },
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "掲載項目の依頼「架空の地域イベントの案内ページを作るために、必要な役割を2つ選び、それぞれに渡す入力、成果物、確認項目を具体化する」を、目的「固定版の UX Architect と Frontend Developer を順に適用し、引き継ぎ書を読んで実装した、6企画を比べて重ならない回る予定をJSONで保存できるスマホ優先のページを残す」の一つに絞りました（brief.json）。UIの作例なので操作できる画面を完了条件にし、入力（input/event.json）と2段階の成果（引き継ぎ書・ページ・実装の記録）を対で残しています。案内ページを企画ガイドと解釈したこと、架空のイベントにしたこと、2つの役割を同じモデルが別々の実行で順に適用すること、ai/agents/architect.md を使わないこと、重なる企画を入れ替えずに止めることを assumptions に分けました。完了条件は、読み込みと検証、6企画の表示値、絞り込みと件数、重なりでの追加停止と接する企画の両立、合計500円と1000円の組、保存したJSONの形、テーマ、6つの画面幅です。制作担当がこのうち表示・操作・実JSON保存・6幅のライト/ダークを確認し、実際の入出力をsamples.jsonに記録しました。物理iOS/支援技術・性能測定や人による承認は未確認です。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/agency-agents-example/tools/motion-reel/render.mjs",
+      "applied": "役割ファイルの構造と、実際の入力・引き継ぎ書・CSS土台・案内ページの関係を、固定11素材に基づく32秒の無音縦横動画へ図解しました。今回の映像の確認範囲はverification.jsonに分け、元28秒版と前回32秒版の検査を流用しません。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "架空イベントを用意する",
+      "body": "作例のために、架空の地域イベント「こもれび つくる日」（2026-11-07、Asia/Tokyo）の6企画を input/event.json に書きました。ワークショップ3件・トーク2件・相談1件で、時刻・部屋・対象年齢・費用・定員・予約の要否・説明・メモを持ちます。相談の S06 は定員を設けていません（null）。"
+    },
+    {
+      "title": "UX Architect で土台を作る",
+      "body": "1回目の実行で UX Architect の役割ファイルを読み、入力から outputs/ux-handoff.json・ux-handoff.md・foundation.css を作りました。色・余白・文字のトークンと3つのテーマ、部品と状態、データの検証規則、重なりの式、書き出すJSONの形、画面幅ごとの振る舞い、未確認の受け入れ条件 A01〜A26 が入っています。"
+    },
+    {
+      "title": "Frontend Developer で実装する",
+      "body": "2回目の実行で Frontend Developer の役割ファイルを読み、引き継ぎ書と foundation.css と入力から index.html・style.css・app.js を書きました。foundation.css をそのまま先に読み込み、ページ固有の配置だけを style.css に足しています。"
+    },
+    {
+      "title": "違えた判断を記録する",
+      "body": "重なる企画の「入れ替える」（A09）は採用せず、追加を止めて、どの企画と重なるかを知らせる形にしました。費用の絞り込みを足し、「回る予定へ」のリンクは画面下に追従させていません。違いと理由は outputs/implementation.md にあります。"
+    },
+    {
+      "title": "比べて、選んで、保存する",
+      "body": "ページは入力のJSONを読み、形を確かめてから6企画を時刻順に出します。絞り込み、回る予定への追加と重なりでの停止、件数と費用の合計、komorebi-making-day-2026-11-07-itinerary.json のダウンロード要求、テーマの切り替えができます。"
+    },
+    {
+      "title": "原制作で実際に確かめたこと",
+      "body": "以下は原制作時の履歴です。6企画の表示値、種類・時間帯・費用・全角AND検索、2組の重複拒否と14:00の境界、実JSON保存4企画1000円と別500円、テーマ3種・再読込、実503/JSON不正/不正時刻からの再試行を実ブラウザーで確認しました。6幅のライト/ダーク画面と28秒の無音動画も確認。物理iOS/Safari/VoiceOverや人による承認は未確認です。"
+    },
+    {
+      "title": "指示書の中身と、成果の受け渡しを図にする",
+      "body": "元の役割適用と実成果を保ち、指示書の中の担当・仕事・約束・進め方・成果物・確認観点を開ける図にしました。選んだ役割と依頼・素材がAIへ入り、実際の引き継ぎ書とCSS土台が次の実装へ渡る関係を示します。新しい概念図と32秒の無音動画は別のOpus5.5実行で制作し、元の案内ページはguide.htmlから使えます。"
+    }
+  ],
+  "limitations": [
+    "イベント・会場・6企画は、この作例のための架空の入力です。実際の開催・受付・支払い・残席確認・住所や地図はありません。",
+    "同じ指定モデルOpus5.5を、UX設計→フロントエンド実装の別実行で使いました。独立した複数エージェント・自動振り分け・インストールや自動起動・ページ内でのAI実行は検証していません。",
+    "受領したUX設計案の入れ替え操作は採用せず、重なりのある追加を止める仕様へ変更しました。受領原本は保持し、差分を実装メモに記録しています。",
+    "相談室も14:00–15:00の枠全体を選ぶ簡単な予定表です。移動時間・途中入退場・人数や同伴者を考慮する予約サービスではありません。",
+    "予定は再読込すると空になり、表示テーマだけを保存します。JSONは架空イベントの予定メモで、参加を確定しません。",
+    "原典UX役割が参照するai/agents/architect.mdは固定アーカイブに存在せず、同梱した役割定義だけを適用しています。",
+    "物理iOS/Safari/VoiceOver・実際の支援技術・OSテーマ変更中の追従・storage拒否・通信切断・Lighthouse/CoreWebVitalsは未確認です。制作担当による実操作・映像確認や自動照合は、人による内容や美術の承認ではありません。",
+    "今回の図・動画の検査、原制作、前回の図中心版は制作記録で区別しています。役割ファイルに書かれた成功の指標は目標で、この作例で達成を測った数値ではありません。人の審美的承認、実機iOS/VoiceOver、200%ズーム、storage拒否、OSテーマ変更中の追従は未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "msitarzewski/agency-agents（固定コミット bd956db）",
+      "url": "https://github.com/msitarzewski/agency-agents/tree/bd956db032d907387e6b9ddebff3e18f1de8c679"
+    },
+    {
+      "label": "UX Architect の役割ファイル（固定版）",
+      "url": "https://github.com/msitarzewski/agency-agents/blob/bd956db032d907387e6b9ddebff3e18f1de8c679/design/design-ux-architect.md"
+    },
+    {
+      "label": "Frontend Developer の役割ファイル（固定版）",
+      "url": "https://github.com/msitarzewski/agency-agents/blob/bd956db032d907387e6b9ddebff3e18f1de8c679/engineering/engineering-frontend-developer.md"
+    },
+    {
+      "label": "Agency Agents README（固定版・Quick Start Option 3）",
+      "url": "https://github.com/msitarzewski/agency-agents/blob/bd956db032d907387e6b9ddebff3e18f1de8c679/README.md"
+    },
+    {
+      "label": "LICENSE（MIT・固定版）",
+      "url": "https://github.com/msitarzewski/agency-agents/blob/bd956db032d907387e6b9ddebff3e18f1de8c679/LICENSE"
+    },
+    {
+      "label": "架空イベントの入力（input/event.json）",
+      "url": "examples/agency-agents-example/input/event.json"
+    },
+    {
+      "label": "UX Architect の引き継ぎ書（outputs/ux-handoff.md）",
+      "url": "examples/agency-agents-example/outputs/ux-handoff.md"
+    },
+    {
+      "label": "引き継ぎ書のデータ（outputs/ux-handoff.json）",
+      "url": "examples/agency-agents-example/outputs/ux-handoff.json"
+    },
+    {
+      "label": "CSS の土台（foundation.css）",
+      "url": "examples/agency-agents-example/foundation.css"
+    },
+    {
+      "label": "Frontend Developer の実装記録（outputs/implementation.md）",
+      "url": "examples/agency-agents-example/outputs/implementation.md"
+    },
+    {
+      "label": "同梱した Frontend Developer の役割ファイル",
+      "url": "examples/agency-agents-example/vendor/agency-agents/engineering/engineering-frontend-developer.md"
+    },
+    {
+      "label": "依頼文（request.txt）",
+      "url": "examples/agency-agents-example/request.txt"
+    },
+    {
+      "label": "制作ブリーフ（brief.json）",
+      "url": "examples/agency-agents-example/brief.json"
+    },
+    {
+      "label": "作例のREADME",
+      "url": "examples/agency-agents-example/README.md"
+    },
+    {
+      "label": "作例のLICENSE",
+      "url": "examples/agency-agents-example/LICENSE"
+    },
+    {
+      "label": "実際に保存した予定JSON",
+      "url": "examples/agency-agents-example/outputs/browser-itinerary.json"
+    },
+    {
+      "label": "実行と確認の範囲",
+      "url": "examples/agency-agents-example/verification.json"
+    },
+    {
+      "label": "入力・設計・ソース一式",
+      "url": "examples/agency-agents-example/source.zip"
+    },
+    {
+      "label": "概念図の使い方",
+      "url": "examples/agency-agents-example/visual-guide.md"
+    },
+    {
+      "label": "概念図と動画の11固定素材",
+      "url": "examples/agency-agents-example/concept/manifest.json"
+    },
+    {
+      "label": "元の役割適用で作った企画ガイド",
+      "url": "examples/agency-agents-example/guide.html"
+    },
+    {
+      "label": "役割の共通構造と、この作例での適用箇所",
+      "url": "examples/agency-agents-example/concept/structure.json"
+    }
+  ],
+  "license": "MIT（作例・原典）",
+  "license_note": "作例のコード・文章・データは MIT License（Copyright (c) 2026 Studio Yebisu）。同梱した Agency Agents の4ファイル（README.md・LICENSE・design/design-ux-architect.md・engineering/engineering-frontend-developer.md）は、msitarzewski/agency-agents の固定コミット bd956db のファイルを改変せずに vendor/agency-agents/ に置いたもので、MIT License（Copyright (c) 2025 AgentLand Contributors）です。コミュニティ作成のプロジェクトで、Anthropic 公式のエージェント集ではなく、Anthropic による承認や推奨を示すものではありません。役割ファイルを使うAIサービスの利用条件・料金は別です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "video_note": "32秒・30fps・無音。役割の指示書が6つの部品へ開き、依頼・素材と一緒にAIへ渡り、実際の引き継ぎ書とCSS土台が次の役割の入力になる構造を動く概念図で示します。縦720×1280と横1280×720。保存済みの制作の図解で、ライブAI実行の録画ではありません。",
+  "video_source": "examples/agency-agents-example/video/index.html",
+  "skill_license": "examples/agency-agents-example/vendor/agency-agents/LICENSE",
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "guide_url": "case.html?id=agency-agents-example",
+  "catalog_entry": {
+    "id": "resource-agency-agents",
+    "name": "Agency Agents",
+    "tagline": "専門職の役割をAIに渡す指示書集",
+    "category": "agents",
+    "kind": "エージェント定義集",
+    "summary": "デザイン、開発、調査など、仕事に合う専門家の役割をAIに設定できます。担当する仕事や進め方、完成条件を指示書で揃え、複数の役割を使い分けられます。",
+    "use_case": "AIへ任せる役割を具体化し、担当ごとに入力・仕事・完成条件を決めたいとき。",
+    "tags": [
+      "エージェント",
+      "実行管理",
+      "エージェント定義集"
+    ],
+    "workflow": [
+      "依頼に必要な役割を選ぶ",
+      "対応する定義を読み、今回の仕事に範囲を合わせる",
+      "役割ごとの成果物を照合してまとめる"
+    ],
+    "requirements": [
+      "Markdownの指示を読めるAI環境",
+      "対象の役割と完成条件"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/msitarzewski/agency-agents/blob/bd956db032d907387e6b9ddebff3e18f1de8c679/LICENSE",
+    "license_note": "MIT。msitarzewskiによるコミュニティのプロジェクトで、Anthropic公式のエージェント集ではありません。",
+    "source_url": "https://github.com/msitarzewski/agency-agents/tree/bd956db032d907387e6b9ddebff3e18f1de8c679",
+    "guide_url": "case.html?id=agency-agents-example",
+    "readme_url": "https://github.com/msitarzewski/agency-agents/blob/bd956db032d907387e6b9ddebff3e18f1de8c679/README.md",
+    "source_repository": "msitarzewski/agency-agents",
+    "source_commit": "bd956db032d907387e6b9ddebff3e18f1de8c679",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "コミュニティの固定版役割定義をREADME Option3の参照モードで適用。原典4filesとMIT表記を保持。Anthropic公式ではなく、Agentアプリ導入や自動協調の検証ではありません。",
+    "prompt": "次の2つの役割ファイルを、この順番で1つずつ読んで当てはめ、下のイベント情報から、スマホで使える企画ガイドのページを作ってください。2つの役割は同じAIが順番に適用するもので、別々のエージェントを起動したり、自動で受け渡したりはしません。\n\n役割ファイル（msitarzewski/agency-agents 固定コミット bd956db032d907387e6b9ddebff3e18f1de8c679。MIT。コミュニティ作成で、Anthropic公式ではありません）\n1. UX Architect\nhttps://github.com/msitarzewski/agency-agents/blob/bd956db032d907387e6b9ddebff3e18f1de8c679/design/design-ux-architect.md\n2. Frontend Developer\nhttps://github.com/msitarzewski/agency-agents/blob/bd956db032d907387e6b9ddebff3e18f1de8c679/engineering/engineering-frontend-developer.md\n\nイベント情報（ここを差し替える。JSONで渡す）\n・架空か実在か：\n・題名、日付、タイムゾーン、会場、開場と閉場の時刻、入場の条件：\n・企画ごとに：ID、種類、題名、開始、終了、部屋、対象年齢、費用（円）、定員（設定がなければ null）、予約の要否、説明、メモ\n\n段階1：UX Architect\n・UX Architect の役割ファイルだけを読み、イベント情報を入力にして、引き継ぎ書（JSONとMarkdown）とCSSの土台（foundation.css）を作る。\n・引き継ぎ書には、目的、2つの役割それぞれの入力・成果物・確認項目、画面の流れ、部品と状態、データの検証規則、時間の重なりの判定式、書き出すJSONの形、画面幅ごとの振る舞い、受け入れ条件を書く。\n・CSSの土台には、色・文字・余白のトークン、ライト／ダーク／システムのテーマ、44px以上・16px以上の操作部品、3pxのフォーカス表示、hidden属性の要素を必ず隠す規則を入れる。\n・受け入れ条件は、まだ確かめていない将来の確認項目として書く。\n\n段階2：Frontend Developer\n・次に Frontend Developer の役割ファイルを読み、段階1の引き継ぎ書・foundation.css・イベント情報を入力にして、index.html・style.css・app.js と実装の記録を作る。\n・引き継ぎ書と違う判断をしたときは、採用しなかった項目と理由を実装の記録に書く。\n・ページの内容はイベント情報のJSONを読み込んで表示する。形が正しくなければ理由と「もう一度読み込む」を出し、内蔵の代わりのデータは使わない。\n\nページでできること（要らないものは消す）\n・企画ごとに、開始と終了の時刻、費用、対象年齢、定員、予約の要否を比べる。\n・種類・時間帯・費用・キーワードで絞り込み、表示している件数を出す。\n・「回る予定」に企画を入れ、時間順の一覧と費用の合計を見る。\n・時間が重なる企画は入れず、どの企画と重なるかを知らせる。今の予定を黙って入れ替えない。終了と開始が同時刻なら重ならない。予約不要の企画も、開始から終了までの枠全体を使う。\n・回る予定をJSONファイルで保存する。\n・ライト／ダーク／システムの表示テーマを選べる。\n・320px幅のスマホから1280px幅のパソコンまで、横スクロールなしで使える。\n\n守ること\n・架空のイベントなら、最初の画面でそう書く。予約・支払い・残席・住所・地図・連絡先の操作は作らない。\n・費用・対象年齢・定員は入力の値をそのまま出す。定員は企画上の設定として書き、残席として書かない。入力にない値（曜日・定員・費用など）を補わない。\n・外部のフォント・画像・CDN・計測・AIの呼び出しを使わない。\n・役割ファイルにあるフレームワーク・性能の数値目標・アクセシビリティ基準への準拠などは、今回に合うものだけ当てる。測っていない数値や、確かめていない準拠を成果として書かない。\n・最後に、作ったファイル、実際に行った確認、まだ確かめていない点を分けて書く。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "固定2役の6つの構成要素、依頼と素材との合流、同じAIの次実行への成果の受け渡しを大きな概念図と32秒無音動画で図解。元の実入力・引き継ぎ・案内実装・実保存を保持。新図の検証は制作記録に分ける。独立agent協調や新たな推論の実行ではない。",
+    "reviewed_on": "2026-10-16",
+    "example_url": "examples/agency-agents-example/index.html",
+    "image": "media/agency-agents-example.webp",
+    "updated_on": "2026-10-18"
+  },
+  "video_portrait": "media/agency-agents-example.mp4",
+  "video_landscape": "media/agency-agents-example-wide.mp4",
+  "poster_portrait": "media/agency-agents-example.webp",
+  "poster_landscape": "media/agency-agents-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/agency-agents-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/agency-agents-example-landscape-credited-ja-v3.mp4"
+}

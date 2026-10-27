@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; font-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>『探しやすくして』を、確かめられる検索にする — Matt Pocock Skills の作例｜八百万図AIツールボックス</title>
+  <meta name="description" content="架空の依頼と合成データ6件の検索を、用語と完成条件を決め、失敗するテストから1段ずつ直した作例です。変更前と変更後の関数を、このページで実際に動かして比べられます。">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">本文へ移動</a>
+  <header class="masthead">
+    <a class="masthead-back" href="../../case.html?id=matt-pocock-skills-example">八百万図AIツールボックス の記事へ</a>
+    <span class="masthead-meta">作例｜Matt Pocock Skills｜架空の依頼・合成データ6件</span>
+  </header>
+
+  <main id="main">
+    <section class="intro" aria-labelledby="page-title">
+      <p class="kicker">開発の作例</p>
+      <h1 id="page-title"><span>『探しやすくして』を、</span><span>確かめられる検索にする</span></h1>
+      <blockquote class="ask">
+        <p>「UIでもｕｉでも探せて、タグも見てほしい。言葉を足したら絞れて、分野でも選べると便利。」</p>
+        <footer>作例のために書いた架空の依頼</footer>
+      </blockquote>
+      <ol class="flow" aria-label="このページの読み方">
+        <li><b>検索語を入れる</b><span>好きな語でも、下の3つの例でも</span></li>
+        <li><b>変更前と変更後を比べる</b><span>同じ6件に、2つの関数を実際に通す</span></li>
+        <li><b>仕様と記録を見る</b><span>決めたこと・失敗→成功の記録・コード</span></li>
+      </ol>
+      <p class="notice"><strong>検索はこのページの中で計算します。</strong>入力した語は外へ送りません。AIは動いていません。テストの記録は制作時に保存したもので、ページを開くたびに再実行してはいません。</p>
+    </section>
+
+    <section class="try" id="try" aria-labelledby="try-title">
+      <h2 id="try-title" class="section-title">試す</h2>
+      <form class="search-form" id="search-form" role="search" aria-label="作例の検索">
+        <div class="field field-query">
+          <label for="query">検索語</label>
+          <input id="query" name="query" type="search" maxlength="100" autocomplete="off" spellcheck="false" aria-describedby="query-hint">
+          <p class="hint" id="query-hint">空白（全角も可）で区切ると、すべての語を含むものだけが残ります。</p>
+        </div>
+        <div class="field field-category">
+          <label for="category">分野</label>
+          <select id="category" name="category">
+            <option value="all">全分野（all）</option>
+            <option value="ui-ux">UI・UX（ui-ux）</option>
+            <option value="slides">スライド（slides）</option>
+            <option value="motion">モーション（motion）</option>
+            <option value="agents">エージェント（agents）</option>
+          </select>
+        </div>
+      </form>
+
+      <div class="presets" role="group" aria-labelledby="presets-title">
+        <p class="presets-title" id="presets-title">保存した3つの例</p>
+        <ul class="preset-list">
+          <li><a class="preset" id="wide-ui" href="#wide-ui" data-sample="wide-ui"><b>全角でもタグまで探す</b><span>検索語: ＵＩ / 分野: all</span></a></li>
+          <li><a class="preset" id="and-query" href="#and-query" data-sample="and-query"><b>語を足して1件へ絞る</b><span>検索語: UI　設計 / 分野: all</span></a></li>
+          <li><a class="preset" id="slides-only" href="#slides-only" data-sample="slides-only"><b>空語で分野だけを選ぶ</b><span>検索語: （空） / 分野: slides</span></a></li>
+        </ul>
+      </div>
+
+      <p class="boot-note" id="boot-note">検索を動かすには、README の手順でこのフォルダをローカルのサーバーから開いてください。ファイルを直接開くと、ブラウザーがモジュールの読み込みを止めます。</p>
+
+      <div class="outcome" id="outcome" hidden>
+        <p class="summary" id="summary" role="status" aria-live="polite"></p>
+        <p class="provenance" id="provenance"></p>
+        <div class="compare">
+          <section class="column column-before" aria-labelledby="before-title">
+            <h3 id="before-title" class="column-title"><span class="column-name">変更前</span><span class="column-count" id="before-count"></span></h3>
+            <p class="column-source"><a href="baseline/search.mjs"><code>baseline/search.mjs</code></a> の <code>searchEntries</code>。表題の文字をそのまま探すだけ</p>
+            <ul class="cards" id="before-list" aria-label="変更前の結果"></ul>
+            <p class="empty" id="before-empty" hidden>0件。一致する掲載項目はありません。</p>
+          </section>
+          <section class="column column-after" aria-labelledby="after-title">
+            <h3 id="after-title" class="column-title"><span class="column-name">変更後</span><span class="column-count" id="after-count"></span></h3>
+            <p class="column-source"><a href="search.mjs"><code>search.mjs</code></a> の <code>searchEntries</code>。表題とタグ・表記ゆれ・AND・分野</p>
+            <ul class="cards" id="after-list" aria-label="変更後の結果"></ul>
+            <p class="empty" id="after-empty" hidden>0件。一致する掲載項目はありません。</p>
+          </section>
+        </div>
+      </div>
+
+      <details class="dataset">
+        <summary>合成データ6件を見る（<code>entries.json</code>）</summary>
+        <ul class="cards cards-all" id="all-list" aria-label="合成データの全件"></ul>
+      </details>
+    </section>
+
+    <section class="block" id="spec" aria-labelledby="spec-title">
+      <h2 id="spec-title" class="section-title">依頼から仕様へ</h2>
+      <p class="section-lead">依頼の言葉は、読む人によって意味が変わります。作例では次のように決めました。<strong>決めたのは制作担当です。</strong>利用者への聞き取りや、仕様・テストの境界（seam）についての合意はしていません。</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="spec-title">
+        <table class="decisions">
+          <thead><tr><th scope="col">依頼の言葉</th><th scope="col">曖昧な点</th><th scope="col">作例での決め方</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">UIでもｕｉでも</th><td>どこまでを同じ書き方とみなすか</td><td>Unicode NFKC と小文字化で同じ形になるもの。ひらがなとカタカナ、誤字、同義語は含めない</td></tr>
+            <tr><th scope="row">タグも見て</th><td>表題のほかにどこを探すか</td><td>表題とタグだけ。分野名と識別子は探さない</td></tr>
+            <tr><th scope="row">言葉を足したら絞れて</th><td>足した語はどう効くか</td><td>すべての語を含むものだけ（AND）。語ごとに表題とタグのどちらにあってもよい</td></tr>
+            <tr><th scope="row">分野でも選べる</th><td>未選択・未知の分野のとき</td><td>全分野なら絞らない。既知の分野は完全一致。未知の分野は0件</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="section-note">用語は <a href="GLOSSARY.md">GLOSSARY.md</a>（掲載項目・表題・タグ・分野・検索語・語・表記ゆれ など）、完成条件と受け入れ例は <a href="SPEC.md">SPEC.md</a>、元の依頼と事前の決定は <a href="input.md">input.md</a> にあります。並べ替え、関連度順、一致箇所の強調、誤字の許容、型が不正な入力、速度や大きなデータは対象外です。</p>
+    </section>
+
+    <section class="block" id="tdd" aria-labelledby="tdd-title">
+      <h2 id="tdd-title" class="section-title">失敗してから通す、3回の記録</h2>
+      <p class="section-lead">新しいテストを1件だけ足して実行し、期待した掲載項目と違うことで失敗するのを見てから、通るだけの変更をしました。下の数字は制作時に <span id="tdd-node">Node</span> で実行した記録（<a href="tdd-history.json">tdd-history.json</a>）から読んでいます。</p>
+      <p class="baseline-line" id="baseline-line"></p>
+      <ol class="cycles" id="cycles" aria-label="3回の失敗と成功"></ol>
+      <p class="section-note">原典 tdd の「失敗を先に」「1回に1つ」「先回りしない」「整理し直しは繰り返しに含めない」を守りました。ただし原典が求める「テストの境界をテストの前に利用者と確認する」は行っていません。境界は制作担当が <code>searchEntries(entries, query, {category})</code> の1つに事前に決めたもので、この作例は原典の手順を<strong>限定して</strong>使っています。</p>
+
+      <div class="acceptance">
+        <h3 class="sub-title">別の受け入れ確認</h3>
+        <p id="acceptance-line">制作時に、テストとは別の18項目の確認（<a href="acceptance.json">acceptance.json</a>）も行いました。</p>
+        <details>
+          <summary>確認した入力と結果の一覧</summary>
+          <div class="table-wrap" tabindex="0" role="region" aria-label="受け入れ確認の一覧">
+            <table class="checks">
+              <thead><tr><th scope="col">項目</th><th scope="col">検索語</th><th scope="col">分野</th><th scope="col">期待した掲載項目</th><th scope="col">結果</th></tr></thead>
+              <tbody id="acceptance-rows"></tbody>
+            </table>
+          </div>
+        </details>
+        <p class="section-note">どちらも実行時の自動確認で、人の承認ではありません。原典 code-review の2つの観点を独立したAIが並列に照合し、コーディング基準・仕様とも指摘0件でした。<a href="review.md">対象と結果</a>。</p>
+      </div>
+    </section>
+
+    <section class="block" id="code" aria-labelledby="code-title">
+      <h2 id="code-title" class="section-title">変更前と変更後のコード</h2>
+      <p class="section-lead">公開するのは <code>searchEntries</code> の1つだけで、引数の形は変えていません。テストもこのページも、同じ関数を呼んでいます。</p>
+      <div class="code-pair">
+        <figure class="code">
+          <figcaption><a href="baseline/search.mjs">baseline/search.mjs</a>（変更前）</figcaption>
+          <pre id="code-before" tabindex="0"></pre>
+        </figure>
+        <figure class="code">
+          <figcaption><a href="search.mjs">search.mjs</a>（変更後）</figcaption>
+          <pre id="code-after" tabindex="0"></pre>
+        </figure>
+      </div>
+      <h3 class="sub-title">最後に通ったテスト</h3>
+      <ol class="test-names" id="test-names"></ol>
+      <p class="section-note">テストの本文は <a href="search.test.mjs">search.test.mjs</a>、守った書き方は <a href="CODING_STANDARDS.md">CODING_STANDARDS.md</a> にあります。依存パッケージはありません。</p>
+    </section>
+
+    <section class="block" id="request" aria-labelledby="request-title">
+      <h2 id="request-title" class="section-title">自分の検索で使う依頼文</h2>
+      <p class="section-lead">下の3つのスキルを読めるコーディングエージェントに渡します。【】を自分の依頼と対象に置き換えてください。この作例では手順3の確認を制作担当の事前の決定で代えましたが、依頼文では原典どおり確認を待つ形にしています。</p>
+      <pre class="request" id="request-text" tabindex="0">Matt Pocock Skills（mattpocock/skills、固定コミット 49dd158d1076134a641b33efb035946536778336）の skills/engineering/domain-modeling/SKILL.md と GLOSSARY-FORMAT.md、skills/engineering/codebase-design/SKILL.md、skills/engineering/tdd/SKILL.md と tests.md・mocking.md を読んでから、既存の検索機能を直してください。
+
+元の依頼：【例：UIでもｕｉでも探せて、タグも見てほしい。言葉を足したら絞れて、分野でも選べると便利。】
+対象の関数とファイル：【例：search.mjs の searchEntries(entries, query, { category })】
+テストの実行コマンド：【例：node --test search.test.mjs】
+
+進め方：
+1. 依頼の言葉のうち読み方が分かれるものを挙げ、GLOSSARY.md に用語として決めてください。実装の詳細は GLOSSARY.md に書かず、仕様の文書に書いてください。
+2. 曖昧な点ごとに決め方と対象外を書き、データに対する期待値を、実装と同じ計算ではなく固定の値で書いてください。決められない点は推測で埋めず、私に質問してください。
+3. テストを置く公開の境界（seam）を提案し、それぞれ捉えるものと捉えないものを1行で書いて、テストを書く前に私の確認を待ってください。
+4. 確認したseamで新しいテストを1件だけ足して実行し、期待値の不一致で失敗することを確かめてから、通るだけの最小の変更をしてください。これを1段ずつ繰り返し、次の段を先回りして実装しないでください。整理し直し（リファクタリング）はこの繰り返しに含めず、別に提案してください。
+5. 各段の実行コマンド、終了コード、テスト数・成功・失敗の数を、実際の出力から記録してください。
+
+報告では、決めた用語と仕様、各段の失敗と成功の記録、変更したファイル、試していない入力と対象外を分けて書いてください。
+</pre>
+      <div class="copy-row">
+        <button type="button" id="copy-request" class="button">依頼文をコピー</button>
+        <span class="copy-status" id="copy-status" role="status" aria-live="polite"></span>
+        <a href="request.html">依頼文を別ページで開く</a>
+      </div>
+    </section>
+
+    <section class="block" id="install" aria-labelledby="install-title">
+      <h2 id="install-title" class="section-title">スキルを選んで入れる</h2>
+      <p class="section-lead">原典の <a href="https://github.com/mattpocock/skills/blob/49dd158d1076134a641b33efb035946536778336/README.md" rel="noopener">README（固定コミット）</a> には、エージェントごとの入れ方が書かれています。Claude Code・Codex・GitHub Copilot のプラグインは、スキル集をまとめて入れる方法です。必要なものだけにしたいときは、README の「Any other agent, or editable files」にある次のコマンドで、聞かれたときに選びます。</p>
+      <pre class="command" tabindex="0">npx skills@latest add mattpocock/skills -a &lt;agent&gt;</pre>
+      <ul class="install-notes">
+        <li>この作例で読んだのは <b>domain-modeling</b>・<b>codebase-design</b>・<b>tdd</b> の3つで、レビューには <b>code-review</b> も使いました。README はこの方法で <code>setup-matt-pocock-skills</code> も選ぶよう案内しています（課題の管理先などを決める手順で、code-review もこれを前提にしています）。この作例では使っていません。</li>
+        <li><code>@latest</code> はその時点の版を取ってきます。この作例と同じ版にそろえるなら、固定コミットの <a href="https://github.com/mattpocock/skills/tree/49dd158d1076134a641b33efb035946536778336/skills/engineering" rel="noopener">skills/engineering/</a> から、使うスキルのフォルダだけを写してください。</li>
+        <li>この作例ではインストールの手順そのものは試していません。スキルの本文は、固定コミットから <a href="vendor/matt-pocock-skills/skills/engineering/tdd/SKILL.md">vendor/</a> に写したものを読みました。このページにスキルやAIは組み込まれていません。</li>
+      </ul>
+    </section>
+
+    <section class="block" id="files" aria-labelledby="files-title">
+      <h2 id="files-title" class="section-title">ファイルと出典</h2>
+      <div class="file-columns">
+        <div>
+          <h3 class="sub-title">仕様と言葉</h3>
+          <ul class="file-list">
+            <li><a href="input.md">input.md</a><span>架空の依頼と、制作担当の事前の決定</span></li>
+            <li><a href="SPEC.md">SPEC.md</a><span>曖昧さの決め方・完成条件・受け入れ例・対象外</span></li>
+            <li><a href="GLOSSARY.md">GLOSSARY.md</a><span>用語集（実装の詳細は書かない）</span></li>
+            <li><a href="CODING_STANDARDS.md">CODING_STANDARDS.md</a><span>この作例のコーディング基準</span></li>
+          </ul>
+          <h3 class="sub-title">コードとテスト</h3>
+          <ul class="file-list">
+            <li><a href="search.mjs">search.mjs</a><span>変更後の <code>searchEntries</code></span></li>
+            <li><a href="search.test.mjs">search.test.mjs</a><span>最後の4件のテスト</span></li>
+            <li><a href="baseline/search.mjs">baseline/search.mjs</a><span>変更前の <code>searchEntries</code></span></li>
+            <li><a href="entries.json">entries.json</a><span>合成データ6件</span></li>
+            <li><a href="tdd/red1/search.test.mjs">tdd/</a><span>各段の失敗時・成功時のファイル一式（baseline・red1〜green3）</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="sub-title">保存した結果</h3>
+          <ul class="file-list">
+            <li><a href="tdd-history.json">tdd-history.json</a><span>7回のテスト実行の記録</span></li>
+            <li><a href="acceptance.json">acceptance.json</a><span>18項目の受け入れ確認</span></li>
+            <li><a href="results.json">results.json</a><span>3つの例の変更前・変更後</span></li>
+            <li><a href="samples.json">samples.json</a><span>入力と結果の組</span></li>
+            <li><a href="video/legacy.html">video/legacy.html</a><span>28秒の解説動画の編集ソース</span></li>
+            <li><a href="README.md">README.md</a><span>再現の手順</span></li>
+          </ul>
+          <h3 class="sub-title">原典</h3>
+          <ul class="file-list">
+            <li><a href="https://github.com/mattpocock/skills/tree/49dd158d1076134a641b33efb035946536778336" rel="noopener">mattpocock/skills</a><span>固定コミット 49dd158</span></li>
+            <li><a href="vendor/matt-pocock-skills/skills/engineering/domain-modeling/SKILL.md">domain-modeling</a>・<a href="vendor/matt-pocock-skills/skills/engineering/domain-modeling/GLOSSARY-FORMAT.md">GLOSSARY-FORMAT.md</a></li>
+            <li><a href="vendor/matt-pocock-skills/skills/engineering/codebase-design/SKILL.md">codebase-design</a></li>
+            <li><a href="vendor/matt-pocock-skills/skills/engineering/tdd/SKILL.md">tdd</a>・<a href="vendor/matt-pocock-skills/skills/engineering/tdd/tests.md">tests.md</a>・<a href="vendor/matt-pocock-skills/skills/engineering/tdd/mocking.md">mocking.md</a></li>
+            <li><a href="vendor/matt-pocock-skills/skills/engineering/code-review/SKILL.md">code-review</a><span>独立AIの2軸レビュー。規約・仕様とも指摘0件</span></li>
+            <li><a href="vendor/matt-pocock-skills/README.md">README</a>・<a href="vendor/matt-pocock-skills/LICENSE">LICENSE（MIT）</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="section-note">この作例の画面・文章・依頼文・合成データ・コード・テスト・記録・映像ソースは 八百万図AIツールボックス の独自制作で、<a href="LICENSE">MIT License</a> です。<code>vendor/matt-pocock-skills/</code> は Matt Pocock Skills の固定コミットから選んだファイルを変更せずに置いたもので、上流の MIT License（Copyright (c) 2026 Matt Pocock）に従います。上流の画像は使っていません。</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>八百万図AIツールボックス｜文章・画面は Claude Opus 5.5 で制作。依頼とデータは架空です。</p>
+  </footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

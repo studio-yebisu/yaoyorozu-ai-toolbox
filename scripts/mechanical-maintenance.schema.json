@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mechanical-maintenance.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "purpose", "model_execution", "cases"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "purpose": {"const": "mechanical-maintenance"},
+    "model_execution": {"const": false},
+    "cases": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["case_id", "legacy_record", "baseline_record", "case_record", "changes"],
+        "properties": {
+          "case_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+          "legacy_record": {"$ref": "#/$defs/binding"},
+          "baseline_record": {"$ref": "#/$defs/binding"},
+          "case_record": {"$ref": "#/$defs/binding"},
+          "changes": {
+            "type": "array", "minItems": 1,
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["path", "before_sha256", "after_sha256", "kind", "before_artifact"],
+              "properties": {
+                "path": {"type": "string", "minLength": 1},
+                "before_sha256": {"$ref": "#/$defs/sha"},
+                "after_sha256": {"$ref": "#/$defs/sha"},
+                "kind": {"enum": ["presentation-branding", "case-publication-metadata", "shared-site-ui", "license-only-package"]},
+                "before_artifact": {"type": "string", "pattern": "^data/production/mechanical-baselines/[0-9a-f]{64}\\.bin$"}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "binding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha"}}
+    }
+  }
+}

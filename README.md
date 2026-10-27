@@ -1,6 +1,6 @@
-# 八百万図AIツールボックス
+# Yaoyorozu AI ToolBox
 
-やおよろずAIツールボックス。AIスキルとツールを、用途・使い方・実作例から選ぶ日本語サイトです。画面・資料・映像の制作に加え、調査、文章、知識整理、音声、3D、ゲーム、開発、自動化、学習などを一つの入口で扱います。
+AIスキルとツールを、用途・使い方・実作例から選ぶ日本語サイトです。画面・資料・映像の制作に加え、調査、文章、知識整理、音声、3D、ゲーム、開発、自動化、学習などを一つの入口で扱います。
 
 [統合サイト](https://studio-yebisu.github.io/yaoyorozu-ai-toolbox/) · [最初の作例](https://studio-yebisu.github.io/yaoyorozu-ai-toolbox/case.html?id=brief-to-demo)
 
@@ -69,7 +69,7 @@ python scripts/serve.py
 
 統合サイトのコードと独自スキルはMIT。独自制作のデモ・説明動画はクレジット付きで商用利用・編集・再配布が可能で、Xの投稿本文には `@studio_yebisu` が必須です。[動画の利用条件](MEDIA-LICENSE.md)を参照してください。紹介先のスキル・ツール・作例には、それぞれの条件が適用されます。ライセンスの表示を、別の作品への適用や実装全体の再許諾とみなしません。[出典と取り込み範囲](docs/SOURCES.md)を参照してください。
 
-ダウンロード用MP4には「引用元:八百万図AIツールボックス」「made by studio_yebisu」を焼き込みます。`python scripts/prepare_video_downloads.py` で両方向の動画を準備し、元の再生用MP4を保持します。入力と出力のハッシュ・寸法・長さは `data/video-downloads.json` に記録します。
+ダウンロード用MP4には「Yaoyorozu AI ToolBox」と「@studio_yebisu」の1行クレジットを焼き込みます。`python scripts/prepare_video_downloads.py` で両方向の動画を準備し、元の再生用MP4を保持します。入力と出力のハッシュ・寸法・長さは `data/video-downloads.json` に記録します。
 
 
 ## X向けの画像カード
@@ -81,3 +81,7 @@ python scripts/serve.py
 リンク先では引用元入りMP4の無音自動再生を試み、動きを抑える設定やブラウザーの制限がある場合は手動再生にします。Xに指定するカードは静止画です。**Xでの表示確認には、共有ページとJPEGを公開HTTPS URLから取得できることが必要です。** ローカルのメタデータ・画像・再生検査と、Xによる実際のカード表示は分けて記録します。
 
 画像の寸法・容量の参考は[旧公式仕様を引用するX開発者フォーラムの説明](https://devcommunity.x.com/t/twitter-card-summary-large-image/144086/2)です。旧ドキュメントのURLは現在概要ページへ転送されるため、過去の仕様を現行X上での表示保証として扱いません。
+
+## いいね・保存・シェア
+
+カードと記事に、共有いいね・このブラウザーに残す「あとで試す」・リンクのシェアを用意しています。共有いいねはCloudflare WorkersとD1への接続が必要です。既定では未接続で、件数を保存済みと扱いません。ローカル確認と本番接続の手順は [機能と設定](docs/LIKES.md) を参照してください。

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; script-src 'self'; style-src 'self'; connect-src 'self'; font-src 'self'; media-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>トークンバケットを卓上の装置で見る — Anatomy の作例｜八百万図AIツールボックス</title>
+  <meta name="description" content="API のレート制限（トークンバケット）を、真鍮のトークン8枚・補充台車・1件ずつ送り出すゲートを持つ卓上装置の等角図で説明します。ボタンでリクエストを送り、1秒進めると2枚補充されます。実際のAPIには接続しません。">
+  <link rel="stylesheet" href="vendor/anatomy/kit/iso.css">
+  <link rel="stylesheet" href="figure.css">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#bench">図へ移動</a>
+  <header class="top">
+    <a class="back" href="../../case.html?id=anatomy-example">← 記事へ</a>
+    <p class="site">八百万図AIツールボックス</p>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="title">
+      <p class="kicker">Anatomy で描く説明図 ／ API制限</p>
+      <h1 id="title">8枚まで一気に、そのあとは毎秒2枚</h1>
+      <p class="lead">APIのレート制限でよく使うトークンバケットを、卓上の装置にしました。1件ごとに真鍮のトークンを1枚使い、なくなったら止まり、1秒ごとに2枚だけ戻ります。</p>
+      <p class="warning" role="note">API制限の説明モデル。実際のAPIには接続しません。</p>
+
+      <figure class="iso-figure bench" id="bench">
+        <div class="iso-plate iso yb-paper" data-theme="light">
+          <div class="iso-plate-corners" aria-hidden="true">
+            <span class="iso-plate-corner" data-corner="fig">図1</span>
+            <span class="iso-plate-corner" data-corner="title">上限8・毎秒2</span>
+            <span class="iso-plate-corner" data-corner="hint">下のボタンで操作</span>
+            <span class="iso-plate-corner" data-corner="readout" data-readout>残り 8/8 · 許可 0 · 拒否 0 · 0秒</span>
+          </div>
+          <div class="stage" id="stage" role="group" aria-label="トークンバケットの装置図。下のボタンでリクエストを送ったり時間を進めたりできます。" aria-describedby="caption">
+            <p class="noscript">図を描くにはJavaScriptが必要です。</p>
+          </div>
+        </div>
+        <figcaption class="iso-legend">
+          <span class="iso-keys">
+            <span class="iso-key"><span class="swatch swatch-brass" aria-hidden="true"></span>真鍮のトークン＝あと何件通せるか</span>
+            <span class="iso-key"><span class="swatch swatch-lit" aria-hidden="true"></span>押し棒＝リクエスト1件</span>
+            <span class="iso-key"><span class="swatch swatch-flag" aria-hidden="true"></span>赤い旗＝拒否</span>
+          </span>
+          <span class="iso-caption" id="caption">満タンです。トークンは8枚あり、8件まではすぐ通せます。</span>
+        </figcaption>
+      </figure>
+
+      <div class="controls" role="group" aria-label="装置の操作">
+        <button type="button" id="send-one" class="primary">リクエストを1件送る</button>
+        <button type="button" id="tick">1秒進める</button>
+        <button type="button" id="send-eight">8件まとめて送る</button>
+        <button type="button" id="reset">リセット</button>
+      </div>
+
+      <div class="state" aria-label="いまの状態">
+        <ol class="meter" id="meter" aria-hidden="true">
+          <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+        </ol>
+        <dl class="counts">
+          <div><dt>残りトークン</dt><dd><b id="count-tokens">8</b><span>/8</span></dd></div>
+          <div><dt>許可</dt><dd><b id="count-accepted">0</b><span>件</span></dd></div>
+          <div><dt>拒否</dt><dd><b id="count-refused">0</b><span>件</span></dd></div>
+          <div><dt>経過</dt><dd><b id="count-seconds">0</b><span>秒</span></dd></div>
+        </dl>
+        <p class="pending" id="pending" aria-hidden="true"></p>
+        <p class="visually-hidden" id="announce" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="block" aria-labelledby="why-title">
+      <h2 id="why-title">「まとめて」と「補充」はなぜ違うのか</h2>
+      <div class="two">
+        <div class="card">
+          <h3>上限＝一度に通せる量</h3>
+          <p>筒に入るのは8枚まで。満タンなら8件が同時に来ても、その場で8枚使って全部通ります。これが「バースト」の余裕です。</p>
+        </div>
+        <div class="card">
+          <h3>補充＝長い目で見た速さ</h3>
+          <p>台車は1秒に2枚しか運びません。使い切ったあとは、平均すると毎秒2件しか通りません。9件目は待つか、拒否されます。</p>
+        </div>
+      </div>
+      <p>同じ「毎秒2件」の制限でも、上限が8枚なら朝いちばんの8件はすぐ通り、上限が2枚なら3件目から待たされます。仕様書の「1秒あたり何件」だけでは、この差が伝わりません。</p>
+    </section>
+
+    <section class="block" aria-labelledby="use-title">
+      <h2 id="use-title">使いどころ：新人への説明に</h2>
+      <ul class="uses">
+        <li><b>EC在庫API</b>セール開始直後に在庫確認がまとめて来たとき、最初の何件が通り、何件目から429（多すぎるリクエスト）が返るかを、図の枚数で説明できます。</li>
+        <li><b>社内API</b>夜間バッチが一度に投げてよい件数と、待ってから再送する間隔（毎秒何件まで戻るか）を、新人向けの資料にそのまま使えます。</li>
+      </ul>
+      <p class="note">この図の数字（上限8枚・毎秒2枚）は説明用の値です。実際のAPIの上限・補充の速さ・拒否のしかた（待たせるか、すぐ返すか）はサービスごとに違うので、相手のドキュメントで確かめてください。</p>
+    </section>
+
+    <section class="block" aria-labelledby="parts-title">
+      <h2 id="parts-title">装置と考え方の対応</h2>
+      <table class="map">
+        <thead><tr><th scope="col">装置の部品</th><th scope="col">トークンバケットでの意味</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">縦の収納筒（8段）</th><td>バケットの容量。8枚より多くは入らない</td></tr>
+          <tr><th scope="row">真鍮のトークン</th><td>いま通せるリクエストの数</td></tr>
+          <tr><th scope="row">押し棒と送り出しゲート</th><td>リクエスト1件。ゲートは1枚分の高さしかないので、1回に1枚だけ出る</td></tr>
+          <tr><th scope="row">赤い旗</th><td>トークンがなくて拒否したしるし</td></tr>
+          <tr><th scope="row">補給箱と台車</th><td>1秒ごとの補充（2枚）。満タンなら運んでも入らない</td></tr>
+          <tr><th scope="row">台座の窓の数字</th><td>筒の中の枚数。右下の読み取り値・下の数字と同じ状態から出している</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="block" aria-labelledby="film-title">
+      <h2 id="film-title">解説動画（無音24秒）の編集用ソース</h2>
+      <p>同じ図と同じモデルで、8枚が出ていき、9件目で止まり、1秒後に2枚戻ってまた通る流れを見せます。縦 720×1280 と横 1280×720 を別々に組んでいます。書き出した動画ファイルはこのフォルダーにはまだありません。</p>
+      <p><a href="video/index.html">動画の編集用ソースを開く</a></p>
+    </section>
+
+    <section class="block" aria-labelledby="files-title">
+      <h2 id="files-title">ファイルと出典</h2>
+      <ul class="files">
+        <li><a href="README.md">README.md</a>：部品表・座標の前提・再現手順・確かめていないこと</li>
+        <li><a href="request.txt">request.txt</a>：この作例の依頼文（架空）</li>
+        <li><a href="samples.json">samples.json</a>：入力の操作列と、model.mjs が返す結果</li>
+        <li><a href="model.mjs">model.mjs</a>：トークンバケットの純粋なモデル（容量8・初期8・毎秒2）</li>
+        <li><a href="figure.mjs">figure.mjs</a>：図の幾何（上流 kit の関数で組み立て）・<a href="build.mjs">build.mjs</a>：単体SVGを書き出すスクリプト（未実行）</li>
+        <li><a href="vendor/anatomy/SKILL.md">vendor/anatomy/SKILL.md</a>・<a href="vendor/anatomy/kit/iso-kit.mjs">kit/iso-kit.mjs</a>・<a href="vendor/anatomy/LICENSE">LICENSE（MIT）</a></li>
+      </ul>
+      <p class="note">原典：<a href="https://github.com/wheresryan22/anatomy/tree/1482e8469b0a9e0d8cc18ea2740a01423d29ae80" rel="noopener">wheresryan22/anatomy（1482e84）</a>。図の描画部品（iso-kit・iso.css）は MIT の原典をそのまま使い、装置の設計・モデル・画面・文章は八百万図AIツールボックスの制作です。原典の audit・capture・lines の確認スクリプトは同梱しておらず、実行していません。</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>八百万図AIツールボックス｜図と画面は Claude Opus 5.5 で制作。数字は説明用で、実在のサービスの制限値ではありません。</p>
+  </footer>
+</body>
+</html>

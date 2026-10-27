@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f6f1e6">
+  <title>Dify 作例：問い合わせを、担当へ。｜八百万図AIツールボックス</title>
+  <meta name="description" content="架空の問い合わせ8件を、Dify 形式のワークフロー（DSL）の上から順のルールで担当へ振り分け、引き継ぎメモを作った保存済みの実行結果を、1枚の図で読むページです。">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#figure">図へ移動</a>
+
+  <header class="top">
+    <h1 class="title">問い合わせを、担当へ。</h1>
+    <p class="chips"><span class="chip">保存済みの実行結果</span><span class="chip">架空の8件</span></p>
+  </header>
+
+  <main id="main">
+    <section class="viewer" aria-label="図で読む実行結果">
+      <nav id="case-list" class="cases" aria-label="記録を選ぶ">
+        <button class="case" type="button" data-id="D02" aria-pressed="false" disabled><span class="case-id">D02</span><span class="case-label">請求</span></button>
+        <button class="case" type="button" data-id="D06" aria-pressed="false" disabled><span class="case-id">D06</span><span class="case-label">請求＋至急</span></button>
+        <button class="case" type="button" data-id="D04" aria-pressed="false" disabled><span class="case-id">D04</span><span class="case-label">99人</span></button>
+        <button class="case" type="button" data-id="D05" aria-pressed="false" disabled><span class="case-id">D05</span><span class="case-label">100人</span></button>
+        <button class="case" type="button" data-id="D07" aria-pressed="false" disabled><span class="case-id">D07</span><span class="case-label">入力文字</span></button>
+      </nav>
+
+      <p id="status" class="status" data-state="loading" role="status" aria-live="polite">実行記録を読み込み、照合しています…</p>
+      <div id="error-box" class="error-box" hidden>
+        <p id="error-text" class="error-text"></p>
+        <p class="error-hint">内蔵の代わりの結果は表示しません。ファイルを確かめてから読み込み直してください。</p>
+        <button id="retry" class="button" type="button">もう一度読み込む</button>
+      </div>
+
+      <figure id="figure" class="figure" tabindex="-1" hidden>
+        <svg id="diagram" class="diagram" viewBox="0 0 360 486" role="img" aria-labelledby="diagram-title diagram-desc" focusable="false">
+          <title id="diagram-title"></title>
+          <desc id="diagram-desc"></desc>
+          <g id="diagram-root"></g>
+        </svg>
+      </figure>
+
+      <div class="actions">
+        <button id="compare" class="button primary" type="button" disabled>比べる</button>
+        <button id="download-record" class="button" type="button" disabled>記録をJSONで保存</button>
+      </div>
+      <p class="caption"><span id="case-tag" class="case-tag"></span><span id="caption-text"></span></p>
+      <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="folds" aria-label="記録と説明">
+      <details id="memo-details" class="fold">
+        <summary>実際のメモと記録の全文（<span id="memo-summary-id">—</span>）</summary>
+        <h2 class="fold-h">引き継ぎメモ（実際に返った全文）</h2>
+        <pre id="memo-text" class="memo-text" tabindex="0"></pre>
+        <h2 class="fold-h">input（エンジンに渡した6項目）</h2>
+        <pre id="input-text" class="raw-text" tabindex="0"></pre>
+        <h2 class="fold-h">output（返った値と通ったノード）</h2>
+        <pre id="output-text" class="raw-text" tabindex="0"></pre>
+        <details class="inner-fold">
+          <summary>エンジンのイベント（<span id="events-count">0</span>件）</summary>
+          <p class="fold-note">graphon の GraphEngine.run() が返したイベントを、型の名前と model_dump(mode="json") のまま並べています。ID と時刻は実行ごとに変わります。</p>
+          <pre id="events-text" class="raw-text" tabindex="0"></pre>
+        </details>
+        <details class="inner-fold">
+          <summary>この1件の自動確認（<span id="checks-count">0</span>件）</summary>
+          <ul id="case-checks" class="check-list"></ul>
+        </details>
+        <p><a id="comparison-link" href="comparison.html#D02">表形式の前の版で見る（comparison.html#D02）</a></p>
+      </details>
+
+      <details id="records-details" class="fold">
+        <summary>8件の記録</summary>
+        <p class="fold-note">どの記録も、保存した実行記録のその1件を同じ図に描きます。</p>
+        <ol id="record-list" class="record-list"></ol>
+      </details>
+
+      <details id="dsl-details" class="fold">
+        <summary>ワークフロー（workflow.yml）</summary>
+        <p id="dsl-facts" class="fold-note"></p>
+        <div class="fold-actions">
+          <button id="download-dsl" class="button" type="button" disabled>workflow.yml を保存</button>
+          <a class="button-link" href="workflow.yml">workflow.yml を開く</a>
+        </div>
+        <p id="dsl-status" class="action-status" role="status" aria-live="polite"></p>
+        <ul class="file-list">
+          <li><a href="outputs/workflow-runs.json">8件の実行記録（outputs/workflow-runs.json）</a></li>
+          <li><a href="input/tickets.json">架空の問い合わせ8件（input/tickets.json）</a></li>
+          <li><a href="input/expected.json">実行前に決めた分岐（input/expected.json）</a></li>
+          <li><a href="outputs/independent-checks.json">別の Python による照合（outputs/independent-checks.json）</a></li>
+          <li><a href="outputs/method.md">手順と読み方（outputs/method.md）</a></li>
+          <li><a href="run.py">実行と確認のコード（run.py）</a></li>
+          <li><a href="vendor-lock.json">原典292ファイルのハッシュ（vendor-lock.json）</a></li>
+          <li><a href="README.md">README.md（再現の手順）</a></li>
+        </ul>
+      </details>
+
+      <details id="request-details" class="fold">
+        <summary>依頼文</summary>
+        <p class="fold-note">同じ確認を自分の架空データで試すときの依頼文です。</p>
+        <button id="copy-request" class="button" type="button" disabled>依頼文をコピー</button>
+        <p id="copy-status" class="action-status" role="status" aria-live="polite"></p>
+        <div id="copy-fallback" class="copy-fallback" hidden>
+          <label for="copy-fallback-text">自動でコピーできませんでした。下の文を長押しして選び、コピーしてください。</label>
+          <textarea id="copy-fallback-text" readonly rows="8"></textarea>
+        </div>
+        <p><a href="request.txt">request.txt を開く</a></p>
+      </details>
+
+      <details id="film-details" class="fold">
+        <summary>動く説明図（32秒・無音）</summary>
+        <p class="fold-note">同じ図の封筒が、判定の順に進み、担当の机を通って実際のメモに開きます。保存済みの実行結果から描いた無音の映像です。</p>
+        <ul class="file-list">
+          <li><a href="../../media/dify-example.mp4">縦の MP4（720×1280）</a></li>
+          <li><a href="../../media/dify-example-wide.mp4">横の MP4（1280×720）</a></li>
+          <li><a href="video/index.html">映像の編集ソース</a></li>
+          <li><a href="source.zip">入力・実装・映像ソース一式（source.zip）</a></li>
+        </ul>
+      </details>
+
+      <details id="source-details" class="fold">
+        <summary>範囲・原典・ライセンス</summary>
+        <p>このページは、制作側が実行して保存した <a href="outputs/workflow-runs.json">outputs/workflow-runs.json</a> を読んで図にする閲覧ページです。ブラウザーの中で Dify・graphon・AI は動かず、新しい実行もしません。表示の前に、記録そのもの・入力2件・workflow.yml・ロックの SHA-256、固定版と版、8件、196の自動確認、通った線とメモを照合し、合わなければ図を出しません。</p>
+        <ul class="plain-list">
+          <li>実行したもの：自作の Dify DSL（7ノード・8本の線）を、Dify 1.17.1 が依存に固定する graphon 0.7.0 の公式 wheel（改変なし）の <code>graphon.dsl.inspect</code>・<code>graphon.dsl.loads</code>・<code>GraphEngine.run()</code> で8件ぶん実行しました。つながりは Dify 本体の <code>WorkflowGraphTopology</code> を改変せずに使って確かめています。Dify の依存を使ったヘッドレスな DSL の実行で、Dify のアプリのセッションではありません。</li>
+          <li>担当は1つの if-else の中で上から順に判定します。1. 緊急度が「至急」または影響人数が100以上 → 優先対応、2. 種類が「請求」 → 請求窓口、3. ほか → 通常窓口。最初に当てはまった分岐だけを通ります。値の比較とテンプレートの差し込みで、AI が意味を読んで分類・要約したものではありません。</li>
+          <li>図の ✓・× は、route ノードの記録（condition_results）をそのまま描いたものです。判定されなかったルールは薄く描きます。</li>
+          <li>D04 と D05、D02 と D06 はそれぞれ別の記録です。番号・件名・本文も違います。</li>
+          <li>D07 の記号はメモに文字のまま入った記録で、ページでも文字として表示するだけです。安全性の一般的な保証ではありません。D08 は本文が空・0人でもメモができた記録で、入力フォームの検証は試していません。</li>
+          <li>試していないこと：Dify のサーバー・管理画面・API・Docker、difyctl、Dify の画面への DSL の取り込み、モデル（LLM）・意味による分類・要約・ナレッジ・ツール・プラグイン、入力フォームの検証、速さ。</li>
+          <li>同梱の <code>vendor/dify/skills/difyctl/SKILL.md</code> は Dify のサーバーにつなぐ CLI の手順です。この作例はサーバーを動かしていないため、当てはまらず、使っていません。</li>
+          <li>図は 八百万図AIツールボックス が独自に描いた説明図です。Dify の公式の画面・エディター・ロゴは使っていません。</li>
+        </ul>
+        <dl id="run-facts" class="kv"></dl>
+        <h2 class="fold-h">壊れた DSL を渡した確認</h2>
+        <ul id="probe-list" class="plain-list"></ul>
+        <h2 class="fold-h">Dify の WorkflowGraphTopology で見たつながり</h2>
+        <pre id="topology-text" class="raw-text" tabindex="0"></pre>
+        <p>利用条件：vendor/dify/ は langgenius/dify の固定コミットのファイルを改変せずに置いたもので、Dify Open Source License です。Apache License 2.0 を基に、マルチテナントの環境での運用と、フロントエンド（web/）のロゴ・著作権表示の変更について追加の条件があります（<a href="vendor/dify/LICENSE">全文</a>）。vendor/graphon-wheel/ は graphon 0.7.0 の公式 wheel の中身で、Apache License 2.0 です（<a href="vendor/graphon-wheel/graphon-0.7.0.dist-info/licenses/LICENSE">全文</a>）。作例のコード・文章・図・架空の入力は MIT License（<a href="LICENSE">LICENSE</a>・Copyright (c) 2026 Studio Yebisu）。</p>
+        <p>作った人と動かしたもの：この図・ページ・映像ソースは Claude Opus 5.5 が新しく書きました。元の workflow.yml・run.py・実行記録は前の制作で作られ、架空の入力は制作側が実行の前に固定し、実行と独立した照合は制作側が行いました。メモはモデルではなく graphon のエンジンが返したもので、今回 API やモデルを動かし直してはいません。</p>
+        <ul class="file-list">
+          <li><a href="https://github.com/langgenius/dify/tree/f77facfe6520ed379d723288aed0b4806ad76143">Dify の原典（固定コミット f77facf）</a></li>
+          <li><a href="vendor/dify/README.md">Dify 原典 README（固定版）</a></li>
+          <li><a href="upstream-evidence.json">原典と wheel の照合記録（upstream-evidence.json）</a></li>
+          <li><a href="comparison.html">前の版のページ（comparison.html）</a></li>
+        </ul>
+      </details>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>八百万図AIツールボックス ・ Dify 作例。8件の問い合わせと名前はすべて架空です。</p>
+  </footer>
+</body>
+</html>

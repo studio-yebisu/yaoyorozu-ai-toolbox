@@ -21,7 +21,7 @@
   "demo_description": "大きな構造図が主役です。「①何か・②渡す・③返る」で、同じ図の強調が変わります。原典の説明と架空の依頼→作者AI 1体がpromptとクライアントを書く→制作担当が無料の公開デモへ匿名で1回送る→モデルの中で、promptと256個のqueryの枠をthinker（BailingMoE-v2）が1回読み、queryの道（proj_in→双方向Qwen2 connector→proj_out）と直接の道（3つの層の状態・描く文言を運ぶ）の2本の条件に分かれる→2本の条件とseed固定のノイズがZ-Imageのflow transformerに入り12回更新（CFG 1でも正と負の差を使う）→4チャンネルのVAE→実際のPNG→字形とαを別に確かめて元のまま保存、の関係をひと続きで見られます。数字の付いた6つのまとまりから、原典（固定版）の6か所の該当行と、実際に動いた公開デモのソースの参照を読めます。図の下では、実際のPNGを拡大し、白・緑・市松の背景で見比べ、原稿の4つの文字と見え方の記録（会場の字形は要確認）、αの数え方（透明画素は0、半透明が残る）、設定とサーバーの報告を並べて読めます。PNG（元のバイト）・依頼のJSON・実行の記録JSONと、ほかの記録を保存できます。",
   "demo_note": "ページは concept/manifest.json を固定のSHA-256で確かめ、そこに載った20ファイルの大きさとSHA-256、原典6引用と同梱ファイルの該当行、依頼・送った文・実行の記録・PNGのヘッダー（1024×1024・RGBA）・αの数え方・文字の読合せの関係を照合してから表示します。合わなければ画像・保存・リンクを止め、理由と「もう一度確かめる」を出します。ブラウザーではモデルの実行も公開デモの呼び出しもしません。図の線・枠・動きは公開デモのソースに基づく説明で、内部の値や時間の測定ではありません。作者AI（Claude Opus 5.5）がprompt・依頼・クライアントと、ページ・図・動画のソースを書き、制作担当が公開デモへ1回だけ送りました。制作担当が320/375pxの1例×3段階6状態（全図と44px主操作）、6部品と原典6引用、16表示条件、字形の注意・背景/拡大/リセット、3破損条件での両画面の停止と復旧、3保存要求と返却3ファイルの全バイト一致、編集20素材/7場面/縦横14状態/任意7.2秒/向き保持/ネイティブrange0.1秒/通常32秒、代表/連続/contactと実MP4の移動、縦横32秒960f無音MP4の全デコードと自然終端、最終ソース62PNG一致と30/31秒静止を新しく確認しました。実機iOS/Safari/VoiceOver・200%拡大、人の審美的承認、字形完全一致・印刷適性・全入力・性能は未確認です。実機iOS/Safari/VoiceOver・200%拡大、人の審美的な承認は未確認です。",
   "request_intro": "同じ経路を、自分の架空の依頼で試すときの依頼文です。Pythonを動かせるAIエージェントや開発者に渡してください。この作例のクライアントは、今回のポスターの依頼と今の公開デモのbuildを照合して止まるので、そのままでは別の依頼に使えません。",
-  "request": "Ming Image 0.1 Design の原典（inclusionAI/Ming-Image 固定コミット 3515cd7b1e3049fc517eed7d35020251cd06519a、MIT）の README.md と inference_profile.py を読み、架空のイベントのポスター1枚を、原典READMEのDemoリンクが案内する無料の公開Space（現在の移転先 inclusionAI/ming-image-0-1-design-demo）で1回だけ生成し、実ファイルで確かめてください。Authorization・HFトークン・Cookie・アカウント・クレジット・課金は使いません。原典のinfer.py・Layer・編集・PPT・prompt拡張・手元のGPUは使いません。\n\n準備：送る前に、Spaceのrepoと実行のbuildのコミット、状態、/generate の引数と戻り値の形、モデルのHubメタデータのコミットを取得して記録する。Spaceのソースを読み、原典のinfer.pyとは別の実装であること、ローダーがモデルのrevisionを指定しているかを確かめる。依頼には架空の名前・日時・会場だけを入れ、実在の住所・申込・QR・価格・スポンサー・ロゴ・個人情報は入れない。入れる文字列は別の配列に記録する。八百万図AIツールボックス の作例の run_example.py を下敷きにするなら、そこにある依頼・buildの照合を自分の依頼に合わせて見直して書き直す。\n\n実行：POSTは1回だけ。失敗・待ち行列・無料枠・ログインの要求では送り直さず、別のエンドポイントや別のモデルに切り替えない。結果の流れを読み直すときは、すでに送ったevent idのGETだけを使う。結果を見て選び直し・再生成・修正をしない。\n\n記録：返ったPNGのバイト数・SHA-256・幅・高さ・カラータイプ、サーバーの報告の原文、手元の経過時間（キューと通信を含むと明記）、送信前後のbuildとHubメタデータを残す。後から別の工程で、入れた文字列ごとの見え方（字形の違いは見えたまま書く）と、αの最小・最大・透明・半透明・不透明の画素数を数え、PNGは再保存しない。サーバーが読み込んだ重みの版・内部の時間・品質・印刷適性は、確かめられない限り未確認と書く。\n",
+  "request": "Ming Image 0.1 Design の原典（inclusionAI/Ming-Image 固定コミット 3515cd7b1e3049fc517eed7d35020251cd06519a、MIT）の README.md と inference_profile.py を読み、架空のイベントのポスター1枚を、原典READMEのDemoリンクが案内する無料の公開Space（現在の移転先 inclusionAI/ming-image-0-1-design-demo）で1回だけ生成し、実ファイルで確かめてください。Authorization・HFトークン・Cookie・アカウント・クレジット・課金は使いません。原典のinfer.py・Layer・編集・PPT・prompt拡張・手元のGPUは使いません。\n\n準備：送る前に、Spaceのrepoと実行のbuildのコミット、状態、/generate の引数と戻り値の形、モデルのHubメタデータのコミットを取得して記録する。Spaceのソースを読み、原典のinfer.pyとは別の実装であること、ローダーがモデルのrevisionを指定しているかを確かめる。依頼には架空の名前・日時・会場だけを入れ、実在の住所・申込・QR・価格・スポンサー・ロゴ・個人情報は入れない。入れる文字列は別の配列に記録する。Yaoyorozu AI ToolBox の作例の run_example.py を下敷きにするなら、そこにある依頼・buildの照合を自分の依頼に合わせて見直して書き直す。\n\n実行：POSTは1回だけ。失敗・待ち行列・無料枠・ログインの要求では送り直さず、別のエンドポイントや別のモデルに切り替えない。結果の流れを読み直すときは、すでに送ったevent idのGETだけを使う。結果を見て選び直し・再生成・修正をしない。\n\n記録：返ったPNGのバイト数・SHA-256・幅・高さ・カラータイプ、サーバーの報告の原文、手元の経過時間（キューと通信を含むと明記）、送信前後のbuildとHubメタデータを残す。後から別の工程で、入れた文字列ごとの見え方（字形の違いは見えたまま書く）と、αの最小・最大・透明・半透明・不透明の画素数を数え、PNGは再保存しない。サーバーが読み込んだ重みの版・内部の時間・品質・印刷適性は、確かめられない限り未確認と書く。\n",
   "applied_skills": [
     {
       "name": "Ming Image 0.1 Design（inclusionAI/Ming-Image）の原典README とコード",
@@ -90,7 +90,7 @@
     },
     {
       "label": "原典READMEのDemoリンク（移転元）",
-      "url": "https://huggingface.co/spaces/hugging-apps/ming-image-0-1-design-demo"
+      "url": "https://huggingface.co/spaces/inclusionAI/ming-image-0-1-design-demo"
     },
     {
       "label": "実際に動いた公開Space（固定 367085c・別実装）",
@@ -186,11 +186,11 @@
     }
   ],
   "license": "MIT（Ming-Image の原典コードとモデルカードの表記）／公開Spaceのコードは同梱せず／MIT（この作例）",
-  "license_note": "原典 inclusionAI/Ming-Image @3515cd7 は MIT で、選んだ6ファイルを元の LICENSE とともに vendor/ming/ に原文のまま置いています。モデル inclusionAI/Ming-Image-0.1-Design のモデルカードも MIT と表記しています。重みは配布していません。実際に動いた公開Space inclusionAI/ming-image-0-1-design-demo のコードは、一般的な再配布の条件が見つからないため同梱せず、原典のMITと同じ扱いにしていません。ポスターは架空のイベント・会場のための1回の生成結果で、既存の写真・商標・人物・住所は入力していません。生成物の第三者の権利・独自性・字形・印刷適性は保証しません。ページ・図・文章・動画のソースと匿名クライアントは 八百万図AIツールボックス の制作（Claude Opus 5.5）で MIT です。書き出しの補助 tools/motion-reel/ は 八百万図AIツールボックス・MIT です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "license_note": "原典 inclusionAI/Ming-Image @3515cd7 は MIT で、選んだ6ファイルを元の LICENSE とともに vendor/ming/ に原文のまま置いています。モデル inclusionAI/Ming-Image-0.1-Design のモデルカードも MIT と表記しています。重みは配布していません。実際に動いた公開Space inclusionAI/ming-image-0-1-design-demo のコードは、一般的な再配布の条件が見つからないため同梱せず、原典のMITと同じ扱いにしていません。ポスターは架空のイベント・会場のための1回の生成結果で、既存の写真・商標・人物・住所は入力していません。生成物の第三者の権利・独自性・字形・印刷適性は保証しません。ページ・図・文章・動画のソースと匿名クライアントは Yaoyorozu AI ToolBox の制作（Claude Opus 5.5）で MIT です。書き出しの補助 tools/motion-reel/ は Yaoyorozu AI ToolBox・MIT です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
   "skill_license": "examples/ming-image-design-example/vendor/ming/LICENSE",
   "video_note": "32秒・30fps・無音の構造図の動画です。音声トラック・ナレーションはありません。縦720×1280と横1280×720を別の配置で描きます。原典と架空の依頼が作者AIのpromptとクライアントになり、制作担当が公開デモへ1回送り、モデルの中でpromptと256個のqueryの枠が1回読まれ、queryの道と直接の道の2本の条件に分かれて合流し、seed固定のノイズが12回更新されて4チャンネルのVAEを通り、実際のPNGに戻って、字形とαの確認から保存へ進みます。画像は照合した実際のPNG 1枚だけで、図の中に最初から映っています。粒・枠・目盛り・四角と時間の表示は説明の形で、測った内部の値や途中の画像ではありません。制作担当が320/375pxの1例×3段階6状態（全図と44px主操作）、6部品と原典6引用、16表示条件、字形の注意・背景/拡大/リセット、3破損条件での両画面の停止と復旧、3保存要求と返却3ファイルの全バイト一致、編集20素材/7場面/縦横14状態/任意7.2秒/向き保持/ネイティブrange0.1秒/通常32秒、代表/連続/contactと実MP4の移動、縦横32秒960f無音MP4の全デコードと自然終端、最終ソース62PNG一致と30/31秒静止を新しく確認しました。実機iOS/Safari/VoiceOver・200%拡大、人の審美的承認、字形完全一致・印刷適性・全入力・性能は未確認です。",
   "video_source": "examples/ming-image-design-example/video/index.html",
-  "updated_on": "2026-10-21",
+  "updated_on": "2026-10-22",
   "featured": false,
   "verification_stage": "runtime-reviewed",
   "runtime_review": {
@@ -238,7 +238,7 @@
     "source_path": "",
     "source_project": "curated",
     "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。原典は確認時のコミットへ固定しています。作例では、原典READMEのDemoリンクから移った無料の公開Space @367085c（原典のinfer.pyとは別の実装）へ匿名で1回だけ送り、返った実際のPNG 1枚を保全しています。原典のCLI・Layer・ローカルの重みは実行しておらず、サーバーが読み込んだ重みの版は未確認です。",
-    "prompt": "Ming Image 0.1 Design の原典（inclusionAI/Ming-Image 固定コミット 3515cd7b1e3049fc517eed7d35020251cd06519a、MIT）の README.md と inference_profile.py を読み、架空のイベントのポスター1枚を、原典READMEのDemoリンクが案内する無料の公開Space（現在の移転先 inclusionAI/ming-image-0-1-design-demo）で1回だけ生成し、実ファイルで確かめてください。Authorization・HFトークン・Cookie・アカウント・クレジット・課金は使いません。原典のinfer.py・Layer・編集・PPT・prompt拡張・手元のGPUは使いません。\n\n準備：送る前に、Spaceのrepoと実行のbuildのコミット、状態、/generate の引数と戻り値の形、モデルのHubメタデータのコミットを取得して記録する。Spaceのソースを読み、原典のinfer.pyとは別の実装であること、ローダーがモデルのrevisionを指定しているかを確かめる。依頼には架空の名前・日時・会場だけを入れ、実在の住所・申込・QR・価格・スポンサー・ロゴ・個人情報は入れない。入れる文字列は別の配列に記録する。八百万図AIツールボックス の作例の run_example.py を下敷きにするなら、そこにある依頼・buildの照合を自分の依頼に合わせて見直して書き直す。\n\n実行：POSTは1回だけ。失敗・待ち行列・無料枠・ログインの要求では送り直さず、別のエンドポイントや別のモデルに切り替えない。結果の流れを読み直すときは、すでに送ったevent idのGETだけを使う。結果を見て選び直し・再生成・修正をしない。\n\n記録：返ったPNGのバイト数・SHA-256・幅・高さ・カラータイプ、サーバーの報告の原文、手元の経過時間（キューと通信を含むと明記）、送信前後のbuildとHubメタデータを残す。後から別の工程で、入れた文字列ごとの見え方（字形の違いは見えたまま書く）と、αの最小・最大・透明・半透明・不透明の画素数を数え、PNGは再保存しない。サーバーが読み込んだ重みの版・内部の時間・品質・印刷適性は、確かめられない限り未確認と書く。\n",
+    "prompt": "Ming Image 0.1 Design の原典（inclusionAI/Ming-Image 固定コミット 3515cd7b1e3049fc517eed7d35020251cd06519a、MIT）の README.md と inference_profile.py を読み、架空のイベントのポスター1枚を、原典READMEのDemoリンクが案内する無料の公開Space（現在の移転先 inclusionAI/ming-image-0-1-design-demo）で1回だけ生成し、実ファイルで確かめてください。Authorization・HFトークン・Cookie・アカウント・クレジット・課金は使いません。原典のinfer.py・Layer・編集・PPT・prompt拡張・手元のGPUは使いません。\n\n準備：送る前に、Spaceのrepoと実行のbuildのコミット、状態、/generate の引数と戻り値の形、モデルのHubメタデータのコミットを取得して記録する。Spaceのソースを読み、原典のinfer.pyとは別の実装であること、ローダーがモデルのrevisionを指定しているかを確かめる。依頼には架空の名前・日時・会場だけを入れ、実在の住所・申込・QR・価格・スポンサー・ロゴ・個人情報は入れない。入れる文字列は別の配列に記録する。Yaoyorozu AI ToolBox の作例の run_example.py を下敷きにするなら、そこにある依頼・buildの照合を自分の依頼に合わせて見直して書き直す。\n\n実行：POSTは1回だけ。失敗・待ち行列・無料枠・ログインの要求では送り直さず、別のエンドポイントや別のモデルに切り替えない。結果の流れを読み直すときは、すでに送ったevent idのGETだけを使う。結果を見て選び直し・再生成・修正をしない。\n\n記録：返ったPNGのバイト数・SHA-256・幅・高さ・カラータイプ、サーバーの報告の原文、手元の経過時間（キューと通信を含むと明記）、送信前後のbuildとHubメタデータを残す。後から別の工程で、入れた文字列ごとの見え方（字形の違いは見えたまま書く）と、αの最小・最大・透明・半透明・不透明の画素数を数え、PNGは再保存しない。サーバーが読み込んだ重みの版・内部の時間・品質・印刷適性は、確かめられない限り未確認と書く。\n",
     "verification_stage": "runtime-reviewed",
     "verification": "原典READMEが案内する別実装の公開Design Space367085c6へ匿名1回送信し実PNG665402Bを保存。原CLI/Layer/ローカルモデルは未実行、実ロード重みrevision未確認。字形とalphaは別工程で確認し会場字形/半透明を保全。新しい図/編集/無音映像の確認範囲は visual-verification.json。公開導線は別工程。",
     "reviewed_on": "2026-10-20",
@@ -260,10 +260,10 @@
     "id": "LicenseRef-Yaoyorozu-Video-Credit",
     "label": "クレジット表記必須（商用利用・編集・再配布OK）",
     "url": "media-rights.html",
-    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
     "x_mention": "@studio_yebisu",
     "effective_on": "2026-10-21"
   },
-  "video_download_portrait": "media/downloads/ming-image-design-example-portrait-credited-ja-v3.mp4",
-  "video_download_landscape": "media/downloads/ming-image-design-example-landscape-credited-ja-v3.mp4"
+  "video_download_portrait": "media/downloads/ming-image-design-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/ming-image-design-example-landscape-credited-v4.mp4"
 }

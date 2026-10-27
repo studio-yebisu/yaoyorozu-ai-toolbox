@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ja" data-state="loading">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <title>LangGraph：共有stateを関数でつなぎ、止めて、続ける｜八百万図AIツールボックス</title>
+  <meta name="description" content="LangGraphはPythonのライブラリです。架空の貸出申請が共有stateのカードとして規則の5関数を通り、reviewで止まり、テスト値のCommandで再開して保存記録になるまでを、元の実行記録から1枚の図で見せます。">
+  <link rel="stylesheet" href="concept.css?v=visual-r1">
+  <script type="module" src="concept.js?v=visual-r1"></script>
+</head>
+<body class="lg">
+  <main>
+    <section class="lg-hero" aria-labelledby="lg-title">
+      <header class="lg-head">
+        <h1 id="lg-title">LangGraph</h1>
+        <p class="lg-line">共有state＋関数＋分岐＋停止・再開をつなぐPythonライブラリ</p>
+      </header>
+
+      <div class="lg-cases" role="group" aria-label="保存した申請を選ぶ">
+        <button type="button" data-case="approved" aria-pressed="true" disabled><b>A</b> 通常</button>
+        <button type="button" data-case="missing" aria-pressed="false" disabled><b>B</b> 返却日なし</button>
+        <button type="button" data-case="rejected" aria-pressed="false" disabled><b>C</b> 高額</button>
+      </div>
+
+      <figure class="lg-map">
+        <canvas id="concept-map" data-layout="portrait" role="img" aria-label="LangGraphの構造図。元の制作AIが原典APIと依頼文からworkflow.pyを書き、制作担当がPythonでcompileとinvokeを実行した。架空の申請は共有stateのカードとしてvalidate、条件分岐、estimate、reviewの順に規則のPython関数を通る。完全な申請はreviewのinterruptで止まり、stateは同じプロセスのメモリにthreadごとに残る。テスト値をCommandで渡すとreviewを先頭からやり直し、finalizeを経て保存記録と元の実データの画面につながる。返却日のない申請はneeds_inputで終わる。" aria-describedby="map-summary"></canvas>
+        <figcaption class="lg-readout">
+          <output id="case-meta" class="lg-meta"></output>
+          <span id="load-status" class="lg-status" role="status" aria-live="polite">読み込み中</span>
+          <button type="button" id="retry" class="lg-btn" hidden disabled>もう一度読み込む</button>
+        </figcaption>
+      </figure>
+
+      <div class="lg-stages" role="group" aria-label="保存記録を段階で見る">
+        <button type="button" data-stage="0" aria-pressed="false" disabled>組む</button>
+        <button type="button" data-stage="1" aria-pressed="false" disabled>止まるまで</button>
+        <button type="button" data-stage="2" aria-pressed="false" disabled>再開後</button>
+        <button type="button" id="replay" aria-label="もう一度動かす" disabled><span aria-hidden="true">↻</span></button>
+      </div>
+      <p id="phase-note" class="lg-note" aria-live="polite"></p>
+
+      <div class="lg-primary">
+        <a id="save-record" class="lg-btn lg-btn-primary" href="concept/jobs/approved.json" download="langgraph-approved.json" data-asset-link="concept/jobs/approved.json">この実記録を保存</a>
+        <a id="open-desk" class="lg-btn" href="desk.html#approved" data-asset-link="desk.html#approved">元の実データを見る</a>
+      </div>
+    </section>
+
+    <section class="lg-section" aria-labelledby="what-title">
+      <h2 id="what-title">LangGraphは何か</h2>
+      <p>LangGraph は、Pythonで「共有する状態（state）」と「それを読んで更新する関数（ノード）」をつなぎ、条件で道を分け、途中で止めて同じ所から続けられるようにするライブラリです。SKILL.md でも、AIモデルでも、自動で承認するエージェントでも、ホスト型のAPIでもありません。</p>
+      <h3>図の流れ</h3>
+      <ol class="lg-steps" id="map-summary">
+        <li data-step="0"><b>組む</b>　元の制作AI（Opus 5.5）が、原典のAPIと依頼文を読んで workflow.py を書きました。制作担当が別の工程でPythonを動かし、StateGraph を InMemorySaver 付きで compile して、申請ごとの thread_id で invoke しました。</li>
+        <li data-step="1"><b>止まるまで</b>　架空の申請は1枚の state のカードとして、5つのPython関数をつないだ道を、決まった規則で進みます。各ノードは state を読み、変えた項目だけを返します。validate のあとの分岐は入力の不足・誤りだけで決まり、完全な申請は金額にかかわらず review の interrupt で止まります。止まった state と next=[review] は、同じプロセスのメモリにその申請の thread として残ります。</li>
+        <li data-step="2"><b>再開後</b>　スクリプトが入力ファイルのテスト値を Command(resume=…) で同じグラフ・同じ thread に渡すと、review が先頭からやり直され、interrupt がその値を返します。回答が state に入り、finalize が日本語の要約を書いて終わります。最終 state は保存記録（JSON）になり、元の実データの画面で読めます。</li>
+        <li><b>返却日のない申請</b>　validate が end_date の空欄を見つけて needs_input へ進み、そこで終わります。見積・停止・再開はありません。</li>
+      </ol>
+      <p class="lg-actors"><b>AIが書いた範囲</b>　元の Opus 5.5 が workflow.py と元の画面を書きました。<b>制作担当が動かした範囲</b>　Pythonの実行（外への接続を止めた1つのプロセス、トレースなし）。<b>実行時のノード</b>　5つとも決まった規則のPython関数で、5つのAIではありません。グラフはLLMを呼んでいません。</p>
+      <p class="lg-small">この図は元の実行記録の図解で、新しい実行ではありません。いまのブラウザーは保存したファイルを読むだけで、Python・LangGraph・AIの推論を動かしません。紙・門・トレイ・画面の形は説明用の絵で、カードに出る値はすべて保存したチェックポイントから読んでいます。</p>
+    </section>
+
+    <section class="lg-section" aria-labelledby="parts-title">
+      <h2 id="parts-title">中身を6つに分けて見る</h2>
+      <p class="lg-small">6つは選んだAPIを説明するための整理で、原典の共通の形式ではありません。押すと図の該当箇所が光ります。選んだ申請はそのままです。</p>
+      <div class="lg-parts" role="group" aria-label="6つの部品">
+        <button type="button" data-part="state" aria-pressed="false" disabled>状態と工程<span>StateGraph</span></button>
+        <button type="button" data-part="edges" aria-pressed="false" disabled>道を分ける<span>add_conditional_edges</span></button>
+        <button type="button" data-part="compile" aria-pressed="false" disabled>実行する形へ<span>compile / invoke</span></button>
+        <button type="button" data-part="memory" aria-pressed="false" disabled>同じメモリに保つ<span>InMemorySaver</span></button>
+        <button type="button" data-part="interrupt" aria-pressed="false" disabled>確認待ちで止める<span>interrupt</span></button>
+        <button type="button" data-part="resume" aria-pressed="false" disabled>回答で続きを動かす<span>Command(resume)</span></button>
+      </div>
+      <div class="lg-part" aria-live="polite">
+        <h3 id="part-label"></h3>
+        <p id="part-meaning"></p>
+        <blockquote lang="en"><p id="part-quote"></p></blockquote>
+        <p class="lg-src">原典 <a id="part-source" rel="noreferrer"></a><br>手元 <a id="part-local"></a></p>
+      </div>
+    </section>
+
+    <section class="lg-section" aria-labelledby="record-title">
+      <h2 id="record-title">保存した実記録</h2>
+      <p class="lg-small">選んだ申請の記録は、元の実行が書いた outputs/runs.json の jobs の1件と同じ内容を、申請ごとのJSONに分けたものです。入力、停止時の interrupt と state、テスト回答、再開後の state、すべてのチェックポイントを含みます。</p>
+      <details class="lg-details">
+        <summary>選んだ記録の全文を読む</summary>
+        <p class="lg-small"><code id="record-name"></code></p>
+        <pre id="record-content" class="lg-record" tabindex="0"></pre>
+      </details>
+      <ul class="lg-files">
+        <li><a id="save-all-runs" href="outputs/runs.json" download="runs.json" data-asset-link="outputs/runs.json">3件の実行結果を保存</a> <span>outputs/runs.json</span></li>
+        <li><a id="save-memo" href="outputs/result.md" download="result.md" data-asset-link="outputs/result.md">結果メモを保存</a> <span>outputs/result.md</span></li>
+      </ul>
+      <p class="lg-small">チェックポイントの件数は保存した記録の数で、速さや品質の点数ではありません。</p>
+    </section>
+
+    <section class="lg-section" aria-labelledby="request-title">
+      <h2 id="request-title">同じ作りを依頼する</h2>
+      <p class="lg-small">公開用の再現依頼（request.txt）です。同じグラフを作って動かすために書いた文で、元の制作AIへ渡した非公開の指示そのものではありません。</p>
+      <label class="lg-label" for="request-text">再現依頼の文（読み取り専用）</label>
+      <textarea id="request-text" class="lg-request" readonly rows="8" spellcheck="false"></textarea>
+      <div class="lg-row">
+        <button type="button" id="copy-request" class="lg-btn" disabled>依頼文をコピー</button>
+        <a class="lg-link" href="request.txt" download="request.txt" data-asset-link="request.txt">request.txt を保存</a>
+        <p id="copy-status" class="lg-small" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="lg-section" aria-labelledby="film-title">
+      <h2 id="film-title">32秒の図解動画</h2>
+      <video id="film-portrait" class="lg-film" src="../../media/langgraph-example.mp4" poster="../../media/langgraph-example.webp" width="720" height="1280" controls muted playsinline preload="none"></video>
+      <details class="lg-details">
+        <summary>横長版（1280×720・32秒・無音）</summary>
+        <video id="film-wide" class="lg-film lg-film-wide" src="../../media/langgraph-example-wide.mp4" width="1280" height="720" controls muted playsinline preload="none"></video>
+      </details>
+      <p class="lg-small">上の図と同じ構造が動く図解で、音声・ナレーションはありません。カードの値は保存記録から読んだもので、動画の中でPythonやLangGraphを動かしていません。</p>
+      <p class="lg-small"><a href="video/index.html">動画のソース</a>　<a href="visual-guide.md">visual-guide.md</a>　<a href="visual-verification.json">visual-verification.json</a>　<a href="source.zip">source.zip</a></p>
+    </section>
+
+    <section class="lg-section" aria-labelledby="scope-title">
+      <h2 id="scope-title">この作例の範囲</h2>
+      <ul class="lg-notes">
+        <li><b>入力は架空</b>　申請者・催し・単価・基準額は作例用です。estimate は数量×単価の合計で、日数は掛けません。合計30,000円以上で予算フラグが true になりますが、目印だけで、自動で差し戻す仕組みではありません。分岐が見るのは入力の不足・誤りで、金額や承認ではありません。</li>
+        <li><b>回答はテスト値</b>　承認・差し戻しは inputs/requests.json に書いたテスト値を、スクリプトが Command で渡したものです。人の承認ではなく、実際の予約・在庫確保・通知・決済もしていません。人が答える画面はこの作例にありません。</li>
+        <li><b>同じプロセスのメモリ</b>　チェックポイントは InMemorySaver による同じPythonプロセスのメモリだけで、thread_id で3件を分けました。ディスク・サーバー・クラウドへの保存や、再起動後の再開は試していません。</li>
+        <li><b>再開の仕組み</b>　再開すると review ノードが先頭からやり直され、interrupt が回答を返します。そのため interrupt より前に送信などの副作用を置いていません。finalize から始まるわけでも、途中の命令から続くわけでもありません。</li>
+        <li><b>使っていないもの</b>　グラフからのLLM・モデルAPIの呼び出し、LangSmith、Cloud、トレース。</li>
+        <li><b>元の制作時の確認</b>　元の Opus 5.5 の実行受領は2件（実装と以前の動画）。原典の172ファイルは公式のバイト列と一致し、導入した157ファイルが固定版と一致しました。これは元の制作時の確認で、この紹介の図や動画の確認ではありません。</li>
+        <li><b>このページがしていること</b>　開くたびに、固定した21件の大きさとSHA-256、記録の中身（6つの引用の行、固定コミットと4パッケージの版、3件の記録と入力・runs.json・samples.json の一致、workflow.py の5ノード・条件分岐・compile・invoke・interrupt・Command の行）を確かめます。合わないときは図も記録も出さずに止まります。HTTPS か localhost で開いてください。</li>
+      </ul>
+    </section>
+
+    <section class="lg-section" aria-labelledby="files-title">
+      <h2 id="files-title">ファイル</h2>
+      <ul class="lg-files">
+        <li><a href="inputs/requests.json" data-asset-link="inputs/requests.json">架空の申請3件と単価表</a> <span>inputs/requests.json</span></li>
+        <li><a href="workflow.py" data-asset-link="workflow.py">元の実装</a> <span>workflow.py</span></li>
+        <li><a href="samples.json" data-asset-link="samples.json">入力と最終stateの対</a> <span>samples.json</span></li>
+        <li><a href="verification.json" data-asset-link="verification.json">元の実行と確認の記録</a> <span>verification.json</span></li>
+        <li><a href="desk.html#approved" data-asset-link="desk.html#approved">元の実データの画面</a> <span>desk.html（元の作例画面）</span></li>
+        <li><a href="video/legacy.html">以前の28秒の動画のソース</a> <span>video/legacy.html</span></li>
+        <li><a href="../../case.html?id=langgraph-example">作例の記事</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="lg-footer">
+    <p>原典は <a href="https://github.com/langchain-ai/langgraph/tree/d4149cc1f5384364d1a21092b4c2f582a6e7af8f" rel="noreferrer">langchain-ai/langgraph</a>（固定コミット d4149cc、langgraph 1.2.15・langgraph-checkpoint 4.3.0・langgraph-prebuilt 1.1.0・langgraph-sdk 0.4.7）、MIT License © 2024 LangChain, Inc.。<a href="vendor/langgraph/LICENSE">LICENSE</a> と各パッケージの LICENSE（<a href="vendor/langgraph/libs/langgraph/LICENSE">langgraph</a>・<a href="vendor/langgraph/libs/checkpoint/LICENSE">checkpoint</a>・<a href="vendor/langgraph/libs/prebuilt/LICENSE">prebuilt</a>・<a href="vendor/langgraph/libs/sdk-py/LICENSE">sdk-py</a>）を変えずに残しています。</p>
+    <p>作例のコード・文章・データ・図：MIT License（Copyright (c) 2026 Studio Yebisu）。LangGraph は LangChain, Inc. のプロジェクトで、この作例は同社と関係ありません。</p>
+  </footer>
+</body>
+</html>

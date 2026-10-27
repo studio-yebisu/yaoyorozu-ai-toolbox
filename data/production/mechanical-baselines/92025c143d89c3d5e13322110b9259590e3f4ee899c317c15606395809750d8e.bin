@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ja" data-page="matt-pocock-skills-concept" data-state="loading" data-theme="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; media-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; font-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>AIに、開発の手順を渡す｜Matt Pocock Skills 作例｜八百万図AIツールボックス</title>
+  <meta name="description" content="Matt Pocock Skillsは、AIが読む開発手順のMarkdown集です。この作例では4冊（domain-modeling・codebase-design・tdd・code-review）を、架空の依頼と合成データ6件の検索の修正に使いました。用語集、1つの入口、失敗してから通す3段、規約と仕様の別々の照合、そして実際に呼べる検索関数までを、動く図で示します。">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="concept.css">
+  <script type="module" src="concept.js"></script>
+</head>
+<body>
+  <a class="skip" href="#case">図の下の説明へ</a>
+
+  <header class="top wrap">
+    <h1>AIに、開発の手順を渡す</h1>
+    <p class="definition">Matt Pocock Skills：AIが読む手順書集</p>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <h2 id="hero-title" class="visually-hidden">手順書・AIの執筆・Nodeでの確認・照合・検索関数をつなぐ図</h2>
+      <div class="switches">
+        <div class="stages" role="group" aria-label="図の段階">
+          <button type="button" class="stage" data-stage="0" aria-pressed="true" disabled>読む</button>
+          <button type="button" class="stage" data-stage="1" aria-pressed="false" disabled>確かめる</button>
+          <button type="button" class="stage" data-stage="2" aria-pressed="false" disabled>使う</button>
+          <button type="button" id="replay" class="replay" aria-label="この段階の動きをもう一度" title="この段階の動きをもう一度" disabled>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 5a7 7 0 1 1-6.6 4.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="samples" role="group" aria-label="保存済みの3つの検索">
+          <button type="button" class="sample" data-sample="wide-ui" aria-pressed="true" disabled>全角UI</button>
+          <button type="button" class="sample" data-sample="and-query" aria-pressed="false" disabled>2語AND</button>
+          <button type="button" class="sample" data-sample="slides-only" aria-pressed="false" disabled>分野</button>
+        </div>
+      </div>
+
+      <figure class="map">
+        <canvas id="concept-map" role="img" aria-describedby="stage-note" aria-label="Matt Pocock Skillsの作例の図。上に、AIが読む4冊の手順書（言葉・入口・テスト・照合）があります。架空の依頼と旧コードが、AIが執筆する場所へ入り、用語集8語と仕様7条件が書かれます。それらが、searchEntriesという1つの入口を持つ検索モジュールにつながります。入口は制作担当が事前に決めたもので、利用者の確認はしていません。AIが書いた同じテストの紙が、制作担当がNodeを実行する場所との間を往復し、段1から段3まで、新しい1件が失敗（RED）してから最小の変更で全件成功（GREEN）します。テストは2件、3件、4件と増え、そのたびに入口の中身が1層ずつ増えます。テストとは別の18項目の確認もあります。最後の固定差分を、規約と仕様の2つの目が別々に見て、指摘は各0件です。目はコードを書き換えません。下では、同じ6件の掲載項目が入口へ入り、原関数が実際に返した掲載項目が黄色で現れ、保存したJSONと元の検索台につながります。"></canvas>
+      </figure>
+
+      <div class="actions">
+        <a id="save-json" class="btn btn-primary" aria-disabled="true">実結果JSONを保存</a>
+        <a id="open-desk" class="btn" aria-disabled="true">元の検索で試す</a>
+      </div>
+      <p id="save-meta" class="save-meta"></p>
+      <p id="stage-note" class="caption" aria-live="polite"></p>
+      <p id="load-status" class="load-status" role="status" data-state="loading">保存済みの素材25件を照合しています…</p>
+      <p class="retry-row"><button id="retry" class="btn" type="button" hidden>もう一度読み込む</button></p>
+      <noscript><p class="load-status" data-state="error">図と選択には JavaScript が必要です。下の一覧から実ファイルを直接開けます。</p></noscript>
+    </section>
+
+    <section id="case" class="wrap" aria-labelledby="case-title">
+      <h2 id="case-title">いまの例の実結果</h2>
+      <div class="readout readout--case" aria-live="polite">
+        <p id="case-io" class="case-io"></p>
+        <p id="case-result"></p>
+        <ol id="case-ids" class="case-ids"></ol>
+        <p class="case-match"><span id="case-match-text"></span><a id="json-current" aria-disabled="true"></a></p>
+      </div>
+      <p class="note">結果は、このページを開いたときに元の search.mjs と baseline/search.mjs をそのまま呼んだものです。新しいNodeテストの実行記録でも、AIの推論でもありません。任意の語や0件の検索は「元の検索で試す」で確かめられます。</p>
+    </section>
+
+    <section id="parts" class="wrap" aria-labelledby="parts-title">
+      <h2 id="parts-title">図の6つの部分</h2>
+      <p class="lead">この作例の説明のための分け方です。原典が決めた形式ではありません。選ぶと図に枠が付き、原典の該当行を示します。</p>
+      <div class="chip-buttons" role="group" aria-label="6つの部分">
+        <button type="button" data-part="books" aria-pressed="false" disabled>4冊の手順書</button>
+        <button type="button" data-part="terms" aria-pressed="false" disabled>依頼と用語集</button>
+        <button type="button" data-part="interface" aria-pressed="false" disabled>1つの入口</button>
+        <button type="button" data-part="loop" aria-pressed="false" disabled>執筆とNode</button>
+        <button type="button" data-part="review" aria-pressed="false" disabled>2つの照合</button>
+        <button type="button" data-part="result" aria-pressed="false" disabled>呼べる検索</button>
+      </div>
+      <div class="readout" aria-live="polite">
+        <h3 id="part-label"></h3>
+        <p id="part-meaning"></p>
+        <blockquote class="quote" lang="en"><p id="part-quote"></p></blockquote>
+        <p id="part-source" class="source-link"></p>
+      </div>
+    </section>
+
+    <section id="skills" class="wrap" aria-labelledby="skills-title">
+      <h2 id="skills-title">使った4冊</h2>
+      <p class="lead">スキル集の中から、この作例で選んだ4つです。ほかのスキルや、インストールの手順は使っていません。</p>
+      <div class="chip-buttons" role="group" aria-label="4冊の手順書">
+        <button type="button" data-skill="domain" aria-pressed="false" disabled>言葉 domain-modeling</button>
+        <button type="button" data-skill="design" aria-pressed="false" disabled>入口 codebase-design</button>
+        <button type="button" data-skill="tdd" aria-pressed="false" disabled>テスト tdd</button>
+        <button type="button" data-skill="review" aria-pressed="false" disabled>照合 code-review</button>
+      </div>
+      <div class="readout" aria-live="polite">
+        <h3 id="skill-label"></h3>
+        <p id="skill-name" class="key"></p>
+        <p id="skill-meaning"></p>
+        <p id="skill-scope" class="status-tag"></p>
+        <blockquote class="quote" lang="en"><p id="skill-quote"></p></blockquote>
+        <p id="skill-source" class="source-link"></p>
+      </div>
+    </section>
+
+    <section id="seam" class="wrap" aria-labelledby="seam-title">
+      <h2 id="seam-title">検索の入口（seam）</h2>
+      <p class="seam-call"><code id="seam-call"></code></p>
+      <dl class="seam-list">
+        <div><dt>決めた人</dt><dd id="seam-actor"></dd></div>
+        <div><dt>捉えるもの</dt><dd id="seam-catch"></dd></div>
+        <div><dt>捉えないもの</dt><dd id="seam-miss"></dd></div>
+      </dl>
+      <p class="status-tag status-tag--warn">原典の tdd は、テストを書く前に入口を利用者と確認するよう求めています。この作例では確認していません。手順の一部だけを使った例です。</p>
+      <blockquote class="quote" lang="en"><p id="seam-quote"></p></blockquote>
+      <p id="seam-source" class="source-link"></p>
+    </section>
+
+    <section id="request" class="wrap" aria-labelledby="request-title">
+      <h2 id="request-title">自分の機能で使う依頼文</h2>
+      <p class="lead">元の作例で使った request.txt です。用語・入口・テストの3冊を読めるコーディングエージェントに渡し、【】を自分の依頼に置き換えます。依頼文では原典どおり、テストの前に入口の確認を待つ形にしています。</p>
+      <p class="row-actions">
+        <button id="copy-request" class="btn" type="button" disabled>依頼文をコピー</button>
+        <a class="btn btn-quiet" href="request.txt">request.txt を開く</a>
+      </p>
+      <p id="request-status" class="copy-status" role="status"></p>
+      <details class="fold">
+        <summary>依頼文の全文（読み取り専用）</summary>
+        <label class="field-label" for="request-text">request.txt</label>
+        <textarea id="request-text" class="text-box" rows="10" readonly spellcheck="false"></textarea>
+      </details>
+    </section>
+
+    <section class="films wrap" aria-labelledby="films-title">
+      <h2 id="films-title">図解32秒・無音</h2>
+      <p class="lead">上の図と同じ形が動く、音のない32秒の解説です。ナレーションや音声ガイドはありません。例は「全角UI」です。</p>
+      <video id="film-portrait" class="film film--portrait" controls playsinline muted preload="metadata" poster="../../media/matt-pocock-skills-example.webp" width="720" height="1280" aria-label="図解動画（縦・32秒・無音）">
+        <source src="../../media/matt-pocock-skills-example.mp4" type="video/mp4">
+        <a href="../../media/matt-pocock-skills-example.mp4">MP4を開く</a>
+      </video>
+      <details class="fold">
+        <summary>横長版（1280×720・32秒・無音）</summary>
+        <video id="film-wide" class="film film--wide" controls playsinline muted preload="none" width="1280" height="720" aria-label="図解動画（横・32秒・無音）">
+          <source src="../../media/matt-pocock-skills-example-wide.mp4" type="video/mp4">
+          <a href="../../media/matt-pocock-skills-example-wide.mp4">MP4を開く</a>
+        </video>
+      </details>
+      <p class="links"><a href="video/index.html">編集できる図解ソース</a><a href="visual-guide.md">開き方と再現手順</a><a href="visual-verification.json">確認の記録</a><a href="source.zip">入力・出力・ソース一式（source.zip）</a></p>
+    </section>
+
+    <section id="records" class="wrap" aria-labelledby="records-title">
+      <h2 id="records-title">元の制作の記録</h2>
+      <p class="lead">元の制作で保存した記録です。このページを開くたびにNodeのテストやAIのレビューを実行し直してはいません。</p>
+      <details class="fold">
+        <summary>失敗してから通す3段（Node v24.18.0）</summary>
+        <p id="cycle-baseline" class="note"></p>
+        <ol id="cycle-list" class="cycle-list"></ol>
+        <p class="note">テストとコードは元の Opus 5.5 の別々の実行が書き、Node は制作担当が別の工程で実行しました。AIがNodeを動かしたわけではありません。各段の数は <a href="tdd-history.json">tdd-history.json</a> の実際の出力から読んでいます。</p>
+      </details>
+      <details class="fold">
+        <summary>テストとは別の18項目の確認</summary>
+        <p id="acceptance-line" class="note"></p>
+        <ul id="acceptance-list" class="plain plain--tight"></ul>
+        <p class="note"><a href="acceptance.json">acceptance.json</a>。どれも自動の確認で、人の承認ではありません。</p>
+      </details>
+      <details class="fold">
+        <summary>規約と仕様の独立した照合</summary>
+        <p class="review-pair"><span id="review-std"></span><span id="review-spec"></span></p>
+        <p id="review-range" class="note"></p>
+        <p class="note">原典 code-review の2軸を、元の制作で2つの独立したAIに別々に割り当てた記録です。2つの結果を1つの点数にまとめていません。目はコードを書き換えていません。作例用の基準点とtrackerは制作担当が渡しました。この画面や映像のレビューでも、人の承認や全入力の正しさの保証でもありません。<a href="review.md">review.md</a></p>
+      </details>
+      <details class="fold">
+        <summary>検索のきまり（元の関数のまま）</summary>
+        <ul class="plain">
+          <li>検索語を Unicode NFKC でそろえて小文字にし、空白（全角も）で語に分けます。</li>
+          <li>すべての語を含む掲載項目だけを残します（AND）。語ごとに、表題かタグのどれかにあればよい。</li>
+          <li>分野は完全一致で同時に絞ります。all なら絞りません。分野名と識別子は検索語の対象ではありません。</li>
+          <li>元の掲載順のまま、新しい配列を返し、渡したデータを変えません。</li>
+          <li>同義語・誤字・ひらがなとカタカナの同一視・速度・大きなデータ・サイト全体の検索は扱いません。</li>
+        </ul>
+      </details>
+      <details class="fold">
+        <summary>原典の固定版と改行</summary>
+        <ul class="plain">
+          <li>原典は <a href="https://github.com/mattpocock/skills/tree/49dd158d1076134a641b33efb035946536778336" rel="noopener">mattpocock/skills</a> のコミット <code>49dd158d1076134a641b33efb035946536778336</code>。バージョン番号はなく、このコミットが版です。MIT License、Copyright (c) 2026 Matt Pocock。</li>
+          <li><code>vendor/matt-pocock-skills/</code> の9件は、元の作例が保存したときの改行CRLFのバイトのままです。GitHubの公式のファイルは改行LFで、改行だけをそろえると中身が一致します。改行をそろえない生のバイトとしては、9件とも公式のファイルと同一ではありません。以前の記録の「一致」は、元の作業時に取り出した固定版との一致を指します。</li>
+          <li>ページは読み込みのたびに、この9件を含む25件の大きさとSHA-256を照合します。</li>
+        </ul>
+      </details>
+      <details class="fold">
+        <summary>試した範囲と、していないこと</summary>
+        <ul class="plain">
+          <li>Matt Pocock Skills はAIが読むMarkdownの手順書集です。検索ライブラリやAPI、モデル、品質の判定器ではなく、4つのエージェントが自動で動く仕組みでもありません。</li>
+          <li>依頼・6件のデータ・旧コードは架空です。八百万図AIツールボックス のサイトの検索は変えていません。</li>
+          <li>用語・仕様・入口は、元の制作の前に制作担当が決めた条件を文章にしたものです。利用者への聞き取り、仕様や入口の合意、ADR、課題の作成はしていません。</li>
+          <li>4冊のほかのスキル、インストール、setup-matt-pocock-skills は使っていません。</li>
+          <li>図の6つの部分と4冊の名前は、この作例の説明のための整理です。</li>
+          <li>今回の図の改修では、元のテスト・コード・記録・保存結果を書き換えていません。Nodeのテストや独立レビューも、やり直していません。</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="wrap" aria-labelledby="files-title">
+      <h2 id="files-title">実ファイル</h2>
+      <ul class="files">
+        <li><a href="outputs/wide-ui.json">outputs/wide-ui.json</a><span>全角UIの保存結果（634 B）</span></li>
+        <li><a href="outputs/and-query.json">outputs/and-query.json</a><span>2語ANDの保存結果（315 B）</span></li>
+        <li><a href="outputs/slides-only.json">outputs/slides-only.json</a><span>分野の保存結果（1,486 B）</span></li>
+        <li><a href="search.mjs">search.mjs</a><span>変更後の searchEntries（このページが呼ぶ原関数）</span></li>
+        <li><a href="baseline/search.mjs">baseline/search.mjs</a><span>変更前の searchEntries</span></li>
+        <li><a href="search.test.mjs">search.test.mjs</a><span>最後の4件のテスト</span></li>
+        <li><a href="entries.json">entries.json</a><span>合成データ6件</span></li>
+        <li><a href="GLOSSARY.md">GLOSSARY.md</a><span>用語集8語</span></li>
+        <li><a href="SPEC.md">SPEC.md</a><span>曖昧さの決め方・受け入れ条件7つ・対象外</span></li>
+        <li><a href="input.md">input.md</a><span>架空の依頼と、制作担当の事前の決定</span></li>
+        <li><a href="CODING_STANDARDS.md">CODING_STANDARDS.md</a><span>この作例のコーディング基準</span></li>
+        <li><a href="tdd-history.json">tdd-history.json</a><span>7回のNode実行の記録</span></li>
+        <li><a href="tdd/red1/search.test.mjs">tdd/</a><span>各段の失敗時・成功時のファイル一式</span></li>
+        <li><a href="acceptance.json">acceptance.json</a><span>テストとは別の18項目</span></li>
+        <li><a href="results.json">results.json</a><span>3件の変更前・変更後</span></li>
+        <li><a href="review.md">review.md</a><span>規約と仕様の独立した照合</span></li>
+        <li><a href="request.txt">request.txt</a><span>依頼文</span></li>
+        <li><a href="concept/structure.json">concept/structure.json</a><span>図の部分・引用の行・件数</span></li>
+        <li><a href="concept/manifest.json">concept/manifest.json</a><span>照合する25件の大きさとSHA-256</span></li>
+        <li><a href="desk.html">desk.html</a><span>以前の検索台：任意の語・Enter・0件と、変更前後の比較</span></li>
+        <li><a href="video/index.html">video/index.html</a><span>図解32秒の編集できるソース</span></li>
+        <li><a href="visual-guide.md">visual-guide.md</a><span>図と動画の開き方・再現手順</span></li>
+        <li><a href="source.zip">source.zip</a><span>入力・出力・ソース一式</span></li>
+        <li><a href="README.md">README.md</a><span>元の作例の説明と再現手順</span></li>
+      </ul>
+      <p class="links">
+        <a href="vendor/matt-pocock-skills/skills/engineering/domain-modeling/SKILL.md">domain-modeling</a>
+        <a href="vendor/matt-pocock-skills/skills/engineering/domain-modeling/GLOSSARY-FORMAT.md">GLOSSARY-FORMAT.md</a>
+        <a href="vendor/matt-pocock-skills/skills/engineering/codebase-design/SKILL.md">codebase-design</a>
+        <a href="vendor/matt-pocock-skills/skills/engineering/tdd/SKILL.md">tdd</a>
+        <a href="vendor/matt-pocock-skills/skills/engineering/tdd/tests.md">tests.md</a>
+        <a href="vendor/matt-pocock-skills/skills/engineering/tdd/mocking.md">mocking.md</a>
+        <a href="vendor/matt-pocock-skills/skills/engineering/code-review/SKILL.md">code-review</a>
+        <a href="vendor/matt-pocock-skills/README.md">README</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <div class="theme" role="group" aria-label="表示の色">
+      <button type="button" data-theme-choice="system" aria-pressed="true">端末に合わせる</button>
+      <button type="button" data-theme-choice="light" aria-pressed="false">ライト</button>
+      <button type="button" data-theme-choice="dark" aria-pressed="false">ダーク</button>
+    </div>
+    <p>Matt Pocock Skills：MIT License, Copyright (c) 2026 Matt Pocock（<a href="vendor/matt-pocock-skills/LICENSE">LICENSE</a>）。<code>vendor/matt-pocock-skills/</code> は元の配布9件を保っています。公式のLFと元配布のCRLFを区別し、改行だけ正規化した内容の一致を確認しています。作例の画面・図解・文章・データ・コード・記録：MIT License, Copyright (c) 2026 Studio Yebisu（<a href="LICENSE">LICENSE</a>）。上流の画像は使っていません。</p>
+    <p><a href="../../case.html?id=matt-pocock-skills-example">作例の解説記事へ</a>　<a href="../../index.html">八百万図AIツールボックスへ戻る</a></p>
+  </footer>
+</body>
+</html>

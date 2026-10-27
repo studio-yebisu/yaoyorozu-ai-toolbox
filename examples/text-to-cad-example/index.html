@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; script-src 'self'; style-src 'self'; connect-src 'self'; font-src 'self'; media-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>小物ケースの寸法を、CADの前に決める — text-to-cad の未実行の作例｜八百万図AIツールボックス</title>
+  <meta name="description" content="上面が開いた小物ケース（外形100×70×24 mm、壁と底2.4 mm、内寸95.2×65.2×21.6 mm）の寸法を、スライダーで検討する説明プレビューです。text-to-cad の書き方に合わせたPythonコードと寸法JSONを持ち帰れます。CADは実行しておらず、STEP / STL は生成していません。">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#preview">プレビューへ移動</a>
+  <header class="top">
+    <a class="back" href="../../case.html?id=text-to-cad-example">← 記事へ</a>
+    <p class="site">八百万図AIツールボックス</p>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="title">
+      <p class="kicker">text-to-cad の作例 ／ 実行しないCADの寸法検討</p>
+      <h1 id="title">小物ケースの寸法を、CADの前に決める</h1>
+      <p class="lead">上面が開いた小物ケース。外形と壁の厚さを動かすと、内寸が同じ式で計算し直されます。決めた寸法は、text-to-cad の書き方に合わせたPythonコードと寸法JSONとして持ち帰れます。</p>
+
+      <div class="takeaway" aria-label="持ち帰れるもの">
+        <p class="take"><b>持ち帰れるもの：寸法JSON・未実行Pythonコード</b>
+          <span class="take-links"><a href="parameters.json" download>parameters.json</a><a href="model-proposal.py" download>model-proposal.py</a><button type="button" id="save-json">いまの寸法をJSONで保存</button></span>
+        </p>
+        <p class="nogen"><b>STEP / STL：未生成</b><span>CADカーネル（cadgen・build123d・OCP）はこの作例では実行していません。</span></p>
+      </div>
+
+      <div class="workbench">
+        <figure class="preview" id="preview">
+          <p class="preview-label">寸法検討の説明プレビュー · CAD未実行</p>
+          <div class="view-toggle" role="group" aria-label="見え方">
+            <button type="button" data-view="clear" aria-pressed="true">透かし</button>
+            <button type="button" data-view="solid" aria-pressed="false">不透明</button>
+          </div>
+          <div id="iso" class="iso" aria-describedby="iso-text"></div>
+          <div class="sections">
+            <figure class="section"><figcaption>正面の断面（幅×高さ）</figcaption><div id="front"></div></figure>
+            <figure class="section"><figcaption>側面の断面（奥行×高さ）</figcaption><div id="side"></div></figure>
+          </div>
+          <figcaption class="preview-note" id="iso-text">この絵は寸法を説明するための投影で、CADカーネルが出力した形や画像ではありません。</figcaption>
+        </figure>
+
+        <div class="panel">
+          <div class="presets" role="group" aria-label="案">
+            <button type="button" data-preset="small" aria-pressed="true" disabled>標準 100×70×24</button>
+            <button type="button" data-preset="wide" aria-pressed="false" disabled>幅広 130×70×24</button>
+          </div>
+          <form class="sliders" id="sliders" aria-label="寸法">
+            <div class="slider">
+              <label for="width">外形の幅</label>
+              <input id="width" name="width" type="range" min="100" max="130" step="1" value="100">
+              <output for="width" id="width-out">100 mm</output>
+            </div>
+            <div class="slider">
+              <label for="depth">外形の奥行</label>
+              <input id="depth" name="depth" type="range" min="60" max="90" step="1" value="70">
+              <output for="depth" id="depth-out">70 mm</output>
+            </div>
+            <div class="slider">
+              <label for="height">外形の高さ</label>
+              <input id="height" name="height" type="range" min="20" max="35" step="1" value="24">
+              <output for="height" id="height-out">24 mm</output>
+            </div>
+            <div class="slider">
+              <label for="wall">壁と底の厚さ</label>
+              <input id="wall" name="wall" type="range" min="2" max="3" step="0.1" value="2.4">
+              <output for="wall" id="wall-out">2.4 mm</output>
+            </div>
+          </form>
+
+          <dl class="result" aria-live="polite">
+            <div class="big"><dt>内寸（幅×奥行×高さ）</dt><dd id="inner">95.2 × 65.2 × 21.6 mm</dd></div>
+            <div><dt>外形</dt><dd id="outer">100 × 70 × 24 mm</dd></div>
+            <div><dt>壁・底</dt><dd id="thick">2.4 mm・2.4 mm</dd></div>
+            <div><dt>入る量（単純計算）</dt><dd id="cavity">134.1 mL</dd></div>
+            <div><dt>材料の体積（単純計算）</dt><dd id="material">33.9 cm³</dd></div>
+          </dl>
+          <p class="formula">内寸の幅 ＝ 外形の幅 − 壁×2、奥行も同じ、内寸の高さ ＝ 外形の高さ − 底。角の丸み・抜き勾配・公差は入れていません。</p>
+
+          <figure class="code">
+            <figcaption>この値を model-proposal.py の定数にすると（表示だけ・実行しません）</figcaption>
+            <pre tabindex="0"><code id="constants"></code></pre>
+          </figure>
+          <p class="status" id="status" role="status" aria-live="polite">parameters.json を読み込んでいます…</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" aria-labelledby="flow-title">
+      <h2 id="flow-title">text-to-cad での本来の流れと、この作例の範囲</h2>
+      <ol class="flow">
+        <li class="here"><span class="state">このページ</span><b>寸法を決める</b>外形・壁・底・内寸</li>
+        <li class="here"><span class="state">提案のみ</span><b>Pythonのモデルを書く</b><code>@step(out=…)</code> を付けた関数が build123d の形を返す（<a href="model-proposal.py">model-proposal.py</a>、未実行）</li>
+        <li class="later"><span class="state">未実行</span><b>cadgen で STEP を書き出す</b>環境が対応していれば <code>python model-proposal.py</code> で <code>STEP/parts-case.step</code></li>
+        <li class="later"><span class="state">未実行</span><b>必要なら STL・3MF・GLB</b>メッシュ用の装飾か、<code>cadgen stl build</code></li>
+        <li class="later"><span class="state">未実行</span><b>スナップショットで形を確かめる</b>書き出した STEP を画像にして自分で見る</li>
+      </ol>
+      <p class="note">このページで済んでいるのは上の2つだけです。3〜5は実行しておらず、STEP・STL・スナップショットはありません。text-to-cad はローカルで動くCADの手順（スキルとCLI）で、形を作るホスト型のAIサービスではありません。この作例でもAIサービスは使っていません。</p>
+    </section>
+
+    <section class="block" aria-labelledby="before-title">
+      <h2 id="before-title">実行する前に知っておくこと（上流の説明から）</h2>
+      <ul class="cautions">
+        <li><b>利用統計</b>配布されるCADアプリ・ブラウザーのビューア・ビルドデーモンは、既定で利用統計を送ります（ファイル名・パス・中身・プロンプトは送らない、と上流は説明）。1つのプロセスだけ止めるなら <code>DO_NOT_TRACK=1</code> または <code>CADGEN_TELEMETRY=0</code>。</li>
+        <li><b>更新の確認</b>cadgen は1日に1回まで新しい版を問い合わせます。<code>CADGEN_UPDATE_CHECK=0</code> で止まります。</li>
+        <li><b>Windows のネイティブ部品</b>CADカーネルの OCP は署名のないネイティブモジュールを含み、Windows 11 の安全機能に読み込みを止められることがある、と上流は書いています。この作例では安全設定を変えず、回避もしていません。</li>
+        <li><b>この作例で変えたもの</b>ありません。環境変数・全体の設定・認証情報・インストールには触れていません。</li>
+      </ul>
+    </section>
+
+    <section class="block" aria-labelledby="files-title">
+      <h2 id="files-title">ファイルと出典</h2>
+      <ul class="files">
+        <li><a href="parameters.json">parameters.json</a>：2つの案（標準100・幅広130）の寸法</li>
+        <li><a href="model-proposal.py">model-proposal.py</a>：未実行のPythonコード（外形の箱 − くぼみの箱、底を床の厚さだけ上げる）</li>
+        <li><a href="dims.mjs">dims.mjs</a>：内寸の計算と説明用の投影（画面と動画が共通で使う。cadgen は読み込まない）</li>
+        <li><a href="README.md">README.md</a>・<a href="request.txt">request.txt</a>・<a href="samples.json">samples.json</a></li>
+        <li>上流の原文：<a href="vendor/text-to-cad/README.md">README.md</a>・<a href="vendor/text-to-cad/skills/cad/SKILL.md">skills/cad/SKILL.md</a>・<a href="vendor/text-to-cad/packages/cadgen/pyproject.toml">packages/cadgen/pyproject.toml</a>・<a href="vendor/text-to-cad/LICENSE">LICENSE（MIT）</a></li>
+        <li><a href="video/index.html">解説動画（無音24秒）の編集用ソース</a>（書き出した動画ファイルはまだありません）</li>
+      </ul>
+      <p class="note">原典：<a href="https://github.com/earthtojake/text-to-cad/tree/2f793659fb7bab537e2f00836e06448fc4087cb2" rel="noopener">earthtojake/text-to-cad（2f79365）</a>。リポジトリ直下のコードは MIT（Copyright (c) 2026 Thompson Labs LLC）。寸法・Pythonの提案・画面・文章は八百万図AIツールボックスの制作です。</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>八百万図AIツールボックス｜図と画面は Claude Opus 5.5 で制作。説明用・CAD未実行。</p>
+  </footer>
+</body>
+</html>
