@@ -1,0 +1,215 @@
+{
+  "id": "train-llm-from-scratch-example",
+  "title": "Train LLM From Scratch",
+  "title_lines": [
+    "LLMを基礎から実装して学ぶ教材"
+  ],
+  "category": "learning",
+  "summary": "PyTorchでTransformerを実装し、データの準備、学習、文章生成までを学べます。小さな学習コードと実際の出力を通して、言語モデルの仕組みを確かめられます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/train-llm-from-scratch-example/index.html",
+  "video": "media/train-llm-from-scratch-example.mp4",
+  "poster": "media/train-llm-from-scratch-example.webp",
+  "skill": "examples/train-llm-from-scratch-example/vendor/train-llm-from-scratch/docs/student/README.md",
+  "skill_label": "原典のCPU学習ガイド（固定版）",
+  "skill_description": "Agent Skill の SKILL.md ではなく、FareedKhan-dev/train-llm-from-scratch（固定コミット bdd480a）の学生向けガイド docs/student/README.md です。原典には SKILL.md がありません。GPUなしのPCで、データ準備 → 自分で学習するBPE → 小さなTransformerの学習 → 文章生成、の順に進める手順に沿い、scripts/prepare_tiny_data.py（--dataset text）、scripts/train_transformer.py（--preset tiny --arch modern）、scripts/generate_text.py を改変せずに実行します。ガイドにある TinyStories のダウンロード、GPU向けの preset、SFT・DPO・PPO・GRPO などの後段は使っていません。リンク先のファイルは原典を改変せずに同梱したものです。",
+  "samples": "examples/train-llm-from-scratch-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "8つの固定した書き出しと、学習前・800回更新後の小さなモデルの続き",
+  "samples_intro": "学習前に固定した8つの書き出しへ、原典の生成APIで学習前・800更新後に続き48トークンを生成しました。全文とトークンIDを16出力とも別途再生成して照合し、P01は原典CLIとも一致しました。続きを書いたのは小さなローカルTransformerです。",
+  "demo_description": "英文の束・BPE・学習のループ・2つのモデル・実際の続きがつながる大きな図です。8つの固定した書き出しを切り替え、同じ入力の0回と800回更新後を見比べ、全文と全トークンIDをJSONで保存できます。検証13行が学習側と重なる関係も図に示します。",
+  "demo_note": "表示するのは、制作側のCPUで run.py を実行して保存した記録です。ページを開いても Python・学習・AI は動きません。記録がない、または入力のSHA-256や書き出しが合わないときは、理由と「もう一度読み込む」だけを出します。検証損失は同じ96行の末尾で測った値で、型と語彙が学習側と共通なため、汎化や文章の品質を表しません。",
+  "request_intro": "同じ練習を自分の英文で試すときの依頼文です。入力の欄を自分の短い英文・書き出し・設定に差し替え、固定版の原典を読めるAIや開発者に渡してください。",
+  "request": "Train LLM From Scratch（FareedKhan-dev/train-llm-from-scratch 固定コミット bdd480a518094ca834e05ab32131dc126b522d3d、MIT）の学生向けCPUトラックを使って、LLMの学習の流れ（データ → 自分で学習するBPE → 小さなTransformerを最初から学習 → チェックポイント → 文章生成）を、GPUなしのPCで一通り実行して確かめたいです。自分で書いた短い英文だけで学習し、学習前と学習後のモデルに同じ書き出しを渡して、続きを並べて読める日本語のページにしてください。\n\n読む原典（固定版）\n・GPUなしで学ぶガイド：https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/docs/student/README.md\n・データ準備とBPE：https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/scripts/prepare_tiny_data.py\n・学習：https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/scripts/train_transformer.py\n・文章生成：https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/scripts/generate_text.py\n・ライセンス：https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/LICENSE\n\n入力（ここを差し替える。学習の前に固定し、結果を見てから変えない）\n・英文：UTF-8のテキスト1つ。自分で書いたもの。外部のデータセットは使わない（この作例では、名前・場所・物を入れ替える短い型の英文96行）\n・書き出し8つ：ID・日本語のラベル・英文。学習文にある書き出しと、ないものを混ぜる（この作例では P01〜P06 が学習文にある書き出し、P07・P08 がない書き出し）\n・設定（この作例の値）：seed 2201、BPEの語彙数 512、検証に回す割合 0.125、preset tiny・arch modern（64次元・4ヘッド・2ブロック）、文脈 64トークン、バッチ 16、更新 800回、学習率 0.002、CPU 4スレッド、生成は top_k 1・新しく48トークン\n\n進め方\n1. 原典のファイルは改変せずに置き、SHA-256を記録する。原典のスクリプトはCLIのまま実行し、関数の差し替えや書き換えはしない。\n2. prepare_tiny_data.py を --dataset text --input <英文> --tokenizer bpe で実行する。BPEは学習側の文だけで作られる。HDF5と tokenizer.json は公開しない保存先に置く。\n3. train_transformer.py を同じ preset・上書き設定・seed で2回実行する。1回目は --steps 0（一度も更新しない学習前のモデル）、2回目は決めた回数。2回目は途中のチェックポイントも保存する。\n4. 2つのチェックポイントを原典の generate_text.py の load_trained_model で読み、書き出し8つを同じ条件（top_k 1、新しいトークン数、書き出しごとに同じ seed）で生成する。1件は generate_text.py のCLIでも生成し、全文が一致することを確かめる。\n5. 損失（更新ごとの学習ミニバッチの値と、学習前後の最後の評価）、パラメータ数、トークン数、重みのSHA-256、実行したコマンドと所要秒、環境の版を、公開用のJSONに1回だけ書く。手元の絶対パスや完全なログは書かない。どれかのコマンドや確認が失敗したら、結果を書かずに止める。既にある結果は上書きしない。\n6. ページは保存したJSONと入力を取得し、入力のSHA-256・固定コミット・書き出し8つの一致を確かめてから表示する。合わなければ理由と「もう一度読み込む」を出し、内蔵の代わりのデータは使わない。\n\nページでできること\n・書き出しを選び、学習前と学習後の続きを、入力を含む全文で並べる。文字化けや繰り返しも手直しせずに出す。\n・パラメータ数、学習前後の検証損失、更新回数、更新ごとの学習ミニバッチの損失のグラフ（表でも読める）を見る。\n・選んだ書き出しの記録をJSONで保存し、この依頼文をコピーする。\n・320px幅のスマホから1280px幅のパソコンまで、横スクロールなしで使える。操作部品は44px以上、入力欄の文字は16px以上。外部のフォント・CDN・計測・AIの呼び出しは使わない。\n\n書かないこと\n・同じ英文の末尾で測った検証損失を、汎化や文章の品質として書かない。\n・小さなモデルの出力を、対話AIの性能や知識として書かない。続きを書いたのは学習した小さなモデルで、ページやコードを書いたAIとは分ける。\n・良く見える生成だけを選ばない。書き出しや設定を結果の後で変えない。\n・SFT・DPO・PPO・GRPO・RLHF・量子化・ベンチマークは、この練習では使わない。\n\n最後に、作ったファイル、実際に実行したコマンドとその結果、まだ確かめていない点を分けて書いてください。\n",
+  "applied_skills": [
+    {
+      "name": "原典のCPU学習ガイド（docs/student/README.md）",
+      "source": "https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/docs/student/README.md",
+      "applied": "SKILL.md ではなく教材のガイドです。ガイドの Step 2〜4（データ準備・学習・生成）と preset の表、原典の scripts/prepare_tiny_data.py・train_transformer.py・generate_text.py、src/tokenizer（BPEと safe_decode）、src/models/factory.py・modern/model.py、config/presets.py を読み、その CLI と API だけで run.py を書きました。データはガイドの「--dataset text --input」の形で独自の英文を渡し、学習は --preset tiny --arch modern に文脈64の上書きを加えて、同じseedで --steps 0（更新なしの学習前）と --steps 800 の2回実行します。生成は generate_text.load_trained_model と model.generate、safe_decode を使い、P01 は generate_text.py の CLI の全文とも照合します。原典のファイルは48件ともSHA-256で固定し、改変や関数の差し替えはしません。実際に原典CLIを実行し、0回更新と800回更新、8入力×前後16出力、P01のCLI/API一致、原典48ファイルの不変を確認しました。"
+    },
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "掲載項目の依頼「このPCで無理なく動く最小のモデルと架空データで、短い学習と文章生成を試す。規模、学習時間、損失、生成例を記録する」を、目的「固定版の学生向けCPUトラックを改変せずに実行し、独自の英文96行で同じ初期値から0回と800回更新した小さなTransformerに、学習前に固定した8つの書き出しを渡した続きを、損失の推移とあわせてスマホで読み比べる」の一つに絞りました（brief.json）。英文を意図して小さく繰り返しの多い英語にすること、検証損失を品質の指標にしないこと、--steps 0 を学習前のモデルとすること、生成を8件とも top_k 1 にして選び直さないこと、コードを書くAIと続きを生成する小さなモデルを分けることを assumptions に分けています。ページは保存した記録を読むだけなので、ライブのAIが動いているような表示は付けていません。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/train-llm-from-scratch-example/tools/motion-reel/render.mjs",
+      "applied": "原入力3点・実CPU記録・独立照合・旧確認記録など9素材を固定し、英文→BPE→同じ書き出しを0/800モデルへ→実際の続きの大きな図と32秒の無音縦横動画を制作。任意時刻の再現・代表/連続フレーム・スマホの図と保存操作・MP4再生を確認。音声ガイドなし。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "英文96行と8つの書き出しを固定する",
+      "body": "名前・場所・物を入れ替える短い型の英文96行を input/stories.txt に書き、学習文にある書き出し6つ（P01〜P06）とない書き出し2つ（P07・P08）を input/prompts.json に、seed・語彙数・モデル・更新回数を input/run-config.json に置きました。3ファイルのSHA-256は学習の前に固定し、結果を見てから変えません。"
+    },
+    {
+      "title": "学習側の文だけでBPEを作る",
+      "body": "原典の prepare_tiny_data.py を --dataset text --vocab_size 512 --val_frac 0.125 で実行します。split_text が末尾の行を検証側に分け、学習側の文だけでバイト単位のBPEを学び、train.h5・val.h5・tokenizer.json を公開しない保存先に書きます。run.py は、HDF5が原典の分割と符号化の結果に一致することを確かめます。"
+    },
+    {
+      "title": "更新0回の学習前モデルを保存する",
+      "body": "train_transformer.py を --preset tiny --arch modern、文脈64、seed 2201 で --steps 0 として実行し、最適化の更新を一度もしないモデルを保存します。run.py は、更新回数が0で、同じseedで新しく作ったモデルと重みが一致することを確かめます。"
+    },
+    {
+      "title": "同じ初期値から800回更新する",
+      "body": "同じ引数で --steps 800 を実行し、200回ごとに途中の状態を保存します。800個の学習ミニバッチの損失、学習前後の損失、重みのSHA-256を記録し、設定の違いが更新回数・学習率を下げる時点・保存先だけであることを確かめます。"
+    },
+    {
+      "title": "8つの書き出しの続きを生成する",
+      "body": "学習前と学習後のモデルを原典の load_trained_model で読み、8つの書き出しを top_k 1・新しく48トークンで続けます。全文とトークンIDをそのまま記録し、P01 は generate_text.py の CLI の全文とも一致を確かめます。"
+    },
+    {
+      "title": "同じ書き出しを、動く図で見比べる",
+      "body": "元のCPU学習・8入力16実出力と原典を保持し、一枚の大きな概念図と32秒の無音縦横動画へ改修しました。選んだ1件の両モデルの全文・トークンIDを保存できます。実機iOSと人による承認は未確認です。"
+    }
+  ],
+  "limitations": [
+    "独自の短い英語96行は64種類の定型文です。学習83行・検証13行のうち、検証13行すべてと同じ文が学習側にも含まれます。損失6.1135→0.1900は独立した汎化・知識・文章品質の評価ではありません。",
+    "実モデルは135,552パラメータ、BPE語彙は上限512に対して実417、文脈64です。続きを生成するのはこの小さなTransformerで、Claudeではありません。P08の首都の質問にも物語の文を続け、質問には答えません。",
+    "SFT・報酬モデル・DPO・PPO・GRPO・RLHF・量子化・外部データセット・事前学習済みの重みは使用していません。原典の大規模モデルの性能をこの作例の実績としません。",
+    "800回の学習CLIはこのCPU環境で23.103秒（評価・保存を含む）でした。Opusによるソース制作の所要時間や、他のPCの性能、ツール間比較ではありません。",
+    "配布するのは入力・実出力・再現コードと映像です。モデルの重み・HDF5・完全なコマンドログ・モデル実行履歴は配信しません。ページ内でPython・学習・AIは動きません。",
+    "改修した図を7幅・8入力16実出力・実JSON保存・失敗復旧・9素材照合と32秒の無音縦横動画の再生で確認しました。実機iOS/Safari/VoiceOver・支援技術・CoreWebVitals・人による内容や見た目の承認は未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "FareedKhan-dev/train-llm-from-scratch（固定コミット bdd480a）",
+      "url": "https://github.com/FareedKhan-dev/train-llm-from-scratch/tree/bdd480a518094ca834e05ab32131dc126b522d3d"
+    },
+    {
+      "label": "GPUなしで学ぶガイド（docs/student/README.md・固定版）",
+      "url": "https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/docs/student/README.md"
+    },
+    {
+      "label": "データ準備とBPE（scripts/prepare_tiny_data.py・固定版）",
+      "url": "https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/scripts/prepare_tiny_data.py"
+    },
+    {
+      "label": "学習（scripts/train_transformer.py・固定版）",
+      "url": "https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/scripts/train_transformer.py"
+    },
+    {
+      "label": "文章生成（scripts/generate_text.py・固定版）",
+      "url": "https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/scripts/generate_text.py"
+    },
+    {
+      "label": "Train LLM From Scratch LICENSE（MIT・固定版）",
+      "url": "https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/LICENSE"
+    },
+    {
+      "label": "独自の英文96行（input/stories.txt）",
+      "url": "examples/train-llm-from-scratch-example/input/stories.txt"
+    },
+    {
+      "label": "8つの固定した書き出し（input/prompts.json）",
+      "url": "examples/train-llm-from-scratch-example/input/prompts.json"
+    },
+    {
+      "label": "固定した設定（input/run-config.json）",
+      "url": "examples/train-llm-from-scratch-example/input/run-config.json"
+    },
+    {
+      "label": "実行スクリプト（run.py）",
+      "url": "examples/train-llm-from-scratch-example/run.py"
+    },
+    {
+      "label": "実行記録（outputs/training-run.json）",
+      "url": "examples/train-llm-from-scratch-example/outputs/training-run.json"
+    },
+    {
+      "label": "手順と読み方（outputs/method.md）",
+      "url": "examples/train-llm-from-scratch-example/outputs/method.md"
+    },
+    {
+      "label": "実際の学習・入力出力",
+      "url": "examples/train-llm-from-scratch-example/outputs/training-run.json"
+    },
+    {
+      "label": "16出力の独立再照合と同文重複",
+      "url": "examples/train-llm-from-scratch-example/outputs/independent-checks.json"
+    },
+    {
+      "label": "確認の範囲",
+      "url": "examples/train-llm-from-scratch-example/verification.json"
+    },
+    {
+      "label": "入力・結果・編集ソース一式",
+      "url": "examples/train-llm-from-scratch-example/source.zip"
+    },
+    {
+      "label": "図中心の使い方",
+      "url": "examples/train-llm-from-scratch-example/visual-guide.md"
+    },
+    {
+      "label": "動画の9素材とハッシュ",
+      "url": "examples/train-llm-from-scratch-example/video/assets/manifest.json"
+    }
+  ],
+  "license": "MIT（独自作例）・MIT（原典）",
+  "license_note": "作例のコード・文章・英文・書き出しは MIT License（Copyright (c) 2026 Studio Yebisu）。vendor/train-llm-from-scratch/ の48ファイルは、FareedKhan-dev/train-llm-from-scratch の固定コミット bdd480a のファイルを改変せずに置いたもので、MIT License（Copyright (c) 2025 Fareed Khan）です。原典の LICENSE はそのまま同梱しています。学習はCPUだけで動き、外部API・キー・アカウントは使いません。依存の導入にはネット接続が要ります。ソース制作に用いた Opus 5.5 の利用環境は別に必要です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "video_note": "32秒・無音。同じ書き出しの紙と番号のかけらが0回・800回更新のモデルへ分かれ、実際の続きに伸びる概念図です。縦版と横版を用意しました。保存済みの実記録を使う説明で、連続操作の録画やブラウザー内の学習ではありません。",
+  "video_source": "examples/train-llm-from-scratch-example/video/index.html",
+  "skill_license": "examples/train-llm-from-scratch-example/vendor/train-llm-from-scratch/LICENSE",
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "guide_url": "case.html?id=train-llm-from-scratch-example",
+  "catalog_entry": {
+    "id": "resource-train-llm-from-scratch",
+    "name": "Train LLM From Scratch",
+    "tagline": "LLMを基礎から実装して学ぶ教材",
+    "category": "learning",
+    "kind": "教材",
+    "summary": "PyTorchでTransformerを実装し、データの準備、学習、文章生成までを学べます。小さな学習コードと実際の出力を通して、言語モデルの仕組みを確かめられます。",
+    "use_case": "LLMの仕組みを、最小の学習コードと実出力で理解したいとき。",
+    "tags": [
+      "学習",
+      "研究",
+      "教材"
+    ],
+    "workflow": [
+      "学習用の小さなデータとモデル規模を選ぶ",
+      "トークン化、学習、文章生成を順に動かす",
+      "損失と生成結果を確認し、設定を記録する"
+    ],
+    "requirements": [
+      "Python・PyTorch環境",
+      "モデル規模に合うCPUまたはGPUと利用できる学習データ"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/LICENSE",
+    "license_note": "教材コードはMIT。学習データと使用する外部モデルの利用条件は別です。原典の大規模な速度値を、このPCの性能として扱いません。",
+    "source_url": "https://github.com/FareedKhan-dev/train-llm-from-scratch/tree/bdd480a518094ca834e05ab32131dc126b522d3d",
+    "guide_url": "case.html?id=train-llm-from-scratch-example",
+    "readme_url": "https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/README.md",
+    "source_repository": "FareedKhan-dev/train-llm-from-scratch",
+    "source_commit": "bdd480a518094ca834e05ab32131dc126b522d3d",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "固定原典48ファイルを無改変で保持しMIT2025FareedKhanを同梱。独自の定型英文96行を用いた実学習で、外部データや事前学習済みモデルを使わない。",
+    "prompt": "Train LLM From Scratch（FareedKhan-dev/train-llm-from-scratch 固定コミット bdd480a518094ca834e05ab32131dc126b522d3d、MIT）の学生向けCPUトラックを使って、LLMの学習の流れ（データ → 自分で学習するBPE → 小さなTransformerを最初から学習 → チェックポイント → 文章生成）を、GPUなしのPCで一通り実行して確かめたいです。自分で書いた短い英文だけで学習し、学習前と学習後のモデルに同じ書き出しを渡して、続きを並べて読める日本語のページにしてください。\n\n読む原典（固定版）\n・GPUなしで学ぶガイド：https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/docs/student/README.md\n・データ準備とBPE：https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/scripts/prepare_tiny_data.py\n・学習：https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/scripts/train_transformer.py\n・文章生成：https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/scripts/generate_text.py\n・ライセンス：https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/LICENSE\n\n入力（ここを差し替える。学習の前に固定し、結果を見てから変えない）\n・英文：UTF-8のテキスト1つ。自分で書いたもの。外部のデータセットは使わない（この作例では、名前・場所・物を入れ替える短い型の英文96行）\n・書き出し8つ：ID・日本語のラベル・英文。学習文にある書き出しと、ないものを混ぜる（この作例では P01〜P06 が学習文にある書き出し、P07・P08 がない書き出し）\n・設定（この作例の値）：seed 2201、BPEの語彙数 512、検証に回す割合 0.125、preset tiny・arch modern（64次元・4ヘッド・2ブロック）、文脈 64トークン、バッチ 16、更新 800回、学習率 0.002、CPU 4スレッド、生成は top_k 1・新しく48トークン\n\n進め方\n1. 原典のファイルは改変せずに置き、SHA-256を記録する。原典のスクリプトはCLIのまま実行し、関数の差し替えや書き換えはしない。\n2. prepare_tiny_data.py を --dataset text --input <英文> --tokenizer bpe で実行する。BPEは学習側の文だけで作られる。HDF5と tokenizer.json は公開しない保存先に置く。\n3. train_transformer.py を同じ preset・上書き設定・seed で2回実行する。1回目は --steps 0（一度も更新しない学習前のモデル）、2回目は決めた回数。2回目は途中のチェックポイントも保存する。\n4. 2つのチェックポイントを原典の generate_text.py の load_trained_model で読み、書き出し8つを同じ条件（top_k 1、新しいトークン数、書き出しごとに同じ seed）で生成する。1件は generate_text.py のCLIでも生成し、全文が一致することを確かめる。\n5. 損失（更新ごとの学習ミニバッチの値と、学習前後の最後の評価）、パラメータ数、トークン数、重みのSHA-256、実行したコマンドと所要秒、環境の版を、公開用のJSONに1回だけ書く。手元の絶対パスや完全なログは書かない。どれかのコマンドや確認が失敗したら、結果を書かずに止める。既にある結果は上書きしない。\n6. ページは保存したJSONと入力を取得し、入力のSHA-256・固定コミット・書き出し8つの一致を確かめてから表示する。合わなければ理由と「もう一度読み込む」を出し、内蔵の代わりのデータは使わない。\n\nページでできること\n・書き出しを選び、学習前と学習後の続きを、入力を含む全文で並べる。文字化けや繰り返しも手直しせずに出す。\n・パラメータ数、学習前後の検証損失、更新回数、更新ごとの学習ミニバッチの損失のグラフ（表でも読める）を見る。\n・選んだ書き出しの記録をJSONで保存し、この依頼文をコピーする。\n・320px幅のスマホから1280px幅のパソコンまで、横スクロールなしで使える。操作部品は44px以上、入力欄の文字は16px以上。外部のフォント・CDN・計測・AIの呼び出しは使わない。\n\n書かないこと\n・同じ英文の末尾で測った検証損失を、汎化や文章の品質として書かない。\n・小さなモデルの出力を、対話AIの性能や知識として書かない。続きを書いたのは学習した小さなモデルで、ページやコードを書いたAIとは分ける。\n・良く見える生成だけを選ばない。書き出しや設定を結果の後で変えない。\n・SFT・DPO・PPO・GRPO・RLHF・量子化・ベンチマークは、この練習では使わない。\n\n最後に、作ったファイル、実際に実行したコマンドとその結果、まだ確かめていない点を分けて書いてください。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "原典48ファイル、元CPU0/800学習と8入力16実出力を保持し、英文→BPE→同じ書き出しと2モデル→実際の続きの大きな図と32秒の無音縦横動画へ改修。検証13行は全件学習側と重複し、知識/品質/汎化の評価ではない。スマホ幅・実JSON保存・素材照合・再生を確認。実機iOS・人の承認は未確認。",
+    "reviewed_on": "2026-10-17",
+    "example_url": "examples/train-llm-from-scratch-example/index.html",
+    "image": "media/train-llm-from-scratch-example.webp",
+    "updated_on": "2026-10-18"
+  },
+  "video_portrait": "media/train-llm-from-scratch-example.mp4",
+  "video_landscape": "media/train-llm-from-scratch-example-wide.mp4",
+  "poster_portrait": "media/train-llm-from-scratch-example.webp",
+  "poster_landscape": "media/train-llm-from-scratch-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/train-llm-from-scratch-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/train-llm-from-scratch-example-landscape-credited-ja-v3.mp4"
+}

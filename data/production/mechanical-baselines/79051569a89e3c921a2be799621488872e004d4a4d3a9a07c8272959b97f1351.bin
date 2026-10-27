@@ -1,0 +1,107 @@
+/* 八百万図AIツールボックス original demo, 2026. MIT License.
+   Keeps the before/ palette, system fonts and layout; changes follow review.md. */
+:root{color-scheme:light;font-family:system-ui,"Yu Gothic",sans-serif;color:#292d2a;background:#f1f0e9}
+*{box-sizing:border-box}
+body{margin:0}
+[hidden]{display:none!important}
+a{color:#354e42;text-underline-offset:4px}
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+
+/* Review group 1: visible keyboard focus instead of outline:none */
+:focus-visible{outline:2px solid #375846;outline-offset:3px}
+main:focus{outline:none}
+.skip{position:absolute;left:16px;top:-100px;z-index:1;display:inline-flex;align-items:center;min-height:44px;padding:0 16px;background:#fffefa;border:1px solid #375846;border-radius:9px;font-size:16px}
+.skip:focus{top:12px}
+
+.site-head{max-width:1080px;margin:auto;padding:24px;display:flex;justify-content:space-between;border-bottom:1px solid #c9cdc3;font-size:13px}
+.site-head span{letter-spacing:.08em}
+main{max-width:744px;margin:48px auto;padding:0 24px}
+.eyebrow{font-size:12px;letter-spacing:.1em;color:#586254}
+h1{font-weight:600;font-size:clamp(32px,6vw,52px);line-height:1.35;letter-spacing:-.025em;margin:20px 0}
+.intro{line-height:1.8;color:#586254}
+.compare{display:flex;gap:24px;margin:32px 0 16px;font-size:14px}
+.compare [aria-current]{font-weight:600}
+.panel{padding:28px;background:#fffefa;border:1px solid #d7d9ce;border-radius:16px}
+h2{font-size:17px;font-weight:600}
+
+/* Review group 2: tabular, reserved-width totals */
+.panel-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0 16px}
+.totals{margin:0;font-size:15px;color:#586254;white-space:nowrap}
+.num{font-variant-numeric:tabular-nums}
+.totals .num{display:inline-block;min-width:1ch;text-align:end;color:#292d2a;font-weight:600}
+.totals .num-time{min-width:5ch}
+
+/* Review group 1: whole row is the native label; rows stack without overlap */
+.clip{display:grid;grid-template-columns:20px 1fr auto;align-items:center;column-gap:12px;min-height:56px;padding:16px 0;border-bottom:1px solid #dedfd6;cursor:pointer}
+.clip input,.option input{width:20px;height:20px;margin:0;accent-color:#375846;cursor:pointer}
+.clip-info,.clip-title,.clip-note{display:block}
+.clip-title{font-size:16px}
+.clip-note{font-size:13px;line-height:1.7;color:#586254;margin:6px 0 0}
+.clip-time{font-size:14px;color:#586254;font-variant-numeric:tabular-nums}
+.loading{margin:0;padding:16px 0;font-size:14px;color:#586254;border-bottom:1px solid #dedfd6}
+.load-error{padding:16px 0;border-bottom:1px solid #dedfd6}
+.load-error p{margin:0 0 12px;font-size:15px;line-height:1.7}
+.option{display:flex;gap:12px;align-items:center;min-height:48px;margin:12px 0;font-size:16px;cursor:pointer}
+
+/* Review group 3: export button states */
+.action{display:flex;gap:14px;align-items:center}
+.export{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 18px;font:600 16px system-ui,"Yu Gothic",sans-serif;color:#fff;background:#375846;border:0;border-radius:9px;cursor:pointer;transition-property:scale,background-color;transition-duration:150ms;transition-timing-function:ease-out}
+.export:hover:enabled{background-color:#294637}
+.export:active:enabled{scale:.96}
+.export:disabled{opacity:.45;cursor:not-allowed}
+.export[data-state="busy"]{cursor:progress}
+.icon-stack{position:relative;display:block;width:20px;height:20px;flex:none}
+.icon{display:block;width:20px;height:20px;scale:1;opacity:1;filter:blur(0px);transition-property:scale,opacity,filter;transition-duration:300ms;transition-timing-function:cubic-bezier(0.2,0,0,1)}
+.icon-done{position:absolute;inset:0;scale:.25;opacity:0;filter:blur(4px)}
+.export[data-state="done"] .icon-download{scale:.25;opacity:0;filter:blur(4px)}
+.export[data-state="done"] .icon-done{scale:1;opacity:1;filter:blur(0px)}
+/* Motion restraint: selection changes reset the contextual icon instantly. */
+.export[data-state="ready"] .icon{transition:none}
+/* All labels share one grid cell, so the button keeps the width of the longest one */
+.label-stack{display:grid;text-align:start}
+.label-stack>span{grid-area:1/1;visibility:hidden;white-space:nowrap}
+.export[data-state="ready"] [data-label="ready"],
+.export[data-state="error"] [data-label="ready"],
+.export[data-state="busy"] [data-label="busy"],
+.export[data-state="done"] [data-label="done"]{visibility:visible}
+.status-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;min-height:48px;margin-top:12px}
+.status{flex:1 1 16em;margin:0;font-size:14px;line-height:1.7;color:#586254}
+.status[data-tone="empty"],.status[data-tone="error"]{color:#292d2a;font-weight:600}
+.quiet{min-height:44px;padding:0 16px;font:600 15px system-ui,"Yu Gothic",sans-serif;color:#375846;background:#fffefa;border:1px solid #375846;border-radius:9px;cursor:pointer}
+.quiet:hover{background-color:#f1f0e9}
+.privacy{font-size:12px;color:#586254;margin:20px 0 0}
+
+/* Specimen links and explanation below the working form */
+.specimens{margin:32px 0 0}
+.specimens h2{margin:0 0 8px}
+.specimens p{margin:0 0 4px;font-size:14px;line-height:1.8;color:#586254}
+.specimens ul{list-style:none;margin:0;padding:0}
+.specimens a{display:flex;align-items:center;min-height:44px;font-size:16px}
+.context{margin:40px 0;padding-top:8px;border-top:1px solid #c9cdc3;line-height:1.8;font-size:15px;overflow-wrap:anywhere}
+.context h2{margin:32px 0 12px}
+.context h3{margin:28px 0 4px;font-size:15px;font-weight:600}
+.context p,.context li{text-wrap:pretty}
+.context .files{font-size:14px;color:#586254}
+.context ul{padding-left:1.2em}
+.context code{font-size:.92em}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+caption{text-align:start;color:#586254;padding-bottom:4px}
+th,td{padding:8px 12px 8px 0;text-align:start;border-bottom:1px solid #dedfd6;vertical-align:top}
+thead th{font-weight:600;color:#586254}
+.request{margin:12px 0 0;padding:16px;background:#fffefa;border:1px solid #d7d9ce;border-radius:12px;font:13px/1.8 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+footer{padding:24px;text-align:center;border-top:1px solid #c9cdc3;font-size:12px;color:#586254}
+
+@media(max-width:520px){
+  .site-head span{display:none}
+  main{margin:30px auto;padding:0 16px}
+  .panel{padding:18px}
+  .clip-note{max-width:27em}
+  .export{padding:0 14px}
+}
+
+/* Reduced motion: no interpolation or press movement; labels and icon still switch */
+@media(prefers-reduced-motion:reduce){
+  .export,.icon{transition:none}
+  .export:active:enabled{scale:none}
+}

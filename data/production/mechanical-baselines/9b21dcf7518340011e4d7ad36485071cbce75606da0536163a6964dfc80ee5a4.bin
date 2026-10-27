@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ja" data-state="loading" data-theme="light" data-concept-page="main">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; media-src 'self' blob:; script-src 'self'; style-src 'self'; connect-src 'self'; font-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <title>Chatterbox：英語の文を、手元のPythonで音声WAVにする — 構造図｜八百万図AIツールボックス</title>
+  <meta name="description" content="Chatterbox は手元のGPUで動く Python の音声合成（TTS）モデルとツールです。英語の文が文字IDになり、組み込み条件と合わさって T3 の音声ID、S3Gen の波形、Perth の透かしを通って WAV になる流れを、実際に合成した3本の WAV とともに図にしました。">
+  <link rel="stylesheet" href="concept.css?v=r1">
+  <script type="module" src="concept.js?v=r1"></script>
+</head>
+<body>
+  <a class="skip" href="#map-area">図へ移動</a>
+  <header class="top">
+    <a class="back" href="../../case.html?id=chatterbox-example" aria-label="八百万図AIツールボックス の記事へ戻る">←<span class="back-text">記事</span></a>
+    <p class="kicker">ローカルで動く Python の音声合成（TTS）</p>
+    <div class="prefs">
+      <div class="theme" role="group" aria-label="表示の色">
+        <button type="button" data-theme-set="light" aria-pressed="true" aria-label="明るい表示">明</button>
+        <button type="button" data-theme-set="dark" aria-pressed="false" aria-label="暗い表示">暗</button>
+      </div>
+      <button type="button" id="motion-toggle" class="motion" aria-pressed="false">図の動きを止める</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="page-title">
+      <h1 id="page-title">Chatterbox の音声合成</h1>
+      <p class="lede">英文と組み込み条件から実WAVへ。</p>
+
+      <div class="jobs" role="group" aria-label="実際に合成した3件">
+        <button type="button" data-job="default" aria-pressed="true" disabled><b>default</b><span>既定の設定</span></button>
+        <button type="button" data-job="expressive" aria-pressed="false" disabled><b>expressive</b><span>2設定を変更</span></button>
+        <button type="button" data-job="second" aria-pressed="false" disabled><b>second</b><span>別の文</span></button>
+      </div>
+
+      <figure class="map" id="map-area">
+        <div class="map-wrap" id="map-wrap">
+          <canvas id="concept-map" role="img" aria-label="Chatterbox の構造の図解。作者AI・スクリプト・制作担当から Chatterbox 本体へ。英語の文が文字IDになり、組み込み条件 conds.pt が T3 と S3Gen の2方向へ入る。T3 の音声ID、S3Gen の波形、Perth の透かしを通って、実際の3つのWAVになる。" aria-describedby="map-text">図を表示できない場合は、下の「図を文章で読む」に同じ内容があります。</canvas>
+        </div>
+        <p class="map-status">
+          <span id="load-status" data-state="loading" role="status" aria-live="polite">保存データ26件の大きさとSHA-256を確かめています</span>
+          <button type="button" id="retry" hidden>もう一度読み込む</button>
+        </p>
+      </figure>
+
+      <div class="stages" role="group" aria-label="図の段階">
+        <button type="button" data-stage="0" aria-pressed="true" disabled>①これは何か</button>
+        <button type="button" data-stage="1" aria-pressed="false" disabled>②何を渡すか</button>
+        <button type="button" data-stage="2" aria-pressed="false" disabled>③何が返るか</button>
+      </div>
+
+      <section class="player" aria-labelledby="player-title">
+        <h2 id="player-title">実音声（英語）：<span id="job-name">—</span></h2>
+        <audio id="audio-output" controls preload="metadata">お使いのブラウザーでは音声を再生できません。下の「WAVを保存」から元のファイルを保存できます。</audio>
+        <div class="player-actions">
+          <a id="download-audio" class="primary" download aria-disabled="true" tabindex="-1">WAVを保存</a>
+          <a class="secondary" href="video/index.html">無音の解説動画（編集用ソース）</a>
+        </div>
+        <p id="save-status" class="save-status" role="status" aria-live="polite"></p>
+        <p class="job-text" lang="en" id="job-text">—</p>
+        <p class="job-meta" id="job-meta">—</p>
+        <p class="job-settings" id="job-settings">—</p>
+        <p class="job-note" id="job-note">—</p>
+        <p class="hero-note">このページは保存済みの実WAVを再生・保存するだけで、ブラウザーの中では音声を合成しません。自動では再生しません。図と解説動画は音のない構造の図解で、ナレーションはありません。</p>
+      </section>
+      <p id="stage-note" class="stage-note" aria-live="polite">—</p>
+        <div class="map-caption">
+          <span class="tag">構造の図解</span>
+          <span>動く印は流れの説明で、実際の処理時間の記録ではありません。数値と波形の包絡は保存した実データから描いています。図や数値を押すと部品の説明が開きます。</span>
+        </div>
+
+
+      <details class="map-text-wrap">
+        <summary>図を文章で読む</summary>
+        <p id="map-text">—</p>
+      </details>
+    </section>
+
+    <section class="block" id="parts" aria-labelledby="parts-title">
+      <h2 id="parts-title">6つの部品</h2>
+      <p class="note">今回の使い方を説明するための整理で、公式の部品の区分ではありません。それぞれ固定版の原典の該当行を引用しています。</p>
+      <div class="part-buttons" role="group" aria-label="部品を選ぶ">
+        <button type="button" data-part="entry" aria-pressed="false" disabled>Python API</button>
+        <button type="button" data-part="text" aria-pressed="false" disabled>テキストとID</button>
+        <button type="button" data-part="condition" aria-pressed="false" disabled>組み込み条件</button>
+        <button type="button" data-part="t3" aria-pressed="false" disabled>音声トークン</button>
+        <button type="button" data-part="s3gen" aria-pressed="false" disabled>メルから波形</button>
+        <button type="button" data-part="perth" aria-pressed="false" disabled>透かしとWAV</button>
+      </div>
+      <div id="part-detail" class="part-detail" aria-live="polite" hidden>
+        <h3 id="part-title"></h3>
+        <p id="part-body"></p>
+        <div id="part-quotes" class="quotes"></div>
+      </div>
+    </section>
+
+    <section class="block" id="roles" aria-labelledby="roles-title">
+      <h2 id="roles-title">だれが何をしたか</h2>
+      <ol class="roles">
+        <li><b>作者AI（Claude Opus 5.5）</b>：実行用の Python スクリプト <a href="run_example.py">run_example.py</a>、3件の入力 <a href="inputs/jobs.json">jobs.json</a>、<a href="implementation.md">実装計画</a>を書きました。推論の実行や試聴はしていません。</li>
+        <li><b>制作担当</b>：専用の環境と固定版の重みを別に用意し、元の Python API で <code>from_local</code> を1回、<code>generate</code> を3回呼びました（<span data-fill="gpu">—</span>・CUDA・<span data-fill="threads">—</span>スレッド）。固定版の照合の入力を同梱の場所へ移すなどの包装の補正は制作担当が別に記録しており、作者の作業ではありません。</li>
+        <li><b>ブラウザー</b>：保存した26ファイルを確かめて読み、図を描き、実WAVを再生・保存します。音声の合成はしません。</li>
+      </ol>
+    </section>
+
+    <section class="block" id="compare" aria-labelledby="compare-title">
+      <h2 id="compare-title">実際に返った3本</h2>
+      <p class="note">3件とも同じ seed（20261019）で、一度ずつ合成しました。default と expressive は同じ文で、exaggeration と cfg_weight の<strong>2つを同時に</strong>変えた対の比較です。どちらか一方の効果、品質の順位、感情表現、別の機械での再現を示すものではありません。</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">項目</th><th scope="col">default</th><th scope="col">expressive</th><th scope="col">second</th></tr>
+          </thead>
+          <tbody id="compare-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block" id="use" aria-labelledby="use-title">
+      <h2 id="use-title">次に使う</h2>
+      <ol class="steps">
+        <li><b>聞く</b>：上の3つのボタンで選び、標準の再生ボタンで聞きます。選び直すと再生は止まり、頭へ戻ります。</li>
+        <li><b>比べる</b>：default と expressive を続けて聞き、同じ文で2つの設定を同時に変えたときの違いを確かめます。</li>
+        <li><b>保存する</b>：「WAVを保存」で、確認済みの元のWAV（PCM16・24kHz・モノラル）をそのままブラウザーへ渡します。</li>
+        <li><b>使う</b>：音声編集ソフトや動画編集に読み込み、英語の案内音声の下書きとして使えます。音量を整えるなどの加工は使う側で行います。WAVには Perth の透かしが入っています。</li>
+      </ol>
+    </section>
+
+    <section class="block" id="evidence" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">確かめたこと・まだ確かめていないこと</h2>
+      <ul class="facts">
+        <li>表示する前に、一覧（manifest）のSHA-256と、<span data-fill="asset-count">—</span>ファイルそれぞれの大きさとSHA-256を確かめ、3本のWAVの見出し・長さ・振幅の包絡と原典の引用行を照合しています。1つでも合わなければ図も音声も出しません。</li>
+        <li>固定版：原典 resemble-ai/chatterbox 5de7a54（0.1.7、MIT）、重み ResembleAI/chatterbox 5bb1f6e（公開・ゲートなし、MIT）、Perth ff1c8ac。重み <span data-fill="checkpoint-count">—</span>ファイル・合計 <span data-fill="checkpoint-bytes">—</span>バイトは同梱しません。</li>
+        <li>Perth：導入した <span data-fill="perth-files">—</span>ファイル（同梱の重みを含む）を照合し、<span data-fill="perth-raw">—</span>件は生のバイトが一致、<span data-fill="perth-crlf">—</span>件は改行（CRLF）だけを直すと一致しました。生のバイトが22件とも一致したのではありません。公開した抜粋は公式の LF のままです。</li>
+        <li>WAV への変換：返った値を [-1, 1] で切り詰め、×32767・偶数丸めで int16 にしています。second は1サンプルが上限32767に達しました。WAVは正規化・修正せず、そのまま置いています。この1サンプルは、聞こえる不具合や品質を示すものではありません。</li>
+        <li>透かしは各ジョブで1回かかり、前後のハッシュが違うことを確かめました。透かしの検出や耐性は試していません。</li>
+        <li>環境：Python <span data-fill="python">—</span>・torch <span data-fill="torch">—</span>。1回ずつの時間は記録していますが、速さの目安ではありません。</li>
+      </ul>
+      <details class="record">
+        <summary>別のモデル（<span data-fill="asr-model">—</span>）による文字起こしの照合</summary>
+        <p>合成後に、手元の Whisper base（CPU・4スレッド・initial_prompt なし）で3本を文字に起こしました。別のモデルの推定で、人の試聴や、発音・自然さ・意味の正しさの保証ではありません。点数にもしていません。</p>
+        <ul id="asr-list" class="asr"></ul>
+      </details>
+      <details class="record">
+        <summary>確かめた26ファイルの一覧</summary>
+        <p class="hash">一覧のSHA-256：<code data-fill="manifest-sha">—</code></p>
+        <ol id="asset-list" class="assets"></ol>
+      </details>
+      <h3>まだ確かめていないこと</h3>
+      <ul class="facts">
+        <li>人による試聴。聞き取りやすさ、入力の文どおりに読めているか、自然さ、発音、感情表現、声の似方。</li>
+        <li>品質の順位付けや、速さ・性能の一般的な評価。</li>
+        <li>日本語・多言語・Turbo・Nano・声の変換・利用者の声のクローン。今回は英語版の組み込み条件だけです。</li>
+        <li>実機の iPhone Safari、VoiceOver、200% 拡大、人による見た目の承認。制作担当によるブラウザー・描画・MP4再生の確認は visual-verification.json に記録しています。</li>
+      </ul>
+    </section>
+
+    <section class="block" id="files" aria-labelledby="files-title">
+      <h2 id="files-title">ファイルと出典</h2>
+      <ul class="links">
+        <li><a href="inputs/jobs.json">3件の入力（jobs.json）</a></li>
+        <li><a href="outputs/attempt-01/results.json">実行の記録（results.json）</a></li>
+        <li><a href="outputs/attempt-01/audio/default.wav">default.wav</a>・<a href="outputs/attempt-01/audio/expressive.wav">expressive.wav</a>・<a href="outputs/attempt-01/audio/second.wav">second.wav</a></li>
+        <li><a href="concept/facts.json">図の事実（facts.json）</a>・<a href="concept/waveforms.json">実WAVの包絡（waveforms.json）</a>・<a href="concept/manifest.json">26ファイルの一覧</a></li>
+        <li><a href="outputs/asr-check.json">文字起こしの照合（asr-check.json）</a></li>
+        <li><a href="run_example.py">実行用の Python ソース（run_example.py）</a>・<a href="implementation.md">実装計画</a>・<a href="samples.json">入力と出力の組（samples.json）</a></li>
+        <li><a href="vendor/chatterbox/LICENSE">Chatterbox の LICENSE（MIT）</a>・<a href="vendor/model-card/README.md">モデルカード</a>・<a href="vendor/chatterbox/README.md">原典の README</a>・<a href="vendor/perth/LICENSE">Perth の LICENSE</a></li>
+        <li>第三者の通知：<a href="vendor/notices/FunAudioLLM__CosyVoice/LICENSE">CosyVoice</a>・<a href="vendor/notices/jik876__hifi-gan/LICENSE">hifi-gan</a>・<a href="vendor/notices/yl4579__HiFTNet/LICENSE">HiFTNet</a>・<a href="vendor/notices/CorentinJ__Real-Time-Voice-Cloning/LICENSE">Real-Time-Voice-Cloning</a>・<a href="vendor/notices/Perth/LICENSE">Perth</a></li>
+        <li><a href="https://github.com/resemble-ai/chatterbox/tree/5de7a54aa4e5e2baadb0182dde554908b48b85c2" rel="noopener noreferrer">resemble-ai/chatterbox（固定コミット）</a>・<a href="https://huggingface.co/ResembleAI/chatterbox/tree/5bb1f6ee58e50c3b8d408bc82a6d3740c2db6e18" rel="noopener noreferrer">重み（固定リビジョン）</a></li>
+        <li><a href="video/index.html">無音の解説動画の編集用ソース</a>・<a href="README.md">この作例の README</a>・<a href="source.zip">ソース一式 ZIP</a>・<a href="visual-verification.json">今回の確認範囲</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>図・文章・ページのソースは 八百万図AIツールボックス の制作（Claude Opus 5.5）です。vendor/ の原典ファイルは各著作者のもので、元のライセンスと見出しのまま置いています。</p>
+  </footer>
+</body>
+</html>

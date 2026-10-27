@@ -1,0 +1,238 @@
+{
+  "id": "design-taste-example",
+  "title": "Design Taste",
+  "title_lines": [
+    "AIの画面づくりを整えるデザイン指針"
+  ],
+  "category": "ui-ux",
+  "summary": "文字、余白、配色、表現の方針をAIに渡し、画面の計画と実装に反映できます。目指す雰囲気を具体的な設計判断に落とし込み、画面全体の見た目を揃えられます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/design-taste-example/index.html",
+  "video": "media/design-taste-example.mp4",
+  "poster": "media/design-taste-example.webp",
+  "skill": "examples/design-taste-example/vendor/design-taste/skills/design-taste/SKILL.md",
+  "skill_label": "原典のSKILL.md（design-taste、コアの指針）",
+  "skill_description": "画面の目的と利用者を先に読み、AIにありがちな見た目を避けて、文字・色・配置の方針を決めるための文章の指針",
+  "samples": "examples/design-taste-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "実入力と結果",
+  "samples_intro": "原制作で実行して保存した3つの絞り込み結果です。新しい図も同じevents.mjsを本当に呼び、6件・2件・1件のIDと順序を照合します。実JSONは元results.presetsの同じオブジェクトを包んだもので、新しいAI出力ではありません。",
+  "demo_description": "渡す・組み立てる・使うの3段階で、5冊の指針と依頼、同じAIによる計画と次の実装執筆、制作担当の実行確認、完成した一覧のつながりを見られます。実際の一覧を開き、6件・子ども2件・短編1件の同じ結果を使えます。",
+  "demo_note": "指針はAIが読む文章で、5つの自動AIや画面生成APIではありません。原制作の計画・実装・21のNode条件は再実行していません。新図は元のfilterEventsをブラウザーで呼び、保存済みの3例とID・順序を照合します。ページを開いてもAI・予約・送信は動きません。",
+  "request_intro": "Design Taste の原典を固定コミットで読める環境で、AIに次の文章を渡します。【】の部分を自分の催しと条件に置き換えて使ってください。",
+  "request": "Design Taste（madebymustafa/design-taste、固定コミット c4a6bff0871eb4b15371b0e7d2751628b0ed4608）の skills/ にある design-taste・japanese-minimal・taste-accessibility・taste-typography・taste-ux-copy の5つの SKILL.md（https://github.com/madebymustafa/design-taste/tree/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/skills）を読んでから、次の催し一覧のページを作ってください。\n\n主催と利用者：【図書室や集会所などの名前、実在か架空か、主な利用者】\n催しのデータ：【ファイル名と項目（名前・日付・開始と終了の時刻・対象・会場・説明・参加方法）、変えてはいけない項目】\n絞り込み：【対象の分類と、検索に使う項目】\n条件：【送信・予約・保存をするかどうか、使ってよい色・書体・素材】\n\n進め方：最初に design read を一行で書き、スタイルは japanese-minimal の1つだけにする。紙・墨・印の赤、罫線の一覧、明朝とゴシック、縦書き1か所を使い、本文は16px以上、ラベルは14px以上にする。コントラストが4.5:1に届かない色は文字に使わず濃い色へ調整し、原典のどの指示を適用し、どれを調整したかを記録する。検索欄・select・details はネイティブの要素を使い、キーボードだけで操作できるようにする。0件のときは理由と解除の操作を出し、検索語をHTMLとして解釈しない。\n\n確認：絞り込みの結果を期待する値と照らし、320px幅で日時・対象・参加方法が欠けないか、フォーカスが見えるか、文字のコントラストを実際のブラウザーで確かめる。確かめた点と、確かめていない点（スクリーンリーダー、人の承認など）を分けて報告する。",
+  "video_note": "32秒・30fps・完全無音。縦720×1280と横1280×720の別配置。5冊と依頼が同じAIへ合流し、方針の紙が計画からコードと一覧へ変わり、制作担当の別工程の確認、実際に使う入口へつながります。元の26秒の保存画面解説や操作録画とは別の概念動画です。",
+  "video_source": "examples/design-taste-example/video/index.html",
+  "skill_license": "examples/design-taste-example/vendor/design-taste/LICENSE",
+  "applied_skills": [
+    {
+      "name": "design-taste",
+      "source": "https://github.com/madebymustafa/design-taste/blob/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/skills/design-taste/SKILL.md",
+      "applied": "実装の前に、利用者と用途を一行の design read にした（近所の親子・おとな・来館者が、催しを探し、日時を読み、参加方法を開く一覧。japanese-minimal、紙と墨と印の赤）。never list に従い、グラデーション、中央のバッジと2つのボタンのヒーロー、カード三つ並び、絵文字、影、大きな角丸を使っていない。広い画面では12列のうち左3列に絞り込み、1列空けて右8列に一覧を置く非対称の配置にし、各行は罫線で区切った。調整：3〜7remの大きな見出しとCTAの考え方は、道具としての一覧には合わないため使わず、h1は2〜3.5remにした。§7の事前チェックはコードを読む範囲で行い、画面での確認は別の工程に分けている。"
+    },
+    {
+      "name": "japanese-minimal",
+      "source": "https://github.com/madebymustafa/design-taste/blob/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/skills/japanese-minimal/SKILL.md",
+      "applied": "スタイルはこの1つだけを選んだ。紙#F4F1EA・墨#33302B・印の赤#B3392A、箱ではなく罫線の目録行、明朝の見出しとゴシックの本文。縦書きは見出し横の「二〇二六年 十一月」1か所（読み上げの重複を避けて装飾扱い）、印「余」はワードマークとフッターの2か所。赤は印と本文中のリンクの下線だけで、角丸は2px以下、影はない。調整：原典の灰#8A8378は文字にするとコントラストが4.5:1に届かないため罫線だけに使い、文字の灰は#625C53にした。10〜11px・字間0.18emのラベルは日本語の読みやすさのため14px・0.08emに、Shippori Mincho などのWebフォントは依頼に従い端末の明朝とゴシックにした。検索欄を最初の画面に入れるため、20vh以上のヒーローの余白と各部のフェードは使わず、160pxの間は広い画面の一覧と解説の間だけにした。"
+    },
+    {
+      "name": "taste-accessibility",
+      "source": "https://github.com/madebymustafa/design-taste/blob/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/skills/taste-accessibility/SKILL.md",
+      "applied": "h1は一つで、見出しは h1→h2→h3 と飛ばさない。先頭にフォーカス時に見えるスキップリンク、header・main・名前付きの section・footer を置いた。検索・対象・参加方法には自作の部品ではなく、ネイティブの input type=search・select・details/summary を使い、ラベルは欄の上に常に表示して for で結びつけた。フォーカスは墨の2pxの枠と2pxの間隔、入力欄・select・ボタン・summary は高さ44px以上。件数の表示は role=status で、入力中にフォーカスを動かさない。検索語や催しの文字はすべて textContent で入れ、HTMLとして解釈しない。prefers-reduced-motion で色の変化も止める。調整：明るい配色だけで、ダークモードは用意していない。スクリーンリーダーでの確認と人による承認は行っていない。"
+    },
+    {
+      "name": "taste-typography",
+      "source": "https://github.com/madebymustafa/design-taste/blob/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/skills/taste-typography/SKILL.md",
+      "applied": "書体は明朝とゴシックの2種類、太さは400と600の2つに限った。h1は clamp(2rem, 6vw, 3.5rem)、日付は明朝1.5remにして目で追う索引にし、曜日と時刻・本文はゴシック16px、ラベルは14px。本文の幅は38em以内で、すべての文字の大きさを rem で指定した。斜体と擬似太字、両端揃えは使っていない。調整：日本語の本文なので、行送りは原典の1.55〜1.7ではなく1.8にし、等幅の書体は使っていない。"
+    },
+    {
+      "name": "taste-ux-copy",
+      "source": "https://github.com/madebymustafa/design-taste/blob/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/skills/taste-ux-copy/SKILL.md",
+      "applied": "図書室の案内らしい平明な文体に決め、感嘆符と最上級の言い方を使わない。ボタンは動詞で書いた（条件を解除、依頼文をコピー、ページを再読み込み）。0件のときは、何が（条件に合う催しはありません）・なぜ（検索語と対象、検索は名前・説明・会場だけを見ること）・次の操作（条件を解除して6件を表示）の順に出す。データの読み込みに失敗したときも、起きたことと再読み込みの方法を書き、成功したように見せない。架空であることを見出しの直下と参加方法の本文で明示した。調整：原典の英語の例にある、読み手へ呼びかける文体は使っていない。"
+    },
+    {
+      "name": "Motion Reel（新しい図と32秒映像）",
+      "source": "examples/design-taste-example/tools/motion-reel/render.mjs",
+      "applied": "5冊と依頼、計画、実装、別工程の確認、実一覧がつながる概念動画を執筆。23固定素材、任意時刻、縦横別配置、代表/連続フレーム、実MP4を制作側で新QAします。元の推論・Node21検査や旧26秒の検査は流用しません。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "AIが読む指針の組合せを見る",
+      "body": "固定24スキルのうち、design-tasteの共通コア、japanese-minimalの表現1つ、操作・文字・文言の補助3冊を選んだ構造です。3群と6部品は説明用整理で、共通スキーマや5つの自動AIではありません。"
+    },
+    {
+      "title": "指針と実入力を同じAIへ渡す",
+      "body": "架空の余白図書室の催し6件、利用者、用途、機能と読める条件を指針と合わせます。元の同じOpus5.5モデルが計画を先に執筆し、次の別の執筆実行で計画からHTML/CSS/JavaScriptを作りました。"
+    },
+    {
+      "title": "用途に合わせた調整を計画で決める",
+      "body": "紙・墨・印の赤、罫線、明朝とゴシックを採り、薄い灰の文字を濃灰へ、10–11pxラベルを14pxへ調整しています。書体・余白・動き・行送りも依頼に合わせた元計画の判断です。自動改善や実行した前後比較ではありません。"
+    },
+    {
+      "title": "執筆と実行を分けて見る",
+      "body": "原制作のAIは計画とコードを執筆し、制作担当が別工程でNode21条件と実画面を確認しました。原の3受領と結果は保全し、今回の図と映像のOpus受領へ付け替えていません。"
+    },
+    {
+      "title": "完成した一覧と同じ関数を使う",
+      "body": "新図は元filterEventsをブラウザーで呼び、元の3保存例とID順序を照合します。検索は名前・説明・会場の文字列部分一致と対象のANDです。短編は1件、読書は会場にも一致し4件。元の任意検索・参加方法の一覧はdesk.htmlに残しています。"
+    },
+    {
+      "title": "同じ構造を32秒の無音映像にする",
+      "body": "新しい8原本はOpus5.5が執筆し、制作側が縦横の任意時刻・代表/連続/contact・スマホ操作・実MP4を新QAしました。元の26秒映像の検査は流用しません。"
+    }
+  ],
+  "limitations": [
+    "催し6件と余白図書室は架空です。参加・申込・予約・送信・ログイン・保存はなく、朗読会という本文があっても音声機能を実行していません。",
+    "固定24スキルのうち選んだ5冊のみです。3群と6部品は説明用整理で、原典の固定スキーマや自動ルーターではありません。",
+    "元の計画・実装・旧26秒映像の3受領、Node21条件、旧ブラウザーの記録は保全し再実行していません。新図で同じ関数を呼ぶ検証と、当時の実行記録を分けています。",
+    "原典の薄い灰、小さいラベル、Webフォント、大きな余白と動き、本文の行送りは、元の依頼と用途に合わせ意図して調整しています。原典の全指示を機械的に適用したものではありません。",
+    "新しい図の動きと配色切替は紹介のための表現です。元の完成した一覧は明るい配色だけで、動きやダークモードを追加していません。",
+    "スキルなし・他スタイルとの比較、使いやすさや制作速度の改善測定はありません。チェックの成功はデザイン品質やアクセシビリティ全適合、人の承認を保証しません。",
+    "書体は端末により異なります。元のルート文字200%測定とブラウザーのズーム検査を区別し、新図の実機iOS/Safari/VoiceOver、200%ズーム、人の審美的承認、クリップボード内容の再取得は未確認です。",
+    "実JSON3件は元results.presetsのUTF8/LF包装で、新しいモデルの出力ではありません。保存要求、公開URLの全バイト、返却ファイルの有無を分けて記録しました。",
+    "新しい図と32秒の縦横MP4、編集ソースには音声ガイド・原稿・音源・音声トラックはありません。"
+  ],
+  "sources": [
+    {
+      "label": "Design Taste skills/design-taste/SKILL.md（madebymustafa/design-taste、固定版）",
+      "url": "https://github.com/madebymustafa/design-taste/blob/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/skills/design-taste/SKILL.md"
+    },
+    {
+      "label": "japanese-minimal/SKILL.md（固定版）",
+      "url": "https://github.com/madebymustafa/design-taste/blob/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/skills/japanese-minimal/SKILL.md"
+    },
+    {
+      "label": "taste-accessibility/SKILL.md（固定版）",
+      "url": "https://github.com/madebymustafa/design-taste/blob/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/skills/taste-accessibility/SKILL.md"
+    },
+    {
+      "label": "taste-typography/SKILL.md（固定版）",
+      "url": "https://github.com/madebymustafa/design-taste/blob/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/skills/taste-typography/SKILL.md"
+    },
+    {
+      "label": "taste-ux-copy/SKILL.md（固定版）",
+      "url": "https://github.com/madebymustafa/design-taste/blob/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/skills/taste-ux-copy/SKILL.md"
+    },
+    {
+      "label": "Design Taste README（固定版）",
+      "url": "https://github.com/madebymustafa/design-taste/blob/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/README.md"
+    },
+    {
+      "label": "Design Taste LICENSE（MIT、固定版から作例に同梱）",
+      "url": "examples/design-taste-example/vendor/design-taste/LICENSE"
+    },
+    {
+      "label": "作例の入力データ（events.json、合成の6件）",
+      "url": "examples/design-taste-example/events.json"
+    },
+    {
+      "label": "作例の制作依頼（input.md）",
+      "url": "examples/design-taste-example/input.md"
+    },
+    {
+      "label": "作例のデザイン計画（design-plan.md）",
+      "url": "examples/design-taste-example/design-plan.md"
+    },
+    {
+      "label": "作例の説明と再現手順（README）",
+      "url": "examples/design-taste-example/README.md"
+    },
+    {
+      "label": "実行・ブラウザー・映像の確認範囲",
+      "url": "examples/design-taste-example/verification.json"
+    },
+    {
+      "label": "保存した実画面の状態とハッシュ",
+      "url": "examples/design-taste-example/captures.json"
+    },
+    {
+      "label": "編集できるソース一式（ZIP）",
+      "url": "examples/design-taste-example/source.zip"
+    },
+    {
+      "label": "5冊と入力・計画・実装の構造",
+      "url": "examples/design-taste-example/concept/structure.json"
+    },
+    {
+      "label": "子ども2件の元実JSON",
+      "url": "examples/design-taste-example/concept/records/children.json"
+    },
+    {
+      "label": "保全した元の催し一覧",
+      "url": "examples/design-taste-example/desk.html"
+    },
+    {
+      "label": "原制作と新しい確認の区別",
+      "url": "examples/design-taste-example/visual-verification.json"
+    },
+    {
+      "label": "新しい図と映像の説明・再現",
+      "url": "examples/design-taste-example/visual-guide.md"
+    },
+    {
+      "label": "縦横動画の再現スクリプト",
+      "url": "examples/design-taste-example/render-visual.py"
+    }
+  ],
+  "license": "MIT",
+  "license_note": "この作例の画面・CSS・JavaScript・文言・記録は 八百万図AIツールボックス の2026年の独自制作で、MIT License（Copyright (c) 2026 Studio Yebisu）です。vendor/design-taste/ の5つの SKILL.md と README は上流の MIT License（Copyright (c) 2026 Mustafa）で、固定コミットのファイルを変更せずに LICENSE とともに同梱しています。書体は利用者の端末のもので、同梱していません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "catalog_entry": {
+    "id": "resource-design-taste",
+    "name": "Design Taste",
+    "tagline": "AIの画面づくりを整えるデザイン指針",
+    "category": "ui-ux",
+    "kind": "スキル",
+    "summary": "文字、余白、配色、表現の方針をAIに渡し、画面の計画と実装に反映できます。目指す雰囲気を具体的な設計判断に落とし込み、画面全体の見た目を揃えられます。",
+    "use_case": "雰囲気の指示だけでは画面が似通ってしまうとき、文字・余白・配色の方針を具体化する。",
+    "tags": [
+      "UI",
+      "デザイン",
+      "Agent Skills"
+    ],
+    "workflow": [
+      "利用者と画面の役割を決める",
+      "共通スキルと用途に合うスタイルの指針を読む",
+      "実装後の画面をブラウザーで確認する"
+    ],
+    "requirements": [
+      "Agent Skillsを読める環境",
+      "実装するアプリの技術構成"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/madebymustafa/design-taste/blob/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/LICENSE",
+    "license_note": "スキルはMIT。デモやリンク先のフォント・画像は、それぞれの条件も確認してください。",
+    "source_url": "https://github.com/madebymustafa/design-taste/tree/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/skills/design-taste",
+    "guide_url": "case.html?id=design-taste-example",
+    "example_url": "examples/design-taste-example/index.html#events",
+    "image": "media/design-taste-example.webp",
+    "readme_url": "https://github.com/madebymustafa/design-taste/blob/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/README.md",
+    "source_repository": "madebymustafa/design-taste",
+    "source_commit": "c4a6bff0871eb4b15371b0e7d2751628b0ed4608",
+    "source_path": "skills/design-taste",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。スキルは入口または代表の本文も参照しています。原典は確認時のコミットへ固定しています。作例で使ったのは24のスキルのうち、design-taste・japanese-minimal・taste-accessibility・taste-typography・taste-ux-copy の5つです。",
+    "prompt": "Design Taste（madebymustafa/design-taste、固定コミット c4a6bff0871eb4b15371b0e7d2751628b0ed4608）の skills/ にある design-taste・japanese-minimal・taste-accessibility・taste-typography・taste-ux-copy の5つの SKILL.md（https://github.com/madebymustafa/design-taste/tree/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/skills）を読んでから、次の催し一覧のページを作ってください。\n\n主催と利用者：【図書室や集会所などの名前、実在か架空か、主な利用者】\n催しのデータ：【ファイル名と項目（名前・日付・開始と終了の時刻・対象・会場・説明・参加方法）、変えてはいけない項目】\n絞り込み：【対象の分類と、検索に使う項目】\n条件：【送信・予約・保存をするかどうか、使ってよい色・書体・素材】\n\n進め方：最初に design read を一行で書き、スタイルは japanese-minimal の1つだけにする。紙・墨・印の赤、罫線の一覧、明朝とゴシック、縦書き1か所を使い、本文は16px以上、ラベルは14px以上にする。コントラストが4.5:1に届かない色は文字に使わず濃い色へ調整し、原典のどの指示を適用し、どれを調整したかを記録する。検索欄・select・details はネイティブの要素を使い、キーボードだけで操作できるようにする。0件のときは理由と解除の操作を出し、検索語をHTMLとして解釈しない。\n\n確認：絞り込みの結果を期待する値と照らし、320px幅で日時・対象・参加方法が欠けないか、フォーカスが見えるか、文字のコントラストを実際のブラウザーで確かめる。確かめた点と、確かめていない点（スクリーンリーダー、人の承認など）を分けて報告する。",
+    "verification_stage": "runtime-reviewed",
+    "verification": "固定5冊と原入力6件、元の3受領・21Node条件・3保存結果を保持。新図は元filterEventsを本当に呼びID/順序照合。23素材編集と32秒縦横無音動画を別QA。品質点数や人の承認ではありません。",
+    "reviewed_on": "2026-10-19"
+  },
+  "updated_on": "2026-10-21",
+  "video_portrait": "media/design-taste-example.mp4",
+  "video_landscape": "media/design-taste-example-wide.mp4",
+  "poster_portrait": "media/design-taste-example.webp",
+  "poster_landscape": "media/design-taste-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/design-taste-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/design-taste-example-landscape-credited-ja-v3.mp4"
+}

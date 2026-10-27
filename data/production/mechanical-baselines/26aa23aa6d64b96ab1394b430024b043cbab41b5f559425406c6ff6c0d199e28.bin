@@ -1,0 +1,129 @@
+{
+  "id": "scenario-3d-collection-example",
+  "name": "Scenario 3D Collection",
+  "title": "Scenario 3D Collection",
+  "title_lines": [
+    "設定と出力をたどる、3D素材集。"
+  ],
+  "category": "3d",
+  "summary": "1,342件の3D作例と1,500点の出力ファイルを公開した素材集から3件（カエル・宝箱・ランタン）を選び、固定リビジョンから取得したGLBのSHA-256が配布メタデータと一致することを確かめ、実物のメッシュをブラウザーで回して見る。プロンプトや生成設定の記録と、実際の3D出力を対にしてたどれる。新しい3D生成はしていない。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/scenario-3d-collection-example/index.html",
+  "video": "media/scenario-3d-collection-example.mp4",
+  "poster": "media/scenario-3d-collection-example.webp",
+  "skill": "examples/scenario-3d-collection-example/inspect_blender.py",
+  "skill_label": "取得したGLBを照合してBlenderで検査するPythonソース",
+  "skill_description": "固定リビジョンから取得した3件のGLBをSHA-256で照合し、Blender 5.2.1 LTS（ファイル内スクリプトの自動実行は無効）で形状・テクスチャ・寸法を読むinspect_blender.pyです。",
+  "samples": "examples/scenario-3d-collection-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "選んだ3件",
+  "samples_intro": "カエル・宝箱・ランタン。それぞれのプロンプト・生成設定・参照入力・SHA-256・Blenderで読んだ形状の統計を見られます。",
+  "demo_description": "照合済みの3つのGLBを切り替え、ドラッグで回転・拡大したり、ワイヤーフレームに切り替えたりできる3Dビューアです。入力画像と生成設定も一緒に確認できます。",
+  "demo_note": "ページは取得・照合済みの実GLBをthree.jsで表示するだけで、3Dの生成や再取得、外部通信はしません。",
+  "request_intro": "ゲームや3D制作の試作素材を探し、生成設定と出力を対にして調べたいときの依頼文です。",
+  "request": "Scenario 3D Collection の固定版（https://huggingface.co/datasets/scenario-labs/3d-collection/tree/55b4c002b4c1529fc48da3dff98516c3069bfa3f）から、小さな3D試作に使うGLB素材を1件選んでください。\n1. READMEとLICENSEを読み、メタデータから候補のプロンプト・入力・設定・出力形式を確認してください。全約39GBの一括取得はせず、必要なメタデータと選んだ素材だけを扱ってください。\n2. 選んだ出力ファイルを新しいフォルダーへ取得し、メタデータのSHA-256と照合してください。原典のリビジョンとファイルパスを残してください。\n3. 既存の3DビューアーやBlenderで、形状、テクスチャ、縮尺を確認してください。Blenderを使う場合はファイル内スクリプトの自動実行を無効にしてください。閲覧できない場合は未確認として記録してください。\n4. Scenarioへのクレジット、CC BY 4.0へのリンク、変更した場合の表示を添えてください。別公開のHunyuan版は混ぜないでください。\n選定理由、入力・設定、取得ファイル、実行した検証、未確認の点を記録してください。",
+  "video_note": "26秒・30fps・音声なし。縦540×960、横960×540。実GLBをWebGLで描き、設定→取得・照合→実物表示をつなぐ。",
+  "video_source": "examples/scenario-3d-collection-example/video/index.html",
+  "skill_license": "examples/scenario-3d-collection-example/third-party/Scenario-LICENSE",
+  "license_note": "ページ・図・映像コードはMIT。3D素材はScenario／CC BY 4.0（GLB本体のバイトは無改変、表示の正規化・照明・カメラは調整）。同梱のライセンス原文を参照してください。three.jsはMITで、それぞれ別の条件です。",
+  "applied_skills": [
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel",
+      "applied": "claude-opus-5-5が図・ページ・映像コードを執筆。実GLBをWebGLで描き、26秒・30fps・縦横の個別構図で、検証済みファイルだけから描きます。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "3件を選んで取得",
+      "body": "配布メタデータからカエル・宝箱・ランタンを選び、固定リビジョン55b4c002…からGLB・入力画像・プレビューを取得。"
+    },
+    {
+      "title": "ハッシュ照合とBlender検査",
+      "body": "SHA-256が配布メタデータと3件すべて一致。Blender 5.2.1 LTS（autoexec無効）で形状・テクスチャ・寸法を確認。"
+    },
+    {
+      "title": "実物を表示して映像化",
+      "body": "three.js 0.180.0のビューアで実GLBを回し、26秒の無音リールとして編集ソースを残す。"
+    }
+  ],
+  "catalog_entry": {
+    "id": "resource-scenario-3d-collection",
+    "name": "Scenario 3D Collection",
+    "tagline": "入力と生成設定をたどれる、1,342件の3D素材集。",
+    "category": "3d",
+    "kind": "データセット",
+    "summary": "AIで生成された1,342件の3D作例と1,500点の出力ファイルを公開した素材集。GLBやBlender形式などに、参照入力・プロンプト・生成設定・SHA-256のメタデータが付く。プレビューや入力素材を含む全体は約39GB。",
+    "use_case": "ゲームや3D制作の試作素材を探したいとき、または生成設定と3Dの出力を対にして調べたいとき。",
+    "tags": [
+      "3D素材",
+      "GLB",
+      "Blender",
+      "生成設定",
+      "データセット"
+    ],
+    "workflow": [
+      "プレビューとメタデータから用途に合う1件を選び、入力・設定・出力形式を確認する",
+      "必要な出力ファイルだけを取得し、メタデータのSHA-256と照合する",
+      "Blenderやゲームエンジンで形状・テクスチャ・縮尺を確認し、使用時はScenarioへのクレジットとCC BY 4.0のリンクを付ける"
+    ],
+    "requirements": [
+      "GLBなどを開ける3Dビューアー、Blender、またはゲームエンジン",
+      "選んだ素材を保存する空き容量。全体取得は約39GBなので、最初は必要なファイルだけを選ぶ",
+      "メタデータをコードで読む場合はPythonとdatasets等の環境"
+    ],
+    "license": "CC BY 4.0",
+    "license_url": "https://huggingface.co/datasets/scenario-labs/3d-collection/blob/55b4c002b4c1529fc48da3dff98516c3069bfa3f/LICENSE",
+    "license_note": "このコレクションは、別記がある場合を除きCC BY 4.0で、Scenarioへのクレジットが必要です。共有・改変・商用利用の際はライセンスへのリンクと変更表示などの条件に従ってください。別公開のHunyuan版393件はこの収録範囲に含まず、別の利用条件が適用されます。",
+    "source_url": "https://huggingface.co/datasets/scenario-labs/3d-collection/tree/55b4c002b4c1529fc48da3dff98516c3069bfa3f",
+    "guide_url": "case.html?id=scenario-3d-collection-example",
+    "readme_url": "https://huggingface.co/datasets/scenario-labs/3d-collection/blob/55b4c002b4c1529fc48da3dff98516c3069bfa3f/README.md",
+    "source_repository": "scenario-labs/3d-collection",
+    "source_commit": "55b4c002b4c1529fc48da3dff98516c3069bfa3f",
+    "source_note": "配布元Hugging FaceのREADME、ファイル一覧、メタデータの説明、LICENSEを確認。形式ごとの件数と構造検査の結果は配布元の報告で、当サイトによる3D素材の品質検証ではありません。配布元はBlenderシーン1件で参照テクスチャ2点の欠落も報告しています。原典は確認時のリビジョンへ固定しています。",
+    "prompt": "Scenario 3D Collection の固定版（https://huggingface.co/datasets/scenario-labs/3d-collection/tree/55b4c002b4c1529fc48da3dff98516c3069bfa3f）から、小さな3D試作に使うGLB素材を1件選んでください。\n1. READMEとLICENSEを読み、メタデータから候補のプロンプト・入力・設定・出力形式を確認してください。全約39GBの一括取得はせず、必要なメタデータと選んだ素材だけを扱ってください。\n2. 選んだ出力ファイルを新しいフォルダーへ取得し、メタデータのSHA-256と照合してください。原典のリビジョンとファイルパスを残してください。\n3. 既存の3DビューアーやBlenderで、形状、テクスチャ、縮尺を確認してください。Blenderを使う場合はファイル内スクリプトの自動実行を無効にしてください。閲覧できない場合は未確認として記録してください。\n4. Scenarioへのクレジット、CC BY 4.0へのリンク、変更した場合の表示を添えてください。別公開のHunyuan版は混ぜないでください。\n選定理由、入力・設定、取得ファイル、実行した検証、未確認の点を記録してください。",
+    "source_path": "",
+    "source_project": "curated",
+    "verification_stage": "runtime-reviewed",
+    "verification": "2026-10-24に固定版からカエル・宝箱・ランタンのGLBと入力素材等を取得し、9ファイルのSHA-256を照合。Blender 5.2.1 LTSで自動実行を無効にして3件を読み込み・描画。ブラウザーの実GLB表示、モデル切替、回転、ワイヤーフレームを確認。縦横の26秒・30fps動画を書き出し、同じ時刻への戻り描画と新規ページでのPNG一致、音声トラックなしを確認。新たな3D生成、全収録素材の品質、ゲーム用途の性能やリグは未検証。",
+    "reviewed_on": "2026-10-24",
+    "example_url": "examples/scenario-3d-collection-example/index.html",
+    "image": "media/scenario-3d-collection-example.webp"
+  },
+  "updated_on": "2026-10-24",
+  "video_portrait": "media/scenario-3d-collection-example.mp4",
+  "video_landscape": "media/scenario-3d-collection-example-wide.mp4",
+  "poster_portrait": "media/scenario-3d-collection-example.webp",
+  "poster_landscape": "media/scenario-3d-collection-example-wide.webp",
+  "video_width": 540,
+  "video_height": 960,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "sources": [
+    {
+      "label": "scenario-labs/3d-collection 固定版（55b4c002…）",
+      "url": "https://huggingface.co/datasets/scenario-labs/3d-collection/tree/55b4c002b4c1529fc48da3dff98516c3069bfa3f"
+    },
+    {
+      "label": "CC BY 4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "label": "検査スクリプト inspect_blender.py",
+      "url": "examples/scenario-3d-collection-example/inspect_blender.py"
+    },
+    {
+      "label": "編集ソース一式（video/）",
+      "url": "examples/scenario-3d-collection-example/video/index.html"
+    }
+  ],
+  "video_download_portrait": "media/downloads/scenario-3d-collection-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/scenario-3d-collection-example-landscape-credited-ja-v3.mp4"
+}

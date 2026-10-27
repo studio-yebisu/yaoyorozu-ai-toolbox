@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ja" data-theme="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Agency Agents｜AIに渡す、専門家の指示書集（図解と作例）</title>
+  <meta name="description" content="Agency Agents は、専門家ごとの役割・仕事・進め方をMarkdownにまとめた指示書集です。指示書の中身と、今回の依頼と一緒にAIへ渡して成果物を次の役割へつなぐ流れを、1枚の図で切り替えて見られます。">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f7f1e6">
+  <script>
+    (function () {
+      var choice = 'system';
+      try {
+        var stored = window.localStorage.getItem('studio-yebisu.agency-agents-example.theme');
+        if (stored === 'light' || stored === 'dark' || stored === 'system') choice = stored;
+      } catch (error) {
+        // 保存領域が使えない環境でも、既定の system で表示する。
+      }
+      document.documentElement.setAttribute('data-theme', choice);
+    }());
+  </script>
+  <link rel="stylesheet" href="foundation.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="c-skip-link" href="#concept">図へ移動</a>
+
+  <header class="c-site-header">
+    <div class="l-container p-top">
+      <a class="p-top__back" href="../../case.html?id=agency-agents-example">← 解説</a>
+      <div class="c-theme-toggle" role="group" aria-label="表示テーマ">
+        <button type="button" class="c-theme-toggle__option" data-theme-choice="system" aria-pressed="true">システム</button>
+        <button type="button" class="c-theme-toggle__option" data-theme-choice="light" aria-pressed="false">ライト</button>
+        <button type="button" class="c-theme-toggle__option" data-theme-choice="dark" aria-pressed="false">ダーク</button>
+      </div>
+      <p id="theme-note" class="u-visually-hidden" role="status"></p>
+    </div>
+  </header>
+
+  <main id="main" class="l-container p-main">
+    <section id="concept" class="p-concept" aria-labelledby="page-title" tabindex="-1">
+      <p id="deep-link" class="c-notice p-deeplink" hidden></p>
+
+      <h1 id="page-title" class="p-title">
+        <span class="p-title__name" lang="en">Agency Agents</span>
+        <span class="p-title__def">AIに渡す、専門家の指示書集</span>
+      </h1>
+
+      <div class="p-controls">
+        <div class="p-seg" role="group" aria-label="指示書を選ぶ">
+          <button type="button" class="p-seg__btn" data-role-choice="ux" aria-pressed="true" disabled>UX設計</button>
+          <button type="button" class="p-seg__btn" data-role-choice="frontend" aria-pressed="false" disabled>画面実装</button>
+        </div>
+        <div class="p-seg p-seg--steps" role="group" aria-label="図の段階">
+          <button type="button" class="p-seg__btn" data-stage-choice="contents" aria-pressed="true" disabled><span class="p-seg__num" aria-hidden="true">1</span>中身</button>
+          <button type="button" class="p-seg__btn" data-stage-choice="hand" aria-pressed="false" disabled><span class="p-seg__num" aria-hidden="true">2</span>渡す</button>
+          <button type="button" class="p-seg__btn" data-stage-choice="link" aria-pressed="false" disabled><span class="p-seg__num" aria-hidden="true">3</span>つなぐ</button>
+        </div>
+      </div>
+      <p class="p-note">図の切替だけです。このページでAIは実行しません。</p>
+
+      <p id="load-status" class="p-load" role="status">固定した11のファイルを読み込み、バイト数と SHA-256 を確かめています…</p>
+      <div id="load-error" class="c-notice c-notice--alert p-error" role="alert" hidden>
+        <p class="c-notice__title">元のファイルを確かめられなかったため、図と操作を止めています。</p>
+        <p id="load-error-reason"></p>
+        <p class="u-small">古い内容や内蔵の代わりのデータは表示しません。ファイルを直接開いた場合は読み込めないことがあります。HTTPS か localhost で配信して開いてください。</p>
+        <button type="button" id="load-retry" class="c-button">もう一度読み込む</button>
+      </div>
+
+      <div id="figure" class="d-figure" role="group" aria-label="役割の指示書がAIへ渡り、成果物になる図" aria-describedby="figure-desc" hidden>
+        <svg id="wires" class="d-wires" aria-hidden="true" focusable="false"></svg>
+      </div>
+      <p id="figure-desc" class="u-visually-hidden"></p>
+
+      <div class="p-cta">
+        <a class="c-button c-button--primary p-cta__main" href="guide.html">できあがった作例を触る</a>
+        <p class="u-small u-muted">2つの指示書を順に当てて作った、架空イベントの企画ガイドです（予約ではありません）。</p>
+      </div>
+
+      <div id="readout" class="p-readout" hidden>
+        <p id="readout-stage" class="p-readout__stage"></p>
+        <div class="p-readout__part">
+          <p class="p-readout__head"><span id="part-label" class="p-readout__label"></span><span id="part-meaning" class="p-readout__meaning"></span></p>
+          <p class="p-readout__applied"><span class="p-readout__key">今回</span><span id="part-applied"></span></p>
+        </div>
+        <details class="p-source">
+          <summary>原文の抜粋（英語）</summary>
+          <div class="p-source__body">
+            <blockquote id="source-quote" class="p-source__quote" lang="en"></blockquote>
+            <p class="u-small"><span class="u-muted">節</span> <span id="source-section" lang="en"></span></p>
+            <p class="u-small"><a id="source-link" class="p-source__path"></a></p>
+            <p id="source-note" class="u-small u-muted"></p>
+          </div>
+        </details>
+      </div>
+      <p id="live" class="u-visually-hidden" role="status"></p>
+
+
+    </section>
+
+    <section class="p-section" aria-labelledby="files-title">
+      <h2 id="files-title">実際のファイル</h2>
+      <p class="u-measure u-muted">図で使う11素材を、読み込み時にバイト数と SHA-256 で確かめます。関連する原文と、保存済みの成果もここから開けます。</p>
+      <ul class="u-list-reset p-files" role="list">
+        <li><a class="p-file" data-href="vendor/agency-agents/design/design-ux-architect.md" aria-disabled="true"><span class="p-file__name">指示書 UX Architect</span><span class="p-file__path">design/design-ux-architect.md</span></a></li>
+        <li><a class="p-file" data-href="vendor/agency-agents/engineering/engineering-frontend-developer.md" aria-disabled="true"><span class="p-file__name">指示書 Frontend Developer</span><span class="p-file__path">engineering/engineering-frontend-developer.md</span></a></li>
+        <li><a class="p-file" data-href="input/event.json" aria-disabled="true"><span class="p-file__name">今回の材料：架空の6企画</span><span class="p-file__path">input/event.json</span></a></li>
+        <li><a class="p-file" data-href="outputs/ux-handoff.md" aria-disabled="true"><span class="p-file__name">1回目の成果：引き継ぎ書</span><span class="p-file__path">outputs/ux-handoff.md</span></a></li>
+        <li><a class="p-file" data-href="outputs/ux-handoff.json" aria-disabled="true"><span class="p-file__name">引き継ぎ書のデータ</span><span class="p-file__path">outputs/ux-handoff.json</span></a></li>
+        <li><a class="p-file" data-href="foundation.css" aria-disabled="true"><span class="p-file__name">1回目の成果：CSS土台（このページも使用）</span><span class="p-file__path">foundation.css</span></a></li>
+        <li><a class="p-file" data-href="outputs/implementation.md" aria-disabled="true"><span class="p-file__name">2回目の実装記録</span><span class="p-file__path">outputs/implementation.md</span></a></li>
+        <li><a class="p-file" data-href="outputs/browser-itinerary.json" data-download="" aria-disabled="true"><span class="p-file__name">保存された予定をダウンロード（4企画・1,000円）</span><span class="p-file__path">outputs/browser-itinerary.json</span></a></li>
+        <li><a class="p-file" data-href="vendor/agency-agents/README.md" aria-disabled="true"><span class="p-file__name">Agency Agents の README（Option 3）</span><span class="p-file__path">vendor/agency-agents/README.md</span></a></li>
+        <li><a class="p-file" data-href="vendor/agency-agents/LICENSE" aria-disabled="true"><span class="p-file__name">LICENSE（MIT）</span><span class="p-file__path">vendor/agency-agents/LICENSE</span></a></li>
+      </ul>
+      <p class="u-small"><a href="comparison.html">最初の実装の画面（comparison.html）</a></p>
+    </section>
+
+    <section class="p-section" aria-labelledby="request-title">
+      <h2 id="request-title">同じ依頼文で試す</h2>
+      <p class="u-measure">イベント情報の欄を差し替えて、2つの指示書を読めるAIに渡す依頼文です。保存済みの原文をそのままコピーします。</p>
+      <div class="l-cluster">
+        <button type="button" id="copy-request" class="c-button" disabled>依頼文をコピー</button>
+        <a class="p-inline-file" data-href="request.txt" aria-disabled="true">依頼文のファイル（request.txt）</a>
+      </div>
+      <p id="copy-status" class="u-small" role="status"></p>
+      <div id="copy-fallback" class="c-field" hidden>
+        <label class="c-field__label" for="copy-fallback-text">手動でコピーする欄（読み取り専用）</label>
+        <textarea id="copy-fallback-text" class="c-input p-fallback" readonly rows="10"></textarea>
+      </div>
+    </section>
+
+    <section class="p-section" aria-labelledby="film-title">
+      <h2 id="film-title">32秒の図解動画（無音）</h2>
+      <p class="u-measure">同じ指示書・依頼・成果物の図形が、AIへ渡り、次の役割へつながるまでを動きで見せます。制作済みの流れを図にしたもので、動画の中でAIは動いていません。</p>
+      <video id="film-portrait" class="p-film" src="../../media/agency-agents-example.mp4" poster="../../media/agency-agents-example.webp" controls preload="metadata" playsinline aria-label="AIに渡す専門家の指示書の中身と、成果物を次の役割へつなぐ流れを図解した32秒の無音縦動画"></video>
+      <details class="p-wide">
+        <summary>横動画（32秒・無音）</summary>
+        <video id="film-wide" class="p-film p-film--wide" src="../../media/agency-agents-example-wide.mp4" controls preload="metadata" playsinline aria-label="同じ内容を横長に組み直した32秒の無音動画"></video>
+      </details>
+      <p class="u-small"><a href="video/index.html">動画の編集ソース（video/index.html）</a> · <a href="source.zip">入力・出力・編集ソース一式（source.zip）</a></p>
+    </section>
+
+    <details class="p-section p-facts">
+      <summary><h2 class="p-facts__title">出典・試した範囲・制約</h2></summary>
+      <div class="p-facts__body l-stack">
+        <p class="u-measure">役割ファイルは <a href="https://github.com/msitarzewski/agency-agents/tree/bd956db032d907387e6b9ddebff3e18f1de8c679">msitarzewski/agency-agents</a>（固定コミット <code>bd956db</code>）のコミュニティ作成のもので、Anthropic 公式ではありません。MIT License（Copyright (c) 2025 AgentLand Contributors）。</p>
+        <p class="u-measure">この作例は README の「Option 3: Use as Reference」の使い方です。指示書を読んで今回の依頼と一緒にAIへ渡しました。アプリやスクリプトでのインストール、自動の振り分けは試していません。</p>
+        <p class="u-measure">同じ Claude Opus 5.5 を<strong>別々の2回の実行</strong>で順に使いました。1回目は UX Architect の指示書と架空の6企画から引き継ぎ書とCSS土台を作り、2回目は Frontend Developer の指示書とその成果物・同じ6企画から企画ガイドを作りました。ファイルは制作担当が渡したもので、独立したエージェント同士の協調ではありません。</p>
+        <p class="u-measure">2回目は、引き継ぎ書の受け入れ条件 A09（重なる企画を押すと今の予定と自動で入れ替える案）を採用せず、時間が重なる追加は止めて今の予定を残しました。</p>
+        <p class="u-measure">図の6つの部分は、この2つの原典に共通する見出しを制作担当が説明用に整理したもので、全役割に共通する機械の形式ではありません。原典の成功指標（Success Metrics）は目標で、この作例で達成を測った結果ではありません。Lighthouse・Core Web Vitals の測定やアクセシビリティの認証はしていません。役割ファイルの「Memory」の記述は、記憶のしくみを入れるものではありません。</p>
+        <p class="u-measure">UX Architect の指示書が参照する <code>ai/agents/architect.md</code> と <code>ai/memory-bank</code> の資料は固定版になく、内容を補っていません。フレームワーク・バックエンド・エディター連携の例は、この静的な作例では使っていません。</p>
+        <p class="u-measure">このページと動画は、元の2回の実行のあとに Claude Opus 5.5 が別の実行で書いた説明用の表示です。元の入力・成果物は書き換えていません。</p>
+      </div>
+    </details>
+  </main>
+
+  <footer class="p-footer">
+    <div class="l-container l-stack">
+      <p class="u-small">イベント「こもれび つくる日」は作例のための架空の設定です。予約・支払い・空き状況は扱いません。</p>
+      <p class="u-small"><a href="LICENSE">この作例の LICENSE（MIT・2026 八百万図AIツールボックス）</a></p>
+    </div>
+  </footer>
+
+  <noscript>
+    <p class="l-container">図は JavaScript で元のファイルを確かめてから描きます。作例は <a href="guide.html">guide.html</a>、指示書は <a href="vendor/agency-agents/design/design-ux-architect.md">UX Architect</a> と <a href="vendor/agency-agents/engineering/engineering-frontend-developer.md">Frontend Developer</a>、保存された予定は <a href="outputs/browser-itinerary.json">outputs/browser-itinerary.json</a> で開けます。</p>
+  </noscript>
+</body>
+</html>

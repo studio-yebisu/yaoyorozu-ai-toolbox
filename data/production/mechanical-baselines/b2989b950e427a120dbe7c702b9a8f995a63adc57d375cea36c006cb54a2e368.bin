@@ -1,0 +1,214 @@
+{
+  "id": "dify-example",
+  "title": "Dify",
+  "title_lines": [
+    "AIアプリを画面で組み立てる開発基盤"
+  ],
+  "category": "automation",
+  "summary": "モデル、資料検索、外部ツールを画面上でつなぎ、AIアプリや業務フローを作れます。資料を探して回答を返すなどの処理を、流れが見える形で構成できます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/dify-example/index.html",
+  "video": "media/dify-example.mp4",
+  "poster": "media/dify-example.webp",
+  "skill": "examples/dify-example/vendor/dify/README.md",
+  "skill_label": "Dify 原典README（固定版）",
+  "skill_description": "langgenius/dify の固定コミット f77facf（1.17.1）の README.md を改変せずに同梱したものです。SKILL.md ではなく、Dify の機能（ワークフロー・モデル・ナレッジ・エージェントなど）と、Docker Compose でのセルフホストの始め方を説明する文書です。この作例では README の範囲のうちワークフローだけを扱い、サーバーは起動していません。動かしたのは、Dify の api/pyproject.toml が依存に指定する graphon 0.7.0 の DSL ランタイム（graphon.dsl.inspect・loads と GraphEngine）と、Dify 本体の api/core/workflow/graph_topology.py の WorkflowGraphTopology です。同じ固定版に含まれる skills/difyctl/SKILL.md は Dify サーバーにつなぐ CLI の手順のため、範囲の確認に読んだだけで、使っていません。",
+  "samples": "examples/dify-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "8件の問い合わせと、エンジンが返した担当とメモ",
+  "samples_intro": "input はワークフローの開始ノードに渡した問い合わせの6項目、output はエンジンが返した分岐の ID（selected_case_id）と引き継ぎメモ（text）です。制作側が run.py を実行した記録 outputs/workflow-runs.json から作ります。担当を決めたのは if-else ノードの値の比較で、AI は動いていません。",
+  "demo_description": "同じ封筒が問い合わせ→上から順の判定→3つの担当→実メモへ進む大きな図です。請求と請求＋至急、99人と100人、記号のある入力を切り替え、選んだ実記録と元のDSLを保存できます。全8件の全文・入力・出力・イベントは折りたたみと元の比較ページから確認できます。",
+  "demo_note": "保存済みの実行結果を読む独自の図です。DifyやAIをブラウザーで実行したり、入力値を編集して再判定したりする機能ではありません。",
+  "request_intro": "同じ確認を自分の架空の問い合わせで試すときの依頼文です。入力とルールの欄を差し替え、固定版の Dify と graphon を読めるAIや開発者に渡してください。",
+  "request": "問い合わせ1件を書いて渡すと、決めたルールで担当（優先対応・請求窓口・通常窓口）を1つ選び、日本語の引き継ぎメモを返す Dify 形式のワークフロー（DSL）を作り、Dify が依存に指定する graphon の DSL ランタイムで実際に実行してください。結果は、入力・選ばれた分岐・メモ・エンジンのイベントを保存した JSON にし、スマホで読める日本語のページで確かめられるようにしてください。\n\n読む原典（固定版）\n・Dify README：https://github.com/langgenius/dify/blob/f77facfe6520ed379d723288aed0b4806ad76143/README.md\n・Dify LICENSE（Apache 2.0 を基にした Dify Open Source License。追加条件あり）：https://github.com/langgenius/dify/blob/f77facfe6520ed379d723288aed0b4806ad76143/LICENSE\n・graphon==0.7.0 を宣言する api/pyproject.toml：https://github.com/langgenius/dify/blob/f77facfe6520ed379d723288aed0b4806ad76143/api/pyproject.toml\n・WorkflowGraphTopology：https://github.com/langgenius/dify/blob/f77facfe6520ed379d723288aed0b4806ad76143/api/core/workflow/graph_topology.py\n・graphon 0.7.0（公式 wheel）：https://pypi.org/project/graphon/0.7.0/\n\n入力（ここを差し替える。実行の前に固定し、結果を見てから変えない）\n・問い合わせ：ticket_id・issue（操作／請求／相談）・urgency（通常／至急）・affected_users（0以上の整数）・subject・body（空でもよい）。すべて架空にする（この作例では D01〜D08 の8件）\n・期待する分岐：各問い合わせの urgent・billing・false を、実行の前に別のファイルへ書く\n\nワークフロー（workflow.yml）\n・kind: app、version: 0.3.0、mode: workflow。dependencies・環境変数・会話変数は空。モデル・ツール・プラグイン・認証・URL は書かない\n・7ノード：開始（6項目）→ if-else（上から順に、1. 至急 または 影響人数 ≥ 100 → urgent、2. 種類が請求 → billing、3. それ以外 → false）→ 担当ごとの template-transform 3つ → variable-aggregator → 終了（text と selected_case_id）\n・3つのメモは同じ7行の形（担当・問い合わせ番号・件名・種類と緊急度と人数・本文・次の対応）。入力は Jinja の変数としてだけ差し込む\n\n進め方\n1. 原典のファイル・ロック・入力をハッシュで照合してから始める。graphon は pip で入れず、同梱した wheel の中身を sys.path の先頭から読み込む。依存は requirements-runtime.txt の28件だけを非公開の仮想環境に入れる\n2. 原典を読み込む前に、Python の通信・子プロセスの API を数えて拒否する仕組みを入れ、試みが1件でもあれば失敗にする\n3. graphon.dsl.inspect で DSL を確かめ、Dify の WorkflowGraphTopology で同じグラフのつながりを確かめる\n4. 8件それぞれを graphon.dsl.loads（credentials なし、ワーカー1つ）と engine.run() で実行し、イベントを model_dump(mode=\"json\") のまま残す。分岐は期待値から作らず、エンジンが返した selected_case_id と成功したノードの順を記録して照らし合わせる\n5. 請求で至急（D06）は優先対応、影響99人（D04）は通常窓口・100人（D05）は優先対応になること、{{ 7 * 7 }} や <script> を含む入力（D07）が文字のまま残ること、0人で本文が空（D08）でも失敗しないことを確かめる\n6. 壊れた YAML と、開始ノードが2つの DSL を渡し、実際の DslError（名前・コード・文面）を記録する\n7. すべての確認が通ったときだけ outputs/workflow-runs.json を1回書く。既にある記録は上書きしない。手元の絶対パス・環境変数・認証情報・ログ全文は書かない\n\nページでできること\n・問い合わせを選び、件名・種類・緊急度・人数、選ばれた担当、引き継ぎメモの全文、通った7ノードの道筋を読む。入力と出力、エンジンのイベントの JSON も全文で開ける\n・記録・入力・DSL・ロックを取得し、固定版と SHA-256・8件・確認の合否を確かめてから表示する。合わなければ理由と「もう一度読み込む」だけを出す\n・選んだ1件を dify-D05.json のような JSON で保存し、この依頼文をコピーする\n・320px幅のスマホから1280px幅のパソコンまで横スクロールなし。操作部品は44px以上、入力欄の文字は16px以上。外部のフォント・CDN・計測・AI の呼び出しは使わない\n\n書かないこと\n・値の比較とテンプレートの差し込みを、AI による文章の分類や要約として書かない\n・graphon の DSL ランタイムでの実行を、Dify のサーバー・管理画面・API・difyctl での実行や、Dify の画面への取り込みとして書かない\n・Dify のライセンスを、そのままの Apache-2.0 や MIT として書かない\n・コードや文章を書いた AI と、ワークフローを実行した graphon を混同しない\n\n最後に、作ったファイル、実際に実行したコマンドとその結果、まだ確かめていない点を分けて書いてください。\n",
+  "applied_skills": [
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "「問い合わせを書く→担当を選ぶ→引き継ぎメモを作る」という操作へ具体化し、制作側が実行前に固定した架空の8件を実入力にしました。99人/100人の境目、請求でも至急を先にする順序、記号のある入力、0人・空の本文を実行して確認しています。"
+    },
+    {
+      "name": "Dify・Graphon 原典（文書・実API）",
+      "source": "https://github.com/langgenius/dify/blob/f77facfe6520ed379d723288aed0b4806ad76143/README.md",
+      "applied": "固定版DifyのREADME・利用条件・依存宣言とuv.lockを確認。同じ公式Graphon0.7.0 wheelで独自DSLを8件実行し、DifyのWorkflowGraphTopologyを同じグラフへ適用しました。196の自動確認と別の入力・イベント照合、位相49組、別コピーでのCLI実行を確認。difyctlスキルは接続範囲の確認に読んだだけで、サーバーや管理画面は使っていません。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/dify-example/tools/motion-reel/render.mjs",
+      "applied": "原入力・実出力・元DSLを含む8素材を固定し、同じ封筒が判定スイッチから3担当と実メモへ動く大きな概念図と32秒の無音縦横動画を制作。任意時刻の再現・代表/連続フレーム・スマホの図と操作・MP4再生を確認。音声ガイドなし。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "8件の架空問い合わせを用意",
+      "body": "番号・種類・緊急度・影響人数・件名・本文を実行前に固定しました。個人の実データは使っていません。"
+    },
+    {
+      "title": "最初に当てはまる担当へ",
+      "body": "至急または100人以上を先に判定し、次に請求、それ以外は通常へ。99人/100人の境目と、請求でも至急を優先する例を実行しました。"
+    },
+    {
+      "title": "日本語の引き継ぎメモを保存",
+      "body": "実ノードが返したメモ・通った経路・160件の元イベントを残しました。独立した照合と、コピーした別フォルダーでのCLI実行でも確かめています。"
+    },
+    {
+      "title": "動く図から実記録を持ち帰る",
+      "body": "元の実入力・実出力を保持して、大きな概念図と32秒の無音縦横動画へ改修しました。選んだ実記録のJSON、元のDSL、編集ソースを保存できます。"
+    }
+  ],
+  "limitations": [
+    "担当を決めるのは値の比較（is と ≥）で、メモは Jinja2 テンプレートへの差し込みです。AI による文章の意味の分類や要約ではありません。",
+    "動かすのは Dify が依存に指定する graphon 0.7.0 の DSL ランタイムと、Dify 本体の WorkflowGraphTopology です。Dify のサーバー・管理画面・API・Docker での起動・difyctl・Dify の画面への DSL の取り込みは試していません。",
+    "モデル（LLM）・ナレッジ検索・ツール・プラグインのノードは使っていません。依存は使うノードの範囲の28件だけで、graphon の文書処理・モデル関係の依存は入れておらず、その機能は確かめていません。",
+    "入力フォームでの選択肢・必須・文字数の検証は、この DSL ランタイムの実行に含まれず、試していません。",
+    "架空の8件の小さな確認です。大量の問い合わせ、速さ、実際の運用での振り分けの良し悪しは評価しません。",
+    "通信と子プロセスの拒否は、run.py が Python の API を差し替えて数える仕組みで、OS 全体の遮断ではありません。依存の導入には実行の前に通信が要ります。",
+    "改修した図をIAB Chromiumのスマホ幅・全8件の実入力/実出力/イベント・実保存・エラー復旧・素材照合と、32秒の無音縦横動画の再生で確認しました。実機iPhoneのSafari・VoiceOver・Core Web Vitals・人による内容や見た目の承認は未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "langgenius/dify（固定コミット f77facf・1.17.1）",
+      "url": "https://github.com/langgenius/dify/tree/f77facfe6520ed379d723288aed0b4806ad76143"
+    },
+    {
+      "label": "Dify README（固定版）",
+      "url": "https://github.com/langgenius/dify/blob/f77facfe6520ed379d723288aed0b4806ad76143/README.md"
+    },
+    {
+      "label": "Dify LICENSE（Dify Open Source License・固定版）",
+      "url": "https://github.com/langgenius/dify/blob/f77facfe6520ed379d723288aed0b4806ad76143/LICENSE"
+    },
+    {
+      "label": "graphon==0.7.0 の宣言（api/pyproject.toml・固定版）",
+      "url": "https://github.com/langgenius/dify/blob/f77facfe6520ed379d723288aed0b4806ad76143/api/pyproject.toml"
+    },
+    {
+      "label": "WorkflowGraphTopology（api/core/workflow/graph_topology.py・固定版）",
+      "url": "https://github.com/langgenius/dify/blob/f77facfe6520ed379d723288aed0b4806ad76143/api/core/workflow/graph_topology.py"
+    },
+    {
+      "label": "graphon 0.7.0（PyPI・公式 wheel）",
+      "url": "https://pypi.org/project/graphon/0.7.0/"
+    },
+    {
+      "label": "langgenius/graphon のソースと README（版は PyPI の wheel で固定）",
+      "url": "https://github.com/langgenius/graphon"
+    },
+    {
+      "label": "ワークフローの DSL（workflow.yml）",
+      "url": "examples/dify-example/workflow.yml"
+    },
+    {
+      "label": "架空の問い合わせ8件（input/tickets.json）",
+      "url": "examples/dify-example/input/tickets.json"
+    },
+    {
+      "label": "実行前に決めた分岐（input/expected.json）",
+      "url": "examples/dify-example/input/expected.json"
+    },
+    {
+      "label": "実行スクリプト（run.py）",
+      "url": "examples/dify-example/run.py"
+    },
+    {
+      "label": "手順と読み方（outputs/method.md）",
+      "url": "examples/dify-example/outputs/method.md"
+    },
+    {
+      "label": "8件の実行記録（outputs/workflow-runs.json）",
+      "url": "examples/dify-example/outputs/workflow-runs.json"
+    },
+    {
+      "label": "入力・結果・ソース一式",
+      "url": "examples/dify-example/source.zip"
+    },
+    {
+      "label": "独立した実入力・イベント・位相の照合",
+      "url": "examples/dify-example/outputs/independent-checks.json"
+    },
+    {
+      "label": "別コピーで実行した再現の確認",
+      "url": "examples/dify-example/outputs/reproduction-checks.json"
+    },
+    {
+      "label": "原典の固定ロックと同じwheelの根拠",
+      "url": "examples/dify-example/upstream-evidence.json"
+    },
+    {
+      "label": "確認した範囲",
+      "url": "examples/dify-example/verification.json"
+    },
+    {
+      "label": "動画の8素材とハッシュ",
+      "url": "examples/dify-example/video/assets/manifest.json"
+    },
+    {
+      "label": "図中心の使い方",
+      "url": "examples/dify-example/visual-guide.md"
+    }
+  ],
+  "license": "MIT（独自作例）・Dify Open Source License（Apache-2.0に追加条件・Dify原典）・Apache-2.0（graphon）",
+  "license_note": "作例のコード・文章・架空の入力は MIT License（Copyright (c) 2026 Studio Yebisu）。vendor/dify/ の8ファイルは langgenius/dify の固定コミット f77facf（1.17.1）のファイルを改変せずに置いたもので、Dify Open Source License です。Apache License 2.0 を基に、書面の許可のないマルチテナント環境での運用と、フロントエンド（web/）のロゴ・著作権表示の削除や変更について追加の条件があり、そのままの Apache-2.0 ではありません。この作例は web/ を使わず、コピーもしておらず、Dify のロゴや画面も使っていません。vendor/graphon-wheel/ は graphon 0.7.0 の公式 wheel の中身で、Apache License 2.0 です。依存28件はそれぞれの利用条件に従い、仮想環境に入って配布はしません。実行にアカウント・API キー・課金は要りません。ソース制作に用いた Opus 5.5 の利用環境は別に必要です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "video_note": "32秒・無音。同じ封筒がルールのスイッチを通り、担当の実メモへ開く大きな概念図です。元の実入力・実出力を使い、縦版と横版を用意しました。",
+  "video_source": "examples/dify-example/video/index.html",
+  "skill_license": "examples/dify-example/vendor/dify/LICENSE",
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "guide_url": "case.html?id=dify-example",
+  "catalog_entry": {
+    "id": "resource-dify",
+    "name": "Dify",
+    "tagline": "AIアプリを画面で組み立てる開発基盤",
+    "category": "automation",
+    "kind": "ワークフロー基盤",
+    "summary": "モデル、資料検索、外部ツールを画面上でつなぎ、AIアプリや業務フローを作れます。資料を探して回答を返すなどの処理を、流れが見える形で構成できます。",
+    "use_case": "資料の検索から回答の作成まで、処理の流れを可視化して試したいとき。",
+    "tags": [
+      "ワークフロー",
+      "連携",
+      "ワークフロー基盤"
+    ],
+    "workflow": [
+      "架空の問い合わせ8件を、種類・緊急度・影響人数・本文で用意する",
+      "Dify DSLを公式Graphon0.7.0で動かし、優先・請求・通常の3担当と実メモを確認する",
+      "8件の入力/出力・実ノード経路・短い動画を読み、JSONとDSLを持ち帰る"
+    ],
+    "requirements": [
+      "Python3.13.7で確認した、同梱の固定Graphonソースと28件の依存",
+      "実行用のコピーと公開先の外の新しい空フォルダー。この限定経路にアカウントやAPIキーは不要"
+    ],
+    "license": "Dify独自ライセンス（Apache-2.0に追加条件）",
+    "license_url": "https://github.com/langgenius/dify/blob/f77facfe6520ed379d723288aed0b4806ad76143/LICENSE",
+    "license_note": "Dify独自ライセンス。Apache-2.0にマルチテナント提供やフロントエンドのロゴ・著作権表示などの追加条件があります。CloudとモデルAPIの料金は別です。",
+    "source_url": "https://github.com/langgenius/dify/tree/f77facfe6520ed379d723288aed0b4806ad76143",
+    "guide_url": "case.html?id=dify-example",
+    "readme_url": "https://github.com/langgenius/dify/blob/f77facfe6520ed379d723288aed0b4806ad76143/README.md",
+    "source_repository": "langgenius/dify",
+    "source_commit": "f77facfe6520ed379d723288aed0b4806ad76143",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "Dify固定版1.17.1/f77facfのapi/uv.lockと同じ公式Graphon0.7.0 wheelで、Dify DSLの分岐・テンプレート・集約・終了を実行。Dify本体の位相APIも確認。サーバー・管理画面・LLM推論・コンソールへのDSL取込は未確認。",
+    "prompt": "Dify1.17.1の固定版が採用する公式Graphon0.7.0を使い、架空の問い合わせ8件を優先対応・請求・通常の3担当へ振り分け、日本語の引き継ぎメモを返すDSLを作って実行してください。99人/100人の境目と、請求でも至急を優先する順序を確かめ、実入力・実出力・ノード経路を保存してください。実エンジンの単体実行と、DifyサーバーやLLM推論の接続は区別して説明してください。",
+    "verification_stage": "runtime-reviewed",
+    "verification": "元Graphon DSL・Dify位相APIの8件と実メモ・160イベントを保持し、問い合わせ→上から順の判定→3担当→実メモをつなぐ大きな動く概念図と32秒の無音縦横動画へ改修。スマホ表示・実記録保存・素材照合・再生を確認。実機iOS・人の承認は未確認。",
+    "reviewed_on": "2026-10-15",
+    "updated_on": "2026-10-17"
+  },
+  "video_portrait": "media/dify-example.mp4",
+  "video_landscape": "media/dify-example-wide.mp4",
+  "poster_portrait": "media/dify-example.webp",
+  "poster_landscape": "media/dify-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/dify-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/dify-example-landscape-credited-ja-v3.mp4"
+}

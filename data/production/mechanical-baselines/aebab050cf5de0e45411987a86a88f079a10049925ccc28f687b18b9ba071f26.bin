@@ -1,0 +1,218 @@
+{
+  "id": "solidcraft-example",
+  "title": "SolidCraft",
+  "title_lines": [
+    "AIネイティブな3D CAD"
+  ],
+  "category": "3d",
+  "summary": "内蔵MCPサーバーを通して、AIエージェントが3Dモデルを作成・編集できるRust製のCADです。寸法や式を変えると形状を再計算でき、設計をJSONで保存したり、STEP・STLに書き出したりできます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/solidcraft-example/index.html",
+  "video": "media/solidcraft-example.mp4",
+  "poster": "media/solidcraft-example.webp",
+  "skill": "examples/solidcraft-example/vendor/solidcraft/skills/solidcraft-modeling/SKILL.md",
+  "skill_label": "SolidCraft 同梱のSKILL.md（solidcraft-modeling）",
+  "skill_description": "SolidCraftで新しい部品を作るときの、エージェント向けの手順書",
+  "samples": "examples/solidcraft-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "架空の依頼と、保存した2つの状態",
+  "samples_intro": "元のtray-default/tray-resizedと実入力・出力を保持しました。幅/奥行/高さ/穴径だけを変更し、壁・底3mmと同じ3履歴を保ちます。リンク先の大きな図から同じ状態の元ビューアへ進めます。",
+  "demo_description": "3冊と依頼→同じ作者→コマンドと独立予測→制作担当のheadless MCP/CLI→CADの6値/式/3履歴/1ボディ→別経路の照合→実ファイルと保存結果ビューア、の構造図です。初期/変更後と3段階を選び、保全した4実PNG・数値・6ファイルへ進めます。",
+  "demo_note": "架空なのは工房と依頼です。元のCAD操作・画像・数値・JSON/STEP/STLは実出力で、新図では保存結果を読むだけです。模式図は説明用、4つの実PNGは個別に自動フィット。JSONだけ式と履歴を保持します。保存ボタンは元bytesをブラウザーへ渡す操作です。",
+  "request_intro": "SolidCraft 0.11.1 の公式リリースを入れ、MCP でつないだAIのコーディングエージェントに、次の文章を渡します。【】の部分を自分の部品と寸法に置き換えて使ってください。",
+  "request": "SolidCraft 0.11.1 の公式リリース（https://github.com/tangency-labs/solidcraft/releases/tag/v0.11.1）の solidcraft-cli を使います。同梱のスキル solidcraft-modeling（SKILL.md と reference.md）、solidcraft-editing、solidcraft-checking の SKILL.md を読んでから、次の部品を作ってください。\n\n部品：【例：上が開いた小物トレー。底の中央に丸い貫通穴を1つ】\n名前付きの寸法と初期値：【例：width 120 mm、depth 80 mm、height 18 mm、hole_diameter 8 mm】\n固定の値：【例：壁と底は3 mm】\n一度に変える値：【例：150 / 90 / 24 / 12 mm】\n使える範囲：【例：幅120〜150 mm、奥行80〜90 mm、高さ18〜24 mm、穴径8〜12 mm】\n\n進め方：部品は原点の中心に置き、寸法に合わせて動く位置は数値ではなく式で書いてください。作る前に体積・外接箱・重心の期待値を式で出し、段ごとに measure の値と比べてください。使える範囲は各パラメーターのコメントに書き、floor のような式の関数名は名前に使わないでください。穴を開ける工具は、面より1 mm先から始めてください。寸法の変更は作り直さず、parameters.change をまとめて1回で送り、合計の予測と1回の測定で照合してください。範囲の両端と初期値を往復するコマンドのスクリプトを書き、各状態を期待値と照合してください。\n\n出力：編集できる設計の .json、再現用のコマンドの JSON、STEP、STL、等角と上面の画像、実測値と期待値の記録。報告では、タイムラインの error と warning、ボディの数、期待値との差、試した状態を書き、試していない値と、製造・強度・3Dプリントの品質を確かめていないことを分けてください。",
+  "video_note": "32秒・30fps・完全無音。縦720×1280と横1280×720は別配置です。3手順書・作者と制作担当・値/式/履歴・独立照合・実ファイルを同じ図でつなぎます。元の28秒紹介はlegacyへ保持し、CADや元推論を再実行していません。",
+  "video_source": "examples/solidcraft-example/video/index.html",
+  "skill_license": "examples/solidcraft-example/vendor/solidcraft/LICENSE-APACHE",
+  "applied_skills": [
+    {
+      "name": "solidcraft-modeling（SolidCraft 同梱のスキル）",
+      "source": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-modeling/SKILL.md",
+      "applied": "固定版の SKILL.md と reference.md を読んで組んだ。最初に inspect_design {measure:false, sketches:false} で空の headless のセッションであることを確かめ、作る前にパラメーター・配置・フィーチャー・体積と外接箱の期待値を計画書に書いた。部品は外形の底面の中心を原点にし、solid.box の center や寸法はすべて width・depth・height・wall・floor_thickness の式で与えた（数値のまま残したのは中心の0と、穴の工具の基点 z=-1 だけ）。reference.md のとおり solid.cylinder には operation を必ず付け、フィーチャーには TrayBlock・Pocket・DrainHole の一意の名前を付けた。外形・くぼみ・穴の3段を別々の batch で送り、各段のあと inspect_design と measure で体積・外接箱・重心を自分の計算と比べた（「ok と返っても、測定が合うまで成功ではない」）。円柱が切るのは平面だけで、reference.md の「プリミティブの Boolean は曲面に触れると失敗し得る」には当たらない。穴は対称の中心にあり重心では位置が分からないため、SKILL.md の指示どおり screenshot {source:model, view:top} の上面画像でも確かめた。最後に save と export で .json・STEP・STL を書き出した。"
+    },
+    {
+      "name": "solidcraft-editing（SolidCraft 同梱のスキル）",
+      "source": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-editing/SKILL.md",
+      "applied": "寸法の変更は、保存した初期の設計を作り直さず、width・depth・height・hole_diameter の parameters.change 4つを1回の batch にまとめて送った（resize.json）。SKILL.md の「予測してから1回だけ測る」に沿い、変更後の体積・表面積・重心・外接箱を式で予測し、1回の measure で照合した。体積の差は相対で約8×10⁻⁷で、目安の0.01 %に収まった。続けて inspect_design で3つのフィーチャーの error と warning が null であることを確かめ、内側に隠れる穴は上面の画像で見た。編集した設計は save で別名（tray-resized.json）に保存し、元の tray-default.json は上書きしていない。"
+    },
+    {
+      "name": "solidcraft-checking（SolidCraft 同梱のスキル）",
+      "source": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-checking/SKILL.md",
+      "applied": "手順1に沿って、各パラメーターのコメントに使える範囲を書き（SolidCraft は範囲を強制しない）、4つの寸法をお気に入りにした。罠6のとおり floor は式の関数名なので、底の厚さは floor_thickness とした。罠4に沿って穴の工具は z=-1 から始め、底面とくぼみの床を1 mmずつ突き抜けさせて、Boolean の再試行の警告が出ないようにした。範囲内で寸法が0になる式がないこと（罠1）も計画で確かめた。手順3の逐次ウォーク walk.json では、各寸法を上の端へ動かして初期値（下の端と同じ）へ戻し、最後に4つ同時に動かして戻す11状態の各所に document.inspect {measure:true} を置き、原典の run.py（FAIL・WARN・SKETCH の行は出なかった）と、templates/test_design.py を元に書いた期待値のチェッカー check_design.py の両方で実行した。許容差はテンプレートの REL=2e-4 と、罠5の重心・外接箱 1.5×10⁻⁴×寸法を実行前に決め、11状態すべてが合格した。解析的な期待値があるため、compare_step.py による STEP の厳密比較は行っていない。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824",
+      "applied": "解説動画のソースを、window.seek(秒)がその時刻の完成した画面だけを描く契約で書いた。motionConfig（28秒・30fps・1280×720・posterTime 12・audioEventsなし）、renderConfig の幅・高さ・FPS の反映（縦長では画像を上、文字を下に並べ直す）、フォント・../measurements.json の読み込みと検証・SolidCraft の実際のPNG 4枚のデコード（各1280×960）を待つ motionReady、書き出し中のプレビュー停止に従った。素材が欠けたら motionReady を失敗させ、代わりの図は描かない。寸法・体積・確認の件数・ファイル名は measurements.json から読み、上面の画像に重ねる丸と枠の位置も記録の画像の線の位置から求めた。画像は状態ごとに別々に収められているため、画像の大きさの変化を寸法の証拠として動かさず、数値で比べると画面に書いた。場面ごとに伝えることを1つにし、文字は24px以上、最後の場面は24.5秒までに止めて3.5秒読めるようにした。実際の28秒・1280×720・30fps・無音MP4、コンタクトシート、代表フレーム、連続フレームを確認した。16.8秒は異なる順序と新しいページで同じ画像になり、ブラウザーで28秒の終端まで再生した。同じ実行環境内の技術検査と制作担当の画面確認で、人の承認ではない。 visual-r1は新たな32秒の縦横無音構造紹介。31素材/4PNGを検証し、元28秒とは別に任意時刻・代表/連続フレーム・実MP4完走と出荷ソースの同環境62PNG一致を確認。元のCAD/CLI/推論/検査スイートは再実行していません。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "原典と実行する版を、別々に固定する",
+      "body": "参照資料はtangency-labs/solidcraft@16c49c3、実行は別に固定した公式0.11.1@b01b9689です。参照からビルドした実行ファイルではありません。同梱18資料は元CRLFを保持し、公式LFとはrawbytesが異なります。CRLFだけ正規化した内容/Gitblob一致を確認し、両LICENSEとNOTICEを残しました。"
+    },
+    {
+      "title": "依頼を寸法にし、先に計算する",
+      "body": "架空の依頼文から、名前付きの寸法 width・depth・height・hole_diameter と、固定の wall・floor_thickness（どちらも3 mm）を決めました。使える範囲はコメントに書いています。角を丸めない理想の形として、体積・表面積・重心・外接箱の式と期待値を、実行の前に expected.json に書きました。"
+    },
+    {
+      "title": "3段で作り、段ごとに測る",
+      "body": "外形・くぼみ・穴の3段を MCP の batch で送り、毎回 measure の値を期待値と比べました。穴の位置は重心では分からないため、上面の画像でも確かめています。等角と上面の画像を撮り、編集できる設計 .json・STEP・STL を保存しました。"
+    },
+    {
+      "title": "寸法を4つ、一度に変える",
+      "body": "保存した設計に parameters.change を4つまとめて1回だけ送り、150 × 90 × 24 mm・穴12 mm にしました。形は作り直していません。体積・重心・外接箱を1回の測定で予測と照合し、タイムラインに error と warning がないことを確かめてから、別名で保存しました。"
+    },
+    {
+      "title": "範囲の端を往復し、書き出しを開き直す",
+      "body": "各寸法を上の端へ動かして戻し、最後に4つ同時に動かして戻す11状態を確かめました。原典の run.py では失敗や警告の行が出ず、期待値のチェッカーでは11状態すべてが合格しています。保存した .json・STEP・STL は 0.11.1 で開き直してボディが1つであることを確かめ、上面の画像の線から穴の中心と壁の厚さも測っています。"
+    },
+    {
+      "title": "元の実出力を保ち、構造を大きな動く図へ",
+      "body": "元の2受領、44追跡ファイル、25MCP操作/3段階/4値変更/11端点順序と6形/6書出し開直しは保全し再実行していません。新しいOpus5.5は図と編集ソース8原本を執筆。制作担当の事実整理/可読性等の技術補正/描画/QA/包装は別に記録します。"
+    },
+    {
+      "title": "新しい図・編集・実動画を別に確認する",
+      "body": "320/375pxで2状態×3段階の全図と44px主操作、6原文、16表示条件、3破損と復旧、元4画像/キー操作/6保存要求と実STEP返却12850B一致を確認。31素材編集の縦横7場面と任意7.2秒、代表/連続contact、32秒縦横960f無音MP4の自然終端、出荷ソース62PNG一致を新しく確認しました。人の承認や製造試験ではありません。"
+    }
+  ],
+  "limitations": [
+    "作例のページは、制作時に保存した結果を見るためのものです。ページの中でCADやAIは動かず、寸法を入れて計算し直す機能もありません。",
+    "依頼・工房「よりみちラボ」・用途は架空です。",
+    "確かめたのは、保存した2つの状態と、範囲の端と初期値を往復した11状態（重なりを除くと6つの形）だけです。範囲の途中の値、ほかの組み合わせ、壁や底の厚さを変えた場合は試していません。",
+    "解析値との照合は、角を丸めない理想の形との比較です。SolidCraft は三角形に分けた形から測るため、わずかな差があります。STL の体積は解析値より約0.7〜1.1 mm³大きく出ます。",
+    "STEP と STL には寸法の式が残りません。寸法を変えられるのは .json の設計で、0.11.1 で開き直して確かめました。ほかの版で開けるかは確かめていません。",
+    "製造、強度、耐荷重、3Dプリントの品質、寸法精度、水はけは確かめていません。",
+    "画像は、AIの制作工程が見て確かめたもので、人による承認ではありません。画像は状態ごとにモデルへ合わせて収めているため、画像の大きさで寸法を比べることはできません。",
+    "実行したのは Windows x64 のポータブル版の、画面を持たない MCP サーバーとコマンドラインです。デスクトップアプリの画面での操作や、アプリにつなぐ使い方は試していません。",
+    "参照コミット 16c49c3 と実行したリリース 0.11.1 は別のものです。参照コミットからのビルドは試していません。",
+    "解説動画は音声なしです。",
+    "6部品は説明用整理です。新図は保存結果を読み、模式図をCAD実出力や内部計測として扱いません。",
+    "18同梱CRLF資料と公式LFは生bytesが異なり、CRLFだけ正規化した内容/Gitblobが一致。参照16c49c3と実行0.11.1/b01b9689は別固定です。",
+    "6値中4値を変更、壁/底3mmは固定。11端点順序/6種類の形だけで途中/全組合せ/壁底変更は未検証。範囲はコメントでCADが強制しません。",
+    "元PNGは各画像が個別に自動フィット。上面は底厚の証拠ではありません。JSONのみ式/履歴を保持し、STEP/STLは形状です。",
+    "実機iOS/Safari/VoiceOver、200%ズーム、人の審美的承認、意味/全入力/性能、クリップボード再取得は未確認。新図6保存要求と、別に取得した元STEP返却ファイルの一致を区別します。"
+  ],
+  "sources": [
+    {
+      "label": "SolidCraft のソース（tangency-labs/solidcraft、参照コミット）",
+      "url": "https://github.com/tangency-labs/solidcraft/tree/16c49c3e860a954e9f27309927d6848bcba9c607"
+    },
+    {
+      "label": "SolidCraft README（参照コミット）",
+      "url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/README.md"
+    },
+    {
+      "label": "solidcraft-modeling SKILL.md（参照コミット）",
+      "url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-modeling/SKILL.md"
+    },
+    {
+      "label": "solidcraft-editing SKILL.md（参照コミット）",
+      "url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-editing/SKILL.md"
+    },
+    {
+      "label": "solidcraft-checking SKILL.md（参照コミット）",
+      "url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/skills/solidcraft-checking/SKILL.md"
+    },
+    {
+      "label": "SolidCraft の MCP の説明 docs/mcp.md（参照コミット）",
+      "url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/docs/mcp.md"
+    },
+    {
+      "label": "SolidCraft 0.11.1 の公式リリース（実行した版、コミット b01b9689c8999a4415b4a6daaa2f8aae8a1a2f25）",
+      "url": "https://github.com/tangency-labs/solidcraft/releases/tag/v0.11.1"
+    },
+    {
+      "label": "SolidCraft LICENSE-APACHE（Apache-2.0 を選択、参照コミットから作例に同梱）",
+      "url": "examples/solidcraft-example/vendor/solidcraft/LICENSE-APACHE"
+    },
+    {
+      "label": "SolidCraft NOTICE（作例に同梱）",
+      "url": "examples/solidcraft-example/vendor/solidcraft/NOTICE"
+    },
+    {
+      "label": "実測値と確認の記録（measurements.json）",
+      "url": "examples/solidcraft-example/measurements.json"
+    },
+    {
+      "label": "Motion Reel（Studio Yebisu、MIT）",
+      "url": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824"
+    },
+    {
+      "label": "作例の再現手順（README）",
+      "url": "examples/solidcraft-example/README.md"
+    },
+    {
+      "label": "保全した元の実画像/実測ビューア",
+      "url": "examples/solidcraft-example/desk.html#tray-default"
+    },
+    {
+      "label": "新32秒の編集ソースと再現手順",
+      "url": "examples/solidcraft-example/visual-guide.md"
+    },
+    {
+      "label": "新しい図と映像の確認範囲",
+      "url": "examples/solidcraft-example/visual-verification.json"
+    }
+  ],
+  "license": "MIT",
+  "license_note": "この作例の画面構成・文言・依頼文・CADのコマンドと設計・書き出したファイルと画像・映像ソースは 八百万図AIツールボックス の独自制作で、MIT License です。vendor/solidcraft/ は SolidCraft（参照コミット 16c49c3）のファイルを変更せずに置いたもので、上流の MIT OR Apache-2.0 のうち Apache-2.0 を選んで再配布し、NOTICE を同梱しています（Copyright (c) 2026 SolidCraft contributors）。SolidCraft の本体は同梱していません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "catalog_entry": {
+    "id": "resource-solidcraft",
+    "name": "SolidCraft",
+    "tagline": "AIネイティブな3D CAD",
+    "category": "3d",
+    "kind": "CADツール",
+    "summary": "内蔵MCPサーバーを通して、AIエージェントが3Dモデルを作成・編集できるRust製のCADです。寸法や式を変えると形状を再計算でき、設計をJSONで保存したり、STEP・STLに書き出したりできます。",
+    "use_case": "寸法を変えられる部品や、形状をコード・エージェントから設計したいとき。",
+    "tags": [
+      "3D",
+      "素材",
+      "CADツール"
+    ],
+    "workflow": [
+      "寸法と形状の制約を決める",
+      "CAD操作やMCPでモデルを作る",
+      "寸法変更と書き出した形状を確認する"
+    ],
+    "requirements": [
+      "対応するデスクトップ版またはWeb環境",
+      "MCPを使う場合は接続できるAI環境"
+    ],
+    "license": "Apache-2.0",
+    "license_url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/LICENSE-APACHE",
+    "license_note": "Apache-2.0。読み込む形状・図面・外部素材の条件は別です。",
+    "source_url": "https://github.com/tangency-labs/solidcraft/tree/16c49c3e860a954e9f27309927d6848bcba9c607",
+    "guide_url": "case.html?id=solidcraft-example",
+    "example_url": "examples/solidcraft-example/index.html",
+    "image": "media/solidcraft-example.webp",
+    "readme_url": "https://github.com/tangency-labs/solidcraft/blob/16c49c3e860a954e9f27309927d6848bcba9c607/README.md",
+    "source_repository": "tangency-labs/solidcraft",
+    "source_commit": "16c49c3e860a954e9f27309927d6848bcba9c607",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。原典は確認時のコミットへ固定しています。作例の実行には、これとは別に固定した公式リリース0.11.1（Windows x64 のポータブル版）の headless MCP とコマンドラインを使い、作ったのは架空の小物トレー1つです。",
+    "prompt": "SolidCraft の原典（https://github.com/tangency-labs/solidcraft/tree/16c49c3e860a954e9f27309927d6848bcba9c607）を読んで、次を進めてください。\n幅、高さ、穴径を変えられる架空の小物トレーを作ってください。寸法を一度変更し、形状が追従することと出力形式を確認してください。\n入力、出力、実行した検証、未確認の点を記録してください。",
+    "verification_stage": "runtime-reviewed",
+    "verification": "元2受領/25実MCP/11端点順序/6実ファイルを保持しCADを再実行なし。新構造図と31素材編集/32秒縦横無音MP4、320/375px全図・主操作/失敗復旧/元4実PNG/6保存要求/返却STEP一致/出荷ソース62PNG一致を新規確認。人の承認・製造保証なし。",
+    "reviewed_on": "2026-10-19"
+  },
+  "updated_on": "2026-10-22",
+  "video_portrait": "media/solidcraft-example.mp4",
+  "video_landscape": "media/solidcraft-example-wide.mp4",
+  "poster_portrait": "media/solidcraft-example.webp",
+  "poster_landscape": "media/solidcraft-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/solidcraft-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/solidcraft-example-landscape-credited-ja-v3.mp4"
+}

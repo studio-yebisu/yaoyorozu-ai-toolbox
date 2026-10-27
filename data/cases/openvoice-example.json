@@ -192,7 +192,7 @@
     "原稿からの再合成は、固定版Irodori-TTSと別途準備した重み・依存を使います。重みとcacheは同梱しません。"
   ],
   "video_portrait": "media/openvoice-example.mp4",
-  "poster_portrait": "media/openvoice-example.webp",
+  "poster_portrait": "examples/openvoice-example/video/review/portrait/poster.png",
   "poster_landscape": "media/openvoice-example-wide.webp",
   "video_license": {
     "id": "LicenseRef-Yaoyorozu-Video-Credit",

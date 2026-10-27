@@ -1,0 +1,298 @@
+{
+  "id": "livetalking-example",
+  "title": "LiveTalking",
+  "title_lines": [
+    "音声に合わせて話すアバターを動かすエンジン"
+  ],
+  "category": "video",
+  "summary": "音声とアバターを組み合わせ、口元が声に合わせて動くデジタル人物を構成できます。音声入力、音声合成、アバターのモデル、出力先をつないで動かせます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/livetalking-example/index.html",
+  "video": "media/livetalking-example.mp4",
+  "poster": "media/livetalking-example.webp",
+  "skill": "examples/livetalking-example/vendor/livetalking/README.md",
+  "skill_label": "LiveTalking 原典のREADME・API とコード（ツールの一次資料・SKILL.mdではない）",
+  "skill_description": "lipku/LiveTalking の固定版にある README.md の原文と、docs/api.md・registry.py・avatars/base_avatar.py・avatars/musetalk_avatar.py などの原典のコードです。AIエージェント向けの手順書（SKILL.md）でも、ホスト型APIでも、1つのニューラルモデルでもありません。README は、複数のアバター方式・音声合成・WebRTC や仮想カメラでの配信まで含むアプリ全体を説明しています。この作例ではそのうち、MuseReal・WhisperASR・BaseAvatar のオフライン描画の範囲だけを使いました。作者AIはこのREADMEと原典のコードを読んで入力の準備・ランナー・ジョブを書き、実際に実行したのは制作担当です。実行したコードは examples/livetalking-example/prepare_input.py・run_example.py と、無改変の原典です。",
+  "samples": "examples/livetalking-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "同じ肖像1枚と2つの既存のWAV、返ったMP4とWAV",
+  "samples_intro": "input は、2つとも同じ肖像1枚・手動の枠とマスク・1回だけ作った共有の潜在と、それぞれの既存の英語WAV、実行の設定です。output は、原典の WebRTCOutput が押し出した画像と音を捕捉したPNGと16kHzのWAV、それを別の工程のFFmpegで包んだMP4、代表5枚のPNG、ランナーの記録を親の工程が包んだジョブのJSONです。2つは同じ1回の実行の2件で、文も長さも違うため、条件をそろえた比較ではありません。人の耳での聴取と見た目の承認は未確認です。",
+  "demo_description": "大きな構造図が主役です。「①何か・②渡す・③返る」で、同じ図の上の強調と動く印が変わり、原典のREADME・APIと依頼→作者AI 1体が準備・ランナー・ジョブを書く→制作担当が原典のPythonを別に実行→LiveTalkingエンジンの中で、肖像512が手動の枠で顔256になり、下半分を黒くした画像と全体の画像から共有の潜在を1回だけ作る道と、WAVが16kHzの20ms片になってWhisperの符号器の特徴になる道に分かれる→生の音の片は特徴にせず別の道を通る→潜在と特徴がU-Netで1回だけ合流してVAEが顔の部分を返す→顔の部分と生の音2片が組になる→待機のコマは元画像、声のコマはマスクで貼り戻して透かしを描きWebRTCOutputへ→Disk捕捉のPNGとWAV→MP4→再生・保存、の関係をひと続きで見られます。図の画像・波形・回数・コマの帯は実データで、片・格子・タイル・動く印は説明の形です。「戸締まりの声・電車の声」で保存済みの2本を読み替え、番号の付いた6つの部品で固定版の原典の8か所の該当行を読めます。図のすぐ下で、選んだ結果のMP4・出力WAV・ジョブのJSONと入力のPNG・WAVをそのまま保存でき、その下で実際のMP4（音つき）・入力と出力のWAV・肖像と準備した画像・代表5枚を見比べられます。",
+  "demo_note": "ページは保存済みの63ファイルを大きさとSHA-256で確かめ、原典の8引用の行、記録どうしのID・片とコマの並び・呼び出し回数・ハッシュ、PNGとWAVの形式、MP4の映像と音声のトラック（124コマ・4.96秒／136コマ・5.44秒、512×512、AAC 16kHz）も照合してから表示します。合わなければ図・動画・音声・保存を止め、理由と「もう一度確かめる」を出します。ブラウザーでは推論も合成もエンコードもしません。「戸締まりの声・電車の声」の切り替えは保存済みの結果を読むだけです。図の動きは構造の説明で、実際の処理時間ではありません。作者AI（Claude Opus 5.5）が準備・ランナー・ジョブと、ページ・映像のソースを書き、制作担当が原典を1回だけ実行しました。新しい図・ページ・編集ソース・無音紹介動画は、作者の執筆後に制作担当が実際に表示・描画・再生して確認しました。範囲は visual-verification.json に記録しています。人の聴取・同期精度・審美的承認、実機iOS/Safari/VoiceOver・200%拡大は未確認です。",
+  "request_intro": "同じ経路を、自分が使ってよい肖像と音声で試すときの依頼文です。手元でPythonとFFmpegを動かせるAIエージェントや開発者に渡してください。この作例のランナーは今回のファイルのハッシュと条件を照合して止まるので、そのままでは別の素材に使えません。",
+  "request": "LiveTalking（lipku/LiveTalking 固定コミット eaa2b91559a5c2ed6127e17728efd52b7c407a0d、Apache-2.0）の README・docs/api.md と、registry.py・avatars/base_avatar.py・avatars/musetalk_avatar.py・avatars/musetalk/models/vae.py・avatars/musetalk/whisper/audio2feature.py・streamout/webrtc.py を読み、利用権のある肖像1枚と短い音声ファイル1つで、MuseTalk の経路（MuseReal・WhisperASR・BaseAvatar）をオフラインで1回だけ動かし、実ファイルで確かめてください。app.py・HTTP サーバー・WebRTC の接続・RTMP・仮想カメラ・LLM・新しい TTS・声のクローン・文字起こし・Wav2Lip・UltraLight・ernerf・顔検出・顔の解析は使いません。\n\n準備：固定コミットのフルチェックアウトと、TMElyralab/MuseTalk @ 2bcb936e2fddb4d86db4c62fd45b387d0c061571・stabilityai/sd-vae-ft-mse @ 31f26fdeee1355a5c34592e401dd41e45d25a493・openai/whisper-tiny @ 169d4a4341b33bc18d8881c4b69c2e104e1cc0af の重み、Python 3.11 の CPU 専用環境と FFmpeg を用意し、ファイルのハッシュと版を記録する。元の画像と音声は書き換えない。顔の枠とマスクは手動で決めて別の PNG に保存し、枠の座標とマスクの規則を残す。八百万図AIツールボックス の作例の run_example.py を下敷きにするなら、そこにある入力のハッシュ・ジョブ・枠・マスク・捕捉の条件の照合を、自分の素材に合わせて見直して書き直す。\n\n実行：原典のコードは改変しない。registry で MuseReal を作り、put_audio_file で音声を渡し、原典の render・process_frames・WebRTCOutput の押し出しを、ネットワークのない受け手で捕捉する。共有の潜在は seed を決めて1回だけ作る。結果を見て選別や再試行をしない。\n\n記録：入力の片の数、先頭と末尾の待機の片、捕捉したコマ数、待機と貼り戻しのコマ数、Whisper 符号器・U-Net・VAE 復号の実際の呼び出し回数、捕捉の外へ出たコマ、MP4 と WAV のバイト数とハッシュ、ffprobe の結果を、互いに等しいと仮定せず別々に残す。ぼけや枠の境界などの見た目の限界は見えたまま書き、口と音の同期・自然さ・本人らしさ・リアルタイム性能は、実際に見て聞いて確かめるまで未確認と書く。\n",
+  "applied_skills": [
+    {
+      "name": "LiveTalking（lipku/LiveTalking）の原典README・API とコード",
+      "source": "https://github.com/lipku/LiveTalking/blob/eaa2b91559a5c2ed6127e17728efd52b7c407a0d/README.md",
+      "applied": "LiveTalkingは部品をつなぐPythonのエンジンで、README はAIが読む手順書（SKILL.md）ではなく、ツールの一次資料です。固定版の README・docs/api.md と、registry.py・avatars/base_avatar.py（put_audio_file・inference・process_frames）・avatars/musetalk_avatar.py（inference_batch・paste_back_frame）・avatars/musetalk/models/vae.py・avatars/musetalk/whisper/audio2feature.py・streamout/webrtc.py などを読み、実行の範囲を MuseReal・WhisperASR・BaseAvatar のオフライン描画に絞って、手動の枠とマスクの準備 prepare_input.py、原典の経路を順に動かして WebRTCOutput の押し出しを捕捉し記録する run_example.py、2件のジョブ inputs/jobs.json（既存の英語WAV 2本、fps 25・batch 4・seed 20261020）を書きました。制作担当が CPU・float32 で1回だけ実行し、呼び出し回数は Whisper 符号器 35/38・U-Net 30/33・VAE 復号 30/33、共有の潜在の VAE 符号化 2 でした。図の6つの部品は、これらの原典に基づく説明の整理で、公式の部品の区分ではありません。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824",
+      "applied": "時刻の契約（window.motionConfig・motionReady・seek(秒)・__MOTION_RENDER__・renderConfig の反映、audioEvents は空）に合わせて、作例ページと同じ app.js の照合・図の配置・描画で、無音32秒の編集用ソースを書きました。7つの場面それぞれに伝えること・入る状態・出る状態・動き・使うデータを storyboard.json に持たせ、縦と横は配置を作り直して描き、乱数・タイマー・前のコマの積算を使わずに任意の時刻を描けるようにしています。画像は照合した肖像・準備した顔とマスク・代表5枚の実際のPNGだけで、中間の顔は作りません。制作担当が320/375pxの2例×3段階12状態、6部品8引用、16表示条件、3破損停止/復旧、実MP4と入力/出力WAVの6自然終端、10保存要求と返却10ファイル（9種類）の全バイト一致、編集63素材/7場面/任意7.2秒/向き保持/ネイティブrange0.1秒/通常32秒、代表/連続/contact、縦横32秒960f無音MP4の全デコードと自然終端、出荷ソース62PNG一致と30/31秒静止を新しく確認しました。人の音声聴取・同期精度・審美的承認、実機iOS/Safari/VoiceOver、200%拡大、全入力/品質/性能は未確認です。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "声と顔の部品をつなぐ、Pythonのエンジン",
+      "body": "LiveTalking（lipku/LiveTalking 固定コミット eaa2b91）は、声の入力・アバターのモデル（MuseTalk・Wav2Lip など）・音声合成・出力口（WebRTC・仮想カメラなど）を名前で作ってつなぐ、手元で動くPythonのエンジンです。1つのニューラルモデル・ホスト型API・LLMのチーム・SKILL.mdではありません。この作例が使ったのは、その中の MuseReal・WhisperASR・BaseAvatar のオフライン描画だけです。"
+    },
+    {
+      "title": "作者AIがコードを書き、制作担当が別に1回だけ実行",
+      "body": "制作担当が原典・重み・範囲を選んで固定し、作者AI（1体）が固定版の README と原典のコードを読んで、手動の準備 prepare_input.py、ランナー run_example.py、2件のジョブ inputs/jobs.json、実装メモを書きました（第1段階の4ファイル）。作者は何も実行していません。制作担当が全177ファイルの checkout と、MuseTalk V1.5 の U-Net・SD VAE ft-mse・Whisper tiny の固定版の重みで、CPU・float32・4スレッドで1回だけ実行しました。原典のコードとモデルは改変していません。"
+    },
+    {
+      "title": "同じ肖像1枚と、既存の英語WAV 2本を渡す",
+      "body": "肖像は以前の LivePortrait 作例と同じバイトの512×512（《モナ・リザ》の複製画）で、手動の枠 [100, 40, 420, 360] を256の顔にし、下半分を黒くした画像と全体の画像から、VAE で共有の潜在（1×8×32×32）を seed 20261020 で1回だけ作りました（保存名 face256-upper-half-masked.png は逆の言い方のまま保全）。音声は以前の Chatterbox 作例の既存の英語WAV（4.64秒・5.16秒、24kHz）で、新しく合成・録音したものではありません。原典が16kHzに変換して320サンプル＝20msの片（232・258個）に分けます。"
+    },
+    {
+      "title": "顔の潜在と声の特徴がU-Netで合流し、生の音と組になる",
+      "body": "片は Whisper の符号器の隠れ状態（50×384/コマ）になり、文字起こしはしません。潜在と特徴が U-Net に入り、timestep 0 で1回だけ計算して VAE が顔の部分を返します（繰り返しのサンプラーなし）。生の音の片は別の道を通り、顔の部分と2片（40ms）ずつ結果の待ち行列で組になります。その後の process_frames が、待機のコマは元の画像、声のコマは手動マスクで貼り戻しを選び、透かしを描いて原典の WebRTCOutput へ渡します。受け手は制作担当の Disk捕捉で、接続や配信はありません。"
+    },
+    {
+      "title": "実際のMP4とWAVが返り、そのまま再生・保存して次に使う",
+      "body": "捕捉は124コマ・4.96秒（戸締まりの声）と136コマ・5.44秒（電車の声）で、先頭200msの待機と末尾の片を残したまま、別の工程の FFmpeg で H.264＋AAC の MP4（313,151 B・326,325 B）にしました。16kHzの WAV も別に保存しています。ページでは照合した実ファイルをそのまま再生・保存できます。この絵画と手動の枠・マスクの出力では下顔のぼけと四角い境界が見えます。使う前に、自分の目と耳で、口と音の同期・自然さ・本人らしさを確かめてください。"
+    }
+  ],
+  "limitations": [
+    "実行したのは MuseReal・WhisperASR・BaseAvatar のオフライン描画だけです。app.py・HTTP サーバー・WebRTC の接続（RTCPeerConnection）・RTMP・仮想カメラ、LLM・新しい TTS・声のクローン・文字起こし、Wav2Lip・UltraLight・ernerf、顔検出・顔の解析・MuseTalk の genavatar、ComfyUI は実行していません。原典の EdgeTTS は作られましたが、文は1つも渡していません。",
+    "入力の肖像は以前の LivePortrait 作例と同じバイトの《モナ・リザ》の複製画で、新しく作った肖像・人物の写真・録画ではありません。音声は以前の Chatterbox 作例の既存の英語出力で、今回の新しい TTS や録音ではありません。元の合成では Perth の透かしが入っていますが、この変換と圧縮の後の検出・頑健性は確かめていません。",
+    "手動の枠とマスクは入力の準備で、検出器や顔の解析は使っていません。この絵画・枠・マスクの出力では下顔のぼけと四角い境界が見えます（制作担当がコマ #0・#32 で確認、公開した代表 #31・#34 でも見えます）。出力はそのままで、美化・補間・再実行・選び直しはしていません。原因の証明や一般的な品質の順位づけではありません。",
+    "人の耳での聴取、口の動きと音の同期の正確さ、自然さ、本人らしさ、人による見た目の承認は確かめていません。MP4 や WAV が保存できることは同期の証拠ではありません。",
+    "捕捉したコマ数（124・136）、貼り戻しのコマ（116・129）と元画像のコマ（8・7）、U-Net の実際の呼び出し（30・33回、各4コマで予測252枚）は、それぞれ別に数えた値で、互いに等しいとは仮定していません。1コマ目（#0）は待機の元画像と透かしで、ニューラルの出力ではありません。各ジョブで捕捉の外へ16コマ・32片が押し出され、記録はしましたが MP4 には入れていません。",
+    "捕捉は原典の WebRTCOutput の受け手を Disk捕捉 にした有限の区間で、LiveTalking の新しい MP4 生成の API ではありません。リアルタイム性能・ネットワーク配信は確かめていません。時間（描画の開始から返るまで 394.5秒・432.4秒など）は CPU での1回の観測で、ベンチマークではありません。32秒の解説動画の時刻も、推論の時間ではありません。",
+    "outputs/results.json は制作担当が実行したランナーの測定の包装で、原典のネイティブな出力ではありません。outputs/default.json・second.json は、その該当ジョブを親の工程が包んだもので、新しい推論ではありません。実行のログは非公開に保管し、配布しません。",
+    "vendor/livetalking/ の27原典ファイルは、この限定した経路のランナーが照合する23パスをすべて含みます。アプリ全体ではありません。固定した3つのモデルの重み（11ファイル）、Python 3.11 の依存、FFmpeg は別に必要です。実制作では全177ファイルの checkout を使い、同梱部分からの再実行はしていません。ランナーは今回の入力のハッシュと条件を照合して止まるので、ほかの素材にはそのまま使えません。",
+    "第1段階のメモ・ランナー・診断PNGの保存名にある「upper-half-masked」は逆の言い方で、実際には下半分が黒くなります。原メモの「貼り戻し→待ち行列」の語順も逆です。ファイルは保全し、SOURCE-NOTES.md と新しい図で正しい流れを示しています。",
+    "図の6部品、片・格子・タイル・動く印は説明用で、公式の部品区分や内部活性ではありません。作者の執筆後に制作担当が新しい図・編集・無音映像を実際に表示・描画・再生して確認し、範囲を visual-verification.json に記録しました。人の承認・実機iOS/Safari/VoiceOver・200%拡大・全入力/品質/性能は未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "lipku/LiveTalking（固定コミット eaa2b91）",
+      "url": "https://github.com/lipku/LiveTalking/tree/eaa2b91559a5c2ed6127e17728efd52b7c407a0d"
+    },
+    {
+      "label": "LiveTalking 原典の README（固定版）",
+      "url": "https://github.com/lipku/LiveTalking/blob/eaa2b91559a5c2ed6127e17728efd52b7c407a0d/README.md"
+    },
+    {
+      "label": "LiveTalking の API 説明 docs/api.md（固定版）",
+      "url": "https://github.com/lipku/LiveTalking/blob/eaa2b91559a5c2ed6127e17728efd52b7c407a0d/docs/api.md"
+    },
+    {
+      "label": "部品を名前でつなぐ registry.py（固定版）",
+      "url": "https://github.com/lipku/LiveTalking/blob/eaa2b91559a5c2ed6127e17728efd52b7c407a0d/registry.py"
+    },
+    {
+      "label": "音の区切り・組・貼り戻し avatars/base_avatar.py（固定版）",
+      "url": "https://github.com/lipku/LiveTalking/blob/eaa2b91559a5c2ed6127e17728efd52b7c407a0d/avatars/base_avatar.py"
+    },
+    {
+      "label": "U-Net の1回の呼び出し avatars/musetalk_avatar.py（固定版）",
+      "url": "https://github.com/lipku/LiveTalking/blob/eaa2b91559a5c2ed6127e17728efd52b7c407a0d/avatars/musetalk_avatar.py"
+    },
+    {
+      "label": "VAE の半分のマスクと潜在 avatars/musetalk/models/vae.py（固定版）",
+      "url": "https://github.com/lipku/LiveTalking/blob/eaa2b91559a5c2ed6127e17728efd52b7c407a0d/avatars/musetalk/models/vae.py"
+    },
+    {
+      "label": "Whisper 符号器の特徴 avatars/musetalk/whisper/audio2feature.py（固定版）",
+      "url": "https://github.com/lipku/LiveTalking/blob/eaa2b91559a5c2ed6127e17728efd52b7c407a0d/avatars/musetalk/whisper/audio2feature.py"
+    },
+    {
+      "label": "LiveTalking の LICENSE（Apache-2.0・固定版）",
+      "url": "https://github.com/lipku/LiveTalking/blob/eaa2b91559a5c2ed6127e17728efd52b7c407a0d/LICENSE"
+    },
+    {
+      "label": "重み TMElyralab/MuseTalk（固定 2bcb936・MIT）",
+      "url": "https://huggingface.co/TMElyralab/MuseTalk/tree/2bcb936e2fddb4d86db4c62fd45b387d0c061571"
+    },
+    {
+      "label": "重み stabilityai/sd-vae-ft-mse（固定 31f26fd・MIT）",
+      "url": "https://huggingface.co/stabilityai/sd-vae-ft-mse/tree/31f26fdeee1355a5c34592e401dd41e45d25a493"
+    },
+    {
+      "label": "重み openai/whisper-tiny（固定 169d4a4・Apache-2.0）",
+      "url": "https://huggingface.co/openai/whisper-tiny/tree/169d4a4341b33bc18d8881c4b69c2e104e1cc0af"
+    },
+    {
+      "label": "実行したランナー run_example.py",
+      "url": "examples/livetalking-example/run_example.py"
+    },
+    {
+      "label": "手動の準備 prepare_input.py",
+      "url": "examples/livetalking-example/prepare_input.py"
+    },
+    {
+      "label": "実装メモ（作者AI・第1段階）",
+      "url": "examples/livetalking-example/implementation.md"
+    },
+    {
+      "label": "2件のジョブ",
+      "url": "examples/livetalking-example/inputs/jobs.json"
+    },
+    {
+      "label": "準備の記録",
+      "url": "examples/livetalking-example/inputs/prepared/preparation.json"
+    },
+    {
+      "label": "入力の肖像（512×512）",
+      "url": "examples/livetalking-example/inputs/portrait.png"
+    },
+    {
+      "label": "入力のWAV（戸締まりの声・既存）",
+      "url": "examples/livetalking-example/inputs/default.wav"
+    },
+    {
+      "label": "入力のWAV（電車の声・既存）",
+      "url": "examples/livetalking-example/inputs/second.wav"
+    },
+    {
+      "label": "返ったMP4（戸締まりの声）",
+      "url": "examples/livetalking-example/outputs/default/default.mp4"
+    },
+    {
+      "label": "返ったMP4（電車の声）",
+      "url": "examples/livetalking-example/outputs/second/second.mp4"
+    },
+    {
+      "label": "捕捉した16kHzのWAV（戸締まりの声）",
+      "url": "examples/livetalking-example/outputs/default/default-captured-16k.wav"
+    },
+    {
+      "label": "捕捉した16kHzのWAV（電車の声）",
+      "url": "examples/livetalking-example/outputs/second/second-captured-16k.wav"
+    },
+    {
+      "label": "ジョブの記録（戸締まりの声・親の工程が包んだもの）",
+      "url": "examples/livetalking-example/outputs/default.json"
+    },
+    {
+      "label": "ジョブの記録（電車の声・親の工程が包んだもの）",
+      "url": "examples/livetalking-example/outputs/second.json"
+    },
+    {
+      "label": "実測の記録（ランナーの測定の包装）",
+      "url": "examples/livetalking-example/outputs/results.json"
+    },
+    {
+      "label": "同梱した原典27ファイルの一覧",
+      "url": "examples/livetalking-example/UPSTREAM.json"
+    },
+    {
+      "label": "記録の言い違いと読み方（制作担当の追記）",
+      "url": "examples/livetalking-example/SOURCE-NOTES.md"
+    },
+    {
+      "label": "図の事実と原典の引用",
+      "url": "examples/livetalking-example/concept/facts.json"
+    },
+    {
+      "label": "確かめる63ファイルの一覧",
+      "url": "examples/livetalking-example/concept/manifest.json"
+    },
+    {
+      "label": "第三者の表示",
+      "url": "examples/livetalking-example/THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "label": "作例の README（役割・実行の範囲・再現の手順）",
+      "url": "examples/livetalking-example/README.md"
+    },
+    {
+      "label": "解説動画の絵コンテ",
+      "url": "examples/livetalking-example/video/storyboard.json"
+    },
+    {
+      "label": "編集ソースと実出力一式 ZIP（リポジトリのルート配置）",
+      "url": "examples/livetalking-example/source.zip"
+    },
+    {
+      "label": "新しい図・編集・無音動画の確認範囲",
+      "url": "examples/livetalking-example/visual-verification.json"
+    }
+  ],
+  "license": "Apache-2.0（LiveTalking のソース）／MIT（MuseTalk・SD VAE）・Apache-2.0（Whisper tiny のモデルカード）／パブリックドメインの絵画の複製（入力の肖像）／MIT（この作例）",
+  "license_note": "LiveTalking（lipku/LiveTalking）のソースは Apache License 2.0 で、固定版から選んだ27ファイルを LICENSE とともに vendor/livetalking/ に原文のまま置いています。原典の process_frames が描く「LiveTalking」の透かしは出力に残しています。重みは TMElyralab/MuseTalk（MIT、Copyright (c) 2024 Tencent Music Entertainment Group）、stabilityai/sd-vae-ft-mse（MIT のモデルカード）、openai/whisper-tiny（HF の変換版は Apache-2.0 のモデルカード、元の OpenAI Whisper の MIT 表示は MuseTalk の LICENSE 内）の固定版で、モデルカードだけを原文のまま同梱し、重みは配布していません。入力の肖像は以前の LivePortrait 作例と同じバイト（KlingAIResearch/LivePortrait の s9.jpg、レオナルド・ダ・ヴィンチ《モナ・リザ》の複製画、原作品はパブリックドメイン、原リポジトリは MIT）で、準備した顔と出力はそこからの派生です。入力の音声は以前の Chatterbox 作例（resemble-ai/chatterbox、MIT）の既存の出力と同じバイトです。Python・PyTorch・Diffusers・Transformers・OpenCV・FFmpeg などの依存はそれぞれのライセンスで別に入れたもので、同梱していません。ページ・図・文章・動画のソースは 八百万図AIツールボックス の制作（Claude Opus 5.5）で MIT です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "skill_license": "examples/livetalking-example/vendor/livetalking/LICENSE",
+  "video_note": "32秒・30fps・無音の構造図の動画です。縦720×1280と横1280×720を別配置で描きます。原典のREADMEと依頼が作者AIのコードになり、制作担当の1回の実行で、同じ肖像1枚が下半分を黒くした顔と全体の顔から1つの共有の潜在になり、既存のWAVが20ms片からWhisperの符号器の特徴になり、生の音は別の道をはっきり進み、U-Netで合流した顔の部分と組になって、待機は元画像・声は貼り戻しで、実際の代表コマとMP4から保存へ戻ります。画像は照合した肖像・準備した画像・代表5枚の実際のPNGだけで、波形・回数・コマの帯は実測値、片・格子・タイル・動く印は説明の形です。ナレーション・音声トラックはありません。実出力のMP4（AAC）とWAVの音は作例ページで別に聞けます。制作担当が320/375pxの2例×3段階12状態、6部品8引用、16表示条件、3破損停止/復旧、実MP4と入力/出力WAVの6自然終端、10保存要求と返却10ファイル（9種類）の全バイト一致、編集63素材/7場面/任意7.2秒/向き保持/ネイティブrange0.1秒/通常32秒、代表/連続/contact、縦横32秒960f無音MP4の全デコードと自然終端、出荷ソース62PNG一致と30/31秒静止を新しく確認しました。人の音声聴取・同期精度・審美的承認、実機iOS/Safari/VoiceOver、200%拡大、全入力/品質/性能は未確認です。",
+  "video_source": "examples/livetalking-example/video/index.html",
+  "updated_on": "2026-10-21",
+  "featured": false,
+  "verification_stage": "runtime-reviewed",
+  "runtime_review": {
+    "status": "original_runtime_and_fresh_visual_QA_complete",
+    "execution": "One operator run of prepare_input.py and run_example.py (authored by Opus 5.5 in phase 1, receipt fd11c54f, 4 files) calling the unchanged original LiveTalking MuseReal + WhisperASR + BaseAvatar offline render path from a full 177-file checkout at eaa2b91559a5c2ed6127e17728efd52b7c407a0d, with pinned MuseTalk V1.5 U-Net (TMElyralab/MuseTalk@2bcb936), SD VAE ft-mse (31f26fd) and Whisper tiny encoder (169d4a4) on CPU, float32, 4 threads, seed 20261020. The original WebRTCOutput was used with an offline DiskCaptureAdapter as its player; no network session. Outputs frozen at 2026-10-20T00:59:05Z; never rerun for the page or film.",
+    "results": "default: 124 captured frames / 248 chunks / 4.96 s; MP4 313,151 B (h264 High 512x512 25 fps + AAC LC 16 kHz mono); WAV 158,764 B; job JSON 78,232 B. second: 136 frames / 272 chunks / 5.44 s; MP4 326,325 B; WAV 174,124 B; job JSON 83,731 B. Prefix 10 zero chunks (200 ms) in both; tail 6 and 4 zero chunks. 260 captured frames = 245 pasted + 15 idle source frames; frame 0 is the idle source plus watermark, not a neural output.",
+    "independent_checks": "Recorded by the runner and the parent packaging: input chunks 232/258 bit-exact to the original 16 kHz resampled int16 inside the capture; Whisper encoder 35/38 calls, U-Net 30/33 and VAE decoder 30/33 (batch 4, 252 face predictions, some mixed-batch predictions unused), shared VAE encoder 2; 16 frames / 32 zero chunks pushed beyond each capture and excluded from the MP4; zero changed pixels outside the box; ffprobe decode of all streams. Operator interim visual note on frames 0 and 32: blurrier lower face and visible rectangular boundary. Human listening not performed. Later operator independent file reads verified177officialsource bytes, all260privatePNG/rawhashes and same public representatives, two MP4 full decodes and PCM/chunk flags; no resampler/model/encoder rerun.",
+    "screen_review": "制作担当が320/375pxの2例×3段階12状態、6部品8引用、16表示条件、3破損停止/復旧、実MP4と入力/出力WAVの6自然終端、10保存要求と返却10ファイル（9種類）の全バイト一致、編集63素材/7場面/任意7.2秒/向き保持/ネイティブrange0.1秒/通常32秒、代表/連続/contact、縦横32秒960f無音MP4の全デコードと自然終端、出荷ソース62PNG一致と30/31秒静止を新しく確認しました。人の音声聴取・同期精度・審美的承認、実機iOS/Safari/VoiceOver、200%拡大、全入力/品質/性能は未確認です。",
+    "video": "Two32s30fps960f silent MP4; original functional MP4 keeps AAC. Both native local ends observed, full decode/faststart and62sourcePNG exact. Human approval unverified.",
+    "human_approval": false,
+    "model_scope": "Opus 5.5 authored the phase-1 preparation/runner/jobs/implementation note and the phase-2 page, diagram, film source, READMEs, samples and article draft; no model, encoder or TTS was invoked for phase 2. The operator selected and pinned the source/weights/scope, ran the original path once and packaged the frozen facts, job JSON and SOURCE-NOTES. Inputs are the byte-identical prior Mona Lisa crop and prior Chatterbox WAVs, not newly generated."
+  },
+  "guide_url": "case.html?id=livetalking-example",
+  "catalog_entry": {
+    "id": "resource-livetalking",
+    "name": "LiveTalking",
+    "tagline": "音声に合わせて話すアバターを動かすエンジン",
+    "category": "video",
+    "kind": "ツール",
+    "summary": "音声とアバターを組み合わせ、口元が声に合わせて動くデジタル人物を構成できます。音声入力、音声合成、アバターのモデル、出力先をつないで動かせます。",
+    "use_case": "音声に合わせて口元が動くアバターを、どの部品がどうつながって動くのか確かめながら組み立てたいとき。",
+    "tags": [
+      "動画",
+      "アバター",
+      "ツール"
+    ],
+    "workflow": [
+      "使う人物素材と音声、アバター方式（MuseTalk など）と出力口を選び、固定版のチェックアウトと重みのハッシュを確かめる",
+      "原典の部品で音声を渡し、出力口が押し出す画像と音を捕捉して、コマ数・片・呼び出し回数を別々に記録する",
+      "口と音の同期、ぼけや境界、音、遅延を、実出力を自分の目と耳で確かめてから使う"
+    ],
+    "requirements": [
+      "選ぶアバター方式のモデルと実行環境（リアルタイム配信にはGPUが目安。作例のCPU実行は1回の観測で、性能の目安ではない）",
+      "利用権のある人物・音声素材と、配信するなら配信の設定",
+      "作例と同じ範囲なら、固定版の全checkout（同梱27資料はランナーの23必須パスを含む）、固定した3つのモデルの重み11ファイル、Python 3.11 のCPU環境、FFmpeg（LLM・TTS・顔検出は不要）"
+    ],
+    "license": "Apache-2.0",
+    "license_url": "https://github.com/lipku/LiveTalking/blob/eaa2b91559a5c2ed6127e17728efd52b7c407a0d/LICENSE",
+    "license_note": "本体コードはApache-2.0。選ぶアバターのモデル（作例ではMuseTalk・SD VAE・Whisper tiny）、TTS、人物や音声の素材の利用条件は別です。出力には原典の透かしが入ります。リアルタイム性能は環境依存で、この掲載では測っていません。",
+    "source_url": "https://github.com/lipku/LiveTalking/tree/eaa2b91559a5c2ed6127e17728efd52b7c407a0d",
+    "guide_url": "case.html?id=livetalking-example",
+    "readme_url": "https://github.com/lipku/LiveTalking/blob/eaa2b91559a5c2ed6127e17728efd52b7c407a0d/README.md",
+    "source_repository": "lipku/LiveTalking",
+    "source_commit": "eaa2b91559a5c2ed6127e17728efd52b7c407a0d",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。原典は確認時のコミットへ固定しています。作例では固定版の MuseReal・WhisperASR・BaseAvatar のオフライン描画だけを無改変で1回実行し、以前の作例と同じ肖像1枚と既存の英語WAV 2本から返った MP4 と WAV を保全しています。アプリ全体・WebRTCの接続・配信・リアルタイム性能・LLM・TTSは実行していません。",
+    "prompt": "LiveTalking（lipku/LiveTalking 固定コミット eaa2b91559a5c2ed6127e17728efd52b7c407a0d、Apache-2.0）の README・docs/api.md と、registry.py・avatars/base_avatar.py・avatars/musetalk_avatar.py・avatars/musetalk/models/vae.py・avatars/musetalk/whisper/audio2feature.py・streamout/webrtc.py を読み、利用権のある肖像1枚と短い音声ファイル1つで、MuseTalk の経路（MuseReal・WhisperASR・BaseAvatar）をオフラインで1回だけ動かし、実ファイルで確かめてください。app.py・HTTP サーバー・WebRTC の接続・RTMP・仮想カメラ・LLM・新しい TTS・声のクローン・文字起こし・Wav2Lip・UltraLight・ernerf・顔検出・顔の解析は使いません。\n\n準備：固定コミットのフルチェックアウトと、TMElyralab/MuseTalk @ 2bcb936e2fddb4d86db4c62fd45b387d0c061571・stabilityai/sd-vae-ft-mse @ 31f26fdeee1355a5c34592e401dd41e45d25a493・openai/whisper-tiny @ 169d4a4341b33bc18d8881c4b69c2e104e1cc0af の重み、Python 3.11 の CPU 専用環境と FFmpeg を用意し、ファイルのハッシュと版を記録する。元の画像と音声は書き換えない。顔の枠とマスクは手動で決めて別の PNG に保存し、枠の座標とマスクの規則を残す。八百万図AIツールボックス の作例の run_example.py を下敷きにするなら、そこにある入力のハッシュ・ジョブ・枠・マスク・捕捉の条件の照合を、自分の素材に合わせて見直して書き直す。\n\n実行：原典のコードは改変しない。registry で MuseReal を作り、put_audio_file で音声を渡し、原典の render・process_frames・WebRTCOutput の押し出しを、ネットワークのない受け手で捕捉する。共有の潜在は seed を決めて1回だけ作る。結果を見て選別や再試行をしない。\n\n記録：入力の片の数、先頭と末尾の待機の片、捕捉したコマ数、待機と貼り戻しのコマ数、Whisper 符号器・U-Net・VAE 復号の実際の呼び出し回数、捕捉の外へ出たコマ、MP4 と WAV のバイト数とハッシュ、ffprobe の結果を、互いに等しいと仮定せず別々に残す。ぼけや枠の境界などの見た目の限界は見えたまま書き、口と音の同期・自然さ・本人らしさ・リアルタイム性能は、実際に見て聞いて確かめるまで未確認と書く。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "原典の MuseReal・WhisperASR・BaseAvatar のオフライン描画だけを無改変で、固定した3つのモデルの重みとCPU・float32で1回実行（2026-10-20に固定）。既存の英語WAV 2本から、124コマ・4.96秒と136コマ・5.44秒の H.264＋AAC の MP4（313,151 B・326,325 B）と16kHzのWAVを捕捉し保全。入力の片のビット一致・呼び出し回数・捕捉の外のコマ・ffprobe はランナーと親の工程が記録。アプリ全体・WebRTCの接続・配信・リアルタイム性能・LLM・TTS・顔検出は未実行。新しい図/ページ/編集/無音紹介映像の制作担当による実検証は visual-verification.json。公開導線は別工程で確認する。人の聴取・同期の精度・審美的承認は未確認。",
+    "reviewed_on": "2026-10-20",
+    "example_url": "examples/livetalking-example/index.html",
+    "image": "media/livetalking-example.webp",
+    "updated_on": "2026-10-20"
+  },
+  "video_width": 720,
+  "video_height": 1280,
+  "video_landscape": "media/livetalking-example-wide.mp4",
+  "requirements": [
+    "閲覧・再生・試聴・保存はブラウザーだけで利用できます。推論・合成・エンコード・アップロード・API キーはありません。照合に SHA-256 を使うため、https か localhost で開きます。",
+    "同じ経路を自分で実行するには、固定版 LiveTalking のフルチェックアウト、固定した3つのモデルの重み（11ファイル・約3.9GB）、Python 3.11.15 のCPU専用環境（torch 2.6.0+cpu・diffusers 0.33.1・transformers 4.50.0 など）、FFmpeg を別に用意します。作例のランナーは今回の入力のハッシュと条件を照合して止まるので、ほかの素材では照合とジョブを見直して書き直します。手順は作例の README にあります。"
+  ],
+  "video_portrait": "media/livetalking-example.mp4",
+  "poster_portrait": "media/livetalking-example.webp",
+  "poster_landscape": "media/livetalking-example-wide.webp",
+  "video_download_portrait": "media/downloads/livetalking-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/livetalking-example-landscape-credited-ja-v3.mp4",
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  }
+}

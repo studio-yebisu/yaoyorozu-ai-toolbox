@@ -1,4 +1,4 @@
-// Yaoyorozu AI ToolBox synthetic existing TODO. MIT.
+// 八百万図AIツールボックス synthetic existing TODO. MIT.
 export function selectTasks(tasks, {status = 'all', cutoff = null} = {}) {
   return tasks.filter(task => status === 'all' || task.done === (status === 'done'));
 }

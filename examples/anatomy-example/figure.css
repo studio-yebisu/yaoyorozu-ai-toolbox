@@ -1,0 +1,62 @@
+/* 図の色。上流 iso.css の明るいテーマの上に、温かい紙の色と真鍮を重ねる。
+   ページ（.yb-paper の枠）と、単体SVG（.yb-figure に埋め込み）の両方で使う。 */
+.iso.yb-paper[data-theme="light"],
+.iso.yb-figure[data-theme="light"] {
+  --anatomy-page: #f2eee3;
+  --anatomy-card: #f7f4ec;
+  --anatomy-text: #3d3a33;
+  --anatomy-strong: #25241f;
+  --anatomy-muted: #6b665d;
+  --anatomy-paper: #f7f4ec;
+  --anatomy-face: #fffdf7;
+  --anatomy-top: #fbf8f0;
+  --anatomy-shade-0: #ddd6c6;
+  --anatomy-shade-1: #e6e0d2;
+  --anatomy-shade-2: #eee9dd;
+  --anatomy-shade-3: #f4f0e7;
+  --anatomy-lit-top: #fffdf7;
+  --anatomy-lit-shade: #ebe4d6;
+  --anatomy-hi: #25241f;
+  --anatomy-mid: #857f73;
+  --anatomy-lo: #b0a999;
+  --anatomy-faint: #d3ccbc;
+  --anatomy-lit: #25241f;
+  --anatomy-halo: #7d7363;
+  --anatomy-halo-opacity: .3;
+  --anatomy-dot: #3a362e;
+  --anatomy-mono: Consolas, "SF Mono", Menlo, ui-monospace, monospace;
+}
+
+/* 真鍮のトークン：数える対象なので、ここだけ材料の色を持つ */
+.yb-figure .iso-solid.yb-brass {
+  --anatomy-paper: #ead39b;
+  --anatomy-top: #f3e2b4;
+  --anatomy-shade-0: #c69f55;
+  --anatomy-shade-1: #d2af69;
+  --anatomy-shade-2: #ddbf80;
+  --anatomy-shade-3: #e7cd95;
+  --anatomy-hi: #5a4316;
+  --anatomy-lo: #9a7a3c;
+  --anatomy-faint: #c9a96a;
+}
+.yb-figure .yb-brass-line { stroke: #b08a45; }
+
+/* 送り出し中（もう数えない）トークンは縁を朱にする */
+.yb-figure .iso-solid.yb-spent > .iso-edge { stroke: #a54528; }
+
+/* 拒否の旗 */
+.yb-figure .yb-flag.is-up > .iso-fill { fill: #c4664a; }
+.yb-figure .yb-flag.is-up > .iso-top { fill: #cf7a5d; }
+.yb-figure .yb-flag.is-up > .iso-shade { fill: #a54528; }
+.yb-figure .yb-flag.is-up > .iso-edge { stroke: #6e2a16; }
+
+/* 開口・窓 */
+.yb-figure .yb-cavity { fill: #4a443a; stroke: none; }
+.yb-figure .yb-cavity-wall { fill: #6d6556; stroke: none; }
+.yb-figure .yb-cavity-wall[data-side="y"] { fill: #5c5548; }
+.yb-figure .yb-slot { fill: #5c5548; stroke: none; }
+.yb-figure .yb-window { fill: #2f2c26; stroke: none; }
+.yb-figure .yb-digit { fill: #f2d58f; font-family: var(--anatomy-mono); font-weight: 700; }
+
+/* 動画用：線を少し太く */
+.yb-figure.yb-film { --anatomy-weight: 1.1px; }

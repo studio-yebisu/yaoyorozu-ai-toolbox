@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LangGraph作例：申請を止めて、テスト回答で続きを動かす（28秒・無音の編集動画）｜八百万図AIツールボックス</title>
+  <meta name="description" content="架空の機材貸出申請が LangGraph のグラフで確認待ちに止まり、テスト回答で再開して終わるまでと、入力不足・差し戻しの分かれ方、保存したファイルの確かめ方を、保存済みの実行結果と実際の画面で説明する28秒・無音の編集動画です。">
+  <link rel="stylesheet" href="legacy.css">
+  <script type="module" src="legacy.js"></script>
+</head>
+<body>
+  <main class="page">
+    <header class="head">
+      <p class="eyebrow">LangGraph 作例 ／ 編集動画（28秒・無音）</p>
+      <h1>申請を止めて、テスト回答で続きを動かす</h1>
+      <p class="lede">保存済みの実行結果（<code>outputs/runs.json</code>）と、保存結果ビューアの実際のスクリーンショットを素材に編集した説明動画です。連続した画面録画ではありません。この画面は保存済みの素材を描くだけで、Python・LangGraph・AIは動きません。</p>
+    </header>
+
+    <div id="stage" class="stage">
+      <canvas id="film" width="1280" height="720" role="img" aria-label="LangGraphの作例を説明する28秒・無音の編集動画。保存済みの実行結果を読み込むと、内容の説明に置き換わります。">架空の機材貸出申請が確認待ちで止まり、テスト回答で再開して終わるまでを説明する編集動画です。表示にはCanvasに対応したブラウザーが必要です。</canvas>
+    </div>
+
+    <div class="controls">
+      <button id="play" type="button" aria-pressed="false" disabled>再生</button>
+      <input id="scrub" type="range" min="0" max="28" step="0.1" value="13.5" aria-label="再生位置（秒）" disabled>
+      <output id="time" for="scrub">13.5 / 28.0 秒</output>
+    </div>
+    <p id="status" class="status" role="status" aria-live="polite">素材を読み込んでいます…</p>
+    <noscript><p class="status">JavaScriptが無効のため、動画を描画できません。内容は <a href="../outputs/result.md">結果メモ（outputs/result.md）</a> で読めます。</p></noscript>
+
+    <ul class="links">
+      <li><a href="../index.html#approved">作例ページの「通常の申請」へ戻る</a></li>
+      <li><a href="../outputs/result.md">結果メモ（result.md）を開く</a></li>
+      <li><a href="../outputs/runs.json">実行結果（runs.json）を開く</a></li>
+    </ul>
+    <p class="credit">保存済みの実行結果をもとにした編集動画・無音。名前・催し・単価は架空、承認・差し戻しはスクリプトが渡したテスト値です。LangGraph 1.2.15（MIT License, © 2024 LangChain, Inc.）。映像の構成・文字・コード：© 2026 Studio Yebisu（MIT License）。</p>
+  </main>
+</body>
+</html>

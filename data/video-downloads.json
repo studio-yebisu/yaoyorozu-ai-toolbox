@@ -142,6 +142,34 @@
       "duration": 32.0
     },
     {
+      "case_id": "anatomy-example",
+      "orientation": "landscape",
+      "source": "media/anatomy-example-wide.mp4",
+      "source_sha256": "2ac334e28d9422630b6c47be8f2fe1e01285c531ce6c99db5cdfa5d40c5a28ef",
+      "path": "media/downloads/anatomy-example-landscape-credited-v4.mp4",
+      "sha256": "5ec1f059d1a47491452fdad3694f6497a56f05a87651509c2166fffaa4a5d4cf",
+      "spec": "credit-footer-english-v4",
+      "font_sha256": "704eada12961a27fd271f7d3b09e2066520e758390c1776744eff430fee30f6e",
+      "encoder": "libx264",
+      "width": 1280,
+      "height": 720,
+      "duration": 24.0
+    },
+    {
+      "case_id": "anatomy-example",
+      "orientation": "portrait",
+      "source": "media/anatomy-example.mp4",
+      "source_sha256": "db76515486d6eb56ff52480001c06e4bf850a172e15ceae3aae3fc1e694b8f34",
+      "path": "media/downloads/anatomy-example-portrait-credited-v4.mp4",
+      "sha256": "1c8f25134eedca8de2b101bc4aafce9a83bb6f14454a96d1037cfce86d77c68a",
+      "spec": "credit-footer-english-v4",
+      "font_sha256": "704eada12961a27fd271f7d3b09e2066520e758390c1776744eff430fee30f6e",
+      "encoder": "libx264",
+      "width": 720,
+      "height": 1280,
+      "duration": 24.0
+    },
+    {
       "case_id": "assetfurnace-example",
       "orientation": "landscape",
       "source": "media/assetfurnace-example-wide.mp4",
@@ -504,6 +532,34 @@
       "width": 720,
       "height": 1280,
       "duration": 32.0
+    },
+    {
+      "case_id": "graphify-example",
+      "orientation": "landscape",
+      "source": "media/graphify-example-wide.mp4",
+      "source_sha256": "0b30d6179b47aa08b98a6d60a5981c403166f11e62c471227c120c8b2783c6a4",
+      "path": "media/downloads/graphify-example-landscape-credited-v4.mp4",
+      "sha256": "d22dfe2df35fe39af6cd2d6ab40325d68b9b4c24746974b5ddc27a9fc57eb3ec",
+      "spec": "credit-footer-english-v4",
+      "font_sha256": "704eada12961a27fd271f7d3b09e2066520e758390c1776744eff430fee30f6e",
+      "encoder": "libx264",
+      "width": 1280,
+      "height": 720,
+      "duration": 24.0
+    },
+    {
+      "case_id": "graphify-example",
+      "orientation": "portrait",
+      "source": "media/graphify-example.mp4",
+      "source_sha256": "bc1a7f53c013f8cca29da32978bf33ebfb84fdecca8be3a9878fe47f8efc4597",
+      "path": "media/downloads/graphify-example-portrait-credited-v4.mp4",
+      "sha256": "acf60d4aea866d54e4b42c3bc8b5e48b2003b0cd2596b5db839722fdade493f6",
+      "spec": "credit-footer-english-v4",
+      "font_sha256": "704eada12961a27fd271f7d3b09e2066520e758390c1776744eff430fee30f6e",
+      "encoder": "libx264",
+      "width": 720,
+      "height": 1280,
+      "duration": 24.0
     },
     {
       "case_id": "hatchzip-example",
@@ -1204,6 +1260,34 @@
       "duration": 26.0
     },
     {
+      "case_id": "text-to-cad-example",
+      "orientation": "landscape",
+      "source": "media/text-to-cad-example-wide.mp4",
+      "source_sha256": "d0ac2e40864109424db492942cd89c77e0be143557056b9c387cff408c522cf5",
+      "path": "media/downloads/text-to-cad-example-landscape-credited-v4.mp4",
+      "sha256": "458830843a11bcb2408ae21e03fbf4b3d6b064e1e7dc18e2878b18fbd18811b7",
+      "spec": "credit-footer-english-v4",
+      "font_sha256": "704eada12961a27fd271f7d3b09e2066520e758390c1776744eff430fee30f6e",
+      "encoder": "libx264",
+      "width": 1280,
+      "height": 720,
+      "duration": 24.0
+    },
+    {
+      "case_id": "text-to-cad-example",
+      "orientation": "portrait",
+      "source": "media/text-to-cad-example.mp4",
+      "source_sha256": "b63da79301175f180f0e904c6c61b8454b5a2dda22804000629d8fe2368700aa",
+      "path": "media/downloads/text-to-cad-example-portrait-credited-v4.mp4",
+      "sha256": "a4dfc6e98d5f3a116400e19973bd650c17a302dc5dc7cba2cb7fd8b354ea15c5",
+      "spec": "credit-footer-english-v4",
+      "font_sha256": "704eada12961a27fd271f7d3b09e2066520e758390c1776744eff430fee30f6e",
+      "encoder": "libx264",
+      "width": 720,
+      "height": 1280,
+      "duration": 24.0
+    },
+    {
       "case_id": "train-llm-from-scratch-example",
       "orientation": "landscape",
       "source": "media/train-llm-from-scratch-example-wide.mp4",
@@ -1316,7 +1400,7 @@
       "duration": 32.0
     }
   ],
-  "updated_on": "2026-10-26",
+  "updated_on": "2026-10-27",
   "watermark": [
     "Yaoyorozu AI ToolBox",
     "@studio_yebisu"
@@ -1350,6 +1434,90 @@
       "width": 720,
       "height": 1280,
       "duration": 32.0
+    },
+    {
+      "case_id": "anatomy-example",
+      "orientation": "landscape",
+      "source": "media/anatomy-example-wide.mp4",
+      "source_sha256": "2ac334e28d9422630b6c47be8f2fe1e01285c531ce6c99db5cdfa5d40c5a28ef",
+      "path": "media/downloads/anatomy-example-landscape-credited-ja-v3.mp4",
+      "sha256": "327ede9d0664370919e65fe09491bc659d9ae90315ef1dffbba6e5d47a196ca6",
+      "spec": "credit-footer-japanese-brand-v3",
+      "font_sha256": "457b306f719a002f1d037b2a3942f2abfa8a55d7bb109bf8950341a3129adb46",
+      "encoder": "libx264",
+      "width": 1280,
+      "height": 720,
+      "duration": 24.0
+    },
+    {
+      "case_id": "anatomy-example",
+      "orientation": "portrait",
+      "source": "media/anatomy-example.mp4",
+      "source_sha256": "db76515486d6eb56ff52480001c06e4bf850a172e15ceae3aae3fc1e694b8f34",
+      "path": "media/downloads/anatomy-example-portrait-credited-ja-v3.mp4",
+      "sha256": "8f8267200160069aa2523385bff3d9b2af997988800df906b30a1d16fc147da2",
+      "spec": "credit-footer-japanese-brand-v3",
+      "font_sha256": "457b306f719a002f1d037b2a3942f2abfa8a55d7bb109bf8950341a3129adb46",
+      "encoder": "libx264",
+      "width": 720,
+      "height": 1280,
+      "duration": 24.0
+    },
+    {
+      "case_id": "graphify-example",
+      "orientation": "landscape",
+      "source": "media/graphify-example-wide.mp4",
+      "source_sha256": "0b30d6179b47aa08b98a6d60a5981c403166f11e62c471227c120c8b2783c6a4",
+      "path": "media/downloads/graphify-example-landscape-credited-ja-v3.mp4",
+      "sha256": "0845204aaefbf2c290c71848f56cbeafb7d10abd0bd1fae5f77e416002281ebe",
+      "spec": "credit-footer-japanese-brand-v3",
+      "font_sha256": "457b306f719a002f1d037b2a3942f2abfa8a55d7bb109bf8950341a3129adb46",
+      "encoder": "libx264",
+      "width": 1280,
+      "height": 720,
+      "duration": 24.0
+    },
+    {
+      "case_id": "graphify-example",
+      "orientation": "portrait",
+      "source": "media/graphify-example.mp4",
+      "source_sha256": "bc1a7f53c013f8cca29da32978bf33ebfb84fdecca8be3a9878fe47f8efc4597",
+      "path": "media/downloads/graphify-example-portrait-credited-ja-v3.mp4",
+      "sha256": "cc062fd4600c4468b8efe2ff87b9ad89c0b976237135ffa02200dbd347362feb",
+      "spec": "credit-footer-japanese-brand-v3",
+      "font_sha256": "457b306f719a002f1d037b2a3942f2abfa8a55d7bb109bf8950341a3129adb46",
+      "encoder": "libx264",
+      "width": 720,
+      "height": 1280,
+      "duration": 24.0
+    },
+    {
+      "case_id": "text-to-cad-example",
+      "orientation": "landscape",
+      "source": "media/text-to-cad-example-wide.mp4",
+      "source_sha256": "d0ac2e40864109424db492942cd89c77e0be143557056b9c387cff408c522cf5",
+      "path": "media/downloads/text-to-cad-example-landscape-credited-ja-v3.mp4",
+      "sha256": "82bc33862a814a16575d6f00494336d4ac4c76fc34772a0b27699e1972ea96aa",
+      "spec": "credit-footer-japanese-brand-v3",
+      "font_sha256": "457b306f719a002f1d037b2a3942f2abfa8a55d7bb109bf8950341a3129adb46",
+      "encoder": "libx264",
+      "width": 1280,
+      "height": 720,
+      "duration": 24.0
+    },
+    {
+      "case_id": "text-to-cad-example",
+      "orientation": "portrait",
+      "source": "media/text-to-cad-example.mp4",
+      "source_sha256": "b63da79301175f180f0e904c6c61b8454b5a2dda22804000629d8fe2368700aa",
+      "path": "media/downloads/text-to-cad-example-portrait-credited-ja-v3.mp4",
+      "sha256": "fe2c0493cc8b46e7ecdbc222a5e263d88e055f9d9d920c7048f093eac4cae1f1",
+      "spec": "credit-footer-japanese-brand-v3",
+      "font_sha256": "457b306f719a002f1d037b2a3942f2abfa8a55d7bb109bf8950341a3129adb46",
+      "encoder": "libx264",
+      "width": 720,
+      "height": 1280,
+      "duration": 24.0
     }
   ]
 }

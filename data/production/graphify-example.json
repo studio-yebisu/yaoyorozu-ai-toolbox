@@ -1,0 +1,389 @@
+{
+  "id": "graphify-example",
+  "verified_at": "2026-10-22T10:43:41.189538+00:00",
+  "model": {
+    "requested": "claude-opus-5-5",
+    "reported": [
+      "claude-opus-5-5"
+    ],
+    "receipts": [
+      {
+        "phase": "Japanese interactive demos, sample/proposal files, silent motion sources",
+        "receipt_sha256": "066d9d56d0bb7dad29136823e25a49bbd615568aca1094b0a94235fa06b3fa2f",
+        "execution_sha256": "271218d45e0458cadc2409ac6b5b63e070d1a26d0a040dffe93c08ccb78741d5",
+        "prompt_sha256": "3f92848fc23acde209857c1cdf2e2d0499d492b892c45475899c26ad359eab7a"
+      }
+    ],
+    "receipt_published": false,
+    "scope": "Opus authored scoped UI/diagrams/videos/proposal. Coordinator authored graph fixture/AST adapter and ran checks, renders, metadata assembly and packaging. Failed earlier API call had zero input/output tokens and is not a production receipt. Coordinator made two small QA corrections after authoring: rooted/shortened ruler ticks and reset per-frame Canvas state. Original versions retained privately."
+  },
+  "upstream": {
+    "repository": "Graphify-Labs/graphify",
+    "commit": "847a93f3cab5e2c82ea9170014b21cd2c52a4417",
+    "license": "Apache-2.0 plus retained MIT portions/NOTICE",
+    "files": [
+      {
+        "repo": "Graphify-Labs/graphify",
+        "path": "LICENSE",
+        "git_blob": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+        "public_path": "examples/graphify-example/vendor/graphify/LICENSE",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "git_blob_match": true
+      },
+      {
+        "repo": "Graphify-Labs/graphify",
+        "path": "LICENSE-MIT",
+        "git_blob": "b1d9746fb5c6c39fd502e2ebe432a12ad9a097f3",
+        "public_path": "examples/graphify-example/vendor/graphify/LICENSE-MIT",
+        "sha256": "36ecff6bbb97aca1be64e95f42538cf796adde5864edac583e620643c096931a",
+        "git_blob_match": true
+      },
+      {
+        "repo": "Graphify-Labs/graphify",
+        "path": "NOTICE",
+        "git_blob": "791bf88bb1e50572902dbbe9228153ea29846adf",
+        "public_path": "examples/graphify-example/vendor/graphify/NOTICE",
+        "sha256": "3448ea175bba09f6fed8a743000139fb4c7112de83f164355b5540b158576621",
+        "git_blob_match": true
+      },
+      {
+        "repo": "Graphify-Labs/graphify",
+        "path": "README.md",
+        "git_blob": "544af36d76762b66d8204bbd74254ba8377bda48",
+        "public_path": "examples/graphify-example/vendor/graphify/README.md",
+        "sha256": "b65a7f15565fbeac0b7be53d205e6c546ea81d5f19ecfe7d1922f8b38194c848",
+        "git_blob_match": true
+      },
+      {
+        "repo": "Graphify-Labs/graphify",
+        "path": "graphify/affected.py",
+        "git_blob": "b011f2756d57063c085e857d23b2a50ae6ce3f83",
+        "public_path": "examples/graphify-example/vendor/graphify/graphify/affected.py",
+        "sha256": "abde37fcc951a0a22e01bb1197861cac168ecb254d687e35053de5f671fe7dd2",
+        "git_blob_match": true
+      },
+      {
+        "repo": "Graphify-Labs/graphify",
+        "path": "graphify/analyze.py",
+        "git_blob": "5186538e16adcef405820b703e9f5040a7c6f7bb",
+        "public_path": "examples/graphify-example/vendor/graphify/graphify/analyze.py",
+        "sha256": "b52f25c4d021d025d8f6a9f36fad0927b81107d45f2e6216caa8142217568977",
+        "git_blob_match": true
+      },
+      {
+        "repo": "Graphify-Labs/graphify",
+        "path": "graphify/build.py",
+        "git_blob": "78e298fd7750df18cdd97ca87ec8f43e70803602",
+        "public_path": "examples/graphify-example/vendor/graphify/graphify/build.py",
+        "sha256": "f3f90ad1f8bc86b81847c2a65b79e0ea6abc43bc6879a2085673ce165ebeaed9",
+        "git_blob_match": true
+      },
+      {
+        "repo": "Graphify-Labs/graphify",
+        "path": "graphify/extract.py",
+        "git_blob": "0a6037d7d0c6f4891f695c781223132476abb458",
+        "public_path": "examples/graphify-example/vendor/graphify/graphify/extract.py",
+        "sha256": "62d4150876d03c8ad2ca4a9545f0c01fb7ef2938fcecc66ead3650ea9136a59b",
+        "git_blob_match": true
+      },
+      {
+        "repo": "Graphify-Labs/graphify",
+        "path": "graphify/ids.py",
+        "git_blob": "0143ee2d1a84b3bdabf3f9359a22bd4169d0bf35",
+        "public_path": "examples/graphify-example/vendor/graphify/graphify/ids.py",
+        "sha256": "d9befd67479a2e484e0fdb884cdbfd77ee0c96487970196abda68751d4e69e4e",
+        "git_blob_match": true
+      },
+      {
+        "repo": "Graphify-Labs/graphify",
+        "path": "pyproject.toml",
+        "git_blob": "b7d50f69e7b500603c66d7891b8be62e6331c2d1",
+        "public_path": "examples/graphify-example/vendor/graphify/pyproject.toml",
+        "sha256": "8bc9f7b14e3115220491978a3fd194e8035463730ee35e0d254795a357d47a46",
+        "git_blob_match": true
+      }
+    ]
+  },
+  "runtime": {
+    "status": "passed",
+    "sample_count": 3,
+    "scope": "Official affected.py load_graph/resolve_seed/affected_nodes/format_affected executed. Our stdlib AST adapter and manually authored documentation edges supply the input; full CLI/official extraction/LLM semantics/MCP not run.",
+    "result": {
+      "status": "passed",
+      "scope": "Only upstream load_graph / resolve_seed / affected_nodes / format_affected executed. Full Graphify CLI, tree-sitter extraction, semantic extraction and MCP were not run.",
+      "upstream_commit": "847a93f3cab5e2c82ea9170014b21cd2c52a4417",
+      "graph_origin": {
+        "calls": "Our stdlib AST adapter on three tiny Python files",
+        "references": "Manually authored document-to-function mapping, not automatic inference"
+      },
+      "seed": "shipping_fee",
+      "depth": 3,
+      "hits": [
+        {
+          "node_id": "checkout_total",
+          "depth": 1,
+          "via_relation": "calls",
+          "via_file": "fixture/checkout.py",
+          "via_location": "4"
+        },
+        {
+          "node_id": "delivery_estimate",
+          "depth": 1,
+          "via_relation": "calls",
+          "via_file": "fixture/estimate.py",
+          "via_location": "4"
+        },
+        {
+          "node_id": "shipping-policy.md",
+          "depth": 1,
+          "via_relation": "references",
+          "via_file": "fixture/shipping-policy.md",
+          "via_location": "2"
+        },
+        {
+          "node_id": "checkout-spec.md",
+          "depth": 2,
+          "via_relation": "references",
+          "via_file": "fixture/checkout-spec.md",
+          "via_location": "2"
+        },
+        {
+          "node_id": "estimate-spec.md",
+          "depth": 2,
+          "via_relation": "references",
+          "via_file": "fixture/estimate-spec.md",
+          "via_location": "2"
+        }
+      ],
+      "formatted": "Affected nodes for shipping_fee\nRelations: calls, indirect_call, references, imports, imports_from, dynamic_import, re_exports, inherits, extends, implements, uses, mixes_in, embeds, defines, requires\nDepth: 3\n- checkout_total [calls] fixture/checkout.py:4\n- delivery_estimate [calls] fixture/estimate.py:4\n- shipping-policy.md [references] fixture/shipping-policy.md:2\n- checkout-spec.md [references] fixture/checkout-spec.md:2\n- estimate-spec.md [references] fixture/estimate-spec.md:2",
+      "fixture_runs": [
+        {
+          "subtotal_yen": 3999,
+          "shipping_yen": 650,
+          "total_yen": 4649
+        },
+        {
+          "subtotal_yen": 4000,
+          "shipping_yen": 0,
+          "total_yen": 4000
+        },
+        {
+          "subtotal_yen": 5000,
+          "shipping_yen": 0,
+          "total_yen": 5000
+        }
+      ],
+      "node_count": 6,
+      "edge_count": 5
+    }
+  },
+  "video": {
+    "status": "rendered-and-frame-reviewed",
+    "orientations": {
+      "landscape": {
+        "video": {
+          "file": "video.mp4",
+          "sha256": "0b30d6179b47aa08b98a6d60a5981c403166f11e62c471227c120c8b2783c6a4",
+          "width": 1280,
+          "height": 720,
+          "fps": 30,
+          "frameCount": 720,
+          "duration": 24,
+          "hasAudio": false
+        },
+        "determinism": {
+          "frame": 432,
+          "seconds": 14.4,
+          "first": "1d703abcd67f298fe789ae44f17f0cd6abf22b8c1b21ce456fbccd974c6ac671",
+          "afterOtherTimes": "1d703abcd67f298fe789ae44f17f0cd6abf22b8c1b21ce456fbccd974c6ac671",
+          "freshPage": "1d703abcd67f298fe789ae44f17f0cd6abf22b8c1b21ce456fbccd974c6ac671",
+          "match": true
+        },
+        "errors": []
+      },
+      "portrait": {
+        "video": {
+          "file": "video.mp4",
+          "sha256": "bc1a7f53c013f8cca29da32978bf33ebfb84fdecca8be3a9878fe47f8efc4597",
+          "width": 720,
+          "height": 1280,
+          "fps": 30,
+          "frameCount": 720,
+          "duration": 24,
+          "hasAudio": false
+        },
+        "determinism": {
+          "frame": 432,
+          "seconds": 14.4,
+          "first": "b4aa4ae2fe6f338bf36652c25b20481c1983ae6d5e7474c7401ed7f410849d90",
+          "afterOtherTimes": "b4aa4ae2fe6f338bf36652c25b20481c1983ae6d5e7474c7401ed7f410849d90",
+          "freshPage": "b4aa4ae2fe6f338bf36652c25b20481c1983ae6d5e7474c7401ed7f410849d90",
+          "match": true
+        },
+        "errors": []
+      }
+    },
+    "audio": "No audio tracks. Silent diagram explanation.",
+    "review": "Representative contacts and consecutive frames checked by the agent; technical browser playback is recorded separately. No human approval or real iOS device test."
+  },
+  "momentum": {
+    "source": "https://www.skillleaderboard.com/",
+    "as_of": "2026-10-21",
+    "scope": "repository",
+    "third_party": true,
+    "not_current_total": true
+  },
+  "artifacts_sha256": {
+    "examples/graphify-example/app.js": "93b5063b88fef6f619b747509f585af576f04d5505b138063657ad07adce5d91",
+    "examples/graphify-example/fixture/checkout-spec.md": "82263e7f38002a79b8bb0c404ae1cbf4b03671c3a1f8eaf9f440a3fe1b50b701",
+    "examples/graphify-example/fixture/checkout.py": "2e91af2bd2925d9ab0d8413f4ac21f621e16f4b6b004d0a1d4ddb537b1f3be84",
+    "examples/graphify-example/fixture/estimate-spec.md": "4477274c795939efbdd356fd051fd37ead787e8b1c33fa68b57336fff8a6216b",
+    "examples/graphify-example/fixture/estimate.py": "4b3a6b5a95f46e2b43e612109346c13f4b9e91a5add5041d2d5ffbac6604e8c8",
+    "examples/graphify-example/fixture/shipping-policy.md": "45cfc8fb9ed574180ccdce1d90b1cf3245763456abf5c7adca3a03389267ea3f",
+    "examples/graphify-example/fixture/shipping.py": "23dff0eb1d40356380cb75d2b6674af6decd39f4c246fb523e23423b57b255cb",
+    "examples/graphify-example/graph-data.mjs": "e77df30a35f793d17e23c626b52a2bd1ee9fdba4274ed01bbd5239f50f4f86e2",
+    "examples/graphify-example/index.html": "9304fff581fc607403c9835da130452d5539abaea6e0c12764240d89045f36a1",
+    "examples/graphify-example/LICENSE": "b9983d3664ba1f525f0f39874b6579fafce25636f8b7b1e7cfcae8c32c6745eb",
+    "examples/graphify-example/MEDIA-LICENSE.md": "e89dcf032112b1ed503e8e43dfb238b6090f92cad0179081b4e0e8bbb861294c",
+    "examples/graphify-example/outputs/affected.txt": "0236bd4023e0a04a67932af5d34f9d8883e42b58d5a0028c2c376521aee55df8",
+    "examples/graphify-example/outputs/graph.json": "89c0fb976d2fc45e7e1f1618e719cf8dcaccc15eeb6d3a070319a9afeb7df826",
+    "examples/graphify-example/outputs/result.json": "0248796cfff86e9fe8fa80432e6add6411f4c92559d644e49650722e6ce50505",
+    "examples/graphify-example/README.md": "22044823eabab3bc76c0a71c404087fc2620ac847d4056d9a9cb996dbd60dfa0",
+    "examples/graphify-example/request.txt": "71ccf5443d705cdb5c9e1da4af9a3a65276c4fc434783507184625e948effc9d",
+    "examples/graphify-example/run.py": "c6f28ed1cba9ba950f8d154108b7eead13d8718453038117dcde09179fc71a31",
+    "examples/graphify-example/samples.json": "ca0dac9abfa5cf40b24d56137ca6868c162839700e5dd4aa837611559f0cb883",
+    "examples/graphify-example/source.zip": "e1af924723745ac5e7b3ad93bcec0bd5a2a9d91841b9d2a9345abebd662999c9",
+    "examples/graphify-example/style.css": "52bd7663bcf663c5d6be2c7ad1d3e0792058c3d1b729b04cff56614b9304c823",
+    "examples/graphify-example/vendor/graphify/graphify/affected.py": "abde37fcc951a0a22e01bb1197861cac168ecb254d687e35053de5f671fe7dd2",
+    "examples/graphify-example/vendor/graphify/graphify/analyze.py": "b52f25c4d021d025d8f6a9f36fad0927b81107d45f2e6216caa8142217568977",
+    "examples/graphify-example/vendor/graphify/graphify/build.py": "f3f90ad1f8bc86b81847c2a65b79e0ea6abc43bc6879a2085673ce165ebeaed9",
+    "examples/graphify-example/vendor/graphify/graphify/extract.py": "62d4150876d03c8ad2ca4a9545f0c01fb7ef2938fcecc66ead3650ea9136a59b",
+    "examples/graphify-example/vendor/graphify/graphify/ids.py": "d9befd67479a2e484e0fdb884cdbfd77ee0c96487970196abda68751d4e69e4e",
+    "examples/graphify-example/vendor/graphify/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "examples/graphify-example/vendor/graphify/LICENSE-MIT": "36ecff6bbb97aca1be64e95f42538cf796adde5864edac583e620643c096931a",
+    "examples/graphify-example/vendor/graphify/NOTICE": "3448ea175bba09f6fed8a743000139fb4c7112de83f164355b5540b158576621",
+    "examples/graphify-example/vendor/graphify/pyproject.toml": "8bc9f7b14e3115220491978a3fd194e8035463730ee35e0d254795a357d47a46",
+    "examples/graphify-example/vendor/graphify/README.md": "b65a7f15565fbeac0b7be53d205e6c546ea81d5f19ecfe7d1922f8b38194c848",
+    "examples/graphify-example/vendor/graphify/source.json": "087a727df03388fc2f660505a188b917bf3c9a75586a8567e4959af7577e8a29",
+    "examples/graphify-example/VERIFICATION.json": "73adb085c07825221991e1dd614c302d4aec20eed5c0eeb9394dcf275c398cec",
+    "examples/graphify-example/video/index.html": "fd19f912201e8c697a2b66ec4fd5cb6d571d0418d522cb0796e4c5a7312029b4",
+    "examples/graphify-example/video/scene.js": "99bf9a5a4ec66f021964ff766dbd37d840b4cd3143d2bb22e7a728101b9cd017",
+    "examples/graphify-example/video/video.css": "1432fe81b38cd6daa6e4fbc70392d2bdd882724e44036f7a3443d9df9804c852",
+    "media/graphify-example.mp4": "bc1a7f53c013f8cca29da32978bf33ebfb84fdecca8be3a9878fe47f8efc4597",
+    "media/graphify-example.webp": "12eda068b50c7abb787ad3145fce75842e653451d8694f2121814ba8541de1b7",
+    "media/graphify-example-wide.mp4": "0b30d6179b47aa08b98a6d60a5981c403166f11e62c471227c120c8b2783c6a4",
+    "media/graphify-example-wide.webp": "d660be6a80c11654a8062547aec13cd3c3c52b4e2acfa9be434a8d15e3a68966"
+  },
+  "publication": {
+    "status": "local-only",
+    "deployed": false,
+    "pushed": false,
+    "merged": false
+  },
+  "verification": {
+    "date": "2026-10-22",
+    "ui": {
+      "status": "passed",
+      "checks": [
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "saved_graph": "6 nodes/5 edges",
+          "affected": "5 total /2 code-call relations",
+          "three_manual_doc_snippets": "passed",
+          "keyboard": "passed",
+          "external_requests": [],
+          "page_errors": [],
+          "overflow": false
+        },
+        {
+          "viewport": [
+            1280,
+            900
+          ],
+          "saved_graph": "6 nodes/5 edges",
+          "affected": "5 total /2 code-call relations",
+          "three_manual_doc_snippets": "passed",
+          "keyboard": "passed",
+          "external_requests": [],
+          "page_errors": [],
+          "overflow": false
+        }
+      ]
+    },
+    "cad_runtime": "not-applicable",
+    "human_approval": false,
+    "real_ios_device": false,
+    "runtime": {
+      "status": "passed",
+      "scope": "Only upstream load_graph / resolve_seed / affected_nodes / format_affected executed. Full Graphify CLI, tree-sitter extraction, semantic extraction and MCP were not run.",
+      "upstream_commit": "847a93f3cab5e2c82ea9170014b21cd2c52a4417",
+      "graph_origin": {
+        "calls": "Our stdlib AST adapter on three tiny Python files",
+        "references": "Manually authored document-to-function mapping, not automatic inference"
+      },
+      "seed": "shipping_fee",
+      "depth": 3,
+      "hits": [
+        {
+          "node_id": "checkout_total",
+          "depth": 1,
+          "via_relation": "calls",
+          "via_file": "fixture/checkout.py",
+          "via_location": "4"
+        },
+        {
+          "node_id": "delivery_estimate",
+          "depth": 1,
+          "via_relation": "calls",
+          "via_file": "fixture/estimate.py",
+          "via_location": "4"
+        },
+        {
+          "node_id": "shipping-policy.md",
+          "depth": 1,
+          "via_relation": "references",
+          "via_file": "fixture/shipping-policy.md",
+          "via_location": "2"
+        },
+        {
+          "node_id": "checkout-spec.md",
+          "depth": 2,
+          "via_relation": "references",
+          "via_file": "fixture/checkout-spec.md",
+          "via_location": "2"
+        },
+        {
+          "node_id": "estimate-spec.md",
+          "depth": 2,
+          "via_relation": "references",
+          "via_file": "fixture/estimate-spec.md",
+          "via_location": "2"
+        }
+      ],
+      "formatted": "Affected nodes for shipping_fee\nRelations: calls, indirect_call, references, imports, imports_from, dynamic_import, re_exports, inherits, extends, implements, uses, mixes_in, embeds, defines, requires\nDepth: 3\n- checkout_total [calls] fixture/checkout.py:4\n- delivery_estimate [calls] fixture/estimate.py:4\n- shipping-policy.md [references] fixture/shipping-policy.md:2\n- checkout-spec.md [references] fixture/checkout-spec.md:2\n- estimate-spec.md [references] fixture/estimate-spec.md:2",
+      "fixture_runs": [
+        {
+          "subtotal_yen": 3999,
+          "shipping_yen": 650,
+          "total_yen": 4649
+        },
+        {
+          "subtotal_yen": 4000,
+          "shipping_yen": 0,
+          "total_yen": 4000
+        },
+        {
+          "subtotal_yen": 5000,
+          "shipping_yen": 0,
+          "total_yen": 5000
+        }
+      ],
+      "node_count": 6,
+      "edge_count": 5
+    },
+    "qa_corrections": []
+  }
+}

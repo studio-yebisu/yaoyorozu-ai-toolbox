@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ja" data-state="loading">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <title>Make Interfaces Feel Better：画面の3か所を、理由つきで直す｜八百万図AIツールボックス</title>
+  <meta name="description" content="Make Interfaces Feel Better はAIが読むUI細部の指針（Markdown）です。SKILL.mdと依頼文と今の画面を渡すと、主な操作の3か所に印が付き、同じ画面が直り、同じ入力から同じJSONが出ることを1枚の図で見せます。">
+  <link rel="stylesheet" href="concept.css?v=visual-r1">
+  <script type="module" src="concept.js?v=visual-r1"></script>
+</head>
+<body class="mi">
+  <main>
+    <section class="mi-hero" aria-labelledby="if-title">
+      <header class="mi-head">
+        <h1 id="if-title">Make Interfaces Feel Better</h1>
+        <p class="mi-line">AIが読むUI細部の指針。画面を渡すと、直す場所と理由が返る</p>
+      </header>
+
+      <div class="mi-cases" role="group" aria-label="保存した見本を選ぶ">
+        <button type="button" data-case="all" aria-pressed="true" disabled><b>3件</b> all</button>
+        <button type="button" data-case="two" aria-pressed="false" disabled><b>2件</b> two</button>
+        <button type="button" data-case="one" aria-pressed="false" disabled><b>1件</b> one</button>
+      </div>
+
+      <figure class="mi-map">
+        <canvas id="concept-map" data-layout="portrait" role="img" aria-label="Make Interfaces Feel Betterの構造図。SKILL.md（19原則と5つの参照：文字、面と操作範囲、動き、アイコン、性能）と依頼文と今の納品メモ画面を、元のAIが一度読む。元のAIが書いたレビューと修正を、制作担当が3群に整理して示す。1は押せる範囲で、16pxのチェックだけから行全体と見えるフォーカスへ。2は数字と状態で、件数と時間を等幅の升に固定する。3は押下と手渡しで、押下0.86から0.96、色だけの完了からアイコンと『ブラウザーへ渡しました』へ。枠線の影への置換、見出しのbalance、macOSの平滑化は変えない3案。画面の下では clips.json と export.mjs が変わらない帯でつながり、同じJSONファイルが出る。実際の確認は制作担当の別工程。" aria-describedby="map-summary"></canvas>
+        <figcaption class="mi-readout">
+          <output id="case-meta" class="mi-meta"></output>
+          <span id="load-status" class="mi-status" role="status" aria-live="polite">読み込み中</span>
+          <button type="button" id="retry" class="mi-btn" hidden disabled>もう一度読み込む</button>
+        </figcaption>
+      </figure>
+
+      <div class="mi-stages" role="group" aria-label="図を段階で見る">
+        <button type="button" data-stage="0" aria-pressed="false" disabled>渡す</button>
+        <button type="button" data-stage="1" aria-pressed="false" disabled>見て直す</button>
+        <button type="button" data-stage="2" aria-pressed="false" disabled>使う</button>
+        <button type="button" id="replay" aria-label="図の動きをもう一度（AIは動きません）" disabled><span aria-hidden="true">↻</span></button>
+      </div>
+      <div class="mi-groups" role="group" aria-label="3つの変化を見る">
+        <button type="button" data-group="area" aria-pressed="false" disabled><i>1</i>押せる範囲</button>
+        <button type="button" data-group="numbers" aria-pressed="false" disabled><i>2</i>数字</button>
+        <button type="button" data-group="button" aria-pressed="false" disabled><i>3</i>押下</button>
+      </div>
+      <p id="phase-note" class="mi-note" aria-live="polite"></p>
+
+      <div class="mi-primary">
+        <button type="button" id="save-record" class="mi-btn mi-btn-primary" disabled>このJSONを保存</button>
+        <a id="open-desk" class="mi-btn" href="desk.html#all" data-asset-link="desk.html#all">元の画面で試す</a>
+      </div>
+      <p id="save-status" class="mi-save" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="mi-section" aria-labelledby="what-title">
+      <h2 id="what-title">このスキルは何か</h2>
+      <p>Make Interfaces Feel Better は、UIの細部（文字、面と操作範囲、動き、アイコン、性能）を見直すための、AIが読む Markdown の指針です。1つの SKILL.md に19の原則があり、5つの参照ファイルが続きます。UIを動かすAPIでも、自動の検出器でも、モデルでも、5つの自動AIでもありません。</p>
+      <h3>図の流れ</h3>
+      <ol class="mi-steps" id="map-summary">
+        <li data-step="0"><b>渡す</b>　固定版の SKILL.md と5参照、依頼文（対象の画面、主な操作、今の作り方、変えないデータと出力の契約、quick で上限3群）、そして今の納品メモ画面のファイルを、元の制作で Claude Opus 5.5 が一度読みました。</li>
+        <li data-step="1"><b>見て直す</b>　元のAIは主な操作と頻度の高い状態だけを対象に（quick）、場所と理由を組にしたレビューと、同じ画面の直したHTML・plain CSS・JSを書きました。図の3群は、関連する10行を制作担当が整理したものです。変えない判断も3つ残しています。</li>
+        <li data-step="2"><b>使う</b>　直した画面も、修正前と同じ clips.json と export.mjs を使います。選んだカットから同じJSONファイルを作り、ブラウザーへ渡します。実際の操作とダウンロードの確認は、制作担当が別の工程で行いました。</li>
+      </ol>
+      <h3>3つの変化</h3>
+      <ul class="mi-notes">
+        <li><b>1 押せる範囲（HIGH）</b>　修正前は16pxのチェックボックスだけが押せて、フォーカス表示も消していました。修正後は行全体をネイティブの label にし、重ならない44px以上（指針の基準）と見えるフォーカスにしました。元の確認では行82px以上を観察しています。図の長さは説明用で、実寸ではありません。</li>
+        <li><b>2 数字と状態（MEDIUM）</b>　件数と時間を tabular-nums と幅の予約で固定し、0件の理由と「すべて選ぶ」、読み込み失敗からの再読み込みを加えました。</li>
+        <li><b>3 押下と手渡し（HIGH）</b>　押したときの縮みを0.86から0.96へ、transition: all をやめて指定した補間へ。色だけだった完了を、アイコンと「ブラウザーへ渡しました」の文言で示します。これはブラウザーへ渡した事実までで、ディスクへの保存完了ではありません。</li>
+      </ul>
+      <p class="mi-actors"><b>AIが書いた範囲</b>　元の Opus 5.5 がレビューと直した画面を書きました（シェルやブラウザーは実行していません）。<b>制作担当の範囲</b>　架空の入力3件と修正前の画面と export.mjs を用意し、関連する10行を内容を省かずに3群へまとめ、頻繁な選択での完了アイコンの即時復帰などを補正し、Nodeの8条件と実ブラウザー・実ダウンロードを確かめました。<b>このページ</b>　同じ入力で元の export.mjs を実際に呼び、保存した出力と照合するだけです。モデルは呼ばず、元のレビューや確認をやり直していません。</p>
+    </section>
+
+    <section class="mi-section" aria-labelledby="parts-title">
+      <h2 id="parts-title">中身を6つに分けて見る</h2>
+      <p class="mi-small">6つは説明のための整理で、原典の共通の形式ではありません。押すと図の該当箇所が光ります。</p>
+      <div class="mi-parts" role="group" aria-label="6つの部品">
+        <button type="button" data-part="scope" aria-pressed="false" disabled>既存の作り方を保つ<span>scope</span></button>
+        <button type="button" data-part="references" aria-pressed="false" disabled>5つの観点を引く<span>Quick Reference</span></button>
+        <button type="button" data-part="quick" aria-pressed="false" disabled>範囲を絞って読む<span>quick</span></button>
+        <button type="button" data-part="findings" aria-pressed="false" disabled>場所と理由を組に<span>Findings</span></button>
+        <button type="button" data-part="rejected" aria-pressed="false" disabled>変えない判断も残す<span>Rejected</span></button>
+        <button type="button" data-part="verify" aria-pressed="false" disabled>実操作を別に確かめる<span>Verification</span></button>
+      </div>
+      <div class="mi-part" aria-live="polite">
+        <h3 id="part-label"></h3>
+        <p id="part-meaning"></p>
+        <blockquote lang="en"><p id="part-quote"></p></blockquote>
+        <p class="mi-src">原典 <a id="part-source" rel="noreferrer"></a><br>手元 <a id="part-local"></a></p>
+      </div>
+      <p class="mi-small">5つの参照：<a href="vendor/make-interfaces-feel-better/skills/make-interfaces-feel-better/typography.md" data-asset-link="vendor/make-interfaces-feel-better/skills/make-interfaces-feel-better/typography.md">文字</a>・<a href="vendor/make-interfaces-feel-better/skills/make-interfaces-feel-better/surfaces.md" data-asset-link="vendor/make-interfaces-feel-better/skills/make-interfaces-feel-better/surfaces.md">面と操作範囲</a>・<a href="vendor/make-interfaces-feel-better/skills/make-interfaces-feel-better/animations.md" data-asset-link="vendor/make-interfaces-feel-better/skills/make-interfaces-feel-better/animations.md">動き</a>・<a href="vendor/make-interfaces-feel-better/skills/make-interfaces-feel-better/icons.md" data-asset-link="vendor/make-interfaces-feel-better/skills/make-interfaces-feel-better/icons.md">アイコン</a>・<a href="vendor/make-interfaces-feel-better/skills/make-interfaces-feel-better/performance.md" data-asset-link="vendor/make-interfaces-feel-better/skills/make-interfaces-feel-better/performance.md">性能</a>。今回の対象経路で見た範囲は5分類とも <a href="review.md" data-asset-link="review.md">review.md</a> に記録されています。</p>
+    </section>
+
+    <section class="mi-section" aria-labelledby="record-title">
+      <h2 id="record-title">返ってくるもの：本物のJSON</h2>
+      <p class="mi-small">「このJSONを保存」は、このページが元の export.mjs の serializeExport を実際に呼んで作った文字列を、ブラウザーへダウンロードとして渡します。渡す前に、保存済みの出力ファイルと1バイトずつ一致することを確かめています。アップロード・動画変換・モデル呼び出し・設定の保存はありません。</p>
+      <details class="mi-details">
+        <summary>選んだ見本のJSON全文を読む</summary>
+        <p class="mi-small"><code id="record-name"></code></p>
+        <pre id="record-content" class="mi-record" tabindex="0"></pre>
+      </details>
+      <ul class="mi-files">
+        <li><a href="outputs/all.json" download="all.json" data-asset-link="outputs/all.json">保存した元のファイル all</a> <span>3件・560B</span></li>
+        <li><a href="outputs/two.json" download="two.json" data-asset-link="outputs/two.json">保存した元のファイル two</a> <span>2件・399B</span></li>
+        <li><a href="outputs/one.json" download="one.json" data-asset-link="outputs/one.json">保存した元のファイル one</a> <span>1件・252B</span></li>
+        <li><a href="outputs/no-notes.json" download="no-notes.json" data-asset-link="outputs/no-notes.json">メモなし・全3件（別の元ファイル）</a> <span>370B</span></li>
+      </ul>
+      <p class="mi-small">3つの見本はどれも「制作メモを含める」がオンで、入力の順のままです。0件は元の画面でも書き出せず、理由を表示します。任意の選択・0件・メモなし・書き出しは、元の画面で試せます：<a href="desk.html#all" data-asset-link="desk.html#all">#all</a>・<a href="desk.html#two" data-asset-link="desk.html#two">#two</a>・<a href="desk.html#one" data-asset-link="desk.html#one">#one</a>・<a href="before/desk.html" data-asset-link="before/desk.html">修正前の画面</a>。</p>
+    </section>
+
+    <section class="mi-section" aria-labelledby="request-title">
+      <h2 id="request-title">同じように頼む</h2>
+      <p class="mi-small">元の制作で使った依頼文（request.txt）です。［］の中を自分の画面に書き換えて使えます。</p>
+      <label class="mi-label" for="request-text">依頼文（読み取り専用）</label>
+      <textarea id="request-text" class="mi-request" readonly rows="8" spellcheck="false"></textarea>
+      <div class="mi-row">
+        <button type="button" id="copy-request" class="mi-btn" disabled>依頼文をコピー</button>
+        <a class="mi-link" href="request.txt" download="request.txt" data-asset-link="request.txt">request.txt を保存</a>
+        <p id="copy-status" class="mi-small" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="mi-section" aria-labelledby="film-title">
+      <h2 id="film-title">32秒の図解動画（無音）</h2>
+      <video id="film-portrait" class="mi-film" src="../../media/make-interfaces-feel-better-example.mp4" poster="../../media/make-interfaces-feel-better-example.webp" width="720" height="1280" controls muted playsinline preload="none" aria-label="Make Interfaces Feel Betterの32秒・無音の図解動画（縦長）"></video>
+      <details class="mi-details">
+        <summary>横長版（1280×720・32秒・無音）</summary>
+        <video id="film-wide" class="mi-film mi-film-wide" src="../../media/make-interfaces-feel-better-example-wide.mp4" width="1280" height="720" controls muted playsinline preload="none" aria-label="Make Interfaces Feel Betterの32秒・無音の図解動画（横長）"></video>
+      </details>
+      <p class="mi-small">上の図と同じ構造が動く図解で、音声・ナレーションはありません。図の動きは説明のための再現で、動画の中でAIやレビューを新しく動かしていません。数値とJSONの大きさは、元の export.mjs で計算し保存済みの出力と一致した値です。</p>
+      <p class="mi-small"><a href="video/index.html">動画のソース</a>　<a href="video/legacy.html">以前の28秒の動画のソース</a></p>
+    </section>
+
+    <section class="mi-section" aria-labelledby="scope-title">
+      <h2 id="scope-title">この作例の範囲</h2>
+      <ul class="mi-notes">
+        <li><b>入力は作例用</b>　修正前の画面は、八百万図AIツールボックス が操作範囲・フォーカス・状態の課題を含めて作った依頼用の画面です。第三者の製品や誰かのアプリではありません。3件のカットは架空のメタ情報で、映像素材ではありません。</li>
+        <li><b>quick の範囲</b>　原典の quick は主な操作と頻度の高い状態だけ、HIGH/MEDIUM のみで上限5件。今回の依頼はさらに上限3群です。full の15件や全画面を調べたものではありません。</li>
+        <li><b>保ったもの</b>　スタイルの方式・配色・書体・文言・ページ構成、clips.json と export.mjs の入出力。別のスタイル方式や新しい依存は足していません。</li>
+        <li><b>元の確認</b>　Animationsパネルでの10%再生は使えず、遷移時間を10倍にした私的なコピーで代わりに観察しました。準備中・object URLの失敗・HTTP 503 は条件を作った制御試験で、通常の待ち時間や失敗率ではありません。このページはそれらを再実行しません。</li>
+        <li><b>まだ確かめていないこと</b>　実機のiOS/Safari、VoiceOver、macOS、ブラウザーの200%拡大、人による承認、一般的な使いやすさや品質。元のレビューの Approve は限定範囲のエージェントによる確認で、人の承認・アクセシビリティの認証・効果の大きさの証拠ではありません。</li>
+        <li><b>このページがしていること</b>　開くたびに、固定した34件の大きさとSHA-256、6つの引用の行、19原則と5参照、3群・3見本・7枚の実画面の記録を確かめ、元の export.mjs で3見本・メモなし・0件の拒否を計算して保存済みの出力と照合します。合わないときは図もJSONも出さずに止まります。HTTPS か localhost で開いてください。</li>
+      </ul>
+    </section>
+
+    <section class="mi-section" aria-labelledby="files-title">
+      <h2 id="files-title">ファイル</h2>
+      <ul class="mi-files">
+        <li><a href="desk.html#all" data-asset-link="desk.html#all">直した元の画面</a> <span>desk.html</span></li>
+        <li><a href="before/desk.html" data-asset-link="before/desk.html">修正前の元の画面</a> <span>before/desk.html</span></li>
+        <li><a href="review.md" data-asset-link="review.md">quick レビュー</a> <span>review.md</span></li>
+        <li><a href="input.md" data-asset-link="input.md">元の依頼</a> <span>input.md</span></li>
+        <li><a href="clips.json" data-asset-link="clips.json">架空の入力3件</a> <span>clips.json</span></li>
+        <li><a href="export.mjs" data-asset-link="export.mjs">変えていない書き出し関数</a> <span>export.mjs</span></li>
+        <li><a href="samples.json" data-asset-link="samples.json">3見本の入力と出力</a> <span>samples.json</span></li>
+        <li><a href="verification.json" data-asset-link="verification.json">元の確認記録</a> <span>verification.json・validation.json</span></li>
+      </ul>
+      <details class="mi-details">
+        <summary>元の実画面（7枚・補足の証拠）</summary>
+        <ul class="mi-files">
+          <li><a href="assets/before.png" data-asset-link="assets/before.png">修正前・3件</a></li>
+          <li><a href="assets/after-all.png" data-asset-link="assets/after-all.png">修正後・3件</a></li>
+          <li><a href="assets/after-two.png" data-asset-link="assets/after-two.png">修正後・2件</a></li>
+          <li><a href="assets/after-focus.png" data-asset-link="assets/after-focus.png">キーボードフォーカス</a></li>
+          <li><a href="assets/after-empty.png" data-asset-link="assets/after-empty.png">0件の理由と復帰</a></li>
+          <li><a href="assets/after-handoff.png" data-asset-link="assets/after-handoff.png">ブラウザーへ渡した後</a></li>
+          <li><a href="assets/after-mobile.png" data-asset-link="assets/after-mobile.png">320px幅</a></li>
+        </ul>
+      </details>
+    </section>
+  </main>
+
+  <footer class="mi-footer">
+    <p>原典は <a href="https://github.com/jakubkrehel/make-interfaces-feel-better/tree/35545ea1512ad59fa463e6b1f95ca9c052981fe6" rel="noreferrer">jakubkrehel/make-interfaces-feel-better</a>（固定コミット 35545ea）、MIT License © 2026 Jakub Krehel。<a href="vendor/make-interfaces-feel-better/LICENSE">LICENSE</a>・<a href="vendor/make-interfaces-feel-better/README.md">README</a>・<a href="vendor/make-interfaces-feel-better/skills/make-interfaces-feel-better/SKILL.md">SKILL.md</a> を変えずに残しています。</p>
+    <p>作例のコード・文章・データ・図：MIT License（Copyright (c) 2026 Studio Yebisu）。この作例は原典の作者と関係ありません。</p>
+  </footer>
+</body>
+</html>

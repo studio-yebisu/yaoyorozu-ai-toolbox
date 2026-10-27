@@ -1,0 +1,366 @@
+/* 八百万図AIツールボックス — OpenVoice 声色変換の作例。MIT License, Copyright (c) 2026 Studio Yebisu.
+   スマホを基準にした1枚の図。広い画面では図を大きくするだけ。外部フォント・CDN は使わない。 */
+
+:root {
+  color-scheme: light;
+  --paper: #f5f3eb;
+  --card: #fffdf6;
+  --ink: #252c2a;
+  --muted: #646a63;
+  --rule: #dcdfd4;
+  --line: #a6aba1;
+  --purple: #8581ee;
+  --peach: #f7a86e;
+  --pink: #e5a5b2;
+  --green: #51a696;
+  --deep: #325c50;
+  --error: #9c2f1d;
+  --gutter-l: max(18px, env(safe-area-inset-left));
+  --gutter-r: max(18px, env(safe-area-inset-right));
+  font-family: system-ui, -apple-system, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+body {
+  margin: 0;
+  padding: 0 var(--gutter-r) env(safe-area-inset-bottom) var(--gutter-l);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+a { color: inherit; text-underline-offset: 0.2em; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; color: inherit; touch-action: manipulation; cursor: pointer; }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+button:focus-visible, a:focus-visible, summary:focus-visible, textarea:focus-visible {
+  outline: 3px solid #6a65cd;
+  outline-offset: 4px;
+}
+
+/* --- 見出し（図を最初の画面に入れるため、短く） ------------------------------------ */
+
+.brand {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-top: env(safe-area-inset-top);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 52px;
+}
+.brand a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.13em;
+  text-decoration: none;
+}
+.brand span { font-size: 11px; letter-spacing: 0.12em; color: var(--muted); white-space: nowrap; }
+
+main { max-width: 1120px; margin: 0 auto; }
+.intro, .experience { min-width: 0; }
+
+.eyebrow { margin: 2px 0 0; font-size: 12px; letter-spacing: 0.16em; color: var(--muted); }
+.intro h1 {
+  margin: 4px 0 6px;
+  font-size: clamp(34px, 9.6vw, 46px);
+  line-height: 1.14;
+  letter-spacing: -0.045em;
+  font-weight: 780;
+}
+.intro h1 br, .lead br { display: none; }
+.lead { margin: 0 0 12px; font-size: 15px; line-height: 1.6; color: #565e58; }
+
+.choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid #d3d5cb;
+  border-radius: 99px;
+  background: transparent;
+  font-size: 16px;
+  transition: transform 150ms ease;
+}
+.choice[aria-pressed="true"] { border-color: var(--ink); background: var(--card); box-shadow: 0 2px 0 #252c2a12; }
+.choice:active:not(:disabled) { transform: scale(0.97); }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--peach); }
+.dot.sayaka { background: var(--pink); }
+
+.case-note { margin: 8px 0 0; font-size: 13px; line-height: 1.6; color: var(--ink); }
+.case-note a { display: inline-flex; align-items: center; min-height: 44px; }
+.scope { margin: 8px 0 4px; font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
+
+/* --- 図 ----------------------------------------------------------------------------- */
+
+.diagram {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 360 / 468;
+  margin: 4px auto 0;
+}
+.connections { display: block; width: 100%; height: 100%; overflow: visible; }
+.connector { fill: none; stroke: var(--line); stroke-width: 1.3; stroke-linecap: round; }
+.process-ring { stroke: #dedbd0; }
+.blend { mix-blend-mode: multiply; transition: transform 0.35s, fill 0.35s; }
+.blend-a { fill: var(--purple); }
+.blend-b { fill: var(--peach); }
+.diagram[data-tone="sayaka"] .blend-b { fill: var(--pink); }
+.diagram[data-playing="output"] .blend-a { transform: translateX(3px); }
+.diagram[data-playing="output"] .blend-b { transform: translateX(-3px); }
+.process-label { fill: #565e58; font-size: 12px; letter-spacing: 0.06em; font-weight: 650; }
+
+.flow { fill: none; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 7 100; opacity: 0; }
+.flow-a { stroke: var(--purple); }
+.flow-b { stroke: var(--peach); }
+.diagram[data-tone="sayaka"] .flow-b { stroke: var(--pink); }
+.flow-out { stroke: var(--green); }
+.diagram[data-playing="source"] .flow-a,
+.diagram[data-playing="reference"] .flow-b,
+.diagram[data-playing="output"] .flow-out { opacity: 1; animation: flow 2.4s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -107; } }
+
+.sound-node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  background: none;
+  text-align: center;
+  transition: transform 150ms ease;
+}
+.sound-node:active:not(:disabled) { transform: scale(0.98); }
+.sound-node:disabled { opacity: 0.55; }
+.source { left: 1.5%; top: 0; width: 45%; height: 30%; }
+.reference { right: 1.5%; top: 0; width: 45%; height: 30%; }
+
+.node-art {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 65%;
+  border-radius: 31px;
+  transition: background 0.25s, box-shadow 0.2s;
+}
+.source-art { background: #e7e4f8; }
+.reference-art { background: #f8e4d4; }
+.diagram[data-tone="sayaka"] .reference-art { background: #f4dee3; }
+.sound-node[aria-pressed="true"] .node-art { box-shadow: inset 0 0 0 2px #252c2a55; }
+.node-art .wave { width: 86%; height: 70%; }
+
+.play-icon {
+  position: absolute;
+  right: 8px;
+  bottom: 9px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding-left: 1px;
+  border-radius: 50%;
+  background: #ffffffdb;
+  box-shadow: 0 1px 5px #00000010;
+  font-size: 10px;
+}
+.node-label { margin-top: 8px; font-size: 15px; line-height: 1.5; font-weight: 680; }
+.node-caption { font-size: 13px; line-height: 1.4; color: var(--muted); }
+.plus { position: absolute; top: 10%; left: 47%; font-size: 17px; line-height: 1; color: var(--line); }
+
+.output {
+  left: 1.5%;
+  bottom: 1%;
+  width: 97%;
+  height: 29%;
+  padding: 14px 18px;
+  align-items: stretch;
+  border-radius: 24px;
+  background: #deebe3;
+}
+.output[aria-pressed="true"] { box-shadow: inset 0 0 0 2px #325c5066; }
+.output-heading { display: flex; align-items: center; justify-content: space-between; font-size: 16px; font-weight: 700; }
+.duration { font-size: 12px; font-weight: 400; color: #5d7368; font-variant-numeric: tabular-nums; }
+.output-art { display: flex; align-items: center; gap: 15px; height: 58px; margin: 1px 0; }
+.output-art .wave { display: block; min-width: 0; width: calc(100% - 59px); height: 100%; }
+.output-play {
+  position: static;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  padding-left: 3px;
+  background: var(--deep);
+  color: #fff;
+  font-size: 14px;
+}
+.output-note { font-size: 12px; line-height: 1.5; color: #4a6358; text-align: left; }
+
+/* 波形：記録の実測 RMS。再生中は再生した分だけ濃くする。 */
+.wave { overflow: visible; }
+.wave-empty { stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 4; }
+.sound-node[aria-pressed="true"] .bars-base { opacity: 0.3; }
+
+/* --- 状態と操作 --------------------------------------------------------------------- */
+
+.status { min-height: 22px; margin: 8px 0 4px; font-size: 13px; text-align: center; color: var(--muted); }
+.status[data-state="error"] { color: var(--error); font-size: 15px; }
+.retry {
+  display: block;
+  min-height: 44px;
+  margin: 6px auto;
+  padding: 6px 18px;
+  border: 1px solid #c9ccc0;
+  border-radius: 22px;
+  background: var(--card);
+  font-size: 16px;
+}
+.result-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 28px; }
+.result-actions > * {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 4px;
+  border: 0;
+  background: none;
+  color: #3f5a4e;
+  font-size: 14px;
+  text-decoration: none;
+}
+.save[aria-disabled="true"] { opacity: 0.4; cursor: not-allowed; }
+.save:not([aria-disabled="true"]) { font-weight: 650; }
+
+/* --- 折りたたみ ---------------------------------------------------------------------- */
+
+.folds { margin: 26px auto 0; max-width: 720px; border-top: 1px solid var(--rule); }
+.fold { border-bottom: 1px solid var(--rule); font-size: 14px; color: #4f5852; }
+.fold > summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  font-size: 15px;
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none;
+}
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary::before { content: "＋"; font-size: 17px; color: var(--muted); }
+.fold[open] > summary::before { content: "−"; }
+.fold p { margin: 0 0 12px; line-height: 1.85; }
+.scripts { margin: 0 0 8px; }
+.scripts div { padding: 6px 0; border-top: 1px dashed var(--rule); }
+.scripts dt { font-size: 12px; color: var(--muted); }
+.scripts dd { margin: 0; color: var(--ink); line-height: 1.75; }
+.links { margin: 0 0 12px; padding-left: 1.2em; }
+.links a { display: inline-flex; align-items: center; min-height: 44px; }
+.copy {
+  min-height: 44px;
+  padding: 6px 18px;
+  border: 1px solid var(--ink);
+  border-radius: 22px;
+  background: var(--card);
+  font-size: 16px;
+}
+.copy-status { min-height: 1.5em; margin: 6px 0 8px; }
+.fallback-label { display: block; margin-bottom: 6px; color: var(--error); }
+.fallback {
+  display: block;
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 10px;
+  border: 1px solid var(--ink);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.footer {
+  max-width: 1120px;
+  margin: 28px auto 0;
+  padding: 0 0 calc(18px + env(safe-area-inset-bottom));
+  font-size: 11px;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
+  text-align: center;
+  color: #80867e;
+}
+
+/* --- 広い画面：図を大きく ------------------------------------------------------------ */
+
+@media (min-width: 760px) {
+  .brand { min-height: 84px; }
+  .brand a { font-size: 13px; }
+  main {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    column-gap: 56px;
+    align-items: center;
+  }
+  .intro { padding-left: 20px; }
+  .eyebrow { font-size: 12px; }
+  .intro h1 { margin: 18px 0 24px; font-size: 72px; line-height: 1.16; }
+  .intro h1 br, .lead br { display: block; }
+  .lead { margin-bottom: 26px; font-size: 17px; }
+  .scope { margin-top: 18px; }
+  .diagram { max-width: 560px; }
+  .node-label { font-size: 17px; }
+  .node-caption { font-size: 14px; }
+  .output-heading { font-size: 18px; }
+  .output-art { height: 72px; }
+  .output-note { font-size: 13px; }
+  .folds { grid-column: 1 / -1; width: 100%; margin-top: 36px; }
+}
+
+/* 横向きのスマホ：図を画面の高さに近づける */
+@media (max-height: 500px) and (orientation: landscape) {
+  .brand { min-height: 44px; }
+  .intro h1 { margin: 8px 0 12px; font-size: 44px; }
+  .diagram { max-width: 360px; }
+}
+
+@media (max-width: 350px) {
+  .brand span { font-size: 10px; }
+  .choice { padding: 0 14px; }
+  .node-label { font-size: 14px; }
+  .node-caption { font-size: 12px; }
+  .output { padding: 10px 14px; }
+  .output-art { height: 48px; }
+  .node-art { border-radius: 25px; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .choice:hover:not(:disabled):not([aria-pressed="true"]) { background: var(--card); }
+  .result-actions > *:hover:not(:disabled):not([aria-disabled="true"]) { color: var(--ink); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .sound-node:active:not(:disabled), .choice:active:not(:disabled) { transform: none; }
+}

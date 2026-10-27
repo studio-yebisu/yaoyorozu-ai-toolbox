@@ -354,6 +354,7 @@
 
   window.SY.casePreview = {
     open,
+    close: () => { if (ui && ui.dialog.open) ui.dialog.close(); },
     // A dialog element is required; very old browsers keep the plain link to the article.
     supported: typeof HTMLDialogElement === 'function' && 'showModal' in HTMLDialogElement.prototype
   };

@@ -1,0 +1,66 @@
+{
+  "format": "input-output",
+  "samples": [
+    {
+      "id": "affected-shipping-fee",
+      "label": "shipping_fee から深さ3まで逆向きにたどる（実行済み）",
+      "input": {
+        "graph": "outputs/graph.json",
+        "graph_size": {"nodes": 6, "edges": 5},
+        "graph_origin": {
+          "calls": "run.py の独自アダプター（Python標準ライブラリ ast）で3つの小さなPythonファイルから抽出した2本",
+          "references": "run.py に人が書いた仕様書と関数の対応3本（自動抽出・LLM推定ではない）"
+        },
+        "seed": "shipping_fee",
+        "depth": 3,
+        "executed": ["load_graph", "resolve_seed", "affected_nodes", "format_affected"],
+        "upstream": "Graphify-Labs/graphify 847a93f3cab5e2c82ea9170014b21cd2c52a4417 graphify/affected.py",
+        "not_executed": ["Graphify CLI", "tree-sitter 抽出", "LLM による意味の抽出", "MCP サーバー", "install・設定・フック"]
+      },
+      "output": {
+        "source": "outputs/result.json",
+        "status": "passed",
+        "affected_count": 5,
+        "hits": [
+          {"node_id": "checkout_total", "depth": 1, "via_relation": "calls", "at": "fixture/checkout.py:4"},
+          {"node_id": "delivery_estimate", "depth": 1, "via_relation": "calls", "at": "fixture/estimate.py:4"},
+          {"node_id": "shipping-policy.md", "depth": 1, "via_relation": "references", "at": "fixture/shipping-policy.md:2"},
+          {"node_id": "checkout-spec.md", "depth": 2, "via_relation": "references", "at": "fixture/checkout-spec.md:2"},
+          {"node_id": "estimate-spec.md", "depth": 2, "via_relation": "references", "at": "fixture/estimate-spec.md:2"}
+        ],
+        "formatted": "outputs/affected.txt",
+        "note": "影響5ノードは起点を除いた数で、グラフ全体は6ノード・5エッジ。グラフに入っていない関係はたどれないため、これで全部とは言えない。"
+      }
+    },
+    {
+      "id": "current-shipping-runs",
+      "label": "いまの送料関数の動き（実行済み）",
+      "input": {
+        "functions": ["fixture/shipping.py::shipping_fee", "fixture/checkout.py::checkout_total"],
+        "subtotals_yen": [3999, 4000, 5000],
+        "threshold": "FREE_SHIPPING_YEN = 4000（fixture/shipping.py 1行目）"
+      },
+      "output": {
+        "source": "outputs/result.json の fixture_runs",
+        "runs": [
+          {"subtotal_yen": 3999, "shipping_yen": 650, "total_yen": 4649},
+          {"subtotal_yen": 4000, "shipping_yen": 0, "total_yen": 4000},
+          {"subtotal_yen": 5000, "shipping_yen": 0, "total_yen": 5000}
+        ]
+      }
+    },
+    {
+      "id": "threshold-change-checklist",
+      "label": "送料無料の基準を4,000円→5,000円に変える前の確認先（変更案・未実行）",
+      "input": {
+        "proposed_change": "FREE_SHIPPING_YEN を 4000 から 5000 へ",
+        "measured": false
+      },
+      "output": {
+        "kind": "保存済みの影響探索結果を確認先の一覧にしたもの",
+        "check": ["checkout_total（fixture/checkout.py:4）", "delivery_estimate（fixture/estimate.py:4）", "shipping-policy.md（2行目）", "checkout-spec.md（2行目）", "estimate-spec.md（2行目）"],
+        "note": "コードは変更しておらず、変更後の送料・合計は実行も計算もしていない。変更案は説明のための例。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,334 @@
+{
+  "id": "anatomy-example",
+  "verified_at": "2026-10-22T10:43:41.141249+00:00",
+  "model": {
+    "requested": "claude-opus-5-5",
+    "reported": [
+      "claude-opus-5-5"
+    ],
+    "receipts": [
+      {
+        "phase": "Japanese interactive demos, sample/proposal files, silent motion sources",
+        "receipt_sha256": "066d9d56d0bb7dad29136823e25a49bbd615568aca1094b0a94235fa06b3fa2f",
+        "execution_sha256": "271218d45e0458cadc2409ac6b5b63e070d1a26d0a040dffe93c08ccb78741d5",
+        "prompt_sha256": "3f92848fc23acde209857c1cdf2e2d0499d492b892c45475899c26ad359eab7a"
+      }
+    ],
+    "receipt_published": false,
+    "scope": "Opus authored scoped UI/diagrams/videos/proposal. Coordinator authored graph fixture/AST adapter and ran checks, renders, metadata assembly and packaging. Failed earlier API call had zero input/output tokens and is not a production receipt. Coordinator made two small QA corrections after authoring: rooted/shortened ruler ticks and reset per-frame Canvas state. Original versions retained privately."
+  },
+  "upstream": {
+    "repository": "wheresryan22/anatomy",
+    "commit": "1482e8469b0a9e0d8cc18ea2740a01423d29ae80",
+    "license": "MIT",
+    "files": [
+      {
+        "repo": "wheresryan22/anatomy",
+        "path": "LICENSE",
+        "git_blob": "aa20733917ffc919b6b04834e6a6e22909df7c76",
+        "public_path": "examples/anatomy-example/vendor/anatomy/LICENSE",
+        "sha256": "87c078ab9d90a3044f359e6b563d4e6afea7aa060897cf4f21618687b3856796",
+        "git_blob_match": true
+      },
+      {
+        "repo": "wheresryan22/anatomy",
+        "path": "README.md",
+        "git_blob": "fa98bff1a617aa8e5edf1b7b87c866815b6fa1bc",
+        "public_path": "examples/anatomy-example/vendor/anatomy/README.md",
+        "sha256": "a1bc269d3d1b75a230a2ae54cb43c63c19a0a3a067f6a7bb0baf5a7785e3de16",
+        "git_blob_match": true
+      },
+      {
+        "repo": "wheresryan22/anatomy",
+        "path": "SKILL.md",
+        "git_blob": "36f22e400814d84e41fa6c0568928d9d5620c47a",
+        "public_path": "examples/anatomy-example/vendor/anatomy/SKILL.md",
+        "sha256": "3423ada45a05033bb6e320dfc3b3ac832569969a5afb059bbfc9096c5cf0c71b",
+        "git_blob_match": true
+      },
+      {
+        "repo": "wheresryan22/anatomy",
+        "path": "examples/dial-indicator/build.mjs",
+        "git_blob": "286718a80bad64115bb227429492a1d91158d601",
+        "public_path": "examples/anatomy-example/vendor/anatomy/examples/dial-indicator/build.mjs",
+        "sha256": "e4eaa2324af7f2630650ca72e52a78d56159213a786e14fba8321344789f990d",
+        "git_blob_match": true
+      },
+      {
+        "repo": "wheresryan22/anatomy",
+        "path": "kit/iso-kit.mjs",
+        "git_blob": "248ee01cc00dfaeee9d693f49f63e32913f03115",
+        "public_path": "examples/anatomy-example/vendor/anatomy/kit/iso-kit.mjs",
+        "sha256": "6d3ecc725d30c3b0346da309cf61dfa5a65017c23620bbd4093009d4fb104018",
+        "git_blob_match": true
+      },
+      {
+        "repo": "wheresryan22/anatomy",
+        "path": "kit/iso.css",
+        "git_blob": "aed9811eeee8f17491c7aa7e2c967dfa3d0af236",
+        "public_path": "examples/anatomy-example/vendor/anatomy/kit/iso.css",
+        "sha256": "ef19bac5a42ba9be42b56b2c1cf7fc7e21d332a8060765e9ca1d987b8ab23924",
+        "git_blob_match": true
+      },
+      {
+        "repo": "wheresryan22/anatomy",
+        "path": "references/craft.md",
+        "git_blob": "935fa6653cf0dab173055f8396a5a0ee73711e8c",
+        "public_path": "examples/anatomy-example/vendor/anatomy/references/craft.md",
+        "sha256": "38761fa9b81d66b30e50b05488501d4815830d3627f153d60f76ca783f598936",
+        "git_blob_match": true
+      },
+      {
+        "repo": "wheresryan22/anatomy",
+        "path": "references/kit.md",
+        "git_blob": "fee710a6185cc2d9a67d68862a3f70d34e69b90f",
+        "public_path": "examples/anatomy-example/vendor/anatomy/references/kit.md",
+        "sha256": "684672e069fdb52735efabc3f4310dedd840d0c8066a8dc7784be2b7e656be71",
+        "git_blob_match": true
+      },
+      {
+        "repo": "wheresryan22/anatomy",
+        "path": "references/motion.md",
+        "git_blob": "2274ff6a232f197c32e2e9b77c5403db93deb3ea",
+        "public_path": "examples/anatomy-example/vendor/anatomy/references/motion.md",
+        "sha256": "dda401ca1b4661a5f0b7c1e33dac6e7e4b8c13d51ca5d9312123a5c02dab320b",
+        "git_blob_match": true
+      },
+      {
+        "repo": "wheresryan22/anatomy",
+        "path": "references/verify.md",
+        "git_blob": "b2cdd2b77509d0557086f04e2cacfc349a029520",
+        "public_path": "examples/anatomy-example/vendor/anatomy/references/verify.md",
+        "sha256": "fb81437fc5d75094a34432eb6f545644aa228e15173a27d08b3cace912033561",
+        "git_blob_match": true
+      }
+    ]
+  },
+  "runtime": {
+    "status": "passed",
+    "sample_count": 4,
+    "scope": "Anatomy SKILL applied; official SVG kit executed by Node; independent integer-second token bucket model and UI tested. No real API requests.",
+    "independent_model_checks": {
+      "status": "passed",
+      "scope": "Independent explanation model only; no network API",
+      "checks": [
+        "burst8",
+        "empty-refusal",
+        "refill2-per-integer-second",
+        "capacity-clamp",
+        "immutable-input",
+        "invalid-time-rejected",
+        "400-step-conservation"
+      ],
+      "final_readout": "残り 0/8 · 許可 122 · 拒否 220 · 57秒"
+    }
+  },
+  "video": {
+    "status": "rendered-and-frame-reviewed",
+    "orientations": {
+      "portrait": {
+        "video": {
+          "file": "video.mp4",
+          "sha256": "db76515486d6eb56ff52480001c06e4bf850a172e15ceae3aae3fc1e694b8f34",
+          "width": 720,
+          "height": 1280,
+          "fps": 30,
+          "frameCount": 720,
+          "duration": 24,
+          "hasAudio": false
+        },
+        "determinism": {
+          "frame": 432,
+          "seconds": 14.4,
+          "first": "19354bfb8830aabb6799f21f88dc03bb3b081b75c6e15e4c42d210e4b9d49e55",
+          "afterOtherTimes": "19354bfb8830aabb6799f21f88dc03bb3b081b75c6e15e4c42d210e4b9d49e55",
+          "freshPage": "19354bfb8830aabb6799f21f88dc03bb3b081b75c6e15e4c42d210e4b9d49e55",
+          "match": true
+        },
+        "errors": []
+      },
+      "landscape": {
+        "video": {
+          "file": "video.mp4",
+          "sha256": "2ac334e28d9422630b6c47be8f2fe1e01285c531ce6c99db5cdfa5d40c5a28ef",
+          "width": 1280,
+          "height": 720,
+          "fps": 30,
+          "frameCount": 720,
+          "duration": 24,
+          "hasAudio": false
+        },
+        "determinism": {
+          "frame": 432,
+          "seconds": 14.4,
+          "first": "7a0bd516483653f41791f85698e6dec2d8faf97dea21ea66d29413aeabd80b40",
+          "afterOtherTimes": "7a0bd516483653f41791f85698e6dec2d8faf97dea21ea66d29413aeabd80b40",
+          "freshPage": "7a0bd516483653f41791f85698e6dec2d8faf97dea21ea66d29413aeabd80b40",
+          "match": true
+        },
+        "errors": []
+      }
+    },
+    "audio": "No audio tracks. Silent diagram explanation.",
+    "review": "Representative contacts and consecutive frames checked by the agent; technical browser playback is recorded separately. No human approval or real iOS device test."
+  },
+  "momentum": {
+    "source": "https://www.skillleaderboard.com/",
+    "as_of": "2026-10-21",
+    "scope": "repository",
+    "third_party": true,
+    "not_current_total": true
+  },
+  "artifacts_sha256": {
+    "examples/anatomy-example/app.js": "c038596daf7867f972fb245434024ef6ea5c17e4c489ffe92f29382333abaa48",
+    "examples/anatomy-example/build.mjs": "6c9a2c7e9391abed6e76cb66afe9d576c74d9d371fb0edc1ab6a69bb29815f5d",
+    "examples/anatomy-example/figure-refilled.svg": "6f6511f5cdcb1a738788c556dd02247a7a3e565875e449303c1822c4f385d3e5",
+    "examples/anatomy-example/figure-refused.svg": "765f539c4a304eb75223a379d3b2e94d219d5bfbd19afc9bd8dccab37b57399e",
+    "examples/anatomy-example/figure.css": "1427a67a4c7e210eaeaaf754a84b7c5b6a3b1496ab1bdfdcc328fb2d19cdfb65",
+    "examples/anatomy-example/figure.mjs": "86533d9087241d3ca764436dd6eca2c93437d3c83463ca5bfdf001ad21e18dfe",
+    "examples/anatomy-example/figure.svg": "94b925279192ec6e4f6213dd09c3538ac19545326809aae6696ff22d18d17672",
+    "examples/anatomy-example/index.html": "4ba291ddd4504023d58b6e0929542115c87bec4b69f105fdb852e656805da3b8",
+    "examples/anatomy-example/LICENSE": "b9983d3664ba1f525f0f39874b6579fafce25636f8b7b1e7cfcae8c32c6745eb",
+    "examples/anatomy-example/MEDIA-LICENSE.md": "e89dcf032112b1ed503e8e43dfb238b6090f92cad0179081b4e0e8bbb861294c",
+    "examples/anatomy-example/model.mjs": "c306a11dc77be6a5c07b707c398987e1513a9e919f63f87bffca70695383ff7a",
+    "examples/anatomy-example/README.md": "97c592d571a7dabddd1e7abbb57ac395570dc245caad69482fbfdbb0cf41fc61",
+    "examples/anatomy-example/request.txt": "71443c4ae25c2ccf41b75fc91a38d2f340fbbf3b51403a2f13988c1f6fe8f635",
+    "examples/anatomy-example/samples.json": "98a076aeba93c172ff6ed9c49da2248efcee254f0928ef34debff0189be3f5dd",
+    "examples/anatomy-example/source.zip": "cecd10ec2e6ec79aa2071d0a9f153a1777189504c0b4bbc83f90cff1e18c3b25",
+    "examples/anatomy-example/style.css": "fc1a18f157c48789bb967145a46e09dc466a99861107e36796af88a0718f4880",
+    "examples/anatomy-example/vendor/anatomy/examples/dial-indicator/build.mjs": "e4eaa2324af7f2630650ca72e52a78d56159213a786e14fba8321344789f990d",
+    "examples/anatomy-example/vendor/anatomy/kit/iso-kit.mjs": "6d3ecc725d30c3b0346da309cf61dfa5a65017c23620bbd4093009d4fb104018",
+    "examples/anatomy-example/vendor/anatomy/kit/iso.css": "ef19bac5a42ba9be42b56b2c1cf7fc7e21d332a8060765e9ca1d987b8ab23924",
+    "examples/anatomy-example/vendor/anatomy/LICENSE": "87c078ab9d90a3044f359e6b563d4e6afea7aa060897cf4f21618687b3856796",
+    "examples/anatomy-example/vendor/anatomy/README.md": "a1bc269d3d1b75a230a2ae54cb43c63c19a0a3a067f6a7bb0baf5a7785e3de16",
+    "examples/anatomy-example/vendor/anatomy/references/craft.md": "38761fa9b81d66b30e50b05488501d4815830d3627f153d60f76ca783f598936",
+    "examples/anatomy-example/vendor/anatomy/references/kit.md": "684672e069fdb52735efabc3f4310dedd840d0c8066a8dc7784be2b7e656be71",
+    "examples/anatomy-example/vendor/anatomy/references/motion.md": "dda401ca1b4661a5f0b7c1e33dac6e7e4b8c13d51ca5d9312123a5c02dab320b",
+    "examples/anatomy-example/vendor/anatomy/references/verify.md": "fb81437fc5d75094a34432eb6f545644aa228e15173a27d08b3cace912033561",
+    "examples/anatomy-example/vendor/anatomy/SKILL.md": "3423ada45a05033bb6e320dfc3b3ac832569969a5afb059bbfc9096c5cf0c71b",
+    "examples/anatomy-example/vendor/anatomy/source.json": "77344c5ea84a19bdbd1ca94d5eefe6ee036014ab725c5c8d0038d6acc0bbc352",
+    "examples/anatomy-example/VERIFICATION.json": "b13170ded6e74639fefad46e2c4660d3aa2eddf777e305c8e969599341784050",
+    "examples/anatomy-example/video/index.html": "59b1fc4549d0f4bbf4ce8eea4ce1f58a1c7f8e7278f8ee4df3a2d5588f6ec941",
+    "examples/anatomy-example/video/scene.js": "74eed66cc3f921ec64d9fb2ad208d659b52b6c248ba49b5c73f25d3fc724c22c",
+    "examples/anatomy-example/video/video.css": "1432fe81b38cd6daa6e4fbc70392d2bdd882724e44036f7a3443d9df9804c852",
+    "media/anatomy-example.mp4": "db76515486d6eb56ff52480001c06e4bf850a172e15ceae3aae3fc1e694b8f34",
+    "media/anatomy-example.webp": "e4a2b2bd891fae687f5f46da47517352ed4a2ae78a077df47d1b9f5231345f03",
+    "media/anatomy-example-wide.mp4": "2ac334e28d9422630b6c47be8f2fe1e01285c531ce6c99db5cdfa5d40c5a28ef",
+    "media/anatomy-example-wide.webp": "1c9eebd9676f61fc540d0c84539a28227eeb999d9164cdb3f770e2451eb68c78"
+  },
+  "publication": {
+    "status": "local-only",
+    "deployed": false,
+    "pushed": false,
+    "merged": false
+  },
+  "verification": {
+    "date": "2026-10-22",
+    "ui": {
+      "status": "passed",
+      "checks": [
+        {
+          "width": 390,
+          "height": 844,
+          "primary_top": 744.53125,
+          "interactive_states": "passed",
+          "keyboard": "passed",
+          "overflow": false,
+          "page_errors": [],
+          "external_requests": [],
+          "non_get_requests": []
+        },
+        {
+          "width": 1280,
+          "height": 900,
+          "primary_top": 1038.953125,
+          "interactive_states": "passed",
+          "keyboard": "passed",
+          "overflow": false,
+          "page_errors": [],
+          "external_requests": [],
+          "non_get_requests": []
+        }
+      ]
+    },
+    "cad_runtime": "not-applicable",
+    "human_approval": false,
+    "real_ios_device": false,
+    "line_ends": {
+      "checker": "Official Anatomy scripts/line-ends.mjs, invoked in existing Playwright page; full drive.mjs CLI not run",
+      "commit": "1482e8469b0a9e0d8cc18ea2740a01423d29ae80",
+      "checks": [
+        {
+          "theme": "light",
+          "state": "full",
+          "ends": 62,
+          "lines": 26,
+          "problems": []
+        },
+        {
+          "theme": "light",
+          "state": "refused",
+          "ends": 62,
+          "lines": 18,
+          "problems": []
+        },
+        {
+          "theme": "light",
+          "state": "refilled",
+          "ends": 62,
+          "lines": 20,
+          "problems": []
+        },
+        {
+          "theme": "dark",
+          "state": "full",
+          "ends": 62,
+          "lines": 26,
+          "problems": []
+        },
+        {
+          "theme": "dark",
+          "state": "refused",
+          "ends": 62,
+          "lines": 18,
+          "problems": []
+        },
+        {
+          "theme": "dark",
+          "state": "refilled",
+          "ends": 62,
+          "lines": 20,
+          "problems": []
+        }
+      ]
+    },
+    "model_checks": {
+      "status": "passed",
+      "scope": "Independent explanation model only; no network API",
+      "checks": [
+        "burst8",
+        "empty-refusal",
+        "refill2-per-integer-second",
+        "capacity-clamp",
+        "immutable-input",
+        "invalid-time-rejected",
+        "400-step-conservation"
+      ],
+      "final_readout": "残り 0/8 · 許可 122 · 拒否 220 · 57秒"
+    },
+    "svg_states": [
+      "figure.svg",
+      "figure-refused.svg",
+      "figure-refilled.svg"
+    ],
+    "qa_corrections": [
+      {
+        "file": "examples/anatomy-example/figure.mjs",
+        "before_sha256": "4a54a2b2ae3b311b0be828307c7aa1d53b0fb9fafb046a37d23ec65d961ff51d",
+        "after_sha256": "86533d9087241d3ca764436dd6eca2c93437d3c83463ca5bfdf001ad21e18dfe",
+        "reason": "Root ruler ticks on the actual strip edge and keep them short; no free-end exemption or checker tolerance changes.",
+        "author": "coordinator QA correction after Opus completion"
+      }
+    ]
+  }
+}

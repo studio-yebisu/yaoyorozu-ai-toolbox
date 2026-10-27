@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-22",
+  "ui": {
+    "status": "passed",
+    "checks": [
+      {
+        "viewport": [
+          390,
+          844
+        ],
+        "cad_runtime": "not-run",
+        "independent_preview_and_keyboard": "passed",
+        "json_download": "130mm outer /125.2mm inner; explicit no-CAD-execution note",
+        "external_requests": [],
+        "page_errors": [],
+        "overflow": false
+      },
+      {
+        "viewport": [
+          1280,
+          900
+        ],
+        "cad_runtime": "not-run",
+        "independent_preview_and_keyboard": "passed",
+        "json_download": "130mm outer /125.2mm inner; explicit no-CAD-execution note",
+        "external_requests": [],
+        "page_errors": [],
+        "overflow": false
+      }
+    ]
+  },
+  "cad_runtime": "not-run",
+  "human_approval": false,
+  "real_ios_device": false,
+  "dimension_checks": {
+    "status": "passed",
+    "scope": "Independent dimension arithmetic and explanatory projection only; CAD kernel not run",
+    "default_inner_mm": {
+      "width": 95.2,
+      "depth": 65.2,
+      "height": 21.6
+    },
+    "wide_inner_mm": {
+      "width": 125.2,
+      "depth": 65.2,
+      "height": 21.6
+    },
+    "boundary_combinations": 128
+  },
+  "python": "AST syntax and literal dimension constants checked without imports or execution; STEP/STL not generated.",
+  "qa_corrections": [
+    {
+      "file": "examples/text-to-cad-example/video/scene.js",
+      "before_sha256": "70e93d02bd1def00ce13bd141820e5b3f23045ef8dfd812d88f54741df4703ea",
+      "after_sha256": "a26bde89a85545ca2fcb137cf6ab1cdabd393c78046311dbcdf3d1f81a22e6e3",
+      "reason": "Reset canvas state before each complete frame; fixes portrait seek-order mismatch.",
+      "author": "coordinator QA correction after Opus completion"
+    }
+  ]
+}

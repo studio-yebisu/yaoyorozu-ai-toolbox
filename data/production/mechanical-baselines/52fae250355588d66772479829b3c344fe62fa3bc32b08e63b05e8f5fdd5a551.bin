@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mermaidの記述と、描かれた図｜Pretty Mermaid の作例｜八百万図AIツールボックス</title>
+  <meta name="description" content="Pretty Mermaid の原典CLIで書き出した流れ図・シーケンス図・状態遷移図を、元のMermaidの記述と並べて読む静的な作例です。">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#plate">図版へ移動</a>
+  <header class="masthead">
+    <div class="masthead-bar">
+      <a class="back" href="../../case.html?id=pretty-mermaid-first-diagram">← 作例の記事へ戻る</a>
+      <span class="imprint">八百万図AIツールボックス　図解の作例</span>
+    </div>
+    <p class="kicker">Pretty Mermaid の作例</p>
+    <h1><span>Mermaidの記述と、</span><span>描かれた図を読み比べる</span></h1>
+    <p class="lede">3つの <code>.mmd</code> を、Pretty Mermaid の原典CLIで SVG・PNG・文字図に書き出しました。このページは<strong>保存した出力を読み込んで並べる</strong>だけです。図を選んでも、その場で描画や生成はしません。</p>
+  </header>
+
+  <nav class="plates" aria-label="図版">
+    <div class="plate-tabs" role="tablist" aria-label="図の種類" id="tabs"></div>
+    <p class="hint">図の種類とテーマは、選んだ状態で左右の矢印キー・Home・Endでも切り替えられます。</p>
+  </nav>
+
+  <main id="plate" class="sheet" role="tabpanel" tabindex="-1" aria-labelledby="plate-title">
+    <p class="loading" id="status">samples.json を読み込んでいます…</p>
+
+    <header class="plate-head" hidden>
+      <p class="plate-no" id="plate-no"></p>
+      <h2 id="plate-title"></h2>
+      <p class="plate-output" id="plate-output"></p>
+    </header>
+
+    <div class="spread" hidden>
+      <section class="source" aria-labelledby="source-title">
+        <div class="section-head">
+          <h3 id="source-title">記述</h3>
+          <span class="file" id="source-file"></span>
+        </div>
+        <ol class="code" id="code" aria-label="Mermaidのソース"></ol>
+        <p class="aside">矢印の行を選ぶと、下の対応表の同じ行が示されます。</p>
+      </section>
+
+      <section class="figure" aria-labelledby="figure-title">
+        <div class="section-head">
+          <h3 id="figure-title">原典CLIの出力</h3>
+          <div class="toolbar">
+            <div class="segmented" role="radiogroup" aria-label="テーマ" id="themes">
+              <button type="button" role="radio" data-theme="light">ライト</button>
+              <button type="button" role="radio" data-theme="dark">ダーク</button>
+              <button type="button" role="radio" data-theme="both">並べる</button>
+            </div>
+            <div class="zoom" role="group" aria-label="図の拡大">
+              <button type="button" id="zoom-out" aria-label="縮小">－</button>
+              <output id="zoom-level" aria-live="polite">100%</output>
+              <button type="button" id="zoom-in" aria-label="拡大">＋</button>
+            </div>
+          </div>
+        </div>
+        <div class="mats" id="mats"></div>
+        <p class="aside">100%は基準サイズです。横長の流れ図はラベルを読める大きさに保ち、図の枠の中を横にスクロールできます。＋でさらに拡大できます。</p>
+      </section>
+    </div>
+
+    <section class="map" aria-labelledby="map-title" hidden>
+      <div class="section-head">
+        <h3 id="map-title">対応表</h3>
+        <span class="file">記述の行 ↔ 図で確かめる矢印</span>
+      </div>
+      <table class="pairs">
+        <thead><tr><th scope="col">行</th><th scope="col">記述</th><th scope="col">図で確かめる矢印</th></tr></thead>
+        <tbody id="pairs"></tbody>
+      </table>
+    </section>
+
+    <div class="lower" hidden>
+      <section class="terminal" aria-labelledby="terminal-title">
+        <div class="section-head">
+          <h3 id="terminal-title">端末用の文字図</h3>
+          <span class="file" id="ascii-file"></span>
+        </div>
+        <div class="tty"><pre id="ascii" tabindex="0" aria-label="文字図"></pre></div>
+        <p class="aside">日本語を含む文字図は、端末やフォントによって罫線がずれることがあります。図を正確に共有するときはSVGやPNGもご覧ください。</p>
+      </section>
+
+      <section class="exports" aria-labelledby="exports-title">
+        <div class="section-head">
+          <h3 id="exports-title">保存</h3>
+        </div>
+        <ul class="files" id="files"></ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="colophon">
+    <p>表示する図は、制作時に原典CLI（imxv/Pretty-mermaid-skills、固定版 e234ab7）で書き出して保存したファイルです。図の題材はすべて架空で、受付APIなどの仕組みは作っていません。ライトは github-light、ダークは github-dark、SVGとPNGのフォント指定は Yu Gothic です。</p>
+    <p>画面・文章・Mermaidの記述は 八百万図AIツールボックス の独自制作（MIT License）。同梱の <a href="vendor/pretty-mermaid/SKILL.md">SKILL.md</a> は上流の <a href="vendor/pretty-mermaid/LICENSE">MIT License</a> です。</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

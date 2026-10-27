@@ -1,0 +1,102 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "checkout_total",
+      "kind": "function",
+      "source_file": "fixture/checkout.py",
+      "source_location": "3",
+      "evidence": "stdlib-ast-adapter",
+      "id": "checkout_total"
+    },
+    {
+      "label": "delivery_estimate",
+      "kind": "function",
+      "source_file": "fixture/estimate.py",
+      "source_location": "3",
+      "evidence": "stdlib-ast-adapter",
+      "id": "delivery_estimate"
+    },
+    {
+      "label": "shipping_fee",
+      "kind": "function",
+      "source_file": "fixture/shipping.py",
+      "source_location": "4",
+      "evidence": "stdlib-ast-adapter",
+      "id": "shipping_fee"
+    },
+    {
+      "label": "shipping-policy.md",
+      "kind": "document",
+      "source_file": "fixture/shipping-policy.md",
+      "source_location": "2",
+      "evidence": "human-authored-correspondence",
+      "id": "shipping-policy.md"
+    },
+    {
+      "label": "checkout-spec.md",
+      "kind": "document",
+      "source_file": "fixture/checkout-spec.md",
+      "source_location": "2",
+      "evidence": "human-authored-correspondence",
+      "id": "checkout-spec.md"
+    },
+    {
+      "label": "estimate-spec.md",
+      "kind": "document",
+      "source_file": "fixture/estimate-spec.md",
+      "source_location": "2",
+      "evidence": "human-authored-correspondence",
+      "id": "estimate-spec.md"
+    }
+  ],
+  "edges": [
+    {
+      "relation": "calls",
+      "source_file": "fixture/checkout.py",
+      "source_location": "4",
+      "evidence": "stdlib-ast-adapter",
+      "source": "checkout_total",
+      "target": "shipping_fee",
+      "key": 0
+    },
+    {
+      "relation": "calls",
+      "source_file": "fixture/estimate.py",
+      "source_location": "4",
+      "evidence": "stdlib-ast-adapter",
+      "source": "delivery_estimate",
+      "target": "shipping_fee",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source_file": "fixture/shipping-policy.md",
+      "source_location": "2",
+      "evidence": "human-authored-correspondence",
+      "source": "shipping-policy.md",
+      "target": "shipping_fee",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source_file": "fixture/checkout-spec.md",
+      "source_location": "2",
+      "evidence": "human-authored-correspondence",
+      "source": "checkout-spec.md",
+      "target": "checkout_total",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source_file": "fixture/estimate-spec.md",
+      "source_location": "2",
+      "evidence": "human-authored-correspondence",
+      "source": "estimate-spec.md",
+      "target": "delivery_estimate",
+      "key": 0
+    }
+  ]
+}

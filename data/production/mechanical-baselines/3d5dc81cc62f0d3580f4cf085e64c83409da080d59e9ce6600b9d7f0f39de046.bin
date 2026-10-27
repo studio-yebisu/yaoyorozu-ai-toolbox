@@ -1,0 +1,238 @@
+{
+  "id": "mem0-example",
+  "title": "Mem0",
+  "title_lines": [
+    "会話をまたいで情報を覚えるAI向け記憶層"
+  ],
+  "category": "knowledge",
+  "summary": "会話や作業から必要な情報を保存し、次の依頼で取り出せます。利用者の好みや継続する仕事の情報を、複数の会話で参照できるアプリに組み込めます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/mem0-example/index.html",
+  "video": "media/mem0-example.mp4",
+  "poster": "media/mem0-example.webp",
+  "skill": "examples/mem0-example/vendor/mem0/skills/mem0/SKILL.md",
+  "skill_label": "Mem0公式SDKスキル（固定版）",
+  "skill_description": "mem0ai/mem0 の固定コミット 0724291 に含まれる公式の Agent Skill（skills/mem0/SKILL.md）です。本文の大半はホスト型 Platform（MemoryClient・MEM0_API_KEY・api.mem0.ai）の手順で、この作例では使っていません。使ったのは、同じスキルが参照先に挙げる client/python.md の「Open Source / Self-Hosted」の節にある Memory クラス（from mem0 import Memory、Memory.from_config、add・search・get・get_all・update・delete・history・close）と、search・get_all では user_id を filters に入れること、infer=False の追加は同期的に結果を返すこと、の3点です。mem0 init・エージェントの識別・プラグインの導入・API キー・Platform の設定は行っていません。リンク先は原典を改変せずに同梱したファイルです。",
+  "samples": "examples/mem0-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "8つの場面で Mem0 に渡した値と、返った記録",
+  "samples_intro": "学習済みの多言語モデルで実際に埋め込みを計算し、原典のMemory APIで実行した8操作です。7件は架空の入力です。公開ページは保存した記録を読むだけで、Mem0やPythonをブラウザー内で実行しません。",
+  "demo_description": "あや・けん・更新・削除・開き直すを選ぶと、同じ大きな図で保存した好みと検索・変更の関係を比べられます。選んだ実行記録をJSONで保存でき、原典APIの8操作の全文は補足の比較ページにあります。Mem0やモデルをブラウザー内で実行する画面ではありません。",
+  "demo_note": "表示するのは、制作側の CPU で run.py を実行して保存した記録です。ページを開いても Mem0・Python・推論は動きません。記録がない、入力の SHA-256・固定版・場面が合わない、通信の試みが0件でない、のいずれかなら、理由と「もう一度読み込む」だけを出します。aya と ken、7件の好みはすべて架空です。",
+  "request_intro": "同じ確認を自分の架空データで試すときの依頼文です。入力の欄を差し替え、固定版の Mem0 を読めるAIや開発者に渡してください。",
+  "request": "Mem0（mem0ai/mem0 固定コミット 0724291bd864cf807e88ee8981c8226644e8fb42、SDK 2.2.1、Apache-2.0）のオープンソース版 Memory API を使って、架空の利用者の好みを保存し、次の依頼で引き出せるかを確かめる Python スクリプトを書き、実際に実行してください。結果は、入力と出力を組で読める日本語のスマホ向けページにしてください。\n\n読む原典（固定版）\n・公式SDKスキル：https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/skills/mem0/SKILL.md\n・Python SDK の参照（Open Source / Self-Hosted の節）：https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/skills/mem0/client/python.md\n・Memory の実装：https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/mem0/memory/main.py\n・Hugging Face 埋め込み：https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/mem0/embeddings/huggingface.py\n・Qdrant 保存先：https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/mem0/vector_stores/qdrant.py\n・SQLite 履歴：https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/mem0/memory/storage.py\n・ライセンス：https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/LICENSE\n\n使うもの（ホスト型 Platform・API キー・アカウント・mem0 init・プラグインは使わない）\n・from mem0 import Memory と Memory.from_config。原典のファイルは改変せずに置いてハッシュで固定し、関数の差し替えはしない。\n・埋め込み：huggingface プロバイダーで、手元に取得した sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2（コミット e8f8c211226b894fcb81acc59f3b34ba3efd5f42、384次元）を CPU で読み込む（local_files_only=True、trust_remote_code=False）。重みは公開しない。\n・保存先：埋め込みモードの Qdrant（path 指定、on_disk）と SQLite の履歴。どちらも公開しないフォルダーに置く。\n・LLM：Memory は LLM のクライアントを必ず作るので、公式の ollama プロバイダーを閉じたポートに向けて置くだけにし、呼ばない。追加はすべて infer=False にする。\n\n入力（ここを差し替える。実行の前に固定し、結果を見てから変えない）\n・好み：キー・user_id・metadata（topic など）・本文。すべて架空にし、実在の人の記録や会話は入れない（この作例では 2人・7件）\n・場面：保存、利用者ごとの検索、同じ問いを別の利用者に、metadata での絞り込み、1件の更新、1件の削除、別プロセスでの読み直し、未登録の利用者と誤った呼び出し（この作例では M01〜M08）\n・設定（この作例の値）：top_k 3、threshold 0.0、explain true、seed 2201、CPU 4スレッド\n\n進め方\n1. 入力と原典のファイルを SHA-256 で、モデルのファイルをサイズとハッシュで照合する。実行中に自動でダウンロードしない。\n2. 依存を読み込む前に、Python の監査フックで socket の接続と名前解決を拒否して数える。MEM0_TELEMETRY=false、非公開の MEM0_DIR、HF_HUB_OFFLINE=1 などを設定する。通信の試みが1件でもあれば失敗にする。\n3. add(本文, user_id=..., metadata=..., infer=False) で1件ずつ保存し、返った ID を入力のキーに対応づける。get_all(filters={\"user_id\": ...}) で件数・本文・metadata を確かめる。\n4. search は filters={\"user_id\": ...} で呼び、返った全件をスコアごと記録する。利用者の記録だけが返ることを確かめる。どれが何位に来るかを合否にしない。\n5. update(id, text=...) の前後で get と history を記録し、ID が同じで本文が置き換わったことを確かめる。delete(id) の後に get が None、一覧から外れたことと、履歴に残るものを記録する。\n6. SQLite と Qdrant を閉じてから、新しい Python プロセスで同じ保存先を開き直し、更新と削除が残っていることを確かめる。未登録の利用者の検索と、誤った呼び出し（filters なし、user_id を filters の外に、threshold 1.1）の実際の例外を記録する。\n7. すべての確認が通ったときだけ、入力のハッシュ・原典とモデルの固定版・版・確認・各場面の入力と戻り値を、公開用の JSON に1回だけ書く。手元の絶対パス・保存ファイルそのもの・完全なログ・認証情報は書かない。既にある結果は上書きしない。\n\nページでできること\n・場面を選び、渡した値と Mem0 が返した記録（ID・利用者・本文・スコア）を読む。各場面の生の JSON も全文で開ける。\n・更新の前後、削除後の get と残る履歴、別プロセスでの件数、誤った呼び出しの例外を見る。\n・保存した JSON と入力を取得し、入力の SHA-256・固定版・場面の一致を確かめてから表示する。合わなければ理由と「もう一度読み込む」を出し、内蔵の代わりのデータは使わない。\n・選んだ場面を JSON で保存し、この依頼文をコピーする。\n・320px幅のスマホから1280px幅のパソコンまで、横スクロールなしで使える。操作部品は44px以上、入力欄の文字は16px以上。外部のフォント・CDN・計測・AIの呼び出しは使わない。ページの中で Mem0・Python・推論は動かさない。\n\n書かないこと\n・infer=False の保存を、LLM による自動の抽出や記憶の整理として書かない。更新はスクリプトが update を呼んだ結果として書く。\n・Mem0 のスコアを確率・確信度・正解率として書かない。\n・user_id での分離を、認証や権限の保証として書かない。\n・削除を、物理的な消去や履歴の削除として書かない。\n・ホスト型 Platform の性能や機能を、この確認の結果として書かない。\n・コードや文章を書いた AI と、ベクトルを計算した埋め込みモデル、記録を操作した Mem0 を混同しない。\n\n最後に、作ったファイル、実際に実行したコマンドとその結果、まだ確かめていない点を分けて書いてください。\n",
+  "applied_skills": [
+    {
+      "name": "Mem0公式SDKスキル（skills/mem0/SKILL.md）",
+      "source": "https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/skills/mem0/SKILL.md",
+      "applied": "固定版の SKILL.md は Platform（MemoryClient・MEM0_API_KEY）を中心に書かれ、自己ホストの Memory は client/python.md の Open Source / Self-Hosted の節を参照するよう示しています。この作例はその節に沿い、from mem0 import Memory と Memory.from_config に、huggingface の埋め込み・埋め込み型 qdrant・history_db_path・呼ばない ollama を渡す設定を書きました。SKILL.md の「infer=False は同期的」「search・get_all は filters={\"user_id\": ...}」「Platform の MemoryClient と OSS の Memory を取り違えない」と、client/python.md の add・search・get・get_all・update・delete・history・close の引数を、固定版の mem0/memory/main.py の実際のシグネチャ（search の threshold 既定 0.1・top_k 既定 20、update の text、外に渡した user_id を拒否する _reject_top_level_entity_params、Memory.close が SQLite だけを閉じること）と照らし、run.py ではその公開 API だけを呼びます。埋め込み型 Qdrant は m.vector_store.client.close() で閉じてから別プロセスで開き直します。SKILL.md の Step 1（API キー）・mem0 init・エージェントの識別・プラグインの導入・Platform の設定は、この自己完結の OSS 作例には当てはまらないため行っていません。原典APIを実行し、7件の保存・ユーザー別検索・同じIDの更新・削除・別プロセスでの読み直し・入力検証の実エラーを確認しました。"
+    },
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "掲載項目の依頼「架空の読書会の予定を記憶する最小サンプル。別の会話からの検索、予定変更、削除、利用者間の分離を確認する」を、制作の指示に合わせて架空の2人の画面と作例動画の好みに置き換え、目的を「固定版Mem0の OSS Memory API を改変せずに使い、好み7件を infer=False で保存して、利用者ごとの検索・metadata での絞り込み・明示的な更新と削除・新しいプロセスでの読み直し・誤った呼び出しの拒否を8場面で実行し、その実際の入力と出力をスマホで読めるようにする」の一つに絞りました（brief.json）。別の会話からの検索を新しいプロセスでの読み直しに、予定変更を明示的な update に対応させたこと、infer=False にすること、呼ばない Ollama を置くこと、spaCy・fastembed を入れないこと、user_id の分離を認証としないことを assumptions に分けています。調査・整理の作例として、実入力（input/ の3ファイル）と実出力（outputs/memory-run.json）を対で残すことを完了条件にしました。ページは保存した記録を読むだけなので、ライブのAIが動いているような表示は付けていません。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/mem0-example/tools/motion-reel/render.mjs",
+      "applied": "原APIの保存済み実結果から、好みのトークン・記憶の保管・検索の経路をつなぐ一つの概念図と32秒の無音縦横動画を制作。任意時刻の再現・代表/連続フレーム・スマホでの図と操作・MP4再生を確認。音声ガイドなし。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "架空の好み7件と8場面を固定する",
+      "body": "架空の aya（4件）と ken（3件）の、説明の見せ方・作例動画・作業の流れ・仮の予定の好みを、topic と source_key の metadata 付きで input/memories.json に書きました。保存・検索・絞り込み・更新・削除・読み直し・拒否の8場面 M01〜M08 を input/scenarios.json に、埋め込みモデルの固定版と11ファイルを input/model-source.json に置き、3ファイルの SHA-256 を実行の前に固定しています。"
+    },
+    {
+      "title": "原典・入力・モデルを照合し、通信を止める",
+      "body": "run.py は入力3ファイル・vendor-lock.json・原典156ファイルの SHA-256 と、モデル11ファイルのサイズとハッシュを照合します。依存を読み込む前に Python の監査フックで socket の接続と名前解決を拒否して数え、MEM0_TELEMETRY=false・HF_HUB_OFFLINE=1・非公開の MEM0_DIR を設定し、vendor/mem0 から Mem0 を読み込みます。"
+    },
+    {
+      "title": "7件をそのまま保存する",
+      "body": "Memory.from_config（CPU の埋め込み、埋め込み型 Qdrant、SQLite 履歴、呼ばない Ollama）で、7件を1件ずつ add(..., infer=False) します。返った UUID を入力のキーに対応づけ、get_all で件数・本文・metadata が入力と一致すること、A01 の埋め込みが384次元の有限値で保存されたベクトルと一致することを確かめます。"
+    },
+    {
+      "title": "利用者ごとに探し、絞り込む",
+      "body": "同じ問いを filters の user_id を aya・ken に変えて検索し、返った全件をスコアの内訳ごと記録します。それぞれの利用者の記録だけが返り、互いの ID と重ならないこと、topic: video を加えると A02 だけになることを確かめます。どれが何位に来るかは合否にしていません。"
+    },
+    {
+      "title": "明示的に更新・削除する",
+      "body": "A02 の本文を update で20秒から30秒に書き換え、前後の get・履歴・検索を記録します。A04 を delete した後、get が None になり一覧から外れること、履歴に削除前の本文と DELETE が残ることを記録します。どちらも実行スクリプトが API を呼んだ結果で、Mem0 が自動で判断したのではありません。"
+    },
+    {
+      "title": "閉じて、別プロセスで読み直す",
+      "body": "SQLite と Qdrant を閉じ、保存ファイルのサイズと SHA-256 を記録してから、同じ保存先を新しい Python プロセスで開き直します。更新後の本文と削除が残ること（aya 3件・ken 3件）、未登録の利用者の検索が0件であること、誤った呼び出し3件の実際の例外を記録します。すべての確認が通ったときだけ記録を1回書きます。"
+    },
+    {
+      "title": "記録をページと短い動画で読む",
+      "body": "元の実入力・実出力を保ち、2人の好み→保存先→検索で引き出した記録を大きな一つの概念図で表示。更新・削除・別プロセスでの読み直しを図の変化で説明し、32秒の無音の縦横動画と編集ソースを制作しました。選んだ実記録をJSONで保存でき、8件の全文は補足の比較ページで確認できます。"
+    }
+  ],
+  "limitations": [
+    "infer=Falseで入力文を直接保存するOSSの作例です。LLMによる会話からの自動抽出・自動統合・回答生成、Mem0 Platform、再ランキングは使っていません。",
+    "検索は実際の384次元CPU埋め込みとユーザー/メタデータのフィルターを使用しました。スコアは正しさの確率や信頼度ではなく、この7件で検索精度一般を評価していません。",
+    "user_idの指定で検索範囲を分けた確認です。認証や他ユーザーからのアクセス制御の検証ではなく、実アプリでは利用者IDをサーバー側で認可する必要があります。",
+    "削除した予定は現在の検索・get・一覧から外れますが、SQLiteの履歴に元の文とDELETEイベントが残ることも確認しました。物理消去や履歴削除を示す作例ではありません。",
+    "固定モデル11ファイルの初回取得と依存の導入にはネット接続が必要です。実API操作ではPythonの接続/DNS試行が0件でした。モデルの重み・DB・完全なログ・モデル実行履歴を公開配布しません。",
+    "320/375/390/430/844/1280幅をIAB Chromiumで確認しました。物理iOS/Safari/VoiceOver・実支援技術・CoreWebVitals・人による内容や見た目の承認は未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "mem0ai/mem0（固定コミット 0724291）",
+      "url": "https://github.com/mem0ai/mem0/tree/0724291bd864cf807e88ee8981c8226644e8fb42"
+    },
+    {
+      "label": "Mem0公式SDKスキル（skills/mem0/SKILL.md・固定版）",
+      "url": "https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/skills/mem0/SKILL.md"
+    },
+    {
+      "label": "Python SDK の参照（skills/mem0/client/python.md・固定版）",
+      "url": "https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/skills/mem0/client/python.md"
+    },
+    {
+      "label": "Memory の実装（mem0/memory/main.py・固定版）",
+      "url": "https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/mem0/memory/main.py"
+    },
+    {
+      "label": "Hugging Face 埋め込み（mem0/embeddings/huggingface.py・固定版）",
+      "url": "https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/mem0/embeddings/huggingface.py"
+    },
+    {
+      "label": "Qdrant 保存先（mem0/vector_stores/qdrant.py・固定版）",
+      "url": "https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/mem0/vector_stores/qdrant.py"
+    },
+    {
+      "label": "SQLite 履歴（mem0/memory/storage.py・固定版）",
+      "url": "https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/mem0/memory/storage.py"
+    },
+    {
+      "label": "Mem0 LICENSE（Apache-2.0・固定版）",
+      "url": "https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/LICENSE"
+    },
+    {
+      "label": "埋め込みモデル paraphrase-multilingual-MiniLM-L12-v2（固定コミット e8f8c21）",
+      "url": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/tree/e8f8c211226b894fcb81acc59f3b34ba3efd5f42"
+    },
+    {
+      "label": "埋め込みモデルのモデルカード（README.md・固定版）",
+      "url": "https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/blob/e8f8c211226b894fcb81acc59f3b34ba3efd5f42/README.md"
+    },
+    {
+      "label": "架空の好み7件（input/memories.json）",
+      "url": "examples/mem0-example/input/memories.json"
+    },
+    {
+      "label": "8つの場面（input/scenarios.json）",
+      "url": "examples/mem0-example/input/scenarios.json"
+    },
+    {
+      "label": "埋め込みモデルの固定版と11ファイル（input/model-source.json）",
+      "url": "examples/mem0-example/input/model-source.json"
+    },
+    {
+      "label": "実行スクリプト（run.py）",
+      "url": "examples/mem0-example/run.py"
+    },
+    {
+      "label": "手順と読み方（outputs/method.md）",
+      "url": "examples/mem0-example/outputs/method.md"
+    },
+    {
+      "label": "8操作の実API出力",
+      "url": "examples/mem0-example/outputs/memory-run.json"
+    },
+    {
+      "label": "Qdrant・SQLite・実ベクトルの別照合",
+      "url": "examples/mem0-example/outputs/independent-checks.json"
+    },
+    {
+      "label": "確認の範囲",
+      "url": "examples/mem0-example/verification.json"
+    },
+    {
+      "label": "入力・結果・編集ソース一式",
+      "url": "examples/mem0-example/source.zip"
+    },
+    {
+      "label": "図中心の使い方",
+      "url": "examples/mem0-example/visual-guide.md"
+    },
+    {
+      "label": "改修後に確認した範囲",
+      "url": "examples/mem0-example/verification.json"
+    }
+  ],
+  "license": "MIT（独自作例）・Apache-2.0（Mem0原典）",
+  "license_note": "作例のコード・文章・架空の入力は MIT License（Copyright (c) 2026 Studio Yebisu）。vendor/mem0/ の156ファイルは、mem0ai/mem0 の固定コミット 0724291 のファイルを改変せずに置いたもので、Apache License 2.0（Copyright [2023] [Taranjeet Singh]）です。原典の LICENSE はそのまま同梱しています。埋め込みモデル sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 は Apache-2.0 で、重みはこの作例に含めず、各自が固定版を取得します。実行は CPU だけで、外部 API・キー・アカウント・Mem0 Platform は使いません。依存の導入とモデルの取得には通信が要ります。ソース制作に用いた Opus 5.5 の利用環境は別に必要です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "video_note": "32秒・無音。好み→記憶→検索をつなぐ大きな図が動き、同じ記憶の更新や、開き直した後も値が残る実結果を説明します。縦版を主に、横版も用意しました。",
+  "video_source": "examples/mem0-example/video/index.html",
+  "skill_license": "examples/mem0-example/vendor/mem0/LICENSE",
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "guide_url": "case.html?id=mem0-example",
+  "catalog_entry": {
+    "id": "resource-mem0",
+    "name": "Mem0",
+    "tagline": "会話をまたいで情報を覚えるAI向け記憶層",
+    "category": "knowledge",
+    "kind": "ライブラリ",
+    "summary": "会話や作業から必要な情報を保存し、次の依頼で取り出せます。利用者の好みや継続する仕事の情報を、複数の会話で参照できるアプリに組み込めます。",
+    "use_case": "複数回の会話をまたいで、必要な情報をアプリが参照できるようにしたいとき。",
+    "tags": [
+      "検索",
+      "記憶",
+      "ライブラリ"
+    ],
+    "workflow": [
+      "保存する情報と利用者ごとの範囲を決める",
+      "情報を追加し、別の質問で検索する",
+      "誤った記憶の修正・削除と分離を確認する"
+    ],
+    "requirements": [
+      "モデル・埋め込み・保存先の構成",
+      "保存するデータの範囲"
+    ],
+    "license": "Apache-2.0",
+    "license_url": "https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/LICENSE",
+    "license_note": "オープンソースSDKはApache-2.0。マネージド版の性能値や機能を、そのままSDKの実測とみなさないでください。",
+    "source_url": "https://github.com/mem0ai/mem0/tree/0724291bd864cf807e88ee8981c8226644e8fb42",
+    "guide_url": "case.html?id=mem0-example",
+    "readme_url": "https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/README.md",
+    "source_repository": "mem0ai/mem0",
+    "source_commit": "0724291bd864cf807e88ee8981c8226644e8fb42",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "固定原典156ファイルを無改変で保持しApache2.0を同梱。架空の好み7件でinfer=FalseのOSS APIを実行。会話の自動抽出やマネージド版の性能検証ではない。",
+    "prompt": "Mem0（mem0ai/mem0 固定コミット 0724291bd864cf807e88ee8981c8226644e8fb42、SDK 2.2.1、Apache-2.0）のオープンソース版 Memory API を使って、架空の利用者の好みを保存し、次の依頼で引き出せるかを確かめる Python スクリプトを書き、実際に実行してください。結果は、入力と出力を組で読める日本語のスマホ向けページにしてください。\n\n読む原典（固定版）\n・公式SDKスキル：https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/skills/mem0/SKILL.md\n・Python SDK の参照（Open Source / Self-Hosted の節）：https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/skills/mem0/client/python.md\n・Memory の実装：https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/mem0/memory/main.py\n・Hugging Face 埋め込み：https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/mem0/embeddings/huggingface.py\n・Qdrant 保存先：https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/mem0/vector_stores/qdrant.py\n・SQLite 履歴：https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/mem0/memory/storage.py\n・ライセンス：https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/LICENSE\n\n使うもの（ホスト型 Platform・API キー・アカウント・mem0 init・プラグインは使わない）\n・from mem0 import Memory と Memory.from_config。原典のファイルは改変せずに置いてハッシュで固定し、関数の差し替えはしない。\n・埋め込み：huggingface プロバイダーで、手元に取得した sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2（コミット e8f8c211226b894fcb81acc59f3b34ba3efd5f42、384次元）を CPU で読み込む（local_files_only=True、trust_remote_code=False）。重みは公開しない。\n・保存先：埋め込みモードの Qdrant（path 指定、on_disk）と SQLite の履歴。どちらも公開しないフォルダーに置く。\n・LLM：Memory は LLM のクライアントを必ず作るので、公式の ollama プロバイダーを閉じたポートに向けて置くだけにし、呼ばない。追加はすべて infer=False にする。\n\n入力（ここを差し替える。実行の前に固定し、結果を見てから変えない）\n・好み：キー・user_id・metadata（topic など）・本文。すべて架空にし、実在の人の記録や会話は入れない（この作例では 2人・7件）\n・場面：保存、利用者ごとの検索、同じ問いを別の利用者に、metadata での絞り込み、1件の更新、1件の削除、別プロセスでの読み直し、未登録の利用者と誤った呼び出し（この作例では M01〜M08）\n・設定（この作例の値）：top_k 3、threshold 0.0、explain true、seed 2201、CPU 4スレッド\n\n進め方\n1. 入力と原典のファイルを SHA-256 で、モデルのファイルをサイズとハッシュで照合する。実行中に自動でダウンロードしない。\n2. 依存を読み込む前に、Python の監査フックで socket の接続と名前解決を拒否して数える。MEM0_TELEMETRY=false、非公開の MEM0_DIR、HF_HUB_OFFLINE=1 などを設定する。通信の試みが1件でもあれば失敗にする。\n3. add(本文, user_id=..., metadata=..., infer=False) で1件ずつ保存し、返った ID を入力のキーに対応づける。get_all(filters={\"user_id\": ...}) で件数・本文・metadata を確かめる。\n4. search は filters={\"user_id\": ...} で呼び、返った全件をスコアごと記録する。利用者の記録だけが返ることを確かめる。どれが何位に来るかを合否にしない。\n5. update(id, text=...) の前後で get と history を記録し、ID が同じで本文が置き換わったことを確かめる。delete(id) の後に get が None、一覧から外れたことと、履歴に残るものを記録する。\n6. SQLite と Qdrant を閉じてから、新しい Python プロセスで同じ保存先を開き直し、更新と削除が残っていることを確かめる。未登録の利用者の検索と、誤った呼び出し（filters なし、user_id を filters の外に、threshold 1.1）の実際の例外を記録する。\n7. すべての確認が通ったときだけ、入力のハッシュ・原典とモデルの固定版・版・確認・各場面の入力と戻り値を、公開用の JSON に1回だけ書く。手元の絶対パス・保存ファイルそのもの・完全なログ・認証情報は書かない。既にある結果は上書きしない。\n\nページでできること\n・場面を選び、渡した値と Mem0 が返した記録（ID・利用者・本文・スコア）を読む。各場面の生の JSON も全文で開ける。\n・更新の前後、削除後の get と残る履歴、別プロセスでの件数、誤った呼び出しの例外を見る。\n・保存した JSON と入力を取得し、入力の SHA-256・固定版・場面の一致を確かめてから表示する。合わなければ理由と「もう一度読み込む」を出し、内蔵の代わりのデータは使わない。\n・選んだ場面を JSON で保存し、この依頼文をコピーする。\n・320px幅のスマホから1280px幅のパソコンまで、横スクロールなしで使える。操作部品は44px以上、入力欄の文字は16px以上。外部のフォント・CDN・計測・AIの呼び出しは使わない。ページの中で Mem0・Python・推論は動かさない。\n\n書かないこと\n・infer=False の保存を、LLM による自動の抽出や記憶の整理として書かない。更新はスクリプトが update を呼んだ結果として書く。\n・Mem0 のスコアを確率・確信度・正解率として書かない。\n・user_id での分離を、認証や権限の保証として書かない。\n・削除を、物理的な消去や履歴の削除として書かない。\n・ホスト型 Platform の性能や機能を、この確認の結果として書かない。\n・コードや文章を書いた AI と、ベクトルを計算した埋め込みモデル、記録を操作した Mem0 を混同しない。\n\n最後に、作ったファイル、実際に実行したコマンドとその結果、まだ確かめていない点を分けて書いてください。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "原APIの実CPU埋め込みと保存・検索・明示的更新/削除・別プロセスの実出力を保ち、動く大きな概念図と32秒の無音縦横動画へ改修。スマホ表示・実保存・素材照合・動画再生を確認。実機iOS・人の承認は未確認。",
+    "reviewed_on": "2026-10-17",
+    "example_url": "examples/mem0-example/index.html",
+    "image": "media/mem0-example.webp",
+    "updated_on": "2026-10-17"
+  },
+  "runtime_review": {
+    "human_approval": false,
+    "execution": "Original fixed-source OSS Memory API and actual CPU embeddings; runtime output reused.",
+    "screen_review": "Diagram-first saved-result viewer and original8-case comparison; original API/input/output retained. New native diagram/save/asset checks recorded separately.",
+    "video": "32s/30fps/960frames;720x1280 portrait,1280x720 wide;silent/audio streams0; deterministic source, full decode and native playback verified.",
+    "model_scope": "Original Opus runtime/source receipts preserved; new Opus5.5 receipt authors diagram UI and silent film source. Production checked/rendered/packaged/published; no new inference claimed."
+  },
+  "video_portrait": "media/mem0-example.mp4",
+  "video_landscape": "media/mem0-example-wide.mp4",
+  "poster_portrait": "media/mem0-example.webp",
+  "poster_landscape": "media/mem0-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/mem0-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/mem0-example-landscape-credited-ja-v3.mp4"
+}

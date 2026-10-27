@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob:; connect-src 'self'; media-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>図解動画のソース：Motion Primitives（32秒・無音）｜八百万図AIツールボックス</title>
+  <link rel="stylesheet" href="video.css?v=visual-r1">
+  <script type="module" src="video.js?v=visual-r1"></script>
+</head>
+<body class="vx">
+  <div class="vx-page">
+    <header class="vx-top vx-editor">
+      <h1>図解動画のソース：Motion Primitives</h1>
+      <nav aria-label="関連"><a href="../index.html">紹介の図へ</a>　<a href="legacy.html">以前の28秒の動画のソース</a>　<a href="../desk.html">実部品を動かす</a></nav>
+    </header>
+
+    <div class="vx-frame" data-orient="portrait">
+      <canvas id="film" width="720" height="1280" role="img" aria-label="Motion Primitivesの32秒・無音の図解。Accordionのソースの設計図（Provider・Item・Trigger・Contentの入れ子）が縮んで原典部品の箱になり、依頼文と架空の手順書6件と一緒に作者AIへ入る。AIが画面と部品を書き、制作担当が型検査・ビルド・実操作をして、部品の設計図がブラウザーの中のAccordionの箱へ広がる。App、Accordion（MotionConfigとProvider）、Item、押す入口、本文の箱が外から順に示される。入力しただけでは6件のまま、検索ボタンで2件になる。PDFの見出しを押すとidがonValueChangeでAppの状態へ上がり、expandedValueとして下りて、本文の紙が開く。画像を押すと古い紙が閉じて新しい紙が開き、同じ画像をもう一度押すと閉じる。ページの動きを抑える設定で0秒になり、PDFの本文がすぐに同じ文とタグで出る。OS設定の模擬でも同じ。最後にAppの状態が元の実JSON（2529B）へつながり、元の実画面の切り抜きと全体の図が止まる。"></canvas>
+    </div>
+
+    <div class="vx-editor vx-controls">
+      <p class="vx-status" id="asset-status" data-state="loading" role="status" aria-live="polite">読み込み中</p>
+      <p class="vx-dims" id="asset-dims"></p>
+      <button type="button" id="retry" class="vx-btn" hidden disabled>もう一度読み込む</button>
+
+      <div class="vx-row" role="group" aria-label="再生">
+        <button type="button" id="play" class="vx-btn vx-btn-primary" aria-pressed="false" disabled>再生</button>
+        <button type="button" id="reset" class="vx-btn" disabled>最初へ</button>
+        <button type="button" id="replay" class="vx-btn" disabled>最初から再生</button>
+        <button type="button" id="end" class="vx-btn" disabled>最後へ</button>
+      </div>
+
+      <div class="vx-row vx-scrub">
+        <label for="time">再生位置（秒）</label>
+        <input id="time" type="range" min="0" max="32" step="0.1" value="0" disabled>
+        <output id="clock" for="time">0.0 / 32.0秒</output>
+      </div>
+
+      <div class="vx-row vx-jumps" role="group" aria-label="場面へ移動">
+        <button type="button" class="vx-btn" data-jump="0" disabled>0 何か</button>
+        <button type="button" class="vx-btn" data-jump="4" disabled>4 書く・確かめる</button>
+        <button type="button" class="vx-btn" data-jump="8" disabled>8 入れ子と検索</button>
+        <button type="button" class="vx-btn" data-jump="14" disabled>14 押して戻る</button>
+        <button type="button" class="vx-btn" data-jump="20" disabled>20 動きを抑える</button>
+        <button type="button" class="vx-btn" data-jump="26" disabled>26 実JSON</button>
+        <button type="button" class="vx-btn" data-jump="29" disabled>29 全体</button>
+      </div>
+
+      <div class="vx-row" role="group" aria-label="画面の向き">
+        <button type="button" class="vx-btn" data-orient="portrait" aria-pressed="true" disabled>縦長 720×1280</button>
+        <button type="button" class="vx-btn" data-orient="wide" aria-pressed="false" disabled>横長 1280×720</button>
+      </div>
+
+      <p class="vx-note">32秒・30fps・960フレーム、音声・ナレーションなし。紹介ページと同じ構造図が、縦長と横長それぞれの配置で動きます。描く状態は、元の制作で制作担当が実ブラウザーで記録した15状態のうちのものだけで、その間の動きは説明のための補間です。部品そのものの実行・連続した録画・開閉速度の計測ではなく、この画面はAIを呼ばず、元のビルドや確認をやり直していません。0.18秒と0秒は元の App の設定値で、図の開閉は見やすいよう遅く描いています。開くたびに固定した22件の大きさとSHA-256と中身を確かめ、合わないときは何も描かずに止まります（HTTPS か localhost で開いてください）。再生・移動・向きの切り替えは確認用の操作で、書き出す映像には入りません。</p>
+      <p class="vx-note">編集の説明は <a href="README.md">README.md</a> と <a href="storyboard.json">storyboard.json</a>。</p>
+    </div>
+  </div>
+</body>
+</html>

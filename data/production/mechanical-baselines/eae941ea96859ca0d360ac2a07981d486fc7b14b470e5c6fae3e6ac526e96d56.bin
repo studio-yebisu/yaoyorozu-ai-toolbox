@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="架空の「余白図書室」の十一月の催し6件を、対象と語句で絞り込み、参加方法を開ける一覧。Design Taste の5つのスキルを読んで作った作例です。">
+  <title>十一月の催し｜余白図書室（架空）— Design Taste の作例</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">一覧へ移動</a>
+
+  <header class="site-header">
+    <p class="wordmark">
+      <span class="seal" aria-hidden="true">余</span>
+      <span class="wordmark-name">余白図書室</span>
+      <span class="wordmark-note">架空の図書室</span>
+    </p>
+  </header>
+
+  <main id="main">
+    <div class="intro">
+      <p class="vertical" aria-hidden="true">二〇二六年　十一月</p>
+      <div class="intro-text">
+        <h1>十一月の催し</h1>
+        <p class="fiction">余白図書室は架空の図書室です。催しは作例用の合成データで、実際の参加・申込はできません。作り方と依頼文は<a href="#about">一覧の下</a>にあります。</p>
+      </div>
+    </div>
+
+    <div id="events" class="events-layout">
+      <section class="finder" aria-labelledby="finder-title">
+        <h2 id="finder-title" tabindex="-1">催しをさがす</h2>
+        <form id="finder-form" class="finder-form" role="search" aria-labelledby="finder-title">
+          <fieldset id="finder-fields" class="finder-fields" disabled>
+            <legend class="visually-hidden">絞り込みの条件</legend>
+            <div class="field field-query">
+              <label for="q">名前・説明・会場から探す</label>
+              <input type="search" id="q" name="q" autocomplete="off" enterkeyhint="search" spellcheck="false">
+            </div>
+            <div class="field field-audience">
+              <label for="aud">対象</label>
+              <select id="aud" name="aud">
+                <option value="all">すべて</option>
+                <option value="children">子ども</option>
+                <option value="adults">おとな</option>
+                <option value="everyone">どなたでも</option>
+              </select>
+            </div>
+            <div class="field field-reset">
+              <button type="button" id="reset" class="button-line">条件を解除</button>
+            </div>
+          </fieldset>
+        </form>
+        <p id="status" class="status" role="status">催しのデータを読み込んでいます。</p>
+        <noscript>
+          <p class="notice-plain">この一覧は、JavaScript で催しのデータ（<a href="events.json">events.json</a>）を読み込んで表示します。JavaScript が無効なため、催しを表示できません。有効にしてからページを再読み込みしてください。</p>
+        </noscript>
+      </section>
+
+      <section class="listing" aria-labelledby="listing-title">
+        <h2 id="listing-title" tabindex="-1">催しの一覧</h2>
+        <ol id="event-list" class="events" role="list"></ol>
+
+        <div id="empty" class="empty" hidden>
+          <p class="empty-title">条件に合う催しはありません</p>
+          <p id="empty-reason" class="empty-reason"></p>
+          <button type="button" id="empty-reset" class="button-line">条件を解除してすべて表示</button>
+        </div>
+
+        <div id="load-error" class="empty" hidden>
+          <p class="empty-title">催しのデータを読み込めませんでした</p>
+          <p class="empty-reason">催しのデータ（<a href="events.json">events.json</a>）を取得できなかったため、一覧を表示していません。通信の状態を確かめて、ページを再読み込みしてください。ファイルを直接開いている場合（file://）は読み込めないことがあるため、ローカルのWebサーバーから開いてください。</p>
+          <button type="button" id="reload" class="button-line">ページを再読み込み</button>
+        </div>
+      </section>
+    </div>
+
+    <section id="about" class="about" aria-labelledby="about-title">
+      <h2 id="about-title">この作例について</h2>
+      <div class="about-lead">
+        <p>Design Taste は、AIが画面を作るときに読む、英語の文章で書かれたデザインの指針（Agent Skills）です。画面を生成するAPIやサービスではなく、読んだAIがその指示に沿ってコードを書きます。原典には24のスキルがあり、この作例ではそのうち5つを使いました。</p>
+        <p>上の一覧は、Opus 5.5 が固定版の5つの SKILL.md と実際の依頼を読み、実装の前に書いたデザイン計画に沿って作った、実際に動く画面です。ページを開いてもAIは動きません。絞り込みはこのブラウザーの中でその場に計算するだけで、送信も保存もしません。</p>
+      </div>
+
+      <section class="about-part" aria-labelledby="materials-title">
+        <h3 id="materials-title">素材</h3>
+        <ul class="link-rows">
+          <li><a href="input.md">input.md</a><span>実際の制作依頼。利用者、用途、色、機能、完成の条件を書いています。</span></li>
+          <li><a href="events.json">events.json</a><span>合成の催し6件。名前・日時・分類・会場・本文・参加方法は依頼のまま変えていません。</span></li>
+          <li><a href="design-plan.md">design-plan.md</a><span>実装の前に書いたデザイン計画。文字・色・配置・絞り込みの決まりを定めています。</span></li>
+          <li><a href="samples.json">samples.json</a><span>下の3つの例の条件と、期待する結果。</span></li>
+          <li><a href="https://github.com/madebymustafa/design-taste/tree/c4a6bff0871eb4b15371b0e7d2751628b0ed4608">madebymustafa/design-taste</a><span>原典のリポジトリ（固定コミット c4a6bff）。使った5つの SKILL.md と README・LICENSE は、変更せずに vendor/design-taste/ へ同梱しています。</span></li>
+        </ul>
+        <p class="about-note">例の条件を、上の検索欄と対象の欄に入れて計算し直します。結果は一覧と件数の表示で確かめられます。</p>
+        <ul class="link-rows preset-links">
+          <li><a href="#all">すべての催し</a><span>対象「すべて」、検索語なし</span></li>
+          <li><a href="#children">子ども向けの催し</a><span>対象「子ども」、検索語なし</span></li>
+          <li><a href="#reading">「短編」を含む催し</a><span>対象「すべて」、検索「短編」</span></li>
+        </ul>
+      </section>
+
+      <section class="about-part" aria-labelledby="applied-title">
+        <h3 id="applied-title">5つのスキルの適用と調整</h3>
+        <dl class="skill-rows">
+          <div>
+            <dt><a href="vendor/design-taste/skills/design-taste/SKILL.md">design-taste</a><span>コアの指針</span></dt>
+            <dd>
+              <p>作る前に、利用者と用途を一行の design read にしました（近所の親子・おとなが、催しを探して日時を読む一覧）。グラデーション、中央の大きなヒーロー、カード三つ並び、絵文字、影を使わず、広い画面では左に絞り込み、右に一覧を置く非対称の配置にしています。</p>
+              <p><span class="tag">調整</span>3〜7remの大きな見出しとCTAは、道具としての一覧には合わないため使っていません。見出しは最大3.5remです。</p>
+            </dd>
+          </div>
+          <div>
+            <dt><a href="vendor/design-taste/skills/japanese-minimal/SKILL.md">japanese-minimal</a><span>スタイル</span></dt>
+            <dd>
+              <p>紙#F4F1EA・墨#33302B・印の赤#B3392A、罫線で区切る行、明朝の見出しとゴシックの本文。縦書きは見出し横の「二〇二六年 十一月」1か所、印「余」はワードマークとフッターの2か所です。赤は印とリンクの下線だけに使っています。</p>
+              <p><span class="tag">調整</span>灰#8A8378は文字にするとコントラストが4.5:1に届かないため罫線だけに使い、文字は#625C53にしました。10〜11pxのラベルは14pxに、Webフォントは端末の書体に変えています。検索欄を最初の画面に入れるため、20vh以上の余白と各部のフェードは使っていません。</p>
+            </dd>
+          </div>
+          <div>
+            <dt><a href="vendor/design-taste/skills/taste-accessibility/SKILL.md">taste-accessibility</a><span>操作と構造</span></dt>
+            <dd>
+              <p>h1は一つで、見出しの階層を飛ばしません。先頭にスキップリンクを置き、検索・対象・参加方法には自作の部品ではなくネイティブの検索欄・select・details を使っています。ラベルは欄の上に常に表示し、フォーカスは墨の2pxの枠で示します。検索欄・選択欄・ボタン・参加方法の見出しは高さ44px以上で、件数の表示は入力中にフォーカスを動かしません。</p>
+              <p><span class="tag">調整</span>この画面は明るい配色だけで、ダークモードは用意していません。</p>
+            </dd>
+          </div>
+          <div>
+            <dt><a href="vendor/design-taste/skills/taste-typography/SKILL.md">taste-typography</a><span>文字</span></dt>
+            <dd>
+              <p>書体は明朝とゴシックの2種類、太さは400と600の2つです。見出しは2〜3.5rem、日付は明朝1.5remにして目で追う索引にし、本文はゴシック16px、幅は38em以内にしています。</p>
+              <p><span class="tag">調整</span>日本語の本文なので、行送りは原典の1.55〜1.7ではなく1.8にしました。等幅の書体は使っていません。</p>
+            </dd>
+          </div>
+          <div>
+            <dt><a href="vendor/design-taste/skills/taste-ux-copy/SKILL.md">taste-ux-copy</a><span>文言</span></dt>
+            <dd>
+              <p>感嘆符や最上級の言い方を使わず、ボタンは動詞で書いています（条件を解除、依頼文をコピー）。0件のときは、何が起きたか・なぜか・次の操作の順に書き、解除のボタンを出します。読み込めないときも、起きたことと再読み込みの方法を書きます。</p>
+              <p><span class="tag">調整</span>原典の英語の例にある、読み手へ呼びかける文体は使わず、図書室の案内らしい平明な文にしました。</p>
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="about-part" aria-labelledby="scope-title">
+        <h3 id="scope-title">確認の範囲</h3>
+        <p>絞り込みと日付の21条件を実行し、ブラウザーでも3つの例が6件・2件・1件になることを確認しました。<a href="verification.json">確認記録</a>には測定した範囲と未実施の項目を分けています。</p>
+        <ul class="scope-list" data-verification="checked">
+          <li><span class="tag">確認</span>対象と語句の絞り込み、0件からの解除、参加方法の開閉、依頼文の実コピー</li>
+          <li><span class="tag">確認</span>キーボードの選択操作とTabの枠、320・375・768・1280pxで横はみ出しなし</li>
+          <li><span class="tag">測定</span>本文などの実色のコントラストは5.27:1以上。1280pxでルート文字サイズ200%の横はみ出しなし（ブラウザー全体のズーム検査ではありません）</li>
+          <li><span class="tag">未実施</span>スクリーンリーダーでの読み上げ、人による承認、アクセシビリティ全体の適合判定</li>
+        </ul>
+        <p>スキルを使わずに作った場合との比較はしていません。見た目や使いやすさがどれだけ変わったかは測っていません。</p>
+        <h3>32秒で指針の構造を見る</h3>
+        <p>新しい概念図の32秒・無音動画です。指針と依頼から、同じAIの計画と実装、別工程の確認、実際の一覧へつながる構造を示します。元の26秒の保存画面解説とは別の映像です。</p>
+        <video controls preload="metadata" playsinline poster="../../media/design-taste-example.webp" style="width:100%;max-width:960px;height:auto" aria-label="Design Tasteの指針と制作の構造。32秒・無音"><source src="../../media/design-taste-example.mp4" type="video/mp4">動画を再生できない場合は、<a href="../../media/design-taste-example.mp4">MP4を開く</a>。</video>
+        <p><a href="video/legacy.html">旧26秒の編集ソースを開く</a>　<a href="source.zip">入力・作例・動画のソース一式</a>　<a href="captures.json">実画面の出典記録</a></p>
+      </section>
+
+      <section class="about-part" aria-labelledby="request-title">
+        <h3 id="request-title">依頼文で試す</h3>
+        <p>Design Taste の原典を固定コミットで読める環境で、AIに次の文章を渡します。【】の部分を自分の催しと条件に置き換えて使ってください。このページでAIを動かすことはありません。</p>
+        <label class="request-label" for="request-text">依頼文</label>
+        <textarea id="request-text" class="request-text" readonly rows="16" spellcheck="false">Design Taste（madebymustafa/design-taste、固定コミット c4a6bff0871eb4b15371b0e7d2751628b0ed4608）の skills/ にある design-taste・japanese-minimal・taste-accessibility・taste-typography・taste-ux-copy の5つの SKILL.md（https://github.com/madebymustafa/design-taste/tree/c4a6bff0871eb4b15371b0e7d2751628b0ed4608/skills）を読んでから、次の催し一覧のページを作ってください。
+
+主催と利用者：【図書室や集会所などの名前、実在か架空か、主な利用者】
+催しのデータ：【ファイル名と項目（名前・日付・開始と終了の時刻・対象・会場・説明・参加方法）、変えてはいけない項目】
+絞り込み：【対象の分類と、検索に使う項目】
+条件：【送信・予約・保存をするかどうか、使ってよい色・書体・素材】
+
+進め方：最初に design read を一行で書き、スタイルは japanese-minimal の1つだけにする。紙・墨・印の赤、罫線の一覧、明朝とゴシック、縦書き1か所を使い、本文は16px以上、ラベルは14px以上にする。コントラストが4.5:1に届かない色は文字に使わず濃い色へ調整し、原典のどの指示を適用し、どれを調整したかを記録する。検索欄・select・details はネイティブの要素を使い、キーボードだけで操作できるようにする。0件のときは理由と解除の操作を出し、検索語をHTMLとして解釈しない。
+
+確認：絞り込みの結果を期待する値と照らし、320px幅で日時・対象・参加方法が欠けないか、フォーカスが見えるか、文字のコントラストを実際のブラウザーで確かめる。確かめた点と、確かめていない点（スクリーンリーダー、人の承認など）を分けて報告する。</textarea>
+        <div id="copy-row" class="copy-row" hidden>
+          <button type="button" id="copy-request" class="button-ink">依頼文をコピー</button>
+          <p id="copy-status" class="copy-status" role="status"></p>
+        </div>
+        <p class="request-links"><a href="request.html">依頼文だけのページ</a>　<a href="request.txt">テキスト（request.txt）</a></p>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="seal" aria-hidden="true">余</span>
+      <div class="footer-text">
+        <p>余白図書室は作例のための架空の図書室です。実在の図書館・催し・申込とは関係ありません。</p>
+        <p>画面・CSS・JavaScript・文言：八百万図AIツールボックス（MIT、<a href="LICENSE">LICENSE</a>）。同梱した Design Taste の SKILL.md と README：Mustafa（MIT、<a href="vendor/design-taste/LICENSE">LICENSE</a>）。</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="app.mjs" onerror="document.getElementById('status').textContent='一覧のプログラム（app.mjs）を読み込めませんでした。ページを再読み込みしてください。ファイルを直接開いている場合は、ローカルのWebサーバーから開いてください。'"></script>
+  <script nomodule>document.getElementById("status").textContent = "このブラウザーでは一覧を表示できません。新しいブラウザーで開いてください。";</script>
+</body>
+</html>

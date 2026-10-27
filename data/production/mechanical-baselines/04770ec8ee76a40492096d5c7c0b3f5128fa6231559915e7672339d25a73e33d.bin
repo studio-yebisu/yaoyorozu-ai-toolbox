@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>LivePortraitで、1枚の肖像が動くまで｜八百万図AIツールボックス</title>
+  <meta name="description" content="LivePortraitの原典コアAPIを1回だけ実行した作例。手で切り出した1枚の肖像と手動のyawの値から、Fの見た目の特徴とMの21点に分かれ、W・Gで新しい画像になるまでを1枚の構造図で見せます。">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body data-app="liveportrait-main" data-state="loading">
+  <header class="top">
+    <h1 id="title"><span class="nw">LivePortraitで、</span><span class="nw">1枚の肖像が動くまで</span></h1>
+    <a class="back" href="../../case.html?id=liveportrait-example">記事へ</a>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="title">
+      <div class="controls">
+        <div class="seg" role="group" aria-label="図の段階">
+          <button type="button" data-stage="0" aria-pressed="true" disabled>①何か</button>
+          <button type="button" data-stage="1" aria-pressed="false" disabled>②渡す</button>
+          <button type="button" data-stage="2" aria-pressed="false" disabled>③返る</button>
+        </div>
+        <div class="seg cases" role="group" aria-label="保存済みの結果を選ぶ（再計算はしません）">
+          <span class="seg-label" aria-hidden="true">結果</span>
+          <button type="button" data-case="yaw08" aria-pressed="true" aria-label="保存済みの結果：入力yaw ±8度" disabled>±8°</button>
+          <button type="button" data-case="yaw16" aria-pressed="false" aria-label="保存済みの結果：入力yaw ±16度" disabled>±16°</button>
+        </div>
+      </div>
+
+      <div id="map" class="map">
+        <canvas id="concept" role="img" aria-label="構造図。原典README、作者AI 1体、制作担当。原画 s9.jpg を手動で512に切り出し、元APIが256に縮める。同じ1枚から、Fが見た目の特徴を1回、Mが21点と姿勢を1回だけ取り出す。作者が決めた手動のyawを足して21点を変換し、stitchingで補正する。Wは同じF特徴と動いた21点で変形し、Gが512の画像を新しく描く。生成PNGからMP4、再生と保存へ。"></canvas>
+        <button type="button" class="pin" data-part="1" aria-label="部品1 1枚を渡す：原典の該当行を開く" disabled><span class="vh">1</span></button>
+        <button type="button" class="pin" data-part="2" aria-label="部品2 見た目を1度抽出：原典の該当行を開く" disabled><span class="vh">2</span></button>
+        <button type="button" class="pin" data-part="3" aria-label="部品3 21点と姿勢を推定：原典の該当行を開く" disabled><span class="vh">3</span></button>
+        <button type="button" class="pin" data-part="4" aria-label="部品4 手動の向きと補正：原典の該当行を開く" disabled><span class="vh">4</span></button>
+        <button type="button" class="pin" data-part="5" aria-label="部品5 同じ特徴を変形：原典の該当行を開く" disabled><span class="vh">5</span></button>
+        <button type="button" class="pin" data-part="6" aria-label="部品6 512画像を生成：原典の該当行を開く" disabled><span class="vh">6</span></button>
+      </div>
+
+      <div class="save" role="group" aria-label="選んだ保存済みの結果を保存">
+        <a id="save-output" class="btn primary" aria-disabled="true"><span data-label>MP4 ±8°</span><small>を保存</small></a>
+        <a id="save-record" class="btn" aria-disabled="true"><span data-label>記録 ±8°</span><small>JSON</small></a>
+        <a id="save-source" class="btn" aria-disabled="true"><span>入力PNG</span><small>512×512</small></a>
+      </div>
+      <p id="status" role="status" aria-live="polite">保存済みのファイルを確かめています…</p>
+      <div id="failure" class="failure" hidden>
+        <p id="state-detail"></p>
+        <button type="button" id="retry" disabled>もう一度確かめる</button>
+      </div>
+      <noscript><p class="failure">この図は JavaScript で保存済みのファイルを確かめてから表示します。</p></noscript>
+    </section>
+
+    <ul class="legend" aria-label="図の読み方">
+      <li><i class="k-real"></i>画像・21点・角度・コマ＝実データ</li>
+      <li><i class="k-explain"></i>立方体と動く印＝説明のための形</li>
+      <li><i class="k-manual"></i>点線＝作者が決めた手動の値</li>
+      <li><i class="k-pin"></i>①〜⑥＝押すと原典の該当行</li>
+    </ul>
+
+    <section id="stage-text" class="prose stage-text" aria-label="段階の説明">
+      <p data-stage-text="0">LivePortraitは、1枚の顔の画像を動かすための、手元で動くPythonのモデルと原典のコアAPIです。SKILL.md・ホスト型API・自動で動くAIチームではありません。原典のフル版は駆動動画や顔検出も扱えますが、この作例は <code>LivePortraitWrapper</code> を直接呼ぶ小さな範囲だけを使いました。作者AI 1体がランナーと値を書き、制作担当が原典のコアを1回だけ実行しています。</p>
+      <p data-stage-text="1" hidden>渡したのは、原典に同梱の s9.jpg（レオナルド・ダ・ヴィンチ《モナ・リザ》の複製画）から手で切り出した512×512の1枚と、作者が決めたyawの数値36個です。元APIがこの1枚を<span data-fact="input-shape">—</span>に縮め、Fが見た目の3D特徴（<span data-fact="feature-shape">—</span>）を1回、Mが姿勢・表情・21点を1回だけ推定しました。推定されたyawは<span data-fact="pose-yaw">—</span>°です。21点は学習された暗黙の点で、目や鼻と名前の付いた点ではありません。</p>
+      <p data-stage-text="2" hidden>各コマで、推定yawに手動の値を足して21点を変換し（transform_keypoint は入力の1回を含めて<span data-fact="calls-transform">—</span>回）、stitchingが学習した補正を足します。Wは同じF特徴と動いた21点を受け取り、Gが512×512の画像を毎回新しく描きます（warp_decode <span data-fact="calls-warp">—</span>回）。オフセット0の1コマ目もGが描いた画像で、入力の1枚とは別物です。原典の parse_output が0〜1に収めて8bitにし、36枚のPNGを FFmpeg で3秒・無音のMP4にまとめました。</p>
+    </section>
+
+    <section class="result" aria-labelledby="result-title">
+      <h2 id="result-title">実際の入力と、返ってきた動画</h2>
+      <div class="pair">
+        <figure>
+          <img id="original-picture" alt="原典に同梱の s9.jpg。モナ・リザの複製画。" width="720" height="1280">
+          <figcaption>原画 s9.jpg（<span data-fact="orig-size">—</span>・原典に同梱の複製画。AIで作った肖像ではありません）</figcaption>
+        </figure>
+        <figure>
+          <img id="source-picture" alt="手動で切り出した入力。512×512。" width="512" height="512">
+          <figcaption>入力：PILの枠 <span data-fact="crop-box">—</span> を手で切り出し、512×512に</figcaption>
+        </figure>
+        <figure class="movie">
+          <video id="result-video" controls playsinline muted preload="metadata" width="512" height="512"></video>
+          <figcaption id="video-note"></figcaption>
+        </figure>
+      </div>
+      <h3>生成されたコマ（36コマのうち代表5枚）</h3>
+      <div id="frames" class="frames"></div>
+      <p class="small">#0 と #35 はオフセット0のコマで、どちらもGが描いた画像です（同じバイト列であることを記録で照合）。上の入力の1枚とは別物です。</p>
+    </section>
+
+    <section class="prose more">
+      <details>
+        <summary>実行の記録（1回の測定）</summary>
+        <div id="proof" class="proof"></div>
+      </details>
+      <details>
+        <summary>照合する<span data-fact="count">—</span>ファイル</summary>
+        <p class="small">ページを開くたびに、一覧の固定 SHA-256 と、各ファイルの大きさと SHA-256 を確かめます。どれか1つでも違えば、図・動画・保存を止めます。</p>
+        <ol id="inventory" class="inventory"></ol>
+      </details>
+      <details>
+        <summary>できないこと・確かめていないこと</summary>
+        <ul>
+          <li>角度の数値は、推定した入力のyawに足した入力の制御値です。生成された顔の向きを測った値ではなく、向きの正確さは確かめていません。</li>
+          <li>1コマ目（オフセット0）も生成画像で、入力の1枚とは別物です。</li>
+          <li>原典の parse_output は0〜1に切り詰めて8bitにします。そのあとの H.264（yuv420p）への圧縮は非可逆です。</li>
+          <li>人による見た目の承認、本人らしさの保持、自然さ、ループのつながり、向きの精度、速度は保証しません。</li>
+          <li>実行していないもの：LivePortraitPipeline・inference.py・Gradio、顔検出（InsightFace・landmark.onnx）、駆動動画からの動き、音声・リップシンク、目と口の比率 retargeting（重みは読み込みましたが呼んでいません）、ペーストバック、動物モード、ComfyUI。</li>
+          <li>時間は制作担当のCPUでの1回の測定で、ベンチマークではありません。図の動きも説明のためのもので、処理時間を表しません。</li>
+          <li>同梱22原典ファイルは、この限定コア用ランナーが照合する21パスを含みます。アプリ全体ではありません。固定した5重み・Python 3.11の依存・FFmpegは別に必要です。実制作では固定版の全checkoutを使い、同梱部分からの推論再実行はしていません。</li>
+          <li>作者の執筆後、制作担当がこの図・ページ・編集ソースと縦横の無音動画を実際に表示・描画・再生して確認しました。範囲は visual-verification.json に記録しています。実機iOS/Safari・VoiceOver・200%拡大、人の審美的承認は未確認です。</li>
+        </ul>
+      </details>
+      <details>
+        <summary>出典とライセンス</summary>
+        <ul>
+          <li>原典：<a href="https://github.com/KlingAIResearch/LivePortrait/tree/9b294b3d0536135442ea73cb01e6cb3ca7029dd3" rel="noopener">KlingAIResearch/LivePortrait（固定コミット 9b294b3）</a>・MIT。<a href="vendor/liveportrait/LICENSE">同梱のLICENSE</a>・<a href="vendor/liveportrait/readme.md">同梱のreadme</a></li>
+          <li>原典のLICENSEは、InsightFaceの検出モデルを非商用研究用としています。この作例では、その検出モデルを取得も実行もしていません。</li>
+          <li>重み：<a href="https://huggingface.co/KlingTeam/LivePortrait/blob/82a4fa6735ca58432b6ce39301b4b9ee066dea47/README.md" rel="noopener">KlingTeam/LivePortrait（固定 82a4fa6）</a>・モデルカードはMIT。5ファイルを使い、配布はしていません。</li>
+          <li>入力：<a href="https://github.com/KlingAIResearch/LivePortrait/blob/9b294b3d0536135442ea73cb01e6cb3ca7029dd3/assets/examples/source/s9.jpg" rel="noopener">原典の assets/examples/source/s9.jpg</a>（レオナルド・ダ・ヴィンチ《モナ・リザ》の複製画。原作品はパブリックドメインの歴史的絵画）。手動の切り出しと生成画像は、そこからの派生です。</li>
+          <li>別に入れた依存（同梱なし）：Python・PyTorch・NumPy・SciPy・Pillow・OpenCV・PyYAML・rich・FFmpeg/libx264。詳しくは <a href="THIRD_PARTY_NOTICES.md">第三者の表示</a>。</li>
+          <li>実行のコード：<a href="prepare_input.py">prepare_input.py</a>・<a href="run_example.py">run_example.py</a>・<a href="inputs/jobs.json">inputs/jobs.json</a>・<a href="implementation.md">実装メモ</a>。記録：<a href="outputs/results.json">outputs/results.json</a>（ランナーの測定。原典のネイティブ出力ではありません）・<a href="UPSTREAM.json">UPSTREAM.json</a>・<a href="concept/facts.json">concept/facts.json</a>。</li>
+          <li>ページ・図・文章・解説動画のソースとランナー：八百万図AIツールボックス・<a href="LICENSE">MIT</a>。作者AI（Claude Opus 5.5）が書き、原典の実行は制作担当が1回だけ行いました。</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="prose film">
+      <h2>解説動画（32秒・無音）</h2>
+      <p>同じ構造図の形が動き、分かれ、また合流する動画です。ナレーションと音声はありません。</p>
+      <p class="links">
+        <a href="../../media/liveportrait-example.mp4">縦 720×1280</a>
+        <a href="../../media/liveportrait-example-wide.mp4">横 1280×720</a>
+        <a href="video/index.html">編集用ソース</a>
+        <a href="README.md">README</a>
+      </p>
+    </section>
+  </main>
+
+  <dialog id="part-dialog" aria-labelledby="part-title">
+    <div class="dlg">
+      <header>
+        <h2 id="part-title"></h2>
+        <button type="button" data-close aria-label="閉じる">×</button>
+      </header>
+      <p id="part-meaning"></p>
+      <p class="small">番号の6部品は、説明のための整理です。原典の区分でも、自動で動くAIエージェントでもありません。引用は同梱した原典の該当行と一致することを確かめています。</p>
+      <div id="part-sources"></div>
+    </div>
+  </dialog>
+</body>
+</html>

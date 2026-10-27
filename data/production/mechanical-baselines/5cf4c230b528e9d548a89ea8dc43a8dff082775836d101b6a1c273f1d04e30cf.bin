@@ -1,0 +1,60 @@
+/*
+ * japanese-a4.css — 八百万図AIツールボックス の和文上書き（A4版）
+ *
+ * 原典 themes/warm-terra.css と md_to_pdf.py が自動で足す表用CJKパッチの
+ * 「後ろ」に追加して読み込む前提の上書きだけを書く。原典テーマは複製しない。
+ * 用紙 210×297mm・余白 12/12/16/12mm・配色（#d97756 ほか）は原典のまま。
+ * フォントはインストール済みの Noto Sans JP を優先し、外部読み込みはしない。
+ */
+
+@page {
+    @bottom-center {
+        font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
+    }
+}
+
+/* 本文：和文フォントと禁則。通常の折り返しは止めない */
+body {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
+        'Yu Gothic', 'YuGothic', 'Meiryo', sans-serif;
+    line-break: strict;
+    word-break: normal;
+    overflow-wrap: break-word;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: inherit;
+    line-height: 1.4;
+    break-after: avoid;
+    page-break-after: avoid;
+}
+
+/* 見出し直後の副題（原稿の2段落目） */
+h1 + p {
+    margin-top: -0.4em;
+    margin-bottom: 1.4em;
+    color: #5f5248;
+    font-size: 13.5px;
+}
+
+p {
+    orphans: 2;
+    widows: 2;
+}
+
+/* 原典の li { word-break: break-word } を和文向けに戻す */
+li {
+    word-break: normal;
+    overflow-wrap: break-word;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+ol li::marker {
+    color: #d97756;
+    font-weight: 700;
+}
+
+code, pre code, .cjk-code-block {
+    font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', monospace;
+}

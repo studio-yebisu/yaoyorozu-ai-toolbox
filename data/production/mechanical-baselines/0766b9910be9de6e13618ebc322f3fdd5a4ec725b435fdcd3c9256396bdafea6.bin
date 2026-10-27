@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ja" data-page="brief-to-demo-concept" data-state="loading" data-theme="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ひと言を、制作の設計図へ｜brief-to-demo 作例｜八百万図AIツールボックス</title>
+  <meta name="description" content="brief-to-demoは、AIが読むMarkdownの指示書です。短い依頼を、分野・次に受け取る素材・読むスキル・完成の条件・未指定の条件を持つ11項目の制作ブリーフに整えます。保存済みの3件で、指示書と依頼が1つのAIに入り、ブリーフのJSONと引き継ぎ文になるまでを図で示します。ページではAIを実行しません。">
+  <meta name="color-scheme" content="light dark">
+  <script>try{var t=localStorage.getItem('studio-yebisu.brief-to-demo.theme');if(t==='light'||t==='dark'||t==='system')document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <link rel="stylesheet" href="concept.css">
+  <script type="module" src="concept.js"></script>
+</head>
+<body>
+  <a class="skip" href="#fields">図の下の11項目へ</a>
+
+  <header class="top wrap">
+    <h1>ひと言を、制作の設計図へ</h1>
+    <p class="definition">AIが読む指示書。依頼を11項目に整える</p>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <h2 id="hero-title" class="visually-hidden">brief-to-demoの中身と使い方を示す図</h2>
+      <div class="switches">
+        <div class="stages" role="group" aria-label="図の段階">
+          <button type="button" class="stage" data-stage="0" aria-pressed="true" disabled>読む</button>
+          <button type="button" class="stage" data-stage="1" aria-pressed="false" disabled>組む</button>
+          <button type="button" class="stage" data-stage="2" aria-pressed="false" disabled>渡す</button>
+          <button type="button" id="replay" class="replay" aria-label="この段階の動きをもう一度" title="この段階の動きをもう一度" disabled>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 5a7 7 0 1 1-6.6 4.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="samples" role="group" aria-label="保存済みの例">
+          <button type="button" class="sample" data-sample="ui" aria-pressed="true" disabled>UI画面</button>
+          <button type="button" class="sample" data-sample="slides" aria-pressed="false" disabled>スライド</button>
+          <button type="button" class="sample" data-sample="motion" aria-pressed="false" disabled>動画</button>
+        </div>
+      </div>
+
+      <figure class="map">
+        <canvas id="concept-map" role="img" aria-describedby="stage-note" aria-label="brief-to-demoの図。本はAIが読む指示書のSKILL.mdで、「成果物から分野へ」「受け取っていない事実を足さない」「推測した条件は別に」の3つの決まりが書かれています。受け取ったものは短い依頼文1枚だけで、素材はこの例ではありません。本と依頼文が1つのAIに入り、同じ紙が11項目の制作ブリーフに開きます。区画は説明用に、依頼の芯5・制作に必要なもの2・作り方と完成3に並び、11項目めの未指定・仮の条件は別のポケットに、値の入っていない中空の印で残ります。分野は4つの選択肢から成果物で選ばれ、次の制作で読むスキルが決まります。ブリーフは保存済みのJSONと引き継ぎ文になります。次の制作は点線の枠だけで、まだ実行していません。"></canvas>
+      </figure>
+
+      <div class="actions">
+        <a id="save-json" class="btn btn-primary" aria-disabled="true">ブリーフJSONを保存</a>
+        <button id="copy-handoff" class="btn" type="button" disabled>引き継ぎ文をコピー</button>
+      </div>
+      <div class="meta-row">
+        <p id="save-meta" class="save-meta"></p>
+        <a id="open-desk" class="btn btn-quiet" aria-disabled="true">以前の表示で全文を読む</a>
+      </div>
+      <p id="copy-status" class="copy-status" role="status"></p>
+      <p id="stage-note" class="caption" aria-live="polite"></p>
+      <p id="load-status" class="load-status" role="status" data-state="loading">保存済みの素材12件を照合しています…</p>
+      <p class="retry-row"><button id="retry" class="btn" type="button" hidden>もう一度読み込む</button></p>
+      <noscript><p class="load-status" data-state="error">図と選択には JavaScript が必要です。下の一覧から実ファイルを直接開けます。</p></noscript>
+    </section>
+
+    <section id="fields" class="wrap" aria-labelledby="fields-title">
+      <h2 id="fields-title">ブリーフの11項目</h2>
+      <p class="lead">11項目は、原典SKILL.mdにあるJSONの形そのものです。4つのまとまりは、この作例の説明のための整理です。選ぶと、図で選んだ例の保存済みの値を表示します。</p>
+      <div class="field-groups">
+        <div class="field-group" role="group" aria-labelledby="g-core">
+          <h3 id="g-core">依頼の芯</h3>
+          <div class="chip-buttons">
+            <button type="button" data-field="title" aria-pressed="false" disabled>題名</button>
+            <button type="button" data-field="request" aria-pressed="true" disabled>元の依頼</button>
+            <button type="button" data-field="category" aria-pressed="false" disabled>分野</button>
+            <button type="button" data-field="audience" aria-pressed="false" disabled>見る人</button>
+            <button type="button" data-field="goal" aria-pressed="false" disabled>目的</button>
+          </div>
+        </div>
+        <div class="field-group" role="group" aria-labelledby="g-materials">
+          <h3 id="g-materials">制作に必要なもの</h3>
+          <div class="chip-buttons">
+            <button type="button" data-field="inputs" aria-pressed="false" disabled>次に受け取る素材</button>
+            <button type="button" data-field="skill_refs" aria-pressed="false" disabled>読むスキル</button>
+          </div>
+        </div>
+        <div class="field-group" role="group" aria-labelledby="g-production">
+          <h3 id="g-production">作り方と完成</h3>
+          <div class="chip-buttons">
+            <button type="button" data-field="deliverables" aria-pressed="false" disabled>成果物の計画</button>
+            <button type="button" data-field="steps" aria-pressed="false" disabled>制作の手順</button>
+            <button type="button" data-field="acceptance" aria-pressed="false" disabled>完成の条件</button>
+          </div>
+        </div>
+        <div class="field-group field-group--pocket" role="group" aria-labelledby="g-assumptions">
+          <h3 id="g-assumptions">未指定・仮の条件</h3>
+          <div class="chip-buttons">
+            <button type="button" data-field="assumptions" aria-pressed="false" disabled>未指定・仮に置いた条件</button>
+          </div>
+        </div>
+      </div>
+      <div class="readout" aria-live="polite">
+        <h3 id="field-label"></h3>
+        <p id="field-key" class="key"></p>
+        <p id="field-status" class="status-tag"></p>
+        <div id="field-value" class="field-value"></div>
+        <pre class="quote"><code id="field-quote"></code></pre>
+        <p id="field-source" class="source-link"></p>
+      </div>
+    </section>
+
+    <section class="wrap" aria-labelledby="parts-title">
+      <h2 id="parts-title">指示書の中の6つの場所</h2>
+      <p class="lead">この作例の説明のための整理です。原典が決めた入力形式ではありません。選ぶと図の該当箇所に枠が付きます。</p>
+      <div class="chip-buttons" role="group" aria-label="6つの場所">
+        <button type="button" data-part="manual" aria-pressed="false" disabled>AIが読む指示書</button>
+        <button type="button" data-part="input" aria-pressed="false" disabled>元の依頼と使える素材</button>
+        <button type="button" data-part="category" aria-pressed="false" disabled>成果物から分野を選ぶ</button>
+        <button type="button" data-part="schema" aria-pressed="false" disabled>11項目のブリーフ</button>
+        <button type="button" data-part="assumptions" aria-pressed="false" disabled>未指定と仮定を分ける</button>
+        <button type="button" data-part="handoff" aria-pressed="false" disabled>次の制作へ渡す</button>
+      </div>
+      <div class="readout" aria-live="polite">
+        <h3 id="part-label"></h3>
+        <p id="part-meaning"></p>
+        <pre class="quote"><code id="part-quote"></code></pre>
+        <p id="part-source" class="source-link"></p>
+      </div>
+    </section>
+
+    <section class="wrap" aria-labelledby="rules-title">
+      <h2 id="rules-title">本に書かれた3つの決まり</h2>
+      <p class="lead">指示書を読んだAIに求める決まりです。守られたことを自動で保証するものではありません。選ぶと図の本の札と、関わる場所に枠が付きます。</p>
+      <div class="chip-buttons" role="group" aria-label="3つの決まり">
+        <button type="button" data-rule="by-result" aria-pressed="false" disabled>成果物から分野へ</button>
+        <button type="button" data-rule="no-facts" aria-pressed="false" disabled>受け取っていない事実を足さない</button>
+        <button type="button" data-rule="separate" aria-pressed="false" disabled>推測した条件は別に</button>
+      </div>
+      <div class="readout" aria-live="polite">
+        <h3 id="rule-label"></h3>
+        <p id="rule-meaning"></p>
+        <pre class="quote"><code id="rule-quote"></code></pre>
+        <p id="rule-source" class="source-link"></p>
+      </div>
+    </section>
+
+    <section class="wrap" aria-labelledby="take-title">
+      <h2 id="take-title">持ち帰るもの</h2>
+      <p class="lead">保存済みのブリーフと、それを次の制作へ渡すための引き継ぎ文です。どちらも制作時の保存記録で、このページで新しく書いたものではありません。次の制作は別の作業で、まだ実行していません。</p>
+      <p id="route-reason" class="route-reason"></p>
+      <label class="field-label" for="handoff-text">引き継ぎ文<span>（読み取り専用）　<span id="handoff-name"></span></span></label>
+      <textarea id="handoff-text" class="text-box" rows="10" readonly spellcheck="false"></textarea>
+      <p class="row-actions">
+        <button id="copy-handoff-2" class="btn" type="button" disabled>引き継ぎ文をコピー</button>
+        <a id="handoff-raw" class="btn btn-quiet" aria-disabled="true">テキストファイルを開く</a>
+      </p>
+      <p id="handoff-status" class="copy-status" role="status"></p>
+
+      <details class="fold">
+        <summary>ブリーフJSON（ファイルの中身そのまま）</summary>
+        <label class="field-label" for="json-text">ブリーフJSON<span>（読み取り専用）　<span id="json-name"></span></span></label>
+        <textarea id="json-text" class="text-box mono" rows="14" readonly spellcheck="false"></textarea>
+        <p class="row-actions">
+          <button id="copy-json" class="btn" type="button" disabled>JSONをコピー</button>
+          <a id="json-raw" class="btn btn-quiet" aria-disabled="true">JSONファイルを開く</a>
+        </p>
+        <p id="json-status" class="copy-status" role="status"></p>
+      </details>
+
+      <details class="fold">
+        <summary>AIに渡した依頼文の例（UI・request.txt）</summary>
+        <p class="note">元の作例で、SKILL.mdを読めるAIに渡した依頼文です。UIの例の依頼が入っています。</p>
+        <label class="field-label" for="request-text">request.txt<span>（読み取り専用）</span></label>
+        <textarea id="request-text" class="text-box" rows="6" readonly spellcheck="false"></textarea>
+        <p class="row-actions">
+          <button id="copy-request" class="btn" type="button" disabled>依頼文をコピー</button>
+          <a class="btn btn-quiet" href="request.txt">request.txt</a>
+        </p>
+        <p id="request-status" class="copy-status" role="status"></p>
+      </details>
+    </section>
+
+    <section class="films wrap" aria-labelledby="films-title">
+      <h2 id="films-title">図解32秒・無音</h2>
+      <p class="lead">上の図と同じ形が動く、音のない32秒の解説です。ナレーションや音声ガイドはありません。例はUI画面の依頼です。ブリーフが計画している20秒の製品動画とは別のもので、その動画は作っていません。</p>
+      <video id="film-portrait" class="film film--portrait" controls playsinline muted preload="metadata" poster="../../media/brief-to-demo.webp" width="720" height="1280" aria-label="図解動画（縦・32秒・無音）">
+        <source src="../../media/brief-to-demo.mp4" type="video/mp4">
+        <a href="../../media/brief-to-demo.mp4">MP4を開く</a>
+      </video>
+      <details class="fold">
+        <summary>横長版（1280×720・32秒・無音）</summary>
+        <video id="film-wide" class="film film--wide" controls playsinline muted preload="none" width="1280" height="720" aria-label="図解動画（横・32秒・無音）">
+          <source src="../../media/brief-to-demo-wide.mp4" type="video/mp4">
+          <a href="../../media/brief-to-demo-wide.mp4">MP4を開く</a>
+        </video>
+      </details>
+      <p class="links"><a href="video/index.html">編集できる図解ソース</a><a href="source.zip">入力・出力・ソース一式（source.zip）</a></p>
+    </section>
+
+    <section class="wrap" aria-labelledby="files-title">
+      <h2 id="files-title">実ファイル</h2>
+      <ul class="files">
+        <li><a href="outputs/ui.json">outputs/ui.json</a><span>UI画面の依頼のブリーフ（2,733 B）</span></li>
+        <li><a href="outputs/slides.json">outputs/slides.json</a><span>スライドの依頼のブリーフ（2,687 B）</span></li>
+        <li><a href="outputs/motion.json">outputs/motion.json</a><span>動画の依頼のブリーフ（2,370 B）</span></li>
+        <li><a href="outputs/ui-handoff.txt">outputs/ui-handoff.txt</a><span>UIの引き継ぎ文（3,156 B）</span></li>
+        <li><a href="outputs/slides-handoff.txt">outputs/slides-handoff.txt</a><span>スライドの引き継ぎ文（3,110 B）</span></li>
+        <li><a href="outputs/motion-handoff.txt">outputs/motion-handoff.txt</a><span>動画の引き継ぎ文（2,793 B）</span></li>
+        <li><a href="samples.json">samples.json</a><span>3件をまとめた保存済みのファイル（以前のビューアが読むもの）</span></li>
+        <li><a href="inputs/requests.json">inputs/requests.json</a><span>実際の入力：短い依頼文3つ。素材は含みません</span></li>
+        <li><a href="request.txt">request.txt</a><span>AIに渡した依頼文の例（UI）</span></li>
+        <li><a href="concept/structure.json">concept/structure.json</a><span>6つの場所・3つの決まり・11項目と引用の行</span></li>
+        <li><a href="concept/manifest.json">concept/manifest.json</a><span>照合する12件の大きさとSHA-256</span></li>
+        <li><a href="vendor/brief-to-demo/SKILL.md">vendor/brief-to-demo/SKILL.md</a><span>固定版の指示書（1,830 B）</span></li>
+        <li><a href="vendor/brief-to-demo/LICENSE">vendor/brief-to-demo/LICENSE</a><span>MIT License, Copyright (c) 2026 Studio Yebisu</span></li>
+        <li><a href="desk.html">desk.html</a><span>以前のビューア：3件のブリーフの全文</span></li>
+        <li><a href="video/index.html">video/index.html</a><span>図解32秒の編集できるソース</span></li>
+        <li><a href="visual-guide.md">visual-guide.md</a><span>図と32秒動画の開き方・再現手順</span></li>
+        <li><a href="source.zip">source.zip</a><span>入力・出力・ソース一式</span></li>
+      </ul>
+      <p class="links">
+        <a href="https://github.com/studio-yebisu/yaoyorozu-ai-toolbox/blob/bc2984ab4208e349aded79b3694cc2cb98b8a4a6/skills/brief-to-demo/SKILL.md" rel="noopener">固定版のSKILL.md（コミット bc2984a）</a>
+        <a href="../../skills/brief-to-demo/SKILL.md">サイトに置いたSKILL.md</a>
+      </p>
+    </section>
+
+    <section class="wrap" aria-labelledby="scope-title">
+      <h2 id="scope-title">確かめた範囲</h2>
+      <details class="fold">
+        <summary>分かること・まだ分からないこと</summary>
+        <ul class="plain">
+          <li>brief-to-demoは、AIエージェントが読むMarkdownの指示書（SKILL.md）です。自動で振り分けるAPI、フォームからAIへ送るサービス、スクリプト、モデルではありません。指示書そのものは動かず、読んだAIが従います。</li>
+          <li>このページではAIを実行しません。表示するのは保存済みの3件のブリーフと、それを包んだ引き継ぎ文です。今回の図の改修で、ブリーフを書き直したり新しく作ったりはしていません。</li>
+          <li>3件のブリーフは、元の制作で Opus 5.5（claude-opus-5-5）が書いたものです。スライドの件は、その後に元の統合担当が sol-editorial-ja の正本を読み、読むスキルを sol-editorial-ja と原典MckEngine へ変えました。samples.json 全体を、編集のないOpus の応答そのものとは扱いません。</li>
+          <li>実際の入力は短い依頼文3つだけです。イベントの写真や確かめた日時、書店や製品の資料は受け取っていません。各ブリーフの「次に受け取る素材」は、これから受け取るものの計画です。</li>
+          <li>見る人・目的・成果物・手順・完成の条件・未指定の条件は、ブリーフが提案した内容です。依頼者が確かめた事実ではありません。完成の条件15件は、合格した15件の確認ではありません。</li>
+          <li>ブリーフに沿った次の制作（受付画面、PPTX、20秒の製品動画）は行っていません。人による承認もありません。この32秒の解説動画は、ブリーフが計画する20秒の製品動画とは別のものです。</li>
+          <li>スライドのブリーフにある <code>workspace/slides/…</code> は、八百万図AIツールボックスの作業場所を指す文字列です。公開リンクではなく、この作例で新しく作業したものでもありません。</li>
+          <li>分野は原典の形で4つ（ui-ux・slides・motion・agents）ありますが、保存済みの例は3つで、agents の例はありません。</li>
+          <li>4つのまとまりと6つの場所は、この作例の説明のための整理です。原典の入力形式は11項目のJSONだけです。</li>
+        </ul>
+      </details>
+      <details class="fold">
+        <summary>原典の固定版</summary>
+        <ul class="plain">
+          <li>原典は studio-yebisu/studio-yebisu のコミット <code>bc2984ab4208e349aded79b3694cc2cb98b8a4a6</code> にある <code>skills/brief-to-demo/SKILL.md</code> と <code>LICENSE</code> です。バージョン番号はなく、このコミットが版です。</li>
+          <li><code>vendor/brief-to-demo/</code> の2件は、固定版の公式のバイトそのままです。ページは読み込みのたびに、12件すべての大きさとSHA-256を照合します。</li>
+          <li>brief-to-demo は MIT License（Copyright (c) 2026 Studio Yebisu）です。</li>
+        </ul>
+      </details>
+      <details class="fold">
+        <summary>改行とハッシュ</summary>
+        <ul class="plain">
+          <li>公開中の <code>samples.json</code>（SHA-256 <code>859dd1124c27924f77588e52bbf4c638adc42cb62539246b1e26062619dfe73c</code>）は、Gitに記録された改行LFのバイトです。</li>
+          <li>元の制作時のWindowsの作業ツリーでは、<code>samples.json</code>・<code>app.js</code> の改行がCRLFでした。<code>scene.js</code> はLFのままです。そのため、そこで記録したハッシュは公開中のLFのファイルのハッシュとは別の値です。両方の履歴は非公開で保管しています。</li>
+        </ul>
+      </details>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <div class="theme" role="group" aria-label="表示の色">
+      <button type="button" data-theme-choice="system" aria-pressed="true">端末に合わせる</button>
+      <button type="button" data-theme-choice="light" aria-pressed="false">ライト</button>
+      <button type="button" data-theme-choice="dark" aria-pressed="false">ダーク</button>
+    </div>
+    <p>brief-to-demo：MIT License, Copyright (c) 2026 Studio Yebisu（<a href="vendor/brief-to-demo/LICENSE">LICENSE</a>）。作例の画面・図解：MIT License, Copyright (c) 2026 Studio Yebisu（<a href="LICENSE">LICENSE</a>）。</p>
+    <p><a href="../../case.html?id=brief-to-demo">作例の解説記事へ</a>　<a href="../../index.html">八百万図AIツールボックスへ戻る</a></p>
+  </footer>
+</body>
+</html>

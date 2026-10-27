@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <title>よりみちラボの問い合わせ対応 · スイムレーン図</title>
+  <!-- Font source: system. No font <link>; every stack ends in a generic family. -->
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #f2eee3;
+      --color-ink:     #17150f;
+      --color-muted:   #4f4a3f;
+      --color-accent:  #b83a00;
+      --color-rule:    rgba(23,21,15,0.22);
+      --font-sans:     "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", YuGothic, Meiryo, "Noto Sans JP", sans-serif;
+      --font-serif:    "Hiragino Mincho ProN", "Yu Mincho", YuMincho, "BIZ UDPMincho", "Noto Serif JP", serif;
+      --font-mono:     "Geist Mono", ui-monospace, monospace;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      padding: 1rem;
+    }
+
+    .frame { max-width: 1280px; margin: 0 auto; min-width: 0; }
+
+    header { max-width: 48rem; margin-bottom: 1rem; }
+
+    .eyebrow {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--color-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2vw + 0.75rem, 2rem);
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 0.375rem;
+    }
+
+    p { font-size: 0.9375rem; line-height: 1.8; }
+
+    /* The SVG holds its readable width (min-width == the viewBox width).
+       This wrapper scrolls the figure on a narrow screen, not the page. */
+    .diagram-container { width: 100%; min-width: 0; overflow-x: auto; }
+    .diagram-container:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 2px; }
+
+    footer {
+      margin-top: 0.75rem;
+      padding-top: 0.625rem;
+      border-top: 1px solid var(--color-rule);
+      max-width: 48rem;
+    }
+    footer p { font-size: 0.8125rem; line-height: 1.7; color: var(--color-muted); }
+
+    svg { width: 100%; min-width: 1280px; display: block; }
+    /* Paper has no scrollbar: release the scroller and let the figure scale
+       to the sheet. Must come after the svg rule above. */
+    @media print {
+      body { padding: 0; }
+      .diagram-container { overflow-x: visible; }
+      svg { min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <header>
+      <p class="eyebrow">スイムレーン図 · Diagram Design · 八百万図AIツールボックス の配色</p>
+      <h1>よりみちラボの問い合わせ対応</h1>
+      <p>顧客・受付・専門担当が、どこまでを受け持ち、どこで分かれ、どこへ戻り、いつ完了するか。新しく入る受付スタッフ向けの、架空の業務の図です。</p>
+    </header>
+
+    <div class="diagram-container" tabindex="0" role="region" aria-label="図。狭い画面では横にスクロールできます">
+      <svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="intake-title intake-desc" data-diagram="intake" data-type="swimlane" data-size="doc-wide">
+        <title id="intake-title">よりみちラボの問い合わせ対応（顧客・受付・専門担当）</title>
+        <desc id="intake-desc">顧客の問い合わせを受付がチケットにして困りごと・利用日・返信先を確認し、不足なら顧客へ追加を依頼して補足を受けたら確認へ戻り、揃えば専門担当へ渡して回答案をもとに顧客へ回答し、顧客が解決を確認したら受付が対応記録を残して完了とし、未解決なら受付から専門担当へ戻すことを、担当ごとの段で示したスイムレーン図。</desc>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f4a3f"/></marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b83a00"/></marker>
+          <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#345d77"/></marker>
+        </defs>
+
+        <rect width="100%" height="100%" fill="#f2eee3"/>
+
+        <!-- Everything inherits the human-label stack; the title and IDs override it. -->
+        <g font-family="'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic UI', 'Yu Gothic', YuGothic, Meiryo, 'Noto Sans JP', sans-serif">
+
+          <!-- Title: kept inside the SVG because exports drop the HTML header. -->
+          <g id="intake-heading" data-layer="title">
+            <text x="40" y="68" fill="#17150f" font-size="28" font-weight="600" font-family="'Hiragino Mincho ProN', 'Yu Mincho', YuMincho, 'BIZ UDPMincho', 'Noto Serif JP', serif">よりみちラボの問い合わせ対応</text>
+            <text x="40" y="96" fill="#4f4a3f" font-size="12">顧客・受付・専門担当が受け持つ工程と、分かれ道・戻り道・完了の条件（架空の業務）</text>
+          </g>
+
+          <!-- Lanes: one per role. Hairline dividers only; no stroked lane boxes. -->
+          <g id="intake-lanes" data-layer="lanes">
+            <line x1="40" y1="116.5" x2="1240" y2="116.5" stroke="rgba(23,21,15,0.22)" stroke-width="1"/>
+            <line x1="40" y1="276.5" x2="1240" y2="276.5" stroke="rgba(23,21,15,0.12)" stroke-width="1"/>
+            <line x1="40" y1="436.5" x2="1240" y2="436.5" stroke="rgba(23,21,15,0.12)" stroke-width="1"/>
+            <line x1="40" y1="596.5" x2="1240" y2="596.5" stroke="rgba(23,21,15,0.22)" stroke-width="1"/>
+            <line x1="160.5" y1="116" x2="160.5" y2="596" stroke="rgba(23,21,15,0.22)" stroke-width="1"/>
+
+            <g id="lane-customer" data-lane="customer" data-code="C" data-y="116 276">
+              <text x="52" y="178" fill="#4f4a3f" font-size="12" font-family="'Geist Mono', ui-monospace, monospace">C</text>
+              <text x="52" y="202" fill="#17150f" font-size="16" font-weight="600">顧客</text>
+              <text x="52" y="224" fill="#4f4a3f" font-size="12">送る・補足・確認</text>
+            </g>
+            <g id="lane-intake" data-lane="intake" data-code="R" data-y="276 436">
+              <text x="52" y="338" fill="#4f4a3f" font-size="12" font-family="'Geist Mono', ui-monospace, monospace">R</text>
+              <text x="52" y="362" fill="#17150f" font-size="16" font-weight="600">受付</text>
+              <text x="52" y="384" fill="#4f4a3f" font-size="12">確認・連絡・記録</text>
+            </g>
+            <g id="lane-specialist" data-lane="specialist" data-code="S" data-y="436 596">
+              <text x="52" y="498" fill="#4f4a3f" font-size="12" font-family="'Geist Mono', ui-monospace, monospace">S</text>
+              <text x="52" y="522" fill="#17150f" font-size="16" font-weight="600">専門担当</text>
+              <text x="52" y="544" fill="#4f4a3f" font-size="12">調査・回答案</text>
+            </g>
+          </g>
+
+          <!-- Connectors, drawn before labels and nodes. Solid = flow or handoff,
+               dashed 5,4 = return to an earlier step, accent = the completion condition. -->
+          <g id="intake-edges" data-layer="edges" fill="none">
+            <g id="edge-E01" data-edge="E01" data-from="C1" data-to="R1" data-kind="handoff">
+              <line x1="264" y1="236" x2="264" y2="316" stroke="#4f4a3f" stroke-width="1.2" marker-end="url(#arrow)"/>
+            </g>
+            <g id="edge-E02" data-edge="E02" data-from="R1" data-to="R2" data-kind="flow">
+              <line x1="344" y1="356" x2="384" y2="356" stroke="#4f4a3f" stroke-width="1.2" marker-end="url(#arrow)"/>
+            </g>
+            <g id="edge-E03" data-edge="E03" data-from="R2" data-to="C2" data-kind="branch" data-branch="不足あり">
+              <line x1="444" y1="316" x2="444" y2="236" stroke="#4f4a3f" stroke-width="1.2" marker-end="url(#arrow)"/>
+            </g>
+            <g id="edge-E04" data-edge="E04" data-from="C2" data-to="R2" data-kind="return">
+              <line x1="500" y1="236" x2="500" y2="316" stroke="#4f4a3f" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+            </g>
+            <g id="edge-E05" data-edge="E05" data-from="R2" data-to="R3" data-kind="branch" data-branch="揃った">
+              <line x1="560" y1="356" x2="624" y2="356" stroke="#4f4a3f" stroke-width="1.2" marker-end="url(#arrow)"/>
+            </g>
+            <g id="edge-E06" data-edge="E06" data-from="R3" data-to="S1" data-kind="handoff">
+              <line x1="696" y1="396" x2="696" y2="476" stroke="#4f4a3f" stroke-width="1.2" marker-end="url(#arrow)"/>
+            </g>
+            <g id="edge-E07" data-edge="E07" data-from="S1" data-to="R4" data-kind="handoff">
+              <line x1="848" y1="476" x2="848" y2="396" stroke="#4f4a3f" stroke-width="1.2" marker-end="url(#arrow)"/>
+            </g>
+            <g id="edge-E08" data-edge="E08" data-from="R4" data-to="C3" data-kind="handoff">
+              <line x1="928" y1="316" x2="928" y2="236" stroke="#4f4a3f" stroke-width="1.2" marker-end="url(#arrow)"/>
+            </g>
+            <g id="edge-E09" data-edge="E09" data-from="C3" data-to="R5" data-kind="branch" data-branch="解決した">
+              <path d="M 1056,196 H 1136 Q 1144,196 1144,204 V 316" stroke="#b83a00" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+            </g>
+            <g id="edge-E10" data-edge="E10" data-from="C3" data-to="R3" data-kind="return" data-branch="未解決">
+              <path d="M 896,196 H 704 Q 696,196 696,204 V 316" stroke="#4f4a3f" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+            </g>
+          </g>
+
+          <!-- Branch labels: 12px sans (CJK register), opaque 16px masks, 8px from their stroke,
+               each in open canvas clear of every node drawn after it. -->
+          <g id="intake-edge-labels" data-layer="edge-labels" font-size="12" font-weight="500" text-anchor="middle">
+            <g id="label-E03" data-label-for="E03">
+              <rect x="308" y="248" width="128" height="16" rx="2" fill="#f2eee3"/>
+              <text x="372" y="261" fill="#4f4a3f">不足あり：追加を依頼</text>
+            </g>
+            <g id="label-E04" data-label-for="E04">
+              <rect x="508" y="248" width="68" height="16" rx="2" fill="#f2eee3"/>
+              <text x="542" y="261" fill="#4f4a3f">確認へ戻る</text>
+            </g>
+            <g id="label-E05" data-label-for="E05">
+              <rect x="568" y="332" width="48" height="16" rx="2" fill="#f2eee3"/>
+              <text x="592" y="345" fill="#4f4a3f">揃った</text>
+            </g>
+            <g id="label-E09" data-label-for="E09">
+              <rect x="1068" y="172" width="56" height="16" rx="2" fill="#f2eee3"/>
+              <text x="1096" y="185" fill="#b83a00">解決した</text>
+            </g>
+            <g id="label-E10" data-label-for="E10">
+              <rect x="752" y="172" width="96" height="16" rx="2" fill="#f2eee3"/>
+              <text x="800" y="185" fill="#4f4a3f">未解決なら戻す</text>
+            </g>
+          </g>
+
+          <!-- Steps: paper mask, styled box (rx 6), mono step ID, optional 判断/完了 chip,
+               16px name, optional 12px sublabel. Each step sits in exactly one lane. -->
+          <g id="intake-nodes" data-layer="nodes">
+            <!-- Customer lane: input/user treatment -->
+            <g id="node-C1" data-node="C1" data-lane="customer" data-kind="step">
+              <rect x="184" y="156" width="160" height="80" rx="6" fill="#f2eee3"/>
+              <rect x="184" y="156" width="160" height="80" rx="6" fill="rgba(79,74,63,0.10)" stroke="#4f4a3f" stroke-width="1"/>
+              <text x="194" y="176" fill="#4f4a3f" font-size="12" font-family="'Geist Mono', ui-monospace, monospace">C1</text>
+              <text x="264" y="208" fill="#17150f" font-size="16" font-weight="600" text-anchor="middle">問い合わせを送る</text>
+            </g>
+            <g id="node-C2" data-node="C2" data-lane="customer" data-kind="step">
+              <rect x="384" y="156" width="176" height="80" rx="6" fill="#f2eee3"/>
+              <rect x="384" y="156" width="176" height="80" rx="6" fill="rgba(79,74,63,0.10)" stroke="#4f4a3f" stroke-width="1"/>
+              <text x="394" y="176" fill="#4f4a3f" font-size="12" font-family="'Geist Mono', ui-monospace, monospace">C2</text>
+              <text x="472" y="208" fill="#17150f" font-size="16" font-weight="600" text-anchor="middle">情報を補足する</text>
+            </g>
+            <g id="node-C3" data-node="C3" data-lane="customer" data-kind="decision">
+              <rect x="896" y="156" width="160" height="80" rx="6" fill="#f2eee3"/>
+              <rect x="896" y="156" width="160" height="80" rx="6" fill="rgba(79,74,63,0.10)" stroke="#4f4a3f" stroke-width="1"/>
+              <text x="906" y="176" fill="#4f4a3f" font-size="12" font-family="'Geist Mono', ui-monospace, monospace">C3</text>
+              <rect x="1016" y="164" width="32" height="16" rx="2" fill="none" stroke="rgba(23,21,15,0.40)" stroke-width="0.8"/>
+              <text x="1032" y="176" fill="#4f4a3f" font-size="12" font-weight="500" text-anchor="middle">判断</text>
+              <text x="976" y="204" fill="#17150f" font-size="16" font-weight="600" text-anchor="middle">解決を確認する</text>
+              <text x="976" y="224" fill="#4f4a3f" font-size="12" text-anchor="middle">解決した／未解決</text>
+            </g>
+
+            <!-- Intake lane: work steps -->
+            <g id="node-R1" data-node="R1" data-lane="intake" data-kind="step">
+              <rect x="184" y="316" width="160" height="80" rx="6" fill="#f2eee3"/>
+              <rect x="184" y="316" width="160" height="80" rx="6" fill="#ffffff" stroke="#17150f" stroke-width="1"/>
+              <text x="194" y="336" fill="#4f4a3f" font-size="12" font-family="'Geist Mono', ui-monospace, monospace">R1</text>
+              <text x="264" y="368" fill="#17150f" font-size="16" font-weight="600" text-anchor="middle">チケットを作る</text>
+            </g>
+            <g id="node-R2" data-node="R2" data-lane="intake" data-kind="decision">
+              <rect x="384" y="316" width="176" height="80" rx="6" fill="#f2eee3"/>
+              <rect x="384" y="316" width="176" height="80" rx="6" fill="#ffffff" stroke="#17150f" stroke-width="1"/>
+              <text x="394" y="336" fill="#4f4a3f" font-size="12" font-family="'Geist Mono', ui-monospace, monospace">R2</text>
+              <rect x="520" y="324" width="32" height="16" rx="2" fill="none" stroke="rgba(23,21,15,0.40)" stroke-width="0.8"/>
+              <text x="536" y="336" fill="#4f4a3f" font-size="12" font-weight="500" text-anchor="middle">判断</text>
+              <text x="472" y="364" fill="#17150f" font-size="16" font-weight="600" text-anchor="middle">3情報を確認する</text>
+              <text x="472" y="384" fill="#4f4a3f" font-size="12" text-anchor="middle">困りごと・利用日・返信先</text>
+            </g>
+            <g id="node-R3" data-node="R3" data-lane="intake" data-kind="step">
+              <rect x="624" y="316" width="144" height="80" rx="6" fill="#f2eee3"/>
+              <rect x="624" y="316" width="144" height="80" rx="6" fill="#ffffff" stroke="#17150f" stroke-width="1"/>
+              <text x="634" y="336" fill="#4f4a3f" font-size="12" font-family="'Geist Mono', ui-monospace, monospace">R3</text>
+              <text x="696" y="364" fill="#17150f" font-size="16" font-weight="600" text-anchor="middle">専門担当へ渡す</text>
+              <text x="696" y="384" fill="#4f4a3f" font-size="12" text-anchor="middle">初回も、未解決の時も</text>
+            </g>
+            <g id="node-R4" data-node="R4" data-lane="intake" data-kind="step">
+              <rect x="816" y="316" width="144" height="80" rx="6" fill="#f2eee3"/>
+              <rect x="816" y="316" width="144" height="80" rx="6" fill="#ffffff" stroke="#17150f" stroke-width="1"/>
+              <text x="826" y="336" fill="#4f4a3f" font-size="12" font-family="'Geist Mono', ui-monospace, monospace">R4</text>
+              <text x="888" y="368" fill="#17150f" font-size="16" font-weight="600" text-anchor="middle">顧客へ回答する</text>
+            </g>
+            <!-- Focal: completion (accent 1 of 2; the other is E09) -->
+            <g id="node-R5" data-node="R5" data-lane="intake" data-kind="complete">
+              <rect x="1072" y="316" width="144" height="80" rx="6" fill="#f2eee3"/>
+              <rect x="1072" y="316" width="144" height="80" rx="6" fill="rgba(184,58,0,0.08)" stroke="#b83a00" stroke-width="1"/>
+              <text x="1082" y="336" fill="#4f4a3f" font-size="12" font-family="'Geist Mono', ui-monospace, monospace">R5</text>
+              <rect x="1176" y="324" width="32" height="16" rx="2" fill="none" stroke="#b83a00" stroke-width="0.8"/>
+              <text x="1192" y="336" fill="#b83a00" font-size="12" font-weight="500" text-anchor="middle">完了</text>
+              <text x="1144" y="364" fill="#17150f" font-size="16" font-weight="600" text-anchor="middle">対応記録を残す</text>
+              <text x="1144" y="384" fill="#4f4a3f" font-size="12" text-anchor="middle">記録して完了</text>
+            </g>
+
+            <!-- Specialist lane -->
+            <g id="node-S1" data-node="S1" data-lane="specialist" data-kind="step">
+              <rect x="632" y="476" width="240" height="80" rx="6" fill="#f2eee3"/>
+              <rect x="632" y="476" width="240" height="80" rx="6" fill="#ffffff" stroke="#17150f" stroke-width="1"/>
+              <text x="642" y="496" fill="#4f4a3f" font-size="12" font-family="'Geist Mono', ui-monospace, monospace">S1</text>
+              <text x="752" y="528" fill="#17150f" font-size="16" font-weight="600" text-anchor="middle">調べて回答案を作る</text>
+            </g>
+          </g>
+
+          <!-- Legend: horizontal strip above the 40px bottom margin -->
+          <g id="intake-legend" data-layer="legend" font-size="12">
+            <line x1="40" y1="620.5" x2="1240" y2="620.5" stroke="rgba(23,21,15,0.12)" stroke-width="0.8"/>
+            <text x="40" y="656" fill="#4f4a3f" font-weight="500">凡例</text>
+
+            <rect x="96" y="644" width="28" height="14" rx="3" fill="#ffffff" stroke="#17150f" stroke-width="1"/>
+            <text x="132" y="656" fill="#4f4a3f">作業</text>
+
+            <rect x="188" y="644" width="28" height="14" rx="3" fill="rgba(79,74,63,0.10)" stroke="#4f4a3f" stroke-width="1"/>
+            <text x="224" y="656" fill="#4f4a3f">顧客の行動</text>
+
+            <rect x="316" y="643" width="32" height="16" rx="2" fill="none" stroke="rgba(23,21,15,0.40)" stroke-width="0.8"/>
+            <text x="332" y="655" fill="#4f4a3f" font-weight="500" text-anchor="middle">判断</text>
+            <text x="356" y="656" fill="#4f4a3f">分かれ道のある工程</text>
+
+            <rect x="496" y="644" width="28" height="14" rx="3" fill="rgba(184,58,0,0.08)" stroke="#b83a00" stroke-width="1"/>
+            <text x="532" y="656" fill="#4f4a3f">完了（記録のあと）</text>
+
+            <line x1="672" y1="651" x2="704" y2="651" stroke="#4f4a3f" stroke-width="1.2" marker-end="url(#arrow)"/>
+            <text x="712" y="656" fill="#4f4a3f">流れ・引き継ぎ</text>
+
+            <line x1="828" y1="651" x2="860" y2="651" stroke="#4f4a3f" stroke-width="1.2" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+            <text x="868" y="656" fill="#4f4a3f">前の工程へ戻る</text>
+
+            <line x1="984" y1="651" x2="1016" y2="651" stroke="#b83a00" stroke-width="1.4" marker-end="url(#arrow-accent)"/>
+            <text x="1024" y="656" fill="#4f4a3f">完了へ進む条件</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <footer>
+      <p>八百万図AIツールボックス の作例（MIT License）。Diagram Design（cathrynlavery/diagram-design、固定コミット d97c5c7、MIT License）の SKILL.md とスイムレーンの参照資料に沿って書いた、スクリプトのない静的なHTMLとSVGです。所要日数・自動処理・達成率は含みません。</p>
+    </footer>
+  </div>
+</body>
+</html>

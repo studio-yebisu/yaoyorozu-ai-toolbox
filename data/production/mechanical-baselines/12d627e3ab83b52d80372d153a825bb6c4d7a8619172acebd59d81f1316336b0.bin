@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>編集できる解説映像：Motion Video Kit の仕組み（32秒・無音）｜八百万図AIツールボックス</title>
+<link rel="stylesheet" href="video.css">
+<script>
+// Motion Reel の時間の契約。音の出来事はない（無音）。seek と motionReady は video.js が受け持ち、
+// それより前の呼び出しは準備の完了を待ってから本物の seek へ渡す。
+window.motionConfig = { duration: 32, fps: 30, width: 720, height: 1280, posterTime: 31, audioEvents: [] };
+(function () {
+  var settle = {};
+  var ready = new Promise(function (resolve, reject) { settle.resolve = resolve; settle.reject = reject; });
+  ready.catch(function () {});
+  window.motionReady = ready;
+  window.__motionSettle = settle;
+  var stub = function (seconds) {
+    return window.motionReady.then(function () {
+      return window.seek === stub ? Promise.reject(new Error('seek is not ready')) : window.seek(seconds);
+    });
+  };
+  window.seek = stub;
+})();
+</script>
+</head>
+<body>
+<main class="editor">
+  <div class="frame">
+    <canvas id="film" width="720" height="1280" role="img" aria-label="Motion Video Kitの仕組みを示す32秒・無音の図。本と実入力を作者AIが読み、制作担当が描画し、別のAIが実MP4を見て指摘を返し、実出力へつながる。"></canvas>
+  </div>
+  <section class="controls" id="controls" aria-label="再生と確認の操作">
+    <h1>Motion Video Kit の仕組み<span>32秒・無音・編集できるソース</span></h1>
+    <p id="asset-status" data-state="loading" role="status" aria-live="polite">25件の記録を確かめています…</p>
+    <p id="asset-dims" class="dims"></p>
+    <button type="button" id="retry" hidden>もう一度読み込む</button>
+
+    <div class="row transport">
+      <button type="button" id="play">再生</button>
+      <button type="button" id="reset">最初へ</button>
+      <button type="button" id="replay">最初から再生</button>
+      <button type="button" id="end">最後へ</button>
+    </div>
+    <div class="row scrub">
+      <label for="time">時刻</label>
+      <input id="time" type="range" min="0" max="32" step="0.1" value="0">
+      <output id="clock" for="time">0.0 / 32.0秒</output>
+    </div>
+    <div class="jumps" role="group" aria-label="場面へ移動">
+      <button type="button" data-jump="0">0 本と実入力</button>
+      <button type="button" data-jump="4">4 BRIEFと絵コンテ</button>
+      <button type="button" data-jump="8">8 部品2本を描画</button>
+      <button type="button" data-jump="14">14 別のAIが見る</button>
+      <button type="button" data-jump="20">20 8場面へ組む</button>
+      <button type="button" data-jump="26">26 測定と判断</button>
+      <button type="button" data-jump="29">29 実出力と全体</button>
+    </div>
+    <div class="row orient" role="group" aria-label="縦横の配置">
+      <button type="button" data-orient="portrait" aria-pressed="true">縦 720×1280</button>
+      <button type="button" data-orient="wide" aria-pressed="false">横 1280×720</button>
+    </div>
+    <p class="note">音声・ナレーション・効果音はありません。図は保存した原制作の記録（25件）だけから描き、原制作のモデル・描画・評価・測定は再実行しません。場面は <a href="storyboard.json">storyboard.json</a>、手順は <a href="README.md">README.md</a>。</p>
+    <p class="note"><a href="../index.html">紹介ページへ戻る</a></p>
+  </section>
+</main>
+<script type="module" src="video.js" onerror="window.__motionSettle &amp;&amp; window.__motionSettle.reject(new Error('video.js を読み込めません'))"></script>
+</body>
+</html>

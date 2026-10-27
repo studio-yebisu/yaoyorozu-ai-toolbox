@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ja" data-state="loading" data-theme="light" data-concept-page="main">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' blob:; media-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; font-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <title>SolidCraft：CADエンジンと、AIが読む手順書3冊 — 構造図｜八百万図AIツールボックス</title>
+  <meta name="description" content="SolidCraft はパラメトリック3D CADアプリ（CLI・MCP）と、AIが読む作る・変える・点検の3つの手順書です。名前付きの値が式と3つの履歴を通って1つの形になり、値を変えると同じ履歴で計算し直されることを、架空の小物トレーの保存結果で図にしました。">
+  <link rel="stylesheet" href="concept.css?v=visual-r1">
+  <script type="module" src="concept.js?v=visual-r1"></script>
+</head>
+<body>
+  <a class="skip" href="#map-area">図へ移動</a>
+  <header class="top">
+    <a class="back" href="../../case.html?id=solidcraft-example" aria-label="八百万図AIツールボックス の記事へ戻る">←<span class="back-text">記事</span></a>
+    <h1 id="solid-title">SolidCraft：CADエンジンと、AIが読む手順書3冊</h1>
+    <div class="theme" role="group" aria-label="表示の色">
+      <button type="button" id="theme-light" data-theme="light" aria-pressed="true" aria-label="明るい表示">明</button>
+      <button type="button" id="theme-dark" data-theme="dark" aria-pressed="false" aria-label="暗い表示">暗</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="solid-title">
+      <div class="cases" role="group" aria-label="保存した2つの状態">
+        <article id="tray-default" class="case-card" aria-label="初期の状態">
+          <button type="button" data-case="tray-default" aria-pressed="true" disabled><b>初期</b><span>120×80×18・穴8</span></button>
+        </article>
+        <article id="tray-resized" class="case-card" aria-label="変更後の状態">
+          <button type="button" data-case="tray-resized" aria-pressed="false" disabled><b>変更後</b><span>150×90×24・穴12</span></button>
+        </article>
+      </div>
+
+      <figure class="map" id="map-area">
+        <canvas id="concept-map" role="img" aria-label="SolidCraft の構造図：手順書3冊と依頼が同じ作者AIへ。作者が書いたコマンドを制作担当が別工程でCADへ送り、CADの中で名前付きの値6つが式と3つの履歴を通って1つのボディになる。予測値と実測を別々に照合し、JSON・STEP・STLとして保存。" aria-describedby="map-text">
+          手順書3冊と依頼が同じ作者AIへ渡り、制作担当が別工程でCADへ送ります。CADの中では名前付きの値6つが式と3つの履歴を通って1つのボディになります。下の「図を文章で読む」に同じ内容があります。
+        </canvas>
+        <figcaption class="map-status">
+          <span id="load-status" role="status" aria-live="polite">保存データ31件の大きさとSHA-256を確かめています</span>
+          <button type="button" id="retry" hidden>もう一度読み込む</button>
+        </figcaption>
+      </figure>
+
+      <div class="stages" role="group" aria-label="図の段階">
+        <button type="button" data-stage="0" aria-pressed="true" disabled>①手順書→作者</button>
+        <button type="button" data-stage="1" aria-pressed="false" disabled>②値→式→形</button>
+        <button type="button" data-stage="2" aria-pressed="false" disabled>③点検→保存</button>
+        <button type="button" id="replay" aria-pressed="false" disabled>▶ 動きで見る</button>
+      </div>
+
+      <div class="actions">
+        <button type="button" id="save-record" class="primary" disabled>保存</button>
+        <a id="open-desk" class="secondary" aria-disabled="true" tabindex="-1">保存結果ビューアで開く</a>
+      </div>
+      <p id="phase-note" class="phase-note"></p>
+      <p id="case-meta" class="case-meta"></p>
+      <p class="hero-note">このページは保存した結果を読んで図にするだけです。CAD・AI・寸法の再計算は動かしません。図の中の「模式図」は説明用の絵で、CADが出力した画像ではありません。</p>
+    </section>
+
+    <section class="block" id="save" aria-labelledby="save-title">
+      <h2 id="save-title">保存する形式</h2>
+      <div class="save-row">
+        <label for="save-format">形式</label>
+        <select id="save-format" disabled>
+          <option value="json" selected>JSON（編集できる正本・値と式と履歴）</option>
+          <option value="step">STEP（CAD受け渡し・式なし）</option>
+          <option value="stl">STL（三角形メッシュ・式なし）</option>
+        </select>
+      </div>
+      <p class="note">「保存」は、読み込み時に大きさとSHA-256を確かめた元のファイルを、そのままブラウザーの保存処理へ渡します。中身を書き直したり、新しく作り直したりはしません。ディスクへの保存が終わったかどうかは、このページからは分かりません。</p>
+      <p id="save-status" class="status" role="status" aria-live="polite"></p>
+      <details class="record">
+        <summary>ファイルの記録：<code id="record-name"></code></summary>
+        <div id="record-content"></div>
+      </details>
+    </section>
+
+    <section class="block" id="real" aria-labelledby="real-title">
+      <h2 id="real-title">保存した実際の画像</h2>
+      <div class="view-toggle" role="group" aria-label="画像の向き">
+        <button type="button" data-view="iso" aria-pressed="true" disabled>等角</button>
+        <button type="button" data-view="top" aria-pressed="false" disabled>上面</button>
+      </div>
+      <figure class="real-figure">
+        <div class="real-frame"><img id="real-output" width="1280" height="960" alt="" hidden></div>
+        <figcaption>SolidCraft 0.11.1 が元の制作で保存したPNG（1280×960）をそのまま表示しています。<strong>各画像は個別に自動フィット</strong>しているため、画像の中の大きさは寸法を表しません。大きさは数値で比べてください。上面画像の画素の確認で分かるのは、穴が中央にあることと、壁と穴の幅だけです。底の厚さはCADの形と解析値で確かめています。回転できる3D表示やCADではなく、保存結果の表示です。</figcaption>
+      </figure>
+      <p class="note">ボタンで切り替わるのは保存済みの状態と向きだけです。好きな寸法を入れて計算し直す機能はありません。保存結果ビューア（<a href="desk.html#tray-default">desk.html</a>）でも同じ画像と実測値を見られます。</p>
+    </section>
+
+    <section class="block" id="parts" aria-labelledby="parts-title">
+      <h2 id="parts-title">6つの部品と原文</h2>
+      <p class="note">6つに分けたのは説明のための整理で、SolidCraft の共通の仕組みではありません。引用は同梱した原文の該当行と一致することを、読み込み時に確かめています。</p>
+      <div class="part-buttons" role="group" aria-label="部品">
+        <button type="button" data-part="modeling" aria-pressed="true" disabled>作る</button>
+        <button type="button" data-part="editing" aria-pressed="false" disabled>変える</button>
+        <button type="button" data-part="checking" aria-pressed="false" disabled>点検</button>
+        <button type="button" data-part="commands" aria-pressed="false" disabled>MCP→CAD</button>
+        <button type="button" data-part="history" aria-pressed="false" disabled>値・式・履歴</button>
+        <button type="button" data-part="formats" aria-pressed="false" disabled>保存の形式</button>
+      </div>
+      <div class="part-panel" aria-live="polite">
+        <h3 id="part-label"></h3>
+        <p id="part-meaning"></p>
+        <blockquote lang="en"><p id="part-quote"></p></blockquote>
+        <p class="part-links"><a id="part-source" rel="noopener"></a><a id="part-local"></a></p>
+      </div>
+    </section>
+
+    <section class="block" id="input" aria-labelledby="input-title">
+      <h2 id="input-title">入力：架空の依頼</h2>
+      <p class="note">工房「よりみちラボ」も用途も架空です。作者AIはこの文と3つの手順書を読んで、計画・コマンド・予測値・チェッカーを書きました。</p>
+      <label class="visually-hidden" for="request-text">依頼文（request.txt）</label>
+      <textarea id="request-text" readonly rows="7"></textarea>
+      <div class="copy-row">
+        <button type="button" id="copy-request" disabled>依頼文をコピー</button>
+        <span id="copy-status" role="status" aria-live="polite"></span>
+        <a href="request.txt" download>request.txt</a>
+      </div>
+    </section>
+
+    <section class="block" id="roles" aria-labelledby="roles-title">
+      <h2 id="roles-title">2つの役割と3つの手順書</h2>
+      <div class="roles">
+        <div class="role role-author">
+          <h3>作者AI（Claude Opus 5.5）</h3>
+          <p>3つの手順書と依頼を読み、寸法・体積・重心を先に計算した計画（<a href="cad/plan.md">cad/plan.md</a>）、作るコマンド（<a href="cad/build.json">build.json</a>）、4つの値を変えるコマンド（<a href="cad/resize.json">resize.json</a>）、範囲の端を往復するコマンド（<a href="cad/walk.json">walk.json</a>）、予測値（<a href="cad/expected.json">expected.json</a>）と独立したチェッカー（<a href="cad/check_design.py">check_design.py</a>）を書きました。作者AIはCADを実行していません。</p>
+        </div>
+        <div class="role role-operator">
+          <h3>制作担当（別工程）</h3>
+          <p>SolidCraft 0.11.1 を画面のない headless の MCP stdio で起動し、元の制作で<span data-fill="mcp"></span>回の操作（batch <span data-fill="batches"></span>回＝作る<span data-fill="build"></span>段＋変更<span data-fill="resize"></span>回）を送りました。CLI・原典の run.py・独立チェッカーも別に実行しています。共有のGUIやほかの設計には接続していません。MCPはエンジンのコマンドを送る仕組みで、遠くのAIに形を作らせるものではありません。今回の図の制作では、CAD・MCP・チェッカーを実行し直していません。</p>
+        </div>
+      </div>
+      <h3 class="sub">AIが読む3つの手順書（SKILL.md）</h3>
+      <ul class="skills">
+        <li><a href="vendor/solidcraft/skills/solidcraft-modeling/SKILL.md"><code>solidcraft-modeling</code></a>：数値を先に決め、少ない batch と段ごとの measure で新しい部品を作る。</li>
+        <li><a href="vendor/solidcraft/skills/solidcraft-editing/SKILL.md"><code>solidcraft-editing</code></a>：保存した設計の値を変え、作り直さずに同じ履歴で計算し直す。</li>
+        <li><a href="vendor/solidcraft/skills/solidcraft-checking/SKILL.md"><code>solidcraft-checking</code></a>：SolidCraft が報告しない誤りを、別の根拠（解析値・範囲の端の往復）で調べる。</li>
+      </ul>
+      <p class="note">SolidCraft は AI モデルでも、形を生成するホスト型のAPIでも、3つの別々のAIでもありません。Rust で作られたパラメトリック3D CADアプリで、headless の CLI と MCP サーバーを持ち、AIが読む Markdown の手順書を同梱しています。</p>
+      <h3 class="sub">この作例で参照する原典8ファイル</h3>
+      <ol class="sources">
+        <li><a href="vendor/solidcraft/README.md">README.md</a></li>
+        <li><a href="vendor/solidcraft/docs/mcp.md">docs/mcp.md</a></li>
+        <li><a href="vendor/solidcraft/skills/solidcraft-modeling/SKILL.md">skills/solidcraft-modeling/SKILL.md</a></li>
+        <li><a href="vendor/solidcraft/skills/solidcraft-modeling/reference.md">skills/solidcraft-modeling/reference.md</a></li>
+        <li><a href="vendor/solidcraft/skills/solidcraft-editing/SKILL.md">skills/solidcraft-editing/SKILL.md</a></li>
+        <li><a href="vendor/solidcraft/skills/solidcraft-checking/SKILL.md">skills/solidcraft-checking/SKILL.md</a></li>
+        <li><a href="vendor/solidcraft/skills/solidcraft-checking/scripts/run.py">skills/solidcraft-checking/scripts/run.py</a></li>
+        <li><a href="vendor/solidcraft/skills/solidcraft-checking/templates/test_design.py">skills/solidcraft-checking/templates/test_design.py</a></li>
+      </ol>
+    </section>
+
+    <section class="block" id="checks" aria-labelledby="checks-title">
+      <h2 id="checks-title">確かめたこと・確かめていないこと</h2>
+      <ul class="facts">
+        <li><b>作る3段</b>外形の箱・くぼみ・中央の穴を<span data-fill="build"></span>段で作り、段ごとに測った値を予測値と比べた（元の制作）。</li>
+        <li><b>変更は1回</b>保存した初期の設計へ <code>parameters.change</code> を4つまとめて送った。形は作り直していない。壁と底の3 mmは固定のまま。</li>
+        <li><b>予測と実測</b>初期は実測 <span data-fill="default-volume"></span> mm³・解析 <span data-fill="default-expected"></span> mm³、変更後は実測 <span data-fill="resized-volume"></span> mm³・解析 <span data-fill="resized-expected"></span> mm³。外接箱は 120×80×18 → 150×90×24 mm。許容差は実行の前に決めたもの（measurements.json）。</li>
+        <li><b>範囲の端だけ</b>各値を上の端へ動かして戻し、最後に4つ同時に動かして戻した<span data-fill="walk"></span>状態（<span data-fill="shapes"></span>種類の形）。途中の値・ほかの組合せ・壁や底の変更は試していない。範囲はコメントで、CADは強制しない。</li>
+        <li><b>開き直し</b>保存した JSON・STEP・STL の<span data-fill="reopen"></span>ファイルを 0.11.1 で開き直し、ボディ1つを確かめた。</li>
+        <li><b>まだ</b>製造・強度・3Dプリントの品質・水はけ・人による承認は確かめていない。</li>
+      </ul>
+      <details class="limits">
+        <summary>記録に残っている範囲の注意（全文）</summary>
+        <ul id="limit-list"></ul>
+      </details>
+      <details class="full-values">
+        <summary>体積の保存値（丸めていない値）</summary>
+        <p>初期：実測 <span data-fill="default-volume-full"></span>／解析 <span data-fill="default-expected-full"></span> mm³。変更後：実測 <span data-fill="resized-volume-full"></span>／解析 <span data-fill="resized-expected-full"></span> mm³。</p>
+      </details>
+    </section>
+
+    <section class="block" id="film" aria-labelledby="film-title">
+      <h2 id="film-title">解説動画（無音32秒）</h2>
+      <p class="note">同じ図が動いて、何を渡し、どう変わり、何が残るかを見せる動画です。音声・ナレーションはありません。元の28秒の紹介動画とは別のものです。</p>
+      <div class="films">
+        <figure class="film film-portrait">
+          <video id="film-portrait" controls muted playsinline preload="metadata" src="../../media/solidcraft-example.mp4?v=visual-r1"></video>
+          <figcaption>縦 720×1280・無音32秒</figcaption>
+        </figure>
+        <figure class="film film-wide">
+          <video id="film-wide" controls muted playsinline preload="metadata" src="../../media/solidcraft-example-wide.mp4?v=visual-r1"></video>
+          <figcaption>横 1280×720・無音32秒</figcaption>
+        </figure>
+      </div>
+      <p><a id="open-editor" href="video/index.html">動画の編集用ソースを開く</a></p>
+    </section>
+
+    <section class="block" id="map-words" aria-labelledby="map-words-title">
+      <h2 id="map-words-title">図を文章で読む</h2>
+      <ol id="map-text" class="map-text">
+        <li>手順書3冊（solidcraft-modeling・solidcraft-editing・solidcraft-checking）と架空の依頼（初期 <span data-fill="default-size"></span>、変更後 <span data-fill="resized-size"></span>）が、同じ作者AIへ渡る。</li>
+        <li>作者AIは、コマンド（build・resize・walk の JSON）と、それとは別の予測値（expected.json と check_design.py）を書く。CADは動かさない。</li>
+        <li>制作担当が別工程で、headless MCP stdio の<span data-fill="mcp"></span>回の操作と CLI・原典 run.py・独立チェッカーを実行した。</li>
+        <li>CADの中：名前付きの値6つ（変える4つ：幅 width・奥行 depth・高さ height・穴径 hole_diameter／固定2つ：壁 wall・底 floor_thickness、どちらも3 mm）が式を通り、順番どおりの履歴3つ（TrayBlock 新規ボディ、Pocket 切り取り、DrainHole 切り取り）がボディ1つ（Tray）を作る。</li>
+        <li>4つの値を変えると、同じ式と同じ3つの履歴でボディが計算し直される。コマンドで作り直さない。穴は中央のまま、壁と底は3 mmのまま。</li>
+        <li>予測値と実測（measure・inspect）を別々の道で照合する。範囲の端の往復は<span data-fill="walk"></span>状態・<span data-fill="shapes"></span>種類の形だけ。</li>
+        <li>同じ設計はJSON（値・式・履歴が残る正本）に、形だけがSTEP（CAD受け渡し）とSTL（三角形メッシュ）に残る。保存結果ビューアで実際のPNGを開ける。</li>
+      </ol>
+    </section>
+
+    <section class="block" id="sources" aria-labelledby="sources-title">
+      <h2 id="sources-title">出典・固定した版・ライセンス</h2>
+      <ul class="pins">
+        <li><b>読んだ原典</b><a href="https://github.com/tangency-labs/solidcraft/tree/16c49c3e860a954e9f27309927d6848bcba9c607" rel="noopener">tangency-labs/solidcraft 16c49c3</a>（<code>16c49c3e860a954e9f27309927d6848bcba9c607</code>）。手順書・README・docs/mcp.md・LICENSE はこの版から <code>vendor/solidcraft/</code> に同梱。</li>
+        <li><b>実行した版</b><a href="https://github.com/tangency-labs/solidcraft/releases/tag/v0.11.1" rel="noopener">SolidCraft 0.11.1 公式リリース</a>（<code>b01b9689c8999a4415b4a6daaa2f8aae8a1a2f25</code>）。読んだ原典とは別に固定した版で、原典のコミットからビルドしたものではありません。</li>
+        <li><b>改行の違い</b>同梱した原典18ファイルは元の制作で Windows の改行（CRLF）で保存されたため、公式の LF のファイルとはバイト列が違います。改行だけをそろえると中身と Git blob は一致します。同梱ファイルは元のまま残しています。</li>
+        <li><b>ライセンス</b>SolidCraft は MIT OR Apache-2.0。この作例では Apache-2.0 を選んで再配布しています（<a href="vendor/solidcraft/LICENSE-APACHE">LICENSE-APACHE</a>・<a href="vendor/solidcraft/NOTICE">NOTICE</a>）。<a href="vendor/solidcraft/LICENSE-MIT">LICENSE-MIT</a> もそのまま残しています。SolidCraft の実行ファイルは同梱していません。</li>
+        <li><b>この作例</b>文章・画面・依頼文・CADのコマンドと設計・書き出したファイルと画像は 八百万図AIツールボックス の制作です（<a href="LICENSE">LICENSE</a>）。再現手順は <a href="visual-guide.md">visual-guide.md</a>、<a href="source.zip">編集ソース一式</a>、<a href="visual-verification.json">確認範囲</a>。元のCAD制作手順は <a href="README.md">README.md</a>。</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>八百万図AIツールボックス｜図と画面は Claude Opus 5.5 で制作。依頼・工房・用途は架空です。</p>
+  </footer>
+</body>
+</html>

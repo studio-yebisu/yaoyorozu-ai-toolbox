@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>しおり工房 検索ヘルプ｜Motion Primitives 作例 – 八百万図AIツールボックス</title>
+  <meta name="description" content="作例用の架空の手順書6件をブラウザー内で検索し、Motion Primitives の Accordion で結果を開閉します。動きを抑えても同じ文と操作が残ります。">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f7f3ec">
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./assets/app.js"></script>
+</head>
+<body>
+  <div id="root">
+    <div class="app" data-ready="false">
+      <main class="page shell-fallback">
+        <p class="eyebrow">八百万図AIツールボックス 作例 ／ Motion Primitives・Accordion</p>
+        <p class="muted">検索ヘルプを読み込んでいます…</p>
+      </main>
+    </div>
+  </div>
+  <noscript>
+    <div class="page noscript">
+      <p>この作例は JavaScript で手順書を読み込み、ブラウザー内で検索と開閉をします。JavaScript を有効にして開いてください。</p>
+      <p><a href="./input/articles.json">入力データ（input/articles.json）</a>と<a href="./README.md">README</a>は、そのまま読めます。</p>
+    </div>
+  </noscript>
+<section class="page panel" aria-labelledby="movie-title"><h2 id="movie-title">概念構造を32秒で見る</h2><p>部品の構造と使い方を示す32秒の無音動画です。元の28秒編集は下の旧編集ソースに保持しています。</p><video controls playsinline preload="none" poster="../../media/motion-primitives-example.webp" style="width:100%;height:auto" aria-label="検索して1件を開き、動きを抑える設定とJSON保存を試す。32秒・無音"><source src="../../media/motion-primitives-example.mp4" type="video/mp4"><a href="../../media/motion-primitives-example.mp4">MP4を開く</a></video><p><a href="../../media/motion-primitives-example.mp4">動画を大きく見る</a> · <a href="video/legacy.html">元の28秒編集ソース</a> · <a href="source.zip">作例・入力と結果・動画ソース一式</a> · <a href="outputs/result.md">実行結果メモ</a> · <a href="verification.json">確認の範囲</a></p></section>
+</body>
+</html>

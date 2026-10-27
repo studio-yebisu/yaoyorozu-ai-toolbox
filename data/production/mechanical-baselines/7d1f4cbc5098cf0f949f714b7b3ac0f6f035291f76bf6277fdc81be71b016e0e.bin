@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ja" data-page="whisper-concept" data-state="loading" data-theme="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>声を、文と時刻へ｜Whisper 作例 — 八百万図AIツールボックス</title>
+  <meta name="description" content="Whisperは音声認識モデルとPythonツール。実際の合成音声WAVが特徴になり、encoder・decoderを通って文と推定時刻の5区間になり、SRTへ保存されるまでを、保存済みの1回の実行から図で示します。ページではWhisperを動かしません。">
+  <meta name="color-scheme" content="light dark">
+  <script>try{var t=localStorage.getItem('studio-yebisu.whisper-example.theme');if(t==='light'||t==='dark'||t==='system')document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#cues">5区間の一覧へ</a>
+
+  <header class="top wrap">
+    <p class="eyebrow">Whisper 作例・八百万図AIツールボックス</p>
+    <h1>声を、文と時刻へ</h1>
+    <p class="definition">音声認識モデルとPythonツール</p>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <h2 id="hero-title" class="visually-hidden">Whisperの流れを示す図</h2>
+      <div class="stages" role="group" aria-label="図の段階">
+        <button type="button" class="stage" data-stage="input" aria-pressed="true" disabled>入力</button>
+        <button type="button" class="stage" data-stage="model" aria-pressed="false" disabled>認識</button>
+        <button type="button" class="stage" data-stage="subs" aria-pressed="false" disabled>字幕</button>
+        <button type="button" id="replay" class="replay" aria-label="この段階の動きをもう一度" disabled>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 5a7 7 0 1 1-6.6 4.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <figure id="diagram-figure" class="diagram">
+        <canvas id="diagram" role="img" aria-label="Whisperの流れの図。実入力のWAVがlog-Melの特徴になり、Pythonで動くWhisperのencoderとdecoderを通って、文と推定時刻の5区間になり、writerが原出力SRTに保存します。原稿は認識に渡さず、認識の後で3区間の文だけを手で直して修正例SRTにする別の経路です。"></canvas>
+        <figcaption id="diagram-caption" class="caption" aria-live="polite"></figcaption>
+      </figure>
+
+      <div class="actions">
+        <a id="save-srt" class="btn btn-primary" aria-disabled="true">原出力SRTを保存</a>
+        <a id="open-desk" class="btn" aria-disabled="true">字幕デスクで直す</a>
+      </div>
+      <p id="save-meta" class="save-meta"></p>
+      <p id="load-status" class="load-status" role="status">実記録26件を照合しています…</p>
+      <p class="retry-row"><button id="retry" class="btn" type="button" hidden>もう一度読み込む</button></p>
+      <noscript><p class="load-status is-error">図と区間の選択には JavaScript が必要です。下の一覧から実ファイルを直接開けます。</p></noscript>
+    </section>
+
+    <section id="cues" class="cues wrap" aria-labelledby="cues-title">
+      <h2 id="cues-title">5区間を選ぶ</h2>
+      <div class="modes" role="group" aria-label="字幕の表示">
+        <button type="button" class="mode" data-mode="raw" aria-pressed="true" disabled>原出力</button>
+        <button type="button" class="mode" data-mode="review" aria-pressed="false" disabled>原稿参照の修正例</button>
+      </div>
+      <div class="cue-grid">
+        <ol id="cue-list" class="cue-list" aria-label="Whisperが返した5区間"></ol>
+        <div id="cue-readout" class="readout" data-mode="raw" aria-live="polite">
+          <p class="readout-head"><strong id="cue-no"></strong> <span id="cue-range" class="mono"></span> <span id="cue-meta" class="meta"></span></p>
+          <dl class="pair">
+            <div class="pair-raw"><dt>Whisperの原出力</dt><dd id="cue-raw" class="cue-text"></dd></div>
+            <div class="pair-edited"><dt>原稿参照の修正例</dt><dd id="cue-edited" class="cue-text"></dd></div>
+          </dl>
+          <p id="cue-basis" class="basis"></p>
+        </div>
+      </div>
+
+      <div class="player">
+        <h3 class="player-title">実入力・合成音声21秒</h3>
+        <audio id="input-audio" controls preload="metadata" playsinline>このブラウザーでは音声を再生できません。下の一覧からWAVを直接開けます。</audio>
+        <p class="note">Whisperに渡した実際の入力です（作例用の原稿を手元の音声合成で読んだ架空の内容）。解説の音声ではありません。区間を選ぶと頭へ移り、再生は再生ボタンで。</p>
+        <p id="audio-status" class="audio-status" role="status"></p>
+      </div>
+    </section>
+
+    <section class="parts wrap" aria-labelledby="parts-title">
+      <h2 id="parts-title">6つの部品と出典</h2>
+      <p class="lead">この作例の経路を6つに分けた説明用の整理です（Whisper全体の設計図ではありません）。</p>
+      <div class="part-buttons" role="group" aria-label="部品">
+        <button type="button" data-part="python" aria-pressed="true" disabled>Pythonと重み</button>
+        <button type="button" data-part="features" aria-pressed="false" disabled>音の特徴</button>
+        <button type="button" data-part="model" aria-pressed="false" disabled>音から文へ</button>
+        <button type="button" data-part="segments" aria-pressed="false" disabled>文と推定時刻</button>
+        <button type="button" data-part="writer" aria-pressed="false" disabled>字幕へ書き出す</button>
+        <button type="button" data-part="review" aria-pressed="false" disabled>原稿と見比べる</button>
+      </div>
+      <div class="part-readout" aria-live="polite">
+        <h3 id="part-label"></h3>
+        <p id="part-meaning"></p>
+        <pre class="quote"><code id="part-quote"></code></pre>
+        <p id="part-source" class="part-source"></p>
+      </div>
+      <h3 class="sub">制作時の呼び出し（1回だけ実行済み）</h3>
+      <pre class="call"><code id="python-call"></code></pre>
+      <p class="note">initial_prompt なし・原稿は渡していない・word_timestamps なし。base重みは公開フォルダーの外にあり、同梱していません。</p>
+    </section>
+
+    <section class="films wrap" aria-labelledby="films-title">
+      <h2 id="films-title">図解動画32秒・無音</h2>
+      <p class="lead">同じ図を動かした無音の動画です。ナレーションや音声ガイドはありません。</p>
+      <video id="film-portrait" class="film film--portrait" controls playsinline muted preload="metadata" poster="../../media/whisper-example.webp" width="720" height="1280" aria-label="図解動画（縦・32秒・無音）">
+        <source src="../../media/whisper-example.mp4" type="video/mp4">
+        <a href="../../media/whisper-example.mp4">MP4を開く</a>
+      </video>
+      <details class="fold">
+        <summary>横長版（1280×720）</summary>
+        <video id="film-wide" class="film film--wide" controls playsinline muted preload="none" width="1280" height="720" aria-label="図解動画（横・32秒・無音）">
+          <source src="../../media/whisper-example-wide.mp4" type="video/mp4">
+          <a href="../../media/whisper-example-wide.mp4">MP4を開く</a>
+        </video>
+      </details>
+      <p class="links"><a href="video/index.html">編集できる図解ソース</a><a href="source.zip">入力・出力・ソース一式（source.zip）</a></p>
+    </section>
+
+    <section class="evidence wrap" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">実ファイル</h2>
+      <ul class="files">
+        <li><a href="outputs/review-ja.srt" download>outputs/review-ja.srt</a><span>Whisperのwriterが書いた原出力SRT・441 B</span></li>
+        <li><a href="outputs/browser-edited.srt" download>outputs/browser-edited.srt</a><span>字幕デスクで原稿を参照して3区間を直したSRT・420 B</span></li>
+        <li><a href="desk.html">desk.html</a><span>字幕デスク：文を直し、元の音声へ移り、SRT・TXTを書き出す</span></li>
+        <li><a href="input/review-ja.wav">input/review-ja.wav</a><span>ASRへ渡した16kHz・モノラルの合成音声</span></li>
+        <li><a href="outputs/session.json">outputs/session.json</a><span>実行の設定・音声と重みのSHA-256・5区間</span></li>
+        <li><a href="outputs/review-ja.json">outputs/review-ja.json</a><span>Whisperが返した全項目（tokensなど）</span></li>
+        <li><a href="outputs/reference-review.json">outputs/reference-review.json</a><span>原稿参照による修正3件と、未確認の扱い</span></li>
+        <li><a href="outputs/edit-record.json">outputs/edit-record.json</a><span>デスクで書き出した修正例の記録</span></li>
+        <li><a href="outputs/browser-original.srt">outputs/browser-original.srt</a><span>デスクで未編集のまま書き出したSRT（区間は原出力と同じ・バイトは別）</span></li>
+        <li><a href="input/script.json">input/script.json</a><span>読み上げた原稿4文（認識には渡していない）</span></li>
+        <li><a href="concept/features.json">concept/features.json</a><span>図の色面：同じ前処理APIの追加実行（推論は行っていない）</span></li>
+        <li><a href="video/assets/waveform.json">video/assets/waveform.json</a><span>WAVの0.1秒ごとのRMS 211窓</span></li>
+        <li><a href="concept/structure.json">concept/structure.json</a><span>6部品・引用・実行の範囲</span></li>
+        <li><a href="concept/manifest.json">concept/manifest.json</a><span>照合する26件の大きさとSHA-256</span></li>
+        <li><a href="run_transcribe.py">run_transcribe.py</a><span>実際に1回転記したPython</span></li>
+        <li><a href="derive-features.py">derive-features.py</a><span>色面を求めた前処理だけのPython</span></li>
+        <li><a href="vendor/whisper/README.md">vendor/whisper/</a><span>固定版の原典（README・model-card・コード・LICENSE）</span></li>
+        <li><a href="make_input.ps1">make_input.ps1</a><span>原稿を手元のWindows音声で読み上げた入力の作り方</span></li>
+        <li><a href="requirements.txt">requirements.txt</a><span>固定版のソースと依存</span></li>
+        <li><a href="outputs/result.md">outputs/result.md</a><span>元の実行メモ</span></li>
+        <li><a href="verification.json">verification.json</a><span>確認の範囲</span></li>
+        <li><a href="README.md">README.md</a><span>操作と再現の手順</span></li>
+      </ul>
+      <p class="links">
+        <a href="https://github.com/openai/whisper/tree/86098128c0b4f24f0e2aa2994de830614b474227" rel="noopener">openai/whisper 固定コミット</a>
+        <a href="https://github.com/openai/whisper/blob/86098128c0b4f24f0e2aa2994de830614b474227/README.md" rel="noopener">公式README</a>
+        <a href="https://github.com/openai/whisper/blob/86098128c0b4f24f0e2aa2994de830614b474227/model-card.md" rel="noopener">model-card</a>
+      </p>
+    </section>
+
+    <section class="scope wrap" aria-labelledby="scope-title">
+      <h2 id="scope-title">確かめた範囲</h2>
+      <details class="fold">
+        <summary>分かること・まだ分からないこと</summary>
+        <ul class="plain">
+          <li>WhisperはSKILL.mdでもTTSでもホスト型APIでもなく、手元で動く音声認識モデルとPythonライブラリです。</li>
+          <li>制作時に一度だけ、base・CPU・4スレッドで転記しました。クラウドへの送信、GPU、話者分離、ストリーミングは使っていません。</li>
+          <li>図の色面は同じ前処理APIを元のWAVへもう一度当てた表示用の平均で、モデルの内部記録ではありません。encoder・decoderの箱は構造の説明で、注意や活性の計測ではありません。</li>
+          <li>区間の時刻はモデルの推定値です。字幕の同期の正しさ、発音、音声を聞いての校正、人の承認は確かめていません。</li>
+          <li>修正例は原稿を参照した手動の編集例で、Whisperの自動修正ではありません。1・2・5番の文だけを直し、5区間の時刻は変えていません。</li>
+          <li>精度や速さの評価ではありません。人の録音・雑音・長い音声・他のモデルは試していません。</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="request wrap" aria-labelledby="request-title">
+      <h2 id="request-title">依頼文</h2>
+      <label class="field-label" for="request-text">同じ作りを自分の音声で試すときの依頼文（request.txt）</label>
+      <textarea id="request-text" class="request-text" rows="8" readonly></textarea>
+      <p class="request-actions">
+        <button id="copy-request" class="btn" type="button" disabled>依頼文をコピー</button>
+        <a class="btn btn-quiet" href="request.txt">request.txt</a>
+      </p>
+      <p id="copy-status" class="copy-status" role="status"></p>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <div class="theme" role="group" aria-label="表示の色">
+      <button type="button" data-theme-choice="system" aria-pressed="true">端末に合わせる</button>
+      <button type="button" data-theme-choice="light" aria-pressed="false">ライト</button>
+      <button type="button" data-theme-choice="dark" aria-pressed="false">ダーク</button>
+    </div>
+    <p>Whisperのコードとモデルの重み：MIT License, Copyright (c) 2022 OpenAI（<a href="vendor/whisper/LICENSE">LICENSE</a>）。作例・コード・原稿・画面・図解：MIT License, Copyright (c) 2026 Studio Yebisu（<a href="LICENSE">LICENSE</a>）。入力の合成音声は手元のWindows音声で作った作例用の素材で、音声エンジンは同梱していません。OpenAIによる承認や推奨を示すものではありません。</p>
+    <p><a href="../../case.html?id=whisper-example">作例の解説記事へ</a></p>
+  </footer>
+</body>
+</html>

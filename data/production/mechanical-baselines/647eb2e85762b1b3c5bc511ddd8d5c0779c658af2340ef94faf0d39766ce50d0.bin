@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ja" data-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14191a" media="(prefers-color-scheme: dark)">
+<title>手順を、ブラウザーの操作へ｜Browser Useの参照スキルとActor APIの図解｜八百万図AIツールボックス</title>
+<meta name="description" content="Browser UseはPythonでブラウザーを動かすライブラリです。参照スキルでActorとBrowserの文書を選んで書いたPythonが、事前の手順で架空の検索画面を操作し、実DOMと画面PNGを記録しました。その保存済みの記録を一枚の動く図で示します。">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">本文へ移動</a>
+
+<header class="bar">
+  <a class="back" href="../../case.html?id=browser-use-example">← 作例の記事</a>
+  <div class="theme" role="group" aria-label="表示の色">
+    <button type="button" data-theme-choice="system" aria-pressed="true">自動</button>
+    <button type="button" data-theme-choice="light" aria-pressed="false">明</button>
+    <button type="button" data-theme-choice="dark" aria-pressed="false">暗</button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="page-title">
+    <div class="hero-text">
+      <h1 id="page-title">手順を、ブラウザーの操作へ</h1>
+      <p class="def">Browser Use：<strong>Pythonでブラウザーを動かす</strong></p>
+    </div>
+
+    <div class="stages" role="group" aria-label="図の見方">
+      <button type="button" class="stage" data-stage="guide" aria-pressed="true" disabled><span class="stage-no">1</span>手引き</button>
+      <button type="button" class="stage" data-stage="drive" aria-pressed="false" disabled><span class="stage-no">2</span>動かす</button>
+      <button type="button" class="stage" data-stage="receive" aria-pressed="false" disabled><span class="stage-no">3</span>受け取る</button>
+    </div>
+
+    <figure class="figure" aria-labelledby="dia-caption">
+      <div class="dia-box">
+        <svg id="diagram" class="dia" role="img" aria-labelledby="dia-title dia-desc" data-stage="guide" data-part="" focusable="false">
+          <title id="dia-title">Browser Useの使い方の図</title>
+          <desc id="dia-desc">記録を確かめています。</desc>
+        </svg>
+        <div id="dia-status" class="dia-status" role="status" aria-live="polite">18ファイルを確かめています…</div>
+        <div id="load-error" class="load-error" role="alert" hidden>
+          <p class="load-error-title">記録を表示できません</p>
+          <p id="load-error-text" class="load-error-text"></p>
+          <button type="button" id="retry" class="btn btn-main">もう一度読み込む</button>
+        </div>
+      </div>
+      <figcaption id="dia-caption" class="caption" aria-live="polite"></figcaption>
+    </figure>
+
+    <div class="act">
+      <button type="button" id="save" class="btn btn-main btn-save" disabled>この結果を保存</button>
+      <button type="button" id="replay" class="btn btn-quiet btn-replay" disabled aria-label="図の動きをもう一度">もう一度</button>
+      <p id="save-state" class="save-state" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="states" aria-labelledby="states-title">
+    <h2 id="states-title">実行した6つの状態</h2>
+    <p class="note">条件は前の状態から引き継ぎます。件数と席の番号は保存済みの実行記録の値です。</p>
+    <div id="state-list" class="state-list" role="group" aria-label="状態を選ぶ"></div>
+    <p class="scope">架空データ・保存済みの実行を図にしたもの。このページではBrowser Useを実行しません。</p>
+    <nav class="try" aria-label="実物を開く">
+      <a class="btn btn-quiet" href="fixture.html">検索画面を試す</a>
+      <a id="desk-link" class="btn btn-quiet" href="desk.html#S04">元の6状態を見る</a>
+      <a id="original-link" class="text-link" href="outputs/browser-selection.json" download="browser-selection.json" hidden>元のS04 JSON（保存した原本）</a>
+    </nav>
+  </section>
+
+  <section id="detail" class="detail" aria-labelledby="detail-title" hidden>
+    <h2 id="detail-title">選んだ状態の中身</h2>
+    <p id="detail-note" class="note"></p>
+    <div class="detail-grid">
+      <div>
+        <h3>実行した操作</h3>
+        <ol id="detail-actions" class="action-list"></ol>
+        <h3>画面から読んだ条件</h3>
+        <dl id="detail-conditions" class="conditions"></dl>
+        <p id="detail-check" class="check-line"></p>
+      </div>
+      <div>
+        <h3 id="detail-count-title">結果</h3>
+        <p id="detail-empty" class="empty" hidden></p>
+        <ul id="detail-results" class="result-list"></ul>
+      </div>
+    </div>
+    <details class="more">
+      <summary>実行時の画面（PNG）</summary>
+      <div class="more-body">
+        <p class="note">Page.screenshotで保存した1280×900の実画像です。</p>
+        <a id="shot-link" class="shot" href="outputs/captures/S04.png"><img id="shot-img" alt="" width="1280" height="900" loading="lazy" decoding="async"></a>
+        <ul id="shot-links" class="shot-links" aria-label="6枚の画像"></ul>
+      </div>
+    </details>
+  </section>
+
+  <section id="parts" class="parts" aria-labelledby="parts-title" hidden>
+    <h2 id="parts-title">5つの部品と原文</h2>
+    <p class="note">今回の使い方を説明するための整理です。Browser Use全体の構成図ではありません。</p>
+    <div id="part-list" class="part-list" role="group" aria-label="部品を選ぶ"></div>
+    <div id="part-panel" class="part-panel" aria-live="polite"></div>
+  </section>
+
+  <section class="film" aria-labelledby="film-title">
+    <h2 id="film-title">32秒の図解（無音）</h2>
+    <p class="note">同じ図が動き、手引き・操作・受け取りの順に示します。保存済みの記録から描いた映像で、録画や新しい実行ではありません。音声はありません。</p>
+    <video id="film-portrait" class="film-video" controls playsinline preload="metadata" poster="../../media/browser-use-example.webp" width="720" height="1280" aria-label="Browser Useの使い方を示す32秒の無音の図解（縦）">
+      <source src="../../media/browser-use-example.mp4" type="video/mp4">
+      <a href="../../media/browser-use-example.mp4">縦の動画を開く</a>
+    </video>
+    <details class="more">
+      <summary>横長の版</summary>
+      <div class="more-body">
+        <video id="film-wide" class="film-video film-video-wide" controls playsinline preload="metadata" width="1280" height="720" aria-label="Browser Useの使い方を示す32秒の無音の図解（横）">
+          <source src="../../media/browser-use-example-wide.mp4" type="video/mp4">
+          <a href="../../media/browser-use-example-wide.mp4">横の動画を開く</a>
+        </video>
+      </div>
+    </details>
+    <nav class="links" aria-label="動画のソース">
+      <a href="video/index.html">編集できる動画ソース</a>
+      <a href="source.zip">入力・結果・ソース一式（ZIP）</a>
+    </nav>
+  </section>
+
+  <details id="scope-box" class="more" hidden>
+    <summary>試した範囲と、試していないこと</summary>
+    <div class="more-body">
+      <ul id="scope-list" class="plain-list"></ul>
+    </div>
+  </details>
+
+  <details id="request-box" class="more">
+    <summary>同じ作りを頼む依頼文</summary>
+    <div class="more-body">
+      <p class="note">検索画面と手順を差し替えて、AIや開発者に渡せる依頼文（request.txt）です。</p>
+      <label for="request-text" class="visually-hidden">依頼文</label>
+      <textarea id="request-text" class="request-text" rows="10" readonly></textarea>
+      <div class="request-actions">
+        <button type="button" id="copy" class="btn btn-main" disabled>依頼文をコピー</button>
+        <a class="text-link" href="request.txt">request.txt を開く</a>
+      </div>
+      <p id="copy-state" class="note" role="status" aria-live="polite"></p>
+    </div>
+  </details>
+
+  <details class="more">
+    <summary>原典とライセンス</summary>
+    <div class="more-body">
+      <p>browser-use/browser-use 固定コミット <code>c75e8476e26d18b7617643bc2ae082fae8eae431</code>（配布版0.13.11）。MIT License、Copyright (c) 2024 Gregor Zunic。同梱の原典ファイルは改変していません。</p>
+      <ul class="plain-list links-list">
+        <li><a href="vendor/browser-use/skills/open-source/SKILL.md">参照スキル SKILL.md</a>（<a href="https://github.com/browser-use/browser-use/blob/c75e8476e26d18b7617643bc2ae082fae8eae431/skills/open-source/SKILL.md">GitHub</a>）</li>
+        <li><a href="vendor/browser-use/skills/open-source/references/actor.md">Actor APIの文書 actor.md</a>（<a href="https://github.com/browser-use/browser-use/blob/c75e8476e26d18b7617643bc2ae082fae8eae431/skills/open-source/references/actor.md">GitHub</a>）</li>
+        <li><a href="vendor/browser-use/skills/open-source/references/browser.md">Browserの設定 browser.md</a>（<a href="https://github.com/browser-use/browser-use/blob/c75e8476e26d18b7617643bc2ae082fae8eae431/skills/open-source/references/browser.md">GitHub</a>）</li>
+        <li><a href="vendor/browser-use/browser_use/actor/page.py">actor/page.py</a>・<a href="vendor/browser-use/browser_use/actor/element.py">actor/element.py</a>・<a href="vendor/browser-use/browser_use/browser/session.py">browser/session.py</a></li>
+        <li><a href="vendor/browser-use/README.md">Browser Use README</a>・<a href="https://github.com/browser-use/browser-use/tree/c75e8476e26d18b7617643bc2ae082fae8eae431">GitHubの固定コミット</a></li>
+        <li><a href="vendor/browser-use/LICENSE">Browser UseのLICENSE（MIT）</a></li>
+        <li><a href="run_browser.py">run_browser.py</a>・<a href="input/workspaces.json">workspaces.json</a>・<a href="input/scenarios.json">scenarios.json</a>・<a href="outputs/browser-run.json">browser-run.json</a>・<a href="outputs/method.md">method.md</a></li>
+        <li><a href="README.md">README.md</a>・<a href="verification.json">verification.json</a>・<a href="LICENSE">作例のLICENSE（MIT・八百万図AIツールボックス）</a></li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="more">
+    <summary>ファイルの照合</summary>
+    <div class="more-body">
+      <p id="tech-state" class="note"></p>
+      <ul id="tech-list" class="tech-list"></ul>
+    </div>
+  </details>
+</main>
+
+<footer class="foot">
+  <p>作例・架空データ・図と動画：MIT License（Copyright (c) 2026 Studio Yebisu）。Browser Use：MIT License（Copyright (c) 2024 Gregor Zunic）。作業席の名称・料金・設備は架空です。</p>
+  <a class="text-link" href="../../case.html?id=browser-use-example">作例の記事へ戻る</a>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>

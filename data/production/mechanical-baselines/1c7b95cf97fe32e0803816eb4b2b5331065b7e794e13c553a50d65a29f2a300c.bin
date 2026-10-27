@@ -1,0 +1,207 @@
+{
+  "id": "codebase-memory-mcp-example",
+  "title": "Codebase Memory MCP",
+  "title_lines": [
+    "コードの構造を検索できるMCPサーバー"
+  ],
+  "category": "knowledge",
+  "summary": "コードの構造や呼び出し関係を知識グラフにし、MCPを通して検索できます。大きなリポジトリで関連するファイルや処理のつながりを調べるときに使えます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/codebase-memory-mcp-example/index.html",
+  "video": "media/codebase-memory-mcp-example.mp4",
+  "poster": "media/codebase-memory-mcp-example.webp",
+  "skill": "examples/codebase-memory-mcp-example/workflow.py",
+  "skill_label": "実行用Pythonソース",
+  "skill_description": "Markdown の Agent Skill（SKILL.md）ではなく、この作例の実行用 Python ソースです。公式 v0.12.0 の codebase-memory-mcp 実行ファイルを cli モードで1ツールずつ呼び、架空のリポジトリの索引・定義の検索・呼び出しの追跡・変更後の手動の再索引を行って、実際の応答JSONを保存します。応答を作ったり補ったりはせず、失敗や照合の不一致があれば出力を書かずに止まります。Python 3.10 以上の標準ライブラリだけで動きます。",
+  "samples": "examples/codebase-memory-mcp-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "3つの操作の、実際の要求と応答",
+  "samples_intro": "input は workflow.py が CLI に渡したツールと引数、output は実行ファイルが返した JSON です。公開用に、実行用コピーのパスを fixture/、キャッシュを <private-cache> に置き換えています。",
+  "demo_description": "コードの束、手動索引、関数の地図、実記録の保存がつながる大きな図です。探す・たどる・更新するを選び、ソースの変更と古い索引の違い、手動更新後に現れた関係を保存済みの実応答から見ます。",
+  "demo_note": "公式ネイティブCLIの保存済み結果を読む図です。静的な呼び出し関係を示し、実行時の順序やトレースではありません。ページ内でCLI・MCP・AIは動きません。領収と監査は別に実行した架空のPython入力の出力です。",
+  "request_intro": "同じ確かめ方を自分の小さなリポジトリで試すときの依頼文です。Codebase Memory MCP の固定版を読めるAIエージェントや開発者に渡してください。",
+  "request": "Codebase Memory MCP（DeusData/codebase-memory-mcp v0.12.0、ソース固定コミット ec6427c38176efcd37b28682e82f2491afda94be）で、小さなPythonリポジトリの呼び出し関係を実際に調べてください。公式Windowsリリースのzipは checksums.txt とビルド証明で確かめ、install・フック・全体設定の変更・ほかのCBMセッションの終了はしないでください。\n\n入力：fixture/ の架空のワークショップ注文リポジトリ（app.main → service.submit_order → validate_order・calculate_total・save_receipt）、sample_order.json（2席×1,200円）、変更用の storage_revised.py。\n\n手順：\n1. fixture を新しい空の作業ディレクトリへコピーし、元は変えない。コピーで app.py を実行し、指定したディレクトリに書かれた領収JSONの合計2,400円を読む。\n2. cli index_repository（mode full）で索引を作り、list_projects で実際の名前を確かめ、get_graph_schema と index_status を読む。\n3. search_graph で submit_order を探し、返ったパスと行を実ソースと照合し、get_code_snippet の本文を読む。\n4. query_graph と trace_path（outbound・深さ4）の実際の応答に submit_order から3関数への辺があることを、ソースの呼び出し式と並べて確かめる。\n5. コピーの storage.py だけを差し替えて audit_receipt を加え、再索引前の応答を保存してから手で index_repository をやり直し、save_receipt → audit_receipt と監査JSONを確かめる。\n\n保存：実際の応答JSONを outputs/runs.json と samples.json に、日本語の結果メモを outputs/result.md に書く。標準出力・標準エラーの全文は作業ディレクトリに残し、公開側ではコピーのパスを fixture/、キャッシュを <private-cache> に置き換える。閲覧ページは保存結果を読むだけにする。\n\n完了条件：辺・行・領収JSON・監査JSONが実データで確かめられること。応答の失敗や不一致があれば、出力を書かずに終了コード1で止める。\n\n範囲外：MCPプロトコル経由の動作、CBM Lens、ブラウザAI、意味検索、大きなリポジトリ、速さ・トークン量。静的な呼び出し関係は実行時の記録ではない。\n",
+  "applied_skills": [
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "元の依頼「公開の小さなサンプルリポジトリを索引化し、入口の関数から保存処理までの呼び出しを調べ、回答を実コードと照合する」を、目的「submit_order から領収の保存までの呼び出しを、実際の索引で探し・たどり・変更後に手で索引し直して確かめる」の一つに絞りました。入力は作例用に書いた架空の注文リポジトリ fixture/（5モジュールと sample_order.json）と変更用の storage_revised.py、成果物は workflow.py・outputs/runs.json・samples.json・outputs/result.md・閲覧ページ・request.txt です。完了条件は「search_graph が返した submit_order の行が実ソースの def 行と一致／query_graph の実際の行に submit_order → validate_order・calculate_total・save_receipt／save_receipt → audit_receipt が再索引の前になく後にある／変更前後の実行で2,400円の領収と一致する監査JSONが書かれる。どれか違えば出力を書かない」に決めました。未指定だった条件（公式 Windows リリースを使う、注文と金額は架空、キャッシュは専用の場所）は前提として README に分けて書いています。原典を読んだこと・コードを書いたこと・実行して確かめたことは区別し、Opus 5.5の実装を制作側が実CLIで実行し、18呼び出しの応答・ソース・保存ファイルを照合しました。ページは保存結果を読むだけなので、ライブ検索に見える表示は付けていません。"
+    },
+    {
+      "name": "Codebase Memory MCP",
+      "source": "https://github.com/DeusData/codebase-memory-mcp/blob/ec6427c38176efcd37b28682e82f2491afda94be/README.md",
+      "applied": "SKILL.md ではなくツールです。固定版の README の CLI Mode・MCP Tools・Qualified Names・Supported Cypher・Auto-Index、docs/CONFIGURATION.md の環境変数、SECURITY.md の Verification を読み、その範囲だけで workflow.py を書きました。ツールは cli --quiet --json <tool>（formatはツールのJSON引数に指定。引数のないlist_projectsのみ--format json） で1回ずつ呼び、引数の JSON は非推奨のインライン形式ではなく標準入力（または --args-file）で渡します。get_graph_schema を検索より先に呼び、list_projects が返した名前を project に使い、get_code_snippet には search_graph が返した qualified_name を渡します。README にある「cli index_repository で作った索引は監視されないので、変更後は index_repository をやり直す」に合わせて、再索引の前と後の query_graph を両方保存します。CBM_CACHE_DIR・CBM_ALLOWED_ROOT・CBM_WORKERS・CBM_MEM_BUDGET_MB は子プロセスにだけ渡し、install・config・daemon stop は使いません。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/codebase-memory-mcp-example/tools/motion-reel/render.mjs",
+      "applied": "元の実CLI応答・実ソース・別Python出力など7素材を固定し、コードと索引の違いが分かる大きな概念図と32秒の無音縦横動画を制作。任意時刻の再現、代表/連続フレーム、スマホの図と実保存、実MP4再生を確認。音声ガイドなし。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "コピーして実行する",
+      "body": "fixture/ の5モジュールと sample_order.json を新しい作業ディレクトリへコピーし、コピーで app.py を実行します。指定したディレクトリに書かれた領収JSON（2席×1,200円＝2,400円）を読みます。元の fixture/ は変えません。"
+    },
+    {
+      "title": "索引を作る",
+      "body": "公式 v0.12.0 の実行ファイルで cli index_repository（mode full）を実行し、list_projects が返した名前を確かめてから get_graph_schema と index_status を読みます。キャッシュは専用の場所に置き、索引できる範囲は CBM_ALLOWED_ROOT で実行用コピーに限ります。"
+    },
+    {
+      "title": "探す",
+      "body": "search_graph に ^submit_order$ と Function を渡し、返ったパスと行を実ソースの def 行と照合します。返った qualified_name で get_code_snippet を呼び、本文に3つの呼び出し式があることを確かめます。"
+    },
+    {
+      "title": "たどる",
+      "body": "query_graph で CALLS の組を問い合わせ、submit_order から validate_order・calculate_total・save_receipt への組を実際の応答から取り出して、service.py の呼び出し式と並べます。trace_path（outbound・深さ4）の応答にも同じ関数名が出るかを確かめます。"
+    },
+    {
+      "title": "変えて索引し直す",
+      "body": "実行用コピーの storage.py だけを storage_revised.py に差し替え、再索引の前の index_status と query_graph を保存します。手で index_repository をやり直し、save_receipt → audit_receipt が現れることと、変更後の実行で監査JSONが書かれることを確かめます。"
+    },
+    {
+      "title": "保存した実記録を、大きな地図で見る",
+      "body": "元のCLIと別Python実行は再実行せず、探す・たどる・変更後の手動索引を大きな図と無音動画へ改修しました。選んだ操作の実要求と応答を、元の全項目のまま保存できます。"
+    }
+  ],
+  "limitations": [
+    "図の操作、3件の実記録、3つの更新段階、実JSON保存、11実ファイルと7素材の照合、失敗復旧、32秒の無音縦横動画の再生を確認しました。実機iOS/Safari/VoiceOver、人による内容や見た目の承認は未確認です。",
+    "ツールは公式のネイティブ CLI から1回ずつ呼びました。MCP クライアントからの接続、MCP プロトコル経由の動作は確かめていません。",
+    "呼び出し関係は索引に記録された静的な関係で、実行時に記録したトレースではありません。getattr・辞書に入れた関数・プラグインのような動的な呼び出しは出ないことがあり、辺がないことは呼ばれないことの証明ではありません。",
+    "cli index_repository で作った索引は監視されません。ファイルを変えたら index_repository を手でやり直す必要があります。",
+    "CBM Lens、ブラウザAI（ローカルモデル）、意味検索、大きなリポジトリ、速さ・トークン量・回答品質は試していません。原典 README の数値は作者の測定です。",
+    "実行ファイル・モデル・索引キャッシュは配布していません。公式リリースを取得し、checksums.txt とビルド証明で確かめてから使います。",
+    "注文・金額・ワークショップ名は架空です。決済・予約・通知はしていません。",
+    "閲覧ページは保存済みの結果を読むだけです。ページから検索や索引のやり直しはできません。"
+  ],
+  "sources": [
+    {
+      "label": "Codebase Memory MCP（v0.12.0・固定コミット ec6427c）",
+      "url": "https://github.com/DeusData/codebase-memory-mcp/tree/ec6427c38176efcd37b28682e82f2491afda94be"
+    },
+    {
+      "label": "README（固定版）",
+      "url": "https://github.com/DeusData/codebase-memory-mcp/blob/ec6427c38176efcd37b28682e82f2491afda94be/README.md"
+    },
+    {
+      "label": "docs/CONFIGURATION.md（固定版）",
+      "url": "https://github.com/DeusData/codebase-memory-mcp/blob/ec6427c38176efcd37b28682e82f2491afda94be/docs/CONFIGURATION.md"
+    },
+    {
+      "label": "SECURITY.md（固定版・リリースの確かめ方）",
+      "url": "https://github.com/DeusData/codebase-memory-mcp/blob/ec6427c38176efcd37b28682e82f2491afda94be/SECURITY.md"
+    },
+    {
+      "label": "THIRD_PARTY.md（固定版）",
+      "url": "https://github.com/DeusData/codebase-memory-mcp/blob/ec6427c38176efcd37b28682e82f2491afda94be/THIRD_PARTY.md"
+    },
+    {
+      "label": "LICENSE（固定版）",
+      "url": "https://github.com/DeusData/codebase-memory-mcp/blob/ec6427c38176efcd37b28682e82f2491afda94be/LICENSE"
+    },
+    {
+      "label": "v0.12.0 のリリース",
+      "url": "https://github.com/DeusData/codebase-memory-mcp/releases/tag/v0.12.0"
+    },
+    {
+      "label": "架空の入力JSON",
+      "url": "examples/codebase-memory-mcp-example/fixture/sample_order.json"
+    },
+    {
+      "label": "実CLIの応答とソースの写し",
+      "url": "examples/codebase-memory-mcp-example/outputs/runs.json"
+    },
+    {
+      "label": "日本語の結果メモ",
+      "url": "examples/codebase-memory-mcp-example/outputs/result.md"
+    },
+    {
+      "label": "実行と確認の範囲",
+      "url": "examples/codebase-memory-mcp-example/verification.json"
+    },
+    {
+      "label": "作例・入力と結果・動画の一式",
+      "url": "examples/codebase-memory-mcp-example/source.zip"
+    },
+    {
+      "label": "図中心の使い方",
+      "url": "examples/codebase-memory-mcp-example/visual-guide.md"
+    },
+    {
+      "label": "11実ファイルとハッシュ",
+      "url": "examples/codebase-memory-mcp-example/data-manifest.json"
+    },
+    {
+      "label": "動画の7素材とハッシュ",
+      "url": "examples/codebase-memory-mcp-example/video/assets/manifest.json"
+    }
+  ],
+  "license": "MIT",
+  "license_note": "作例のコード・文章・架空データはMIT License（Copyright (c) 2026 Studio Yebisu）。Codebase Memory MCP はMIT License（Copyright (c) 2025 DeusData）で、リリースの実行ファイルに含まれる第三者コンポーネントは THIRD_PARTY.md の各ライセンスに従います。実行ファイル・モデル・索引キャッシュはこの作例に含めていません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "skill_license": "examples/codebase-memory-mcp-example/vendor/codebase-memory-mcp/LICENSE",
+  "video_note": "32秒・無音。コードの束から作った地図をたどり、同じファイルの変更が手動索引を経て新しい線になる概念図です。縦版と横版を用意しました。元の実CLI結果を使い、連続操作の録画や実行時トレースではありません。",
+  "video_source": "examples/codebase-memory-mcp-example/video/index.html",
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "guide_url": "case.html?id=codebase-memory-mcp-example",
+  "catalog_entry": {
+    "id": "resource-codebase-memory-mcp",
+    "name": "Codebase Memory MCP",
+    "tagline": "コードの構造を検索できるMCPサーバー",
+    "category": "knowledge",
+    "kind": "MCPツール",
+    "summary": "コードの構造や呼び出し関係を知識グラフにし、MCPを通して検索できます。大きなリポジトリで関連するファイルや処理のつながりを調べるときに使えます。",
+    "use_case": "大きなリポジトリの関連ファイルや呼び出し経路を、繰り返し調べたいとき。",
+    "tags": [
+      "検索",
+      "記憶",
+      "MCPツール"
+    ],
+    "workflow": [
+      "対象リポジトリを限定してインデックスを作る",
+      "関数や呼び出し関係をMCPで検索する",
+      "元のコードと照合し、更新時の反映を確認する"
+    ],
+    "requirements": [
+      "公式 v0.12.0 リリースの実行ファイル（Windows は codebase-memory-mcp-windows-amd64.zip。checksums.txt とビルド証明で確かめる）",
+      "Python 3.10以上（この作例の実行用ソース）",
+      "この作例の索引・検索にAPIキーやアカウントは不要",
+      "索引キャッシュとランデブーの保存先は、原典の所有者・アクセス権の検査を通るローカルの専用フォルダー。"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/DeusData/codebase-memory-mcp/blob/ec6427c38176efcd37b28682e82f2491afda94be/LICENSE",
+    "license_note": "MIT。原典の速度・トークン削減率は作者の測定であり、この掲載で再測定していません。",
+    "source_url": "https://github.com/DeusData/codebase-memory-mcp/tree/ec6427c38176efcd37b28682e82f2491afda94be",
+    "guide_url": "case.html?id=codebase-memory-mcp-example",
+    "readme_url": "https://github.com/DeusData/codebase-memory-mcp/blob/ec6427c38176efcd37b28682e82f2491afda94be/README.md",
+    "source_repository": "DeusData/codebase-memory-mcp",
+    "source_commit": "ec6427c38176efcd37b28682e82f2491afda94be",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "公式リリースと固定ソースを確認し、独自の架空コードで索引・検索・手動再索引を実行しました。静的な関係とプログラムの実出力を分けて記録しています。",
+    "prompt": "Codebase Memory MCP（DeusData/codebase-memory-mcp v0.12.0、ソース固定コミット ec6427c38176efcd37b28682e82f2491afda94be）で、小さなPythonリポジトリの呼び出し関係を実際に調べてください。公式Windowsリリースのzipは checksums.txt とビルド証明で確かめ、install・フック・全体設定の変更・ほかのCBMセッションの終了はしないでください。\n\n入力：fixture/ の架空のワークショップ注文リポジトリ（app.main → service.submit_order → validate_order・calculate_total・save_receipt）、sample_order.json（2席×1,200円）、変更用の storage_revised.py。\n\n手順：\n1. fixture を新しい空の作業ディレクトリへコピーし、元は変えない。コピーで app.py を実行し、指定したディレクトリに書かれた領収JSONの合計2,400円を読む。\n2. cli index_repository（mode full）で索引を作り、list_projects で実際の名前を確かめ、get_graph_schema と index_status を読む。\n3. search_graph で submit_order を探し、返ったパスと行を実ソースと照合し、get_code_snippet の本文を読む。\n4. query_graph と trace_path（outbound・深さ4）の実際の応答に submit_order から3関数への辺があることを、ソースの呼び出し式と並べて確かめる。\n5. コピーの storage.py だけを差し替えて audit_receipt を加え、再索引前の応答を保存してから手で index_repository をやり直し、save_receipt → audit_receipt と監査JSONを確かめる。\n\n保存：実際の応答JSONを outputs/runs.json と samples.json に、日本語の結果メモを outputs/result.md に書く。標準出力・標準エラーの全文は作業ディレクトリに残し、公開側ではコピーのパスを fixture/、キャッシュを <private-cache> に置き換える。閲覧ページは保存結果を読むだけにする。\n\n完了条件：辺・行・領収JSON・監査JSONが実データで確かめられること。応答の失敗や不一致があれば、出力を書かずに終了コード1で止める。\n\n範囲外：MCPプロトコル経由の動作、CBM Lens、ブラウザAI、意味検索、大きなリポジトリ、速さ・トークン量。静的な呼び出し関係は実行時の記録ではない。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "公式v0.12.0の6原典文書と元18CLI実応答・別Python実行・実入力を保持し、静的な呼び出し地図と手動再索引の違いを大きな図と32秒の無音縦横動画へ改修。元処理は再実行なし。実保存・素材照合・再生を確認。実機iOSと人の承認は未確認。",
+    "reviewed_on": "2026-10-16",
+    "example_url": "examples/codebase-memory-mcp-example/index.html#find",
+    "image": "media/codebase-memory-mcp-example.webp",
+    "updated_on": "2026-10-18"
+  },
+  "video_portrait": "media/codebase-memory-mcp-example.mp4",
+  "video_landscape": "media/codebase-memory-mcp-example-wide.mp4",
+  "poster_portrait": "media/codebase-memory-mcp-example.webp",
+  "poster_landscape": "media/codebase-memory-mcp-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/codebase-memory-mcp-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/codebase-memory-mcp-example-landscape-credited-ja-v3.mp4"
+}

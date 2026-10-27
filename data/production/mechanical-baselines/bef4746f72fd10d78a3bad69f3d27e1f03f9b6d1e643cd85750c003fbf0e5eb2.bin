@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ja" data-state="loading" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Quartz：AIが読むUIの指示書と部品｜図解｜八百万図AIツールボックス</title>
+  <meta name="description" content="Quartzは、AIが読むMarkdownの指示書・役割トークンのCSS・React部品・lint規則のまとまりです。指示書から作者AIのコード、範囲の中の8部品、選んだ段の入力と出力まで、一枚のつながった図で示します。表示は3件の静的サンプルです。">
+  <link rel="stylesheet" href="concept.css?v=visual-r1-r2">
+  <script>
+    // Read the case from #hash, then drop it before the body parses so the page opens at the top.
+    (function () {
+      var h = location.hash;
+      try { window.__quartzInitialHash = h ? decodeURIComponent(h.slice(1)) : ''; } catch (e) { window.__quartzInitialHash = ''; }
+      if (h && history.replaceState) history.replaceState(null, '', location.pathname + location.search);
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    })();
+  </script>
+  <script type="module">
+    import {initConceptPage} from './concept.js?v=visual-r1-r2';
+    initConceptPage();
+  </script>
+</head>
+<body>
+  <header class="masthead wrap">
+    <div class="topbar">
+      <p class="brand"><a href="../../index.html">八百万図AIツールボックス</a></p>
+      <div class="theme" role="group" aria-label="図とページの色">
+        <button type="button" id="theme-light" data-theme="light" aria-pressed="true">ライト</button>
+        <button type="button" id="theme-dark" data-theme="dark" aria-pressed="false">ダーク</button>
+      </div>
+    </div>
+    <h1 id="quartz-title">Quartz：AIが読むUIの指示書と部品</h1>
+    <div class="load-line">
+      <p id="load-status" role="status">固定版の資料を確かめています</p>
+      <button type="button" id="retry" hidden>もう一度読み込む</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section aria-labelledby="map-heading">
+      <h2 id="map-heading" class="sr-only">Quartzのつながり図</h2>
+      <div class="cases" role="group" aria-label="静的サンプルの事例">
+        <button type="button" data-case="completed" aria-pressed="true" disabled>完了</button>
+        <button type="button" data-case="tool-failed" aria-pressed="false" disabled>ツール失敗</button>
+        <button type="button" data-case="waiting-input" aria-pressed="false" disabled>入力待ち</button>
+      </div>
+      <p id="case-meta"></p>
+      <figure class="map">
+        <canvas id="concept-map" role="img" aria-label="Quartzのつながり図（資料を確かめるまで表示しません）" aria-describedby="map-text"></canvas>
+      </figure>
+      <div class="stages" role="group" aria-label="図の説明">
+        <button type="button" data-stage="0" aria-pressed="false" disabled>1 指示書と作者</button>
+        <button type="button" data-stage="1" aria-pressed="false" disabled>2 範囲と選択</button>
+        <button type="button" data-stage="2" aria-pressed="false" disabled>3 読んで使う</button>
+        <button type="button" id="replay" aria-label="図の説明を最初からもう一度" disabled>↺</button>
+      </div>
+      <div class="actions">
+        <a class="btn primary" id="open-desk" aria-disabled="true">実物の画面を開く</a>
+        <button type="button" id="save-record" disabled>サンプルJSONを受け取る</button>
+      </div>
+      <p id="save-status" role="status"></p>
+      <p id="phase-note"></p>
+      <noscript><p>この図はJavaScriptで描きます。元の静的サンプルは samples.json で読めます。</p></noscript>
+    </section>
+
+    <section class="block" aria-labelledby="step-heading">
+      <h2 id="step-heading">選んだ段を読む</h2>
+      <p class="lede">Timelineで段を選ぶと、そのidがAppへ戻り、同じ段の状態・時間・入力・出力が開きます。ここでは元のfixtureの段を選べます。選んでも、fixtureは書き換わらず、AIやツールも動きません。</p>
+      <div class="step-pick">
+        <label for="step-select">段（元のID）</label>
+        <select id="step-select" disabled></select>
+      </div>
+      <div class="step-head">
+        <h3 id="step-name"></h3>
+        <span id="step-status" class="status"></span>
+      </div>
+      <p id="step-note"></p>
+      <dl id="step-facts" class="facts"></dl>
+      <div class="io-grid">
+        <section aria-labelledby="in-h"><h4 id="in-h">入力（JsonView）</h4><dl id="step-input" class="io"></dl></section>
+        <section aria-labelledby="out-h"><h4 id="out-h">出力（JsonView）</h4><dl id="step-output" class="io"></dl></section>
+      </div>
+      <p class="fine">「モデル」「ツール」はfixtureの段の分類で、新しいAIや作業者ではありません。404の取得失敗や下書きの保存も、このサンプルに書かれた表示用の値です。</p>
+    </section>
+
+    <section class="block" aria-labelledby="map-text-heading">
+      <h2 id="map-text-heading">図の読み方</h2>
+      <ol id="map-text"></ol>
+    </section>
+
+    <section class="block" aria-labelledby="parts-heading">
+      <h2 id="parts-heading">6つの要素と原典の一行</h2>
+      <p class="lede">この6つは説明のための整理で、Quartzの共通の形式ではありません。押すと図の該当箇所に枠が付きます。</p>
+      <div class="parts" role="group" aria-label="要素">
+        <button type="button" data-part="instructions" aria-pressed="true" disabled>AIが読む指示書</button>
+        <button type="button" data-part="scope" aria-pressed="false" disabled>部品の居場所</button>
+        <button type="button" data-part="tokens" aria-pressed="false" disabled>共通の見た目</button>
+        <button type="button" data-part="components" aria-pressed="false" disabled>実物を組む</button>
+        <button type="button" data-part="selection" aria-pressed="false" disabled>選択が戻る</button>
+        <button type="button" data-part="check" aria-pressed="false" disabled>別工程で確認</button>
+      </div>
+      <div class="part-body">
+        <p id="part-label"></p>
+        <p id="part-meaning"></p>
+        <blockquote id="part-quote" lang="en"></blockquote>
+        <p id="part-source"></p>
+        <p id="part-local"></p>
+      </div>
+    </section>
+
+    <section class="block" aria-labelledby="cases-heading">
+      <h2 id="cases-heading">3件の静的サンプル</h2>
+      <p class="lede" id="sample-note"></p>
+      <div class="case-list">
+        <article id="completed">
+          <h3 data-f="label"></h3>
+          <p><span class="k">渡したもの</span><span data-f="input"></span></p>
+          <p><span class="k">画面に出ること</span><span data-f="output"></span></p>
+          <p class="fine" data-f="facts"></p>
+          <a data-f="desk"></a>
+        </article>
+        <article id="tool-failed">
+          <h3 data-f="label"></h3>
+          <p><span class="k">渡したもの</span><span data-f="input"></span></p>
+          <p><span class="k">画面に出ること</span><span data-f="output"></span></p>
+          <p class="fine" data-f="facts"></p>
+          <a data-f="desk"></a>
+        </article>
+        <article id="waiting-input">
+          <h3 data-f="label"></h3>
+          <p><span class="k">渡したもの</span><span data-f="input"></span></p>
+          <p><span class="k">画面に出ること</span><span data-f="output"></span></p>
+          <p class="fine" data-f="facts"></p>
+          <a data-f="desk"></a>
+        </article>
+      </div>
+      <p class="fine">入力待ちのサンプルは、公開時に制作担当が承認待ちの版から原典URL待ちの版へ置き換えたものです。完了サンプルの saved: true は架空で、drafts/quartz.md は作られていません。入力待ちのサンプルには回答も再開もありません。</p>
+    </section>
+
+    <section class="block" aria-labelledby="record-heading">
+      <h2 id="record-heading">サンプルJSONの受け渡し</h2>
+      <p class="lede">「サンプルJSONを受け取る」は、元の画面と同じ <code>JSON.stringify(fixture, null, 2) + '\n'</code> の中身を、選んだ段に関係なく事例全体でブラウザーへ渡します。このページは渡す前に中身の大きさとSHA-256を確かめていますが、保存先に書き込まれたかは確かめられません。新しい実行や計測の記録でもありません。</p>
+      <ul id="record-bytes"></ul>
+      <details>
+        <summary>渡すJSONの中身</summary>
+        <p>ファイル名 <code id="record-name"></code></p>
+        <pre id="record-content"></pre>
+      </details>
+    </section>
+
+    <section class="block" aria-labelledby="desk-heading">
+      <h2 id="desk-heading">実物の画面</h2>
+      <p class="lede">図は説明用の描画です。Quartzの部品を実際に動かしているのは、元のReact画面 desk.html です。同じ事例のTimelineで段を選び、キーボード（上下の矢印、Home、End、Enter）、選んだ段のJSON、ライトとダークの明示切替を試せます。修正の再実行、ログイン、URLへの回答、ログの取り込みはありません。</p>
+      <div class="shots">
+        <figure><img id="shot-light" alt="元の画面の撮影：完了サンプル、ライト表示" hidden><figcaption>元の確認時の撮影（完了）</figcaption></figure>
+        <figure><img id="shot-fail" alt="元の画面の撮影：ツール失敗サンプル" hidden><figcaption>元の確認時の撮影（ツール失敗）</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="block" aria-labelledby="request-heading">
+      <h2 id="request-heading">AIに渡した依頼文</h2>
+      <textarea id="request-text" readonly rows="12" aria-labelledby="request-heading"></textarea>
+      <div class="copy-row">
+        <button type="button" id="copy-request" disabled>依頼文をコピー</button>
+        <p id="copy-status" role="status"></p>
+      </div>
+      <p class="fine">依頼文の <code>npx shadcn@latest add …</code> は、Quartzが案内する導入方法です。この作例ではCLIを実行していません。制作担当が固定版から必要なファイルと依存を手で配置しました。原典URLや接続先が足りないときは補わずに聞く、という最後の一文は指示書の手順5に沿っています。</p>
+    </section>
+
+    <section class="block" aria-labelledby="films-heading">
+      <h2 id="films-heading">無音32秒の解説動画</h2>
+      <div class="films">
+        <figure>
+          <video id="film-portrait" controls muted playsinline preload="metadata" src="../../media/quartz-agent-console.mp4?v=visual-r1-r2"></video>
+          <figcaption>縦 720×1280、無音32秒。同じ図が動き、つながりを示します。</figcaption>
+        </figure>
+        <figure>
+          <video id="film-wide" controls muted playsinline preload="metadata" src="../../media/quartz-agent-console-wide.mp4?v=visual-r1-r2"></video>
+          <figcaption>横 1280×720、無音32秒。ナレーションも音声もありません。</figcaption>
+        </figure>
+      </div>
+      <p><a class="btn" id="open-editor" href="video/index.html">動画の編集ソースを開く</a></p>
+    </section>
+
+    <section class="block sources" aria-labelledby="sources-heading">
+      <h2 id="sources-heading">出典と確かめた範囲</h2>
+      <ul>
+        <li>原典：<a href="https://github.com/arla6ka/design.how/tree/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz">arla6ka/design.how の systems/quartz（固定版 1aaaa1b）</a>。MIT License、Copyright (c) 2026 Arlan Marat。</li>
+        <li>Quartzはデザインの指示書・トークンCSS・React部品・lint規則です。AIモデル、エージェントの実行基盤、ログ収集、ワークフロー、ホストAPI、自動でUIを作る仕組みではありません。</li>
+        <li>役割の分担：元の画面の構成・日本語の文言・3件のfixtureは、作者AI（claude-opus-5-5）が1回の制作で書きました。制作担当は別工程で固定版のファイルと依存を手で配置し、表示の補正をして、Quartz lint・Vite build・390/1280px幅のブラウザー操作を確認しました。</li>
+        <li>元の確認（lint・build・390/1280px）は元のReact画面だけの記録で、この図と32秒動画には当てはめていません。使いやすさや人の承認を保証するものでもありません。</li>
+        <li>同梱した原典の33ファイルとLICENSEは改行がCRLFです。公式のLFの生バイトとは異なり、改行だけをそろえると公式のGit blobと一致します。</li>
+        <li>使った部品はTimeline・Status・JsonView・Button・DataList・SegmentedControl・Badge・PageHeaderの8つです。Panelは資料を読んだだけで使っていません。Blocksやほかの部品も使っていません。</li>
+        <li>サンプルの段数は5・3・4と少ないため、Timelineの仮想スクロール（200段から）の性能は示していません。Portal枠はありますが、この例でポップアップは使いません。</li>
+        <li>実機のiOS Safari、VoiceOver、200%拡大、すべての入力、クリップボードの読み戻しは確かめていません。</li>
+        <li>この図解ページと動画の構成：八百万図AIツールボックス（claude-opus-5-5で作成）。</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <p><a href="../../case.html?id=quartz-agent-console">作例の記事へ</a>　<a href="desk.html">元のReact画面</a>　<a href="samples.json">samples.json</a>　<a href="visual-guide.md">再現手順</a>　<a href="source.zip">編集ソース一式</a>　<a href="visual-verification.json">確認範囲</a></p>
+  </footer>
+</body>
+</html>

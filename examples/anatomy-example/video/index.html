@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; script-src 'self'; style-src 'self'; connect-src 'self'; font-src 'self'; media-src 'none'; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>編集用ソース：トークンバケットの装置（無音24秒）｜八百万図AIツールボックス</title>
+  <link rel="stylesheet" href="video.css">
+  <script type="module" src="scene.js"></script>
+</head>
+<body>
+  <main class="preview">
+    <header class="head preview-only">
+      <h1>トークンバケットの装置<span>無音24秒・編集用ソース</span></h1>
+      <nav aria-label="関連"><a href="../index.html">操作できる図へ</a><a href="../README.md">README</a></nav>
+    </header>
+
+    <div class="stage" id="stage">
+      <canvas id="film" width="720" height="1280" role="img"
+        aria-label="無音24秒の解説動画。満タンの収納筒から8件のリクエストで真鍮のトークン8枚が1枚ずつ送り出され、9件目はトークンがないので赤い旗が上がって拒否される。1秒たつと台車が2枚を運んで落とし、その2枚で2件が通り、次はまた拒否される。最後に許可10件・拒否2件をまとめる。実際のAPIには接続しない説明モデル。"></canvas>
+    </div>
+
+    <div class="controls preview-only" id="controls">
+      <p class="status" id="status" role="status" aria-live="polite">図の部品を準備しています…</p>
+      <div class="transport">
+        <button type="button" id="play" aria-pressed="false" disabled>再生</button>
+        <button type="button" id="rewind" disabled>最初へ</button>
+        <label class="scrub"><span class="visually-hidden">再生位置（秒）</span><input id="time" type="range" min="0" max="24" step="0.1" value="12" disabled></label>
+        <output id="clock" for="time">12.0 / 24.0 秒</output>
+      </div>
+      <div class="jumps" role="group" aria-label="場面へ移動">
+        <button type="button" data-jump="0" disabled>0秒 満タン</button>
+        <button type="button" data-jump="2" disabled>2秒 8件まとめて</button>
+        <button type="button" data-jump="8.2" disabled>8.2秒 9件目は拒否</button>
+        <button type="button" data-jump="10.4" disabled>10.4秒 1秒で2枚</button>
+        <button type="button" data-jump="13.6" disabled>13.6秒 2件通過</button>
+        <button type="button" data-jump="19" disabled>19秒 まとめ</button>
+      </div>
+      <div class="orient" role="group" aria-label="画面の向き">
+        <button type="button" data-orient="portrait" aria-pressed="true">縦 720×1280</button>
+        <button type="button" data-orient="wide" aria-pressed="false">横 1280×720</button>
+      </div>
+      <p class="hint">確認用の操作です。書き出し（renderモード）ではこの欄を出さず、タイマーも動かしません。図は ../figure.mjs、数は ../model.mjs から描きます。音声はありません。</p>
+    </div>
+  </main>
+</body>
+</html>

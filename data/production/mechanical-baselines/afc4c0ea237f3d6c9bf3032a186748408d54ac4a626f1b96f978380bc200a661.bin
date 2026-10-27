@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="earshotで作る効果音。30秒のモーションリールと、映像に使った16音。">
+  <title>earshot — sound in motion</title>
+  <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+  <header><a class="brand" href="#">earshot<span class="version">0.4</span></a><a class="back" href="../../case.html?id=earshot-example">八百万図AIツールボックス ↗</a></header>
+  <main>
+    <section class="film" aria-label="30秒のモーションリール">
+      <iframe id="film" src="video/index.html?v=2" title="earshot / sound in motion — 30秒" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </section>
+    <div class="film-meta"><span>SOUND IN MOTION / 00:30</span><span>STUDIO YEBISU × OPUS 5.5</span></div>
+    <nav class="downloads" aria-label="ダウンロード"><a href="../../media/earshot-example-wide.mp4?v=2" download>Film ↗</a><a href="assets/soundtrack.wav?v=2" download>Audio ↗</a><a href="source.zip" download>Source ↗</a></nav>
+    <section class="bank" aria-labelledby="bank-title">
+      <div class="section-top"><h1 id="bank-title">The sounds.</h1><p>映像に使った16音。</p></div>
+      <p id="sample-status" role="status" aria-live="polite">読み込み中…</p>
+      <div id="samples" class="samples"></div>
+    </section>
+    <footer>
+      <p>All SFX made with <a href="https://github.com/Leonxlnx/earshot/tree/591fa3e028032e6dce56620a20e932e35667e8d8" target="_blank" rel="noopener noreferrer">earshot ↗</a><br>Original score & production — Studio Yebisu</p>
+      <details><summary>Credits & source</summary><p>Art / motion: Claude Opus 5.5<br>Sound / score / cues / player / export: Codex + earshot 0.4.0</p><p>映像・音源はこの作例のオリジナル。作者のリリース映像を構成の参考にしています。</p><p><a href="README.md">再現手順</a> · <a href="assets/render-report.json">生成記録</a> · <a href="third-party/earshot-LICENSE">MIT license</a></p></details>
+    </footer>
+  </main>
+  <script src="app.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,2868 @@
+{
+  "schema_version": 1,
+  "purpose": "mechanical-maintenance",
+  "model_execution": false,
+  "cases": [
+    {
+      "case_id": "3d-asset-server-example",
+      "changes": [
+        {
+          "path": "data/cases/3d-asset-server-example.json",
+          "before_sha256": "83c890a3e3bab7d0789b6bfe42edf755ab83ffa5be607a0cb97a7f0c39b4fab6",
+          "after_sha256": "6ac87764395e77a100802b921778bf7486bc77c2fcebb6b03ec96408339e7b35",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/83c890a3e3bab7d0789b6bfe42edf755ab83ffa5be607a0cb97a7f0c39b4fab6.bin"
+        },
+        {
+          "path": "examples/3d-asset-server-example/README.md",
+          "before_sha256": "162d0fad0c571b262d62926560e4f25a0acda4c8becd820862b9977f61d012a0",
+          "after_sha256": "d5550446660960b762ec3dcca9eabb3ebe03592bb785e53ba2146966384b5b40",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/162d0fad0c571b262d62926560e4f25a0acda4c8becd820862b9977f61d012a0.bin"
+        },
+        {
+          "path": "examples/3d-asset-server-example/desk.html",
+          "before_sha256": "8dba1f6f3faafddc78b6c2f223a740683867b44fd98533f818d247a2d979ce54",
+          "after_sha256": "af111fe3db44e371be5fb453a224748b476c7874a7c497b9ba5b7fe915685d1c",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/8dba1f6f3faafddc78b6c2f223a740683867b44fd98533f818d247a2d979ce54.bin"
+        },
+        {
+          "path": "examples/3d-asset-server-example/index.html",
+          "before_sha256": "c091422d6b6c33a08d29b799391578561255e308174ac99b7a946f82d3eeee7a",
+          "after_sha256": "af6b8c19515d4c0433bf404fe0d9d5b6c817e291e45fbe9dfd70371e78648157",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/c091422d6b6c33a08d29b799391578561255e308174ac99b7a946f82d3eeee7a.bin"
+        },
+        {
+          "path": "examples/3d-asset-server-example/style.css",
+          "before_sha256": "441291444b93035263af5e447904934d1fd8cf16cc2d3a05dcd2b36ba62e4b54",
+          "after_sha256": "39466f632bca771df60e9ea780d5afcc34b9c723c0b45f6c14ef8730f23d4b94",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/441291444b93035263af5e447904934d1fd8cf16cc2d3a05dcd2b36ba62e4b54.bin"
+        },
+        {
+          "path": "examples/3d-asset-server-example/video/legacy.html",
+          "before_sha256": "9d7a5ba1d0180d9840cfee903f7d4ceb800b48dda85a30adfd89afe8509f7861",
+          "after_sha256": "248096c8c427ede0eb0016cede93ca36342249dc4e91330fda7fc834b938ac6c",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/9d7a5ba1d0180d9840cfee903f7d4ceb800b48dda85a30adfd89afe8509f7861.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/3d-asset-server-example.json",
+        "sha256": "2fcce90a2bbd9622599a0a45441f417b3fa8a26776f28751bd0cd49242972a47"
+      },
+      "baseline_record": {
+        "path": "data/production/3d-asset-server-example.json",
+        "sha256": "2fcce90a2bbd9622599a0a45441f417b3fa8a26776f28751bd0cd49242972a47"
+      },
+      "case_record": {
+        "path": "data/cases/3d-asset-server-example.json",
+        "sha256": "6ac87764395e77a100802b921778bf7486bc77c2fcebb6b03ec96408339e7b35"
+      }
+    },
+    {
+      "case_id": "ace-step-example",
+      "changes": [
+        {
+          "path": "data/cases/ace-step-example.json",
+          "before_sha256": "8d54f8747e612ec89fb145c880e2265a0a27c4b3b3c8a03d21eb6dfb47ddc034",
+          "after_sha256": "326d24d243869acac17d300eb8b660f5445012bcbc4acc9116b4069ac1ab302d",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/8d54f8747e612ec89fb145c880e2265a0a27c4b3b3c8a03d21eb6dfb47ddc034.bin"
+        },
+        {
+          "path": "examples/ace-step-example/README.md",
+          "before_sha256": "28a8e0252632bfb22d35c1e8eac427b81a187038fc8ab0ad09824d858cf69eb3",
+          "after_sha256": "f43696121dffad6086bd1484bd9eb01b0b78b7b1b29787907bc87f3c51061e3f",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/28a8e0252632bfb22d35c1e8eac427b81a187038fc8ab0ad09824d858cf69eb3.bin"
+        },
+        {
+          "path": "examples/ace-step-example/concept.css",
+          "before_sha256": "25b1f4c59bf9b3b45e0573c4334261f8dd8610964eaa581955e94f3fdfbda2e0",
+          "after_sha256": "f832575abb6b57279b4ba387bba714782b4f5b80e79e35847025bdbbf21b1c56",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/25b1f4c59bf9b3b45e0573c4334261f8dd8610964eaa581955e94f3fdfbda2e0.bin"
+        },
+        {
+          "path": "examples/ace-step-example/concept.js",
+          "before_sha256": "c5c9ef36f74b10f6a530823353c6c30b287c3194d77ba0efbbb618148f86ff23",
+          "after_sha256": "66203f8bbe050d00590835d8810b0621f177d4e850f807a05faccc93529d6fdf",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/c5c9ef36f74b10f6a530823353c6c30b287c3194d77ba0efbbb618148f86ff23.bin"
+        },
+        {
+          "path": "examples/ace-step-example/index.html",
+          "before_sha256": "38acc66787823b096af0f41ee3868d040cd7cfc150720afc8e5852dc69eedc81",
+          "after_sha256": "1f9a0dcd39720078a9bc122dc068c1f55eddd092f10139bb3188b7caf1cba437",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/38acc66787823b096af0f41ee3868d040cd7cfc150720afc8e5852dc69eedc81.bin"
+        },
+        {
+          "path": "examples/ace-step-example/source.zip",
+          "before_sha256": "7f77103ba74f94ef33ac4afbdc249854a26726a8a868411bac7874de16bc5f06",
+          "after_sha256": "c1b9e7499f907084aedee6012f37a6be6463ba48e4413405623ccf66ce9ed8bf",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/7f77103ba74f94ef33ac4afbdc249854a26726a8a868411bac7874de16bc5f06.bin"
+        },
+        {
+          "path": "examples/ace-step-example/video/index.html",
+          "before_sha256": "4c02326470f71ba7df95b2970e8994b9ccc3b1282961b5c746fab519756460ef",
+          "after_sha256": "83295f47ce3532b04ff135e276c142e8d7679f959302087b894ad28c39d9cd39",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/4c02326470f71ba7df95b2970e8994b9ccc3b1282961b5c746fab519756460ef.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/ace-step-example.json",
+        "sha256": "65ab63ea9cc0db960df70add746fa879c4b044719f822e4682894cd14b9585c0"
+      },
+      "baseline_record": {
+        "path": "data/production/ace-step-example.json",
+        "sha256": "65ab63ea9cc0db960df70add746fa879c4b044719f822e4682894cd14b9585c0"
+      },
+      "case_record": {
+        "path": "data/cases/ace-step-example.json",
+        "sha256": "326d24d243869acac17d300eb8b660f5445012bcbc4acc9116b4069ac1ab302d"
+      }
+    },
+    {
+      "case_id": "addy-engineering-skills-example",
+      "changes": [
+        {
+          "path": "data/cases/addy-engineering-skills-example.json",
+          "before_sha256": "254b64c00a71d0f4e2e4c52c24d0e99d76a7acb4a2a2bcb025693fad76cf323b",
+          "after_sha256": "32c5c45356c6ee73594f1f54c3eb0737051ecbcf3eafa9183db6c3e6aabe0329",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/254b64c00a71d0f4e2e4c52c24d0e99d76a7acb4a2a2bcb025693fad76cf323b.bin"
+        },
+        {
+          "path": "examples/addy-engineering-skills-example/README.md",
+          "before_sha256": "b1d50b52dc15412a85dbbd91d4a5f2f53ef6568689d4be502cc67223573133c3",
+          "after_sha256": "98a9a2405b2c0e59293207e976f927388464140e4bbc215011a42a39f563f945",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/b1d50b52dc15412a85dbbd91d4a5f2f53ef6568689d4be502cc67223573133c3.bin"
+        },
+        {
+          "path": "examples/addy-engineering-skills-example/concept.css",
+          "before_sha256": "bfe77dbb40d9a0a687a95b16d21940319ae4d7dc1ea6403cc6cd4fffa3fe15d0",
+          "after_sha256": "d69770a5e5f5779c3a165990d960ca6e4f85274216eb97feb17e6efaa4233d37",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/bfe77dbb40d9a0a687a95b16d21940319ae4d7dc1ea6403cc6cd4fffa3fe15d0.bin"
+        },
+        {
+          "path": "examples/addy-engineering-skills-example/desk.html",
+          "before_sha256": "508714f887e789bbaa3ccc43129414fbe578edea7369b997d3b0fc208aa561f9",
+          "after_sha256": "46889697f1b6032ddf6a986b186a115d20130a06821f29f6e08bb1e3db257823",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/508714f887e789bbaa3ccc43129414fbe578edea7369b997d3b0fc208aa561f9.bin"
+        },
+        {
+          "path": "examples/addy-engineering-skills-example/guide.mjs",
+          "before_sha256": "0c03188beb9c0272ecb465a1be07111fb86764c4b13ac8c7a2318b401c05c1fa",
+          "after_sha256": "bf02032036a4cdc19718c4a2488f886f44e0c3862de7095bd99fa0f9462f26f8",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/0c03188beb9c0272ecb465a1be07111fb86764c4b13ac8c7a2318b401c05c1fa.bin"
+        },
+        {
+          "path": "examples/addy-engineering-skills-example/index.html",
+          "before_sha256": "4b9526f5ff9b038a51dd3eca6de4cb91ac0d4b1678e13abe8bcf5092fbcf0b42",
+          "after_sha256": "b1867423b985afff9b8824c1b4b356be596827e1adf6553d199ebab23d886d76",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/4b9526f5ff9b038a51dd3eca6de4cb91ac0d4b1678e13abe8bcf5092fbcf0b42.bin"
+        },
+        {
+          "path": "examples/addy-engineering-skills-example/request.html",
+          "before_sha256": "0ed089936dc7b0ca61901087af2f0dd20e7e3f179e0838e731d084ccaf262e99",
+          "after_sha256": "435e134b1dc7717959b9982ef24a86b85529aefcb676c80038b3776ffda4fbf6",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/0ed089936dc7b0ca61901087af2f0dd20e7e3f179e0838e731d084ccaf262e99.bin"
+        },
+        {
+          "path": "examples/addy-engineering-skills-example/style.css",
+          "before_sha256": "0bc38b83753ae3b28c1f3eed4a9cdaad08b8760f3508624bdfed05928cbe5b63",
+          "after_sha256": "ecc24ac5291fd66dd005dbd1cf69f15edcc722e0ec0b48c144fb4f524a9a2d84",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/0bc38b83753ae3b28c1f3eed4a9cdaad08b8760f3508624bdfed05928cbe5b63.bin"
+        },
+        {
+          "path": "examples/addy-engineering-skills-example/tasks.mjs",
+          "before_sha256": "c950f5177aada582decdfdd9a593abbd38b7d3387f2b46396fc467087f14fb09",
+          "after_sha256": "b32efb475d828fe5dd8a3680f3a9bcc353b395c425cb022caee64c22351ae420",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/c950f5177aada582decdfdd9a593abbd38b7d3387f2b46396fc467087f14fb09.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/addy-engineering-skills-example.json",
+        "sha256": "4e5b399fd23f5da6b5be3210b23924b747ab1a115c8fea557ac9414078f72655"
+      },
+      "baseline_record": {
+        "path": "data/production/addy-engineering-skills-example.json",
+        "sha256": "4e5b399fd23f5da6b5be3210b23924b747ab1a115c8fea557ac9414078f72655"
+      },
+      "case_record": {
+        "path": "data/cases/addy-engineering-skills-example.json",
+        "sha256": "32c5c45356c6ee73594f1f54c3eb0737051ecbcf3eafa9183db6c3e6aabe0329"
+      }
+    },
+    {
+      "case_id": "agency-agents-example",
+      "changes": [
+        {
+          "path": "data/cases/agency-agents-example.json",
+          "before_sha256": "3aa39d2d98f529dd8894c506471e108508e8eca77f6bf732177883cb1e760cf8",
+          "after_sha256": "7f9d4d83a60711456f807276d47567ce68df19138954a5d8dea50909596ebfdd",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/3aa39d2d98f529dd8894c506471e108508e8eca77f6bf732177883cb1e760cf8.bin"
+        },
+        {
+          "path": "examples/agency-agents-example/comparison.html",
+          "before_sha256": "c916146775f9ccbc1e369ca6aaa3345bd9f3b9dc4d70cdeafcc7f3d9932589f6",
+          "after_sha256": "0c76d861e6646a797968aaffb8f8bc46b84113c70f37c0f974cf5d1ee771907c",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/c916146775f9ccbc1e369ca6aaa3345bd9f3b9dc4d70cdeafcc7f3d9932589f6.bin"
+        },
+        {
+          "path": "examples/agency-agents-example/guide.html",
+          "before_sha256": "86c23ead8f78a27839fea93655221e3de93e746fde8ff46e111cb0656390ea86",
+          "after_sha256": "b8dc10ad2037d4cff8f76ab491def77979679f3aeaa50b6d6327629dd039b15b",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/86c23ead8f78a27839fea93655221e3de93e746fde8ff46e111cb0656390ea86.bin"
+        },
+        {
+          "path": "examples/agency-agents-example/index.html",
+          "before_sha256": "546a886f18dba01b9668b0f86ae1ffa1f94363ca6843e2db2cf6998fdb88ffe0",
+          "after_sha256": "0b3f928e8ed537f8504828cce3eb2ccc8438940174300ec6ecf1e844bb085c43",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/546a886f18dba01b9668b0f86ae1ffa1f94363ca6843e2db2cf6998fdb88ffe0.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/agency-agents-example.json",
+        "sha256": "794e5defd05db35bcfea80db300646f8e3e105450f6bf4466018fcf99cabdc31"
+      },
+      "baseline_record": {
+        "path": "data/production/agency-agents-example.json",
+        "sha256": "794e5defd05db35bcfea80db300646f8e3e105450f6bf4466018fcf99cabdc31"
+      },
+      "case_record": {
+        "path": "data/cases/agency-agents-example.json",
+        "sha256": "7f9d4d83a60711456f807276d47567ce68df19138954a5d8dea50909596ebfdd"
+      }
+    },
+    {
+      "case_id": "agent-reach-example",
+      "changes": [
+        {
+          "path": "data/cases/agent-reach-example.json",
+          "before_sha256": "5d509aa31c9d320b8bbd571caaa0ff218780f1658e3dce1fb29938f9f817b20e",
+          "after_sha256": "aa2a0deca9c53550354a01b328c8a12167f4797596839c246c0839eba8a6f4a5",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/5d509aa31c9d320b8bbd571caaa0ff218780f1658e3dce1fb29938f9f817b20e.bin"
+        },
+        {
+          "path": "examples/agent-reach-example/desk.html",
+          "before_sha256": "97c11f74ac71c3c3015e4426431cc366030817cfec6771a08efbdcd3d92ea37a",
+          "after_sha256": "c544e196d2760b98e6d089f0c400a35a02d821ebd844f86780f014b8b58274bc",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/97c11f74ac71c3c3015e4426431cc366030817cfec6771a08efbdcd3d92ea37a.bin"
+        },
+        {
+          "path": "examples/agent-reach-example/index.html",
+          "before_sha256": "6c67b97adcf9b646ab5a4fd6c3d27bc736fe807624a3b07670c5af25a9e8ad04",
+          "after_sha256": "27ecd37dcf935ebde3fbfa61fdb35b7bf75ff6dbe5c7806f1a48718364872615",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/6c67b97adcf9b646ab5a4fd6c3d27bc736fe807624a3b07670c5af25a9e8ad04.bin"
+        },
+        {
+          "path": "examples/agent-reach-example/video/index.html",
+          "before_sha256": "6b73de5411aa3aa726238522371f91a76353c9c20691eee743d233fd957ab32d",
+          "after_sha256": "a4922ee7897ff323bdf430689ed4298af510833a04b9095ffdc95fc5d687e8b7",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/6b73de5411aa3aa726238522371f91a76353c9c20691eee743d233fd957ab32d.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/agent-reach-example.json",
+        "sha256": "c40111553415ce322a8aa483f0f13c9f713b2c290a97b0685b222ebdfc1ebb0d"
+      },
+      "baseline_record": {
+        "path": "data/production/agent-reach-example.json",
+        "sha256": "c40111553415ce322a8aa483f0f13c9f713b2c290a97b0685b222ebdfc1ebb0d"
+      },
+      "case_record": {
+        "path": "data/cases/agent-reach-example.json",
+        "sha256": "aa2a0deca9c53550354a01b328c8a12167f4797596839c246c0839eba8a6f4a5"
+      }
+    },
+    {
+      "case_id": "assetfurnace-example",
+      "changes": [
+        {
+          "path": "data/cases/assetfurnace-example.json",
+          "before_sha256": "a7256fade2134a2cc7034d8f74cfc026c577282a3653be4cd01c7e7607ae068e",
+          "after_sha256": "74c8776539f22b0552daab0ee34da3bf869a28c3f50250c9330c8ede875b3412",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/a7256fade2134a2cc7034d8f74cfc026c577282a3653be4cd01c7e7607ae068e.bin"
+        },
+        {
+          "path": "examples/assetfurnace-example/README.md",
+          "before_sha256": "5089d7d8a37219635f91f1e7908bf4edfb842d626705b3d8c0838125eb199aca",
+          "after_sha256": "35268ac5ae8ccc094ddb3b631cc600de54467cb5db900bbb9495fc6eda0e85dd",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/5089d7d8a37219635f91f1e7908bf4edfb842d626705b3d8c0838125eb199aca.bin"
+        },
+        {
+          "path": "examples/assetfurnace-example/concept.css",
+          "before_sha256": "0f3d1c2c899f89807eb0d0e96791ab6b47c97f9d14caca8567c2ce0392acf049",
+          "after_sha256": "921a8a846d9891dded2473494248fda6cf83e352c1d863cc6c00b1b62558e2c9",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/0f3d1c2c899f89807eb0d0e96791ab6b47c97f9d14caca8567c2ce0392acf049.bin"
+        },
+        {
+          "path": "examples/assetfurnace-example/concept.js",
+          "before_sha256": "07cde2b4d7cf4ca9e90e01b5e6372449bfdeaa2295490f87ca65c5232e3d2e91",
+          "after_sha256": "de701597e861e4aae3a3ac9dad29e88bc5601ad98e128cfe55b15c62f6612d5f",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/07cde2b4d7cf4ca9e90e01b5e6372449bfdeaa2295490f87ca65c5232e3d2e91.bin"
+        },
+        {
+          "path": "examples/assetfurnace-example/index.html",
+          "before_sha256": "6dd9d911d6f887a275e092b169825937e7a524cb5d623c02dc342b18dd367206",
+          "after_sha256": "7d9617ddfc67a8f6e2829d1f6bc4381f10993d0cc541ffc724afe5bc6a255dcc",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/6dd9d911d6f887a275e092b169825937e7a524cb5d623c02dc342b18dd367206.bin"
+        },
+        {
+          "path": "examples/assetfurnace-example/source.zip",
+          "before_sha256": "68018405323a4ff3b31a85acae75820198b42aef088243427b06486358ff4342",
+          "after_sha256": "5971c52c9161d300de178ac905b52c710311fe25b1d1c6396b2b4a9a760875ad",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/68018405323a4ff3b31a85acae75820198b42aef088243427b06486358ff4342.bin"
+        },
+        {
+          "path": "examples/assetfurnace-example/video/index.html",
+          "before_sha256": "82cb8a8f7554565849ccae524acf3aa1662113ac635b237d78129aeaa166dc7b",
+          "after_sha256": "1ec5023425a2d633acb894efb88a7dce8ca38caa7e2de14a6ed1275846249af3",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/82cb8a8f7554565849ccae524acf3aa1662113ac635b237d78129aeaa166dc7b.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/assetfurnace-example.json",
+        "sha256": "79f5ea0b3d203b2cc1a6823fb16740859dd08739d64ccdeab03dda00324ef03a"
+      },
+      "baseline_record": {
+        "path": "data/production/assetfurnace-example.json",
+        "sha256": "79f5ea0b3d203b2cc1a6823fb16740859dd08739d64ccdeab03dda00324ef03a"
+      },
+      "case_record": {
+        "path": "data/cases/assetfurnace-example.json",
+        "sha256": "74c8776539f22b0552daab0ee34da3bf869a28c3f50250c9330c8ede875b3412"
+      }
+    },
+    {
+      "case_id": "brief-to-demo",
+      "changes": [
+        {
+          "path": "data/cases/brief-to-demo.json",
+          "before_sha256": "365f4b97e7d8f1a6d18389bf4f10291339c5cd533637de6ed8dad06bd92bf3ed",
+          "after_sha256": "d6fc8fa1d10d99d70d9f201f3ef200b9091a254a1053af5803f0285e068090c5",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/365f4b97e7d8f1a6d18389bf4f10291339c5cd533637de6ed8dad06bd92bf3ed.bin"
+        },
+        {
+          "path": "examples/brief-to-demo/concept.css",
+          "before_sha256": "79585b8ebad2b704000d35a0a24767cd921dbaaa9b0a7e4802f84791b565a48e",
+          "after_sha256": "05199a5d955fc758105aee48644388c8690fcac731da38a453283f010bd92311",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/79585b8ebad2b704000d35a0a24767cd921dbaaa9b0a7e4802f84791b565a48e.bin"
+        },
+        {
+          "path": "examples/brief-to-demo/concept.js",
+          "before_sha256": "b26db46c26125d5d11e307503f25431d0fd952e6026790ac8617f81f2f3c830b",
+          "after_sha256": "b6bb963f18f309752cfe840db8746cf963b5c3eab203516e38f0e48756d61fbf",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/b26db46c26125d5d11e307503f25431d0fd952e6026790ac8617f81f2f3c830b.bin"
+        },
+        {
+          "path": "examples/brief-to-demo/desk.html",
+          "before_sha256": "897c2a66801106897eceae2439cea008d3aef262c0f86f650019233c6a2aa40c",
+          "after_sha256": "5bc5b79088f1193c5bd236a180072a3ba43fea8429d962c55446c42a023fed4b",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/897c2a66801106897eceae2439cea008d3aef262c0f86f650019233c6a2aa40c.bin"
+        },
+        {
+          "path": "examples/brief-to-demo/index.html",
+          "before_sha256": "0766b9910be9de6e13618ebc322f3fdd5a4ec725b435fdcd3c9256396bdafea6",
+          "after_sha256": "03c20a508179264b89596fe65e4ad31c72b0acb79326ee0d02c925ee33016cc1",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/0766b9910be9de6e13618ebc322f3fdd5a4ec725b435fdcd3c9256396bdafea6.bin"
+        },
+        {
+          "path": "examples/brief-to-demo/styles.css",
+          "before_sha256": "94b91af1716e48b98f6cbec020e35a565db758b1f6abf20098f806bea82f8ce3",
+          "after_sha256": "491858433704a44d4fd60b123bda2030bebdd49269c72723de4c828a0b1385fc",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/94b91af1716e48b98f6cbec020e35a565db758b1f6abf20098f806bea82f8ce3.bin"
+        },
+        {
+          "path": "examples/brief-to-demo/video/legacy.html",
+          "before_sha256": "35d3c178f6b7497294ad26185339185e3cbef82b8f79083ce1ef4f18e17fbcea",
+          "after_sha256": "263aa76d198fb8896e8b6d635c1b116f01d1aacfb59bf9deaa3596cafcd20713",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/35d3c178f6b7497294ad26185339185e3cbef82b8f79083ce1ef4f18e17fbcea.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/brief-to-demo.json",
+        "sha256": "fa8d6b520fee5282a3bee1b946c592657a15c823b1be1af136b44fc8bebd7e7a"
+      },
+      "baseline_record": {
+        "path": "data/production/brief-to-demo.json",
+        "sha256": "fa8d6b520fee5282a3bee1b946c592657a15c823b1be1af136b44fc8bebd7e7a"
+      },
+      "case_record": {
+        "path": "data/cases/brief-to-demo.json",
+        "sha256": "d6fc8fa1d10d99d70d9f201f3ef200b9091a254a1053af5803f0285e068090c5"
+      }
+    },
+    {
+      "case_id": "browser-use-example",
+      "changes": [
+        {
+          "path": "data/cases/browser-use-example.json",
+          "before_sha256": "58a76d184f8a93a0ef70defe926758a3cf5a3277f0fc63e0960cc072a83ce7be",
+          "after_sha256": "fa8affbe84e8e2f4787e519a65e9a426ece8481f69e6a80b30d06e84bbde3644",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/58a76d184f8a93a0ef70defe926758a3cf5a3277f0fc63e0960cc072a83ce7be.bin"
+        },
+        {
+          "path": "examples/browser-use-example/desk.html",
+          "before_sha256": "1284640c3bbc3f413b40f3930e68184cae420de3415e980567a8d3d002310cae",
+          "after_sha256": "f90581a31220fb3f8fcf5e68ee409a1b16e890a8b82467eb377ca461a3d35d67",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/1284640c3bbc3f413b40f3930e68184cae420de3415e980567a8d3d002310cae.bin"
+        },
+        {
+          "path": "examples/browser-use-example/index.html",
+          "before_sha256": "647eb2e85762b1b3c5bc511ddd8d5c0779c658af2340ef94faf0d39766ce50d0",
+          "after_sha256": "eabecfdbeab028b4178742f4e35754bd2454c1a64b410dfae6b9e49d38024bc9",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/647eb2e85762b1b3c5bc511ddd8d5c0779c658af2340ef94faf0d39766ce50d0.bin"
+        },
+        {
+          "path": "examples/browser-use-example/video/index.html",
+          "before_sha256": "f94398770766f1945922fd2bff2dfe3155f5c412398095d825ccad1b0372df6a",
+          "after_sha256": "a12efe1815e13b7a7efe454e24d06f90daed44acef8df2cb4f02bf025658ab81",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/f94398770766f1945922fd2bff2dfe3155f5c412398095d825ccad1b0372df6a.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/browser-use-example.json",
+        "sha256": "58e87780b34a3e7947bbe3dfb4e1548b7ed7d451e0202d8ac88d885a9b614403"
+      },
+      "baseline_record": {
+        "path": "data/production/browser-use-example.json",
+        "sha256": "58e87780b34a3e7947bbe3dfb4e1548b7ed7d451e0202d8ac88d885a9b614403"
+      },
+      "case_record": {
+        "path": "data/cases/browser-use-example.json",
+        "sha256": "fa8affbe84e8e2f4787e519a65e9a426ece8481f69e6a80b30d06e84bbde3644"
+      }
+    },
+    {
+      "case_id": "chatterbox-example",
+      "changes": [
+        {
+          "path": "data/cases/chatterbox-example.json",
+          "before_sha256": "00f658a4cf7201fb29d49eb4d78264070cac6c8af48b3c9bb47bb5f886047463",
+          "after_sha256": "73c28699ea59794936e1bf678e971db3e7a9c4c0fdbfcd1a177f7ac0b3ec1747",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/00f658a4cf7201fb29d49eb4d78264070cac6c8af48b3c9bb47bb5f886047463.bin"
+        },
+        {
+          "path": "examples/chatterbox-example/README.md",
+          "before_sha256": "95a5e4f47291d19d09a5e8de2c681f06bc586ba660a753f1568f9a080cb2fc0d",
+          "after_sha256": "e7bcaad22f61045e45ab78199eadd01e65fd0f3d7b0f469fc288db13049d2a31",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/95a5e4f47291d19d09a5e8de2c681f06bc586ba660a753f1568f9a080cb2fc0d.bin"
+        },
+        {
+          "path": "examples/chatterbox-example/index.html",
+          "before_sha256": "9b21dcf7518340011e4d7ad36485071cbce75606da0536163a6964dfc80ee5a4",
+          "after_sha256": "0edb83ecae0d8025c33fff20a2e767bf1a8a1a5d77e4f841764661237fcddb90",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/9b21dcf7518340011e4d7ad36485071cbce75606da0536163a6964dfc80ee5a4.bin"
+        },
+        {
+          "path": "examples/chatterbox-example/source.zip",
+          "before_sha256": "97c80a0df0918e00bef73002b75dbab5cb349e679ffb6491e8b162d34fe00a88",
+          "after_sha256": "72b92c6b8f82d6a5560f6a29a92f895a39b771a42ea72cf5acc6dad2cd5317c4",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/97c80a0df0918e00bef73002b75dbab5cb349e679ffb6491e8b162d34fe00a88.bin"
+        },
+        {
+          "path": "examples/chatterbox-example/video/index.html",
+          "before_sha256": "6517250c40942c988caf4493be5e8d5d221ce14adbd33d9724d947380abd000f",
+          "after_sha256": "6d6823bb6bc3a270da22d4cb48516b4d1b03f1773fd36d11f96d1e3eb9c0f84f",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/6517250c40942c988caf4493be5e8d5d221ce14adbd33d9724d947380abd000f.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/chatterbox-example.json",
+        "sha256": "8adcd95873b0a1d30aaa297a80ae846fe2d02d5bde72b08d9720ec3192537a80"
+      },
+      "baseline_record": {
+        "path": "data/production/chatterbox-example.json",
+        "sha256": "8adcd95873b0a1d30aaa297a80ae846fe2d02d5bde72b08d9720ec3192537a80"
+      },
+      "case_record": {
+        "path": "data/cases/chatterbox-example.json",
+        "sha256": "73c28699ea59794936e1bf678e971db3e7a9c4c0fdbfcd1a177f7ac0b3ec1747"
+      }
+    },
+    {
+      "case_id": "claude-mem-example",
+      "changes": [
+        {
+          "path": "examples/claude-mem-example/app.js",
+          "before_sha256": "1f0f8432ad22b4d904c52e7b47c0f178f2c3c7f99ed5f7e6c8081a43a4f7f8b5",
+          "after_sha256": "c3fe5ee6c96dc55dc9be64fee256debf1196a4c35e73526a7b71d487de0a5ead",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/1f0f8432ad22b4d904c52e7b47c0f178f2c3c7f99ed5f7e6c8081a43a4f7f8b5.bin"
+        },
+        {
+          "path": "examples/claude-mem-example/comparison.css",
+          "before_sha256": "cde3fd65903a63ada168b139862622572fe19d43d358d5df5d1b3a198007f4e6",
+          "after_sha256": "8b470fd89b63a48f5891993ce1d18cf0bac098f7dc4a7537a86ed4c2fbc64295",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/cde3fd65903a63ada168b139862622572fe19d43d358d5df5d1b3a198007f4e6.bin"
+        },
+        {
+          "path": "examples/claude-mem-example/comparison.html",
+          "before_sha256": "5b29c411839a41bebe2357496520085d11c63848626dbcd95e777f76239df64f",
+          "after_sha256": "99f058c5ff5ae525f325a8890cec142ca7ae31ac1c9af6caa7b265dae34f4a83",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/5b29c411839a41bebe2357496520085d11c63848626dbcd95e777f76239df64f.bin"
+        },
+        {
+          "path": "examples/claude-mem-example/comparison.js",
+          "before_sha256": "494749995723edf103ea726bd9636fcf2fd49c961ba78c57d306b0a3e5d0e79c",
+          "after_sha256": "5cd99c965ed6d3c7e957c71e8d59e74f38fcbc744aa93b9cbf995c1a8f52d951",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/494749995723edf103ea726bd9636fcf2fd49c961ba78c57d306b0a3e5d0e79c.bin"
+        },
+        {
+          "path": "examples/claude-mem-example/index.html",
+          "before_sha256": "787c9025b6e4d91f1192fb5ddb940c8068d7cc6b55cbc313dfb65ed89af5a6d2",
+          "after_sha256": "d8e77901d133d94a3b408647ee8b185d37c6c613575039d74213cf100281898c",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/787c9025b6e4d91f1192fb5ddb940c8068d7cc6b55cbc313dfb65ed89af5a6d2.bin"
+        },
+        {
+          "path": "examples/claude-mem-example/source.zip",
+          "before_sha256": "fb617c211892ff83dd6f0edba06bc2b8bdf8cca6b84a9f417a418e794944cfc2",
+          "after_sha256": "5b35d13025225a574b2ea5f48a2bfad9f565ab3471f69cef17a423a5293be653",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/fb617c211892ff83dd6f0edba06bc2b8bdf8cca6b84a9f417a418e794944cfc2.bin"
+        },
+        {
+          "path": "examples/claude-mem-example/style.css",
+          "before_sha256": "911f345dbfea8d10df4fd1b76a5850aaf253e603a6ade4cc638a45f1c281f188",
+          "after_sha256": "24d7a5de1e50041cd7906ef41ca31b69995552c667f2680ad0141c2b43692f62",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/911f345dbfea8d10df4fd1b76a5850aaf253e603a6ade4cc638a45f1c281f188.bin"
+        },
+        {
+          "path": "examples/claude-mem-example/video/index.html",
+          "before_sha256": "67019d1e7e902e467837a6097f5b30798b1a613332b68eb27f0ff23001092130",
+          "after_sha256": "e8402d4830ab50566315cd7e1d6b759936b44b5a596817b9b5ec6aea2ca738f0",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/67019d1e7e902e467837a6097f5b30798b1a613332b68eb27f0ff23001092130.bin"
+        },
+        {
+          "path": "data/cases/claude-mem-example.json",
+          "before_sha256": "dd27b68d124b48936f550f5ab242c4cd523a672232ff9cc0c9611c3a885bb6ac",
+          "after_sha256": "12667838d464803936926143455d9189f22a0cc86160b53885af35ebbd8a9f1a",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/dd27b68d124b48936f550f5ab242c4cd523a672232ff9cc0c9611c3a885bb6ac.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/claude-mem-example.json",
+        "sha256": "1bcb755f149ff9f48786b0adfe39fbc32e488f8c86fc03da39c19dc88d605d31"
+      },
+      "baseline_record": {
+        "path": "data/production/claude-mem-example.json",
+        "sha256": "1bcb755f149ff9f48786b0adfe39fbc32e488f8c86fc03da39c19dc88d605d31"
+      },
+      "case_record": {
+        "path": "data/cases/claude-mem-example.json",
+        "sha256": "12667838d464803936926143455d9189f22a0cc86160b53885af35ebbd8a9f1a"
+      }
+    },
+    {
+      "case_id": "codebase-memory-mcp-example",
+      "changes": [
+        {
+          "path": "examples/codebase-memory-mcp-example/source.zip",
+          "before_sha256": "ae3c769428c50c6ff4eb7fe19b76047414b3ed2607f9b2503ec79fb9bfd05b55",
+          "after_sha256": "5d20e75cd23c9b67c8d3d04db8d42a1e21a50add080c15781c6113b9eb08bebb",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/ae3c769428c50c6ff4eb7fe19b76047414b3ed2607f9b2503ec79fb9bfd05b55.bin"
+        },
+        {
+          "path": "data/cases/codebase-memory-mcp-example.json",
+          "before_sha256": "1c7b95cf97fe32e0803816eb4b2b5331065b7e794e13c553a50d65a29f2a300c",
+          "after_sha256": "bc924ad9eed40e689adef1e50d3e16e50b9b03e23bead9de33ddb7268ca6a755",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/1c7b95cf97fe32e0803816eb4b2b5331065b7e794e13c553a50d65a29f2a300c.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/codebase-memory-mcp-example.json",
+        "sha256": "16b45841238d6c1ba5682e97a817cf259afbf372be52ed5b2ec31df8736b703c"
+      },
+      "baseline_record": {
+        "path": "data/production/codebase-memory-mcp-example.json",
+        "sha256": "16b45841238d6c1ba5682e97a817cf259afbf372be52ed5b2ec31df8736b703c"
+      },
+      "case_record": {
+        "path": "data/cases/codebase-memory-mcp-example.json",
+        "sha256": "bc924ad9eed40e689adef1e50d3e16e50b9b03e23bead9de33ddb7268ca6a755"
+      }
+    },
+    {
+      "case_id": "crawl4ai-example",
+      "changes": [
+        {
+          "path": "data/cases/crawl4ai-example.json",
+          "before_sha256": "98495ae511f7131709a5c5f2b355257f08efe9c9b6e1163eff984605135f71b2",
+          "after_sha256": "8d39597068e67b01541c3e9e3ae5a923482c7fb1e2d3a8d4e71d2f14da103b29",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/98495ae511f7131709a5c5f2b355257f08efe9c9b6e1163eff984605135f71b2.bin"
+        },
+        {
+          "path": "examples/crawl4ai-example/index.html",
+          "before_sha256": "c78d66a1510b79763dda2e5e99a239ab0f9c007b0cae63decd8c96aaa6057553",
+          "after_sha256": "bfab4fcfb4f195a8cc19b0477270ca302fbf42f367bcdac5807385ac0c349e6b",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/c78d66a1510b79763dda2e5e99a239ab0f9c007b0cae63decd8c96aaa6057553.bin"
+        },
+        {
+          "path": "examples/crawl4ai-example/video/index.html",
+          "before_sha256": "1dcb7b8a7da1e0fffe0f2a50f1748cc0e6e3c30b71ad02d8e7a6dc8563ea8ea1",
+          "after_sha256": "13c9ab8126732cb3e00443a71972fe64646e7fa5eae623d556b82646e3180dd7",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/1dcb7b8a7da1e0fffe0f2a50f1748cc0e6e3c30b71ad02d8e7a6dc8563ea8ea1.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/crawl4ai-example.json",
+        "sha256": "ebd2e7cff7a6e5504105eed56f1b515b0aa30aee0e949913f49efdcc52a48188"
+      },
+      "baseline_record": {
+        "path": "data/production/crawl4ai-example.json",
+        "sha256": "ebd2e7cff7a6e5504105eed56f1b515b0aa30aee0e949913f49efdcc52a48188"
+      },
+      "case_record": {
+        "path": "data/cases/crawl4ai-example.json",
+        "sha256": "8d39597068e67b01541c3e9e3ae5a923482c7fb1e2d3a8d4e71d2f14da103b29"
+      }
+    },
+    {
+      "case_id": "defuddle-reading-room",
+      "changes": [
+        {
+          "path": "data/cases/defuddle-reading-room.json",
+          "before_sha256": "02d10106192a01bf180de877355349db8cb4fca6740ce41e73fab3cfbc851d42",
+          "after_sha256": "81f046015206ee0db8734dafb932f8cba2926373b5650cca8afe6355ec77a965",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/02d10106192a01bf180de877355349db8cb4fca6740ce41e73fab3cfbc851d42.bin"
+        },
+        {
+          "path": "examples/defuddle-reading-room/README.md",
+          "before_sha256": "8a856ca78ac8938f7ad52519ce06e6762f8d3cc5b15a696a669f5826d9319185",
+          "after_sha256": "58920f37447b1c189d1109ad149b2d3819d4e7fa99f1cb8357be2c7fbc4d0d07",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/8a856ca78ac8938f7ad52519ce06e6762f8d3cc5b15a696a669f5826d9319185.bin"
+        },
+        {
+          "path": "examples/defuddle-reading-room/app.js",
+          "before_sha256": "ef829ba92059b82ac2d303db9142c4b52b9b8e92287c80e8f0082096692b0e9b",
+          "after_sha256": "f0c72a32b67b3f294ba14ecc3b2f5b6ebe26b776cc32fb6bd33497d8c08a8ddf",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/ef829ba92059b82ac2d303db9142c4b52b9b8e92287c80e8f0082096692b0e9b.bin"
+        },
+        {
+          "path": "examples/defuddle-reading-room/desk.html",
+          "before_sha256": "1fd7f2f04338cf957a618610ffdb7f27785ed25be02499cab4a3ddcda571b760",
+          "after_sha256": "763c7f3d51cf4e7674844078cca7b094b22fb75227ea6d4d8c69809559728717",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/1fd7f2f04338cf957a618610ffdb7f27785ed25be02499cab4a3ddcda571b760.bin"
+        },
+        {
+          "path": "examples/defuddle-reading-room/index.html",
+          "before_sha256": "c3096b0d3f770da17a161b32337e47ff96b598710ccf700a2e7cfc946652889f",
+          "after_sha256": "901329ef952c3c7a935d68ecd77f1b6be9b8942f9dfb8e5b227e2a81d23ed614",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/c3096b0d3f770da17a161b32337e47ff96b598710ccf700a2e7cfc946652889f.bin"
+        },
+        {
+          "path": "examples/defuddle-reading-room/styles.css",
+          "before_sha256": "50a82767765d15a2178da19cb9c996f87e6e724bd8cd36a0bd4f9fd713248c74",
+          "after_sha256": "ad1f7d48de5b865a8c0c2c52bf5ca8b40f4fd82c262b75952b07ff666053f0b4",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/50a82767765d15a2178da19cb9c996f87e6e724bd8cd36a0bd4f9fd713248c74.bin"
+        },
+        {
+          "path": "examples/defuddle-reading-room/video/legacy.html",
+          "before_sha256": "1ea6473d278d77ca7c506153f2bf8bd17f4d8449fca4ccf03dc815fdf3f9eb60",
+          "after_sha256": "10c66753f3d274d5820f64f234497f0405c565039caa7d189522f2b061c61db2",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/1ea6473d278d77ca7c506153f2bf8bd17f4d8449fca4ccf03dc815fdf3f9eb60.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/defuddle-reading-room.json",
+        "sha256": "b1fa4791b61e744914d9cac9009f799e4b45a098793a6205f98763b86a170498"
+      },
+      "baseline_record": {
+        "path": "data/production/defuddle-reading-room.json",
+        "sha256": "b1fa4791b61e744914d9cac9009f799e4b45a098793a6205f98763b86a170498"
+      },
+      "case_record": {
+        "path": "data/cases/defuddle-reading-room.json",
+        "sha256": "81f046015206ee0db8734dafb932f8cba2926373b5650cca8afe6355ec77a965"
+      }
+    },
+    {
+      "case_id": "design-taste-example",
+      "changes": [
+        {
+          "path": "data/cases/design-taste-example.json",
+          "before_sha256": "24fbb90e6fe104a77c1aea0746438d4e1fb3f85dc87455e3d8cf45ab948ad4d5",
+          "after_sha256": "689f958b0c7d9e491c94c52a0265014eb9f70b8e696fb9c5f3aec46aad9d6692",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/24fbb90e6fe104a77c1aea0746438d4e1fb3f85dc87455e3d8cf45ab948ad4d5.bin"
+        },
+        {
+          "path": "examples/design-taste-example/desk.html",
+          "before_sha256": "eae941ea96859ca0d360ac2a07981d486fc7b14b470e5c6fae3e6ac526e96d56",
+          "after_sha256": "276ff92e51e15d382d95faccd8056d96737d85d3178d650e135ee232ee98c03a",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/eae941ea96859ca0d360ac2a07981d486fc7b14b470e5c6fae3e6ac526e96d56.bin"
+        },
+        {
+          "path": "examples/design-taste-example/index.html",
+          "before_sha256": "4cc3492c993151d3d098b754b75695ee012850e2d106416595818b042f900405",
+          "after_sha256": "9507d6834e361b54b84cf35d73f0172274e65aa92d3d14b2d468088fe4dd13c2",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/4cc3492c993151d3d098b754b75695ee012850e2d106416595818b042f900405.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/design-taste-example.json",
+        "sha256": "10de55fa2b26caf92501b4c563ecfcd0c005cbfe168551318c87cfca9bea6232"
+      },
+      "baseline_record": {
+        "path": "data/production/design-taste-example.json",
+        "sha256": "10de55fa2b26caf92501b4c563ecfcd0c005cbfe168551318c87cfca9bea6232"
+      },
+      "case_record": {
+        "path": "data/cases/design-taste-example.json",
+        "sha256": "689f958b0c7d9e491c94c52a0265014eb9f70b8e696fb9c5f3aec46aad9d6692"
+      }
+    },
+    {
+      "case_id": "diagram-design-example",
+      "changes": [
+        {
+          "path": "data/cases/diagram-design-example.json",
+          "before_sha256": "b6c55612cda635d8d4d5d2140b3946ac2865aa25f8078d7ba5fe0d92ca1a23b6",
+          "after_sha256": "54c427055d5ec6a2b9a5753d180a3bda372ae618a16877650391ec8676b453aa",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/b6c55612cda635d8d4d5d2140b3946ac2865aa25f8078d7ba5fe0d92ca1a23b6.bin"
+        },
+        {
+          "path": "examples/diagram-design-example/README.md",
+          "before_sha256": "d5723c6ab417332c8295325560c7252dd161479ea6a2ba65989dce5b0086b6cf",
+          "after_sha256": "083167953ebc8e6431f07f573b30c79643fd3bb41640ae618c0ad9258a84524f",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/d5723c6ab417332c8295325560c7252dd161479ea6a2ba65989dce5b0086b6cf.bin"
+        },
+        {
+          "path": "examples/diagram-design-example/app.js",
+          "before_sha256": "ebdba2c25ae3e5d092b982a238e7386c5d7da2b1c40448db3b0e4c94d30ad4f7",
+          "after_sha256": "ad6e507ebe105ecb4ede496383e3609442f079e8f6b985eea8a780c4ff7a1e2f",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/ebdba2c25ae3e5d092b982a238e7386c5d7da2b1c40448db3b0e4c94d30ad4f7.bin"
+        },
+        {
+          "path": "examples/diagram-design-example/concept.css",
+          "before_sha256": "d89bdafc0778f02cec5ec159e5ec521aec4f429bea82829c17b22ca876bde08b",
+          "after_sha256": "3552794ef0f428560a1f0b95d4720e6bea785c90865ab152e3b57bd28011ac84",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/d89bdafc0778f02cec5ec159e5ec521aec4f429bea82829c17b22ca876bde08b.bin"
+        },
+        {
+          "path": "examples/diagram-design-example/concept.js",
+          "before_sha256": "24858196858fe363455a5335157b0c829c2817bc1806da523026228041a853f0",
+          "after_sha256": "b6f2d2d753172b07a5ff73b25efb51028bc92052096a16cf0156ee26cbfae9f3",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/24858196858fe363455a5335157b0c829c2817bc1806da523026228041a853f0.bin"
+        },
+        {
+          "path": "examples/diagram-design-example/desk.html",
+          "before_sha256": "5dcf3ba26f1544a1f1b16305f82345292c0f0bfef48dc772d6197292a0a992ac",
+          "after_sha256": "06adef7c57f013d2043d28eceee968815552643b145df3c19cc773b963386437",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/5dcf3ba26f1544a1f1b16305f82345292c0f0bfef48dc772d6197292a0a992ac.bin"
+        },
+        {
+          "path": "examples/diagram-design-example/diagrams/intake.html",
+          "before_sha256": "ac455bb63147e470558c5ec24d07799aedcc1090af72777f38caca67e3bddd8d",
+          "after_sha256": "fab86688dbcd41969a3e8de46fce90fd5a2a19414b702d38004b8ec2b70d6625",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/ac455bb63147e470558c5ec24d07799aedcc1090af72777f38caca67e3bddd8d.bin"
+        },
+        {
+          "path": "examples/diagram-design-example/index.html",
+          "before_sha256": "d4e965a409e41086d0ebb8e232923548db833d427f16f9f0c9e3bfb71cc49096",
+          "after_sha256": "74bd7d4d988d1033738823ff2e7ca9c1d9d3c83e0f34cc93b15d590de52a5a08",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/d4e965a409e41086d0ebb8e232923548db833d427f16f9f0c9e3bfb71cc49096.bin"
+        },
+        {
+          "path": "examples/diagram-design-example/styles.css",
+          "before_sha256": "c02f4e5697241979a8541c0d29c3f8953c2f418fe93cd4d69ef3ad452bb57de6",
+          "after_sha256": "2ed4cace310a93f537a3cd6524ca5e70b9d683b56d1fd0ebefb1e1e903b09704",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/c02f4e5697241979a8541c0d29c3f8953c2f418fe93cd4d69ef3ad452bb57de6.bin"
+        },
+        {
+          "path": "examples/diagram-design-example/video/index.html",
+          "before_sha256": "890738f1693be38bda5c81b25d5154c08af158994f3938d68350ad0f1e7acf6e",
+          "after_sha256": "3752f051a6c87d6e18e48079102cc67dfa92138c5ae7abfabce4f92f78bca83f",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/890738f1693be38bda5c81b25d5154c08af158994f3938d68350ad0f1e7acf6e.bin"
+        },
+        {
+          "path": "examples/diagram-design-example/video/legacy.html",
+          "before_sha256": "342dd1ddf0a158606004d9dc30e3ba7368ae2674627cc96cf5d5ac1cc30215d5",
+          "after_sha256": "0e6f03d2482fd65f503d4a6066b1513f1560438b245e6e5e83611e3c60dbf200",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/342dd1ddf0a158606004d9dc30e3ba7368ae2674627cc96cf5d5ac1cc30215d5.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/diagram-design-example.json",
+        "sha256": "c289fc51cc8ab02ef58eb655a232c73cb2d8a1a616bc13e0650d84b47c0836d6"
+      },
+      "baseline_record": {
+        "path": "data/production/diagram-design-example.json",
+        "sha256": "c289fc51cc8ab02ef58eb655a232c73cb2d8a1a616bc13e0650d84b47c0836d6"
+      },
+      "case_record": {
+        "path": "data/cases/diagram-design-example.json",
+        "sha256": "54c427055d5ec6a2b9a5753d180a3bda372ae618a16877650391ec8676b453aa"
+      }
+    },
+    {
+      "case_id": "dify-example",
+      "changes": [
+        {
+          "path": "examples/dify-example/app.js",
+          "before_sha256": "0f9c97879ba82727306fed1a9b784fe85c7a63dfdb0bbc8803310c12b9bbb36a",
+          "after_sha256": "40e15a7aa8ca8fe3ae42f61f371fc18eeb0f3fceda03241d2c1ff90a48d4315a",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/0f9c97879ba82727306fed1a9b784fe85c7a63dfdb0bbc8803310c12b9bbb36a.bin"
+        },
+        {
+          "path": "examples/dify-example/comparison.css",
+          "before_sha256": "229369efcec870e137f98dc65ea089af18fdf6d485f50deb19639b9b94717287",
+          "after_sha256": "8e38356625bb74271a2dac9842dbf3a0dd2135f369f03838fb91303c285e94c0",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/229369efcec870e137f98dc65ea089af18fdf6d485f50deb19639b9b94717287.bin"
+        },
+        {
+          "path": "examples/dify-example/comparison.html",
+          "before_sha256": "434905c4f0516aaf2015f62eb812e65bf345979dd516faa0dd18d585d79947ab",
+          "after_sha256": "effcfb8ae3bb483f69a79dc711f4f5ff22c15e444a1bdf162cc9d7ced0f94079",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/434905c4f0516aaf2015f62eb812e65bf345979dd516faa0dd18d585d79947ab.bin"
+        },
+        {
+          "path": "examples/dify-example/comparison.js",
+          "before_sha256": "e64e368100da2e7426886e2daa39625eab685ae14c83a53d7fc640123e4014c3",
+          "after_sha256": "cf8a45eb7030c7e9266bbee080ee77f26bfc2637aa3657ccc425cd53865c2f2a",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/e64e368100da2e7426886e2daa39625eab685ae14c83a53d7fc640123e4014c3.bin"
+        },
+        {
+          "path": "examples/dify-example/index.html",
+          "before_sha256": "7f10489dde59dc00586350d52d1559ba664e47cb1c8e50132605ab3e458c643c",
+          "after_sha256": "5d30783d31b4359f0ecc3a3b9ae3f178515cbf5086598158ecb17b7c6456cbf4",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/7f10489dde59dc00586350d52d1559ba664e47cb1c8e50132605ab3e458c643c.bin"
+        },
+        {
+          "path": "examples/dify-example/source.zip",
+          "before_sha256": "16eb528a192e654e5e9d62349f0908e61f608c2288fed90a77357ed6d3378e35",
+          "after_sha256": "cadbab57fb9f6221bdd6ffbf1518e702dc3f6896f4f42fc52cc247e31e55ae48",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/16eb528a192e654e5e9d62349f0908e61f608c2288fed90a77357ed6d3378e35.bin"
+        },
+        {
+          "path": "examples/dify-example/style.css",
+          "before_sha256": "0fe12f7c277147c6ee8fc2da7164ad52694cc9953ba5bd25b05073412cc72862",
+          "after_sha256": "351ad1c982f0ae39316362135fc3e1f4341de406735e4635f76248defd02eecb",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/0fe12f7c277147c6ee8fc2da7164ad52694cc9953ba5bd25b05073412cc72862.bin"
+        },
+        {
+          "path": "examples/dify-example/video/index.html",
+          "before_sha256": "382a95c857791bfa20b9ae806bf6d115330ca1c273e43f091b82d91515ba2804",
+          "after_sha256": "1c209429326f00c730686190c282530ea27690c9ae5fdddb1d7ba16db2cd959d",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/382a95c857791bfa20b9ae806bf6d115330ca1c273e43f091b82d91515ba2804.bin"
+        },
+        {
+          "path": "data/cases/dify-example.json",
+          "before_sha256": "b2989b950e427a120dbe7c702b9a8f995a63adc57d375cea36c006cb54a2e368",
+          "after_sha256": "2a2d3b8c0531d3c91cf141d81674cd44d2b8f103da3b85043d54767bfc8e0250",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/b2989b950e427a120dbe7c702b9a8f995a63adc57d375cea36c006cb54a2e368.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/dify-example.json",
+        "sha256": "201ecb9665d83c70a73e19a9119cf635c810503dce060c5303b23d0ddb35584b"
+      },
+      "baseline_record": {
+        "path": "data/production/dify-example.json",
+        "sha256": "201ecb9665d83c70a73e19a9119cf635c810503dce060c5303b23d0ddb35584b"
+      },
+      "case_record": {
+        "path": "data/cases/dify-example.json",
+        "sha256": "2a2d3b8c0531d3c91cf141d81674cd44d2b8f103da3b85043d54767bfc8e0250"
+      }
+    },
+    {
+      "case_id": "earshot-example",
+      "changes": [
+        {
+          "path": "examples/earshot-example/index.html",
+          "before_sha256": "afc4c0ea237f3d6c9bf3032a186748408d54ac4a626f1b96f978380bc200a661",
+          "after_sha256": "13728423df2804a367ff0e9d88d1c762a3e2b20b6c85a3af79b2f34cd6c120e9",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/afc4c0ea237f3d6c9bf3032a186748408d54ac4a626f1b96f978380bc200a661.bin"
+        },
+        {
+          "path": "examples/earshot-example/README.md",
+          "before_sha256": "dfaf6f82cd5a4cf2a812cb3e5a4b3d6589065cc605d1249cf73430b3ea3db533",
+          "after_sha256": "2b8a1b9275c5a5fca04a79d6b64c2713f0ab1171bab08f54876b382db62c3fb4",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/dfaf6f82cd5a4cf2a812cb3e5a4b3d6589065cc605d1249cf73430b3ea3db533.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/earshot-example.json",
+        "sha256": "572757d32c5ab2c71930c19dfc27ec4e4bf760f2400cd48a19e804b231a7fa45"
+      },
+      "baseline_record": {
+        "path": "data/production/earshot-example.json",
+        "sha256": "572757d32c5ab2c71930c19dfc27ec4e4bf760f2400cd48a19e804b231a7fa45"
+      },
+      "case_record": {
+        "path": "data/cases/earshot-example.json",
+        "sha256": "2017b2ba472c9df5f90514b740100bd578c29ec98af390defb7355824cdc4a7d"
+      }
+    },
+    {
+      "case_id": "effekseer-vfx-example",
+      "changes": [
+        {
+          "path": "data/cases/effekseer-vfx-example.json",
+          "before_sha256": "41f32484af61b5c4e3190fa0691be94af3e0c73463c7d97509c6ca13536369df",
+          "after_sha256": "f4ae1e79627002f432c24a97639c3eebc608bacdc8888500f687f1c6a68f2bd7",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/41f32484af61b5c4e3190fa0691be94af3e0c73463c7d97509c6ca13536369df.bin"
+        },
+        {
+          "path": "examples/effekseer-vfx-example/README.md",
+          "before_sha256": "6003c3555b2ee035b7e60ad3732b6dda01825f8828c545971898a18aa810fe53",
+          "after_sha256": "ec3b2645431948bba45f7d3bf1c5c119eceeec62377ee82ccbd0bc4729006f9e",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/6003c3555b2ee035b7e60ad3732b6dda01825f8828c545971898a18aa810fe53.bin"
+        },
+        {
+          "path": "examples/effekseer-vfx-example/app.js",
+          "before_sha256": "4a4ce946563d07004ed95212e62d180b2563d4a6ffe9bc2f2b8e441e62b88f2f",
+          "after_sha256": "82ebc1c31569f976902f2a9fe25aceca0bf3983e0805e9457771a935ae6aeb72",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/4a4ce946563d07004ed95212e62d180b2563d4a6ffe9bc2f2b8e441e62b88f2f.bin"
+        },
+        {
+          "path": "examples/effekseer-vfx-example/concept.css",
+          "before_sha256": "762b99bce5455210d7594f6dbda1d1ee04ac56a25802999fab0c10ae5d101f3c",
+          "after_sha256": "ae6e15f0f938ff24119c89e98bf969c508ee3979c072fbf5f6fe56d285ff1ea0",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/762b99bce5455210d7594f6dbda1d1ee04ac56a25802999fab0c10ae5d101f3c.bin"
+        },
+        {
+          "path": "examples/effekseer-vfx-example/concept.js",
+          "before_sha256": "b2ab8c085879522e425d6fd405bb343ed8167e62763b87489cdaad0bd65ae6cd",
+          "after_sha256": "7b50978853513fba373a499b243700ef718e3966adace1f2ff9ed67078da8bac",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/b2ab8c085879522e425d6fd405bb343ed8167e62763b87489cdaad0bd65ae6cd.bin"
+        },
+        {
+          "path": "examples/effekseer-vfx-example/desk.html",
+          "before_sha256": "d4afd8a1aacd9278629db7413c4a77278b63a843f1cde8162f41a9c4c0acd992",
+          "after_sha256": "383bd51fd3c5d885d44bf476c9bc2a23e000246c69becb83ff50685e88054268",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/d4afd8a1aacd9278629db7413c4a77278b63a843f1cde8162f41a9c4c0acd992.bin"
+        },
+        {
+          "path": "examples/effekseer-vfx-example/index.html",
+          "before_sha256": "e6ef7a275c1d98767c65295080c44381bb2107c2e9a6cecdaedc74ed772b9a44",
+          "after_sha256": "a67c600cb8c8bc793a96f5b7c623471fb83b201f3cfb7545e22e826e4a305a95",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/e6ef7a275c1d98767c65295080c44381bb2107c2e9a6cecdaedc74ed772b9a44.bin"
+        },
+        {
+          "path": "examples/effekseer-vfx-example/styles.css",
+          "before_sha256": "6cda3ad77b8a1de991285f16fb0e08eadb9faacd7f48349760233bc284c310c4",
+          "after_sha256": "1223c6530dde67bbb9a5223cdafc0442e4ab248fe4c2102a287d417b42f3ca36",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/6cda3ad77b8a1de991285f16fb0e08eadb9faacd7f48349760233bc284c310c4.bin"
+        },
+        {
+          "path": "examples/effekseer-vfx-example/video/index.html",
+          "before_sha256": "2d8623cb360705e09bb7f9a301997008d08ac8a440f051efeb6ef08801e44875",
+          "after_sha256": "e311050f4cb11fc0f32481d78291147d3077ed334e7df486fb02dba25233837f",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/2d8623cb360705e09bb7f9a301997008d08ac8a440f051efeb6ef08801e44875.bin"
+        },
+        {
+          "path": "examples/effekseer-vfx-example/video/legacy.html",
+          "before_sha256": "10978e463734aa6896cbe96b31e8fcd4407fe0799089dedf2b927c9d211d6fd3",
+          "after_sha256": "7bb124f471ebef5ed055a537cc4fd52afce1023f45955e2ec10baef54e940bca",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/10978e463734aa6896cbe96b31e8fcd4407fe0799089dedf2b927c9d211d6fd3.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/effekseer-vfx-example.json",
+        "sha256": "7a5f32e8b52f6fa13ca0e0745d7f910e8ef727b0cc1757957404a1cd381f8a7a"
+      },
+      "baseline_record": {
+        "path": "data/production/effekseer-vfx-example.json",
+        "sha256": "7a5f32e8b52f6fa13ca0e0745d7f910e8ef727b0cc1757957404a1cd381f8a7a"
+      },
+      "case_record": {
+        "path": "data/cases/effekseer-vfx-example.json",
+        "sha256": "f4ae1e79627002f432c24a97639c3eebc608bacdc8888500f687f1c6a68f2bd7"
+      }
+    },
+    {
+      "case_id": "hatchzip-example",
+      "changes": [
+        {
+          "path": "data/cases/hatchzip-example.json",
+          "before_sha256": "6eea235d58077402f8fe4b2c557a23e181679c32986e61831907a007ba22bc11",
+          "after_sha256": "aaa1c082a0607aefd6ce5b6f429b2379b147cc459a5f86b05408d2e05e1f4c69",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/6eea235d58077402f8fe4b2c557a23e181679c32986e61831907a007ba22bc11.bin"
+        },
+        {
+          "path": "examples/hatchzip-example/index.html",
+          "before_sha256": "9505eca54a1489f893c2ced88e13262b3c587ba5c3a430bdb2010e309c747a10",
+          "after_sha256": "4832f393e19722415d6befb509ce4e945fe98496754858f42f8878d9eefef76e",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/9505eca54a1489f893c2ced88e13262b3c587ba5c3a430bdb2010e309c747a10.bin"
+        },
+        {
+          "path": "examples/hatchzip-example/video/index.html",
+          "before_sha256": "3b6c6f2535a699aeb9db0fdc9b55949c8e3d73b3d0d0f1323c4a8af5f59693da",
+          "after_sha256": "b49a964ae75cb49e662554320b95e3e68f915903da7b614ecdfbf980b49cc7a4",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/3b6c6f2535a699aeb9db0fdc9b55949c8e3d73b3d0d0f1323c4a8af5f59693da.bin"
+        },
+        {
+          "path": "examples/hatchzip-example/video/scene.js",
+          "before_sha256": "07147e8c7c54613c68e8aa0e9aeeb02049cfa68022f0f3e7dee2b4a8e56bd771",
+          "after_sha256": "44fc50b7b27be970c59bcf24150b3f788b298c3dfe1191c1009e0e013344cef1",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/07147e8c7c54613c68e8aa0e9aeeb02049cfa68022f0f3e7dee2b4a8e56bd771.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/hatchzip-example.json",
+        "sha256": "3527d2711dfbe9b24e6f75845bdf3954ed4380a948f2a6dd92bda57e24a30e52"
+      },
+      "baseline_record": {
+        "path": "data/production/hatchzip-example.json",
+        "sha256": "3527d2711dfbe9b24e6f75845bdf3954ed4380a948f2a6dd92bda57e24a30e52"
+      },
+      "case_record": {
+        "path": "data/cases/hatchzip-example.json",
+        "sha256": "aaa1c082a0607aefd6ce5b6f429b2379b147cc459a5f86b05408d2e05e1f4c69"
+      }
+    },
+    {
+      "case_id": "humanizer-example",
+      "changes": [
+        {
+          "path": "data/cases/humanizer-example.json",
+          "before_sha256": "3d33b84684cf41f12f96dbc9602aa643dd21eec313f416c40c62625b418b29cf",
+          "after_sha256": "5462a436812c59a32a95d220c5101eda0e01a16d72be465c532c8d959436eb69",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/3d33b84684cf41f12f96dbc9602aa643dd21eec313f416c40c62625b418b29cf.bin"
+        },
+        {
+          "path": "examples/humanizer-example/README.md",
+          "before_sha256": "1fe48d8b19643fd1e4d2ee992a094472846b616b45a22c9e60d559733929bcea",
+          "after_sha256": "3233e4c83535ad1454c0f49ed08e2f44a0088359f8ce7f79c3a64d2a245d4ad5",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/1fe48d8b19643fd1e4d2ee992a094472846b616b45a22c9e60d559733929bcea.bin"
+        },
+        {
+          "path": "examples/humanizer-example/app.mjs",
+          "before_sha256": "11ad4f5368d6e0b9b7387811d68e2054c68284c1e57dbcca2c20e88c8105da09",
+          "after_sha256": "c1f46adf77b8de5e647e3521fcc26b5ac93ac5ddb6beb3e1ec775488b047abc2",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/11ad4f5368d6e0b9b7387811d68e2054c68284c1e57dbcca2c20e88c8105da09.bin"
+        },
+        {
+          "path": "examples/humanizer-example/desk.css",
+          "before_sha256": "b3ee01bb5791d84173afe8c5258b1285447435b6f2ab82426f80f67e3e3047f1",
+          "after_sha256": "be29c112987f16a81784d4233b850fd6889feb92226d04380e01a0ee91f4de7d",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/b3ee01bb5791d84173afe8c5258b1285447435b6f2ab82426f80f67e3e3047f1.bin"
+        },
+        {
+          "path": "examples/humanizer-example/desk.html",
+          "before_sha256": "e2f5f45061a1bd6829c3a5f01455b8b15073d7b87fa00ce95679b23fc4cb613d",
+          "after_sha256": "bf08a74cffb02b4ab7705c83809e70ce36389f607a1ae15f0f7d5f3d11228261",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/e2f5f45061a1bd6829c3a5f01455b8b15073d7b87fa00ce95679b23fc4cb613d.bin"
+        },
+        {
+          "path": "examples/humanizer-example/index.html",
+          "before_sha256": "218b3a0d726fb5d2f0ad5b94fdd3eb232f6b192acbd9cd8fcbf6c470edf7c631",
+          "after_sha256": "0c3805c804f66bdc77737b20e2232e9e05c8fc055a19b1e92f3a2904d8fd456b",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/218b3a0d726fb5d2f0ad5b94fdd3eb232f6b192acbd9cd8fcbf6c470edf7c631.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/humanizer-example.json",
+        "sha256": "a337be351a4f9021f9fbab7e7a93100bcf8c05eb63e72470163281150720905c"
+      },
+      "baseline_record": {
+        "path": "data/production/humanizer-example.json",
+        "sha256": "a337be351a4f9021f9fbab7e7a93100bcf8c05eb63e72470163281150720905c"
+      },
+      "case_record": {
+        "path": "data/cases/humanizer-example.json",
+        "sha256": "5462a436812c59a32a95d220c5101eda0e01a16d72be465c532c8d959436eb69"
+      }
+    },
+    {
+      "case_id": "knowledge-work-plugins-example",
+      "changes": [
+        {
+          "path": "examples/knowledge-work-plugins-example/comparison.css",
+          "before_sha256": "ed1cf1ea45ed0458ee0a6f2327c0fa42a259985701b839635d2ab432e965ad1f",
+          "after_sha256": "56323359f5f61ac50b8f1ce11418756257003553ec8bb1d38ac153ac44e59479",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/ed1cf1ea45ed0458ee0a6f2327c0fa42a259985701b839635d2ab432e965ad1f.bin"
+        },
+        {
+          "path": "examples/knowledge-work-plugins-example/source.zip",
+          "before_sha256": "2e0dd1aee26f71eb62ffd112e00f5e363488e553a2100fc60870d7c35d587259",
+          "after_sha256": "8b97942ea83e9cdac5c9021717e375a75753dcb9e14cd3d36bc17ff1605c101b",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/2e0dd1aee26f71eb62ffd112e00f5e363488e553a2100fc60870d7c35d587259.bin"
+        },
+        {
+          "path": "examples/knowledge-work-plugins-example/style.css",
+          "before_sha256": "4034e4b42e82bdace1fee9ed928877d1b5ab54b0554901404ca9498ec8528345",
+          "after_sha256": "95dc47b47c15acf68c7e70a91011967f08633be5589236303159f8faff9ef5c8",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/4034e4b42e82bdace1fee9ed928877d1b5ab54b0554901404ca9498ec8528345.bin"
+        },
+        {
+          "path": "data/cases/knowledge-work-plugins-example.json",
+          "before_sha256": "67eea7cd4a328b0a26577d3105e1168e233eb1639e9a96ad4542106c6d907253",
+          "after_sha256": "e6604abc6cda384c6c2b457fa9b9e217fb7a4b5a51e0671fbc0536c9ad700231",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/67eea7cd4a328b0a26577d3105e1168e233eb1639e9a96ad4542106c6d907253.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/knowledge-work-plugins-example.json",
+        "sha256": "538d87e712692ca5288852c70311b8684842d3693eff31be71534c5619a32c5a"
+      },
+      "baseline_record": {
+        "path": "data/production/knowledge-work-plugins-example.json",
+        "sha256": "538d87e712692ca5288852c70311b8684842d3693eff31be71534c5619a32c5a"
+      },
+      "case_record": {
+        "path": "data/cases/knowledge-work-plugins-example.json",
+        "sha256": "e6604abc6cda384c6c2b457fa9b9e217fb7a4b5a51e0671fbc0536c9ad700231"
+      }
+    },
+    {
+      "case_id": "langgraph-example",
+      "changes": [
+        {
+          "path": "data/cases/langgraph-example.json",
+          "before_sha256": "ff1891db17ac47012bf167a3dd82c37151dc2a8f34200a9b6692d40934ed0037",
+          "after_sha256": "65fe1cc0724e594074b9da47f317dd50b1356f3e7bf7e52da9160d991bcd2216",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/ff1891db17ac47012bf167a3dd82c37151dc2a8f34200a9b6692d40934ed0037.bin"
+        },
+        {
+          "path": "examples/langgraph-example/concept.css",
+          "before_sha256": "aaccd37d966e74b1f8ee0831571edf4459295f821bb7cea5822f4745ed81d2d5",
+          "after_sha256": "25c321b2e25a1115021698d213fa813e7c632e196f7ae4c0e784629f0d0e0345",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/aaccd37d966e74b1f8ee0831571edf4459295f821bb7cea5822f4745ed81d2d5.bin"
+        },
+        {
+          "path": "examples/langgraph-example/concept.js",
+          "before_sha256": "2891ad987c38b5cd190ce32741c88324b60fee2a0c3e5632c7654cc319451840",
+          "after_sha256": "36d9a9c8c8def3dd0f03b449226ddf4d7f8dd46dc7c0adc718ae99401e07dee5",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/2891ad987c38b5cd190ce32741c88324b60fee2a0c3e5632c7654cc319451840.bin"
+        },
+        {
+          "path": "examples/langgraph-example/index.html",
+          "before_sha256": "b05f0d75288f891a483c6a1101c2841fcbd516b90735a5512ad29ca85359a5a9",
+          "after_sha256": "de6c6d4cfd63dc0135fae926fd7759e4bd720bb5340a93109c9eee770ee334d0",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/b05f0d75288f891a483c6a1101c2841fcbd516b90735a5512ad29ca85359a5a9.bin"
+        },
+        {
+          "path": "examples/langgraph-example/source.zip",
+          "before_sha256": "c75384af4b85e2d3a8e3b71f0d3c10518c0ee50998bf36c2862d71bfe33c5161",
+          "after_sha256": "c2163097d3c20c074c3f8f3dbff166a558966ef32db7257ef0baa94e02b49726",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/c75384af4b85e2d3a8e3b71f0d3c10518c0ee50998bf36c2862d71bfe33c5161.bin"
+        },
+        {
+          "path": "examples/langgraph-example/video/index.html",
+          "before_sha256": "3d5b25c00e20536a9927266863b48ccd78f8c03022f9492664137d858b28c99d",
+          "after_sha256": "47ee01ccde7e8665603fbe1ebac0bea9caea9ac9592903a497b8d2093d42fd07",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/3d5b25c00e20536a9927266863b48ccd78f8c03022f9492664137d858b28c99d.bin"
+        },
+        {
+          "path": "examples/langgraph-example/video/legacy.html",
+          "before_sha256": "178349f2363d08035c894eeec4b71c0a1af66095d476ca9bccfa17a4b3fee5f7",
+          "after_sha256": "c85aa22772f8f1a99b4a93e7b38dd516486584878986b5fce42eb8f2b95a232b",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/178349f2363d08035c894eeec4b71c0a1af66095d476ca9bccfa17a4b3fee5f7.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/langgraph-example.json",
+        "sha256": "9239a0f160178142a62586603283dab883a471c0299a3a022697d383a15e3bd1"
+      },
+      "baseline_record": {
+        "path": "data/production/langgraph-example.json",
+        "sha256": "9239a0f160178142a62586603283dab883a471c0299a3a022697d383a15e3bd1"
+      },
+      "case_record": {
+        "path": "data/cases/langgraph-example.json",
+        "sha256": "65fe1cc0724e594074b9da47f317dd50b1356f3e7bf7e52da9160d991bcd2216"
+      }
+    },
+    {
+      "case_id": "learn-harness-engineering-example",
+      "changes": [
+        {
+          "path": "examples/learn-harness-engineering-example/comparison.html",
+          "before_sha256": "a134f179807bc48308e5f1fa9c0736e6cb485c17629ef06a14a85784b8e58141",
+          "after_sha256": "8def94fccd262d5048a4a75c5e68786b8cbbb388db2b8236beba6e19952afc64",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/a134f179807bc48308e5f1fa9c0736e6cb485c17629ef06a14a85784b8e58141.bin"
+        },
+        {
+          "path": "examples/learn-harness-engineering-example/index.html",
+          "before_sha256": "4e12440f72d7036604e6fe0f7fcde6e52f6cd435d59e77b06d33b53a5e9183f4",
+          "after_sha256": "6e4f1daa7298646ee0e124c784a96558d4ebb93ccbeaae512304288775d0e305",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/4e12440f72d7036604e6fe0f7fcde6e52f6cd435d59e77b06d33b53a5e9183f4.bin"
+        },
+        {
+          "path": "examples/learn-harness-engineering-example/source.zip",
+          "before_sha256": "ad6ffb1fc2de4fe0c50c4fa888aeed6f9223e178e870ff02a9896819a6877ea9",
+          "after_sha256": "0a4b31447d79d2fd1755f57c8bae598509edb61dd8bc9ca84ddf36eedbf212a1",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/ad6ffb1fc2de4fe0c50c4fa888aeed6f9223e178e870ff02a9896819a6877ea9.bin"
+        },
+        {
+          "path": "examples/learn-harness-engineering-example/video/index.html",
+          "before_sha256": "d6978dce9babee2b3ad67717d6a56221339e3885713f17b3bcf57e8a8a28f061",
+          "after_sha256": "924c19bd0e12ce9273d5ff1865c49a9395dba6653d01bc7af67bdafe3c64c668",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/d6978dce9babee2b3ad67717d6a56221339e3885713f17b3bcf57e8a8a28f061.bin"
+        },
+        {
+          "path": "data/cases/learn-harness-engineering-example.json",
+          "before_sha256": "48c0df9e64c6205510f3cd58db868c24c803657aa912c82bbdcf35f8890665a3",
+          "after_sha256": "e39b4a18f2d23c8f4e26dbda3181a3ad1fe2ab63eaea76aeff904aaf34dd23aa",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/48c0df9e64c6205510f3cd58db868c24c803657aa912c82bbdcf35f8890665a3.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/learn-harness-engineering-example.json",
+        "sha256": "daef6a3551c96b6b58b4a5f25fed432efb641058840156b5d097b50d89fe43c1"
+      },
+      "baseline_record": {
+        "path": "data/production/learn-harness-engineering-example.json",
+        "sha256": "daef6a3551c96b6b58b4a5f25fed432efb641058840156b5d097b50d89fe43c1"
+      },
+      "case_record": {
+        "path": "data/cases/learn-harness-engineering-example.json",
+        "sha256": "e39b4a18f2d23c8f4e26dbda3181a3ad1fe2ab63eaea76aeff904aaf34dd23aa"
+      }
+    },
+    {
+      "case_id": "letta-code-example",
+      "changes": [
+        {
+          "path": "examples/letta-code-example/app.js",
+          "before_sha256": "c522c319481d26264105a75f5cd04233eb69baac0acc82f9786a9f8758480a09",
+          "after_sha256": "8437f2de94b27cfddfc7ff3f857c7e3cc4a8815b0de0f0c83b68eae6d607de6a",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/c522c319481d26264105a75f5cd04233eb69baac0acc82f9786a9f8758480a09.bin"
+        },
+        {
+          "path": "examples/letta-code-example/comparison.css",
+          "before_sha256": "342dcd5bbd7f631c90032d88133fe665804d3f22648781534de85352199df376",
+          "after_sha256": "da4cda814d3047c38d2509936cc475dffe4f6bd6ce27c4af0ceee2adc0c699e4",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/342dcd5bbd7f631c90032d88133fe665804d3f22648781534de85352199df376.bin"
+        },
+        {
+          "path": "examples/letta-code-example/comparison.html",
+          "before_sha256": "f99956e8717b7edbff338fe1c0cc2523b2bfa801246565ef3f97ced7a42e387b",
+          "after_sha256": "973ec1183f9b7924e0732ef048964383e1e58867548d73bfc2d8bd92f2063b30",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/f99956e8717b7edbff338fe1c0cc2523b2bfa801246565ef3f97ced7a42e387b.bin"
+        },
+        {
+          "path": "examples/letta-code-example/comparison.js",
+          "before_sha256": "c7b70bbd6ed11e07c1e0504cc592614fbe1e544a27d4c7d9468776130bef7a69",
+          "after_sha256": "3d3a9ce3c46c796c9ea47a1510a882c8264686e148026c318ab6577aa00d832c",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/c7b70bbd6ed11e07c1e0504cc592614fbe1e544a27d4c7d9468776130bef7a69.bin"
+        },
+        {
+          "path": "examples/letta-code-example/index.html",
+          "before_sha256": "584015bb7370afc64aff761f48e1a148a3bc60371f10183dc27bfb9bddf4693e",
+          "after_sha256": "6d3399341a87718d509cc7a7dbf8f76e53ae3db00d641ef1fe1ec5f8679bfd9b",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/584015bb7370afc64aff761f48e1a148a3bc60371f10183dc27bfb9bddf4693e.bin"
+        },
+        {
+          "path": "examples/letta-code-example/loader.mjs",
+          "before_sha256": "6676b0e28d405875e198b6d7bd7033195b5ae9e78704cbda58df9b0e2495d27b",
+          "after_sha256": "5e27da75a1066c4b4297a8b555b03bd1022cb68103a73caf4aa521e248a93133",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/6676b0e28d405875e198b6d7bd7033195b5ae9e78704cbda58df9b0e2495d27b.bin"
+        },
+        {
+          "path": "examples/letta-code-example/run.mjs",
+          "before_sha256": "980169f030478498f3dc4d1aff195bc828fff9612b3cc0b13c85ce9e8268e343",
+          "after_sha256": "bc1e3778fecc1cc1850ab0032f4c66a30f29aa5c30b0691b71e05f8ae18c357e",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/980169f030478498f3dc4d1aff195bc828fff9612b3cc0b13c85ce9e8268e343.bin"
+        },
+        {
+          "path": "examples/letta-code-example/source.zip",
+          "before_sha256": "5174b8f4b46f26dc30254052b03e46cdeaf27767d6401b3258365b68ec392e54",
+          "after_sha256": "10af2dfa68c0121c1277239923daee339ca5d2af5d96f041529fe07cb58db5be",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/5174b8f4b46f26dc30254052b03e46cdeaf27767d6401b3258365b68ec392e54.bin"
+        },
+        {
+          "path": "examples/letta-code-example/style.css",
+          "before_sha256": "88d35d92b3dde5711e81edf8ec9f90fce3249f6386dbc1e9b079ea00977d163e",
+          "after_sha256": "db9739ffdb107efd88561614aa68d04edde85594b3a01e18ed5824c0bc22a86a",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/88d35d92b3dde5711e81edf8ec9f90fce3249f6386dbc1e9b079ea00977d163e.bin"
+        },
+        {
+          "path": "examples/letta-code-example/video/index.html",
+          "before_sha256": "d83514b1e4b53ef14ed52ece76e612e02c798a59707ce6f97aee10879a76b257",
+          "after_sha256": "5cd96a67a296054224bf0d9389ff7539624c8e639b667073ed979ad1aa88e4ee",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/d83514b1e4b53ef14ed52ece76e612e02c798a59707ce6f97aee10879a76b257.bin"
+        },
+        {
+          "path": "data/cases/letta-code-example.json",
+          "before_sha256": "4ab1d5629dd421088dd81975fb4728e7426f923e3b56d00a80bfb65dc8becaba",
+          "after_sha256": "f4a8d746512e4bce8c76bf89320cb0bd4f12cc1ebcdfc7c35c9e815b70d79c2b",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/4ab1d5629dd421088dd81975fb4728e7426f923e3b56d00a80bfb65dc8becaba.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/letta-code-example.json",
+        "sha256": "0f80ac7ba1d9157875737fa9b8fcf910d10c6d0368d16efbb85631062cf51ea0"
+      },
+      "baseline_record": {
+        "path": "data/production/letta-code-example.json",
+        "sha256": "0f80ac7ba1d9157875737fa9b8fcf910d10c6d0368d16efbb85631062cf51ea0"
+      },
+      "case_record": {
+        "path": "data/cases/letta-code-example.json",
+        "sha256": "f4a8d746512e4bce8c76bf89320cb0bd4f12cc1ebcdfc7c35c9e815b70d79c2b"
+      }
+    },
+    {
+      "case_id": "liveportrait-example",
+      "changes": [
+        {
+          "path": "data/cases/liveportrait-example.json",
+          "before_sha256": "d2e5fe563cf9b5a17d056386e9833c2fa076bb30704cbbbbc873f73ec20e113e",
+          "after_sha256": "aeb2b339cb5784ccf36417c780472341cb21901e7e6c2c260d6138a4e1ea2b37",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/d2e5fe563cf9b5a17d056386e9833c2fa076bb30704cbbbbc873f73ec20e113e.bin"
+        },
+        {
+          "path": "examples/liveportrait-example/README.md",
+          "before_sha256": "5b6429e4412f2373f9b5f5a3b3b293ae3172403a0208735f884723764aa5b35a",
+          "after_sha256": "e3ebd59709208329cb04f9e33fed4b235f8453ed002db23ffeda772fc3fc4c57",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/5b6429e4412f2373f9b5f5a3b3b293ae3172403a0208735f884723764aa5b35a.bin"
+        },
+        {
+          "path": "examples/liveportrait-example/index.html",
+          "before_sha256": "04770ec8ee76a40492096d5c7c0b3f5128fa6231559915e7672339d25a73e33d",
+          "after_sha256": "913ef8e362232def8fa147e2d1cebe0ec6909935c66fd8ee06b2d8730806e705",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/04770ec8ee76a40492096d5c7c0b3f5128fa6231559915e7672339d25a73e33d.bin"
+        },
+        {
+          "path": "examples/liveportrait-example/source.zip",
+          "before_sha256": "1db09ec192dcd7a8d07f09adfee5bf5a8e4c57cb12114e2aeee05354d9e66fd6",
+          "after_sha256": "fcbe7629a3313d93154459ca125bd5f1f34817d9ddf24ae54c628edc0b7abb23",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/1db09ec192dcd7a8d07f09adfee5bf5a8e4c57cb12114e2aeee05354d9e66fd6.bin"
+        },
+        {
+          "path": "examples/liveportrait-example/video/index.html",
+          "before_sha256": "1e15dca8e80e2d80e9fb58d9fd0c1a8c3c2613d6260b36357cf232920a117c21",
+          "after_sha256": "f12b7a59cfbb653db658871cc57c0d00b5354428aff017f6a98bc8a4f3690abb",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/1e15dca8e80e2d80e9fb58d9fd0c1a8c3c2613d6260b36357cf232920a117c21.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/liveportrait-example.json",
+        "sha256": "902a635c0239348f4b97eb7475d59fc71b8a83e2265d52068fce7cae6783d02f"
+      },
+      "baseline_record": {
+        "path": "data/production/liveportrait-example.json",
+        "sha256": "902a635c0239348f4b97eb7475d59fc71b8a83e2265d52068fce7cae6783d02f"
+      },
+      "case_record": {
+        "path": "data/cases/liveportrait-example.json",
+        "sha256": "aeb2b339cb5784ccf36417c780472341cb21901e7e6c2c260d6138a4e1ea2b37"
+      }
+    },
+    {
+      "case_id": "livetalking-example",
+      "changes": [
+        {
+          "path": "data/cases/livetalking-example.json",
+          "before_sha256": "a727156c8606b544332a1d5e938ff505cfa778998e02699e9e0e172f249126dc",
+          "after_sha256": "1e60fc20a4eaadce5defe21dfafb6d3b35fdfd162df646ef0187925525eee967",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/a727156c8606b544332a1d5e938ff505cfa778998e02699e9e0e172f249126dc.bin"
+        },
+        {
+          "path": "examples/livetalking-example/README.md",
+          "before_sha256": "5547e4f2b42b5eb3890711253f354ef44802e2101f3cf45615271c6fa1a05157",
+          "after_sha256": "a723ad8e4739a367605d3d1a5e88d921b1926868cd7606738030f46f47a9d9bd",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/5547e4f2b42b5eb3890711253f354ef44802e2101f3cf45615271c6fa1a05157.bin"
+        },
+        {
+          "path": "examples/livetalking-example/index.html",
+          "before_sha256": "5e5f7823052554db421d7b8417a6fe8cab6b6f1f2c432c60b65f17f88a7431f3",
+          "after_sha256": "58e1ab1fedf0c369dbdd308091d3de1f0b3f8864f13f75eefc1ee5e6853bcd3f",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/5e5f7823052554db421d7b8417a6fe8cab6b6f1f2c432c60b65f17f88a7431f3.bin"
+        },
+        {
+          "path": "examples/livetalking-example/source.zip",
+          "before_sha256": "4008d358fc36927d1775a4deaf9f7f3f35c811d55f7fda37e2c217019a676fc8",
+          "after_sha256": "78a0a85ff6bcf49f573833b31b893cc925c4d9a88901cf5560203462a1cc27b3",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/4008d358fc36927d1775a4deaf9f7f3f35c811d55f7fda37e2c217019a676fc8.bin"
+        },
+        {
+          "path": "examples/livetalking-example/video/index.html",
+          "before_sha256": "40d0783b0ce295d324290ce1f5e3c6d2ad08f9b791b036ecd9b3597c4257ebd7",
+          "after_sha256": "aea0a6bbb8274772a3ce950b6d2be01e81bb024bce6835d88016911a06b78e29",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/40d0783b0ce295d324290ce1f5e3c6d2ad08f9b791b036ecd9b3597c4257ebd7.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/livetalking-example.json",
+        "sha256": "3cfa64e2cd9dc6c37edb5a283fa6077e369ef9c55f23a75ec5bcfcf94889c68f"
+      },
+      "baseline_record": {
+        "path": "data/production/livetalking-example.json",
+        "sha256": "3cfa64e2cd9dc6c37edb5a283fa6077e369ef9c55f23a75ec5bcfcf94889c68f"
+      },
+      "case_record": {
+        "path": "data/cases/livetalking-example.json",
+        "sha256": "1e60fc20a4eaadce5defe21dfafb6d3b35fdfd162df646ef0187925525eee967"
+      }
+    },
+    {
+      "case_id": "make-interfaces-feel-better-example",
+      "changes": [
+        {
+          "path": "data/cases/make-interfaces-feel-better-example.json",
+          "before_sha256": "fb12ec1160180f4abf8d168f603cb649b0d748f7119eb56aa1d3ea7d050df5b7",
+          "after_sha256": "33ed31ac88097031408d4f95b84d8414444160844e46af1589891f98057a78f0",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/fb12ec1160180f4abf8d168f603cb649b0d748f7119eb56aa1d3ea7d050df5b7.bin"
+        },
+        {
+          "path": "examples/make-interfaces-feel-better-example/README.md",
+          "before_sha256": "6a021a8a88f14c0efffb3e60de92bcb48a0a9352d033dc0588258930e557f8f9",
+          "after_sha256": "e6a8d6d549c3c88b5d1cae4fa62458f61939999c678e41aa64475dd5379a8772",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/6a021a8a88f14c0efffb3e60de92bcb48a0a9352d033dc0588258930e557f8f9.bin"
+        },
+        {
+          "path": "examples/make-interfaces-feel-better-example/app.mjs",
+          "before_sha256": "ee3d05dc672cdf390e2e3ce7e782ed2ac9ed548b8c8c40c45f839b1f06d81809",
+          "after_sha256": "4509c0b1492f4f72ff9f81cbb9c6e60488f82e1f347ca8ce2813948aa9acef9e",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/ee3d05dc672cdf390e2e3ce7e782ed2ac9ed548b8c8c40c45f839b1f06d81809.bin"
+        },
+        {
+          "path": "examples/make-interfaces-feel-better-example/concept.css",
+          "before_sha256": "1e0a794f40105d6dc95dcc5541b2d49e6be1a88479fcf99ed1691b17dd139639",
+          "after_sha256": "e67aa9e9cbebd7290ceee12d3321cc646b252d27fefc386f66ef69deb283694d",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/1e0a794f40105d6dc95dcc5541b2d49e6be1a88479fcf99ed1691b17dd139639.bin"
+        },
+        {
+          "path": "examples/make-interfaces-feel-better-example/concept.js",
+          "before_sha256": "5f5057b5c8a60ce8bbee71be7843205b7dc308a93b0472001a6203870217c084",
+          "after_sha256": "3d531dda30dda91f2d8181554d46d5eb3675984680fe5e011f1bf19c44884fdc",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/5f5057b5c8a60ce8bbee71be7843205b7dc308a93b0472001a6203870217c084.bin"
+        },
+        {
+          "path": "examples/make-interfaces-feel-better-example/desk.html",
+          "before_sha256": "ae8f9234abbfa257cf7fcb136410d130fb3cd7a00c1fabfa95496c0b8e98e593",
+          "after_sha256": "bb37aaebd712c6ac7fa69c56e32f59c13562c0a784598c5f78ff1615de021a4a",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/ae8f9234abbfa257cf7fcb136410d130fb3cd7a00c1fabfa95496c0b8e98e593.bin"
+        },
+        {
+          "path": "examples/make-interfaces-feel-better-example/index.html",
+          "before_sha256": "6dc440a71e9367a77f83cf891a8a7f7e89fe1dd0d72ea12976d4754d742bfd34",
+          "after_sha256": "5c7a524698ec7b8f86c3d2ac772e67bc93f04840b19e60416d61616e1196415b",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/6dc440a71e9367a77f83cf891a8a7f7e89fe1dd0d72ea12976d4754d742bfd34.bin"
+        },
+        {
+          "path": "examples/make-interfaces-feel-better-example/source.zip",
+          "before_sha256": "d4cf58f6075a6c136e15856deba8a56ea6bc4ae4a6759f77ed49d7b07f5500fc",
+          "after_sha256": "bedfcebd0f68af9e26a5c5b43535dd55ad5578078019fcd5251226e78c4c24b3",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/d4cf58f6075a6c136e15856deba8a56ea6bc4ae4a6759f77ed49d7b07f5500fc.bin"
+        },
+        {
+          "path": "examples/make-interfaces-feel-better-example/style.css",
+          "before_sha256": "79051569a89e3c921a2be799621488872e004d4a4d3a9a07c8272959b97f1351",
+          "after_sha256": "fec6ef02575dd9180aa50c68b4148367b1c1a9eeb2c083f42b7566ff73711219",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/79051569a89e3c921a2be799621488872e004d4a4d3a9a07c8272959b97f1351.bin"
+        },
+        {
+          "path": "examples/make-interfaces-feel-better-example/video/index.html",
+          "before_sha256": "3030fc6b8f24875528765d5498f8dd031772e10b9e2d98a59a6c56cf7eb885da",
+          "after_sha256": "df9d4a9f10ee09c1b4b79c7c100711872e478cb28cfabef126ec2b2b623cde66",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/3030fc6b8f24875528765d5498f8dd031772e10b9e2d98a59a6c56cf7eb885da.bin"
+        },
+        {
+          "path": "examples/make-interfaces-feel-better-example/video/legacy.html",
+          "before_sha256": "a1a22700fa63ac4930132f3b8d967539f8c41861f0de77675496c7dfd7664bf9",
+          "after_sha256": "f5a5bea8c172e69f1b1f7a4f158b70fad90c2757d29ab95c17cde5bf54e22e6b",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/a1a22700fa63ac4930132f3b8d967539f8c41861f0de77675496c7dfd7664bf9.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/make-interfaces-feel-better-example.json",
+        "sha256": "b57afbecb89f29524554a67cdc30df48c26ef620ce140bf46198310bb91e6a6e"
+      },
+      "baseline_record": {
+        "path": "data/production/make-interfaces-feel-better-example.json",
+        "sha256": "b57afbecb89f29524554a67cdc30df48c26ef620ce140bf46198310bb91e6a6e"
+      },
+      "case_record": {
+        "path": "data/cases/make-interfaces-feel-better-example.json",
+        "sha256": "33ed31ac88097031408d4f95b84d8414444160844e46af1589891f98057a78f0"
+      }
+    },
+    {
+      "case_id": "matt-pocock-skills-example",
+      "changes": [
+        {
+          "path": "data/cases/matt-pocock-skills-example.json",
+          "before_sha256": "e49050a5961843db2c0b104734475cb51fb35f45bf93068731a4a1ca2a2c5bf0",
+          "after_sha256": "aa435c1de79d5d8af4c35c054d86c8db27bf7ff20672ebf62ee0f0c8532807e7",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/e49050a5961843db2c0b104734475cb51fb35f45bf93068731a4a1ca2a2c5bf0.bin"
+        },
+        {
+          "path": "examples/matt-pocock-skills-example/README.md",
+          "before_sha256": "35830b690a49c6c47f6d224ca6fe8ee339949189f1c4876b9441019494429624",
+          "after_sha256": "4e4b287098bf29bf512dc0a48da3a806086bdec544928c38b819a91af03bb496",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/35830b690a49c6c47f6d224ca6fe8ee339949189f1c4876b9441019494429624.bin"
+        },
+        {
+          "path": "examples/matt-pocock-skills-example/app.js",
+          "before_sha256": "ed50b7b65688ed8959efad1aba8eac2e2ad09f2fea4de00c31f8bd71712312bc",
+          "after_sha256": "71de2dd5ca8aca7fc63711914797b5ca03b988e7bd8a4ac1dcd2ed3e4502ec3c",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/ed50b7b65688ed8959efad1aba8eac2e2ad09f2fea4de00c31f8bd71712312bc.bin"
+        },
+        {
+          "path": "examples/matt-pocock-skills-example/concept.css",
+          "before_sha256": "10af168e9198ec44a7ee93379648cee4122e094e4016f28a18896f12b2a63812",
+          "after_sha256": "80029529ed2ddcb591467b0f1f232851f15f6dc1778939aba74377c140393550",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/10af168e9198ec44a7ee93379648cee4122e094e4016f28a18896f12b2a63812.bin"
+        },
+        {
+          "path": "examples/matt-pocock-skills-example/desk.html",
+          "before_sha256": "cad86e8b83bd3cdf9d2398e54eff32b6cd3691a8b584bfcb5d04554fdaed98d7",
+          "after_sha256": "b1d83996de85b6a1792205bab93b89de02ac9c5fdb30b73da1f527bc8b5346e8",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/cad86e8b83bd3cdf9d2398e54eff32b6cd3691a8b584bfcb5d04554fdaed98d7.bin"
+        },
+        {
+          "path": "examples/matt-pocock-skills-example/index.html",
+          "before_sha256": "92025c143d89c3d5e13322110b9259590e3f4ee899c317c15606395809750d8e",
+          "after_sha256": "f0a2613c850dd6affc3cb46e33e4fd5a2bba1a52f501b6f85d033236956edd79",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/92025c143d89c3d5e13322110b9259590e3f4ee899c317c15606395809750d8e.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/matt-pocock-skills-example.json",
+        "sha256": "dc4e79d00d35ce2ec935ecfa86abf18863292103f4783bda8f8db27830de3646"
+      },
+      "baseline_record": {
+        "path": "data/production/matt-pocock-skills-example.json",
+        "sha256": "dc4e79d00d35ce2ec935ecfa86abf18863292103f4783bda8f8db27830de3646"
+      },
+      "case_record": {
+        "path": "data/cases/matt-pocock-skills-example.json",
+        "sha256": "aa435c1de79d5d8af4c35c054d86c8db27bf7ff20672ebf62ee0f0c8532807e7"
+      }
+    },
+    {
+      "case_id": "mem0-example",
+      "changes": [
+        {
+          "path": "examples/mem0-example/app.js",
+          "before_sha256": "2f61f79a2dbda9e4edd35a02ea0cb7133fe68424f3336afca008dc6d3037d11c",
+          "after_sha256": "3221bcbe4f46eed5a6a60deb766fcb1709eac15c30fa19a06ee66b01ab9a849b",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/2f61f79a2dbda9e4edd35a02ea0cb7133fe68424f3336afca008dc6d3037d11c.bin"
+        },
+        {
+          "path": "examples/mem0-example/comparison.css",
+          "before_sha256": "daebab5d037dd188c50101cd86acb7f301a572f74aa998bea35926c391ea958b",
+          "after_sha256": "0c2f39cd26a6e2b52e0ce0ff612b61064fbeb19baaf0f30b0a03f2ab9b1f5626",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/daebab5d037dd188c50101cd86acb7f301a572f74aa998bea35926c391ea958b.bin"
+        },
+        {
+          "path": "examples/mem0-example/comparison.html",
+          "before_sha256": "0faf08de49c456b57e5f82cfdc4e7d14887b978cff426b5a918e0cc3c93a5b2b",
+          "after_sha256": "dd0c04ced2df4460bf4ead886d2cf49f15a7701586f035912edb10ecff15700a",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/0faf08de49c456b57e5f82cfdc4e7d14887b978cff426b5a918e0cc3c93a5b2b.bin"
+        },
+        {
+          "path": "examples/mem0-example/comparison.js",
+          "before_sha256": "e95706728bc534a06b44b3d80ae826773a2c4202f6fcf3838071dbf9eb966642",
+          "after_sha256": "863dcc645c17514b4da1529ba6e6f5f663dbff5e5a1dfaff8c880fba866562c0",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/e95706728bc534a06b44b3d80ae826773a2c4202f6fcf3838071dbf9eb966642.bin"
+        },
+        {
+          "path": "examples/mem0-example/index.html",
+          "before_sha256": "8435ae6fd42088576800bca521756a0b9cee908d93c67706616e9f5f93ecd64a",
+          "after_sha256": "b2e23dc17177e9811fb66f1bc76badee5dc37067b42a138d2b69783183669b1b",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/8435ae6fd42088576800bca521756a0b9cee908d93c67706616e9f5f93ecd64a.bin"
+        },
+        {
+          "path": "examples/mem0-example/source.zip",
+          "before_sha256": "82238981229006aef6a3877f98fca2beb32b4f442f6419991122ba1c311570d6",
+          "after_sha256": "80dc1bd5d3610330910aadffa442dbc062ff1337d64fea2226859b46839a29ce",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/82238981229006aef6a3877f98fca2beb32b4f442f6419991122ba1c311570d6.bin"
+        },
+        {
+          "path": "examples/mem0-example/style.css",
+          "before_sha256": "9beda205af89e4455ed80ae3668d2f22d8992d5594e4a82c9a6df142c39c090d",
+          "after_sha256": "6e00465234559bc52a9ff7f8fe4004ec5d41bd31a40544f9f855390b9e08daf2",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/9beda205af89e4455ed80ae3668d2f22d8992d5594e4a82c9a6df142c39c090d.bin"
+        },
+        {
+          "path": "examples/mem0-example/video/index.html",
+          "before_sha256": "00c7e8922a3446fb2acdc17648a0a01d7dd823ab99f729beecdd3e5c9000a057",
+          "after_sha256": "d1372ab2dbc86970cd3687c9309db2d215c95471c070427e26febdcb1489f848",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/00c7e8922a3446fb2acdc17648a0a01d7dd823ab99f729beecdd3e5c9000a057.bin"
+        },
+        {
+          "path": "data/cases/mem0-example.json",
+          "before_sha256": "3d5dc81cc62f0d3580f4cf085e64c83409da080d59e9ce6600b9d7f0f39de046",
+          "after_sha256": "8118b4a6af28dab8a400d6692d31075a790bf6d6b07eb16924e7a6620ceda3a0",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/3d5dc81cc62f0d3580f4cf085e64c83409da080d59e9ce6600b9d7f0f39de046.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/mem0-example.json",
+        "sha256": "c5f1c505a2b822272549c533396a35fff2f8f71bd7e2d5ee04300df0337285ac"
+      },
+      "baseline_record": {
+        "path": "data/production/mem0-example.json",
+        "sha256": "c5f1c505a2b822272549c533396a35fff2f8f71bd7e2d5ee04300df0337285ac"
+      },
+      "case_record": {
+        "path": "data/cases/mem0-example.json",
+        "sha256": "8118b4a6af28dab8a400d6692d31075a790bf6d6b07eb16924e7a6620ceda3a0"
+      }
+    },
+    {
+      "case_id": "ming-image-design-example",
+      "changes": [
+        {
+          "path": "examples/ming-image-design-example/index.html",
+          "before_sha256": "0b82ccfea545817e98f59b27113ebf5ee864754130b8dab49a21948ee2a7a21d",
+          "after_sha256": "634ee7719ae3a3a733e5347fb56a086db2712fb8d7d55ab5e617519ab9f9628d",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/0b82ccfea545817e98f59b27113ebf5ee864754130b8dab49a21948ee2a7a21d.bin"
+        },
+        {
+          "path": "examples/ming-image-design-example/video/index.html",
+          "before_sha256": "adbb4bb50bb6035787a763ae8e82fdf00c3408e1d0531c6a4811dd1096d3619d",
+          "after_sha256": "f2453b695961c11434b2663ec9a680e7cf9cd1278bcc1a26c64f1ef24a2ff8d1",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/adbb4bb50bb6035787a763ae8e82fdf00c3408e1d0531c6a4811dd1096d3619d.bin"
+        },
+        {
+          "path": "examples/ming-image-design-example/source.zip",
+          "before_sha256": "2b4ca734d06e8a3276976cd7e51749bd434a54caab76190d0555273d4cfcd837",
+          "after_sha256": "9725f13944d35d195977cbb7bd70132694db0daeb5331a032c33458dd3f35643",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/2b4ca734d06e8a3276976cd7e51749bd434a54caab76190d0555273d4cfcd837.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/ming-image-design-example.json",
+        "sha256": "e8b687bc5ce7dd7eba5df89c8b0315e54c27fd9fd1800edc7a13573fd23184a9"
+      },
+      "baseline_record": {
+        "path": "data/production/ming-image-design-example.json",
+        "sha256": "e8b687bc5ce7dd7eba5df89c8b0315e54c27fd9fd1800edc7a13573fd23184a9"
+      },
+      "case_record": {
+        "path": "data/cases/ming-image-design-example.json",
+        "sha256": "17e8f6d50ccd7b412c3cd111e54a82358f2c2b98b695503541f1712ffd7f0a6f"
+      }
+    },
+    {
+      "case_id": "motion-primitives-example",
+      "changes": [
+        {
+          "path": "data/cases/motion-primitives-example.json",
+          "before_sha256": "5d117d29da3ecde4b37d8cd81fbe6c07640c1874e6c8d3cc8ee0205ec36902f0",
+          "after_sha256": "8e82a07990d2ef32dc7c5990ccdb77044df89bd85dd321f61371424fb3a7415c",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/5d117d29da3ecde4b37d8cd81fbe6c07640c1874e6c8d3cc8ee0205ec36902f0.bin"
+        },
+        {
+          "path": "examples/motion-primitives-example/assets/app.js",
+          "before_sha256": "1dd0a60c9055cdcb24bcd9f2107c6ca1803e7e58c7a847aa18e8bfd8c2163899",
+          "after_sha256": "2a599d0890b35ba4cd4122ba3cd1da3128dfe85699ebed7385a4a6c066ac294d",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/1dd0a60c9055cdcb24bcd9f2107c6ca1803e7e58c7a847aa18e8bfd8c2163899.bin"
+        },
+        {
+          "path": "examples/motion-primitives-example/concept.css",
+          "before_sha256": "8630606608a4091a03100b9d2d4f48043bcf33c0b1956d4d6c5a14ba5837446e",
+          "after_sha256": "da9aee05e62916a1435933663f69832fd14b35ec453c68b6595deed359449279",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/8630606608a4091a03100b9d2d4f48043bcf33c0b1956d4d6c5a14ba5837446e.bin"
+        },
+        {
+          "path": "examples/motion-primitives-example/concept.js",
+          "before_sha256": "bfd31970478d2eb94b18b361bf08796c78236c0e85574fd067df175910eab74c",
+          "after_sha256": "ea9360b1fb7c07107c906b2aa1e9b7b719b44fcddea427f7b1c8b0261ca1460d",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/bfd31970478d2eb94b18b361bf08796c78236c0e85574fd067df175910eab74c.bin"
+        },
+        {
+          "path": "examples/motion-primitives-example/desk.html",
+          "before_sha256": "cef4c05f308b1b26fc1d60f4989e742708441e35667bf722c613ce84c3692cb1",
+          "after_sha256": "f521eecd7ff94c853fb8635072730afe2113005a9ac4f6fb6f923f83ed687043",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/cef4c05f308b1b26fc1d60f4989e742708441e35667bf722c613ce84c3692cb1.bin"
+        },
+        {
+          "path": "examples/motion-primitives-example/index.html",
+          "before_sha256": "7cfcc006894e2518c9e47a069bdcc8722a29992c457ee45e50d0d694b79f9c72",
+          "after_sha256": "40494d362d781eed2dab840ff4eaea09c33889bedf366067d4f1588b4032bd16",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/7cfcc006894e2518c9e47a069bdcc8722a29992c457ee45e50d0d694b79f9c72.bin"
+        },
+        {
+          "path": "examples/motion-primitives-example/source.zip",
+          "before_sha256": "018e545bc871620b71cb718ab4f1dc456e24e7e60f34f00df53323b774886aee",
+          "after_sha256": "9df58625dff13422508d52aa2ee0b46b7c1eee70dbd3f9cf99381eab4035fc18",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/018e545bc871620b71cb718ab4f1dc456e24e7e60f34f00df53323b774886aee.bin"
+        },
+        {
+          "path": "examples/motion-primitives-example/style.css",
+          "before_sha256": "911714c86f03f30875364905ca68e7aedcbe11527fe04eb35e1cc75635b7af18",
+          "after_sha256": "f328d3db0e32b4b13accf20daf90bac9e47c89ae2c9086b0f7fdd90e2f66cb25",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/911714c86f03f30875364905ca68e7aedcbe11527fe04eb35e1cc75635b7af18.bin"
+        },
+        {
+          "path": "examples/motion-primitives-example/video/index.html",
+          "before_sha256": "2900c1322973494295fa78f3c4457857d6e67c44fcf5956f04476be44944fc99",
+          "after_sha256": "3e3a963ac930ac46f10892a5135b2a7b48fd530df014104bdcda486e3d0440f1",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/2900c1322973494295fa78f3c4457857d6e67c44fcf5956f04476be44944fc99.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/motion-primitives-example.json",
+        "sha256": "0e328a9ff875108eaf9a08b6fbe37229cb62bd9d2e99196474b0188c7944f811"
+      },
+      "baseline_record": {
+        "path": "data/production/motion-primitives-example.json",
+        "sha256": "0e328a9ff875108eaf9a08b6fbe37229cb62bd9d2e99196474b0188c7944f811"
+      },
+      "case_record": {
+        "path": "data/cases/motion-primitives-example.json",
+        "sha256": "8e82a07990d2ef32dc7c5990ccdb77044df89bd85dd321f61371424fb3a7415c"
+      }
+    },
+    {
+      "case_id": "motion-video-kit-example",
+      "changes": [
+        {
+          "path": "data/cases/motion-video-kit-example.json",
+          "before_sha256": "9b8712342883228ff8685ea1d1a1a078ab16583a852d9ec1a1990265cdb47af9",
+          "after_sha256": "dd5a2c22bbe9f84bf95fd2a8d4f1e3b15017ff37496fa9da0ac46df0b17ac55c",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/9b8712342883228ff8685ea1d1a1a078ab16583a852d9ec1a1990265cdb47af9.bin"
+        },
+        {
+          "path": "examples/motion-video-kit-example/README.md",
+          "before_sha256": "54393e3bdd820ad4fd50c8dd0e70426d6563997b923f212e48c6bef97dd11390",
+          "after_sha256": "e166f56107fdb0b2ec51173de312ce8dfef53c3a51f5390a3f1876c9c1dee8f9",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/54393e3bdd820ad4fd50c8dd0e70426d6563997b923f212e48c6bef97dd11390.bin"
+        },
+        {
+          "path": "examples/motion-video-kit-example/desk.html",
+          "before_sha256": "d9b12824da72ed2e9f9934a7bcb42987dd1e02bee8ba78f7691ef1d0ad6a74ef",
+          "after_sha256": "c71d1c740db7e4871e5baa2de2f7bf8dd1a4240842e71eb6b3cf2f815bbb114b",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/d9b12824da72ed2e9f9934a7bcb42987dd1e02bee8ba78f7691ef1d0ad6a74ef.bin"
+        },
+        {
+          "path": "examples/motion-video-kit-example/index.html",
+          "before_sha256": "9c534afa16c0fec0d7aa11fe2e3c67da38cd28fd5b09093a7977227e30043bb2",
+          "after_sha256": "68407553d001c400a21d62a755c5887a3e2a42ed2b9f13d7facbe3fe0f14cf24",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/9c534afa16c0fec0d7aa11fe2e3c67da38cd28fd5b09093a7977227e30043bb2.bin"
+        },
+        {
+          "path": "examples/motion-video-kit-example/lab/index.html",
+          "before_sha256": "dd3f6b9e36e7d0d7275bdc6d92b5598d26d64412d2095cc6fb3788a863c76cd7",
+          "after_sha256": "2cbd2f87f5144a108957e785101a79520f477be6a44e064ca4fe1959e42597d0",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/dd3f6b9e36e7d0d7275bdc6d92b5598d26d64412d2095cc6fb3788a863c76cd7.bin"
+        },
+        {
+          "path": "examples/motion-video-kit-example/lab/lab.mjs",
+          "before_sha256": "37c814b9d38810c0de369809f5d5c91f5374a923b64228bc1b1986d51f214899",
+          "after_sha256": "17b1e2fe3cf779412aa2d2bfc029be2dc2ff453fdb4076e71d900122d80e280d",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/37c814b9d38810c0de369809f5d5c91f5374a923b64228bc1b1986d51f214899.bin"
+        },
+        {
+          "path": "examples/motion-video-kit-example/lab/materialize.html",
+          "before_sha256": "c2110f72eaa4bb2eb2a297acc163256b8744488747c933b5930793a4219de6a7",
+          "after_sha256": "ffb06a7e7c9b7d0722c9e2dd6a8ab2539c6f09e623e7837ab0dcf573f1c32846",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/c2110f72eaa4bb2eb2a297acc163256b8744488747c933b5930793a4219de6a7.bin"
+        },
+        {
+          "path": "examples/motion-video-kit-example/request.html",
+          "before_sha256": "06245cc51db35ab3a5285e144010a6f982332fca80d63f4f0ae5945d11650372",
+          "after_sha256": "28e5219d19e19ef1adb244c3f244828d099b47a492d694ace694666057483a65",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/06245cc51db35ab3a5285e144010a6f982332fca80d63f4f0ae5945d11650372.bin"
+        },
+        {
+          "path": "examples/motion-video-kit-example/source.zip",
+          "before_sha256": "0b2918458d2e318c9381a8992b984deeaee357ba0243d434f7377b64ee008f9a",
+          "after_sha256": "62761233a67aa6eae8674d0882e2540b0f7fa835ee2110c1dae801e28c84ca2b",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/0b2918458d2e318c9381a8992b984deeaee357ba0243d434f7377b64ee008f9a.bin"
+        },
+        {
+          "path": "examples/motion-video-kit-example/video/index.html",
+          "before_sha256": "12d627e3ab83b52d80372d153a825bb6c4d7a8619172acebd59d81f1316336b0",
+          "after_sha256": "47ce03604b95cf71c728052744ef26aa1f38048c367ec3933779fc3046b57a86",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/12d627e3ab83b52d80372d153a825bb6c4d7a8619172acebd59d81f1316336b0.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/motion-video-kit-example.json",
+        "sha256": "a67440305bcd17a82661b4a84b76a5f3666472a697e647ccceec9f5e577198f7"
+      },
+      "baseline_record": {
+        "path": "data/production/motion-video-kit-example.json",
+        "sha256": "a67440305bcd17a82661b4a84b76a5f3666472a697e647ccceec9f5e577198f7"
+      },
+      "case_record": {
+        "path": "data/cases/motion-video-kit-example.json",
+        "sha256": "dd5a2c22bbe9f84bf95fd2a8d4f1e3b15017ff37496fa9da0ac46df0b17ac55c"
+      }
+    },
+    {
+      "case_id": "openhands-example",
+      "changes": [
+        {
+          "path": "examples/openhands-example/app.js",
+          "before_sha256": "a4c51eda9c9a9c7ec81e4ddc3cbcd62e24878ca96572bee89d5e52e7ab952295",
+          "after_sha256": "5877ce0447897f0d9a1affffa01056bc8d42e881939aac6427f1650e95615a25",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/a4c51eda9c9a9c7ec81e4ddc3cbcd62e24878ca96572bee89d5e52e7ab952295.bin"
+        },
+        {
+          "path": "examples/openhands-example/comparison.css",
+          "before_sha256": "947d2e31420838032903deb3efdcef2d799493e3a6bd82d368770aa0c24e3e44",
+          "after_sha256": "477cc013c8b3c15dc9c6777fdecec5452a78ec79d2e750bf4c809222722f7768",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/947d2e31420838032903deb3efdcef2d799493e3a6bd82d368770aa0c24e3e44.bin"
+        },
+        {
+          "path": "examples/openhands-example/comparison.html",
+          "before_sha256": "1d0ae31e5fd95d6d17f269dab2564166e21949f13e16d452032def3c92c1a770",
+          "after_sha256": "0ed3112e3292f7724778b768eb8da3c118897dc8ae8601e9b48f921bfedaeec2",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/1d0ae31e5fd95d6d17f269dab2564166e21949f13e16d452032def3c92c1a770.bin"
+        },
+        {
+          "path": "examples/openhands-example/comparison.js",
+          "before_sha256": "e3f6e9b9a9ec8cdd044e1be27da3094b2fac88c09b44bb0c4f3bfae02dc218ff",
+          "after_sha256": "5e7696f4902f02ed779ed1abf7c7472f2a6a0820a2d0938866685c9ea5451aee",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/e3f6e9b9a9ec8cdd044e1be27da3094b2fac88c09b44bb0c4f3bfae02dc218ff.bin"
+        },
+        {
+          "path": "examples/openhands-example/index.html",
+          "before_sha256": "4975ced3b3cb28723e0f04797fdb3be297b516e273f95912a14b17257861dbe8",
+          "after_sha256": "985b6b41dee8462d98189c2ca63b0f6e29824db8bce8ef173e11d70aa58a9ff9",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/4975ced3b3cb28723e0f04797fdb3be297b516e273f95912a14b17257861dbe8.bin"
+        },
+        {
+          "path": "examples/openhands-example/loader.mjs",
+          "before_sha256": "22fc9255139154a02059dcd7b7e1e1ae55a60652b389595975c14ca679eb0404",
+          "after_sha256": "39b2cf1d2b73a3bcfe52683354b8c3df297c40bb178e12355645ecb7be4e7536",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/22fc9255139154a02059dcd7b7e1e1ae55a60652b389595975c14ca679eb0404.bin"
+        },
+        {
+          "path": "examples/openhands-example/run.mjs",
+          "before_sha256": "70a34146df4ed68684de8b5ed837da3e428b85a523b471829e13e0be9237de7f",
+          "after_sha256": "f41bdc836c85f0947f4b738d86654d2bb039dd27204f827469c1a0f319cb0c29",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/70a34146df4ed68684de8b5ed837da3e428b85a523b471829e13e0be9237de7f.bin"
+        },
+        {
+          "path": "examples/openhands-example/source.zip",
+          "before_sha256": "17ba044d46bea725e0fea77613c00666b78b7703413f26bd34fffeb0216fecf9",
+          "after_sha256": "71266ec3efe7cb3071d1136ab655f2db5605124b0afdc4f166f55d190ba08e73",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/17ba044d46bea725e0fea77613c00666b78b7703413f26bd34fffeb0216fecf9.bin"
+        },
+        {
+          "path": "examples/openhands-example/style.css",
+          "before_sha256": "5f658e00fbc0800622f22fef661a5149325bc65933628126e8e09b8343416d87",
+          "after_sha256": "469229ea45b287304bfba4dffe461f58f241d0ecd2c3460f1033db74a0f0abd7",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/5f658e00fbc0800622f22fef661a5149325bc65933628126e8e09b8343416d87.bin"
+        },
+        {
+          "path": "examples/openhands-example/video/index.html",
+          "before_sha256": "d8ea0bb216891c6d0637a6290d093f7f3d16541f77d583d34f39319869da5b2f",
+          "after_sha256": "72e497201cea6cbc3782fa8d2cca79debb8e5549c48cecda64be3fecb8409e4c",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/d8ea0bb216891c6d0637a6290d093f7f3d16541f77d583d34f39319869da5b2f.bin"
+        },
+        {
+          "path": "data/cases/openhands-example.json",
+          "before_sha256": "f2745c54dfd00a519942db580ed3b7cd8b4afe65abbd948585f1b8b7ca2eeba3",
+          "after_sha256": "83588545571332f832faa6cc0de4cb5f5a73e7a310f68a5a460fb2ecac4b09b3",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/f2745c54dfd00a519942db580ed3b7cd8b4afe65abbd948585f1b8b7ca2eeba3.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/openhands-example.json",
+        "sha256": "b5e4909bfda9c13c8ee0fcfe30b1533ee40bf556c1ae359cacb866440377e79e"
+      },
+      "baseline_record": {
+        "path": "data/production/openhands-example.json",
+        "sha256": "b5e4909bfda9c13c8ee0fcfe30b1533ee40bf556c1ae359cacb866440377e79e"
+      },
+      "case_record": {
+        "path": "data/cases/openhands-example.json",
+        "sha256": "83588545571332f832faa6cc0de4cb5f5a73e7a310f68a5a460fb2ecac4b09b3"
+      }
+    },
+    {
+      "case_id": "openvoice-example",
+      "changes": [
+        {
+          "path": "examples/openvoice-example/app.js",
+          "before_sha256": "962b7dd53576309279e08adc35bd19ee90c43385349bb46aa76bd7bf9611cc7c",
+          "after_sha256": "07b99f53d58c07a7e6b11e9c28f723ef15fc92f44fd745b9a6e3a2a21a2c1be5",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/962b7dd53576309279e08adc35bd19ee90c43385349bb46aa76bd7bf9611cc7c.bin"
+        },
+        {
+          "path": "examples/openvoice-example/comparison.css",
+          "before_sha256": "170be61dd10c81f56f9156a8a6cd2bf2d9dc605fbb9bc24aa8f7cb62c5b3553e",
+          "after_sha256": "e06c24e1e552f97c928a332a6c4a6801f8934cfad963ecd3ad582495a16062ef",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/170be61dd10c81f56f9156a8a6cd2bf2d9dc605fbb9bc24aa8f7cb62c5b3553e.bin"
+        },
+        {
+          "path": "examples/openvoice-example/comparison.html",
+          "before_sha256": "f0f2eb07dd28c4bc6483e19d24f43ac0bac6702e3dacd81685c2125d4ff04338",
+          "after_sha256": "e66a9771fa47dcab7c91fec20c1772957c06cefa19ca9e1feef4d5ffff4a5740",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/f0f2eb07dd28c4bc6483e19d24f43ac0bac6702e3dacd81685c2125d4ff04338.bin"
+        },
+        {
+          "path": "examples/openvoice-example/comparison.js",
+          "before_sha256": "cda168adcbe979ccc52770d5368c4c02aae8b8158b23f514a1ab045156c4b8a0",
+          "after_sha256": "a8139fcc83fb3de3746df890a7f800c511fc4c3c79dbfa1aa384d7c24a85bfe5",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/cda168adcbe979ccc52770d5368c4c02aae8b8158b23f514a1ab045156c4b8a0.bin"
+        },
+        {
+          "path": "examples/openvoice-example/index.html",
+          "before_sha256": "c7e3eda445cfd561c3c25282ff597dcb6414bc86460693346837798aa2d85c93",
+          "after_sha256": "57468b8b45b3f552fc4290430c3a2306fa75504041ad790e7a18a84ecfb4c7ed",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/c7e3eda445cfd561c3c25282ff597dcb6414bc86460693346837798aa2d85c93.bin"
+        },
+        {
+          "path": "examples/openvoice-example/README.md",
+          "before_sha256": "690fa21462fb67fcb01241f04b2dbe7085e32ec2a9741ba95a900eb57d48e866",
+          "after_sha256": "ee6aecf70517c4c1249b49fbb9018a331336e00d08e81ef98ea29ec4b62015bd",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/690fa21462fb67fcb01241f04b2dbe7085e32ec2a9741ba95a900eb57d48e866.bin"
+        },
+        {
+          "path": "examples/openvoice-example/source.zip",
+          "before_sha256": "192086c09f6c40751777f8e7b902c664140465269a587fab980337d0066dff50",
+          "after_sha256": "5f3f873fd56e53b62e2b39c04f870d3eed1b6757bdf3ee0673b2b5a4232ef33f",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/192086c09f6c40751777f8e7b902c664140465269a587fab980337d0066dff50.bin"
+        },
+        {
+          "path": "examples/openvoice-example/style.css",
+          "before_sha256": "b2f1b2945b7c9f71aaa5eb7381668179a502525d5ac2d0555cb78defb5f00935",
+          "after_sha256": "3ba30b95867dc39488315cadcb1cca2b7a9db2affa72fb1f48b53b71f490974a",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/b2f1b2945b7c9f71aaa5eb7381668179a502525d5ac2d0555cb78defb5f00935.bin"
+        },
+        {
+          "path": "examples/openvoice-example/video/index.html",
+          "before_sha256": "7c143f8395889643db4c30e622b83b300bcc2cc2ba674eaff48e5425a612c49b",
+          "after_sha256": "93bccbd35cb498815ff49f624cbb170e461fab9d0a9c98c879e634f13f5e8800",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/7c143f8395889643db4c30e622b83b300bcc2cc2ba674eaff48e5425a612c49b.bin"
+        },
+        {
+          "path": "data/cases/openvoice-example.json",
+          "before_sha256": "99b094c90d00d599795efc3d8e5ed47ba6c74b3b2abde5f1ed4a83bb6e909d5f",
+          "after_sha256": "d99e08c448591d08ba56a9d0266e43b58601dba39c7f1e63c667887c06b076b8",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/99b094c90d00d599795efc3d8e5ed47ba6c74b3b2abde5f1ed4a83bb6e909d5f.bin"
+        },
+        {
+          "path": "case.js",
+          "before_sha256": "e8db459d6be6ac47b635bf3af2c78619e01bfe259f23142d9014863271688afb",
+          "after_sha256": "18e6ee3b14be1c1295686e6c2b8a76999bd589c117dfcc7801a7b98d1451040e",
+          "kind": "shared-site-ui",
+          "before_artifact": "data/production/mechanical-baselines/e8db459d6be6ac47b635bf3af2c78619e01bfe259f23142d9014863271688afb.bin"
+        },
+        {
+          "path": "media.js",
+          "before_sha256": "9c5c8d540357fc580898817b237a97e923875522f4794d7b8f3696926b23735f",
+          "after_sha256": "26e0d6948eb4d2b49a1c4ac7a675469d31791910c1f925e8089a2430871226bd",
+          "kind": "shared-site-ui",
+          "before_artifact": "data/production/mechanical-baselines/9c5c8d540357fc580898817b237a97e923875522f4794d7b8f3696926b23735f.bin"
+        },
+        {
+          "path": "media.css",
+          "before_sha256": "534283969c04b739e5f21e112b2b58e5725fd0fc9aa332d5b92156c71dd8266e",
+          "after_sha256": "a83c618cb2935551c3d89e76a41890c60bc2cd65aa67d6ee57c00071ac6085ab",
+          "kind": "shared-site-ui",
+          "before_artifact": "data/production/mechanical-baselines/534283969c04b739e5f21e112b2b58e5725fd0fc9aa332d5b92156c71dd8266e.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/openvoice-example.json",
+        "sha256": "02edae4e007c61b78efaefca5c1b3a9834cdf8db58e404b44bee13a5283c2376"
+      },
+      "baseline_record": {
+        "path": "data/production/openvoice-example.json",
+        "sha256": "02edae4e007c61b78efaefca5c1b3a9834cdf8db58e404b44bee13a5283c2376"
+      },
+      "case_record": {
+        "path": "data/cases/openvoice-example.json",
+        "sha256": "d99e08c448591d08ba56a9d0266e43b58601dba39c7f1e63c667887c06b076b8"
+      }
+    },
+    {
+      "case_id": "pdf-creator-example",
+      "changes": [
+        {
+          "path": "data/cases/pdf-creator-example.json",
+          "before_sha256": "44311a4b4e7c352147bbba24007c07ded3742952d8b48c712eca5dceefbce2db",
+          "after_sha256": "3c4606ff28a3fd54596bffa5df9d1b0804438ebf2ce2d041ffce79d04129d590",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/44311a4b4e7c352147bbba24007c07ded3742952d8b48c712eca5dceefbce2db.bin"
+        },
+        {
+          "path": "examples/pdf-creator-example/README.md",
+          "before_sha256": "57ab0ab3a7ec5a64c03c6fa3d8ea7a76cd2988e91c9b123e7bebf1ca0b33571b",
+          "after_sha256": "96a25b6d737416f21ee8eeaee990f158418ff12c7e20bcdfadab6b4e0ee5eecf",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/57ab0ab3a7ec5a64c03c6fa3d8ea7a76cd2988e91c9b123e7bebf1ca0b33571b.bin"
+        },
+        {
+          "path": "examples/pdf-creator-example/desk.html",
+          "before_sha256": "5248e1844898858033c6c5893665f0c61d29ed75d961be843c0853b029a9160c",
+          "after_sha256": "d7437321fcf17726ac68e0b7c9dc6e4fdc0df0c15ae1f573e451cf12cd294a9b",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/5248e1844898858033c6c5893665f0c61d29ed75d961be843c0853b029a9160c.bin"
+        },
+        {
+          "path": "examples/pdf-creator-example/index.html",
+          "before_sha256": "9918d18accb0b8589ba1d13b04d8992909ff342bb05966f768f9429257065903",
+          "after_sha256": "1a4234bb3b82159499d98df52ab7496026773dbd47d581f09886f1012e136074",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/9918d18accb0b8589ba1d13b04d8992909ff342bb05966f768f9429257065903.bin"
+        },
+        {
+          "path": "examples/pdf-creator-example/source.zip",
+          "before_sha256": "0e11c362bafbb7348a38f16b5fdaa16f0f90d5bea068e33f7e088594d76ac14d",
+          "after_sha256": "18ff617c0dd0dec776e583843eca15fd35de5f7d401680470e368d64b7e7f725",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/0e11c362bafbb7348a38f16b5fdaa16f0f90d5bea068e33f7e088594d76ac14d.bin"
+        },
+        {
+          "path": "examples/pdf-creator-example/themes/japanese-a4.css",
+          "before_sha256": "5cf4c230b528e9d548a89ea8dc43a8dff082775836d101b6a1c273f1d04e30cf",
+          "after_sha256": "ed53f868d2b63d6f85e7d0e34f7c665c83bd483663aa6c338c5ba0261320b4c6",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/5cf4c230b528e9d548a89ea8dc43a8dff082775836d101b6a1c273f1d04e30cf.bin"
+        },
+        {
+          "path": "examples/pdf-creator-example/themes/japanese-phone.css",
+          "before_sha256": "997fecdc0fa75f925a8ccc9150e4c9f52d99f6f783b284d4a5a280d5d879476b",
+          "after_sha256": "2a6735f4798d5bbbdd868757bc39e9c4b2cfaeb444aeb27de1135e45a5513714",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/997fecdc0fa75f925a8ccc9150e4c9f52d99f6f783b284d4a5a280d5d879476b.bin"
+        },
+        {
+          "path": "examples/pdf-creator-example/video/index.html",
+          "before_sha256": "9742189742aa9bc5902d37391bd1e4b77555f9a342da7167e1234047d2ef8571",
+          "after_sha256": "c9e5153b44b064ebe6cf79b8a13ae4771c1b0c71d1d204e3c9fe59114c71258a",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/9742189742aa9bc5902d37391bd1e4b77555f9a342da7167e1234047d2ef8571.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/pdf-creator-example.json",
+        "sha256": "a98efb9f02d2f0d1c77280827c217157893ce7e1ed7f4ca907a1f07ef828992a"
+      },
+      "baseline_record": {
+        "path": "data/production/pdf-creator-example.json",
+        "sha256": "a98efb9f02d2f0d1c77280827c217157893ce7e1ed7f4ca907a1f07ef828992a"
+      },
+      "case_record": {
+        "path": "data/cases/pdf-creator-example.json",
+        "sha256": "3c4606ff28a3fd54596bffa5df9d1b0804438ebf2ce2d041ffce79d04129d590"
+      }
+    },
+    {
+      "case_id": "pretty-mermaid-first-diagram",
+      "changes": [
+        {
+          "path": "data/cases/pretty-mermaid-first-diagram.json",
+          "before_sha256": "2563d29c8a6f32eda7b702fa9daa5c43974b996fc6c9a877373920524f76472b",
+          "after_sha256": "2107f19fff7c70739cd38d83843091dcd114b4d3ecd84b153d941dd5df194cc7",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/2563d29c8a6f32eda7b702fa9daa5c43974b996fc6c9a877373920524f76472b.bin"
+        },
+        {
+          "path": "examples/pretty-mermaid-first-diagram/README.md",
+          "before_sha256": "ddd98dce6367b8e22dad3668c87fa02c9867c26c854fd7495d42db57e0e065c4",
+          "after_sha256": "86bff62eb8b73ac783669bcaca8853e6419466fde79fcefc2246c716ab277714",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/ddd98dce6367b8e22dad3668c87fa02c9867c26c854fd7495d42db57e0e065c4.bin"
+        },
+        {
+          "path": "examples/pretty-mermaid-first-diagram/app.js",
+          "before_sha256": "e3b21ca7d59ca0594e8e218158e4cd8298698cd3b1bcd3b6d2f392db270ba34e",
+          "after_sha256": "479e33463b8fd758042a996e3574f5c2d4c6297575ba1d4d4be702f14e500619",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/e3b21ca7d59ca0594e8e218158e4cd8298698cd3b1bcd3b6d2f392db270ba34e.bin"
+        },
+        {
+          "path": "examples/pretty-mermaid-first-diagram/concept.css",
+          "before_sha256": "150df2e2b59061f46e162a1785be0757b41158446d9995d4d0dfaf059ce6edfb",
+          "after_sha256": "79220b7f16c7491e3e76f5dfa08d2376ba94f5288edb16ce025a81a158ad16ca",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/150df2e2b59061f46e162a1785be0757b41158446d9995d4d0dfaf059ce6edfb.bin"
+        },
+        {
+          "path": "examples/pretty-mermaid-first-diagram/concept.js",
+          "before_sha256": "f86d99348110731f1a4a660743a38981838c0961df54ac93e7b543c5a8b13f09",
+          "after_sha256": "bbe2daca240be5cc71075b6ff7ea5f8cf1e25207f045fc23f0a4c922cfc75147",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/f86d99348110731f1a4a660743a38981838c0961df54ac93e7b543c5a8b13f09.bin"
+        },
+        {
+          "path": "examples/pretty-mermaid-first-diagram/desk.html",
+          "before_sha256": "52fae250355588d66772479829b3c344fe62fa3bc32b08e63b05e8f5fdd5a551",
+          "after_sha256": "668bd4b3b544bda8df57872bf4db56df2d3396550b4f024383f071dad7563549",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/52fae250355588d66772479829b3c344fe62fa3bc32b08e63b05e8f5fdd5a551.bin"
+        },
+        {
+          "path": "examples/pretty-mermaid-first-diagram/index.html",
+          "before_sha256": "32374040276d39ec8d1e1d97f6ee70ea4943e90d08aee35518dc60d1a6c2a63a",
+          "after_sha256": "336940020cf9bc2319be09192f3ec229ce1aa3174c66b1a81578eb336343d52c",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/32374040276d39ec8d1e1d97f6ee70ea4943e90d08aee35518dc60d1a6c2a63a.bin"
+        },
+        {
+          "path": "examples/pretty-mermaid-first-diagram/source.zip",
+          "before_sha256": "6e783253ae31266e064eb96bbf03038fa00c3b75b9b9106a16d10258595a1304",
+          "after_sha256": "8527a0d5932abebc991c29616d5e8570867f340e886ec15b2aa50f2195850298",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/6e783253ae31266e064eb96bbf03038fa00c3b75b9b9106a16d10258595a1304.bin"
+        },
+        {
+          "path": "examples/pretty-mermaid-first-diagram/styles.css",
+          "before_sha256": "7fdf5f8ac073a85ecd2bdd8faff4293bf1626db41eec7e8feb31c786c0c7483f",
+          "after_sha256": "b34a4f3c1523a7e1dc13c444d0a710e2738a9acbfe03237d645e6ee4e8855352",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/7fdf5f8ac073a85ecd2bdd8faff4293bf1626db41eec7e8feb31c786c0c7483f.bin"
+        },
+        {
+          "path": "examples/pretty-mermaid-first-diagram/video/index.html",
+          "before_sha256": "8bc09fd647dcacb76914902fb3e8dbcfde9ad6b854fa2be255eb0802be4bcc13",
+          "after_sha256": "027bb07c2007806f4e8b1fd86f7134856aec802c2e71a755f31d584d5a7a7e1c",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/8bc09fd647dcacb76914902fb3e8dbcfde9ad6b854fa2be255eb0802be4bcc13.bin"
+        },
+        {
+          "path": "examples/pretty-mermaid-first-diagram/video/legacy.html",
+          "before_sha256": "8441f0c4d63eafac6c248752909a4bef11ea7cce8b04f970ea5a744b708e2c94",
+          "after_sha256": "e33500c72063f831d75f7d1145b933fd1f9f17573fd00006443b323de8b15074",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/8441f0c4d63eafac6c248752909a4bef11ea7cce8b04f970ea5a744b708e2c94.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/pretty-mermaid-first-diagram.json",
+        "sha256": "e0aa6545986a2fb389f24e02ace2181b417d0d31eb3b6c2fec4dd8c7bd1751fe"
+      },
+      "baseline_record": {
+        "path": "data/production/pretty-mermaid-first-diagram.json",
+        "sha256": "e0aa6545986a2fb389f24e02ace2181b417d0d31eb3b6c2fec4dd8c7bd1751fe"
+      },
+      "case_record": {
+        "path": "data/cases/pretty-mermaid-first-diagram.json",
+        "sha256": "2107f19fff7c70739cd38d83843091dcd114b4d3ecd84b153d941dd5df194cc7"
+      }
+    },
+    {
+      "case_id": "quartz-agent-console",
+      "changes": [
+        {
+          "path": "data/cases/quartz-agent-console.json",
+          "before_sha256": "5d3f86a15fa2e2a544886afae00d1c961eb6d58e3944a60946970ce84ff5e008",
+          "after_sha256": "9fd9ceb2d5ce0419e9a685e775166e71e2354cb05c3c2d041f9f7df1913ff6b1",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/5d3f86a15fa2e2a544886afae00d1c961eb6d58e3944a60946970ce84ff5e008.bin"
+        },
+        {
+          "path": "examples/quartz-agent-console/README.md",
+          "before_sha256": "56b69ce678840ec777c791057b4468baf4724b76b15f5befeeded47cfe94285b",
+          "after_sha256": "5249ad4f5681ea5692def96fef2c8a4f69fe03682af99eea8f3b64d6ec4f50f9",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/56b69ce678840ec777c791057b4468baf4724b76b15f5befeeded47cfe94285b.bin"
+        },
+        {
+          "path": "examples/quartz-agent-console/assets/app.js",
+          "before_sha256": "5211225b9ed5155f8e7e61b494f468be3ed524b257ddf61768684eeff400a2f1",
+          "after_sha256": "07ddf82254ad8fd321c6062eadc0c5269d03e8d8fb7aa3e9b4fce11485471c97",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/5211225b9ed5155f8e7e61b494f468be3ed524b257ddf61768684eeff400a2f1.bin"
+        },
+        {
+          "path": "examples/quartz-agent-console/concept.js",
+          "before_sha256": "f13fa8b8547d951e55929d5f150a25e10860470057d83b70e21ffed32c1bff6e",
+          "after_sha256": "753b8e9614dc2d14eac11f5216c8e936c22966ff9a60af1f38bdd407a47b0b6c",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/f13fa8b8547d951e55929d5f150a25e10860470057d83b70e21ffed32c1bff6e.bin"
+        },
+        {
+          "path": "examples/quartz-agent-console/desk.html",
+          "before_sha256": "bfebded95e06f5e26d00906fd797d342622e13275b7ff699a70ef9432ac583f3",
+          "after_sha256": "1747e5f4e0bc54e2ed3d15042adde1bff69ee874646fed747d021bf86ce711d6",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/bfebded95e06f5e26d00906fd797d342622e13275b7ff699a70ef9432ac583f3.bin"
+        },
+        {
+          "path": "examples/quartz-agent-console/index.html",
+          "before_sha256": "bef4746f72fd10d78a3bad69f3d27e1f03f9b6d1e643cd85750c003fbf0e5eb2",
+          "after_sha256": "20108f2757fc4bfab6b5ec1ff8ffbe30dcee7bc9bf9601b9492a8e6dcba5687c",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/bef4746f72fd10d78a3bad69f3d27e1f03f9b6d1e643cd85750c003fbf0e5eb2.bin"
+        },
+        {
+          "path": "examples/quartz-agent-console/source.html",
+          "before_sha256": "3fbd5bc3c322f4dfc244f97542974baf2bba93ca2432bdde78bfe190fe3464fd",
+          "after_sha256": "95f4ad7ee908590db5e5ad0356e744f2b376b203b57a36aa5b75c2f88098257b",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/3fbd5bc3c322f4dfc244f97542974baf2bba93ca2432bdde78bfe190fe3464fd.bin"
+        },
+        {
+          "path": "examples/quartz-agent-console/source.zip",
+          "before_sha256": "0c61b2600d8ced7448644e0d4b8510d149ccfb2e314cf847c149b4f299f4ef0a",
+          "after_sha256": "38711301db8c049b82d1349e31512a9a22eecc76c93a320caf860b8012851445",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/0c61b2600d8ced7448644e0d4b8510d149ccfb2e314cf847c149b4f299f4ef0a.bin"
+        },
+        {
+          "path": "examples/quartz-agent-console/video/index.html",
+          "before_sha256": "bcfd39bc7971fa765420ff339ee7c1ba7b7cfd1b8b2a524293f799d9a0771ed2",
+          "after_sha256": "451d57b6ab3495fede19dd7060ed6cf8a35c5df5f1a70bc270cd6ef333a7d340",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/bcfd39bc7971fa765420ff339ee7c1ba7b7cfd1b8b2a524293f799d9a0771ed2.bin"
+        },
+        {
+          "path": "examples/quartz-agent-console/video/legacy.html",
+          "before_sha256": "5c192d5d89c9c1c13a8090e8296e2d24ee5833ef8ec7b5ed911404ae38b600e6",
+          "after_sha256": "bd5afdeb48cfcd5f59306f1875b8158be4ac16b67e6c398435be2f0c76e48dc6",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/5c192d5d89c9c1c13a8090e8296e2d24ee5833ef8ec7b5ed911404ae38b600e6.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/quartz-agent-console.json",
+        "sha256": "ccc4988efd14c21399f599b55c7191e9217b8efb128ec43da347dcaa36b47d34"
+      },
+      "baseline_record": {
+        "path": "data/production/quartz-agent-console.json",
+        "sha256": "ccc4988efd14c21399f599b55c7191e9217b8efb128ec43da347dcaa36b47d34"
+      },
+      "case_record": {
+        "path": "data/cases/quartz-agent-console.json",
+        "sha256": "9fd9ceb2d5ce0419e9a685e775166e71e2354cb05c3c2d041f9f7df1913ff6b1"
+      }
+    },
+    {
+      "case_id": "ragas-example",
+      "changes": [
+        {
+          "path": "examples/ragas-example/comparison.html",
+          "before_sha256": "1f6ff5179f2a8ebee16774c00e0adac25bba6e05bbd710fc5559040d7a25d59a",
+          "after_sha256": "6d38782c9a92786d42fa10469123991c28410ea36a63a1326af5ea9df450ff5a",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/1f6ff5179f2a8ebee16774c00e0adac25bba6e05bbd710fc5559040d7a25d59a.bin"
+        },
+        {
+          "path": "examples/ragas-example/index.html",
+          "before_sha256": "6b48e97022ffd5dc9ef730f3c631c451ee5cda7dd5532ea48f6f1776447d6a92",
+          "after_sha256": "5dfc5e38e78dedc14094dcf44dde7fe12e7e1eec6db4c8c7f67a67e64c6a71c2",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/6b48e97022ffd5dc9ef730f3c631c451ee5cda7dd5532ea48f6f1776447d6a92.bin"
+        },
+        {
+          "path": "examples/ragas-example/source.zip",
+          "before_sha256": "0bdf951b9bcfeb033a95ffb78b0841253d9a036b195b2a6d02ce45d6da3ac7b0",
+          "after_sha256": "e366ffcad25d17015aab18571dc53fdc5e1f71b4261398cbe3ceb32b196176ca",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/0bdf951b9bcfeb033a95ffb78b0841253d9a036b195b2a6d02ce45d6da3ac7b0.bin"
+        },
+        {
+          "path": "examples/ragas-example/video/index.html",
+          "before_sha256": "e9c5ea2bffb187213348362c83d6289e74a56038c9457597b94c9b8d40fb0862",
+          "after_sha256": "b9de9c38001988c65f68d8b132e947106ef61d33c0bd2951deb0d513da11c9a6",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/e9c5ea2bffb187213348362c83d6289e74a56038c9457597b94c9b8d40fb0862.bin"
+        },
+        {
+          "path": "data/cases/ragas-example.json",
+          "before_sha256": "1206b54374c135752d775ba13d5ce8da0e0c507035194202fd722e58b57bd848",
+          "after_sha256": "45098c8b9bff3560c8f06b94d3e8bc1dfa8b7a0a222498ebec4e279f3d6ae6fc",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/1206b54374c135752d775ba13d5ce8da0e0c507035194202fd722e58b57bd848.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/ragas-example.json",
+        "sha256": "a59313d6c3475cf688035b4bfdecebed70cd70d07800d2613dae8b7cc916c827"
+      },
+      "baseline_record": {
+        "path": "data/production/ragas-example.json",
+        "sha256": "a59313d6c3475cf688035b4bfdecebed70cd70d07800d2613dae8b7cc916c827"
+      },
+      "case_record": {
+        "path": "data/cases/ragas-example.json",
+        "sha256": "45098c8b9bff3560c8f06b94d3e8bc1dfa8b7a0a222498ebec4e279f3d6ae6fc"
+      }
+    },
+    {
+      "case_id": "ryoshu-local",
+      "changes": [
+        {
+          "path": "examples/ryoshu-local/index.html",
+          "before_sha256": "6b2a28feab60e05fc2f35d1f24bd13de7b54358c7cd4efebe3632a5a4fb4f3f5",
+          "after_sha256": "f23048d89a5289c4c865bb4a60f6374d32137df94bd44126c14d56fc0d8ddb38",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/6b2a28feab60e05fc2f35d1f24bd13de7b54358c7cd4efebe3632a5a4fb4f3f5.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/ryoshu-local.json",
+        "sha256": "268b393b969e8ef61910fd8034f90f6d2949a3401192edd2a2b8ff75179944c0"
+      },
+      "baseline_record": {
+        "path": "data/production/ryoshu-local-current.json",
+        "sha256": "218a13068959fe349a9a3140a3be83a3c63fa2a85c0af9ecb95757dcc7f9cc16"
+      },
+      "case_record": {
+        "path": "data/cases/ryoshu-local.json",
+        "sha256": "332e744cd133ee55fb3b0fb5ad6cb15c69db25982bb2ffc08a0b96c5a21486c5"
+      }
+    },
+    {
+      "case_id": "scenario-3d-collection-example",
+      "changes": [
+        {
+          "path": "data/cases/scenario-3d-collection-example.json",
+          "before_sha256": "26aa23aa6d64b96ab1394b430024b043cbab41b5f559425406c6ff6c0d199e28",
+          "after_sha256": "0c13b6dda44c8fb35ccef86a1753b321c3463b524d044e28d6ce1885be5ca80a",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/26aa23aa6d64b96ab1394b430024b043cbab41b5f559425406c6ff6c0d199e28.bin"
+        },
+        {
+          "path": "examples/scenario-3d-collection-example/index.html",
+          "before_sha256": "ed8aba50c3c17779ecd1b60072c2a43cb8bcc025e7ea91357334f991c470899c",
+          "after_sha256": "9117023598cda34bc5be5160a2171853686f791535a1e428c6ff1840f6bc8711",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/ed8aba50c3c17779ecd1b60072c2a43cb8bcc025e7ea91357334f991c470899c.bin"
+        },
+        {
+          "path": "examples/scenario-3d-collection-example/video/index.html",
+          "before_sha256": "ca581797e61646624d733e938f6de989614103ec42d755402b2707574f1fa28b",
+          "after_sha256": "90d2d618beac92ed375e71c2ee42acc331076d58178fdd4819b330e7945e9eab",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/ca581797e61646624d733e938f6de989614103ec42d755402b2707574f1fa28b.bin"
+        },
+        {
+          "path": "examples/scenario-3d-collection-example/video/scene.js",
+          "before_sha256": "2967845293e3761c7a909aea3dc0659c01d9a77629fcfdf94a50b9f77f4e970e",
+          "after_sha256": "d4dfd9f8dbcfd814903822c291737ff6d05a93b5c7f92252776c117900eae1d4",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/2967845293e3761c7a909aea3dc0659c01d9a77629fcfdf94a50b9f77f4e970e.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/scenario-3d-collection-example.json",
+        "sha256": "d56524aeef2e6d6dabea7dd12e7fc8a1558b6d68f68bbba8bbfc1b641a469c7e"
+      },
+      "baseline_record": {
+        "path": "data/production/scenario-3d-collection-example.json",
+        "sha256": "d56524aeef2e6d6dabea7dd12e7fc8a1558b6d68f68bbba8bbfc1b641a469c7e"
+      },
+      "case_record": {
+        "path": "data/cases/scenario-3d-collection-example.json",
+        "sha256": "0c13b6dda44c8fb35ccef86a1753b321c3463b524d044e28d6ce1885be5ca80a"
+      }
+    },
+    {
+      "case_id": "solidcraft-example",
+      "changes": [
+        {
+          "path": "data/cases/solidcraft-example.json",
+          "before_sha256": "aebab050cf5de0e45411987a86a88f079a10049925ccc28f687b18b9ba071f26",
+          "after_sha256": "28597732f874d14aa72c6066a422f0154e0b409722e42e230b23e2faa28ea233",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/aebab050cf5de0e45411987a86a88f079a10049925ccc28f687b18b9ba071f26.bin"
+        },
+        {
+          "path": "examples/solidcraft-example/README.md",
+          "before_sha256": "e390b6fff208a8868a200546f03734761dbc8d30a62d70a5828043c604cbcb0d",
+          "after_sha256": "509401d54475069e32273bb9bea42aeb520a34fb92b9b4d97aa8ec13ad4d84bc",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/e390b6fff208a8868a200546f03734761dbc8d30a62d70a5828043c604cbcb0d.bin"
+        },
+        {
+          "path": "examples/solidcraft-example/desk.html",
+          "before_sha256": "e607399e4521de61bf63ebc37de3c67be78b7724407f8a1bcd10cb95572357d9",
+          "after_sha256": "0192af4f715752d4e517d02df2f37af31f1398a45828be6b1335396c708231fa",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/e607399e4521de61bf63ebc37de3c67be78b7724407f8a1bcd10cb95572357d9.bin"
+        },
+        {
+          "path": "examples/solidcraft-example/index.html",
+          "before_sha256": "7a136799ea34c327ddb23ae9ee05336818f24cf92bbd8f219fbc19d18b0a53e4",
+          "after_sha256": "835d3e9c00cddc3ae151998aad3edded673d2133fc59b4efd3c2be067e99fa9e",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/7a136799ea34c327ddb23ae9ee05336818f24cf92bbd8f219fbc19d18b0a53e4.bin"
+        },
+        {
+          "path": "examples/solidcraft-example/source.zip",
+          "before_sha256": "5c1ec3c376fa3e6f87e56a9ef00c10a3223f43c7e21d3805e1848bfbf0052cd6",
+          "after_sha256": "605d6ddf6754afcf6807d2f56497c30ece6637542209b21fa9ac714a6f23d9f9",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/5c1ec3c376fa3e6f87e56a9ef00c10a3223f43c7e21d3805e1848bfbf0052cd6.bin"
+        },
+        {
+          "path": "examples/solidcraft-example/styles.css",
+          "before_sha256": "09ce393c1b63a16aa4741ceaf9d5aaa08beabcdf57a2d65b6ad7eaaed5e9fc69",
+          "after_sha256": "d24d3b7ae9d8331971266d54389e7d5c2e73c26f68476bafce385bb7b2118a37",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/09ce393c1b63a16aa4741ceaf9d5aaa08beabcdf57a2d65b6ad7eaaed5e9fc69.bin"
+        },
+        {
+          "path": "examples/solidcraft-example/video/index.html",
+          "before_sha256": "c433b6faad988dc18e5ef030fc6fa5ee6720e70c5e5ef3f0828d65615a31c0a2",
+          "after_sha256": "c5b2aa71155c2b5bbedcff9f5a4c3ca350e5f05b2460de1f8af47b94ebb25cb2",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/c433b6faad988dc18e5ef030fc6fa5ee6720e70c5e5ef3f0828d65615a31c0a2.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/solidcraft-example.json",
+        "sha256": "fdcd31989e0da62586b0b005470d05b6aae0b54fca4047c684c58a39778b8fd8"
+      },
+      "baseline_record": {
+        "path": "data/production/solidcraft-example.json",
+        "sha256": "fdcd31989e0da62586b0b005470d05b6aae0b54fca4047c684c58a39778b8fd8"
+      },
+      "case_record": {
+        "path": "data/cases/solidcraft-example.json",
+        "sha256": "28597732f874d14aa72c6066a422f0154e0b409722e42e230b23e2faa28ea233"
+      }
+    },
+    {
+      "case_id": "tanstack-ai-example",
+      "changes": [
+        {
+          "path": "data/cases/tanstack-ai-example.json",
+          "before_sha256": "c46b321fac7f041c6d47f77ecb19ccc97e7a2180a59d4e93f2e47e998bef287f",
+          "after_sha256": "35f9abfd1eeb4bb53e96daf66f7e74d734c792bcba0a2aa9a73bc8ff47c91b73",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/c46b321fac7f041c6d47f77ecb19ccc97e7a2180a59d4e93f2e47e998bef287f.bin"
+        },
+        {
+          "path": "examples/tanstack-ai-example/index.html",
+          "before_sha256": "0770d755439cae15c118ba4b9c421acdee6178ee55f0860f012e8e94a3d7093d",
+          "after_sha256": "613eb9b37475565c7c3ded4af2d4b49be11a21a1bbcf620dd2ac635e122ac5b0",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/0770d755439cae15c118ba4b9c421acdee6178ee55f0860f012e8e94a3d7093d.bin"
+        },
+        {
+          "path": "examples/tanstack-ai-example/video/index.html",
+          "before_sha256": "fe787d43c0752ba575a8ac42a1646994794c8382495cdba83c7b52543cb92595",
+          "after_sha256": "7f966c253d0376f0293ace6cf0bd759c6445fd456303a9a68d6155ec29479fd2",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/fe787d43c0752ba575a8ac42a1646994794c8382495cdba83c7b52543cb92595.bin"
+        },
+        {
+          "path": "examples/tanstack-ai-example/video/scene.js",
+          "before_sha256": "4b8a67bdc946500c6ccc782adae8926af85954660b4371fd1b68c46559595585",
+          "after_sha256": "ff9850528af14d1ea13b800c71bc85bf9c5d609b7d4f552fb2e3ebae0f84b90f",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/4b8a67bdc946500c6ccc782adae8926af85954660b4371fd1b68c46559595585.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/tanstack-ai-example.json",
+        "sha256": "ca96d6a5c37ef82405d46a0ecc9d5bdb7f595b0188dfed23eaee117b7ba9e4f5"
+      },
+      "baseline_record": {
+        "path": "data/production/tanstack-ai-example.json",
+        "sha256": "ca96d6a5c37ef82405d46a0ecc9d5bdb7f595b0188dfed23eaee117b7ba9e4f5"
+      },
+      "case_record": {
+        "path": "data/cases/tanstack-ai-example.json",
+        "sha256": "35f9abfd1eeb4bb53e96daf66f7e74d734c792bcba0a2aa9a73bc8ff47c91b73"
+      }
+    },
+    {
+      "case_id": "train-llm-from-scratch-example",
+      "changes": [
+        {
+          "path": "examples/train-llm-from-scratch-example/comparison.html",
+          "before_sha256": "f0590b3a9474f9bf33b01979aee29f5bfc9ac8b0687d0dcaf65617fd8756dbca",
+          "after_sha256": "832c53b8fcc832fb55b54e60495510055333aa9821efaa9b776d4ecd301cb6e9",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/f0590b3a9474f9bf33b01979aee29f5bfc9ac8b0687d0dcaf65617fd8756dbca.bin"
+        },
+        {
+          "path": "examples/train-llm-from-scratch-example/index.html",
+          "before_sha256": "06e8d9a7021017ea34fe619534e65efa21a3d45c9d3299bc89f76e38cb9d0363",
+          "after_sha256": "42ccea95337deec87a279535d24ab05488cf14d9148b920517539b04872f687b",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/06e8d9a7021017ea34fe619534e65efa21a3d45c9d3299bc89f76e38cb9d0363.bin"
+        },
+        {
+          "path": "examples/train-llm-from-scratch-example/source.zip",
+          "before_sha256": "6ef60125178bdec09cf8b8aa270b48c0f7b8003ff08213dcd5a89f7a086281e4",
+          "after_sha256": "391aacc7247987aa377a26ea670da11e0c9e16cb3f9f3e7adc04fbfbd5cec938",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/6ef60125178bdec09cf8b8aa270b48c0f7b8003ff08213dcd5a89f7a086281e4.bin"
+        },
+        {
+          "path": "data/cases/train-llm-from-scratch-example.json",
+          "before_sha256": "ad795683187b3de55a645a8e2df0e808ff66ed89858438707269b16c90c69a7f",
+          "after_sha256": "23f81153a9b506279d3f13e78af25c97c6772ad5b341ab02087249496d550d1c",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/ad795683187b3de55a645a8e2df0e808ff66ed89858438707269b16c90c69a7f.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/train-llm-from-scratch-example.json",
+        "sha256": "a4f13ce831e62527ef861c0de2682845bea0e65d24cb872bb5ce2ada947a0b4b"
+      },
+      "baseline_record": {
+        "path": "data/production/train-llm-from-scratch-example.json",
+        "sha256": "a4f13ce831e62527ef861c0de2682845bea0e65d24cb872bb5ce2ada947a0b4b"
+      },
+      "case_record": {
+        "path": "data/cases/train-llm-from-scratch-example.json",
+        "sha256": "23f81153a9b506279d3f13e78af25c97c6772ad5b341ab02087249496d550d1c"
+      }
+    },
+    {
+      "case_id": "voicestudio-example",
+      "changes": [
+        {
+          "path": "data/cases/voicestudio-example.json",
+          "before_sha256": "af3ed5c969b6710e5da4d9639b50ccfdd3a3ca0a33be1002cefa60861e3ed371",
+          "after_sha256": "2c725280e38aae2ed25847d1c3e34781d3608e48934e911f87c2832c3d2cb479",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/af3ed5c969b6710e5da4d9639b50ccfdd3a3ca0a33be1002cefa60861e3ed371.bin"
+        },
+        {
+          "path": "examples/voicestudio-example/README.md",
+          "before_sha256": "4cf0c573f2ab29f6962c3a18c31424d5522b06e1611eba782a95d90419c7b401",
+          "after_sha256": "c202a1235c8ec7b78157e2ed13c618d1a39a159cb9b07d2ebb83b427c07ca1ef",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/4cf0c573f2ab29f6962c3a18c31424d5522b06e1611eba782a95d90419c7b401.bin"
+        },
+        {
+          "path": "examples/voicestudio-example/index.html",
+          "before_sha256": "03a59c2e2d5ac3503385d4c4bd056a53ce976b7802d4605dbbf3115ed876c4b8",
+          "after_sha256": "ceed9b5799abdb2af292c6f291ac0cf07dda95734c495f3502b9f580a62940e6",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/03a59c2e2d5ac3503385d4c4bd056a53ce976b7802d4605dbbf3115ed876c4b8.bin"
+        },
+        {
+          "path": "examples/voicestudio-example/source.zip",
+          "before_sha256": "31b9e5ed6e68860e09c99644be9394c1db0687e0706ee3c36484bd5e96587141",
+          "after_sha256": "c55466ae7b3288b0c3564cef2616e63f0a1fbb7ddba0a9532b973d1388c210df",
+          "kind": "license-only-package",
+          "before_artifact": "data/production/mechanical-baselines/31b9e5ed6e68860e09c99644be9394c1db0687e0706ee3c36484bd5e96587141.bin"
+        },
+        {
+          "path": "examples/voicestudio-example/video/index.html",
+          "before_sha256": "b47ee06a4b8c9394d69a4fa79cab99f197e5a56baa6ac71567c997c4532a5990",
+          "after_sha256": "f10478cba9a07d393382195b67cd62019867081a5ae84431323e8d70b7a36773",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/b47ee06a4b8c9394d69a4fa79cab99f197e5a56baa6ac71567c997c4532a5990.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/voicestudio-example.json",
+        "sha256": "897a5ba0a3e97dd20c14aebf10eff3ae6619887fcfd4ef3508e3090dd3ad7d3e"
+      },
+      "baseline_record": {
+        "path": "data/production/voicestudio-example.json",
+        "sha256": "897a5ba0a3e97dd20c14aebf10eff3ae6619887fcfd4ef3508e3090dd3ad7d3e"
+      },
+      "case_record": {
+        "path": "data/cases/voicestudio-example.json",
+        "sha256": "2c725280e38aae2ed25847d1c3e34781d3608e48934e911f87c2832c3d2cb479"
+      }
+    },
+    {
+      "case_id": "whisper-example",
+      "changes": [
+        {
+          "path": "data/cases/whisper-example.json",
+          "before_sha256": "0bf1083f2946c704092224ff81f610a5c7fae2de7c39ab9ed96682b0d65a5177",
+          "after_sha256": "8482c00c1c81ee41d0b2048c9da6a2a6c0c5c619f64239c7de27b9669c62e63b",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/0bf1083f2946c704092224ff81f610a5c7fae2de7c39ab9ed96682b0d65a5177.bin"
+        },
+        {
+          "path": "examples/whisper-example/index.html",
+          "before_sha256": "7d1f4cbc5098cf0f949f714b7b3ac0f6f035291f76bf6277fdc81be71b016e0e",
+          "after_sha256": "93f8ee63ed322b3f5e7099cb60a7e75ee9dfe921ec711b63a34285d087216be1",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/7d1f4cbc5098cf0f949f714b7b3ac0f6f035291f76bf6277fdc81be71b016e0e.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/whisper-example.json",
+        "sha256": "26489d800ef71c0d2b9a60cf340c3e002d21db3b118c65344cf5aa922191cc26"
+      },
+      "baseline_record": {
+        "path": "data/production/whisper-example.json",
+        "sha256": "26489d800ef71c0d2b9a60cf340c3e002d21db3b118c65344cf5aa922191cc26"
+      },
+      "case_record": {
+        "path": "data/cases/whisper-example.json",
+        "sha256": "8482c00c1c81ee41d0b2048c9da6a2a6c0c5c619f64239c7de27b9669c62e63b"
+      }
+    },
+    {
+      "case_id": "yomiyasu-before-after",
+      "changes": [
+        {
+          "path": "data/cases/yomiyasu-before-after.json",
+          "before_sha256": "62c9e18c2ce51f7bff08eae94c447f2188f824cb87a24c8b828c5b2d7386c652",
+          "after_sha256": "f26d2f5ac8c3745a5a95e1e57de797d7049260157e93f7876eebe7bc0ca19702",
+          "kind": "case-publication-metadata",
+          "before_artifact": "data/production/mechanical-baselines/62c9e18c2ce51f7bff08eae94c447f2188f824cb87a24c8b828c5b2d7386c652.bin"
+        },
+        {
+          "path": "examples/yomiyasu-before-after/README.md",
+          "before_sha256": "0f19bff896a36eee41a7cf0344bbfd5efc0311c4d4e5da5ad9eee5a825e552f4",
+          "after_sha256": "3a4e449a7c9334a97bdf13616305eb7556b17c7ee12824be3196c382d359a4b0",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/0f19bff896a36eee41a7cf0344bbfd5efc0311c4d4e5da5ad9eee5a825e552f4.bin"
+        },
+        {
+          "path": "examples/yomiyasu-before-after/app.js",
+          "before_sha256": "d51bb8e0bf786c02dcc02bb3f1bbb1a8873cd69f249d3d143e0814055def8bc6",
+          "after_sha256": "962ef6629fde6e8f3efe8cb15bdbb6a708d5545eb7b9bba6c53116854fd88679",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/d51bb8e0bf786c02dcc02bb3f1bbb1a8873cd69f249d3d143e0814055def8bc6.bin"
+        },
+        {
+          "path": "examples/yomiyasu-before-after/concept.css",
+          "before_sha256": "62b62840f6a74c08f6b0bfb66fd6bcab711d21f4de5eb1bb3fe6bf9ae859ecfb",
+          "after_sha256": "1ab8d302a5a024d9149f0b21ea216b7d39c356d44046dd10e8a9286a0c2989af",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/62b62840f6a74c08f6b0bfb66fd6bcab711d21f4de5eb1bb3fe6bf9ae859ecfb.bin"
+        },
+        {
+          "path": "examples/yomiyasu-before-after/desk.html",
+          "before_sha256": "713095751cf73e691f3249b19b1920621c253b8bddda47d67a82440fab18114b",
+          "after_sha256": "a1b7f3e3a0720e6bbb4cfd0bbf6ce5fb8547fd64da98002178847f9c79e4caf9",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/713095751cf73e691f3249b19b1920621c253b8bddda47d67a82440fab18114b.bin"
+        },
+        {
+          "path": "examples/yomiyasu-before-after/index.html",
+          "before_sha256": "5aeda65cdc144a03b64576335a1b750963d6822c262321b4497dd2a38198318e",
+          "after_sha256": "cba69c5edf0b6ff307788c8953dd708cb5efb7cd6bf61890d720f37570082d6a",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/5aeda65cdc144a03b64576335a1b750963d6822c262321b4497dd2a38198318e.bin"
+        },
+        {
+          "path": "examples/yomiyasu-before-after/styles.css",
+          "before_sha256": "6541e4918d8bda79263895f844ce3135b646a4655c48b01631fa4e7d6709caac",
+          "after_sha256": "55d0f20871d17e6f02583983f821a151443700a9812c290f86a2bf33860b3e96",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/6541e4918d8bda79263895f844ce3135b646a4655c48b01631fa4e7d6709caac.bin"
+        },
+        {
+          "path": "examples/yomiyasu-before-after/video/legacy.html",
+          "before_sha256": "5735e06b3a18357ff657bc779ffc3d555ae11a1d1168565573dca6ff47d4d2d3",
+          "after_sha256": "1819b5ee24ef1f209cfa3f360ea990836583b9d10e2c44e14eb385b59b560c10",
+          "kind": "presentation-branding",
+          "before_artifact": "data/production/mechanical-baselines/5735e06b3a18357ff657bc779ffc3d555ae11a1d1168565573dca6ff47d4d2d3.bin"
+        }
+      ],
+      "legacy_record": {
+        "path": "data/production/yomiyasu-before-after.json",
+        "sha256": "962866bf203531bbd5d17d27a141f2ea4e4b8c3bab33b66a4e03533bc2f0fb22"
+      },
+      "baseline_record": {
+        "path": "data/production/yomiyasu-before-after.json",
+        "sha256": "962866bf203531bbd5d17d27a141f2ea4e4b8c3bab33b66a4e03533bc2f0fb22"
+      },
+      "case_record": {
+        "path": "data/cases/yomiyasu-before-after.json",
+        "sha256": "f26d2f5ac8c3745a5a95e1e57de797d7049260157e93f7876eebe7bc0ca19702"
+      }
+    }
+  ]
+}

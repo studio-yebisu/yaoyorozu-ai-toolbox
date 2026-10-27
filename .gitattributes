@@ -8,3 +8,9 @@
 # These public snapshots carry byte-level provenance across operating systems.
 integrations/motion/** -text
 integrations/slides/** -text
+/examples/** -text whitespace=cr-at-eol
+/data/cases/** -text whitespace=cr-at-eol
+/data/production/** -text whitespace=cr-at-eol
+/data/production/mechanical-baselines/** -text -diff
+/media/** -text whitespace=cr-at-eol
+/skills/brief-to-demo/SKILL.md -text whitespace=cr-at-eol

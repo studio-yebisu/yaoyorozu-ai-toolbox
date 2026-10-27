@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="description" content="Train LLM From Scratch の学生向けCPUトラックを固定コミットのまま実行した保存済みの記録から、自作の英文96行→BPE→小さなTransformer→同じ書き出しの続き、までを1枚の図で読む作例です。">
+<title>同じ書き出し、違う続き。｜Train LLM From Scratch 作例｜八百万図AIツールボックス</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">本文へ移動</a>
+
+<header class="masthead">
+  <p class="kicker">八百万図AIツールボックス 作例 ・ Train LLM From Scratch</p>
+  <h1>同じ書き出し、違う続き。</h1>
+  <ul class="chips" aria-label="この作例の性質">
+    <li>保存済みの実行</li>
+    <li>自作の英文96行</li>
+  </ul>
+</header>
+
+<main id="main" tabindex="-1">
+  <section id="demo" class="demo" aria-labelledby="demo-heading">
+    <h2 id="demo-heading" class="visually-hidden">保存済みの結果を1枚の図で見る</h2>
+    <div class="loadbar">
+      <p id="status" data-state="loading" role="status" aria-live="polite">保存済みの実行記録を確かめています…</p>
+      <button type="button" id="retry" class="button" hidden>もう一度読み込む</button>
+    </div>
+
+    <div class="cases" role="group" aria-label="書き出しを選ぶ">
+      <button type="button" class="case" data-id="P01" aria-pressed="true" disabled><span class="case-id">P01</span><span class="case-name">物語</span></button>
+      <button type="button" class="case" data-id="P02" aria-pressed="false" disabled><span class="case-id">P02</span><span class="case-name">別の名前</span></button>
+      <button type="button" class="case" data-id="P06" aria-pressed="false" disabled><span class="case-id">P06</span><span class="case-name">夕暮れ</span></button>
+      <button type="button" class="case" data-id="P07" aria-pressed="false" disabled><span class="case-id">P07</span><span class="case-name">宇宙</span></button>
+      <button type="button" class="case" data-id="P08" aria-pressed="false" disabled><span class="case-id">P08</span><span class="case-name">質問</span></button>
+    </div>
+
+    <figure class="diagram-figure">
+      <div id="diagram" class="diagram" aria-busy="true"></div>
+      <figcaption class="visually-hidden" id="diagram-caption">英文96行から2つのモデルの続きまでをつないだ図。上の書き出しと下の強調切り替えで内容が変わります。</figcaption>
+    </figure>
+
+    <fieldset id="phase" class="phase" disabled>
+      <legend class="visually-hidden">強調するモデル（図の両方の枝は常に表示）</legend>
+      <label class="phase-option"><input type="radio" name="phase" value="before"><span>0回更新</span></label>
+      <label class="phase-option"><input type="radio" name="phase" value="after" checked><span>800回更新</span></label>
+    </fieldset>
+
+    <div class="save-row">
+      <button type="button" id="save" class="button primary" disabled aria-describedby="save-note">選んだ記録をJSONで保存</button>
+      <p id="save-note" class="save-note">0回更新・800回更新の両方を含む、元の記録そのままです。</p>
+    </div>
+    <p id="save-status" class="action-status" role="status" aria-live="polite"></p>
+
+    <details class="picker">
+      <summary>8例すべてから選ぶ</summary>
+      <div id="all-cases" class="all-cases" role="group" aria-label="8つの書き出し"></div>
+    </details>
+  </section>
+
+  <section class="explain" aria-labelledby="explain-heading">
+    <h2 id="explain-heading">この図で試せること</h2>
+    <ol class="steps">
+      <li><strong>英文</strong> 自分で書いた英文96行を、学習83行と検証13行に分けます。</li>
+      <li><strong>BPE</strong> 学習側の文だけで、文を番号の並びに切る規則を作ります。</li>
+      <li><strong>学習</strong> 同じ初期値から、片方だけ800回調整します。もう片方は0回のままです。</li>
+      <li><strong>比べる</strong> 同じ書き出しの番号を両方に渡し、続きを並べます。</li>
+    </ol>
+    <p>検証13行はすべて学習側にも同じ文があります。損失が下がっても、文型を覚えた練習の記録で、知識・汎化・文章の品質の評価ではありません。P08の質問にも答えず、物語の文が続きます。</p>
+    <p>続きを書いたのは、この作例で学習した小さなTransformerです（Claude ではありません）。このページの中で学習や生成は動かず、保存済みの記録を読んで描いています。</p>
+    <p class="links-inline"><a id="viewer-link" href="comparison.html#P01">元の閲覧画面でP01の記録を詳しく見る</a></p>
+  </section>
+
+  <section id="folds" class="folds" aria-labelledby="folds-heading">
+    <h2 id="folds-heading">記録をくわしく</h2>
+
+    <details class="fold" id="fold-input">
+      <summary>選んだ書き出しの全文と生成条件</summary>
+      <pre id="full-input" class="output"></pre>
+      <dl id="input-settings" class="facts"></dl>
+    </details>
+
+    <details class="fold" id="fold-before">
+      <summary>0回更新の続き（元の全文・トークンID・件数）</summary>
+      <pre id="before-text" class="output"></pre>
+      <p id="before-counts" class="meta"></p>
+      <p class="ids-label">トークンID（書き出しを含む全部）</p>
+      <p id="before-ids" class="ids"></p>
+    </details>
+
+    <details class="fold" id="fold-after">
+      <summary>800回更新の続き（元の全文・トークンID・件数）</summary>
+      <pre id="after-text" class="output"></pre>
+      <p id="after-counts" class="meta"></p>
+      <p class="ids-label">トークンID（書き出しを含む全部）</p>
+      <p id="after-ids" class="ids"></p>
+    </details>
+    <p class="note">薄い文字は書き出しです。表示は書き出しを含む元の全文で、繰り返しや崩れもそのまま。手直しや選び直しはしていません。1つのトークンは1語とは限らないため、番号と単語の対応は示しません。</p>
+
+    <details class="fold" id="fold-dup">
+      <summary>検証13行が、すべて学習側にもあること</summary>
+      <p id="dup-summary"></p>
+      <ol id="dup-list" class="dup-list"></ol>
+    </details>
+
+    <details class="fold" id="fold-loss">
+      <summary>損失：更新ごとのミニバッチと、最後の200バッチ評価</summary>
+      <figure class="chart-figure">
+        <div id="loss-chart" class="chart"></div>
+        <figcaption id="loss-summary"></figcaption>
+      </figure>
+      <div class="table-wrap">
+        <table>
+          <caption>最後の評価（原典の estimate_loss・各側200バッチ）</caption>
+          <thead><tr><th scope="col">モデル</th><th scope="col">学習側</th><th scope="col">検証側</th></tr></thead>
+          <tbody id="estimate-table"></tbody>
+        </table>
+      </div>
+      <p class="note">検証側は同じファイルの末尾で、13行とも学習側に同じ文があります。下がった値は独立した汎化・知識・品質を表しません。</p>
+      <div class="table-wrap">
+        <table>
+          <caption>途中の保存点（損失は保存点より前の直近の定期評価・各側10バッチ）</caption>
+          <thead><tr><th scope="col">更新回数</th><th scope="col">評価の時点</th><th scope="col">学習側</th><th scope="col">検証側</th><th scope="col">その回のミニバッチ</th></tr></thead>
+          <tbody id="checkpoint-table"></tbody>
+        </table>
+      </div>
+      <p id="uniform-note" class="note"></p>
+    </details>
+
+    <details class="fold" id="fold-checks">
+      <summary>実行時に確かめたこと（<span id="check-count">44</span>項目）</summary>
+      <ul id="check-list" class="checks"></ul>
+      <dl id="facts-list" class="facts"></dl>
+    </details>
+
+    <details class="fold" id="fold-source">
+      <summary>原典・ライセンス・再現コマンド</summary>
+      <ul class="linklist">
+        <li><a href="https://github.com/FareedKhan-dev/train-llm-from-scratch/tree/bdd480a518094ca834e05ab32131dc126b522d3d">原典リポジトリ（固定コミット bdd480a）</a></li>
+        <li><a href="https://github.com/FareedKhan-dev/train-llm-from-scratch/blob/bdd480a518094ca834e05ab32131dc126b522d3d/docs/student/README.md">GPUなしで学ぶガイド（docs/student/README.md）</a></li>
+        <li><a href="vendor/train-llm-from-scratch/LICENSE">同梱の原典：MIT（Copyright (c) 2025 Fareed Khan）</a></li>
+        <li><a href="LICENSE">作例のコードと文章：MIT（Copyright (c) 2026 Studio Yebisu）</a></li>
+      </ul>
+      <p class="note">原典48ファイルは無改変で同梱しています。事前学習済みの重み・外部データセット・APIキー・SFTやRL系の学習・量子化・品質ベンチマークは使っていません。</p>
+      <h3 class="subhead">実際に実行したコマンドと所要秒</h3>
+      <p class="note">秒数は実行したPC1台の経過時間で、800回の学習には評価と保存も含みます。性能比較の値ではありません。&lt;artifact-dir&gt; は公開しない保存先です。</p>
+      <ol id="command-list" class="commands"></ol>
+      <h3 class="subhead">手元で再現する</h3>
+      <pre class="code">python -m venv .venv
+# Windows（PowerShell）
+.venv\Scripts\Activate.ps1
+# macOS・Linux
+source .venv/bin/activate
+
+# Windows / Linux：今回使ったCPU版を明示する
+python -m pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cpu
+
+python -m pip install -r requirements.txt
+python run.py --artifact-dir ../training-artifacts
+python -m http.server 8866</pre>
+      <p class="note">配布済みの outputs/training-run.json があると run.py は止まり、上書きしません。新しい作業用フォルダへコピーしてから実行してください（README.md 参照）。依存の導入にはネット接続が要ります。</p>
+    </details>
+
+    <details class="fold" id="fold-request">
+      <summary>同じ練習を頼む依頼文</summary>
+      <p>入力の欄を自分の英文と書き出しに差し替えて、固定版の原典を読めるAIや開発者に渡せます。</p>
+      <div class="actions">
+        <button type="button" id="copy-request" class="button">依頼文をコピー</button>
+      </div>
+      <p id="copy-status" class="action-status" role="status" aria-live="polite"></p>
+      <label id="request-fallback-label" for="request-fallback" class="fallback-label" hidden>依頼文（長押しで全選択してコピーできます）</label>
+      <textarea id="request-fallback" class="fallback" rows="10" readonly hidden></textarea>
+    </details>
+
+    <nav class="files" aria-labelledby="files-heading">
+      <h3 id="files-heading" class="subhead">ファイルと動画</h3>
+      <ul class="linklist">
+        <li><a href="input/stories.txt">自作の英文96行（input/stories.txt）</a></li>
+        <li><a href="input/prompts.json">8つの書き出し（input/prompts.json）</a></li>
+        <li><a href="input/run-config.json">固定した設定（input/run-config.json）</a></li>
+        <li><a href="outputs/training-run.json">実行記録（outputs/training-run.json）</a></li>
+        <li><a href="outputs/independent-checks.json">別の検証コードの確認（outputs/independent-checks.json）</a></li>
+        <li><a href="outputs/method.md">手順と読み方（outputs/method.md）</a></li>
+        <li><a href="source.zip">入力・結果・ソース一式（source.zip）</a></li>
+        <li><a href="video/index.html">32秒の無音図解の編集ソース（video/index.html）</a></li>
+        <li><a href="../../media/train-llm-from-scratch-example.mp4">動画（縦・MP4）</a></li>
+        <li><a href="../../media/train-llm-from-scratch-example-wide.mp4">動画（横・MP4）</a></li>
+      </ul>
+    </nav>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>八百万図AIツールボックス ・ 原典 FareedKhan-dev/train-llm-from-scratch（bdd480a・MIT）</p>
+</footer>
+</body>
+</html>

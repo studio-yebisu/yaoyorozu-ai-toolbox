@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <title>LiveTalkingで、声と顔がつながるまで｜八百万図AIツールボックス</title>
+  <meta name="description" content="LiveTalkingは、声の入力・アバターの部品・出力口をつなぐPythonのエンジンです。原典のMuseTalk経路を制作担当が1回だけ実行した2本の実出力で、声と顔がどこで分かれ、どこで組になって返るかを1枚の構造図で見せます。">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body data-app="livetalking-main" data-state="loading">
+  <header class="top">
+    <h1 id="title"><span class="nw">LiveTalkingで、</span><span class="nw">声と顔がつながるまで</span></h1>
+    <a class="back" href="../../case.html?id=livetalking-example">記事へ</a>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="title">
+      <div class="controls">
+        <div class="seg" role="group" aria-label="図の段階">
+          <button type="button" data-stage="0" aria-pressed="true" disabled>①何か</button>
+          <button type="button" data-stage="1" aria-pressed="false" disabled>②渡す</button>
+          <button type="button" data-stage="2" aria-pressed="false" disabled>③返る</button>
+        </div>
+        <div class="seg cases" role="group" aria-label="保存済みの結果を選ぶ（再計算はしません）">
+          <span class="seg-label" aria-hidden="true">結果</span>
+          <button type="button" data-case="default" aria-pressed="true" aria-label="保存済みの結果：戸締まりの声（4.64秒のWAV）" disabled>戸締まりの声</button>
+          <button type="button" data-case="second" aria-pressed="false" aria-label="保存済みの結果：電車の声（5.16秒のWAV）" disabled>電車の声</button>
+        </div>
+      </div>
+
+      <div id="map" class="map">
+        <canvas id="concept" role="img" aria-label="構造図。原典README・API と依頼から、作者AI 1体がコードを書き、制作担当が原典のPythonを別に実行する。LiveTalkingエンジンの中で、既存の肖像1枚は手動の枠で256の顔になり、下半分を黒くした画像と全体の画像から共有の潜在を1回だけ作る。既存の英語WAVは16kHzの20ms片に分かれ、Whisperの符号器だけが特徴にする（文字起こしなし）。潜在と特徴がU-Netで1回だけ合流し、VAEが顔の部分を返す。生の音の片は別の道を通り、顔の部分と2片ずつ組になる。待機のコマは元画像のまま、声のコマはマスクで貼り戻し、透かしを描いてWebRTCOutputへ。制作担当のDisk捕捉がPNGと16kHzのWAVにし、FFmpegでMP4にして、元のファイルのまま再生・保存できる。"></canvas>
+        <button type="button" class="pin" data-part="1" aria-label="部品1 つなぐ枠組み：原典の該当行を開く" disabled><span class="vh">1</span></button>
+        <button type="button" class="pin" data-part="2" aria-label="部品2 声を区切る・特徴へ：原典の該当行を開く" disabled><span class="vh">2</span></button>
+        <button type="button" class="pin" data-part="3" aria-label="部品3 顔を一度準備：原典の該当行を開く" disabled><span class="vh">3</span></button>
+        <button type="button" class="pin" data-part="4" aria-label="部品4 特徴と顔が合流：原典の該当行を開く" disabled><span class="vh">4</span></button>
+        <button type="button" class="pin" data-part="5" aria-label="部品5 画像と音を組に：原典の該当行を開く" disabled><span class="vh">5</span></button>
+        <button type="button" class="pin" data-part="6" aria-label="部品6 貼る・送り出す：原典の該当行を開く" disabled><span class="vh">6</span></button>
+      </div>
+
+      <div class="save" role="group" aria-label="選んだ結果と入力を、元のファイルのまま保存">
+        <a id="save-mp4" class="btn primary" aria-disabled="true">MP4を保存</a>
+        <a id="save-wav" class="btn" aria-disabled="true">出力WAV</a>
+        <a id="save-record" class="btn" aria-disabled="true">記録JSON</a>
+        <a id="save-portrait" class="btn" aria-disabled="true">入力PNG</a>
+        <a id="save-input" class="btn" aria-disabled="true">入力WAV</a>
+      </div>
+      <p id="status" class="status" role="status" aria-live="polite">保存済みのファイルを確かめています…</p>
+      <div id="failure" class="failure" hidden>
+        <p id="state-detail"></p>
+        <button type="button" id="retry" disabled>もう一度確かめる</button>
+      </div>
+      <noscript><p class="failure">この図は JavaScript で保存済みのファイルを確かめてから表示します。</p></noscript>
+    </section>
+
+    <ul class="legend" aria-label="図の読み方">
+      <li><i class="k-real"></i>画像・波形・回数・コマの帯＝実データ</li>
+      <li><i class="k-explain"></i>片・格子・タイル・動く印＝説明の形</li>
+      <li><i class="k-bypass"></i>太い線＝特徴にしない道（元画像・生の音）</li>
+      <li><i class="k-band"></i>帯：灰＝待機（元画像）・朱＝貼り戻し</li>
+    </ul>
+
+    <section id="stage-text" class="prose stage-text" aria-label="段階の説明">
+      <p data-stage-text="0">LiveTalkingは、声の入力・アバター・音声合成・出力口を名前でつなぐPythonのエンジンです。1つのAIモデルでも、ホスト型APIでも、SKILL.mdでもありません。この作例は、その中の MuseTalk の経路（MuseReal・WhisperASR・BaseAvatar）だけを、制作担当が1回だけ実行しました。</p>
+      <p data-stage-text="1" hidden>渡したのは、以前の作例と同じバイトの肖像1枚（《モナ・リザ》の複製画）と、以前の作例の既存の英語TTSのWAV 2本です。新しく合成・録音した音声や、新しく作った人物ではありません。顔は手動の枠 <span data-fact="bbox">—</span> で切り出し、検出器は使っていません。</p>
+      <p data-stage-text="2" hidden>潜在と声の特徴がU-Netで1回ずつ合流し、顔の部分と生の音2片が組になります。待機のコマは元の画像、声のコマは貼り戻しです。2本で<span data-fact="total-frames">—</span>コマ（貼り戻し<span data-fact="total-pasted">—</span>・元画像<span data-fact="total-idle">—</span>）が返り、U-Netの予測は<span data-fact="total-predictions">—</span>枚でした。数はどれも実測で、互いに等しいとは仮定していません。</p>
+    </section>
+
+    <div class="parts" role="group" aria-label="6つの部品（原典の該当行を開く）">
+      <button type="button" data-part="1" disabled>1 つなぐ枠組み</button>
+      <button type="button" data-part="2" disabled>2 声を区切る・特徴へ</button>
+      <button type="button" data-part="3" disabled>3 顔を一度準備</button>
+      <button type="button" data-part="4" disabled>4 特徴と顔が合流</button>
+      <button type="button" data-part="5" disabled>5 画像と音を組に</button>
+      <button type="button" data-part="6" disabled>6 貼る・送り出す</button>
+    </div>
+    <p class="small center">番号の6部品は説明のための整理です。原典の区分でも、6体のAIでもありません。</p>
+
+    <section class="result" aria-labelledby="result-title">
+      <h2 id="result-title">返ってきた実ファイル（<span data-case-label>—</span>）</h2>
+      <figure class="movie">
+        <video id="result-video" controls playsinline preload="metadata" width="512" height="512"></video>
+        <figcaption id="video-note"></figcaption>
+      </figure>
+      <div class="audio-pair">
+        <figure>
+          <figcaption>入力のWAV（既存）</figcaption>
+          <audio id="input-audio" controls preload="none"></audio>
+        </figure>
+        <figure>
+          <figcaption>捕捉した出力のWAV</figcaption>
+          <audio id="output-audio" controls preload="none"></audio>
+        </figure>
+      </div>
+      <p id="audio-note" class="small"></p>
+
+      <h3>代表5枚（そのままのPNG）</h3>
+      <div id="frames" class="frames"></div>
+      <p class="limit"><strong>見えている限界：</strong><span id="limit-note"></span> 制作担当はコマ #0 と #32 を見て、下顔のぼけと四角い境界を確かめました。公開した代表の #31（戸締まり）と #34（電車）でも見えます。原因の証明や一般的な品質の順位づけではありません。</p>
+
+      <h3>渡した画像</h3>
+      <div class="inputs">
+        <figure>
+          <img id="img-portrait" alt="入力の肖像。《モナ・リザ》の複製画を512×512に切り出した既存の1枚。" width="512" height="512">
+          <figcaption>肖像 512×512（以前の作例と同じバイト。貼り戻しの台にもなる）</figcaption>
+        </figure>
+        <figure>
+          <img id="img-face" alt="手動の枠で切り出して256×256にした顔。" width="256" height="256">
+          <figcaption>顔 256：手動の枠 <span data-fact="bbox">—</span> を256に</figcaption>
+        </figure>
+        <figure>
+          <img id="img-masked" alt="同じ顔の下半分を黒くした画像。" width="256" height="256">
+          <figcaption>VAEの入力A：下半分を黒（保存名は upper-half-masked のまま）</figcaption>
+        </figure>
+        <figure>
+          <img id="img-mask" alt="貼り戻しに使う手動のマスク。上が黒、下が白。" width="320" height="320">
+          <figcaption>手動マスク 320：下半分を貼り戻す（顔の解析なし）</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="prose more">
+      <details>
+        <summary>実行の記録（制作担当の1回）</summary>
+        <div id="proof" class="proof"></div>
+      </details>
+      <details>
+        <summary>照合する<span data-fact="count">—</span>ファイル</summary>
+        <p class="small">開くたびに、一覧の固定 SHA-256 と、各ファイルの大きさと SHA-256 を確かめます。原典の8引用の行、記録どうしの数と ID、PNG・WAV の形式、MP4 の映像と音声のトラックも照合します。1つでも違えば、図・動画・音声・保存を止めます。</p>
+        <ol id="inventory" class="inventory"></ol>
+      </details>
+      <details>
+        <summary>できないこと・確かめていないこと</summary>
+        <ul>
+          <li>人の耳での聴取、口の動きと音の同期の正確さ、自然さ、本人らしさ、見た目の承認は確かめていません。MP4 や WAV が保存できることは同期の証拠ではありません。</li>
+          <li>リアルタイム性能は測っていません。時間は CPU・float32 での1回の観測です。図と解説動画の動きや32秒の時刻も説明のためで、処理時間ではありません。</li>
+          <li>実行していないもの：app.py・HTTP サーバー・WebRTC の接続・RTMP・仮想カメラ、LLM・新しい TTS・声のクローン・文字起こし、Wav2Lip・UltraLight・ernerf、顔検出・顔の解析・MuseTalk の genavatar、ComfyUI。EdgeTTS は原典が作りましたが、文を1つも渡していません。</li>
+          <li>捕捉は原典の WebRTCOutput の受け手を Disk捕捉 にした有限の区間で、新しい MP4 生成の API ではありません。捕捉の外へ押し出されたコマと片は数えて記録し、MP4 には入れていません。</li>
+          <li>入力の WAV は以前の Chatterbox の作例の出力で、元の合成で Perth の透かしが入っています。この変換と圧縮の後に透かしを検出できるかは確かめていません。</li>
+          <li>ほかの画像や音声での動きは確かめていません。ランナーは今回の2つの WAV・肖像・ジョブのハッシュ、手動の枠とマスク、捕捉の条件を照合して止まるように書かれています。</li>
+          <li>同梱した原典は選んだ27ファイルで、ランナーが照合する23パスをすべて含みますが、アプリ全体ではありません。重み・依存・FFmpeg は別に必要です。実制作は全177ファイルの checkout で、同梱分だけでの再実行はしていません。</li>
+          <li>作者の執筆後、制作担当がこの図・ページ・編集ソースと無音紹介動画を実際に表示・描画・再生して確認しました。範囲は visual-verification.json に記録しています。人の聴取・同期精度・審美的承認、実機iOS/Safari/VoiceOver・200%拡大は未確認です。</li>
+        </ul>
+      </details>
+      <details>
+        <summary>記録の言い違いと、今の読み方</summary>
+        <ul>
+          <li>第1段階のメモとランナー、診断PNGの保存名は「upper-half-masked」と書いていますが、実際の画素と原典の VAE は下半分を黒くします。ファイルと名前はそのまま保全し、この図は正しい向きで描きます。新しい推論や修正ではありません。</li>
+          <li>結果の待ち行列は貼り戻しの前です。予測した顔の部分と生の音2片が組になり、その後の process_frames が元画像か貼り戻しを選び、透かしを描きます。</li>
+          <li>待機の片（type 1）は、入力の待ち行列が空のときに原典が作るゼロの音です。WAV の中の無音を判定したものではありません。Whisper の符号器は待機の音でも動き、全部が待機のバッチでは U-Net を省きます。</li>
+          <li>詳しくは <a href="SOURCE-NOTES.md">SOURCE-NOTES.md</a>（制作担当の追記）。</li>
+        </ul>
+      </details>
+      <details>
+        <summary>出典とライセンス</summary>
+        <ul>
+          <li>原典：<a href="https://github.com/lipku/LiveTalking/tree/eaa2b91559a5c2ed6127e17728efd52b7c407a0d" rel="noopener">lipku/LiveTalking（固定コミット eaa2b91）</a>・Apache-2.0。<a href="vendor/livetalking/LICENSE">同梱のLICENSE</a>・<a href="vendor/livetalking/README.md">同梱のREADME</a>・<a href="vendor/livetalking/docs/api.md">docs/api.md</a>・<a href="UPSTREAM.json">選んだ27ファイル</a></li>
+          <li>モデル（配布なし・モデルカードのみ同梱）：<a href="https://huggingface.co/TMElyralab/MuseTalk/tree/2bcb936e2fddb4d86db4c62fd45b387d0c061571" rel="noopener">TMElyralab/MuseTalk @ 2bcb936</a>（MIT）・<a href="https://huggingface.co/stabilityai/sd-vae-ft-mse/tree/31f26fdeee1355a5c34592e401dd41e45d25a493" rel="noopener">stabilityai/sd-vae-ft-mse @ 31f26fd</a>（MIT）・<a href="https://huggingface.co/openai/whisper-tiny/tree/169d4a4341b33bc18d8881c4b69c2e104e1cc0af" rel="noopener">openai/whisper-tiny @ 169d4a4</a>（Apache-2.0。元の OpenAI Whisper の MIT 表示は MuseTalk の LICENSE 内）。<a href="vendor/model-cards/musetalk-LICENSE.txt">MuseTalk の LICENSE</a></li>
+          <li>入力の肖像：以前の LivePortrait 作例の切り出しと同じバイト（原典 KlingAIResearch/LivePortrait の s9.jpg、レオナルド・ダ・ヴィンチ《モナ・リザ》の複製画。原作品はパブリックドメイン）。入力の音声：以前の Chatterbox 作例（resemble-ai/chatterbox、MIT）の既存の英語出力と同じバイト。</li>
+          <li>実行のコード：<a href="prepare_input.py">prepare_input.py</a>・<a href="run_example.py">run_example.py</a>・<a href="inputs/jobs.json">inputs/jobs.json</a>・<a href="inputs/prepared/preparation.json">preparation.json</a>・<a href="implementation.md">実装メモ</a>。記録：<a href="outputs/results.json">outputs/results.json</a>（ランナーの測定の包装。原典のネイティブな出力ではありません）・<a href="concept/facts.json">concept/facts.json</a>・<a href="concept/manifest.json">concept/manifest.json</a>。詳しくは <a href="THIRD_PARTY_NOTICES.md">第三者の表示</a>・<a href="README.md">README</a>。</li>
+          <li>ページ・図・文章・解説動画のソース：八百万図AIツールボックス・MIT。作者AI（Claude Opus 5.5）が書き、原典の実行は制作担当が1回だけ行いました。</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="prose film">
+      <h2>解説動画（32秒・無音）</h2>
+      <p>同じ構造図の上で、形が分かれ、別の道を通り、組になって返る動画です。ナレーションと音声はありません。実際の出力の音は、上の MP4 と WAV で聞けます。</p>
+      <p class="links">
+        <a href="../../media/livetalking-example.mp4">縦 720×1280</a>
+        <a href="../../media/livetalking-example-wide.mp4">横 1280×720</a>
+        <a href="video/index.html">編集用ソース</a>
+        <a href="README.md">README</a>
+      </p>
+    </section>
+  </main>
+
+  <dialog id="part-dialog" aria-labelledby="part-title">
+    <div class="dlg">
+      <header>
+        <h2 id="part-title"></h2>
+        <button type="button" data-close aria-label="閉じる">×</button>
+      </header>
+      <p id="part-meaning"></p>
+      <p class="small">番号の6部品は説明のための整理です。原典の区分でも、自動で動くAIでもありません。引用は同梱した原典の該当行と一致することを確かめています。</p>
+      <div id="part-sources"></div>
+    </div>
+  </dialog>
+</body>
+</html>

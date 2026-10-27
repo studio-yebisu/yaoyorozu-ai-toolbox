@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; font-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>寸法を4つ変えても、穴は中央、壁は3 mmのまま — SolidCraft の作例｜八百万図AIツールボックス</title>
+  <meta name="description" content="架空の小物トレーを SolidCraft 0.11.1 で作り、寸法を変えて計算し直し、実測して、編集できる設計・STEP・STLで保存した作例です。">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">本文へ移動</a>
+  <header class="masthead">
+    <a class="masthead-back" href="../../case.html?id=solidcraft-example">八百万図AIツールボックス の記事へ</a>
+    <span class="masthead-meta">作例｜SolidCraft 0.11.1｜架空の依頼</span>
+  </header>
+
+  <main id="main">
+    <section class="intro" aria-labelledby="page-title">
+      <p class="kicker">3D・CAD の作例</p>
+      <h1 id="page-title"><span>寸法を4つ変えても、</span><span>穴は中央、壁は3 mmのまま</span></h1>
+      <ol class="flow" aria-label="この作例でしたこと">
+        <li><b>寸法を決める</b><span>幅・奥行・高さ・穴径に名前を付ける</span></li>
+        <li><b>CADで計算し直す</b><span>名前の値を変えて形を作り直さずに更新</span></li>
+        <li><b>実測する</b><span>体積・外形・重心を解析値と比べる</span></li>
+        <li><b>保存する</b><span>編集できる設計・STEP・STL</span></li>
+      </ol>
+      <p class="lead">架空の工房「よりみちラボ」の小物トレーを SolidCraft 0.11.1 で作り、4つの寸法を一度に変えました。下の画像と数値は、そのとき保存した2つの状態です。</p>
+      <p class="notice"><strong>このページではCADを動かしません。</strong>保存した結果を切り替えて見るだけです。AIの実行や、寸法を入れて計算し直す機能はありません。</p>
+    </section>
+
+    <section class="viewer" aria-labelledby="viewer-title">
+      <h2 id="viewer-title" class="section-title">保存した2つの状態</h2>
+      <div class="viewer-controls">
+        <div class="state-tabs" role="tablist" aria-label="保存した状態">
+          <button type="button" role="tab" id="tray-default" data-state="default" aria-controls="state-panel" aria-selected="true" tabindex="0"><b>初期</b><span>120×80×18・穴8</span></button>
+          <button type="button" role="tab" id="tray-resized" data-state="resized" aria-controls="state-panel" aria-selected="false" tabindex="-1"><b>変更後</b><span>150×90×24・穴12</span></button>
+        </div>
+        <div class="view-toggle" role="group" aria-label="見る向き">
+          <button type="button" data-view="iso" aria-pressed="true">等角</button>
+          <button type="button" data-view="top" aria-pressed="false">上面</button>
+        </div>
+      </div>
+
+      <div id="state-panel" class="state-panel" role="tabpanel" aria-labelledby="tray-default">
+        <figure class="shot">
+          <div class="shot-frame">
+            <img id="shot" src="renders/tray-default-iso.png" width="1280" height="960" alt="SolidCraftで描画した初期のトレーを斜め上から見た画像。上が開いた箱で、底の中央に丸い穴が1つある。">
+          </div>
+          <figcaption>SolidCraft のモデル描画（1280×960）をそのまま表示しています。画像は状態ごとにモデルへ合わせて収めているため、<strong>画像の中の大きさの違いは寸法の違いを表しません。</strong>大きさは右の数値で比べてください。</figcaption>
+        </figure>
+
+        <div class="metrics">
+          <p class="metrics-title" id="metrics-title">初期の状態の実測値</p>
+          <dl class="metric-list" id="metrics">
+            <div><dt>外形（外接箱）</dt><dd><span data-field="size">120 × 80 × 18 mm</span></dd></div>
+            <div><dt>穴径（パラメーター）</dt><dd><span data-field="hole">8 mm</span></dd></div>
+            <div><dt>壁・底（固定）</dt><dd><span data-field="wall">3 mm</span></dd></div>
+            <div><dt>体積</dt><dd><span data-field="volume">46,109.23 mm³</span><small data-field="volume-note">解析値 46,109.20 mm³・差 0.00005 %</small></dd></div>
+            <div><dt>表面積</dt><dd><span data-field="area">32,014.88 mm²</span><small data-field="area-note">解析値 32,014.87 mm²・差 0.00004 %</small></dd></div>
+            <div><dt>重心</dt><dd><span data-field="com">(0.000, 0.000, 4.908) mm</span><small data-field="com-note">解析値との差 0.000002 mm</small></dd></div>
+            <div><dt>ボディ・タイムライン</dt><dd><span data-field="health">ボディ1つ・3件とも error / warning なし</span></dd></div>
+          </dl>
+          <p class="metrics-status" id="metrics-status" role="status"></p>
+          <p class="state-files-title">この状態のファイル</p>
+          <ul class="state-files" id="state-files">
+            <li><a data-file="design" href="outputs/tray-default.json" download>設計 .json</a></li>
+            <li><a data-file="step" href="outputs/tray-default.step" download>STEP</a></li>
+            <li><a data-file="stl" href="outputs/tray-default.stl" download>STL</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="input" aria-labelledby="input-title">
+      <h2 id="input-title" class="section-title">入力：架空の依頼</h2>
+      <p class="section-lead">作例のために書いた依頼文です。工房も用途も架空です。この文から、作るためのコマンド <code>cad/build.json</code> と変更用の <code>cad/resize.json</code> を書きました。</p>
+      <pre class="request" id="request-text" tabindex="0">架空の小さな工房「よりみちラボ」で、ねじやワッシャーを分けて置く小物トレーを作りたい。水をためないための丸い貫通穴を底の中央に1つ付ける。
+初期寸法は幅120 mm、奥行80 mm、高さ18 mm、底の穴径8 mm。壁と底は3 mmに固定し、上は開ける。幅・奥行・高さ・穴径を名前付きパラメーターにし、幅150 mm、奥行90 mm、高さ24 mm、穴径12 mmへ一度変更しても、中央の穴と3 mmの壁・底が追従するようにする。
+確認範囲は幅120〜150 mm、奥行80〜90 mm、高さ18〜24 mm、穴径8〜12 mm。使える範囲をコメントへ書き、範囲端と初期値へ戻したときの形状を確かめる。外観の飾りやフィレットは必須ではない。
+編集できる設計、再現用コマンドJSON、STEP、STL、実際の等角・上面画像、入力と実測値の記録を残す。製造強度や3Dプリントの品質まで保証したとは書かない。</pre>
+      <div class="copy-row">
+        <button type="button" id="copy-request" class="button">依頼文をコピー</button>
+        <span class="copy-status" id="copy-status" role="status" aria-live="polite"></span>
+        <a href="request.txt" download>request.txt を保存</a>
+      </div>
+    </section>
+
+    <section class="block" id="params" aria-labelledby="params-title">
+      <h2 id="params-title" class="section-title">変更前と変更後</h2>
+      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="params-title">
+        <table class="params">
+          <thead>
+            <tr><th scope="col">パラメーター</th><th scope="col">初期</th><th scope="col">変更後</th><th scope="col">使える範囲</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">幅<code>width</code></th><td>120 mm</td><td class="changed">150 mm</td><td>120〜150 mm</td></tr>
+            <tr><th scope="row">奥行<code>depth</code></th><td>80 mm</td><td class="changed">90 mm</td><td>80〜90 mm</td></tr>
+            <tr><th scope="row">高さ<code>height</code></th><td>18 mm</td><td class="changed">24 mm</td><td>18〜24 mm</td></tr>
+            <tr><th scope="row">穴径<code>hole_diameter</code></th><td>8 mm</td><td class="changed">12 mm</td><td>8〜12 mm</td></tr>
+            <tr><th scope="row">壁<code>wall</code></th><td>3 mm</td><td>3 mm</td><td>固定</td></tr>
+            <tr><th scope="row">底<code>floor_thickness</code></th><td>3 mm</td><td>3 mm</td><td>固定</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="section-note">変更は、保存した初期の設計へ <code>parameters.change</code> を4つまとめて1回送っただけで、形は作り直していません。穴の軸は x = y = 0、くぼみの内寸は <code>width - 2 * wall</code> のような式なので、寸法を変えても穴は中央に残り、壁と底は3 mmのままです。範囲は SolidCraft が強制しないため、各パラメーターのコメントに書いています。</p>
+    </section>
+
+    <section class="block" id="checks" aria-labelledby="checks-title">
+      <h2 id="checks-title" class="section-title">確かめたこと</h2>
+      <ul class="checks">
+        <li><b>ボディは1つ</b><span>2つの状態とも <code>body_count</code> は1。保存した .json・STEP・STL を SolidCraft 0.11.1 で開き直しても1つでした。</span></li>
+        <li><b>タイムラインに error・warning なし</b><span>TrayBlock・Pocket・DrainHole の3つとも <code>null</code> です。</span></li>
+        <li><b>外形・体積・重心が解析値の許容差の中</b><span>外接箱は差0。体積と表面積は相対 2×10<sup>-4</sup>、重心と外接箱は 0.022 mm（変更後は 0.026 mm）を、実行の前に許容差として決めました。保存した2つの状態で差が最も大きかったのは、変更後の体積の 0.00008 % です。</span></li>
+        <li><b>上面の画像で穴の位置</b><span>実際の上面画像の線を調べ、穴の中心と外形の中心が1ピクセル以内、穴径と壁の厚さの誤差が0.3 mm未満でした。</span></li>
+        <li><b>範囲の端だけを往復</b><span><code>walk.json</code> で、初期値から寸法を1つずつ上の端へ動かして戻し、最後に4つ同時に動かして戻しました。11状態で11合格です。範囲の途中の値やほかの組み合わせは試していません。</span></li>
+      </ul>
+      <h3 class="sub-title">確かめていないこと</h3>
+      <ul class="not-checked">
+        <li>製造、強度、耐荷重、3Dプリントの品質、水はけは確かめていません。</li>
+        <li>画像はAIの制作工程が見て確かめたもので、人による承認ではありません。</li>
+        <li>STLは三角形に分けた形のため、体積が解析値と少しずれます（初期で約0.7 mm³）。寸法の式は STEP と STL には残らず、編集できるのは .json です。</li>
+      </ul>
+    </section>
+
+    <section class="block" id="skills" aria-labelledby="skills-title">
+      <h2 id="skills-title" class="section-title">SolidCraft のスキルの使い方</h2>
+      <p class="section-lead">SolidCraft に同梱された3つのエージェント向けスキルを読み、次のように当てはめました。原文は <a href="vendor/solidcraft/skills/solidcraft-modeling/SKILL.md">vendor/solidcraft/skills/</a> にあります。</p>
+      <dl class="skills">
+        <div>
+          <dt>solidcraft-modeling<small>新しい部品を作る</small></dt>
+          <dd>寸法と体積・外接箱の期待値を先に計算し、部品を原点の中心に置きました。外形・くぼみ・穴の3段に分けて送り、段ごとに <code>measure</code> の値を自分の計算と比べています。穴は対称の中心にあり重心では位置が分からないため、上面の画像でも確かめました。</dd>
+        </div>
+        <div>
+          <dt>solidcraft-editing<small>既存の設計を変える</small></dt>
+          <dd>作り直さず、4つの <code>parameters.change</code> を1回にまとめ、合計の予測と1回の測定で照合しました。変更のあとにタイムラインの error と warning が空であることも確かめています。</dd>
+        </div>
+        <div>
+          <dt>solidcraft-checking<small>SolidCraft が報告しない誤りを調べる</small></dt>
+          <dd>範囲をコメントに書き、4つの寸法をお気に入りにしました。<code>floor</code> は式の関数名なので底の厚さは <code>floor_thickness</code> にし、穴を開ける円柱は面より1 mm先から始めて Boolean の再試行を避けています。範囲の端を往復する <code>walk.json</code> を、原典の <code>run.py</code> と、テンプレートを元にした <code>check_design.py</code> の両方で実行しました。</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="block" id="files" aria-labelledby="files-title">
+      <h2 id="files-title" class="section-title">ファイル</h2>
+      <div class="file-grid" role="table" aria-label="状態ごとのファイル">
+        <div class="file-row file-head" role="row"><span role="columnheader">種類</span><span role="columnheader">初期</span><span role="columnheader">変更後</span></div>
+        <div class="file-row" role="row"><span class="file-kind" role="rowheader">編集できる設計（.json）</span><span role="cell"><a href="outputs/tray-default.json" download>tray-default.json</a></span><span role="cell"><a href="outputs/tray-resized.json" download>tray-resized.json</a></span></div>
+        <div class="file-row" role="row"><span class="file-kind" role="rowheader">STEP</span><span role="cell"><a href="outputs/tray-default.step" download>tray-default.step</a></span><span role="cell"><a href="outputs/tray-resized.step" download>tray-resized.step</a></span></div>
+        <div class="file-row" role="row"><span class="file-kind" role="rowheader">STL（バイナリ）</span><span role="cell"><a href="outputs/tray-default.stl" download>tray-default.stl</a></span><span role="cell"><a href="outputs/tray-resized.stl" download>tray-resized.stl</a></span></div>
+        <div class="file-row" role="row"><span class="file-kind" role="rowheader">等角の画像</span><span role="cell"><a href="renders/tray-default-iso.png">tray-default-iso.png</a></span><span role="cell"><a href="renders/tray-resized-iso.png">tray-resized-iso.png</a></span></div>
+        <div class="file-row" role="row"><span class="file-kind" role="rowheader">上面の画像</span><span role="cell"><a href="renders/tray-default-top.png">tray-default-top.png</a></span><span role="cell"><a href="renders/tray-resized-top.png">tray-resized-top.png</a></span></div>
+      </div>
+      <h3 class="sub-title">作り方と記録</h3>
+      <ul class="file-list">
+        <li><a href="cad/build.json" download>cad/build.json</a><span>空の状態から作るコマンド</span></li>
+        <li><a href="cad/resize.json" download>cad/resize.json</a><span>4つの寸法を変えるコマンド</span></li>
+        <li><a href="cad/walk.json" download>cad/walk.json</a><span>範囲の端を往復するコマンド</span></li>
+        <li><a href="cad/expected.json" download>cad/expected.json</a><span>解析式と期待値</span></li>
+        <li><a href="cad/check_design.py" download>cad/check_design.py</a><span>期待値と照合するチェッカー</span></li>
+        <li><a href="cad/plan.md">cad/plan.md</a><span>実行の前に書いた計画書（数値は予測値）</span></li>
+        <li><a href="measurements.json" download>measurements.json</a><span>実測値と確認結果の記録</span></li>
+        <li><a href="samples.json" download>samples.json</a><span>入力と結果の組</span></li>
+      </ul>
+    </section>
+
+    <section class="block" id="sources" aria-labelledby="sources-title">
+      <h2 id="sources-title" class="section-title">出典とライセンス</h2>
+      <ul class="source-list">
+        <li><a href="README.md">この作例の再現手順（README.md）</a></li>
+        <li><a href="https://github.com/tangency-labs/solidcraft/tree/16c49c3e860a954e9f27309927d6848bcba9c607" rel="noopener">SolidCraft のソース（参照コミット 16c49c3）</a><span>スキルと文書を読んだ版</span></li>
+        <li><a href="https://github.com/tangency-labs/solidcraft/releases/tag/v0.11.1" rel="noopener">SolidCraft 0.11.1 の公式リリース（コミット b01b968）</a><span>実行に使った版。参照コミットとは別に固定しています</span></li>
+        <li><a href="vendor/solidcraft/README.md">SolidCraft README（参照コミットから同梱）</a></li>
+        <li><a href="vendor/solidcraft/docs/mcp.md">SolidCraft の MCP の説明（docs/mcp.md）</a></li>
+        <li><a href="vendor/solidcraft/LICENSE-APACHE">LICENSE-APACHE</a>・<a href="vendor/solidcraft/LICENSE-MIT">LICENSE-MIT</a>・<a href="vendor/solidcraft/NOTICE">NOTICE</a></li>
+        <li><a href="LICENSE">この作例の LICENSE（MIT）</a></li>
+      </ul>
+      <p class="section-note">この作例の文章・画面・依頼文・CADのコマンドと設計・書き出したファイルと画像・動画のソースは 八百万図AIツールボックス の独自制作で、MIT License です。<code>vendor/solidcraft/</code> は上流の SolidCraft のファイルを変更せずに置いたもので、上流は MIT OR Apache-2.0 のどちらかを選べます。この作例では Apache-2.0 を選んで再配布し、NOTICE も同梱しています。SolidCraft の本体は同梱していません。</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>八百万図AIツールボックス｜文章・画面は Claude Opus 5.5 で制作。依頼・工房・用途は架空です。</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

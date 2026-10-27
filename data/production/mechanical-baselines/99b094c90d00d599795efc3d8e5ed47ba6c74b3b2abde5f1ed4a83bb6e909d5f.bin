@@ -1,0 +1,207 @@
+{
+  "id": "openvoice-example",
+  "title": "OpenVoice",
+  "title_lines": [
+    "参照音声の声質を再現する音声変換ツール"
+  ],
+  "category": "audio",
+  "summary": "参照音声の声質をもとに、別の発話へ声の特徴を反映できます。利用できる声を使って、言語や話し方の異なる音声を作り、聴き比べられます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/openvoice-example/index.html",
+  "video": "media/openvoice-example.mp4",
+  "poster": "media/openvoice-example.webp",
+  "skill": "examples/openvoice-example/vendor/openvoice/openvoice/api.py",
+  "skill_label": "声色を変える原典API（固定版）",
+  "skill_description": "固定版OpenVoiceのToneColorConverterで、4本の実音声から声色を取り出し、3件をCPUで声色変換しました。原典の既定コンストラクターとWavMarkを使い、原典コードの変更や初期化の迂回はしていません。",
+  "samples": "examples/openvoice-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "実際に変換した3件",
+  "samples_intro": "同じ案内の2声色と、別の閉館案内の実出力です。数値は技術確認で、音の自然さや本人一致の点数ではありません。",
+  "demo_description": "元の音声・声色の見本・変換後を図から再生。落ち着いた声と明るい声を選び、同じ案内の声色を聞き比べ、WAVを保存できます。閉館案内と全記録は補足の比較画面へ進めます。",
+  "demo_note": "公開ページは実行済みの合成音声を再生します。音声のアップロードやライブ変換は行いません。",
+  "request_intro": "同じように、実音声と概念図を組み合わせた作例を依頼するための文章です。",
+  "request": "架空の「紙の博物館」の案内を、OpenVoice V2で2種類の合成声色へ変換し、大きな概念図から聞き比べてWAVを保存できる作例を作ってください。\n\n入力は input/voice-requests.json と、その4本の合成音声です。V01は「ようこそ案内→落ち着いた声」、V02は「閉館案内→落ち着いた声」、V03は「ようこそ案内→明るい声」。固定コミットの原典APIで、実音声から声色を取り出し、3件を実変換してください。原音と変換後を保全し、重みは公開物に含めません。\n\n画面と動画は「元の音声 ＋ 声色の見本 → OpenVoice → 変換後」の概念図を主役にしてください。短いラベルで、二つの入力が合流して声色が変わる関係を示し、図から実音声を再生・保存できるようにします。説明文と実行記録は折りたたんだ補足へ。動画は36秒で、実音声を聞く時間に図の強調を合わせ、最後に声色の選択とWAV保存を見せます。スマホ向け縦版と横向き版を作り、編集ソースも残してください。\n\n元と見本はIrodori-TTSの合成音声です。OpenVoiceのテキスト読み上げ、別言語への変換、人の録音の複製を試したように書かず、声の近さ・自然さ・語句の明瞭さを自動検査だけで保証しないでください。保存済み作例をライブ生成に見せないでください。\n",
+  "applied_skills": [
+    {
+      "name": "OpenVoice（固定版の実API）",
+      "source": "examples/openvoice-example/vendor/openvoice/openvoice/api.py",
+      "applied": "原典を変えず、通常のToneColorConverterでload_ckpt、4本のextract_se、3件のconvertとdetect_watermarkを実行。既定のWavMarkも実際に動かし、モデルと全テンソル・7WAVを照合しました。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/openvoice-example/tools/motion-reel/render.mjs",
+      "applied": "大きな概念図の合流・変形を、固定した実音声の時刻と合わせて36秒の縦横レイアウトで制作。任意時刻描画とフレーム確認を使います。"
+    },
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "用途を「合成した案内の声色を図から比較して保存」に絞り、2つの入力と変換後の関係、実音声、主操作を一つの図にまとめました。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "音声を用意",
+      "body": "独自の案内と声色の見本を、Irodori-TTSで用意しました。元は2本、見本は2種類です。"
+    },
+    {
+      "title": "声色を変える",
+      "body": "固定版OpenVoiceの実際のAPIで声色を取り出し、同じ案内の2声色と別の案内、計3件を変換しました。"
+    },
+    {
+      "title": "図から聞いて保存",
+      "body": "元の音声、声色の見本、変換後の図を押して比較。好みの声色を選んで実際のWAVを保存できます。"
+    }
+  ],
+  "limitations": [
+    "声色変換を試した作例です。OpenVoiceのテキスト読み上げ、MeloTTS、別言語への変換、実在者の録音の複製は試していません。",
+    "自然さ・語句の明瞭さ・声の近さを、ハッシュや数値の確認だけで保証していません。補助の自動転記は原音と変換後を別々に記録したもので、誤認識を含みます。制作担当の音声聴取と人による最終映像承認は未確認です。",
+    "原典の透かしを有効にし、元の変換WAV3件でSYEBISU!の復号一致を確認しました。編集やAAC圧縮後の残存は未確認です。",
+    "iOSを意識したレイアウトとブラウザーで確認していますが、実機iPhone/Safari・VoiceOverは未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "OpenVoice原典・固定コミット",
+      "url": "https://github.com/myshell-ai/OpenVoice/tree/74a1d147b17a8c3092dd5430504bd83ef6c7eb23"
+    },
+    {
+      "label": "原典MITライセンス",
+      "url": "examples/openvoice-example/vendor/openvoice/LICENSE"
+    },
+    {
+      "label": "公式OpenVoiceV2固定重み",
+      "url": "https://huggingface.co/myshell-ai/OpenVoiceV2/tree/f36e7edfe1684461a8343844af60babc2efbb727"
+    },
+    {
+      "label": "WavMark0.0.3 MIT",
+      "url": "examples/openvoice-example/vendor/wavmark/LICENSE"
+    },
+    {
+      "label": "公式WavMark固定重み",
+      "url": "https://huggingface.co/M4869/WavMark/tree/0ad3c7b74f641bddb61f6b85cdf2de0d93a5bfef"
+    },
+    {
+      "label": "実際の入出力",
+      "url": "examples/openvoice-example/outputs/voice-runs.json"
+    },
+    {
+      "label": "独立したPCM照合",
+      "url": "examples/openvoice-example/outputs/independent-checks.json"
+    },
+    {
+      "label": "別プロセスの実変換照合",
+      "url": "examples/openvoice-example/outputs/reproduction-checks.json"
+    },
+    {
+      "label": "補助の自動転記（誤認識を含む）",
+      "url": "examples/openvoice-example/outputs/transcript-checks.json"
+    },
+    {
+      "label": "手順と図の読み方",
+      "url": "examples/openvoice-example/outputs/method.md"
+    },
+    {
+      "label": "ソース一式",
+      "url": "examples/openvoice-example/source.zip"
+    },
+    {
+      "label": "元音声を作ったIrodori-TTS固定版・利用条件",
+      "url": "https://huggingface.co/Aratako/Irodori-TTS-v4.1-Small/tree/2b28324dc263ed5e6638b3cf3dd94c82ead07b4b"
+    },
+    {
+      "label": "TTS入力の生成条件とハッシュ",
+      "url": "examples/openvoice-example/input/tts-generation.json"
+    },
+    {
+      "label": "図・実音声・映像で確認した範囲",
+      "url": "examples/openvoice-example/verification.json"
+    },
+    {
+      "label": "映像で使う実素材8点のハッシュ",
+      "url": "examples/openvoice-example/video/assets/manifest.json"
+    }
+  ],
+  "license": "MIT（独自作例）・MIT（OpenVoice 原典と V2 の重み）",
+  "license_note": "OpenVoiceと公式V2重み、WavMark0.0.3と公式重み、Irodori-TTSの固定コードと重みはMIT。原典のソース・利用条件・固定版とハッシュを同梱し、モデル重みとcacheは除外しています。独自原稿・UI・映像編集ソースとMotion ReelはMITです。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "skill_license": "examples/openvoice-example/vendor/openvoice/LICENSE",
+  "video_note": "36秒・実音声あり。大きな概念図が動き、元音声・声色の見本・変換後を順に聞けます。縦版と横向き版を用意。説明用に編集した図と実音声で、ライブ変換の連続録画ではありません。",
+  "video_source": "examples/openvoice-example/video/index.html",
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "runtime_review": {
+    "status": "technical_qa_complete",
+    "execution": "Original default ToneColorConverter/config on CPU4threads, seed20261017/tau0.3; original extract_se4, convert3 and native WAV detect_watermark3. No constructor bypass or source change.",
+    "checks_total": 83,
+    "independent_pcm_checks": 116,
+    "fresh_process_audio_and_embeddings_byte_identical": true,
+    "watermark": "Original default WavMark ON; SYEBISU! decoded in all3 native converted WAVs. AAC/edit robustness unconfirmed.",
+    "audio_listening_confirmed": false,
+    "human_approval": false,
+    "model_scope": "Opus5.5 authored initial implementation and final concept UI/film. Production adapted input synthesis to user-requested Irodori TTS, reran original OpenVoice inference/independent checks, replaced actual audio/data/digests/labels, then rendered/verified/distributed. Diagram motion remains Opus-authored; original neural conversions are OpenVoice.",
+    "video": "36s/30fps/1080frames:720x1280 portrait and1280x720 wide; actual speech; deterministic frame/decode/native playback checked.",
+    "screen_review": "Large input/reference/output diagram; verified audio, V01/V03 switch, actual WAV save, failure recovery and phone viewports."
+  },
+  "guide_url": "case.html?id=openvoice-example",
+  "catalog_entry": {
+    "id": "resource-openvoice",
+    "name": "OpenVoice",
+    "tagline": "参照音声の声質を再現する音声変換ツール",
+    "category": "audio",
+    "kind": "モデル・ツール",
+    "summary": "参照音声の声質をもとに、別の発話へ声の特徴を反映できます。利用できる声を使って、言語や話し方の異なる音声を作り、聴き比べられます。",
+    "use_case": "利用できる声を使い、複数言語の短い音声表現を比較したいとき。",
+    "tags": [
+      "音声",
+      "音楽",
+      "モデル・ツール"
+    ],
+    "workflow": [
+      "利用できる参照音声と台本を用意する",
+      "対応するベースTTSと声質変換を実行する",
+      "声質、発音、言語ごとの読みを聞いて比べる"
+    ],
+    "requirements": [
+      "OpenVoiceと対応するベースTTSの環境",
+      "利用権のある参照音声"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/myshell-ai/OpenVoice/blob/74a1d147b17a8c3092dd5430504bd83ef6c7eb23/LICENSE",
+    "license_note": "公式READMEはV1・V2をMITと明記。外部のベースTTSや素材には、それぞれの条件が適用されます。",
+    "source_url": "https://github.com/myshell-ai/OpenVoice/tree/74a1d147b17a8c3092dd5430504bd83ef6c7eb23",
+    "guide_url": "case.html?id=openvoice-example",
+    "readme_url": "https://github.com/myshell-ai/OpenVoice/blob/74a1d147b17a8c3092dd5430504bd83ef6c7eb23/README.md",
+    "source_repository": "myshell-ai/OpenVoice",
+    "source_commit": "74a1d147b17a8c3092dd5430504bd83ef6c7eb23",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "固定版の実APIで合成音声4本から3件を声色変換。原典の既定WavMarkも使用し、独立PCM照合と別プロセス再実行を確認。MeloTTSや人の録音は使用していません。",
+    "prompt": "架空の「紙の博物館」の案内を、OpenVoice V2で2種類の合成声色へ変換し、大きな概念図から聞き比べてWAVを保存できる作例を作ってください。\n\n入力は input/voice-requests.json と、その4本の合成音声です。V01は「ようこそ案内→落ち着いた声」、V02は「閉館案内→落ち着いた声」、V03は「ようこそ案内→明るい声」。固定コミットの原典APIで、実音声から声色を取り出し、3件を実変換してください。原音と変換後を保全し、重みは公開物に含めません。\n\n画面と動画は「元の音声 ＋ 声色の見本 → OpenVoice → 変換後」の概念図を主役にしてください。短いラベルで、二つの入力が合流して声色が変わる関係を示し、図から実音声を再生・保存できるようにします。説明文と実行記録は折りたたんだ補足へ。動画は36秒で、実音声を聞く時間に図の強調を合わせ、最後に声色の選択とWAV保存を見せます。スマホ向け縦版と横向き版を作り、編集ソースも残してください。\n\n元と見本はIrodori-TTSの合成音声です。OpenVoiceのテキスト読み上げ、別言語への変換、人の録音の複製を試したように書かず、声の近さ・自然さ・語句の明瞭さを自動検査だけで保証しないでください。保存済み作例をライブ生成に見せないでください。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "2026-10-17に原典APIで3件実変換、83検査・独立PCM116照合・別プロセス一致、概念図の実再生とWAV保存・復旧、36秒の縦横解説を確認。聴感・人による最終承認・実機iOSは未確認。",
+    "reviewed_on": "2026-10-17",
+    "example_url": "examples/openvoice-example/index.html",
+    "image": "media/openvoice-example.webp",
+    "updated_on": "2026-10-17"
+  },
+  "video_width": 720,
+  "video_height": 1280,
+  "video_landscape": "media/openvoice-example-wide.mp4",
+  "requirements": [
+    "閲覧・聞き比べはブラウザーだけで利用できます。ライブ推論や音声のアップロードはありません。",
+    "同梱WAVの再変換にはPython3.10、記録したCPU依存、原典の固定重みが必要です。モデル重みとcacheは公開フォルダーの外に置きます。",
+    "原稿からの再合成は、固定版Irodori-TTSと別途準備した重み・依存を使います。重みとcacheは同梱しません。"
+  ],
+  "video_portrait": "media/openvoice-example.mp4",
+  "poster_portrait": "media/openvoice-example.webp",
+  "poster_landscape": "media/openvoice-example-wide.webp",
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/openvoice-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/openvoice-example-landscape-credited-ja-v3.mp4"
+}

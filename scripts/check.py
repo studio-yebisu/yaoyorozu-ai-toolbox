@@ -3,7 +3,8 @@ from html.parser import HTMLParser
 import hashlib
 import json
 from check_open_models import check_open_models
-from production_records import check_download_provenance, check_production_artifacts
+from production_records import check_download_asset, check_production_artifacts
+from mechanical_maintenance import MechanicalMaintenance
 from pathlib import Path
 import subprocess
 import re
@@ -15,22 +16,6 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / 'dist'
-
-
-def artifact_matches(relative, expected, branding):
-    actual = hashlib.sha256((DIST / relative).read_bytes()).hexdigest()
-    # Shared site presentation is maintained independently of historical demo production.
-    # Check its current owning source; demo-specific artifacts retain their pinned hashes.
-    shared = ROOT / 'src' / relative
-    if Path(relative).name == relative and shared.is_file():
-        return actual == hashlib.sha256(shared.read_bytes()).hexdigest()
-    if actual == expected:
-        return True
-    change = branding.get(relative)
-    if not change or change['before_sha256'] != expected or change['after_sha256'] != actual:
-        return False
-    # Preserve the runtime receipt and separately verify the named, post-processed artifact.
-    return change.get('kind') == 'product-name-replacement'
 
 
 def local_file(value, base=DIST):
@@ -56,9 +41,6 @@ class Links(HTMLParser):
 
 
 def main():
-    receipt = json.loads((DIST / 'data/production/site-branding-20261026.json').read_text('utf-8'))
-    branding = {change['path']: change for change in receipt['text_changes']}
-    credited = {change['previous_path']: change for change in receipt['credit_changes']}
     for page in DIST.rglob('*.html'):
         Links(page).feed(page.read_text('utf-8'))
     catalog = json.loads((DIST / 'data/catalog.json').read_text('utf-8'))
@@ -90,6 +72,7 @@ def main():
     cases = [json.loads(p.read_text('utf-8')) for p in sorted((DIST / 'data/cases').glob('*.json'))]
     validate_presentation_aggregate(published_cases, cases)
     assert cases, 'No finished case'
+    maintenance = MechanicalMaintenance(DIST, cases)
     local_file('MEDIA-LICENSE.md')
     downloads = json.loads((DIST / 'data/video-downloads.json').read_text('utf-8'))
     download_assets = {(a['case_id'], a['orientation']): a for a in downloads['assets']}
@@ -109,7 +92,7 @@ def main():
         assert proof['runtime']['status'] == 'passed', 'Resource runtime proof is incomplete'
         assert proof['runtime']['sample_count'] > 0, 'Executed resource has no real sample'
         assert proof.get('artifacts_sha256'), 'Resource artifact hashes missing'
-        check_production_artifacts(DIST, case, proof_path, proof)
+        check_production_artifacts(DIST, case, proof_path, proof, maintenance)
     for case in cases:
         for source in case.get('sources', []):
             if source.get('url'):
@@ -119,13 +102,12 @@ def main():
         local_file(case['video_license']['url'])
         for orientation in ('portrait', 'landscape'):
             asset = download_assets[case['id'], orientation]
-            assert asset['spec'] == 'credit-footer-english-v4', 'Obsolete credit composition'
             assert case['video_download_' + orientation] == asset['path'], 'Download link does not refer to the credited video'
             local_file(asset['path'])
             assert asset['source'] == case['video_' + orientation], 'Download was composed from another source'
             assert hashlib.sha256((DIST / asset['source']).read_bytes()).hexdigest() == asset['source_sha256'], 'Playback source changed after watermarking'
             assert hashlib.sha256((DIST / asset['path']).read_bytes()).hexdigest() == asset['sha256'], 'Credited download changed after verification'
-            check_download_provenance(DIST, case, asset)
+            check_download_asset(DIST, case, asset)
         for key in ('demo', 'video', 'poster', 'skill', 'samples'):
             local_file(case[key])
         variants = {}

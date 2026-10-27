@@ -1,0 +1,231 @@
+{
+  "id": "ace-step-example",
+  "title": "ACE-Step",
+  "title_lines": [
+    "テキストや歌詞から作曲する音楽生成モデル"
+  ],
+  "category": "audio",
+  "summary": "曲の雰囲気や歌詞を指定して、手元のPCで楽曲を生成できます。生成した音を聴きながら条件を調整し、音楽制作のアイデアを試せます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/ace-step-example/index.html",
+  "video": "media/ace-step-example.mp4",
+  "poster": "media/ace-step-example.webp",
+  "skill": "examples/ace-step-example/vendor/ace-step/README.md",
+  "skill_label": "ACE-Step 原典のREADME（Python APIの一次資料・SKILL.mdではない）",
+  "skill_description": "ace-step/ACE-Step の固定版にある README.md の原文です。AIエージェント向けの手順書（SKILL.md）でも、モデルそのものでもありません。ACE-Step の目的、インストール、使い方、Gradioの画面、学習、ライセンスと注意が書かれており、この作例ではそのうち Python API（acestep.pipeline_ace_step.ACEStepPipeline）で text2music を1回呼ぶ範囲だけを使いました。作者AIはこのREADMEと固定版の原典を読んで run_example.py を書き、実際に実行したのは制作担当です。実行したコードは examples/ace-step-example/run_example.py です。",
+  "samples": "examples/ace-step-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "渡した説明と設定、返ったWAV",
+  "samples_intro": "input は原典のAPIに渡した説明文と設定です（日本語の依頼文は説明用で、モデルには渡していません）。output は原典が保存したWAVと設定JSON、境界で観測した形、別工程で測った数値です。生成は1回だけで、冒頭や終わりを切り出した別のサンプルはありません。人による試聴はしていません。",
+  "demo_description": "大きな構造図が主役です。「①何か・②渡す・③返る」で同じ図の上の形の位置が変わり、README・原典のAPIと架空の依頼→作者AI 1体の実装と入力→制作担当が実行する原典のPython→説明文のUMT5条件と、20秒・seedの初期潜在、空の歌詞→Transformer（27stepは設定値）→圧縮潜在→DCAE・メル・vocoder→WAVと設定JSON→再生・保存、の関係をひと続きで見られます。番号の付いた6つの部品を押すと、固定版の原典の該当行を読めます。実際に返ったWAVは標準の再生ボタンで聞け、「全体・冒頭3秒へ・終わり3秒へ」で同じファイルの再生位置を移せます。全体のWAV・原典の設定JSON・実行の記録をそのまま保存できます。",
+  "demo_note": "ページは保存済みの25ファイルを大きさとSHA-256で確かめ、原典の引用の行も照合してから表示します。合わなければ図・音声・保存を止め、理由と「もう一度確かめる」を出します。ブラウザーでは音楽の生成もモデルの実行もしません。図の動きは構造の説明で、実際の処理時間ではありません。作者AI（Claude Opus 5.5）が実装と入力を書き、制作担当が手元のCPUで load_checkpoint を1回、__call__ を1回実行しました。",
+  "request_intro": "同じ経路を自分の音楽で試すときの依頼文です。手元でPythonとモデルを動かせるAIエージェントや開発者に渡してください。説明文・長さ・seedは自分のものに置き換えます。",
+  "request": "ACE-Step V1（ace-step/ACE-Step 固定コミット 1bee4c9f5b43e30995f8d4d33b3919197ce1bd68、パッケージ ace_step 0.2.0、Apache-2.0）の README と acestep/pipeline_ace_step.py を読み、モデル ACE-Step/ACE-Step-v1-3.5B（リビジョン 82cd0d7b6322bd28cd4e830fe675ddb6180ce36c）を手元に置いた状態で、短いインストゥルメンタルを1回だけ生成してください。v1.5 ではなく V1 を使います。\n\n準備：固定コミットのフルチェックアウトと、4つのサブディレクトリ（ace_step_transformer・music_dcae_f8c8・music_vocoder・umt5-base）のある重みを用意し、ファイルのハッシュを照合する。足りなければ黙ってダウンロードせず、取得の許可を求める。\n\n実行：ACEStepPipeline を作り、load_checkpoint を1回、__call__ を1回だけ呼ぶ。task=text2music、format=wav、audio_duration=<秒>、prompt=<英語の説明文>、lyrics=\"\"（インストゥルメンタルにしたいとき）、manual_seeds=<数字>、batch_size=1。既存の曲名・作者名・参照音声は使わない。出力をトリミング・正規化・フェード・ループ加工しない。\n\n記録：要求した長さと、保存されたWAVから測った実際の長さ・サンプルレート・チャンネル数・形式、原典が書いた *_input_params.json、実行環境とかかった時間（1回の値）を分けて書く。ピークやRMSなどの数値と、人が聴いた判断（楽器・テンポ・歌声や雑音の有無・終わり方・ループ）は別に記録し、聴いていなければ未確認と書く。\n",
+  "applied_skills": [
+    {
+      "name": "ACE-Step（ace-step/ACE-Step）の原典README と Python API",
+      "source": "https://github.com/ace-step/ACE-Step/blob/1bee4c9f5b43e30995f8d4d33b3919197ce1bd68/README.md",
+      "applied": "ACE-Stepは手元のPythonで動く音楽生成モデルで、READMEはAIが読む手順書（SKILL.md）ではなく、原典の説明とPython APIの一次資料です。固定版のREADME・setup.py・requirements.txt・infer.py・acestep/pipeline_ace_step.py（ACEStepPipeline の __init__・load_checkpoint・get_text_embeddings・text2music_diffusion_process・latents2audio・save_wav_file）・acestep/music_dcae/music_dcae_pipeline.py とモデルカードを読み、原典のAPIを1回だけ呼ぶ run_example.py と、1件の入力 inputs/jobs.json を書きました。制作担当が save_path を相対パスに変える補正だけをして、専用のCPU環境で1回実行し、成功しました。構造図の6つの部品は、これらのソースに基づく説明の整理で、公式の部品の区分ではありません。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824",
+      "applied": "時刻の契約（window.motionConfig・motionReady・seek(秒)・__MOTION_RENDER__・renderConfig の反映）に合わせて、作例ページと同じ concept.js の読み込み・検証・場面・描画で、無音32秒の編集用ソースを書きました。7つの場面それぞれに伝えること・入る状態・出る状態・動きを storyboard.json に持たせ、縦と横は配置を作り直して描き、乱数・タイマー・前のコマの積算を使わずに任意の時刻を描けるようにしています。audioEvents は空で、音声トラックはありません。制作担当が新図の18スマホ状態・6原典引用・16表示条件・3破損復旧、実WAVのネイティブ終端と3保存返却ファイルの全バイト一致、25素材編集・7場面・任意7.2秒・通常再生、代表/連続コマ、縦横32秒960フレーム無音MP4終端と出荷ソース62PNG一致を別工程で確認しました。人の聴取・音の品質・審美的承認・実機iOSは未確認です。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "手元のPythonで動く、音楽生成モデル",
+      "body": "ACE-Step V1は、ace-step/ACE-Step のPythonパッケージ ace_step 0.2.0（固定コミット 1bee4c9）と、別に配布される重み ACE-Step/ACE-Step-v1-3.5B（リビジョン 82cd0d7・公開・Apache-2.0）で動く音楽生成モデル／パイプラインです。ホスト型の音楽APIでも、SKILL.mdでも、ブラウザーの中のシンセサイザーでもありません。2026-01-28 に公開された v1.5 は別の版で、この作例では使っていません。"
+    },
+    {
+      "title": "原典のREADMEとAPIから、作者AIが実装と入力を書く",
+      "body": "作者AI（1体）が固定版のREADMEと pipeline_ace_step.py を読み、架空のパズルゲーム「こもれび小箱」のタイトル画面向けの依頼から、run_example.py と inputs/jobs.json を書きました。ジョブは1件で、英語の説明文、空の歌詞、要求20.0秒、seed 20261020、Euler／APG・27step（設定値）です。楽器・テンポ・雰囲気は要望で、実現したかは測っていません。作者は実行も試聴もしていません。"
+    },
+    {
+      "title": "制作担当が、原典のPython APIを1回だけ実行する",
+      "body": "制作担当が固定版のソースと公式のモデルファイルのハッシュを照合し、専用の Python 3.11.15・torch 2.6.0+cpu・float32 の環境で、ACEStepPipeline の load_checkpoint を1回（9.09秒）、__call__ を1回（220.98秒）実行しました。実行前の補正は、save_path を相対パスにしたことだけです。CPUにしたのは承認済みの別のGPU作業が動いていたためで、時間は1回きりの値でベンチマークではありません。"
+    },
+    {
+      "title": "説明文は条件に、長さとseedは潜在に、潜在は音に",
+      "body": "原典の中で、説明文はUMT5の特徴 1×33×768 とマスク 1×33 になり、空の歌詞は既定のID/マスク0になります。20.0秒は int(20×44100/512/8)=215 の潜在長に、seed は初期の乱数になります。Transformer が返した圧縮潜在 1×8×16×215 を、DCAEがメルに、vocoderが左右の波形にし、原典の内部で44.1kHzから48kHzへ変換して保存しました。形は境界で観測した値で、attention や各stepの途中は観測していません。"
+    },
+    {
+      "title": "保存されたWAVと設定JSONを確かめて使う",
+      "body": "原典が書いたのは、48kHz・2チャンネル・32-bit浮動小数のWAV（7,668,248バイト、958,520フレーム＝19.969167秒、要求より30.833ミリ秒短い）と、隣の設定JSON（1,381バイト）です。どちらもバイト単位でそのまま公開し、制作担当はトリミング・正規化・フェード・ループ加工をしていません。別工程の数値はピーク0.995・末尾0.5秒のRMS 4.1×10⁻⁵ ですが、ノイズや終わり方の判断にはなりません。使う前に自分の耳で冒頭・終わり・ノイズ・歌声らしい音の有無を確かめ、公開するときはAI生成であることを明記します。"
+    }
+  ],
+  "limitations": [
+    "人による試聴はしていません。楽器・テンポ・雰囲気・歌声らしい音や雑音の有無・終わり方・ループ・独創性・既存曲との類似は未確認です。",
+    "楽器・テンポ・雰囲気・インストゥルメンタルであることは要望で、実現したかは測っていません。歌詞を空にしても、歌声が無いとは言えません。",
+    "20.0秒は要求値で、保存されたWAVは19.969167秒です。20秒ちょうどに揃えたり、ループ用に加工したりしていません。",
+    "44.1kHz→48kHzの変換は原典のデコードの中で起きています。制作担当による追加のリサンプリング・正規化・フェード・トリミング・再エンコードはありません。",
+    "ピーク・RMS・末尾0.5秒などの数値は別工程の測定で、ノイズが無いことや自然に終わることの証明ではありません。",
+    "Pythonの境界の時刻と形は実測ですが、attention・各step・初期の乱数・実際のメル・guidanceの効き方は観測していません。use_erg_tag による空文字側の埋め込み呼び出しも観測していません。図の格子とメルは説明図で、時刻は演出です。",
+    "1回きりのCPUの時間（読み込み9.09秒・__call__ 220.98秒）は、速さの比較やベンチマークではありません。",
+    "生成は1件・1回だけです。V1.5、Gradio、ComfyUI、LoRA、audio2audio、retake、repaint、edit、extend、学習、MERT・m-hubert は使っていません。",
+    "vendor/ace-step/ の16ファイルだけでは動きません。再現にはフルチェックアウトと、別に用意する依存と約8.3GBのモデルファイルが必要です。重み・キャッシュ・実行環境は同梱していません。",
+    "図の6部品は説明用の整理です。制作担当の図・編集・MP4の確認範囲は visual-verification.json に記録し、人の聴取・審美的承認、実機iPhone Safari・VoiceOver・200%拡大は未確認です。",
+    "架空のゲーム「こもれび小箱」向けの作例で、実在のゲームとは関係なく、組み込みや本番採用もしていません。"
+  ],
+  "sources": [
+    {
+      "label": "ace-step/ACE-Step（固定コミット 1bee4c9）",
+      "url": "https://github.com/ace-step/ACE-Step/tree/1bee4c9f5b43e30995f8d4d33b3919197ce1bd68"
+    },
+    {
+      "label": "ACE-Step 原典のREADME（固定版）",
+      "url": "https://github.com/ace-step/ACE-Step/blob/1bee4c9f5b43e30995f8d4d33b3919197ce1bd68/README.md"
+    },
+    {
+      "label": "ACEStepPipeline（acestep/pipeline_ace_step.py・固定版）",
+      "url": "https://github.com/ace-step/ACE-Step/blob/1bee4c9f5b43e30995f8d4d33b3919197ce1bd68/acestep/pipeline_ace_step.py"
+    },
+    {
+      "label": "DCAEとvocoderによるデコード（acestep/music_dcae/music_dcae_pipeline.py・固定版）",
+      "url": "https://github.com/ace-step/ACE-Step/blob/1bee4c9f5b43e30995f8d4d33b3919197ce1bd68/acestep/music_dcae/music_dcae_pipeline.py"
+    },
+    {
+      "label": "モデル ACE-Step/ACE-Step-v1-3.5B（リビジョン 82cd0d7）",
+      "url": "https://huggingface.co/ACE-Step/ACE-Step-v1-3.5B/tree/82cd0d7b6322bd28cd4e830fe675ddb6180ce36c"
+    },
+    {
+      "label": "実際に実行したランナー run_example.py",
+      "url": "examples/ace-step-example/run_example.py"
+    },
+    {
+      "label": "実装メモ（作者AI）",
+      "url": "examples/ace-step-example/implementation.md"
+    },
+    {
+      "label": "1件の入力",
+      "url": "examples/ace-step-example/inputs/jobs.json"
+    },
+    {
+      "label": "原典が保存したWAV",
+      "url": "examples/ace-step-example/outputs/audio/cozy-puzzle-bgm_seed20261020.wav"
+    },
+    {
+      "label": "原典が保存した設定JSON",
+      "url": "examples/ace-step-example/outputs/audio/cozy-puzzle-bgm_seed20261020_input_params.json"
+    },
+    {
+      "label": "戻り値の公開用の写し",
+      "url": "examples/ace-step-example/outputs/return.public.json"
+    },
+    {
+      "label": "実行の記録（制作担当が選んだ要約）",
+      "url": "examples/ace-step-example/outputs/execution.json"
+    },
+    {
+      "label": "モデルカードとファイルのピン",
+      "url": "examples/ace-step-example/model-card/pin.json"
+    },
+    {
+      "label": "同梱した原典16ファイルの一覧",
+      "url": "examples/ace-step-example/UPSTREAM.json"
+    },
+    {
+      "label": "図の事実と原典の引用",
+      "url": "examples/ace-step-example/concept/facts.json"
+    },
+    {
+      "label": "保存WAVの実際の振幅の包絡",
+      "url": "examples/ace-step-example/concept/waveforms.json"
+    },
+    {
+      "label": "確かめる25ファイルの一覧",
+      "url": "examples/ace-step-example/concept/manifest.json"
+    },
+    {
+      "label": "第三者の表示",
+      "url": "examples/ace-step-example/THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "label": "作例の README（役割・実行の範囲・再現の手順）",
+      "url": "examples/ace-step-example/README.md"
+    },
+    {
+      "label": "解説動画の絵コンテ",
+      "url": "examples/ace-step-example/video/storyboard.json"
+    },
+    {
+      "label": "図と動画の確認範囲（制作担当が記録）",
+      "url": "examples/ace-step-example/visual-verification.json"
+    },
+    {
+      "label": "編集ソースと実出力一式 ZIP",
+      "url": "examples/ace-step-example/source.zip"
+    }
+  ],
+  "license": "Apache-2.0（ACE-Step のソースとモデル）／MIT（この作例）",
+  "license_note": "ACE-Step のソースは Apache License 2.0（Copyright 2025 Timedomain Inc. and stepfun）で、固定版から選んだ16ファイルを vendor/ace-step/ に原文のまま置いています（LICENSE と各ファイルの著作権表示を含む）。この16ファイルだけでは動きません。原典には Hugging Face・StabilityAI・Katherine Crowson などに由来する部分があり、その表示は各ファイルに残しています。モデル ACE-Step/ACE-Step-v1-3.5B は公開・ゲートなしの Apache-2.0 で、モデルカードと公式のハッシュを model-card/ に置き、重み・トークナイザーは同梱していません。PyTorch・Diffusers・Transformers などの依存と実行環境は再配布しておらず、それぞれのライセンスに従います。ページ・図・文章・動画のソースとランナーは 八百万図AIツールボックス の制作（Claude Opus 5.5）で MIT です。生成されたWAVは固定版V1モデルによるAI生成物で、独創性や既存曲との類似は確認していません。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "skill_license": "examples/ace-step-example/vendor/ace-step/LICENSE",
+  "video_note": "32秒・30fps・無音の構造図の動画です。縦720×1280と横1280×720を別配置で描きます。READMEと依頼の書類が作者AIで実装と入力になり、制作担当の1回の実行で説明文のトークンと、長さ・seedの格子に分かれ、Transformerで整った格子がメルへ、そして保存WAVの実際の包絡の波形へ形を変えて、WAVと設定JSON・再生へ届きます。ナレーション・音声トラックはなく、音楽WAVはデモのプレイヤーで聞けます。制作担当が新図の18スマホ状態・6原典引用・16表示条件・3破損復旧、実WAVのネイティブ終端と3保存返却ファイルの全バイト一致、25素材編集・7場面・任意7.2秒・通常再生、代表/連続コマ、縦横32秒960フレーム無音MP4終端と出荷ソース62PNG一致を別工程で確認しました。人の聴取・音の品質・審美的承認・実機iOSは未確認です。",
+  "video_source": "examples/ace-step-example/video/index.html",
+  "updated_on": "2026-10-21",
+  "featured": false,
+  "verification_stage": "runtime-reviewed",
+  "guide_url": "case.html?id=ace-step-example",
+  "catalog_entry": {
+    "id": "resource-ace-step",
+    "name": "ACE-Step",
+    "tagline": "テキストや歌詞から作曲する音楽生成モデル",
+    "category": "audio",
+    "kind": "モデル・ツール",
+    "summary": "曲の雰囲気や歌詞を指定して、手元のPCで楽曲を生成できます。生成した音を聴きながら条件を調整し、音楽制作のアイデアを試せます。",
+    "use_case": "短い曲の構想を手元のPCで音にして、雰囲気や長さを自分の耳で確かめたいとき。",
+    "tags": [
+      "音声",
+      "音楽",
+      "モデル・ツール"
+    ],
+    "workflow": [
+      "固定版のフルチェックアウトとV1の重みを用意し、ファイルのハッシュを照合する",
+      "ACEStepPipeline で load_checkpoint と text2music の __call__ を1回ずつ呼び、WAVと設定JSONを保存する",
+      "要求した長さと実際の長さを分けて記録し、冒頭・終わり・ノイズ・歌声の有無を自分の耳で確かめてから使う"
+    ],
+    "requirements": [
+      "Python 3.11 と固定版 ACE-Step のフルチェックアウト、推論の依存（CPUでも動くが、原典の速度表はGPUの値で条件が違う）",
+      "ACE-Step-v1-3.5B の重み（公開・Apache-2.0、約8.3GB）と、使う歌詞や素材の利用条件"
+    ],
+    "license": "Apache-2.0",
+    "license_url": "https://github.com/ace-step/ACE-Step/blob/1bee4c9f5b43e30995f8d4d33b3919197ce1bd68/LICENSE",
+    "license_note": "確認したコードはApache-2.0。作例で使ったモデル ACE-Step-v1-3.5B もモデルカードでApache-2.0と確認しました。既存曲や歌詞の権利まで許諾されるとは扱わず、生成物の独創性は利用者が確かめます。",
+    "source_url": "https://github.com/ace-step/ACE-Step/tree/1bee4c9f5b43e30995f8d4d33b3919197ce1bd68",
+    "guide_url": "case.html?id=ace-step-example",
+    "readme_url": "https://github.com/ace-step/ACE-Step/blob/1bee4c9f5b43e30995f8d4d33b3919197ce1bd68/README.md",
+    "source_repository": "ace-step/ACE-Step",
+    "source_commit": "1bee4c9f5b43e30995f8d4d33b3919197ce1bd68",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。原典は確認時のコミットへ固定しています。作例では固定版の原典のPython APIで、ACE-Step-v1-3.5B による text2music を1回実行し、保存されたWAVと原典の設定JSONを保全しています。",
+    "prompt": "ACE-Step V1（ace-step/ACE-Step 固定コミット 1bee4c9f5b43e30995f8d4d33b3919197ce1bd68、パッケージ ace_step 0.2.0、Apache-2.0）の README と acestep/pipeline_ace_step.py を読み、モデル ACE-Step/ACE-Step-v1-3.5B（リビジョン 82cd0d7b6322bd28cd4e830fe675ddb6180ce36c）を手元に置いた状態で、短いインストゥルメンタルを1回だけ生成してください。v1.5 ではなく V1 を使います。\n\n準備：固定コミットのフルチェックアウトと、4つのサブディレクトリ（ace_step_transformer・music_dcae_f8c8・music_vocoder・umt5-base）のある重みを用意し、ファイルのハッシュを照合する。足りなければ黙ってダウンロードせず、取得の許可を求める。\n\n実行：ACEStepPipeline を作り、load_checkpoint を1回、__call__ を1回だけ呼ぶ。task=text2music、format=wav、audio_duration=<秒>、prompt=<英語の説明文>、lyrics=\"\"（インストゥルメンタルにしたいとき）、manual_seeds=<数字>、batch_size=1。既存の曲名・作者名・参照音声は使わない。出力をトリミング・正規化・フェード・ループ加工しない。\n\n記録：要求した長さと、保存されたWAVから測った実際の長さ・サンプルレート・チャンネル数・形式、原典が書いた *_input_params.json、実行環境とかかった時間（1回の値）を分けて書く。ピークやRMSなどの数値と、人が聴いた判断（楽器・テンポ・歌声や雑音の有無・終わり方・ループ）は別に記録し、聴いていなければ未確認と書く。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "原典V1のload_checkpoint1/call1をCPU/float32で実行し、1WAV7668248B・48kHz stereo FLOAT32・958520f=19.969167秒（要求20秒）と原設定JSON1381Bを保全。制作担当が新図の18スマホ状態・6原典引用・16表示条件・3破損復旧、実WAVのネイティブ終端と3保存返却ファイルの全バイト一致、25素材編集・7場面・任意7.2秒・通常再生、代表/連続コマ、縦横32秒960フレーム無音MP4終端と出荷ソース62PNG一致を別工程で確認しました。人の聴取・音の品質・審美的承認・実機iOSは未確認です。",
+    "reviewed_on": "2026-10-20",
+    "example_url": "examples/ace-step-example/index.html",
+    "image": "media/ace-step-example.webp"
+  },
+  "video_width": 720,
+  "video_height": 1280,
+  "video_landscape": "media/ace-step-example-wide.mp4",
+  "requirements": [
+    "閲覧・試聴・保存はブラウザーだけで利用できます。音楽の生成・アップロード・モデルの実行はありません。",
+    "同じ経路を自分で実行するには、固定版 ACE-Step のフルチェックアウト、Python 3.11 と推論の依存（今回は torch 2.6.0+cpu・diffusers 0.33.1・transformers 4.50.0・accelerate 1.6.0・peft 0.15.2・spacy 3.8.4・numpy 2.2.6 など）、ACE-Step-v1-3.5B の重み（リビジョン 82cd0d7、約8.3GB）を別に用意します。手順は作例の README にあります。"
+  ],
+  "video_portrait": "media/ace-step-example.mp4",
+  "poster_portrait": "media/ace-step-example.webp",
+  "poster_landscape": "media/ace-step-example-wide.webp",
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/ace-step-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/ace-step-example-landscape-credited-ja-v3.mp4"
+}

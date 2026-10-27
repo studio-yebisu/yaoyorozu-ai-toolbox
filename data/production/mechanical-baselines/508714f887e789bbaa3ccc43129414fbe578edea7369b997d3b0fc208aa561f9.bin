@@ -1,0 +1,70 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'self'"><title>工房のTODO | 期限の絞り込み作例</title><link rel="stylesheet" href="style.css"></head><body><main>
+<p class="eyebrow">八百万図AIツールボックス / 合成データの作例</p>
+<h1>工房のTODO</h1>
+<p>このページの中だけで動きます。再読込すると合成データ6件に戻ります。</p>
+<p class="lede">架空の工房のTODOに「期限が指定日まで」の絞り込みを足した作例です。一覧は同梱の <code>tasks.mjs</code> をこの場で読み込んで計算しています。このページではAIは動かず、入力は外へ送りません。</p>
+<section aria-labelledby="list-title"><h2 id="list-title">やること</h2>
+<nav class="presets" aria-labelledby="presets-title"><h3 id="presets-title">記録した3つの例</h3><ul>
+<li id="due-open"><a href="#due-open" data-preset="due-open" data-status="open" data-cutoff="2026-10-15"><b>未完了を指定日まで</b><span>状態 未完了 ／ 期限 2026-10-15</span></a></li>
+<li id="due-all"><a href="#due-all" data-preset="due-all" data-status="all" data-cutoff="2026-10-15"><b>完了も含めて指定日まで</b><span>状態 すべて ／ 期限 2026-10-15</span></a></li>
+<li id="no-cutoff"><a href="#no-cutoff" data-preset="no-cutoff" data-status="all" data-cutoff=""><b>期限の条件を外す</b><span>状態 すべて ／ 期限 指定なし</span></a></li>
+</ul></nav>
+<div class="filters"><label>状態<select id="status"><option value="all">すべて</option><option value="open">未完了</option><option value="done">完了</option></select></label><label>期限（この日まで）<input id="cutoff" type="date" min="1000-01-01" max="9999-12-31" aria-describedby="cutoff-error"></label><button type="button" id="cutoff-clear" disabled>期限の指定を外す</button></div><p id="cutoff-error" role="alert" hidden></p><p id="count" role="status" aria-live="polite"></p><p id="origin" class="origin"></p><p id="empty" hidden>該当するTODOはありません。</p><ul id="tasks" aria-label="TODO一覧"></ul></section>
+<section aria-labelledby="add-title"><h2 id="add-title">TODOを追加</h2><form id="add-form"><label>名前<input id="title" maxlength="80" required></label><label>期限（任意）<input id="due" type="date" min="1000-01-01" max="9999-12-31"></label><button>追加する</button></form><p id="error" role="alert" hidden></p></section>
+<section aria-labelledby="checks-title"><h2 id="checks-title">確認した範囲</h2>
+<p>仕様と計画は制作担当が先に決め、人による段階承認はしていません。</p>
+<div class="checks"><div><h3>コードと実行結果</h3><ul>
+<li>2回の実RED/GREEN、最後のテスト5件成功。別の36条件はUTC+9・UTC+14・UTC−7で同じ結果（<a href="tdd-history.json">記録</a>）。</li>
+<li>比較の &lt;= を &lt; にすると1件失敗し、復元すると5件成功（<a href="mutation.json">条件反転</a>）。</li>
+<li>元のTODO差分をOpus著者とは別のCodex親が5軸でレビューし、修正必須0件。紹介用の画面と動画は対象外（<a href="core-review.json">レビュー範囲</a>）。</li>
+</ul></div><div><h3>画面と動画</h3><ul>
+<li>3つの例、追加・完了・解除・0件、0999年への案内と回復、キーボード操作、320/768/1024/1440pxを確認。</li>
+<li>依頼文のOSコピー1590文字とUTF-8の別ページが一致。28秒の無音MP4を終端まで再生。</li>
+<li>支援技術向けの名前・構造と警告ログを確認。NVDA/JAWS、axe、WCAG全項目の適合審査はしていません。自動検査と制作担当の確認で、人の承認ではありません。</li>
+</ul></div></div></section>
+<section aria-labelledby="request-title"><h2 id="request-title">同じ進め方を頼む依頼文</h2>
+<p>Agent Skills のファイルを読めるコーディングエージェントに渡します。【】を自分の依頼と対象に置き換えてください。スキル集のインストールは必須ではありません。</p>
+<label class="request-label">依頼文<textarea id="request" readonly rows="14">Addy Osmani の Agent Skills（addyosmani/agent-skills、固定コミット aeac41d4d005999432bb7312f7ff06383a91d59d）から、次のファイルを読んでから作業してください。スキルを1つずつ入れる方法ではリポジトリ直下の references/ が付いてこないため、下の参照ファイルもリポジトリから直接読んでください。
+- skills/using-agent-skills/SKILL.md（工程に合うスキルの選び方）
+- skills/spec-driven-development/SKILL.md と references/definition-of-done.md
+- skills/planning-and-task-breakdown/SKILL.md
+- skills/incremental-implementation/SKILL.md
+- skills/test-driven-development/SKILL.md と references/testing-patterns.md
+- skills/code-review-and-quality/SKILL.md
+- 画面を変えるときは skills/frontend-ui-engineering/SKILL.md と references/accessibility-checklist.md
+
+依頼：【例：小さなTODOアプリへ期限の絞り込みを追加して。まず仕様と完成条件を整理し、実装後に境界値と既存操作も確認してほしい。】
+対象のフォルダとファイル：【例：todo/ の tasks.mjs・app.mjs・index.html】
+テストと確認のコマンド：【例：npm test と npm run check】
+変えてはいけないもの：【例：依存パッケージ、保存の方法、既存の追加と完了の切り替え】
+
+進め方：
+1. コードはまだ書かず、SPEC.md に仕様だけを書いてください。目的・コマンド・ファイル構成・コードの書き方・テストの方針・境界（必ず行う／先に聞く／行わない）の6つを含め、曖昧な点は推測で埋めずに前提として並べ、入力と期待値を固定した受入条件と、未確認の点を分けてください。書いたら止まり、私の確認を待ってください。
+2. 確認のあと、tasks/plan.md と tasks/todo.md に、画面まで通る小さな増分ごとの計画を作り、各増分に受入条件と確認方法を付けてください。
+3. 増分ごとに、新しいテストを先に足して実行し、狙いどおりの理由で失敗するのを確かめてから、通るだけの最小の変更をしてください。全テストと確認コマンドが成功してから commit し、次の増分へ進んでください。
+4. 全増分のあと、境界値（例：当日、前日、翌日、期限なし、実在しない日付、別のタイムゾーン）と既存の操作を確かめてください。さらに、追加した条件を1か所わざと反転してテストが失敗することを確かめ、元に戻してください。
+5. 正しさ・読みやすさ・設計・セキュリティ・性能の5つの観点で差分をレビューし、指摘と対応を書いてください。
+6. 画面を変えた場合は、ラベル、見出しの順、キーボード操作とフォーカスの見え方、色だけに頼らない表示、0件と入力エラーの表示、幅320・768・1024・1440pxを実際のブラウザーで確かめてください。確かめられなければ「未確認」と書いてください。
+
+報告では、各段の実行コマンド・終了コード・テストの成功数と失敗数を実際の出力から書き、確かめたことと未確認のこと、人が承認したことと承認していないことを分けてください。</textarea></label>
+<div class="copy-row"><button type="button" id="copy-request">依頼文をコピー</button><a href="request.html">依頼文だけのページ</a><a href="request.txt">テキスト（request.txt）</a></div>
+<p id="copy-status" role="status" aria-live="polite"></p></section>
+<section aria-labelledby="files-title"><h2 id="files-title">ファイル</h2>
+<details><summary>仕様・計画・コード・テスト・記録・原典の一覧</summary><dl class="files">
+<dt><a href="SPEC.md">SPEC.md</a></dt><dd>コードより先に書いた仕様。6つの領域、制作担当が決めた前提、受入条件、未確認の点</dd>
+<dt><a href="plan/plan.md">plan/plan.md</a>・<a href="plan/todo.md">plan/todo.md</a></dt><dd>2つの増分に分けた計画とチェックポイント</dd>
+<dt><a href="tasks.mjs">tasks.mjs</a></dt><dd>期限の絞り込みと日付の検証（このページも同じファイルを使う）</dd>
+<dt><a href="app.mjs">app.mjs</a></dt><dd>画面の配線。判定は持たない</dd>
+<dt><a href="tasks.test.mjs">tasks.test.mjs</a></dt><dd>最後のテスト5件</dd>
+<dt><a href="seed.json">seed.json</a></dt><dd>架空のTODO6件</dd>
+<dt><a href="changes.diff">changes.diff</a>・<a href="baseline/tasks.mjs">baseline/</a></dt><dd>変更前のコードと、変更の差分</dd>
+<dt><a href="tdd/red1/record.json">tdd/</a></dt><dd>各段（baseline・red1・green1・red2・green2）のコードとテストと実行記録</dd>
+<dt><a href="results.json">results.json</a>・<a href="samples.json">samples.json</a></dt><dd>3つの例の保存結果</dd>
+<dt><a href="input.md">input.md</a></dt><dd>架空の依頼と、制作担当の事前の決め方</dd>
+<dt><a href="guide.mjs">guide.mjs</a></dt><dd>このページの例のリンクと依頼文のコピー。絞り込みは計算しない</dd>
+<dt><a href="video/legacy.html">video/legacy.html</a></dt><dd>28秒の解説動画の編集ソース</dd>
+<dt><a href="README.md">README.md</a></dt><dd>再現の手順</dd>
+<dt><a href="vendor/addy-agent-skills/README.md">vendor/addy-agent-skills/</a></dt><dd>原典から選んだ README・LICENSE・7つの SKILL.md・3つの参照ファイル</dd>
+</dl></details></section>
+<p class="license">画面・文言・依頼文・合成データ・コード・テスト・記録・映像ソースは 八百万図AIツールボックス の独自制作で MIT License（<a href="LICENSE">LICENSE</a>）。<code>vendor/addy-agent-skills/</code> は Addy Osmani の Agent Skills から選んだファイルで、上流の MIT License（<a href="vendor/addy-agent-skills/LICENSE">Copyright (c) 2025 Addy Osmani</a>）に従います。</p>
+<p><a href="../../case.html?id=addy-engineering-skills-example">作例の記事へ</a></p></main><script type="module" src="app.mjs"></script><script type="module" src="guide.mjs"></script></body></html>

@@ -1,0 +1,128 @@
+{
+  "id": "tanstack-ai-example",
+  "name": "TanStack AI",
+  "title": "TanStack AI",
+  "title_lines": [
+    "チャットに、型付きの道具を足す。"
+  ],
+  "category": "development",
+  "summary": "ストリーミングチャットやツール呼び出しをアプリへ組み込むTypeScript SDK。読み取り専用のget_productsを1つ定義し、実モデル（claude-opus-5-5）に2問を実行した記録を、この作例のページで時系列どおりに再生できる。入力の型ゲートをくぐる道具の呼び出しと、型つきの商品カードの返り値を見る。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/tanstack-ai-example/index.html",
+  "video": "media/tanstack-ai-example.mp4",
+  "poster": "media/tanstack-ai-example.webp",
+  "skill": "examples/tanstack-ai-example/run.mjs",
+  "skill_label": "実モデルで2問を実行するNode.jsの再現コード",
+  "skill_description": "@tanstack/ai 1.0.0系で読み取り専用のget_productsを1つ定義し、claude-opus-5-5に2問を実行してイベントを記録するrun.mjsです。既存のClaude Codeログインを使い、APIキーは注入しません。",
+  "samples": "examples/tanstack-ai-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "実行した2問",
+  "samples_intro": "青いマグを探す／予算内を探す。実際のプロンプト、モデルの応答、道具の入出力、記録されたストリーミングイベントをそのまま見られます。",
+  "demo_description": "実モデルで実行した2問の記録を、質問・ツールの入力・応答・商品カードの順に再生するページです。質問の切替と再生位置の操作ができます。",
+  "demo_note": "ページは実行記録の再生です。ブラウザーからモデルやツールは呼ばず、2026-10-24に実際に実行した2問の記録を表示します。",
+  "request_intro": "既存のWebアプリに、小さなチャットと読み取り用の道具を1つ足したいときの依頼文です。",
+  "request": "TanStack AI の固定版原典（https://github.com/TanStack/ai/tree/98055ca01af9e449d039f61e380b0d3c158acbb1）を読み、今あるWebアプリに小さなチャット機能を追加してください。\n1. 既存のUIとサーバー構成、利用可能なモデル接続先を確認し、core・アダプター・UI向けパッケージの構成を決めてください。\n2. ストリーミング応答と、架空の商品3件から名前を検索する読み取り専用ツールを1つ実装してください。入力と出力の型も定義してください。\n3. APIキーが必要な接続はサーバー側で扱い、鍵が未設定ならモックで画面を確認し、モデルとの実接続は未確認と記録してください。新しい課金や認証は始めないでください。\n4. 応答表示、ツール呼び出し、失敗時の表示を確認してください。core 1.0を入口とし、実験段階の@tanstack/ai-harnessと@tanstack/ai-harness-cliは今回の必須構成に含めないでください。\n入力、出力、使用版、実行した検証、未確認の点を記録してください。",
+  "video_note": "26秒・30fps・音声なし。縦540×960、横960×540。実記録の質問・道具・商品カードを図でつなぐ。",
+  "video_source": "examples/tanstack-ai-example/video/index.html",
+  "skill_license": "examples/tanstack-ai-example/third-party/tanstack-LICENSE",
+  "license_note": "ページ・図・映像コードはMIT。TanStack AI のソースはMIT（同梱のコピーあり）で、別物です。接続先モデル・API・クラウドの条件と料金は別。",
+  "applied_skills": [
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel",
+      "applied": "claude-opus-5-5が図・ページ・映像コードを執筆。26秒・30fps・縦横の個別構図で、実行記録の実データだけから描きます。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "道具を定義",
+      "body": "zodで入出力の型を決め、架空カタログ3件を読むget_productsをサーバー側に1つだけ用意。"
+    },
+    {
+      "title": "実モデルで2問を実行",
+      "body": "@tanstack/ai 1.0.0系・@tanstack/ai-claude-code経由でclaude-opus-5-5に2問。道具の呼び出しと応答をイベントごと記録。"
+    },
+    {
+      "title": "記録を再生して映像化",
+      "body": "公開ページで時系列どおりに再生。26秒の無音リールとして編集ソースを残す。"
+    }
+  ],
+  "catalog_entry": {
+    "id": "resource-tanstack-ai",
+    "name": "TanStack AI",
+    "tagline": "今あるアプリに、チャットやAIの道具を組み込む。",
+    "category": "development",
+    "kind": "ライブラリ",
+    "summary": "ストリーミングチャット、ツール呼び出し、構造化出力、音声・画像生成などをアプリへ組み込むTypeScript SDK。モデル提供元のアダプターと、React・Vue・Solid・SvelteなどのUI向けパッケージを選んで使う。",
+    "use_case": "既存の編集画面や社内ツールに、AIとの会話やデータ検索、画像生成の操作を加えたいとき。",
+    "tags": [
+      "TypeScript",
+      "アプリ開発",
+      "チャット",
+      "ツール呼び出し",
+      "ライブラリ"
+    ],
+    "workflow": [
+      "使うUIとモデル接続先を決め、core・アダプター・必要なUI向けパッケージを選ぶ",
+      "サーバー側のchat()とUI側のストリーム表示をつなぎ、小さな読み取り用ツールを1つ定義する",
+      "応答の表示、ツールの入出力、エラー時の挙動を確認する。長く動く会話用の@tanstack/ai-harnessと@tanstack/ai-harness-cliは実験段階なので、core 1.0と区別する"
+    ],
+    "requirements": [
+      "TypeScriptの開発環境。確認したcore 1.0.0のNode.js要件は18以上で、採用するUI・実行環境の要件も確認する",
+      "利用するモデルの接続先。クラウドを使う場合はAPI認証と利用料が別途必要。ローカル向けのOllamaアダプターもある"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/TanStack/ai/blob/98055ca01af9e449d039f61e380b0d3c158acbb1/LICENSE",
+    "license_note": "SDKのコードはMIT。接続先のモデル・API・クラウドの利用条件と料金は別です。core 1.0の安定化は、実験段階の@tanstack/ai-harnessと@tanstack/ai-harness-cliのAPI安定性を保証しません。",
+    "source_url": "https://github.com/TanStack/ai/tree/98055ca01af9e449d039f61e380b0d3c158acbb1",
+    "guide_url": "case.html?id=tanstack-ai-example",
+    "readme_url": "https://github.com/TanStack/ai/blob/98055ca01af9e449d039f61e380b0d3c158acbb1/README.md",
+    "source_repository": "TanStack/ai",
+    "source_commit": "98055ca01af9e449d039f61e380b0d3c158acbb1",
+    "source_note": "README、core 1.0.0のpackage.jsonとAPI公開コード、導入概要、harnessの実験段階に関する説明、MITライセンスを確認。原典は確認時のコミットへ固定しています。",
+    "prompt": "TanStack AI の固定版原典（https://github.com/TanStack/ai/tree/98055ca01af9e449d039f61e380b0d3c158acbb1）を読み、今あるWebアプリに小さなチャット機能を追加してください。\n1. 既存のUIとサーバー構成、利用可能なモデル接続先を確認し、core・アダプター・UI向けパッケージの構成を決めてください。\n2. ストリーミング応答と、架空の商品3件から名前を検索する読み取り専用ツールを1つ実装してください。入力と出力の型も定義してください。\n3. APIキーが必要な接続はサーバー側で扱い、鍵が未設定ならモックで画面を確認し、モデルとの実接続は未確認と記録してください。新しい課金や認証は始めないでください。\n4. 応答表示、ツール呼び出し、失敗時の表示を確認してください。core 1.0を入口とし、実験段階の@tanstack/ai-harnessと@tanstack/ai-harness-cliは今回の必須構成に含めないでください。\n入力、出力、使用版、実行した検証、未確認の点を記録してください。",
+    "source_path": "",
+    "source_project": "curated",
+    "verification_stage": "runtime-reviewed",
+    "verification": "2026-10-24にnpm版1.0.0を実行。既存Claude Code認証を使った実モデルへの2問で、Zodスキーマ付きの読み取り専用ツールを各1回実行し、青いマグ1件と予算2,500円以内の2件を確認。ブラウザーでは実行記録を再生。縦横の26秒・30fps動画を書き出し、同じ時刻への戻り描画と新規ページでのPNG一致、音声トラックなしを確認。他のプロバイダー・生成機能・実験段階の@tanstack/ai-harnessと@tanstack/ai-harness-cliは未検証。",
+    "reviewed_on": "2026-10-24",
+    "example_url": "examples/tanstack-ai-example/index.html",
+    "image": "media/tanstack-ai-example.webp"
+  },
+  "updated_on": "2026-10-24",
+  "video_portrait": "media/tanstack-ai-example.mp4",
+  "video_landscape": "media/tanstack-ai-example-wide.mp4",
+  "poster_portrait": "media/tanstack-ai-example.webp",
+  "poster_landscape": "media/tanstack-ai-example-wide.webp",
+  "video_width": 540,
+  "video_height": 960,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "sources": [
+    {
+      "label": "TanStack/ai 固定版（98055ca0…）",
+      "url": "https://github.com/TanStack/ai/tree/98055ca01af9e449d039f61e380b0d3c158acbb1"
+    },
+    {
+      "label": "MITライセンスの原文",
+      "url": "https://github.com/TanStack/ai/blob/98055ca01af9e449d039f61e380b0d3c158acbb1/LICENSE"
+    },
+    {
+      "label": "再現コード run.mjs",
+      "url": "examples/tanstack-ai-example/run.mjs"
+    },
+    {
+      "label": "編集ソース一式（video/）",
+      "url": "examples/tanstack-ai-example/video/index.html"
+    }
+  ],
+  "video_download_portrait": "media/downloads/tanstack-ai-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/tanstack-ai-example-landscape-credited-ja-v3.mp4"
+}

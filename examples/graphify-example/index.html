@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; connect-src 'self'; font-src 'self'; media-src 'self'; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>送料の関数を変えると、どこに響く？ — Graphify の影響探索（保存結果）｜八百万図AIツールボックス</title>
+  <meta name="description" content="Graphify の公式コード affected.py で、送料の関数 shipping_fee から逆向きに影響範囲をたどった保存結果を図で見ます。コードの呼び出しは独自のASTアダプター、仕様書との対応は手動で入力しました。グラフ6ノード・5エッジのうち影響5ノード。">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#graph-area">図へ移動</a>
+  <header class="top">
+    <a class="back" href="../../case.html?id=graphify-example">← 記事へ</a>
+    <p class="site">八百万図AIツールボックス</p>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="title">
+      <p class="kicker">Graphify の影響探索 ／ 保存結果ビューア</p>
+      <h1 id="title">送料の関数を変えると、どこに響く？</h1>
+      <p class="lead">架空のECの送料関数 <code>shipping_fee</code> から、呼び出し元と仕様書を逆向きにたどった実行結果です。このページは保存した結果を読むだけで、ブラウザーではGraphifyを動かしません。</p>
+      <ul class="badges" aria-label="この結果の範囲">
+        <li class="badge badge-run">影響探索は公式コードを実行</li>
+        <li class="badge badge-input">関係の入力：コードは独自AST、仕様書は手動対応</li>
+      </ul>
+
+      <div class="numbers" aria-label="件数">
+        <p><b id="n-hits">5</b><span>影響ノード</span></p>
+        <p class="of">／</p>
+        <p><b id="n-nodes">6</b><span>グラフ全体のノード</span></p>
+        <p><b id="n-edges">5</b><span>エッジ</span></p>
+      </div>
+      <p class="numbers-note" id="numbers-note">起点の <code>shipping_fee</code> を除く5ノードが、深さ3までの逆向き探索で見つかりました。</p>
+
+      <div class="toggle" role="group" aria-label="表示する関係">
+        <button type="button" data-mode="code" aria-pressed="false">コードのみ</button>
+        <button type="button" data-mode="docs" aria-pressed="true">仕様書も見る</button>
+      </div>
+
+      <div class="graph-wrap">
+        <figure class="graph" id="graph-area">
+          <div id="graph" class="graph-svg" aria-describedby="graph-text"></div>
+          <figcaption class="legend">
+            <span class="key"><svg viewBox="0 0 36 10" aria-hidden="true"><path class="k-call" d="M1 5h34"/></svg>呼び出し（独自AST）</span>
+            <span class="key"><svg viewBox="0 0 36 10" aria-hidden="true"><path class="k-ref" d="M1 5h34"/></svg>参照（手動で対応）</span>
+            <span class="key"><svg viewBox="0 0 20 14" aria-hidden="true"><rect class="k-hit" x="1.5" y="1.5" width="17" height="11" rx="2"/></svg>影響あり（深さつき）</span>
+            <span class="key"><span class="stamp" aria-hidden="true">手動</span>手で書いた対応</span>
+          </figcaption>
+          <p class="status" id="status" role="status" aria-live="polite">保存結果を読み込んでいます…</p>
+        </figure>
+
+        <aside class="detail" aria-labelledby="detail-title">
+          <h2 class="detail-head" id="detail-title">選んだノード</h2>
+          <div class="pick" role="group" aria-label="ノードを選ぶ" id="pick"></div>
+          <div id="detail" aria-live="polite"></div>
+        </aside>
+      </div>
+      <p class="graph-text-wrap"><span id="graph-text">図の内容：仕様書2つ（注文確定仕様・事前見積もり仕様）が、それぞれ関数 checkout_total と delivery_estimate を手動の対応で指し、その2つの関数が shipping_fee を呼び出している。送料仕様 shipping-policy.md は shipping_fee を手動の対応で指す。shipping_fee から逆にたどると、深さ1で3件、深さ2で2件、合計5件が影響範囲になる。</span></p>
+    </section>
+
+    <section class="block" aria-labelledby="change-title">
+      <h2 id="change-title">送料無料の基準を 4,000円 → 5,000円 に変えるとき</h2>
+      <p>変える場所は <code>fixture/shipping.py</code> 1行目の <code>FREE_SHIPPING_YEN = 4000</code>。その前に、いまの動きと、確認すべき場所をそろえておきます。</p>
+      <h3>いまの動き（保存した実行結果）</h3>
+      <div class="table-wrap">
+        <table class="runs">
+          <caption>run.py が fixture の関数を実際に呼んだ結果（result.json の fixture_runs）</caption>
+          <thead><tr><th scope="col">商品小計</th><th scope="col">送料</th><th scope="col">合計</th></tr></thead>
+          <tbody id="runs"></tbody>
+        </table>
+      </div>
+      <h3>確認する5か所（影響探索の結果）</h3>
+      <ol class="checklist" id="checklist"></ol>
+      <p class="note">変更案は説明のためのもので、コードは変えておらず、変更後の金額も実行・計算していません。影響探索はグラフに入っている関係だけをたどります。グラフにない呼び出し元・画面・テスト・メール文面などは出てこないので、これで全部とは言えません。</p>
+    </section>
+
+    <section class="block" aria-labelledby="scope-title">
+      <h2 id="scope-title">実行したこと・していないこと</h2>
+      <table class="scope">
+        <tbody>
+          <tr><th scope="row">実行した</th><td>上流の <code>graphify/affected.py</code> の <code>load_graph</code>・<code>resolve_seed</code>・<code>affected_nodes</code>・<code>format_affected</code>（起点 shipping_fee、深さ3）。fixture の Python 関数（3,999・4,000・5,000円）。</td></tr>
+          <tr><th scope="row">関係の作り方</th><td>呼び出し2本：<code>run.py</code> の独自アダプター（Python標準ライブラリ <code>ast</code>）。参照3本：<code>run.py</code> に人が書いた対応表。</td></tr>
+          <tr><th scope="row">実行していない</th><td>Graphify のCLI、tree-sitter による抽出、LLMによる意味の抽出、MCPサーバー、<code>graphify install</code>・設定・フックの書き込み。</td></tr>
+          <tr><th scope="row">このページ</th><td>保存した <code>outputs/result.json</code> と <code>outputs/graph.json</code> を読み、数が6・5・5と合うかを確かめてから描くだけ。ブラウザーでは何も実行しません。</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="block" aria-labelledby="use-title">
+      <h2 id="use-title">使いどころ</h2>
+      <p><b>日本の受託開発で、送料改定のときにコードと仕様書の確認漏れを減らす。</b> 送料の関数を変えると、注文合計・見積もり表示のコードだけでなく、お客さまと合意した仕様書の記述も直す必要があります。関数と仕様書を同じグラフに入れておけば、「この関数を変えたら、どの仕様書を開くか」を一覧にできます。</p>
+      <p class="note">仕様書との対応は、この作例では人が書きました。実際に使うなら、対応表を誰がいつ更新するかも決めておく必要があります。影響の取りこぼしがないことは保証できません。</p>
+    </section>
+
+    <section class="block" aria-labelledby="files-title">
+      <h2 id="files-title">保存したファイル</h2>
+      <ul class="files">
+        <li><a href="outputs/result.json">outputs/result.json</a>：影響探索の結果・範囲・fixture の実行結果（実行時に書かれたもの）</li>
+        <li><a href="outputs/graph.json">outputs/graph.json</a>：入力にしたグラフ（6ノード・5エッジ）</li>
+        <li><a href="outputs/affected.txt">outputs/affected.txt</a>：<code>format_affected</code> の出力</li>
+        <li><a href="run.py">run.py</a>：独自ASTアダプター・手動の対応表・公式関数の呼び出し</li>
+        <li>fixture：<a href="fixture/shipping.py">shipping.py</a>・<a href="fixture/checkout.py">checkout.py</a>・<a href="fixture/estimate.py">estimate.py</a>・<a href="fixture/shipping-policy.md">shipping-policy.md</a>・<a href="fixture/checkout-spec.md">checkout-spec.md</a>・<a href="fixture/estimate-spec.md">estimate-spec.md</a></li>
+        <li><a href="vendor/graphify/graphify/affected.py">vendor/graphify/graphify/affected.py</a>：実行した上流のコード</li>
+        <li><a href="README.md">README.md</a>・<a href="request.txt">request.txt</a>・<a href="samples.json">samples.json</a></li>
+      </ul>
+      <p><a href="video/index.html">解説動画（無音24秒）の編集用ソースを開く</a>（書き出した動画ファイルはこのフォルダーにはまだありません）</p>
+    </section>
+
+    <section class="block" aria-labelledby="license-title">
+      <h2 id="license-title">出典とライセンス</h2>
+      <ul class="files">
+        <li>原典：<a href="https://github.com/Graphify-Labs/graphify/tree/847a93f3cab5e2c82ea9170014b21cd2c52a4417" rel="noopener">Graphify-Labs/graphify（847a93f）</a></li>
+        <li>現在の Graphify は Apache License 2.0（<a href="vendor/graphify/LICENSE">LICENSE</a>）。<a href="vendor/graphify/NOTICE">NOTICE</a> にあるとおり、ライセンス変更前に MIT で寄せられた部分は MIT の条件のままで、その原文を <a href="vendor/graphify/LICENSE-MIT">LICENSE-MIT</a> として残しています。どちらの条件も同梱しています。</li>
+        <li>fixture・run.py・画面・文章は八百万図AIツールボックスの制作です。ECサイト・送料・仕様書は架空です。</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>八百万図AIツールボックス｜図と画面は Claude Opus 5.5 で制作。影響探索の実行結果は親工程（制作担当）が保存したものです。</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,185 @@
+{
+  "id": "brief-to-demo",
+  "title": "brief-to-demo",
+  "category": "agents",
+  "summary": "短い依頼を、目的、使う素材、制作手順、完成条件が揃ったブリーフに整理できます。決まっていない条件を分けて記録し、次に作業するAIへ渡せます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/brief-to-demo/index.html",
+  "video": "media/brief-to-demo.mp4",
+  "poster": "media/brief-to-demo.webp",
+  "skill": "skills/brief-to-demo/SKILL.md",
+  "samples": "examples/brief-to-demo/samples.json",
+  "request": "skills/brief-to-demo/SKILL.md を読んで、次の依頼を制作ブリーフのJSONにしてください。カテゴリは欲しい成果物から選び、読むべきSKILL.mdを skill_refs に入れてください。私が渡していない日時・数値・実績は作らず、推測した条件は assumptions に分けてください。\n\n依頼：地域のイベント受付を、スマホでも迷わず使える画面にしたい",
+  "applied_skills": [
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "SKILL.mdのJSONの形（title・request・category・audience・goal・inputs・skill_refs・deliverables・steps・acceptance・assumptions）をそのまま使い、3件とも同じ項目で書いた。カテゴリは成果物から選び、UIは操作できる画面、スライドは開ける資料、モーションは書き出した映像を完成条件にした。依頼にない日時・店名・製品名は書かず、すべて assumptions に分けた。 今回の改修ではこの3件を再生成せず、原典11項目と3つの決め方、入力と仮定、次の制作の境界を図へ対応させました。"
+    },
+    {
+      "name": "frontend-design",
+      "source": "https://github.com/anthropics/skills/blob/dbd4588f9e1033efb41dad4bef2f7947c8993d44/skills/frontend-design/SKILL.md",
+      "applied": "UIブリーフの読むスキルに指定した。このページとデモでは、題材から色・書体・配置の計画を先に作り、角丸カードの並びではなく細い罫線の一覧と詳細表示にした。見出しの一語だけを色替えする等の定型を避け、キーボード操作・見える焦点・動きを減らす設定への対応を入れた。 新しい図のUI制作でも同じ固定版の指示を読み、題材に沿う本・紙・罫線と短いラベル、スマホの全体図・主操作・見える焦点へ適用します。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824",
+      "applied": "元の28秒映像と3件のブリーフを保全。今回、12素材を固定し、Opus5.5が同じ本・依頼・11項目の書類・仮定のポケット・実JSONと引き継ぎ先をつなぐ図と32秒の完全無音映像の8原本を書きました。任意時刻の描画、サイズごとの配置、代表・連続フレーム、編集ソースとMP4の確認は制作側が別に実行します。次の20秒製品動画の制作ではありません。"
+    },
+    {
+      "name": "sol-editorial-ja",
+      "source": "https://github.com/likaku/Mck-ppt-design-skill/tree/e190e083b715b63172e1c4fea01bc5f9bb21a021",
+      "applied": "統合時に親エージェントが現行の日本語SKILLを読み、原典schema・MckEngine・再ビルド手順と対応する5枚のPPTX制作ルートをブリーフに指定した。この一件でPPTXそのものを制作したという意味ではない。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "指示書の3つの決め方を読む",
+      "body": "brief-to-demoは、成果物から分野を選び、受け取っていない事実を足さず、推測した条件をassumptionsへ分けるようAIに指示します。指示書そのものが推論や制作を動かすわけではありません。"
+    },
+    {
+      "title": "短い依頼を11項目へ整える",
+      "body": "UI・スライド・動画の3つの短い依頼から、題名・元の依頼・分野・見る人・目的・素材・読むスキル・成果物・手順・完成条件・仮定を持つブリーフを保存しました。元の制作担当がスライドのルートをsol-editorial-jaへ調整した範囲もそのまま保持しています。"
+    },
+    {
+      "title": "次に必要な素材と仮定を分ける",
+      "body": "各3件のinputsは次に受け取る素材です。イベントや書店の日時、製品名、3つの変更点の実内容は提供されていません。各4件のassumptionsには、未提供の情報に加え、参加者の申し込みとして扱うなどの解釈や仮の設計も含まれます。"
+    },
+    {
+      "title": "JSONと依頼文を次の制作へ渡す",
+      "body": "ブリーフJSONと、先にskill_refsを読み、assumptionsを分け、acceptanceで報告するよう添えた依頼文を保存・コピーできます。各5項目の完成条件は計画で、15項目が合格した記録ではありません。受付画面・PPTX・20秒の製品動画の制作は別工程です。"
+    }
+  ],
+  "limitations": [
+    "保存済み3件のブリーフを表示する静的な作例です。ページ上でAIを動かしたり、自由入力をブリーフへ変換したりしません。",
+    "元のOpus5.5による原案と、元の制作担当のスライドルート調整を保持しています。現在の全データを、未改変のOpus応答とは扱いません。",
+    "各inputsは次に受け取る素材、stepsとacceptanceは計画です。次のUI・PPTX・20秒製品動画を作成・検証したわけではありません。",
+    "assumptionsは未指定の情報と仮に置いた解釈・設計です。依頼者が確認した事実や承認済み条件ではありません。",
+    "図の4群と6部品は説明用の整理です。11項目のJSONと、4種類のcategoryの候補は固定原典のものです。agentsの保存済み作例はありません。",
+    "原公開のsamples.jsonはGitと同じLFです。旧制作記録のSHAは元WindowsのCRLFファイルを指し、改行だけの違いを区別します。元の公開LFとWindows原本を保全し、本文やブリーフの値は変えていません。",
+    "新しいOpusの制作範囲は概念図と32秒の無音映像の8原本です。既存結果のJSON・依頼文包装、事実構造、描画、QA、公開は制作側の別工程です。",
+    "実機iOS/Safari/VoiceOver、200%ズーム、人の審美的承認、各ブリーフの実際の制作での有効性、クリップボード内容の再取得は未確認です。解説動画に音声トラックはありません。"
+  ],
+  "sources": [
+    {
+      "label": "brief-to-demo SKILL.md（八百万図AIツールボックス）",
+      "url": "https://github.com/studio-yebisu/yaoyorozu-ai-toolbox/blob/bc2984ab4208e349aded79b3694cc2cb98b8a4a6/skills/brief-to-demo/SKILL.md"
+    },
+    {
+      "label": "frontend-design（Anthropic）",
+      "url": "https://github.com/anthropics/skills/blob/dbd4588f9e1033efb41dad4bef2f7947c8993d44/skills/frontend-design/SKILL.md"
+    },
+    {
+      "label": "八百万図AIツールボックス UI・UX",
+      "url": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox/guides/ui-ux/"
+    },
+    {
+      "label": "八百万図AIツールボックス AIスライド",
+      "url": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-slides/"
+    },
+    {
+      "label": "Motion Reel（Studio Yebisu、MIT）",
+      "url": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824"
+    },
+    {
+      "label": "八百万図AIツールボックス モーション",
+      "url": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-motion/"
+    },
+    {
+      "label": "編集誌風スライドの原典 Mck-ppt-design-skill",
+      "url": "https://github.com/likaku/Mck-ppt-design-skill/tree/e190e083b715b63172e1c4fea01bc5f9bb21a021"
+    },
+    {
+      "label": "原典と11項目・入力の構造",
+      "url": "examples/brief-to-demo/concept/structure.json"
+    },
+    {
+      "label": "3件の短い実入力",
+      "url": "examples/brief-to-demo/inputs/requests.json"
+    },
+    {
+      "label": "同梱した固定版の指示書",
+      "url": "examples/brief-to-demo/vendor/brief-to-demo/SKILL.md"
+    },
+    {
+      "label": "固定版のMIT License",
+      "url": "examples/brief-to-demo/vendor/brief-to-demo/LICENSE"
+    },
+    {
+      "label": "今回の図と無音映像の確認範囲",
+      "url": "examples/brief-to-demo/visual-verification.json"
+    },
+    {
+      "label": "保全した全文ブリーフビューア",
+      "url": "examples/brief-to-demo/desk.html"
+    },
+    {
+      "label": "現在の図と動画の再現手順",
+      "url": "examples/brief-to-demo/visual-guide.md"
+    },
+    {
+      "label": "縦横動画の再現スクリプト",
+      "url": "examples/brief-to-demo/render-visual.py"
+    }
+  ],
+  "license": "MIT",
+  "title_lines": [
+    "曖昧な依頼を具体化するブリーフ作成スキル"
+  ],
+  "demo_description": "「読む・組む・渡す」の3段階で、指示書の本と依頼の紙がつながります。保存済み3件の11項目を選んで読み、ブリーフJSONの保存や制作へ渡す依頼文のコピーができます。未指定・仮の条件と、実行していない次の制作を分けて見られます。",
+  "demo_note": "元のOpus5.5のブリーフ原案に、元の制作担当によるスライドルートの調整を含む、保存済み3件をそのまま使います。今回、ブリーフを作り直していません。inputsは次に受け取る素材、stepsとacceptanceは次の制作の計画です。受付画面・PPTX・20秒の製品動画を制作した作例ではありません。",
+  "samples_title": "3件の短い依頼と、保存済みの制作ブリーフ",
+  "samples_intro": "3件の実入力は短い依頼文です。表示する目的・必要な素材・手順・完成条件・仮定は、そこから整理したブリーフの案です。素材を受領した記録や、完成条件を満たした結果ではありません。",
+  "request_intro": "この公開スキルのSKILL.mdをAIに読ませ、原文の依頼と、分かっている素材・条件を渡します。未指定の事実を作らず、仮定と分けて整理します。",
+  "video_note": "32秒・30fps・無音。縦720×1280と横1280×720を別配置で描きます。指示書と依頼→同じAI→11項目のブリーフ→仮の条件のポケット→実JSONと渡す用の依頼文、の構造です。受付画面の制作ブリーフを例にし、次の制作は未実行として示します。ブリーフ内で計画した20秒の製品動画と、この32秒の図解動画は別です。",
+  "video_source": "examples/brief-to-demo/video/index.html",
+  "skill_license": "skills/brief-to-demo/LICENSE",
+  "license_note": "brief-to-demoの指示書、作例の入力・結果の表示・図・動画ソースはMIT License、Copyright(c)2026 Studio Yebisuです。原典はbc2984aへ固定し、SKILL.mdとLICENSEを作例にも同梱しています。次の制作先として挙げたスキル・ツールは、それぞれの固定原典と利用条件を参照します。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "catalog_entry": {
+    "id": "agents-brief-to-demo",
+    "name": "brief-to-demo",
+    "tagline": "曖昧な依頼を具体化するブリーフ作成スキル",
+    "category": "agents",
+    "kind": "スキル",
+    "summary": "短い依頼を、目的、使う素材、制作手順、完成条件が揃ったブリーフに整理できます。決まっていない条件を分けて記録し、次に作業するAIへ渡せます。",
+    "use_case": "制作の前に、AIへ渡す依頼を具体化したいとき。",
+    "tags": [
+      "八百万図AIツールボックス",
+      "日本語",
+      "作例制作"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/studio-yebisu/yaoyorozu-ai-toolbox/blob/bc2984ab4208e349aded79b3694cc2cb98b8a4a6/skills/brief-to-demo/LICENSE",
+    "source_url": "https://github.com/studio-yebisu/yaoyorozu-ai-toolbox/blob/bc2984ab4208e349aded79b3694cc2cb98b8a4a6/skills/brief-to-demo/SKILL.md",
+    "guide_url": "case.html?id=brief-to-demo",
+    "example_url": "examples/brief-to-demo/index.html",
+    "skill_download": "skills/brief-to-demo/SKILL.md",
+    "prompt": "$brief-to-demo を使って、このスキルの使い方が分かる作例を制作してください。",
+    "verification": "元の3件のブリーフと制作担当のスライドルート調整を保持。原典2filesの固定Gitblobを確認。11項目/仮定12/完成条件は計画で次の制作は未実行と区別し、動く概念図・実JSON保存・依頼文コピー・32秒縦横無音映像を確認。",
+    "source_project": "agents",
+    "source_repository": "studio-yebisu/yaoyorozu-ai-toolbox",
+    "source_commit": "bc2984ab4208e349aded79b3694cc2cb98b8a4a6",
+    "source_path": "skills/brief-to-demo",
+    "verification_stage": "runtime-reviewed",
+    "reviewed_on": "2026-10-18"
+  },
+  "video_portrait": "media/brief-to-demo.mp4",
+  "video_landscape": "media/brief-to-demo-wide.mp4",
+  "poster_portrait": "media/brief-to-demo.webp",
+  "poster_landscape": "media/brief-to-demo-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/brief-to-demo-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/brief-to-demo-landscape-credited-ja-v3.mp4"
+}

@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ja" data-page="defuddle-concept" data-state="loading" data-theme="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- style-src の 'unsafe-inline' は、Defuddle に渡す架空の入力HTML（DOMParser で作る表示しない Document）が持つ <style> のため。ページ自身はインラインのスタイルもスクリプトも使わない。 -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; media-src 'self'; connect-src 'self'; font-src 'self'; frame-src 'none'; worker-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Webページの本文を、Markdownで取り出す｜Defuddle 作例｜八百万図AIツールボックス</title>
+  <meta name="description" content="Defuddleは、WebページのDocumentから本文と題名・著者を取り出すJavaScriptライブラリです。full版は本文をMarkdownに変換します。架空の3ページを同梱のDefuddleでこのブラウザーで実際に取り出し、渡すもの・中の仕組み・返る値と使い方を、1枚の動く図で示します。">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="concept.css">
+  <script type="module" src="concept.js"></script>
+</head>
+<body>
+  <a class="skip" href="#case">図の下の説明へ</a>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-head wrap">
+        <header class="top">
+          <h1 id="page-title">Webページの本文を、Markdownで取り出す</h1>
+          <p class="definition">Defuddle：本文と題名・著者を返すJavaScriptライブラリ</p>
+        </header>
+        <div class="switches">
+          <div class="stages" role="group" aria-label="図の段階">
+            <button type="button" class="seg" data-stage="0" aria-pressed="false" disabled>渡す</button>
+            <button type="button" class="seg" data-stage="1" aria-pressed="false" disabled>取り出す</button>
+            <button type="button" class="seg" data-stage="2" aria-pressed="true" disabled>使う</button>
+            <button type="button" id="replay" class="seg seg--icon" aria-label="この段階の動きをもう一度" title="この段階の動きをもう一度" disabled>
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 5a7 7 0 1 1-6.6 4.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+          <div class="presets" role="group" aria-label="架空の3ページ">
+            <button type="button" class="preset" data-preset="reading" aria-pressed="false" disabled>読書会</button>
+            <button type="button" class="preset" data-preset="operation" aria-pressed="false" disabled>保存手順</button>
+            <button type="button" class="preset" data-preset="research" aria-pressed="false" disabled>検索テスト</button>
+          </div>
+        </div>
+      </div>
+
+      <figure class="map wrap">
+        <div class="map-frame">
+          <canvas id="concept-map" role="img" aria-label="Defuddleの働きの図：渡すページとHTML、Defuddleの中の3つの部屋、返る値と使い方" aria-describedby="map-desc"></canvas>
+        </div>
+      </figure>
+
+      <div class="actions wrap">
+        <a id="save-md" class="btn btn-primary" aria-disabled="true">Markdownを保存</a>
+        <a id="open-desk" class="btn" aria-disabled="true">元のページと見比べる</a>
+        <button id="retry" class="btn" type="button" hidden>もう一度読み込む</button>
+      </div>
+    </section>
+
+    <section class="under wrap" aria-label="図の状態">
+      <p id="save-meta" class="save-meta"></p>
+      <p id="stage-note" class="caption" aria-live="polite"></p>
+      <p id="load-status" class="load-status" role="status" data-state="loading">素材21件を照合しています…</p>
+      <p id="map-desc" class="visually-hidden"></p>
+      <noscript><p class="load-status" data-state="error">図と実行には JavaScript が必要です。下の一覧から実ファイルを直接開けます。</p></noscript>
+    </section>
+
+    <section id="case" class="block wrap" aria-labelledby="case-h">
+      <h2 id="case-h">いまの例で返った値</h2>
+      <p class="lead">このページを開いたときに、同梱の Defuddle で3件を1回ずつ取り出した結果です。段階や記事を切り替えても、取り出し直しはしません。</p>
+      <dl class="meta-list">
+        <div><dt>title</dt><dd id="case-title"></dd></div>
+        <div><dt>author</dt><dd id="case-author"></dd></div>
+      </dl>
+      <dl id="case-stats" class="stats" aria-label="content の構造"></dl>
+      <h3>content（Markdown）の冒頭</h3>
+      <pre id="case-excerpt" class="md md--short" tabindex="0" aria-label="content の冒頭"></pre>
+      <details class="fold">
+        <summary>content の全文</summary>
+        <pre id="case-content" class="md" tabindex="0" aria-label="返った content の全文"></pre>
+      </details>
+      <h3>語句の照合（作例側の確認）</h3>
+      <ul id="case-checks" class="checks"></ul>
+      <p class="note">決めた語句が content に文字どおり含まれるか・含まれないかだけを、作例のコードで調べています。Defuddle の機能ではなく、意味の正しさ・読みやすさ・ほかの文の抜けの判定や点数でもありません。</p>
+      <p id="case-compare" class="note"></p>
+    </section>
+
+    <section id="parts" class="block wrap" aria-labelledby="parts-h">
+      <h2 id="parts-h">図の6つの部分</h2>
+      <p class="lead">説明のための分け方で、原典が決めた形式ではありません。選ぶと図に藍の枠が付き、原典の該当行を示します。</p>
+      <div class="chips" role="group" aria-label="6つの部分">
+        <button type="button" data-part="input" aria-pressed="false" disabled>HTMLとDocument</button>
+        <button type="button" data-part="options" aria-pressed="false" disabled>3つの設定</button>
+        <button type="button" data-part="metadata" aria-pressed="false" disabled>題名と著者</button>
+        <button type="button" data-part="extract" aria-pressed="false" disabled>本文を選んで整える</button>
+        <button type="button" data-part="markdown" aria-pressed="false" disabled>Markdownへ変換</button>
+        <button type="button" data-part="use" aria-pressed="false" disabled>受け取って読み比べる</button>
+      </div>
+      <div class="readout" aria-live="polite">
+        <h3 id="part-label"></h3>
+        <p id="part-meaning"></p>
+        <blockquote class="quote" lang="en"><p id="part-quote"></p></blockquote>
+        <p id="part-source" class="source-link"></p>
+        <p id="part-local" class="source-link"></p>
+      </div>
+    </section>
+
+    <section id="calls" class="block wrap" aria-labelledby="calls-h">
+      <h2 id="calls-h">呼び出し方と3つの設定</h2>
+      <div class="calls">
+        <div class="call">
+          <h3>このページ：ブラウザーで full版</h3>
+<pre class="code"><code>new Defuddle(
+  new DOMParser().parseFromString(sample.input, 'text/html'),
+  { url: sample.url, markdown: true, useAsync: false, removeImages: true }
+).parse()</code></pre>
+          <p>full版の <code>parse()</code> は、本体の <code>parse()</code> で本文と題名・著者を取り出し、続けて <code>toMarkdown</code> で content をMarkdownにします。読み込みのたびに3件を1回ずつ実行し、保存済みの出力と全文を照らし合わせます。</p>
+        </div>
+        <div class="call">
+          <h3>元の制作：Node.js と jsdom</h3>
+<pre class="code"><code>await Defuddle(jsdomDocument, url, options)</code></pre>
+          <p>Node版は内部で <code>parseAsync()</code> を呼び、<code>useAsync: false</code> の分岐で手元の結果を返してから、Markdownに変換します。その実出力が <a href="extraction-results.json">extraction-results.json</a> です。このページではNodeを実行し直していません。</p>
+        </div>
+      </div>
+      <dl class="options">
+        <div><dt><code>markdown: true</code></dt><dd>content をMarkdownで返します（full版に入っている変換）。</dd></div>
+        <div><dt><code>useAsync: false</code></dt><dd>手元のHTMLで本文が取れないときに外部のAPIで補う機能を使いません。この3件では、その補完の分岐を通っていません。</dd></div>
+        <div><dt><code>removeImages: true</code></dt><dd>画像を除く設定です。3つの入力に画像がないため、この作例では効果を示していません。</dd></div>
+        <div><dt><code>url</code></dt><dd>example.test のURLはページの文脈として渡すだけで、取得しません。任意のURLやファイルは入力できません。</dd></div>
+      </dl>
+      <details class="fold">
+        <summary>原典の固定ソースで見る呼び出しの道筋</summary>
+        <ol id="source-lines" class="source-lines"></ol>
+      </details>
+    </section>
+
+    <section id="request" class="block wrap" aria-labelledby="request-h">
+      <h2 id="request-h">自分のHTMLで使う依頼文</h2>
+      <p class="lead">元の作例の request.txt です。【】を自分のHTMLのパス・URL・語句に置き換えて、Node.js を使えるコーディングエージェントや開発者に渡します。</p>
+      <p class="row-actions">
+        <button id="copy-request" class="btn" type="button" disabled>依頼文をコピー</button>
+        <a class="btn btn-quiet" href="request.txt">request.txt を開く</a>
+      </p>
+      <p id="copy-status" class="copy-status" role="status"></p>
+      <details class="fold">
+        <summary>依頼文の全文（読み取り専用）</summary>
+        <label class="field-label" for="request-text">request.txt</label>
+        <textarea id="request-text" class="text-box" rows="10" readonly spellcheck="false"></textarea>
+      </details>
+    </section>
+
+    <section id="films" class="block wrap" aria-labelledby="films-h">
+      <h2 id="films-h">図解32秒・無音</h2>
+      <p class="lead">上の図と同じ形が動く、音のない32秒の解説です。ナレーションや音声ガイドはありません。例は「読書会」です。</p>
+      <video id="film-portrait" class="film film--portrait" controls muted playsinline preload="metadata" poster="../../media/defuddle-reading-room.webp" width="720" height="1280" aria-label="図解動画（縦・32秒・無音）">
+        <source src="../../media/defuddle-reading-room.mp4" type="video/mp4">
+        <a href="../../media/defuddle-reading-room.mp4">MP4を開く</a>
+      </video>
+      <details class="fold">
+        <summary>横長版（1280×720・32秒・無音）</summary>
+        <video id="film-wide" class="film film--wide" controls muted playsinline preload="none" width="1280" height="720" aria-label="図解動画（横・32秒・無音）">
+          <source src="../../media/defuddle-reading-room-wide.mp4" type="video/mp4">
+          <a href="../../media/defuddle-reading-room-wide.mp4">MP4を開く</a>
+        </video>
+      </details>
+      <p class="links"><a href="video/index.html">編集できる図解ソース</a><a href="visual-guide.md">開き方と再現手順</a><a href="visual-verification.json">確認の記録</a><a href="source.zip">入力・出力・ソース一式（source.zip）</a></p>
+    </section>
+
+    <section id="records" class="block wrap" aria-labelledby="records-h">
+      <h2 id="records-h">記録と範囲</h2>
+      <details class="fold">
+        <summary>保存済みのNode出力との照らし合わせ</summary>
+        <ul id="node-compare" class="plain"></ul>
+        <p class="note">Node の結果は元の制作で jsdom を使って3件実行し、保存したものです。このページで返った値とは別の実行で、ここで実行し直してはいません。入力の fixtures/*.html は改行CRLFで保存され、samples.json の入力は改行LFです。改行だけをそろえると同じ中身です。</p>
+      </details>
+      <details class="fold">
+        <summary>原典の固定版・改行・同梱ライブラリ</summary>
+        <ul class="plain">
+          <li>原典は <a href="https://github.com/kepano/defuddle/tree/556d74e8c8fd68c49912d4b11a4ae9ec04d7b2b5" rel="noopener">kepano/defuddle</a> のコミット <code>556d74e8c8fd68c49912d4b11a4ae9ec04d7b2b5</code>（v0.19.5）。MIT License、Copyright (c) 2025 Steph Ango (@kepano)。</li>
+        </ul>
+        <ul id="vendor-lines" class="plain"></ul>
+        <ul class="plain">
+          <li>full版に含まれる turndown・mathml-to-latex・temml・@xmldom/xmldom の利用条件は <a href="vendor/defuddle/THIRD_PARTY_NOTICES.txt">THIRD_PARTY_NOTICES.txt</a> にそのまま残しています。</li>
+          <li>ページは読み込みのたびに21件の大きさとSHA-256を照合し、照合したハッシュのSRIを付けて defuddle.full.js を読み込みます。</li>
+        </ul>
+      </details>
+      <details class="fold">
+        <summary>試した範囲と、していないこと</summary>
+        <ul class="plain">
+          <li>Defuddle は JavaScript のライブラリ（と CLI）です。SKILL.md・モデル・要約AIではありません。このページはAIやAPIに接続しません。</li>
+          <li>3つのページは作例のために書いた架空の記事です。保存手順は実在のアプリの保存を実行したものではなく、検索画面のテストは実際の調査や効果の測定ではありません。原文の「残る2人は、旧画面のほうが慣れていて速いと答えています」「実務での効果は未検証です」も content にそのまま残っています。</li>
+          <li>図の部屋の中の「選ぶ・外す」は原典の説明にもとづく説明図です。内部の削除ログ、選ばれた要素、処理の順序や時間を計測したものではありません。ヘッダーやフッターがいつも除かれるとも限りません。</li>
+          <li>試していないこと：HTMLでの出力、CLI、数式・脚注の変換、画像のある入力、外部APIでの補完、任意のWebページでの品質。この3件で取り出せても、どのページでも同じとは限りません（原典の README にも開発中とあります）。</li>
+          <li>元の制作の画面・28秒の映像・Nodeでの実行・バンドルのビルドは、この図の改修でやり直していません。図と映像の新しいコードは claude-opus-5-5 が書いたもので、動作や見た目の確認、人の承認はこのファイルの作成時点では行っていません。</li>
+        </ul>
+      </details>
+    </section>
+
+    <section id="files" class="block wrap" aria-labelledby="files-h">
+      <h2 id="files-h">実ファイル</h2>
+      <ul class="files">
+        <li><a href="outputs/reading.md">outputs/reading.md</a><span>読書会の content（1,294 B）</span></li>
+        <li><a href="outputs/operation.md">outputs/operation.md</a><span>保存手順の content（1,213 B）</span></li>
+        <li><a href="outputs/research.md">outputs/research.md</a><span>検索テストの content（1,132 B）</span></li>
+        <li><a href="desk.html">desk.html</a><span>以前の読書室：記事を選んで、その場で取り出し直せる</span></li>
+        <li><a href="samples.json">samples.json</a><span>3つの入力HTMLと照合する語句</span></li>
+        <li><a href="extraction-results.json">extraction-results.json</a><span>元の制作のNode出力</span></li>
+        <li><a href="fixtures/reading.html">fixtures/</a><span>入力HTMLの元ファイル（3件）</span></li>
+        <li><a href="request.txt">request.txt</a><span>依頼文</span></li>
+        <li><a href="concept/structure.json">concept/structure.json</a><span>図の部分・引用の行・範囲</span></li>
+        <li><a href="concept/manifest.json">concept/manifest.json</a><span>照合する21件の大きさとSHA-256</span></li>
+        <li><a href="vendor/defuddle/README.md">vendor/defuddle/</a><span>原典の README・LICENSE・固定ソース・full版バンドル</span></li>
+        <li><a href="video/index.html">video/index.html</a><span>図解32秒の編集できるソース</span></li>
+        <li><a href="README.md">README.md</a><span>元の作例の説明と再現手順</span></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <div class="theme" role="group" aria-label="表示の色">
+      <button type="button" data-theme-choice="system" aria-pressed="true">端末に合わせる</button>
+      <button type="button" data-theme-choice="light" aria-pressed="false">ライト</button>
+      <button type="button" data-theme-choice="dark" aria-pressed="false">ダーク</button>
+    </div>
+    <p>Defuddle：MIT License, Copyright (c) 2025 Steph Ango (@kepano)（<a href="vendor/defuddle/LICENSE">LICENSE</a>・<a href="vendor/defuddle/THIRD_PARTY_NOTICES.txt">同梱ライブラリの告知</a>）。作例の画面・図解・文章・架空の記事：MIT License, Copyright (c) 2026 Studio Yebisu（<a href="LICENSE">LICENSE</a>）。</p>
+    <p><a href="../../case.html?id=defuddle-reading-room">作例の解説記事へ</a>　<a href="../../index.html">八百万図AIツールボックスへ戻る</a></p>
+  </footer>
+</body>
+</html>

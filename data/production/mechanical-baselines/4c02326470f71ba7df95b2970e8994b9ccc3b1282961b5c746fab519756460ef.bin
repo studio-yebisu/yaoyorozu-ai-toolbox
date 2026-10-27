@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ACE-Step V1 作例：無音の説明映像（編集ソース）｜八百万図AIツールボックス</title>
+  <script>
+    // Motion Reel time contract. Runs before any module so renderConfig is reflected at init.
+    (() => {
+      const r = window.renderConfig || {};
+      const n = (v, d) => (Number.isFinite(Number(v)) && Number(v) > 0 ? Number(v) : d);
+      window.motionConfig = {duration: 32, fps: n(r.fps, 30), width: n(r.width, 720), height: n(r.height, 1280), posterTime: 31, audioEvents: []};
+      let resolve, reject;
+      window.motionReady = new Promise((a, b) => { resolve = a; reject = b; });
+      window.motionReady.catch(() => {});
+      window.__aceFilm = {resolve, reject};
+      window.seek = s => window.motionReady.then(() => window.seek(s));
+      if (window.__MOTION_RENDER__) document.documentElement.classList.add('is-render');
+    })();
+  </script>
+  <link rel="stylesheet" href="video.css">
+</head>
+<body>
+  <div class="frame">
+    <canvas id="film" width="720" height="1280" role="img" aria-label="ACE-Step V1の構造図が、依頼から保存されたWAVまで動く無音の説明映像"></canvas>
+  </div>
+
+  <div class="controls" id="controls">
+    <header class="ed-head">
+      <p class="ed-kicker"><a href="../index.html">← 作例のページへ戻る</a></p>
+      <h1>無音の説明映像（編集ソース）</h1>
+      <p class="ed-note">32秒・30fps・音声なし。図の動きは説明用で、実際の処理時間ではありません。機能としての音楽WAVは作例のページでだけ再生します。</p>
+    </header>
+
+    <div class="ed-state" id="ed-state" role="status" aria-live="polite">
+      <p id="ed-state-text">保存済みのファイルを確かめています…</p>
+      <p id="ed-state-detail" class="ed-detail"></p>
+      <button type="button" id="ed-retry" hidden>もう一度確かめる</button>
+    </div>
+
+    <div class="row" role="group" aria-label="向き">
+      <button type="button" data-orient="portrait" aria-pressed="true" disabled>縦 720×1280</button>
+      <button type="button" data-orient="wide" aria-pressed="false" disabled>横 1280×720</button>
+    </div>
+
+    <div class="row transport" role="group" aria-label="再生">
+      <button type="button" id="ed-play" aria-pressed="false" disabled>再生</button>
+      <button type="button" id="ed-replay" disabled>最初から再生</button>
+      <button type="button" id="ed-start" disabled>先頭</button>
+      <button type="button" id="ed-end" disabled>末尾</button>
+    </div>
+
+    <label class="scrub">
+      <span class="sr-only">時刻（秒）</span>
+      <input type="range" id="ed-scrub" min="0" max="32" step="0.1" value="0" disabled>
+      <output id="ed-time" for="ed-scrub">0.0 / 32.0秒</output>
+    </label>
+
+    <ol class="scenes" id="ed-scenes" aria-label="場面へ移動"></ol>
+
+    <details class="ed-block">
+      <summary>確かめた素材</summary>
+      <p class="ed-detail" id="ed-manifest"></p>
+      <ul class="ed-inventory" id="ed-inventory"></ul>
+    </details>
+
+    <details class="ed-block">
+      <summary>ソースと出典</summary>
+      <ul class="ed-links">
+        <li><a href="video.js">video.js</a>（この映像の描画と操作）・<a href="../concept.js">concept.js</a>（ページと共通の読み込み・場面・描画）</li>
+        <li><a href="storyboard.json">storyboard.json</a>（7場面：時刻・伝えること・入る状態・出る状態・動き）</li>
+        <li><a href="README.md">映像のREADME</a>（ローカルサーバー・seek・再現の契約）</li>
+        <li><a href="../vendor/ace-step/README.md">原典のREADME（固定版）</a>・<a href="https://github.com/ace-step/ACE-Step/tree/1bee4c9f5b43e30995f8d4d33b3919197ce1bd68">ace-step/ACE-Step @ 1bee4c9f</a></li>
+        <li><a href="../model-card/README.md">ACE-Step-v1-3.5B のモデルカード</a>（重みは同梱していません）</li>
+        <li><a href="../THIRD_PARTY_NOTICES.md">第三者の表示</a>・<a href="../LICENSE">MIT</a></li>
+      </ul>
+    </details>
+  </div>
+
+  <script type="module" src="video.js" onerror="window.__aceFilm.reject(new Error('video.js を読み込めませんでした'))"></script>
+</body>
+</html>

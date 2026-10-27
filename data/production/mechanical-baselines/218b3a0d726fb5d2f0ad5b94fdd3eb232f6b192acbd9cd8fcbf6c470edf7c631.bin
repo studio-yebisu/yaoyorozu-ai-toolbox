@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ja" data-page="humanizer-concept" data-state="loading" data-theme="system">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>指示書と原文を、同じAIへ｜Humanizer 作例 — 八百万図AIツールボックス</title>
+  <meta name="description" content="HumanizerはAIに文章の推敲手順を渡すMarkdownスキル。SKILL.md（6系統・26型と4つの手順）と、原文・読み手・残す条件を同じAIへ渡し、印→初稿→点検→最終稿で返る流れを、保存済みの3件から図で示します。ページではAIを動かしません。">
+  <meta name="color-scheme" content="light dark">
+  <script>try{var t=localStorage.getItem('studio-yebisu.humanizer-example.theme');if(t==='light'||t==='dark'||t==='system')document.documentElement.dataset.theme=t;}catch(e){}</script>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#data">保存済みの3件へ</a>
+
+  <header class="top wrap">
+    <p class="eyebrow">Humanizer 3.1.0 作例・八百万図AIツールボックス</p>
+    <h1>指示書と原文を、同じAIへ</h1>
+    <p class="definition">文章の推敲手順を渡すMarkdownスキル</p>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <h2 id="hero-title" class="visually-hidden">Humanizerの使い方を示す図</h2>
+      <div class="stages" role="group" aria-label="図の段階">
+        <button type="button" class="stage" data-stage="pass" aria-pressed="true" disabled>渡す</button>
+        <button type="button" class="stage" data-stage="revise" aria-pressed="false" disabled>推敲</button>
+        <button type="button" class="stage" data-stage="compare" aria-pressed="false" disabled>読み比べ</button>
+        <button type="button" id="replay" class="replay" aria-label="この段階の動きをもう一度" disabled>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 5a7 7 0 1 1-6.6 4.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <figure id="diagram-figure" class="diagram">
+        <canvas id="diagram" role="img" aria-describedby="diagram-caption" aria-label="Humanizerの図。SKILL.mdという指示書（6系統・26型と、印・初稿・点検・最終稿の4手順）と、原文・読み手・残す条件の札が、同じ1つのAIへ入ります。AIは原文を指示ではなく素材として扱い、印を付けて不要な決まり文句をはがし、初稿を原文と読み手に照らして点検し、残りがあれば初稿へ戻って直して最終稿にします。条件の札は最終稿まで残り、原文との読み比べと推敲メモのファイルにつながります。"></canvas>
+      </figure>
+
+      <div class="actions">
+        <a id="save-memo" class="btn btn-primary" aria-disabled="true">推敲メモを保存</a>
+        <a id="open-desk" class="btn" aria-disabled="true">原文と読み比べる</a>
+      </div>
+      <p id="save-meta" class="save-meta"></p>
+      <p id="diagram-caption" class="caption" aria-live="polite"></p>
+      <p id="load-status" class="load-status" role="status">保存済みの素材11件を照合しています…</p>
+      <p class="retry-row"><button id="retry" class="btn" type="button" hidden>もう一度読み込む</button></p>
+      <noscript><p class="load-status is-error">図と選択には JavaScript が必要です。下の一覧から実ファイルを直接開けます。</p></noscript>
+    </section>
+
+    <section class="parts wrap" aria-labelledby="parts-title">
+      <h2 id="parts-title">スキルの構造：6つの部分</h2>
+      <p class="lead">この作例を説明するための整理です。原典が決めた入力形式や区分ではありません。選ぶと図の該当箇所に枠が付きます。</p>
+      <div class="part-buttons" role="group" aria-label="部分">
+        <button type="button" data-part="manual" aria-pressed="true" disabled>スキルの中身</button>
+        <button type="button" data-part="input" aria-pressed="false" disabled>原文・読者・条件</button>
+        <button type="button" data-part="mark" aria-pressed="false" disabled>強い型から印</button>
+        <button type="button" data-part="draft" aria-pressed="false" disabled>初稿を書く</button>
+        <button type="button" data-part="check" aria-pressed="false" disabled>初稿を読み返す</button>
+        <button type="button" data-part="final" aria-pressed="false" disabled>最終稿と根拠</button>
+      </div>
+      <div class="readout" aria-live="polite">
+        <h3 id="part-label"></h3>
+        <p id="part-meaning"></p>
+        <pre class="quote"><code id="part-quote"></code></pre>
+        <p id="part-source" class="source-link"></p>
+      </div>
+    </section>
+
+    <section class="families wrap" aria-labelledby="families-title">
+      <h2 id="families-title">6系統・26型</h2>
+      <p class="lead">SKILL.mdの型は強いものから番号順です。禁止語の一覧ではなく、文脈とほかの型を見て判断します。下の印は、この作例で実際に保存された印だけです。</p>
+      <div class="family-buttons" role="group" aria-label="系統">
+        <button type="button" data-family="A" aria-pressed="true" disabled>A</button>
+        <button type="button" data-family="B" aria-pressed="false" disabled>B</button>
+        <button type="button" data-family="C" aria-pressed="false" disabled>C</button>
+        <button type="button" data-family="D" aria-pressed="false" disabled>D</button>
+        <button type="button" data-family="E" aria-pressed="false" disabled>E</button>
+        <button type="button" data-family="F" aria-pressed="false" disabled>F</button>
+      </div>
+      <div class="readout" aria-live="polite">
+        <h3 id="family-title"></h3>
+        <p id="family-note" class="note"></p>
+        <ol id="family-list" class="sections"></ol>
+        <h4>この作例で付いた印</h4>
+        <div id="family-marks"></div>
+      </div>
+    </section>
+
+    <section id="data" class="cases wrap" aria-labelledby="cases-title">
+      <h2 id="cases-title">保存済みの3件</h2>
+      <p class="lead">架空の製品「Mado Notes」の短文です。制作時に Claude Opus 5.5 がSKILL.mdを読んで書いた結果を、そのまま読みます。</p>
+      <div class="case-buttons" role="group" aria-label="保存済みの3件">
+        <button type="button" id="release" class="case" data-case="release" aria-pressed="true" disabled><span lang="en">Release note</span><span>英語のお知らせ</span></button>
+        <button type="button" id="reply" class="case" data-case="reply" aria-pressed="false" disabled><span lang="en">Support reply</span><span>英語のサポート返信</span></button>
+        <button type="button" id="japanese" class="case" data-case="japanese" aria-pressed="false" disabled><span lang="en">Japanese notice</span><span>日本語への適用例</span></button>
+      </div>
+
+      <div class="case-body">
+        <h3 id="case-title"></h3>
+        <dl class="fields">
+          <div><dt>目的</dt><dd id="case-purpose"></dd></div>
+          <div><dt>読み手（依頼の欄）</dt><dd id="case-reader"></dd></div>
+          <div><dt>既知として省けた背景</dt><dd id="case-known"></dd></div>
+        </dl>
+
+        <h4>残す条件</h4>
+        <div id="fact-buttons" class="fact-buttons" role="group" aria-label="残す条件"></div>
+        <div class="fact-readout" aria-live="polite">
+          <p id="fact-head" class="fact-head"></p>
+          <dl class="pair">
+            <div class="pair-src"><dt>原文</dt><dd id="fact-source"></dd></div>
+            <div class="pair-fin"><dt>最終稿</dt><dd id="fact-final"></dd></div>
+          </dl>
+          <p id="fact-note" class="note"></p>
+          <p class="note">引用どうしの文字列の対応です。意味が同じことの保証や、品質の点数ではありません。</p>
+        </div>
+
+        <h4>点検で残った型</h4>
+        <div id="case-remaining"></div>
+
+        <h4>読み手が知っている背景として省いた箇所</h4>
+        <div id="case-omissions"></div>
+
+        <details class="fold">
+          <summary>保存された説明</summary>
+          <p id="case-explain"></p>
+        </details>
+
+        <label class="field-label" for="final-text">最終稿（保存済み・読み取り専用）</label>
+        <textarea id="final-text" class="text-box" rows="6" readonly spellcheck="false"></textarea>
+        <p class="row-actions">
+          <button id="copy-final" class="btn" type="button" disabled>最終稿をコピー</button>
+        </p>
+        <p id="final-status" class="copy-status" role="status"></p>
+        <p class="row-actions">
+          <a id="desk-compare" class="btn" aria-disabled="true">原文と読み比べる</a>
+          <a id="desk-draft" class="btn btn-quiet" aria-disabled="true">初稿・点検・最終稿を見る</a>
+          <a id="json-data" class="btn btn-quiet" aria-disabled="true">結果データ（revisions.json）</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="films wrap" aria-labelledby="films-title">
+      <h2 id="films-title">図解32秒・無音</h2>
+      <p class="lead">同じ図を動かした無音の動画です。ナレーションや音声ガイドはありません。点検で1件残ったサポート返信を例にしています。</p>
+      <video id="film-portrait" class="film film--portrait" controls playsinline muted preload="metadata" poster="../../media/humanizer-example.webp" width="720" height="1280" aria-label="図解動画（縦・32秒・無音）">
+        <source src="../../media/humanizer-example.mp4" type="video/mp4">
+        <a href="../../media/humanizer-example.mp4">MP4を開く</a>
+      </video>
+      <details class="fold">
+        <summary>横長版（1280×720）</summary>
+        <video id="film-wide" class="film film--wide" controls playsinline muted preload="none" width="1280" height="720" aria-label="図解動画（横・32秒・無音）">
+          <source src="../../media/humanizer-example-wide.mp4" type="video/mp4">
+          <a href="../../media/humanizer-example-wide.mp4">MP4を開く</a>
+        </video>
+      </details>
+      <p class="links"><a href="video/index.html">編集できる図解ソース</a><a href="source.zip">入力・出力・ソース一式（source.zip）</a></p>
+    </section>
+
+    <section class="evidence wrap" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">実ファイル</h2>
+      <ul class="files">
+        <li><a href="outputs/revisions.md">outputs/revisions.md</a><span>推敲メモ：3件の原文・印・初稿・点検・最終稿・残した条件</span></li>
+        <li><a href="outputs/revisions.json">outputs/revisions.json</a><span>同じ結果の機械で読めるデータ</span></li>
+        <li><a href="inputs/jobs.json">inputs/jobs.json</a><span>原文3件・目的・読み手・残す条件17項目（架空）</span></li>
+        <li><a href="desk.html">desk.html</a><span>以前のビューア：原文と最終稿、変更点、初稿と点検</span></li>
+        <li><a href="samples.json">samples.json</a><span>原文と最終稿の組</span></li>
+        <li><a href="request.txt">request.txt</a><span>別の文章で使う依頼文</span></li>
+        <li><a href="concept/structure.json">concept/structure.json</a><span>6つの部分・6系統26型・3件の記録</span></li>
+        <li><a href="concept/manifest.json">concept/manifest.json</a><span>照合する11件の大きさとSHA-256</span></li>
+        <li><a href="verification.json">verification.json</a><span>確認の範囲</span></li>
+        <li><a href="vendor/humanizer/SKILL.md">vendor/humanizer/SKILL.md</a><span>固定版の指示書（未改変）</span></li>
+        <li><a href="vendor/humanizer/README.md">vendor/humanizer/README.md</a><span>原典のREADME（未改変）</span></li>
+        <li><a href="vendor/humanizer/LICENSE">vendor/humanizer/LICENSE</a><span>MIT License, Copyright (c) 2025 Siqi Chen</span></li>
+        <li><a href="README.md">README.md</a><span>開き方と再利用の手順</span></li>
+      </ul>
+      <p class="links">
+        <a href="https://github.com/blader/humanizer/tree/225a6f39ac85f76ee48dbad772ea4abe4ed6c9d8" rel="noopener">blader/humanizer 固定コミット 225a6f3</a>
+        <a href="https://github.com/blader/humanizer/blob/225a6f39ac85f76ee48dbad772ea4abe4ed6c9d8/SKILL.md" rel="noopener">公式のSKILL.md</a>
+      </p>
+    </section>
+
+    <section class="scope wrap" aria-labelledby="scope-title">
+      <h2 id="scope-title">確かめた範囲</h2>
+      <details class="fold">
+        <summary>分かること・まだ分からないこと</summary>
+        <ul class="plain">
+          <li>HumanizerはMarkdownの指示書です。文章を書き直すプログラム、AI検出器、書き直しAPI、モデルではありません。読んだAIが手順に従います。</li>
+          <li>このページはAIを実行しません。制作時に Claude Opus 5.5 がSKILL.mdを読み、架空の短文3件（英語2件・日本語1件）に適用した保存結果を表示します。今回の図の改修で推敲をやり直してはいません。</li>
+          <li>点検は読み返しによるもので、音読はしていません。人による校閲・承認、AI検出、品質の点数、意味が同じことの保証はありません。</li>
+          <li>残す条件17項目は、原文と最終稿の引用の対応です。英語のお知らせの「but not comments」のように、両側が情報を持つ対比は残しています。</li>
+          <li>3つの入力欄（原文・読み手・残す条件）と6つの部分は、この作例の説明用の整理で、原典が決めた入力形式ではありません。</li>
+          <li>サポート返信で背景を省いたのは、読み手欄に既知と明記された2か所だけです。点検で残った1件を§26に当てたのは元の制作AIの解釈です。</li>
+          <li>原典の説明と例は主に英語です。日本語は1件だけの適用例で、日本語全般での効果は確かめていません。</li>
+          <li>型の出典は、SKILL.mdが示すWikipediaの「Signs of AI writing」です。この作例はWikipediaの本文を転載していません。</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="request wrap" aria-labelledby="request-title">
+      <h2 id="request-title">依頼文</h2>
+      <p class="lead">原文・読み手・残す条件を書き入れ、SKILL.mdを読めるAIエージェントに渡します。まず英語の文章で試すことを勧めます。</p>
+      <label class="field-label" for="request-text">request.txt（読み取り専用）</label>
+      <textarea id="request-text" class="text-box" rows="10" readonly spellcheck="false"></textarea>
+      <p class="row-actions">
+        <button id="copy-request" class="btn" type="button" disabled>依頼文をコピー</button>
+        <a class="btn btn-quiet" href="request.txt">request.txt</a>
+      </p>
+      <p id="copy-status" class="copy-status" role="status"></p>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <div class="theme" role="group" aria-label="表示の色">
+      <button type="button" data-theme-choice="system" aria-pressed="true">端末に合わせる</button>
+      <button type="button" data-theme-choice="light" aria-pressed="false">ライト</button>
+      <button type="button" data-theme-choice="dark" aria-pressed="false">ダーク</button>
+    </div>
+    <p>Humanizer：MIT License, Copyright (c) 2025 Siqi Chen（<a href="vendor/humanizer/LICENSE">LICENSE</a>）。作例の入力・コード・画面・図解：MIT License, Copyright (c) 2026 Studio Yebisu（<a href="LICENSE">LICENSE</a>）。製品「Mado Notes」と文章はすべて架空です。原作者による承認や推奨を示すものではありません。</p>
+    <p><a href="../../case.html?id=humanizer-example">作例の解説記事へ</a></p>
+  </footer>
+</body>
+</html>

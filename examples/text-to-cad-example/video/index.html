@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self'; connect-src 'self'; font-src 'self'; media-src 'none'; base-uri 'self'; form-action 'none'; object-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>編集用ソース：小物ケースの寸法（無音24秒・説明用・CAD未実行）｜八百万図AIツールボックス</title>
+  <link rel="stylesheet" href="video.css">
+  <script type="module" src="scene.js"></script>
+</head>
+<body>
+  <main class="preview">
+    <header class="head preview-only">
+      <h1>小物ケースの寸法を、CADの前に<span>無音24秒・編集用ソース・説明用・CAD未実行</span></h1>
+      <nav aria-label="関連"><a href="../index.html">寸法の検討ページへ</a><a href="../README.md">README</a></nav>
+    </header>
+
+    <div class="stage" id="stage">
+      <canvas id="film" width="720" height="1280" role="img"
+        aria-label="無音24秒の説明用の動画で、CADは実行していない。幅100・奥行70・高さ24・壁と底2.4ミリの4つの値の札が現れ、外形の箱が立ち上がる。くぼみの箱が上から下りて床の厚さで止まり、外形から引かれて上面が開いたケースになり、内寸95.2×65.2×21.6ミリが出る。幅だけが100から130へ広がり、壁と底は2.4ミリのまま、内寸の幅は125.2ミリになる。最後に、持ち帰れるのは寸法JSONと未実行のPythonコードで、STEPとSTLは未生成と示す。"></canvas>
+    </div>
+
+    <div class="controls preview-only" id="controls">
+      <p class="status" id="status" role="status" aria-live="polite">準備しています…</p>
+      <div class="transport">
+        <button type="button" id="play" aria-pressed="false" disabled>再生</button>
+        <button type="button" id="rewind" disabled>最初へ</button>
+        <label class="scrub"><span class="visually-hidden">再生位置（秒）</span><input id="time" type="range" min="0" max="24" step="0.1" value="12" disabled></label>
+        <output id="clock" for="time">12.0 / 24.0 秒</output>
+      </div>
+      <div class="jumps" role="group" aria-label="場面へ移動">
+        <button type="button" data-jump="0" disabled>0秒 寸法</button>
+        <button type="button" data-jump="4" disabled>4秒 外形の箱</button>
+        <button type="button" data-jump="9" disabled>9秒 くぼみを引く</button>
+        <button type="button" data-jump="14" disabled>14秒 幅100→130</button>
+        <button type="button" data-jump="20" disabled>20秒 持ち帰れるもの</button>
+      </div>
+      <div class="orient" role="group" aria-label="画面の向き">
+        <button type="button" data-orient="portrait" aria-pressed="true">縦 720×1280</button>
+        <button type="button" data-orient="wide" aria-pressed="false">横 1280×720</button>
+      </div>
+      <p class="hint">確認用の操作です。書き出し（renderモード）ではこの欄を出さず、タイマーも動かしません。寸法と投影は ../dims.mjs から作り、CADカーネルの出力ではありません。音声はありません。</p>
+    </div>
+  </main>
+</body>
+</html>

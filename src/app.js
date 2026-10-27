@@ -29,6 +29,10 @@
     q: '', cat: 'all', kind: 'all', withCase: false, savedOnly: false, limit: PAGE_SIZE
   };
 
+  let typingTimer = 0;
+  let urlTimer = 0;
+  let composing = false;
+
   const list = $('[data-entries]');
   const status = $('[data-status]');
   const empty = $('[data-empty]');
@@ -496,16 +500,18 @@
     return state.categories[id] ? id : null;
   }
 
-  function readURL() {
+  function readURL(saved = history.state) {
     const params = new URLSearchParams(location.search);
     const kind = params.get('kind');
+    const cat = params.get('cat');
     return {
       q: params.get('q') || '',
       kind: KINDS.has(kind) ? kind : 'all',
       withCase: params.get('case') === '1',
       savedOnly: params.get('saved') === '1',
-      cat: categoryFromHash() || 'all',
-      limit: PAGE_SIZE
+      cat: categoryFromHash() || (state.categories[cat] && cat) || 'all',
+      limit: saved && saved.sy === 1 && Number.isInteger(saved.limit) && saved.limit >= PAGE_SIZE
+        ? Math.min(saved.limit, Math.max(PAGE_SIZE, Math.ceil(state.entries.length / PAGE_SIZE) * PAGE_SIZE)) : PAGE_SIZE
     };
   }
 
@@ -513,36 +519,50 @@
     const params = new URLSearchParams();
     const q = state.q.trim();
     if (q) params.set('q', q);
+    if (state.cat !== 'all') params.set('cat', state.cat);
     if (state.kind !== 'all') params.set('kind', state.kind);
     if (state.withCase) params.set('case', '1');
     if (state.savedOnly) params.set('saved', '1');
     const query = params.toString();
     let hash = location.hash;
-    if (state.cat !== 'all') hash = '#' + encodeURIComponent(state.cat);
-    else if (forceHash) hash = forceHash;
+    if (forceHash) hash = forceHash;
+    else if (state.cat !== 'all' && (!hash || categoryFromHash())) hash = '#' + encodeURIComponent(state.cat);
     else if (categoryFromHash() || (query && !hash)) hash = '#catalog';
     return location.pathname + (query ? '?' + query : '') + hash;
   }
 
   function writeURL(push, forceHash) {
+    clearTimeout(urlTimer);
     try {
-      history[push ? 'pushState' : 'replaceState']({sy: 1, cat: state.cat}, '', urlFor(forceHash));
+      history[push ? 'pushState' : 'replaceState']({sy: 1, cat: state.cat, limit: state.limit}, '', urlFor(forceHash));
     } catch (_) { /* Safari rate-limits history calls; the filters still apply on the page. */ }
   }
 
-  let urlTimer = 0;
   function writeURLSoon() {
     clearTimeout(urlTimer);
     urlTimer = setTimeout(() => writeURL(false), 400);
   }
 
-  function syncInputs() {
-    if (document.activeElement !== search) search.value = state.q;
-    if (document.activeElement !== heroSearch) heroSearch.value = state.q;
+  function syncInputs(force = false) {
+    if (force || document.activeElement !== search) search.value = state.q;
+    if (force || document.activeElement !== heroSearch) heroSearch.value = state.q;
+  }
+
+  function cancelPendingSearch() {
+    clearTimeout(typingTimer);
+    clearTimeout(urlTimer);
+    typingTimer = 0;
+  }
+
+  function readSearch() {
+    cancelPendingSearch();
+    state.q = search.value;
+    heroSearch.value = state.q;
   }
 
   function scrollToSection(selector, smooth = true) {
     const section = $(selector);
+    if (!section.hasAttribute('tabindex')) section.setAttribute('tabindex', '-1');
     section.scrollIntoView({behavior: smooth ? scrollBehavior() : 'auto', block: 'start'});
     section.focus({preventScroll: true});
   }
@@ -551,10 +571,10 @@
 
   // On a fresh visit to a deep link, the content above has only just been built, so scroll again.
   // Reload and back/forward keep the position the browser restores.
-  function settleInitialScroll(hadCategory) {
+  function settleInitialScroll() {
     const nav = performance.getEntriesByType ? performance.getEntriesByType('navigation')[0] : null;
     if (nav && nav.type !== 'navigate') return;
-    if (hadCategory) return scrollToCatalog(false);
+    if (categoryFromHash()) return scrollToCatalog(false);
     const id = location.hash.slice(1);
     const target = /^[a-z][a-z0-9-]*$/i.test(id) ? document.getElementById(id) : null;
     if (target && id !== 'top') target.scrollIntoView({block: 'start'});
@@ -562,13 +582,15 @@
 
   let restoredFromHistory = false;
   window.addEventListener('popstate', event => {
+    cancelPendingSearch();
+    composing = false;
+    if (window.SY.casePreview) window.SY.casePreview.close();
     restoredFromHistory = Boolean(event.state && event.state.sy === 1);
     if (!state.loaded && !Array.isArray(state.cases)) return;
-    const next = readURL();
+    const next = readURL(event.state);
     if (restoredFromHistory) next.cat = state.categories[event.state.cat] ? event.state.cat : 'all';
-    else if (!categoryFromHash()) next.cat = state.cat; // plain section anchors keep the chosen field
     Object.assign(state, next);
-    syncInputs();
+    syncInputs(true);
     render();
   });
 
@@ -686,7 +708,7 @@
 
     render();
     writeURL(false);
-    if (firstRun) settleInitialScroll(fromURL.cat !== 'all');
+    if (firstRun) settleInitialScroll();
     firstRun = false;
   }
 
@@ -699,6 +721,7 @@
   // If the case list could not be read, it goes to the catalog as before.
   $('[data-hero-form]').addEventListener('submit', event => {
     event.preventDefault();
+    cancelPendingSearch();
     Object.assign(state, {q: heroSearch.value, cat: 'all', kind: 'all', withCase: false, savedOnly: false, limit: PAGE_SIZE});
     search.value = heroSearch.value;
     render();
@@ -708,6 +731,7 @@
   });
 
   function clearGallery(fields) {
+    cancelPendingSearch();
     Object.assign(state, fields, {limit: PAGE_SIZE});
     search.value = state.q;
     heroSearch.value = state.q;
@@ -716,6 +740,7 @@
   }
 
   savedFilter.addEventListener('click', () => {
+    readSearch();
     state.savedOnly = !state.savedOnly;
     state.limit = PAGE_SIZE;
     render();
@@ -735,6 +760,7 @@
   $('#cases').addEventListener('click', event => {
     const chip = event.target.closest('[data-gallery-cat]');
     if (chip) {
+      readSearch();
       // The page stays at the gallery; the catalog below follows the same field.
       state.cat = chip.dataset.galleryCat || 'all';
       state.limit = PAGE_SIZE;
@@ -779,23 +805,34 @@
   });
 
   // Catalog search filters while typing, without moving the page.
-  let typingTimer = 0;
-  search.addEventListener('input', () => {
+  function scheduleSearch() {
     clearTimeout(typingTimer);
     typingTimer = setTimeout(() => {
+      typingTimer = 0;
       state.q = search.value;
       state.limit = PAGE_SIZE;
       heroSearch.value = search.value;
       render();
       writeURLSoon();
     }, 150);
+  }
+  search.addEventListener('compositionstart', () => {
+    composing = true;
+    cancelPendingSearch();
+  });
+  search.addEventListener('compositionend', () => {
+    composing = false;
+    scheduleSearch();
+  });
+  search.addEventListener('input', event => {
+    if (!composing && !event.isComposing) scheduleSearch();
   });
 
   // The keyboard's search key: apply now; on touch screens close the keyboard and show the results.
   $('[data-catalog-form]').addEventListener('submit', event => {
     event.preventDefault();
-    clearTimeout(typingTimer);
-    state.q = search.value;
+    if (composing) return;
+    readSearch();
     state.limit = PAGE_SIZE;
     render();
     writeURL(false);
@@ -806,6 +843,7 @@
   });
 
   catSelect.addEventListener('change', () => {
+    readSearch();
     state.cat = state.categories[catSelect.value] ? catSelect.value : 'all';
     state.limit = PAGE_SIZE;
     render();
@@ -814,6 +852,7 @@
 
   for (const button of $$('[data-kind]')) {
     button.addEventListener('click', () => {
+      readSearch();
       state.kind = KINDS.has(button.dataset.kind) ? button.dataset.kind : 'all';
       state.limit = PAGE_SIZE;
       render();
@@ -822,6 +861,7 @@
   }
 
   withCaseBox.addEventListener('change', () => {
+    readSearch();
     state.withCase = withCaseBox.checked;
     state.limit = PAGE_SIZE;
     render();
@@ -833,10 +873,11 @@
     const link = event.target.closest('[data-cat-link]');
     if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
+    readSearch();
     state.cat = state.categories[link.dataset.catLink] ? link.dataset.catLink : 'all';
     state.limit = PAGE_SIZE;
     render();
-    writeURL(true);
+    writeURL(true, '#' + encodeURIComponent(state.cat));
     scrollToCatalog();
   });
 
@@ -844,6 +885,7 @@
     const before = state.limit;
     state.limit += PAGE_SIZE;
     renderCatalog();
+    writeURL(false);
     // Continue from the first newly shown item.
     const next = list.children[before];
     const link = next && $('.entry-name a', next);
@@ -852,6 +894,7 @@
 
   for (const button of $$('[data-reset]')) {
     button.addEventListener('click', () => {
+      cancelPendingSearch();
       Object.assign(state, {q: '', cat: 'all', kind: 'all', withCase: false, savedOnly: false, limit: PAGE_SIZE});
       search.value = '';
       heroSearch.value = '';
@@ -890,8 +933,28 @@
     if (Array.isArray(state.cases)) $('#cases').focus({preventScroll: true});
   });
 
+  // Keep filters in shareable URLs when navigation uses a section hash. Old category hashes
+  // remain valid; a section and a selected category can now coexist after reload/back/forward.
+  document.addEventListener('click', event => {
+    if (event.defaultPrevented || !plainClick(event)) return;
+    const link = event.target.closest('a[href]');
+    const hash = link && link.getAttribute('href');
+    if (!/^#(?:top|cases|feature|fields|catalog|howto)$/.test(hash || '')) return;
+    if (!state.loaded && !Array.isArray(state.cases)) return;
+    event.preventDefault();
+    if (typingTimer && !composing) {
+      readSearch();
+      state.limit = PAGE_SIZE;
+      render();
+      writeURL(false);
+    }
+    writeURL(true, hash);
+    const target = hash === '#feature' ? '#cases' : hash;
+    scrollToSection(target);
+  });
+
   document.addEventListener('keydown', event => {
-    if (event.key !== '/' || event.ctrlKey || event.metaKey || event.altKey) return;
+    if (event.defaultPrevented || event.isComposing || event.key !== '/' || event.ctrlKey || event.metaKey || event.altKey) return;
     if (document.documentElement.classList.contains('has-preview')) return;
     const active = document.activeElement;
     if (active && (active.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName))) return;

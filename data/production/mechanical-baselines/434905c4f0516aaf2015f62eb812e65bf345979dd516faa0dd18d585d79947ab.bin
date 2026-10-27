@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#fbf8f1">
+  <title>問い合わせを、3つの担当へ。— Dify ワークフローの作例 | 八百万図AIツールボックス</title>
+  <meta name="description" content="架空の問い合わせ8件を、Dify 形式のワークフロー（DSL）のルールで3つの担当へ振り分け、日本語の引き継ぎメモを作った保存済みの実行記録です。">
+  <link rel="stylesheet" href="comparison.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <header class="masthead">
+    <p class="kicker">八百万図AIツールボックス 作例 ・ 自動化・連携</p>
+    <h1 class="title">
+      <span class="title-line">問い合わせを、</span>
+      <span class="title-line">3つの担当へ。</span>
+    </h1>
+    <p class="lead">架空の問い合わせ8件を、決めたルールで振り分け、担当への引き継ぎメモを作りました。</p>
+    <p class="badge">保存した実行記録です。ここで AI は動きません。</p>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div id="status" class="status" data-state="loading" role="status" aria-live="polite">
+      <p id="status-text">実行記録を読み込んでいます…</p>
+      <button id="retry" class="button button-quiet" type="button" hidden>もう一度読み込む</button>
+    </div>
+
+    <section class="picker" aria-labelledby="picker-heading">
+      <h2 id="picker-heading" class="visually-hidden">問い合わせを選ぶ</h2>
+      <label class="field-label" for="sample-select">問い合わせを選ぶ（8件）</label>
+      <select id="sample-select" disabled></select>
+      <div id="sample-list" class="sample-list" role="group" aria-label="問い合わせ8件"></div>
+    </section>
+
+    <div id="result" class="result" hidden>
+      <section class="ticket" aria-labelledby="sample-title">
+        <h2 id="sample-title" class="ticket-title"></h2>
+        <p id="summary" class="summary"></p>
+        <details id="ticket-input" class="disclosure"><summary>元の問い合わせを見る</summary>
+        <dl class="ticket-facts">
+          <div><dt>件名</dt><dd id="ticket-subject" class="wrap-anywhere"></dd></div>
+          <div><dt>種類</dt><dd id="ticket-issue"></dd></div>
+          <div><dt>緊急度</dt><dd id="ticket-urgency"></dd></div>
+          <div><dt>影響人数</dt><dd id="ticket-users"></dd></div>
+        </dl>
+        </details>
+      </section>
+
+      <section class="memo" aria-labelledby="memo-heading">
+        <div class="memo-head">
+          <h2 id="memo-heading" class="memo-heading">担当</h2>
+          <p id="route-label" class="route-label"></p>
+        </div>
+        <p class="memo-caption">実際に返った引き継ぎメモ</p>
+        <pre id="memo-text" class="memo-text"></pre>
+      </section>
+
+      <section class="flow" aria-labelledby="flow-heading">
+        <h2 id="flow-heading" class="section-heading">通った道筋</h2>
+        <p class="flow-caption">7つのノードのうち、この実行で成功したノードに色を付けています。</p>
+        <ol class="flow-list">
+          <li class="flow-node" data-node="start"><span class="node-name">問い合わせを受け取る</span><code class="node-id">start</code></li>
+          <li class="flow-node" data-node="route"><span class="node-name">担当を決める</span><code class="node-id">route</code></li>
+          <li class="flow-branches">
+            <ul class="branch-list">
+              <li class="flow-node branch" data-node="urgent-note" data-route="urgent"><span class="node-name">優先対応のメモ</span><code class="node-id">urgent-note</code></li>
+              <li class="flow-node branch" data-node="billing-note" data-route="billing"><span class="node-name">請求窓口のメモ</span><code class="node-id">billing-note</code></li>
+              <li class="flow-node branch" data-node="support-note" data-route="false"><span class="node-name">通常窓口のメモ</span><code class="node-id">support-note</code></li>
+            </ul>
+          </li>
+          <li class="flow-node" data-node="merge"><span class="node-name">メモをまとめる</span><code class="node-id">merge</code></li>
+          <li class="flow-node" data-node="end"><span class="node-name">結果を返す</span><code class="node-id">end</code></li>
+        </ol>
+        <p class="path-line">実際の順：<code id="path-text" class="wrap-anywhere"></code></p>
+        <div class="rule">
+          <h3 class="rule-heading">担当を決めるルール（上から順に判定）</h3>
+          <ol class="rule-list">
+            <li><strong>優先対応</strong>：緊急度が「至急」、または影響人数が100人以上</li>
+            <li><strong>請求窓口</strong>：種類が「請求」</li>
+            <li><strong>通常窓口</strong>：どちらにも当てはまらない</li>
+          </ol>
+          <p class="rule-note">最初に当てはまった分岐だけを通ります。文章の意味を読み取る AI の分類ではなく、決めた値の比較とテンプレートの差し込みです。</p>
+        </div>
+      </section>
+
+      <section class="actions" aria-labelledby="actions-heading">
+        <h2 id="actions-heading" class="section-heading">記録を持ち帰る</h2>
+        <div class="action-row">
+          <button id="download-record" class="button" type="button" disabled>この1件を JSON で保存</button>
+          <button id="copy-request" class="button button-quiet" type="button" disabled>依頼文をコピー</button>
+        </div>
+        <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+        <label id="request-fallback-label" class="field-label" for="request-fallback" hidden>コピーできなかったため全文を選択しました。長押しでコピーしてください。</label>
+        <textarea id="request-fallback" class="request-fallback" readonly rows="8" hidden></textarea>
+      </section>
+
+      <details id="case-check-details" class="disclosure">
+        <summary>この1件の自動確認の内訳</summary>
+        <ul id="case-checks" class="check-list"></ul>
+      </details>
+
+      <details id="raw-details" class="disclosure">
+        <summary>入力と出力の JSON（全文）</summary>
+        <h3 class="pre-heading">入力（input）</h3>
+        <pre id="input-text" class="code-block"></pre>
+        <h3 class="pre-heading">出力（output）</h3>
+        <pre id="output-text" class="code-block"></pre>
+      </details>
+
+      <details id="events-details" class="disclosure">
+        <summary>エンジンのイベント（<span id="events-count">0</span>件・全文）</summary>
+        <p class="disclosure-note">graphon の GraphEngine.run() が返したイベントを、型の名前と model_dump(mode="json") のまま並べています。ID と時刻は実行ごとに変わります。</p>
+        <pre id="events-text" class="code-block"></pre>
+      </details>
+
+      <details id="tech-details" class="disclosure">
+        <summary>原典・版・ハッシュと、DSL の確認</summary>
+        <dl id="tech-list" class="tech-list"></dl>
+        <h3 class="pre-heading">壊れた DSL を渡した確認</h3>
+        <ul id="probe-list" class="probe-list"></ul>
+        <h3 class="pre-heading">Dify の WorkflowGraphTopology で見たつながり</h3>
+        <pre id="topology-text" class="code-block"></pre>
+      </details>
+    </div>
+
+    <section class="film" aria-labelledby="film-heading">
+      <h2 id="film-heading" class="section-heading">32秒で、使い方を見る</h2>
+      <video controls playsinline preload="none" width="1280" height="720" poster="../../media/dify-example.webp" style="display:block;width:100%;height:auto;border-radius:10px;background:#1b2333" src="../../media/dify-example.mp4"></video>
+      <p>32秒・無音。実行結果と、このページの実画面から作った解説です。</p>
+      <p><a href="../../media/dify-example.mp4">MP4を大きく見る</a> · <a href="video/index.html">動画の編集ソース</a> · <a href="source.zip">入力・実装・映像ソース一式</a></p>
+    </section>
+
+    <section class="scope" aria-labelledby="scope-heading">
+      <h2 id="scope-heading" class="section-heading">試したこと・試していないこと</h2>
+      <ul class="scope-list">
+        <li>試したこと：自作の Dify DSL を、Dify 1.17.1 が依存に指定する graphon 0.7.0（公式 wheel、改変なし）の <code>graphon.dsl.loads</code> と GraphEngine で8件ぶん実行しました。つながりは Dify 本体の <code>WorkflowGraphTopology</code> でも確かめています。</li>
+        <li>試していないこと：Dify のサーバー・管理画面・API、difyctl、Dify の画面への DSL の取り込み、モデル（LLM）・ナレッジ検索・ツール。入力フォームの選択肢の検証も試していません。</li>
+        <li>8件の問い合わせと人名・社名はすべて架空です。</li>
+      </ul>
+    </section>
+
+    <section class="files" aria-labelledby="files-heading">
+      <h2 id="files-heading" class="section-heading">ファイル</h2>
+      <ul class="file-list">
+        <li><a href="outputs/workflow-runs.json">実行記録（outputs/workflow-runs.json）</a></li>
+        <li><a href="workflow.yml">ワークフローの DSL（workflow.yml）</a></li>
+        <li><a href="input/tickets.json">架空の問い合わせ8件（input/tickets.json）</a></li>
+        <li><a href="input/expected.json">実行前に決めた分岐（input/expected.json）</a></li>
+        <li><a href="outputs/method.md">手順と読み方（outputs/method.md）</a></li>
+        <li><a href="README.md">再現の手順（README.md）</a></li>
+        <li><a href="request.txt">依頼文（request.txt）</a></li>
+        <li><a href="source.zip">入力・結果・ソース一式（source.zip）</a></li>
+        <li><a href="vendor/dify/README.md">Dify 原典 README（固定版）</a></li>
+        <li><a href="vendor/dify/LICENSE">Dify Open Source License（固定版）</a></li>
+        <li><a href="vendor/graphon-wheel/graphon-0.7.0.dist-info/licenses/LICENSE">graphon 0.7.0 の LICENSE（Apache-2.0）</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>作例のコード・文章は MIT License（Copyright (c) 2026 Studio Yebisu）。vendor/dify/ は langgenius/dify の固定版を改変せずに置いたもので、Dify Open Source License（Apache License 2.0 を基に、マルチテナント提供とフロントエンドのロゴ・著作権表示に関する追加条件付き）です。vendor/graphon-wheel/ は graphon 0.7.0 の公式 wheel の中身で、Apache License 2.0 です。Dify のロゴや画面は使っていません。</p>
+  </footer>
+
+  <script src="comparison.js"></script>
+</body>
+</html>

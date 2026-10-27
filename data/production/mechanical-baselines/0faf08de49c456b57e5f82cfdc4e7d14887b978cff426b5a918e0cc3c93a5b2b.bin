@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f7f3ea">
+<title>好みを覚えて、次に引き出す。｜Mem0 OSS 作例（架空の2人）｜八百万図AIツールボックス</title>
+<meta name="description" content="Mem0 のオープンソース版 Memory API で、架空の2人の好み7件を infer=False で保存し、検索・更新・削除・別プロセスでの読み直しを実行した保存済みの記録を、入力と出力の組で読むページです。">
+<link rel="stylesheet" href="comparison.css">
+</head>
+<body>
+<a class="skip" href="#main">本文へ移動</a>
+
+<header class="mast band">
+  <a class="back" href="../../case.html?id=mem0-example">← 作例の記事へ</a>
+  <p class="kicker">Mem0 OSS SDK ・ 架空の2人 ・ 7件の好み</p>
+  <h1><span>好みを覚えて、</span><span>次に引き出す。</span></h1>
+  <p class="lede">架空の2人の好み7件で、保存・検索・更新・削除を試します。</p>
+  <p class="badges">
+    <span class="badge">保存済みの実行記録</span>
+  </p>
+  <details class="pin">
+    <summary>原典と固定版</summary>
+    <dl id="pin-list" class="pin-list">
+      <div><dt>表示するもの</dt><dd>保存済みの実結果です。ブラウザー内でMem0・Python・推論は動きません。別のPythonプロセスからの読み直しも確認しています。</dd></div>
+      <div><dt>原典</dt><dd>mem0ai/mem0 コミット 0724291（SDK 2.2.1・Apache-2.0）。改変せずに vendor/mem0 に同梱</dd></div>
+      <div><dt>埋め込み</dt><dd>sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 コミット e8f8c21（Apache-2.0）。重みは配布しません</dd></div>
+    </dl>
+  </details>
+</header>
+
+<main id="main">
+  <div class="band">
+    <p id="status" class="status" data-state="loading" role="status" aria-live="polite">保存済みの記録を読み込んでいます…</p>
+    <section id="error-box" class="error-box" aria-labelledby="error-h" hidden>
+      <h2 id="error-h">記録を表示できません</h2>
+      <p id="error-text"></p>
+      <p class="hint">内蔵の代わりのデータは使いません。ファイルを確かめてから読み込み直してください。</p>
+      <button type="button" id="retry" class="btn">もう一度読み込む</button>
+    </section>
+  </div>
+
+  <div id="viewer" hidden>
+    <section class="band chooser" aria-labelledby="chooser-h">
+      <h2 id="chooser-h" class="chooser-h">8つの場面</h2>
+      <div id="sample-list" class="sample-list" role="group" aria-labelledby="chooser-h">
+        <button type="button" class="pick" data-id="M01" aria-pressed="false" disabled><span class="pick-id">M01</span><span class="pick-label"></span></button>
+        <button type="button" class="pick" data-id="M02" aria-pressed="false" disabled><span class="pick-id">M02</span><span class="pick-label"></span></button>
+        <button type="button" class="pick" data-id="M03" aria-pressed="false" disabled><span class="pick-id">M03</span><span class="pick-label"></span></button>
+        <button type="button" class="pick" data-id="M04" aria-pressed="false" disabled><span class="pick-id">M04</span><span class="pick-label"></span></button>
+        <button type="button" class="pick" data-id="M05" aria-pressed="false" disabled><span class="pick-id">M05</span><span class="pick-label"></span></button>
+        <button type="button" class="pick" data-id="M06" aria-pressed="false" disabled><span class="pick-id">M06</span><span class="pick-label"></span></button>
+        <button type="button" class="pick" data-id="M07" aria-pressed="false" disabled><span class="pick-id">M07</span><span class="pick-label"></span></button>
+        <button type="button" class="pick" data-id="M08" aria-pressed="false" disabled><span class="pick-id">M08</span><span class="pick-label"></span></button>
+      </div>
+    </section>
+
+    <article id="sample" class="band sample" aria-labelledby="sample-title">
+      <p id="operation-label" class="op"></p>
+      <h2 id="sample-title" class="sample-title" tabindex="-1"></h2>
+      <p id="summary" class="summary"></p>
+
+      <div id="input-output" class="io">
+        <section class="io-part io-in" aria-labelledby="in-h">
+          <h3 id="in-h" class="io-h"><span class="io-tag">入力</span>実際に渡した値</h3>
+          <div id="input-view" class="input-view"></div>
+        </section>
+        <section class="io-part io-out" aria-labelledby="out-h">
+          <h3 id="out-h" class="io-h"><span class="io-tag io-tag-out">出力</span>Mem0 が返した記録</h3>
+          <div id="memory-list" class="memory-list"></div>
+        </section>
+      </div>
+
+      <p id="sample-note" class="sample-note"></p>
+
+      <details id="raw-details" class="raw">
+        <summary>この場面の生のJSON（入力と出力の全文）</summary>
+        <p class="hint">記録 outputs/memory-run.json のこの場面をそのまま整形しています。ID・スコア・時刻は丸めていません。</p>
+        <h4 class="raw-h">input</h4>
+        <pre id="input-text" class="json" tabindex="0"></pre>
+        <h4 class="raw-h">output</h4>
+        <pre id="output-text" class="json" tabindex="0"></pre>
+      </details>
+
+      <div class="actions">
+        <button type="button" id="download-record" class="btn" disabled>この場面をJSONで保存</button>
+        <button type="button" id="copy-request" class="btn btn-quiet" disabled>依頼文をコピー</button>
+      </div>
+      <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+      <div id="copy-fallback" class="copy-fallback" hidden>
+        <label for="copy-fallback-text">コピーできませんでした。下の全文を長押し（または選択）してコピーしてください。</label>
+        <textarea id="copy-fallback-text" rows="8" readonly></textarea>
+      </div>
+    </article>
+
+    <section class="band explain" aria-labelledby="explain-h">
+      <h2 id="explain-h">結果の読み方</h2>
+      <dl class="explain-list">
+        <div>
+          <dt>そのまま保存（infer=False）</dt>
+          <dd>7件とも <code>Memory.add(..., infer=False)</code> で、渡した文を1件ずつそのまま保存しました。LLMによる要点の抽出・重複の統合・回答の生成は使っていません。Memory は設定上LLMのクライアントを必ず作るため、公式の Ollama 設定を閉じたポートに向けて置き、一度も呼んでいません。</dd>
+        </div>
+        <div>
+          <dt>Mem0スコア</dt>
+          <dd id="score-note">検索の並び順を決める Mem0 の値です。確率や確信度ではありません。</dd>
+        </div>
+        <div>
+          <dt>埋め込み</dt>
+          <dd id="vector-note">ベクトルは固定版の多言語埋め込みモデルがCPUで計算しました。</dd>
+        </div>
+        <div>
+          <dt>利用者ごとの分離</dt>
+          <dd>検索の範囲は、アプリが渡す <code>filters={"user_id": ...}</code> で分かれます。認証や権限の仕組みではありません。実際のアプリでは、呼び出す側が利用者を認証し、その人のIDだけを渡す必要があります。</dd>
+        </div>
+        <div>
+          <dt>削除と履歴</dt>
+          <dd>M06 の削除は、記録を取得・一覧・検索の対象から外す操作です。SQLite の履歴には削除前の本文と DELETE の行が残ります。ファイルからの物理的な消去や履歴の削除は確かめていません。</dd>
+        </div>
+        <div>
+          <dt>更新</dt>
+          <dd>M05 の書き換えは、実行スクリプトが <code>Memory.update</code> を明示的に呼んだものです。Mem0 が古い好みを自動で直したのではありません。</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="band run-facts" aria-labelledby="facts-h">
+      <h2 id="facts-h">この記録で確かめたこと</h2>
+      <ul id="facts-list" class="facts-list"></ul>
+    </section>
+  </div>
+
+  <div class="band lower">
+    <details class="more">
+      <summary>元のファイル（入力と結果）</summary>
+      <ul class="link-list">
+        <li><a href="input/memories.json">架空の好み7件（input/memories.json）</a></li>
+        <li><a href="input/scenarios.json">8つの場面（input/scenarios.json）</a></li>
+        <li><a href="input/model-source.json">埋め込みモデルの固定版と11ファイル（input/model-source.json）</a></li>
+        <li><a href="outputs/memory-run.json">実行記録の全体（outputs/memory-run.json）</a></li>
+        <li><a href="outputs/method.md">手順と読み方（outputs/method.md）</a></li>
+      </ul>
+    </details>
+
+    <details class="more">
+      <summary>同じ記録を作り直す手順</summary>
+      <div class="more-body">
+        <p>公開フォルダーとは別の場所に作業用のコピーを作り、Python の仮想環境で次を実行します。モデルの取得（約494MB）は最初の1回だけ通信します。<code>run.py</code> の実行中は通信を拒否し、試みが1件でもあれば失敗にします。既にある <code>outputs/memory-run.json</code> は上書きしません。</p>
+        <pre class="cmd"><code>python -m pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cpu
+python -m pip install -r requirements.txt
+python run.py --model-dir &lt;MODEL_DIR&gt; --artifact-dir &lt;ARTIFACT_DIR&gt;</code></pre>
+        <p>モデルの取得方法は README.md にあります。UUID・時刻・小数の末尾は実行ごとに変わることがあります。</p>
+        <ul class="link-list">
+          <li><a href="run.py">run.py（実行スクリプト）</a></li>
+          <li><a href="requirements.txt">requirements.txt（依存）</a></li>
+          <li><a href="README.md">README.md（使い方と範囲）</a></li>
+          <li><a href="brief.json">brief.json（制作ブリーフ）</a></li>
+          <li><a href="request.txt">request.txt（依頼文）</a></li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="more">
+      <summary>原典とライセンス</summary>
+      <div class="more-body">
+        <p>Mem0（mem0ai/mem0）の固定コミット 0724291bd864cf807e88ee8981c8226644e8fb42 のファイルを改変せずに同梱しています。Apache License 2.0、Copyright [2023] [Taranjeet Singh]。埋め込みモデルは Apache-2.0 で、重みはこのページから配布しません。</p>
+        <ul class="link-list">
+          <li><a href="vendor/mem0/skills/mem0/SKILL.md">Mem0公式SDKスキル（固定版）</a></li>
+          <li><a href="vendor/mem0/skills/mem0/client/python.md">Python SDK の参照（OSS の Memory を含む）</a></li>
+          <li><a href="vendor/mem0/mem0/memory/main.py">Memory の実装（memory/main.py）</a></li>
+          <li><a href="vendor/mem0/mem0/embeddings/huggingface.py">Hugging Face 埋め込み（embeddings/huggingface.py）</a></li>
+          <li><a href="vendor/mem0/mem0/vector_stores/qdrant.py">Qdrant 保存先（vector_stores/qdrant.py）</a></li>
+          <li><a href="vendor/mem0/mem0/memory/storage.py">SQLite 履歴（memory/storage.py）</a></li>
+          <li><a href="vendor/mem0/LICENSE">Mem0 LICENSE（Apache-2.0）</a></li>
+          <li><a href="https://github.com/mem0ai/mem0/tree/0724291bd864cf807e88ee8981c8226644e8fb42">GitHub の固定コミット</a></li>
+          <li><a href="https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/tree/e8f8c211226b894fcb81acc59f3b34ba3efd5f42">埋め込みモデルの固定版（Hugging Face）</a></li>
+          <li><a href="LICENSE">作例の LICENSE（MIT・八百万図AIツールボックス）</a></li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</main>
+
+<!-- The parent production step inserts the video section here after rendering. -->
+
+<footer class="foot band">
+  <p>作例のコード・文章・架空の入力：MIT License（Copyright (c) 2026 Studio Yebisu）。Mem0：Apache License 2.0（Copyright [2023] [Taranjeet Singh]）。aya・ken と7件の好みはすべて架空で、実在の人の記録ではありません。</p>
+  <a class="block-link" href="../../case.html?id=mem0-example">作例の記事へ戻る</a>
+</footer>
+
+<script src="comparison.js" defer></script>
+<section class="publication-movie" aria-labelledby="movie-title"><h2 id="movie-title">28秒で、記憶を保存して引き出す</h2><p>実際の検索・更新結果とスマホ画面を編集した無音動画です。入力した情報を直接保存し、会話からの自動抽出は使っていません。</p><video controls playsinline preload="none" poster="../../media/mem0-example.webp" style="display:block;width:100%;height:auto" aria-label="Mem0の保存・検索・更新を説明する28秒の無音動画"><source src="../../media/mem0-example.mp4" type="video/mp4"><a href="../../media/mem0-example.mp4">MP4を開く</a></video><nav class="publication-links" aria-label="動画とソース"><a href="../../media/mem0-example.mp4">動画を大きく見る</a><a href="video/index.html">編集できる動画ソース</a><a href="source.zip">入力・結果・ソース一式</a><a href="verification.json">確認の範囲</a></nav></section>
+</body>
+</html>

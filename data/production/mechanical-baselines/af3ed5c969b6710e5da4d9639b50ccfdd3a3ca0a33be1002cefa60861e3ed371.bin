@@ -1,0 +1,243 @@
+{
+  "id": "voicestudio-example",
+  "title": "VoiceStudio",
+  "title_lines": [
+    "音声合成・吹き替え・文字起こしをまとめた制作アプリ"
+  ],
+  "category": "audio",
+  "summary": "用途に合うモデルを選び、手元の音声ファイルを処理できます。音声の生成や吹き替え、文字起こしの結果を、アプリやAPIから取り出せます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/voicestudio-example/index.html",
+  "video": "media/voicestudio-example.mp4",
+  "poster": "media/voicestudio-example.webp",
+  "skill": "examples/voicestudio-example/vendor/voicestudio/skills/voicestudio/SKILL.md",
+  "skill_label": "VoiceStudio公開のエージェントスキル（SKILL.md・Markdownの手順書）",
+  "skill_description": "VoiceStudioのリポジトリが公開している、AIエージェント向けのMarkdownの手順書です。モデルでも、自律的に動くエージェントの集まりでもありません。手元のバックエンドへの接続の確かめ方（GET /health・GET /openapi.json）、認証を外さないこと、未導入のモデルを黙ってダウンロードしないこと、文字起こしの呼び方（POST /v1/audio/transcriptions と verbose_json）が書かれています。この作例で使ったのは「Connect and discover」と「Transcribe」の範囲だけです。作者AIはこの手順書と固定版の原典を読み、アプリ付属の原典CLIだけを呼ぶクライアント run_example.py を書きました。実際に実行したのはその run_example.py で、制作担当が成功した出力を検証より先に保存する順序だけを補正してから実行しています。",
+  "samples": "examples/voicestudio-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "渡したWAVと、返った文字と時刻",
+  "samples_intro": "input は手元のAPIに送ったWAVと条件、output は実際に返った2つの推定区間と全文、保存したJSON・TXTのバイト数です。3件とも原典CLIで1回ずつ送りました。参照文はVoiceStudioに送っておらず、認識のあとで文字どおり比べただけです。secondの「915」などは返ったまま直していません。人による試聴はしていません。",
+  "demo_description": "大きな構造図が主役です。「default・expressive・second」で実際の3件を選び、「①何か・②渡す・③返る」で同じ図の上の物の位置が変わります。公開の手順書と依頼→作者AIが1体で書くクライアント→担当者が実行する原典CLI→手元のVoiceStudio API→利用条件と導入済みの確認→別の認識モデル→2つの推定区間と全文→JSON・TXT、そして送らない参照文が最後に照合へ届く関係を、ひと続きで見られます。番号の付いた6つの部品を押すと、固定版の原典の該当行を読めます。入力WAVは標準の再生ボタンで聞け、区間のボタンで推定された開始時刻へ移れます。入力WAV・返ったJSON・TXTをそのまま保存できます。",
+  "demo_note": "ページは保存済みの31ファイルを大きさとSHA-256で確かめ、原典の引用の行も照合してから表示します。合わなければ図・音声・保存を止め、理由と「もう一度確かめる」を出します。ブラウザーでは文字起こしもモデルの実行もしません。図の動きは構造の説明で、実際の処理時間ではありません。作者AI（Claude Opus 5.5）が実装と入力を書き、制作担当が手元のCPUで原典CLIを capabilities 1回・transcribe 3回実行しました。",
+  "request_intro": "同じ経路を自分の音声で試すときの依頼文です。手元でVoiceStudioのバックエンドを動かせるAIエージェントや開発者に渡してください。音声ファイルと言語は自分のものに置き換えます。",
+  "request": "VoiceStudio（debpalash/VoiceStudio 固定コミット 6f0ed2ebeaf620bcea8a293cd210bba920b73622、0.5.7、AGPL-3.0-only）の公開スキル skills/voicestudio/SKILL.md を読み、手元で動いているバックエンドに対して、自分の短い音声ファイルを文字起こしする最小の経路を試してください。\n\n接続：既定は http://localhost:3900。GET /health と GET /openapi.json で版と POST /v1/audio/transcriptions の形を確かめる。認証を外さず、鍵を表示しない。未導入のモデルを黙ってダウンロードせず、必要なら取得の許可を求める。\n\n実行：アプリ付属の原典CLI（python -m backend.speech_client）で、transcribe <音声ファイル> --model <導入済みのASRエンジンID> --language <言語> --format verbose_json を各ファイル1回だけ呼び、標準出力をそのまま保存する。参照文は送らない。再送や別のエンジンへの切り替えはしない。\n\n記録：入力のバイト数と長さ、返った区間と全文、送った条件と送らなかったもの、使った認識モデルとリビジョン、準備の表示（/engines など）と実行の証拠（成功した呼び出しとログ）の区別を書く。参照文とは最後に文字どおり比べ、返った表記は直さない。人による試聴が未確認なら未確認と書く。\n",
+  "applied_skills": [
+    {
+      "name": "VoiceStudio（debpalash/VoiceStudio）の公開スキル SKILL.md",
+      "source": "https://github.com/debpalash/VoiceStudio/blob/6f0ed2ebeaf620bcea8a293cd210bba920b73622/skills/voicestudio/SKILL.md",
+      "applied": "VoiceStudioはElectronのデスクトップ音声アプリと手元の音声サーバーで、SKILL.mdはAIが読むMarkdownの手順書です。固定版のSKILL.md・README・LICENSE・LICENSE-NOTICE.md・docs/speech-platform.md・docs/engines/faster-whisper.mdと、backend/speech_client/__main__.py（原典CLI）、backend/api/routers/openai_compat.py（POST /v1/audio/transcriptions）、backend/services/asr_backend.py（エンジンの選択・利用条件・FasterWhisperBackend）、model_acceptance.py・model_licenses.pyを読み、原典CLIだけを呼ぶ run_example.py を書きました。制作担当がフルチェックアウトのバックエンドをループバックで起動し、capabilities を1回、transcribe を3件に1回ずつ実行して、3件とも成功しました。構造図の6つの部品は、これらのソースに基づく説明の整理で、公式の部品の区分ではありません。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824",
+      "applied": "時刻の契約（window.motionConfig・motionReady・seek(秒)・__MOTION_RENDER__・renderConfig の反映）に合わせて、作例ページと同じ concept.js の読み込み・検証・描画で無音32秒の編集用ソースを書きました。7つの場面それぞれに伝えること・入る状態・出る状態・動きを storyboard.json に持たせ、縦と横は配置を作り直して描き、乱数・タイマー・前のコマの積算を使わずに任意の時刻を描けるようにしています。audioEvents は空で、音声トラックはありません。制作担当は別工程で、320/375px全18組・6部品13引用・16表示条件・3破損復旧、3入力WAVの終端と6区間シーク、9保存要求と返却9ファイル全bytes、31素材編集と任意7.2秒、代表/連続コマ、縦横32秒無音MP4の終端、出荷ソース62PNG一致を確認しました。人の試聴・意味/時刻の精度・審美的承認・実機iOSは未確認です。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "手元の音声アプリ兼サーバーと、別の認識モデル",
+      "body": "VoiceStudioは、Electronのデスクトップ音声アプリと、画面なしでも動く手元のFastAPIサーバーです。文字と時刻を推定するのは、その中で選んだ別の認識モデルで、今回は Systran/faster-whisper-base（固定リビジョン ebe41f7・MIT）を faster-whisper 1.2.1／CTranslate2 4.8.2 で動かしました。アプリ本体はAGPL-3.0-onlyで、モデルの条件とは別です。今回使ったのは原典CLIとフルのバックエンドだけで、Electronの画面は使っていません。"
+    },
+    {
+      "title": "公開の手順書から、作者AIがクライアントを書く",
+      "body": "SKILL.mdはAIが読むMarkdownの手順書です。作者AI（1体）がこれと固定版の原典、3件の依頼（WAVの場所と条件）を読み、run_example.py を書きました。作者は実行も試聴もしていません。実行したのは制作担当で、環境・固定版の原典・モデルを別に用意し、無改変のバックエンドを 127.0.0.1:3900 で起動しました。"
+    },
+    {
+      "title": "原典CLIで、WAVと条件を手元のAPIへ",
+      "body": "原典CLI backend.speech_client が、WAVのバイト列を変えずに model=faster-whisper・language=en・response_format=verbose_json と一緒に multipart で POST /v1/audio/transcriptions へ送りました。faster-whisper はVoiceStudioのASRエンジンのIDで、違うエンジンが動いていれば元のルートが400で断ります。prompt・temperature・単語単位の時刻・ストリームと参照文は送っていません。"
+    },
+    {
+      "title": "利用条件と導入済みを確かめ、別のモデルが推定する",
+      "body": "元のアプリは使うたびに利用条件と導入済みのモデルを確かめ、FasterWhisperBackend を用意してモデルを呼びます。元のログでは3件ともCPU・int8で、モデル読み込みのメッセージは3回、VADで除いた時間は0.000秒でした。実行後の /engines は not_loaded を返しましたが、準備の表示は実行の証拠ではなく、証拠は成功した3回の呼び出しとログです。"
+    },
+    {
+      "title": "返ったJSON・TXTを読み、比べて使う",
+      "body": "各件とも2つの推定区間と全文が返りました。JSONはCLIの標準出力そのまま、TXTは返った text に改行を1つ足しただけです。送らなかった参照文とは最後に文字どおり比べ、default・expressiveは一致、secondは「Platform 4 at 915」「10」など数字の書き方が違って一致しません。返った表記は直していません。字幕や検索用テキストの下書きにするときは、自分の耳で確かめてから使います。"
+    }
+  ],
+  "limitations": [
+    "人による試聴はしていません。文字起こしの正確さ、発音・意味・時刻の正しさは未確認です。",
+    "参照文との比較は文字列の完全一致だけです。default・expressiveの一致は人が聞いて確かめた結果ではなく、secondの不一致（915など）も時刻の正誤の判定ではありません。",
+    "区間の時刻は推定です。単語単位の時刻は要求しておらず、expressiveとsecondは最後の0.04秒が区間に含まれていません（返ったまま）。",
+    "verbose_jsonの seek・tokens・temperature・avg_logprob・compression_ratio・no_speech_prob はルートが既定値で埋めたもので、信頼度や設定を測った値ではありません。",
+    "入力は以前に合成した英語の音声3本（Perthの透かし入り）で、人の録音・日本語・雑音のある音声は試していません。2つの声の良し悪しや、認識の差を合成のどれか1つの設定のせいにすることはできません。",
+    "使ったのは原典CLIとフルのバックエンドの文字起こしだけです。Electronの画面、既定のOmniVoice、音声合成、声のクローンとデザイン、マイク、ショートカット、テキスト挿入、翻訳、吹き替え、話者分離、MCP、WebSocketストリーミング（後の2つは capabilities に載っているだけ）は使っていません。",
+    "1件ずつの経過時間は起動・読み込み・待ち・推定を含む1回きりの値で、速さのベンチマークではありません。モデル読み込みのログは3回出ており、1回の読み込みで使い回したとは言えません。",
+    "vendor/voicestudio/ の20ファイルだけではサーバーは動きません。再現にはフルチェックアウトと、別に用意する依存とモデルが必要です。重み・キャッシュ・実行環境は同梱していません。",
+    "図の6つの部品は説明のための整理です。図と動画の動きは演出で、デコード・VAD・モデルの内部は計測していません。",
+    "実機のiPhone Safari・VoiceOver・200%拡大、人の試聴・意味/時刻の精度・審美的承認は未確認です。制作担当による図・編集・実MP4の確認範囲は visual-verification.json に記録しています。",
+    "VoiceStudioのモデルごとの利用条件は別々です。この作例は faster-whisper-base（MIT）以外のモデルの商用利用の可否を判断していません。"
+  ],
+  "sources": [
+    {
+      "label": "debpalash/VoiceStudio（固定コミット 6f0ed2e）",
+      "url": "https://github.com/debpalash/VoiceStudio/tree/6f0ed2ebeaf620bcea8a293cd210bba920b73622"
+    },
+    {
+      "label": "VoiceStudio 公開スキル SKILL.md（固定版）",
+      "url": "https://github.com/debpalash/VoiceStudio/blob/6f0ed2ebeaf620bcea8a293cd210bba920b73622/skills/voicestudio/SKILL.md"
+    },
+    {
+      "label": "VoiceStudio README（固定版）",
+      "url": "https://github.com/debpalash/VoiceStudio/blob/6f0ed2ebeaf620bcea8a293cd210bba920b73622/README.md"
+    },
+    {
+      "label": "LICENSE-NOTICE.md（固定版・AGPL-3.0-onlyとモデルの条件の区別）",
+      "url": "https://github.com/debpalash/VoiceStudio/blob/6f0ed2ebeaf620bcea8a293cd210bba920b73622/LICENSE-NOTICE.md"
+    },
+    {
+      "label": "原典CLI backend/speech_client/__main__.py（固定版）",
+      "url": "https://github.com/debpalash/VoiceStudio/blob/6f0ed2ebeaf620bcea8a293cd210bba920b73622/backend/speech_client/__main__.py"
+    },
+    {
+      "label": "文字起こしのルート backend/api/routers/openai_compat.py（固定版）",
+      "url": "https://github.com/debpalash/VoiceStudio/blob/6f0ed2ebeaf620bcea8a293cd210bba920b73622/backend/api/routers/openai_compat.py"
+    },
+    {
+      "label": "エンジンの選択と FasterWhisperBackend（backend/services/asr_backend.py・固定版）",
+      "url": "https://github.com/debpalash/VoiceStudio/blob/6f0ed2ebeaf620bcea8a293cd210bba920b73622/backend/services/asr_backend.py"
+    },
+    {
+      "label": "Faster-Whisper エンジンの説明（docs/engines/faster-whisper.md・固定版）",
+      "url": "https://github.com/debpalash/VoiceStudio/blob/6f0ed2ebeaf620bcea8a293cd210bba920b73622/docs/engines/faster-whisper.md"
+    },
+    {
+      "label": "認識モデル Systran/faster-whisper-base（リビジョン ebe41f7）",
+      "url": "https://huggingface.co/Systran/faster-whisper-base/tree/ebe41f70d5b6dfa9166e2c581c45c9c0cfc57b66"
+    },
+    {
+      "label": "実際に実行したクライアント run_example.py",
+      "url": "examples/voicestudio-example/run_example.py"
+    },
+    {
+      "label": "実装メモ（作者AI）と保存順の補正の記録",
+      "url": "examples/voicestudio-example/implementation.md"
+    },
+    {
+      "label": "3件の入力と参照文",
+      "url": "examples/voicestudio-example/inputs/jobs.json"
+    },
+    {
+      "label": "実行の記録",
+      "url": "examples/voicestudio-example/outputs/attempt-01/results.json"
+    },
+    {
+      "label": "原典CLIの capabilities の出力",
+      "url": "examples/voicestudio-example/outputs/attempt-01/capabilities.json"
+    },
+    {
+      "label": "返ったJSON（default）",
+      "url": "examples/voicestudio-example/outputs/attempt-01/default.json"
+    },
+    {
+      "label": "返ったJSON（expressive）",
+      "url": "examples/voicestudio-example/outputs/attempt-01/expressive.json"
+    },
+    {
+      "label": "返ったJSON（second）",
+      "url": "examples/voicestudio-example/outputs/attempt-01/second.json"
+    },
+    {
+      "label": "固定版と認識モデルのピン",
+      "url": "examples/voicestudio-example/vendor/pins.json"
+    },
+    {
+      "label": "図の事実と原典の引用",
+      "url": "examples/voicestudio-example/concept/facts.json"
+    },
+    {
+      "label": "入力WAVの実際の振幅の包絡",
+      "url": "examples/voicestudio-example/concept/waveforms.json"
+    },
+    {
+      "label": "確かめる31ファイルの一覧",
+      "url": "examples/voicestudio-example/concept/manifest.json"
+    },
+    {
+      "label": "作例の README（役割・実行の範囲・再現の手順）",
+      "url": "examples/voicestudio-example/README.md"
+    },
+    {
+      "label": "解説動画の絵コンテ",
+      "url": "examples/voicestudio-example/video/storyboard.json"
+    },
+    {
+      "label": "図と動画の確認範囲（制作担当が記録）",
+      "url": "examples/voicestudio-example/visual-verification.json"
+    },
+    {
+      "label": "編集ソースと実出力一式 ZIP",
+      "url": "examples/voicestudio-example/source.zip"
+    }
+  ],
+  "license": "AGPL-3.0-only（VoiceStudio）／MIT（認識モデル faster-whisper-base）",
+  "license_note": "VoiceStudioはAGPL-3.0-only（Copyright 2024-present Palash Debnath and VoiceStudio contributors）で、固定版から選んだ20ファイルを vendor/voicestudio/ に原文のまま置いています（LICENSE・LICENSE-NOTICE.md を含む）。この20ファイルだけではサーバーは動きません。モデルの重み・トークナイザー・声・生成物の条件はアプリのライセンスとは別で、認識モデル Systran/faster-whisper-base はMITです（モデルカードを vendor/asr-model/ に同梱、重みは同梱しません）。引用のため faster-whisper の audio.py・transcribe.py（MIT）を原文のまま置き、faster-whisper と OpenAI Whisper のライセンス本文を vendor/notices/ に置いています。入力の3本は Chatterbox（MIT）で以前に合成した英語の音声で、Perthの透かしが入っており、ライセンスとモデルカードを vendor/notices/Chatterbox/ に置いています。認識エンジンの依存・重み・キャッシュ・実行環境は再配布していません。既定のOmniVoiceなど、ほかのモデルの条件はこの作例では判断していません。ページ・図・文章・動画のソースは 八百万図AIツールボックス の制作（Claude Opus 5.5）です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "skill_license": "examples/voicestudio-example/vendor/voicestudio/LICENSE",
+  "video_note": "32秒・30fps・無音の構造図の動画です。縦720×1280と横1280×720を別配置で描きます。公開の手順書と依頼が作者AIのクライアントになり、原典CLIの封筒（WAV＋条件）が手元のVoiceStudio APIと利用条件・導入済みの確認を通って別の認識モデルへ入り、同じ実際の波形が2つの推定区間とJSON・TXTになり、最後に3件の結果が並びます。ナレーション・音声トラックはなく、入力WAVはデモの独立したプレイヤーで聞けます。制作担当は別工程で、320/375px全18組・6部品13引用・16表示条件・3破損復旧、3入力WAVの終端と6区間シーク、9保存要求と返却9ファイル全bytes、31素材編集と任意7.2秒、代表/連続コマ、縦横32秒無音MP4の終端、出荷ソース62PNG一致を確認しました。人の試聴・意味/時刻の精度・審美的承認・実機iOSは未確認です。",
+  "video_source": "examples/voicestudio-example/video/index.html",
+  "updated_on": "2026-10-21",
+  "featured": false,
+  "verification_stage": "runtime-reviewed",
+  "guide_url": "case.html?id=voicestudio-example",
+  "catalog_entry": {
+    "id": "resource-voicestudio",
+    "name": "VoiceStudio",
+    "tagline": "音声合成・吹き替え・文字起こしをまとめた制作アプリ",
+    "category": "audio",
+    "kind": "デスクトップツール",
+    "summary": "用途に合うモデルを選び、手元の音声ファイルを処理できます。音声の生成や吹き替え、文字起こしの結果を、アプリやAPIから取り出せます。",
+    "use_case": "手元の音声ファイルを、ホスト型のサービスを使わずに、区間の時刻付きで文字起こししたいとき。",
+    "tags": [
+      "音声",
+      "音楽",
+      "デスクトップツール"
+    ],
+    "workflow": [
+      "GET /health と /openapi.json で、手元のバックエンドの版と文字起こしの経路を確かめる",
+      "導入済みのASRエンジンを選び、原典CLIで transcribe を1ファイル1回呼んで標準出力を保存する",
+      "返った区間と全文を、自分の耳と元の音声で確かめてから使う"
+    ],
+    "requirements": [
+      "VoiceStudioのフルチェックアウト（またはインストール済みのアプリ）と、バックエンド・選ぶ認識エンジンの依存",
+      "選ぶ認識モデルの重み（例：Systran/faster-whisper-base、MIT。別に取得）と、その利用条件の確認"
+    ],
+    "license": "AGPL-3.0",
+    "license_url": "https://github.com/debpalash/VoiceStudio/blob/6f0ed2ebeaf620bcea8a293cd210bba920b73622/LICENSE",
+    "license_note": "アプリはAGPL-3.0。モデル重み、トークナイザー、声、生成物の条件は別と明記されています。「すべて無料・無条件で商用可」という紹介にはしません。",
+    "source_url": "https://github.com/debpalash/VoiceStudio/tree/6f0ed2ebeaf620bcea8a293cd210bba920b73622",
+    "guide_url": "case.html?id=voicestudio-example",
+    "readme_url": "https://github.com/debpalash/VoiceStudio/blob/6f0ed2ebeaf620bcea8a293cd210bba920b73622/README.md",
+    "source_repository": "debpalash/VoiceStudio",
+    "source_commit": "6f0ed2ebeaf620bcea8a293cd210bba920b73622",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。原典は確認時のコミットへ固定しています。作例では固定版の原典CLIとフルのバックエンドで、Systran/faster-whisper-base による文字起こしを3件に1回ずつ実行し、返ったJSONとTXTを保全しています。",
+    "prompt": "VoiceStudio（debpalash/VoiceStudio 固定コミット 6f0ed2ebeaf620bcea8a293cd210bba920b73622、0.5.7、AGPL-3.0-only）の公開スキル skills/voicestudio/SKILL.md を読み、手元で動いているバックエンドに対して、自分の短い音声ファイルを文字起こしする最小の経路を試してください。\n\n接続：既定は http://localhost:3900。GET /health と GET /openapi.json で版と POST /v1/audio/transcriptions の形を確かめる。認証を外さず、鍵を表示しない。未導入のモデルを黙ってダウンロードせず、必要なら取得の許可を求める。\n\n実行：アプリ付属の原典CLI（python -m backend.speech_client）で、transcribe <音声ファイル> --model <導入済みのASRエンジンID> --language <言語> --format verbose_json を各ファイル1回だけ呼び、標準出力をそのまま保存する。参照文は送らない。再送や別のエンジンへの切り替えはしない。\n\n記録：入力のバイト数と長さ、返った区間と全文、送った条件と送らなかったもの、使った認識モデルとリビジョン、準備の表示（/engines など）と実行の証拠（成功した呼び出しとログ）の区別を書く。参照文とは最後に文字どおり比べ、返った表記は直さない。人による試聴が未確認なら未確認と書く。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "原典CLI capabilities1/transcribe3をフルFastAPIへ実行し3件成功。CPU/int8の読み込みログ3、3JSON589/590/553BとTXT113/113/94B/入力WAV不変。新図18電話表示と13引用/3破損復旧、入力WAV終端/6区間seek/返却9保存files、31素材編集/任意7.2秒、縦横32秒960f無音MP4終端/出荷62PNG一致。人の聴取/意味・時刻精度/審美的承認/実機iOSは未確認。",
+    "reviewed_on": "2026-10-20",
+    "example_url": "examples/voicestudio-example/index.html",
+    "image": "media/voicestudio-example.webp"
+  },
+  "video_width": 720,
+  "video_height": 1280,
+  "video_landscape": "media/voicestudio-example-wide.mp4",
+  "requirements": [
+    "閲覧・試聴・保存はブラウザーだけで利用できます。ライブの文字起こし・音声のアップロード・モデルの実行はありません。",
+    "同じ経路を自分で実行するには、固定版 VoiceStudio のフルチェックアウト、バックエンドと faster-whisper（今回は 1.2.1／CTranslate2 4.8.2）の依存、Systran/faster-whisper-base の重み（リビジョン ebe41f7）を別に用意し、バックエンドを 127.0.0.1 で起動します。手順は作例の README にあります。"
+  ],
+  "video_portrait": "media/voicestudio-example.mp4",
+  "poster_portrait": "media/voicestudio-example.webp",
+  "poster_landscape": "media/voicestudio-example-wide.webp",
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/voicestudio-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/voicestudio-example-landscape-credited-ja-v3.mp4"
+}

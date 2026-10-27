@@ -2,8 +2,10 @@
 import copy
 import hashlib
 import json
+import math
 from pathlib import Path, PurePosixPath
 import re
+import subprocess
 from urllib.parse import unquote, urlsplit
 
 
@@ -144,12 +146,13 @@ def allowed_addition(relative, case, media_prefix):
     return bool(media_prefix and relative.startswith(media_prefix))
 
 
-def check_production_artifacts(root, case, legacy_path, legacy):
+def check_production_artifacts(root, case, legacy_path, legacy, maintenance=None):
     """Legacy model/upstream/runtime checks remain in check.py, for both modes."""
     root = Path(root)
     case_id = case['id']
     require(isinstance(case_id, str) and re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*', case_id), 'Invalid case id')
     artifacts = hash_map(legacy['artifacts_sha256'])
+    baseline_path = Path(legacy_path)
     current_path = root / 'data/production' / (case_id + '-current.json')
     if current_path.exists() or current_path.is_symlink():
         current = load_json(bound_file(root, f'data/production/{case_id}-current.json'))
@@ -183,6 +186,12 @@ def check_production_artifacts(root, case, legacy_path, legacy):
                 'Current provenance is outside the pinned artifact set')
         check_provenance(root, case_id, provenance)
         artifacts = current_artifacts
+        baseline_path = current_path
+    if maintenance is None:
+        from mechanical_maintenance import MechanicalMaintenance
+        cases = [load_json(p) for p in sorted((root / 'data/cases').glob('*.json'))]
+        maintenance = MechanicalMaintenance(root, cases)
+    artifacts = maintenance.apply(case, legacy_path, legacy, artifacts, baseline_path)
     for relative, expected in artifacts.items():
         require(digest(bound_file(root, relative)) == expected, f'Artifact changed since verification: {relative}')
     return artifacts
@@ -195,6 +204,58 @@ def check_download_provenance(root, case, asset):
         require(allowed_addition(relative, case, owned_media_prefix(Path(root), case)),
                 'Download provenance belongs to another case')
         check_provenance(Path(root), case['id'], {relative: asset.get('provenance_sha256')})
+
+
+def probe_video(path):
+    value = json.loads(subprocess.check_output([
+        'ffprobe', '-v', 'error', '-select_streams', 'v:0',
+        '-show_entries', 'stream=width,height:format=duration', '-of', 'json', str(path)],
+        encoding='utf-8'))
+    require(len(value.get('streams', [])) == 1, 'Expected one download video stream')
+    stream = value['streams'][0]
+    return stream['width'], stream['height'], float(value['format']['duration'])
+
+
+def check_download_asset(root, case, asset, probe=probe_video):
+    """Retain v4 downloads, or verify a separately authored, five-role media bundle."""
+    root = Path(root)
+    orientation = asset.get('orientation')
+    require(asset.get('case_id') == case['id'] and orientation in {'landscape', 'portrait'},
+            'Download identity belongs to another case or orientation')
+    require(asset.get('source') == case.get('video_' + orientation)
+            and asset.get('path') == case.get('video_download_' + orientation),
+            'Download does not bind the canonical source and destination')
+    for key, hash_key in (('source', 'source_sha256'), ('path', 'sha256')):
+        require(digest(bound_file(root, asset[key])) == sha_value(asset.get(hash_key)),
+                'Download source or result changed after verification')
+    check_download_provenance(root, case, asset)
+    if asset.get('spec') == 'credit-footer-english-v4':
+        return 'credit-footer-english-v4'
+    require(set(asset) == {'case_id', 'orientation', 'source', 'source_sha256', 'path',
+                           'sha256', 'provenance_path', 'provenance_sha256',
+                           'width', 'height', 'duration'},
+            'Unprovenanced download requires the v4 credit specification')
+    prefix = owned_media_prefix(root, case)
+    require(prefix and asset['source'].startswith(prefix) and asset['path'].startswith(prefix),
+            'Custom rendered download is outside its exclusive case media scope')
+    provenance = load_json(bound_file(root, asset['provenance_path']))
+    require({row['role'] for row in provenance['records']} == {
+        'visual-execution', 'copy-execution', 'media-verification', 'runtime-evidence', 'source-evidence'},
+        'Custom rendered download requires all five public provenance roles')
+    source = probe(bound_file(root, asset['source']))
+    result = probe(bound_file(root, asset['path']))
+    require(type(asset['width']) is int and type(asset['height']) is int
+            and (asset['width'], asset['height']) == result[:2]
+            and type(asset['duration']) in (int, float) and math.isfinite(asset['duration'])
+            and abs(asset['duration'] - result[2]) <= 0.1,
+            'Custom rendered download metadata differs from the actual file')
+    require(source[:2] == result[:2] and all(type(v) is int and v >= 540 for v in result[:2]),
+            'Custom rendered download dimensions differ or are too small')
+    require((result[1] > result[0]) == (orientation == 'portrait'),
+            'Custom rendered download orientation differs')
+    require(source[2] >= 20 and result[2] >= 20 and abs(source[2] - result[2]) <= 0.1,
+            'Custom rendered download duration differs or is too short')
+    return 'provenance-rendered'
 
 
 def verified_download_records(root, case, provenance_path):

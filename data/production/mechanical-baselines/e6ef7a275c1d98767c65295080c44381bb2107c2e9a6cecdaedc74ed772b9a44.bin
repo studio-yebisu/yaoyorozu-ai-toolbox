@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ja" data-state="loading">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <title>Effekseer VFX：手順と依頼から、実描画で直して使うまで｜八百万図AIツールボックス</title>
+  <link rel="stylesheet" href="concept.css?v=visual-r1">
+  <script type="module" src="concept.js?v=visual-r1"></script>
+</head>
+<body class="cx">
+  <main>
+    <section class="cx-hero" id="yebisu-guard" aria-labelledby="cx-title">
+      <header class="cx-head">
+        <h1 id="cx-title">Effekseer VFX スキル</h1>
+        <p class="cx-line">手順＋依頼 → レシピ → 実描画 → 見て直す → 使う</p>
+      </header>
+
+      <figure class="cx-map">
+        <canvas id="concept-map" data-layout="portrait" role="img" aria-label="Effekseer VFXスキルの構造図。手順書と依頼が制作AIへ渡り、設計メモとPythonレシピになる。制作担当がレシピと5つのテクスチャをEffekseer Coreでビルドし、Godotで描画した実画像を見て1種類ずつ直す。実画像と採点基準だけが別のAIへ渡り、レビューは証拠確認を経て効果一式に結びつき、開く・保存して使える。" aria-describedby="map-summary"></canvas>
+        <figcaption class="cx-readout">
+          <output id="frame-meta" class="cx-meta"></output>
+          <span id="load-status" class="cx-status" role="status" aria-live="polite">読み込み中</span>
+          <button type="button" id="retry" class="cx-btn" hidden disabled>もう一度読み込む</button>
+        </figcaption>
+      </figure>
+
+      <div class="cx-presets" role="group" aria-label="実描画のフレームを選ぶ">
+        <button type="button" data-preset="f02" aria-pressed="false" disabled>輪郭 <span>f2</span></button>
+        <button type="button" data-preset="f06" aria-pressed="false" disabled>接点 <span>f6</span></button>
+        <button type="button" data-preset="f10" aria-pressed="true" disabled>波紋 <span>f10</span></button>
+        <button type="button" data-preset="f16" aria-pressed="false" disabled>破片 <span>f16</span></button>
+        <button type="button" data-preset="f23" aria-pressed="false" disabled>消える途中 <span>f23</span></button>
+        <button type="button" data-preset="f30" aria-pressed="false" disabled>消失 <span>f30</span></button>
+      </div>
+
+      <div class="cx-stages" role="group" aria-label="図のどこを見るか">
+        <button type="button" data-stage="0" aria-pressed="true" disabled>渡す</button>
+        <button type="button" data-stage="1" aria-pressed="false" disabled>作って見る</button>
+        <button type="button" data-stage="2" aria-pressed="false" disabled>使う</button>
+        <button type="button" id="replay" aria-label="もう一度動かす" disabled><span aria-hidden="true">↻</span></button>
+      </div>
+
+      <div class="cx-primary">
+        <a id="open-desk" class="cx-btn cx-btn-primary" href="desk.html#yebisu-guard" data-asset-link="desk.html#yebisu-guard">実描画の31枚を見る</a>
+        <a id="save-library" class="cx-btn" href="effect-library.zip" download data-asset-link="effect-library.zip">効果一式を保存</a>
+      </div>
+    </section>
+
+    <section class="cx-section" aria-labelledby="what-title">
+      <h2 id="what-title">このスキルは何か</h2>
+      <p>Effekseer VFX は、AIが読むMarkdownの手順・参照と、PythonのCLI／コンパイラーの組み合わせです。公式の Effekseer Core と Godot の確認用 Lab につながり、採点には別のスキル vfx-review を使う別のAIが入ります。AIモデルでも、画像・動画を作るAPIでも、ブラウザーで動く描画エンジンでもありません。</p>
+      <h3>図の流れ</h3>
+      <ol class="cx-steps" id="map-summary">
+        <li data-step="0"><b>渡す</b>　手順書と、5つの時間の区切り（輪郭→接点→波紋→破片→消失）を書いた依頼が「制作AI」へ。AIが設計メモとPythonレシピを書きました。レシピは15項目で、うち2つは見えない基準点です。</li>
+        <li data-step="1"><b>作って見る</b>　制作担当がレシピと5つのテクスチャを公式の Effekseer Core でビルドし、同じファイルを Godot で描画。AIはその実画像を見て、1回に1種類だけ直しました（全3回）。</li>
+        <li data-step="2"><b>使う</b>　実画像と採点基準だけが別のAIへ（レシピは渡していません）。そのレビューは原典の証拠確認で効果一式に結びつき、31枚を開いたり、一式を保存して使ったりできます。</li>
+      </ol>
+      <p class="cx-actors"><b>AIが執筆</b>　元の Opus 5.5 がブリーフとレシピを書き、制作担当が撮った画像を見て直しを書きました。<b>制作担当が実行</b>　doctor・brief-validate・lint・build・review・review-handoff／review-submit・overview・effect-verify と Godot の TestApi は、制作担当が別の工程で実行しました。図には、AIがコマンドを実行する場面を描いていません。</p>
+      <p class="cx-small">この図は構造の説明で、新しい実行の記録ではありません。いまのブラウザーは保存したデータとPNGを読むだけで、Python・Effekseer Core・Godot・AIの推論を動かさず、新しい効果も作りません。本・紙・時計・歯車などの形は説明用の絵で、効果の画像はすべて Godot で描画・保存したPNGです。</p>
+    </section>
+
+    <section class="cx-section" aria-labelledby="parts-title">
+      <h2 id="parts-title">中身を6つに分けて見る</h2>
+      <p class="cx-small">6つは説明のための整理で、原典の共通の形式ではありません。6人のAIがいるわけでもありません。押すと図の該当箇所が光ります。</p>
+      <div class="cx-parts" role="group" aria-label="6つの部品">
+        <button type="button" data-part="brief" aria-pressed="false" disabled>見え方を設計</button>
+        <button type="button" data-part="recipe" aria-pressed="false" disabled>層をコードに</button>
+        <button type="button" data-part="build" aria-pressed="false" disabled>Coreでビルド</button>
+        <button type="button" data-part="render" aria-pressed="false" disabled>Godotで描く</button>
+        <button type="button" data-part="iterate" aria-pressed="false" disabled>1種類ずつ直す</button>
+        <button type="button" data-part="independent" aria-pressed="false" disabled>別のAIが確認</button>
+      </div>
+      <div class="cx-part" aria-live="polite">
+        <h3 id="part-label"></h3>
+        <p id="part-meaning"></p>
+        <blockquote lang="en"><p id="part-quote"></p></blockquote>
+        <p class="cx-src">原典 <a id="part-source" rel="noreferrer"></a><br>手元 <a id="part-local"></a></p>
+      </div>
+    </section>
+
+    <section class="cx-section" aria-labelledby="request-title">
+      <h2 id="request-title">実際に渡した依頼</h2>
+      <p class="cx-small">作例のために書いた架空の依頼です。samples.json の samples[0].input と同じ279バイトの文で、記事の長い依頼の型ではありません。</p>
+      <label class="cx-label" for="request-text">依頼の文</label>
+      <textarea id="request-text" class="cx-request" readonly rows="5" spellcheck="false"></textarea>
+      <div class="cx-row">
+        <button type="button" id="copy-request" class="cx-btn" disabled>依頼の文をコピー</button>
+        <p id="copy-status" class="cx-small" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="cx-section" aria-labelledby="film-title">
+      <h2 id="film-title">選んだ実描画と、32秒の図解動画</h2>
+      <p><a id="open-frame" href="assets/frames/guard-f010.png" data-asset-link="assets/frames/guard-f010.png">f10のPNGを開く</a>　<span class="cx-small">Godot 4.7 で描画・保存した1280×800の画像そのものです。</span></p>
+      <video id="film-portrait" class="cx-film" src="../../media/effekseer-vfx-example.mp4" poster="../../media/effekseer-vfx-example.webp" width="720" height="1280" controls muted playsinline preload="none"></video>
+      <details class="cx-details">
+        <summary>横長版（1280×720・32秒・無音）</summary>
+        <video id="film-wide" class="cx-film cx-film-wide" src="../../media/effekseer-vfx-example-wide.mp4" width="1280" height="720" controls muted playsinline preload="none"></video>
+      </details>
+      <p class="cx-small">動画は同じ図が動く図解で、音声・ナレーションはありません。映る効果は保存したPNGで、動画の中で効果を作り直していません。元の0.5秒の実描画クリップ（f1〜f30）は下のファイルに別にあります。<a href="video/index.html">動画のソース</a></p>
+    </section>
+
+    <section class="cx-section" aria-labelledby="check-title">
+      <h2 id="check-title">確かめたこと</h2>
+      <h3>元の制作時の記録</h3>
+      <ul class="cx-notes">
+        <li><b>別のAIのレビュー</b>　レシピも制作の経緯も見ていない別のAIが、画像の引き継ぎ書と採点基準だけを見て ship と判定しました。人による承認ではありません。任意の提案（f2〜f4にごく薄い楕円の全体を見せる）は、元の効果に入れていません。</li>
+        <li><b>effect-verify</b>　元の固定したレシピ・描画・レビュー・証拠が互いに対応しているという確認で、<code>verified: true</code> です。見た目の良さ、端末での性能、ゲームへの組み込みを保証するものではありません。</li>
+        <li><b>Godotの呼び出し</b>　原典の TestApi.gd で12項目が通りました（記録では一部をまとめて11の名前）。飛び道具・ビーム・端末での性能は試していません。</li>
+        <li><b>f16の破片</b>　1回目の実描画では破片が白く光っていました。原典のコンパイラーは時間で変わる色（color_curve）を Sprite と Model にだけ書き出し、Ring は外・中・内の固定の頂点色で描きます。そこで2回目に破片の頂点色を青と紺に変えました。3回目は効かない指定を消して説明を合わせた回で、2回目と3回目の32枚はすべて同じ画像です。面の見え方は色の変化ではなく、流れる模様・穴のあく崩れ方・形・薄れ方で変わります。</li>
+      </ul>
+      <h3>このページがいましていること</h3>
+      <p class="cx-small">開くたびに、固定した51件の大きさとSHA-256、記録の中身（6つの引用の行、固定コミット、ライセンス、32件の撮影記録、15項目のレシピなど）を確かめ、PNG 33枚を一度だけ読み込みます。新しいビルド・描画・レビュー・採点はしていません。この紹介の図と動画も、新しいレビューは受けていません。</p>
+      <details class="cx-details">
+        <summary>元の撮影記録（capture-manifest.json）</summary>
+        <pre id="record-content" class="cx-record" tabindex="0"></pre>
+      </details>
+      <p><a id="save-record" class="cx-btn" href="capture-manifest.json" download data-asset-link="capture-manifest.json">撮影記録を保存（9607バイト）</a></p>
+    </section>
+
+    <section class="cx-section" aria-labelledby="files-title">
+      <h2 id="files-title">ファイル</h2>
+      <ul class="cx-files">
+        <li><a href="library/vfx/src/VFX_Yebisu_Guard.py" data-asset-link="library/vfx/src/VFX_Yebisu_Guard.py">Pythonレシピ</a> <span>library/vfx/src/</span></li>
+        <li><a href="library/vfx/briefs/VFX_Yebisu_Guard.json" data-asset-link="library/vfx/briefs/VFX_Yebisu_Guard.json">設計メモ（ブリーフ）</a> <span>library/vfx/briefs/</span></li>
+        <li><a href="library/vfx/recipes/VFX_Yebisu_Guard.json" data-asset-link="library/vfx/recipes/VFX_Yebisu_Guard.json">展開したレシピ</a> <span>テクスチャ等のパスだけ相対に直した包装</span></li>
+        <li><a href="library/vfx/exports/VFX_Yebisu_Guard.efk" download data-asset-link="library/vfx/exports/VFX_Yebisu_Guard.efk">実行用の .efk</a> <span>library/vfx/exports/</span></li>
+        <li><a href="library/vfx/effects/VFX_Yebisu_Guard.efkefc" download data-asset-link="library/vfx/effects/VFX_Yebisu_Guard.efkefc">Effekseerの .efkefc</a> <span>library/vfx/effects/</span></li>
+        <li><a href="assets/guard-real-render.mp4">0.5秒の実描画クリップ</a> <span>f1〜f30、無音</span></li>
+        <li><a href="effect-library.zip" download data-asset-link="effect-library.zip">効果一式（effect-library.zip）</a> <span>元のライブラリ28件と README・LICENSE・通知の31件</span></li>
+        <li><a href="desk.html#yebisu-guard" data-asset-link="desk.html#yebisu-guard">元の画面（31枚を1枚ずつ）</a></li>
+        <li><a href="video/index.html">図解動画のソース</a>・<a href="visual-guide.md">visual-guide.md</a>・<a href="visual-verification.json">visual-verification.json</a>・<a href="source.zip">source.zip</a></li>
+        <li><a href="../../case.html?id=effekseer-vfx-example">作例の記事</a></li>
+      </ul>
+      <p class="cx-small">効果一式は、.efk と .efkefc、5種のテクスチャ、レシピとブリーフを含みます。ゲームの完成品ではなく、ゲームでの動作は試していません。保存した一式には元の <code>verified: true</code> は引き継がれません。レシピ・ブリーフ・テクスチャを変えたら、改めてレビューが必要です。使い方は同梱の README にあります。</p>
+    </section>
+  </main>
+
+  <footer class="cx-footer">
+    <p>原典は <a href="https://github.com/kanaworksai-hue/effekseer-vfx-skill/tree/c28919890f0483c0f968a884ea03979803d3b528" rel="noreferrer">kanaworksai-hue/effekseer-vfx-skill</a>（固定コミット c289198、skill 0.2.0）、MIT License © 2026 KanaWorks_AI。<a href="vendor/LICENSE">LICENSE</a> と <a href="vendor/effekseer-vfx/THIRD_PARTY_NOTICES.md">THIRD_PARTY_NOTICES.md</a>（effekseer-ai 208922e、MIT）を変えずに残しています。原典の134件のうち133件は公式と同じバイト列で、scripts/vfx.cmd だけは元のCRLFを保ち、改行をLFにそろえると公式と同じ内容です。</p>
+    <p>Effekseer Core 1.80.7・.NET 9.0.20・Godot 4.7（Forward+）・公式 EffekseerForGodot4 1.80.5.1 は元の実行で使ったもので、ここでは配布もダウンロードもしていません。Effekseer と Godot はそれぞれの権利者の商標で、この作例はそれらの団体と関係ありません。</p>
+  </footer>
+</body>
+</html>

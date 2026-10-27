@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <title>Ming Image 0.1 Design は、文字入りの絵を描くモデル｜八百万図AIツールボックス</title>
+  <meta name="description" content="Ming Image 0.1 Designは、文字の多いデザイン画像を作る画像生成モデルです。原典が案内する無料の公開デモへ匿名で1回だけ送り、返った実際のPNG 1枚で、中の2本の条件と12回の更新、字形とαの確認までを1枚の構造図で見せます。">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body data-app="ming-main" data-state="loading">
+  <header class="top">
+    <div class="top-row">
+      <p class="kicker">八百万図AIツールボックス 作例・画像生成モデル</p>
+      <a class="back" href="../../case.html?id=ming-image-design-example">記事へ</a>
+    </div>
+    <h1 id="title"><span class="nw">Ming Image 0.1 Design は、</span><span class="nw">文字入りの絵を描くモデル</span></h1>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="title">
+      <div class="seg" role="group" aria-label="図の段階">
+        <button type="button" data-stage="0" aria-pressed="true" disabled>①何か</button>
+        <button type="button" data-stage="1" aria-pressed="false" disabled>②渡す</button>
+        <button type="button" data-stage="2" aria-pressed="false" disabled>③返る</button>
+      </div>
+      <p id="stage-caption" class="caption" aria-live="polite"></p>
+      <div id="status" class="status" role="status">
+        <span id="status-text">保存済みの20ファイルを、大きさとSHA-256で確かめています…</span>
+        <button type="button" id="retry" hidden>もう一度確かめる</button>
+      </div>
+      <p id="hash-note" class="hash-note" hidden></p>
+      <figure class="graph">
+        <svg id="graph" role="img" aria-labelledby="graph-title graph-desc" viewBox="0 0 320 558"></svg>
+        <figcaption>線・枠・道の名前は、実際に動いた公開デモのソースに基づく説明です。内部の値や時間を測ったものではありません。数字の四角は説明のための6つのまとまりで、公式の区分でも6体のAIでもありません。</figcaption>
+      </figure>
+    </section>
+
+    <section id="result" class="result" aria-labelledby="result-h">
+      <h2 id="result-h">返ってきた実際のPNG</h2>
+      <p class="lede">1回の生成で返った1枚を、そのまま表示しています。拡大と背景色は見え方だけを変え、PNGのバイトは変えません。切り替えても新しい生成はしません。</p>
+      <div class="viewer">
+        <div class="tools">
+          <div class="seg small" role="group" aria-label="表示の背景">
+            <button type="button" data-bg="white" aria-pressed="true" disabled>白</button>
+            <button type="button" data-bg="green" aria-pressed="false" disabled>緑</button>
+            <button type="button" data-bg="checker" aria-pressed="false" disabled>市松</button>
+          </div>
+          <label class="zoom">拡大
+            <input type="range" id="zoom" min="100" max="400" step="25" value="100" disabled>
+            <output id="zoom-out" for="zoom">100%</output>
+          </label>
+          <button type="button" id="zoom-reset" class="ghost" disabled>元の大きさ</button>
+        </div>
+        <div id="frame" class="frame bg-white" tabindex="0" aria-label="実際のPNG。拡大したときはスクロールで動かせます">
+          <img id="poster" alt="架空の読書会のポスター。実際に生成された元のPNG。原稿の文字と見え方は下の一覧にあります。" width="1024" height="1024">
+        </div>
+        <p class="hint">市松は透過の確認用の表示です。この画像は透明な画素が0で、縁などに半透明が少し残ります。</p>
+      </div>
+
+      <div class="readout">
+        <div class="block">
+          <h3>原稿の4つの文字と、見え方</h3>
+          <ol id="literal" class="literal"></ol>
+          <p class="small">制作担当が元の画像と拡大で目で読んだ記録です。OCRや人の承認ではなく、画像からは文字コードまでは決められません。</p>
+        </div>
+        <div class="block">
+          <h3>α（透過の値）</h3>
+          <p class="alpha-sum">透明画素は0。半透明が残る。</p>
+          <p class="small">依頼した「完全に不透明な紙の背景」にはなっていません。RGBAの形式であることは、透明な背景や編集できるレイヤーの証明ではありません。</p>
+          <details>
+            <summary>数値を見る</summary>
+            <dl id="alpha-detail" class="facts"></dl>
+          </details>
+        </div>
+        <div class="block">
+          <h3>設定と、返ってきた報告</h3>
+          <dl id="settings" class="facts"></dl>
+        </div>
+      </div>
+
+      <div class="saves">
+        <h3>元のまま保存する</h3>
+        <div class="save-main">
+          <button type="button" data-save="png" disabled>PNG（元のバイト）</button>
+          <button type="button" data-save="request" disabled>依頼のJSON</button>
+          <button type="button" data-save="summary" disabled>実行の記録JSON</button>
+        </div>
+        <p id="save-status" class="save-status" role="status"></p>
+        <details>
+          <summary>ほかの記録</summary>
+          <div class="save-more">
+            <button type="button" data-save="prompt" disabled>送った文 prompt.txt</button>
+            <button type="button" data-save="server" disabled>サーバーの報告 server-info.txt</button>
+            <button type="button" data-save="literal" disabled>文字の読合せ literal-review.json</button>
+            <button type="button" data-save="alpha" disabled>αの数え方 alpha-check.json</button>
+          </div>
+          <p class="small">実行の記録JSONは、制作担当のクライアントが測った値をまとめたもので、モデルが返したものではありません。モデル側から返ったのはPNGと1行の報告だけです。</p>
+        </details>
+      </div>
+    </section>
+
+    <section id="parts" class="parts" aria-labelledby="parts-h">
+      <h2 id="parts-h">6つのまとまりと、原典の該当行</h2>
+      <p class="lede">図の数字の四角に対応します。原典の引用は固定版 3515cd7 の参照で、今回動いた公開デモの実装とは別です。</p>
+      <div class="part-tabs" role="group" aria-label="6つのまとまり">
+        <button type="button" data-part="0" aria-pressed="true" aria-controls="part-card" disabled>1 正体</button>
+        <button type="button" data-part="1" aria-pressed="false" aria-controls="part-card" disabled>2 作者AI</button>
+        <button type="button" data-part="2" aria-pressed="false" aria-controls="part-card" disabled>3 公開デモ</button>
+        <button type="button" data-part="3" aria-pressed="false" aria-controls="part-card" disabled>4 読む・分ける</button>
+        <button type="button" data-part="4" aria-pressed="false" aria-controls="part-card" disabled>5 描く</button>
+        <button type="button" data-part="5" aria-pressed="false" aria-controls="part-card" disabled>6 返る・確かめる</button>
+      </div>
+      <article id="part-card" class="part-card" aria-live="polite"></article>
+    </section>
+
+    <section id="limits" class="limits" aria-labelledby="limits-h">
+      <h2 id="limits-h">実行の範囲と、まだ確かめていないこと</h2>
+      <details>
+        <summary>何を動かし、何を動かしていないか</summary>
+        <ul>
+          <li>動いたのは、原典READMEのDemoリンク（hugging-apps/…）から移った公開Space inclusionAI/ming-image-0-1-design-demo @367085c です。実行のbuildは送信の前後で同じでした。中身は独自のMingImagePipeline（vLLM-Omni PR #8021に準拠）で、原典のinfer.py・CLI・ローカルのモデルは動かしていません。</li>
+          <li>送信は制作担当が標準ライブラリだけのクライアントで匿名に1回。Authorization・HFトークン・Cookie・アカウント・クレジット・課金はありません。自動の再試行・選び直し・seedの変更・promptの拡張・後からの修正もしていません。</li>
+          <li>Layer（レイヤー分解）・編集・PPT・Design Skillなどの別の手順、ComfyUI、手元のGPUは使っていません。手元の環境も変えていません。</li>
+          <li>ブラウザーは保存済みのファイルを照合して表示・保存するだけで、モデルの実行やAPIの呼び出しはしません。</li>
+        </ul>
+      </details>
+      <details>
+        <summary>版と出典</summary>
+        <ul>
+          <li>原典：<a href="https://github.com/inclusionAI/Ming-Image/tree/3515cd7b1e3049fc517eed7d35020251cd06519a" target="_blank" rel="noopener">inclusionAI/Ming-Image @3515cd7</a>（MIT）。選んだ6ファイルを原文のまま vendor/ming/ に同梱しています。</li>
+          <li>実際の経路：<a href="https://huggingface.co/spaces/inclusionAI/ming-image-0-1-design-demo/tree/367085c6a006004b1658ad3b7edbd498581a33b3" target="_blank" rel="noopener">公開Space @367085c</a>。ソースは非公開で読んで確かめただけで、一般的な再配布の条件が見つからないため同梱もMITへの付け替えもしていません。</li>
+          <li>モデルのHubメタデータ：<a href="https://huggingface.co/inclusionAI/Ming-Image-0.1-Design/tree/c57c49689d12ef7d4e24a170014f1dc43d3ce258" target="_blank" rel="noopener">inclusionAI/Ming-Image-0.1-Design @c57c496</a>（公開・ゲートなし・MIT）は送信の前後で同じでした。ただしSpaceのローダーはrevisionを指定していないため、サーバーが実際に読み込んだ重みの版は確認できません。</li>
+          <li>Spaceの説明文には「原典は非公開」「透過の合図の語は未公開」とありますが、固定した原典は読めて語も載っています。古い記述として採用していません。</li>
+          <li>無料の枠：<a href="https://huggingface.co/docs/hub/spaces-zerogpu" target="_blank" rel="noopener">ZeroGPUの公式説明</a>の現行の記載では、匿名の目安は1日2分、xlargeは2倍の消費です。空きや残りの枠は保証されません。ハードのラベル zero-a10g とアプリの xlarge 指定は観察で、実際に割り当てられたGPUは測っていません。</li>
+        </ul>
+      </details>
+      <details>
+        <summary>まだ確かめていないこと</summary>
+        <ul>
+          <li>字形：会場の「図」が「圖」のような字形に見え、原稿との一致は確かめられていません。ほかの3つも目で読めるという記録で、文字コードの一致や組版の品質の保証ではありません。</li>
+          <li>α：透明な画素は0、半透明が90,578画素あります。依頼した完全に不透明な背景にはなっていません。</li>
+          <li>時間：サーバーの「9.9s」はサーバーの申告で、14.941秒・20.532秒はキューと通信を含む手元の時計です。内部の各段の時間は測っていません。</li>
+          <li>品質・自然さ・印刷適性・権利・独自性・性能・人の審美的な承認、ほかの入力での振る舞いは確かめていません。実際のイベントに使う前には、人が文字・日付・会場と透過を確かめてください。</li>
+          <li>この新しいページと編集用ソース・32秒の無音動画は、作者の執筆の後に制作担当が表示・描画して確かめる段階で、まだ確認済みではありません。実機のiOS・Safari・VoiceOver・200%拡大も未確認です。</li>
+        </ul>
+      </details>
+    </section>
+
+    <section id="files" class="files" aria-labelledby="files-h">
+      <h2 id="files-h">ファイル</h2>
+      <p class="small">照合した20ファイル（ページはこれらを大きさとSHA-256で確かめてから表示します）。</p>
+      <ul id="file-list" class="file-list"></ul>
+      <ul class="file-links">
+        <li><a href="README.md">この作例のREADME（読み方・保存・再現）</a></li>
+        <li><a href="video/index.html">解説動画の編集用ソース（32秒・無音）</a></li>
+        <li><a href="samples.json">入力と出力のまとめ samples.json</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>ページ・図・動画のソースは 八百万図AIツールボックス の制作（作者AI：Claude Opus 5.5）。原典の資料は inclusionAI/Ming-Image（MIT）。ポスターは架空のイベントのための1回の生成結果です。</p>
+  </footer>
+</body>
+</html>

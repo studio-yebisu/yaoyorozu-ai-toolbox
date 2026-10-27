@@ -1,0 +1,183 @@
+{
+  "id": "pretty-mermaid-first-diagram",
+  "title": "Pretty Mermaid",
+  "title_lines": [
+    "MermaidをSVGやPNGに変える図の描画ツール"
+  ],
+  "category": "graphics",
+  "summary": "Mermaidで書いたフロー図やシーケンス図を、SVG、PNG、文字図へ書き出せます。READMEや設計書の図を、読みやすく配布しやすい形に整えられます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/pretty-mermaid-first-diagram/index.html",
+  "video": "media/pretty-mermaid-first-diagram.mp4",
+  "poster": "media/pretty-mermaid-first-diagram.webp",
+  "skill": "examples/pretty-mermaid-first-diagram/vendor/pretty-mermaid/SKILL.md",
+  "samples": "examples/pretty-mermaid-first-diagram/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "3つのMermaidの記述と、図に描かれること",
+  "samples_intro": "元の3.mmdと原典CLIによる12実出力はそのままです。入力欄は元.mmdと同じ記述、出力欄は図の内容の説明です。同じflow/sequence/stateから構造図を開き、「元の読み比べ画面」へ進むと全文と図を照合できます。",
+  "demo_description": "手順書の中身と依頼→同じ作者AIが.mmdを執筆→制作担当が別工程でNode CLIへ→beautiful-mermaidのSVGと同じSVGからResvgのPNG、別経路の文字図→原文との読み比べ→実ファイル、という構造を一枚の大きな図で示します。3図・明暗・段階・保存形式を選び、元の読み比べ画面へ進めます。",
+  "demo_note": "新しい図は保存した原制作の構造説明です。選択や再生では推論・原典CLI・描画を実行しません。保存ボタンは元の同じファイルをブラウザーへ渡します。図の題材は架空で、受付APIや保存処理は実装していません。",
+  "request_intro": "Pretty Mermaid の原典リポジトリを固定版で用意した環境で、AIに次の文章を渡します。【】の部分を自分の手順と条件に置き換えて使ってください。",
+  "request": "Pretty Mermaid のSKILL.mdと references/DIAGRAM_TYPES.md を読んでから、次の手順をMermaidの図にしてください。\n\n準備：https://github.com/imxv/Pretty-mermaid-skills を e234ab73c2992f03c36db04fd55ebb90abca9c45 でcheckoutし、そのフォルダで npm ci --ignore-scripts を実行済みです。描画はそのフォルダの node scripts/render.mjs で行い、代わりのレンダラーや手描きのSVGは使わないでください。\n\n図にする手順：【文章の手順。例：申込を入力→内容を確認→不備があれば入力へ戻る、問題がなければ保存して完了を通知】\n図の種類：【flowchart LR／sequenceDiagram／stateDiagram-v2 から選ぶ】\n守ること：手順の言葉をラベルに残し、分岐の条件や返答には矢印のラベルを付ける。1枚に詰め込まず、読める大きさに分ける。色だけで意味を伝えない。\n\n出力：.mmd を保存し、--theme github-light と --theme github-dark のSVG（--font 'Yu Gothic'）、--format png --width 1200 のPNG、--format ascii --color-mode none の文字図を書き出してください。終わったら、コマンドの終了、SVGが <svg で始まること、PNGが開けること、文字図に図が出ていること、日本語のラベル・矢印の向き・条件が記述どおりであることを確かめ、確かめたことと未確認のことを分けて報告してください。",
+  "video_note": "32秒・30fps・完全無音。縦720×1280と横1280×720を別配置で描きます。本と依頼、作者と制作担当、Node CLIのSVG/PNG/文字図の経路、原文との比較、次の使い方をつなぐ構造紹介です。元の推論と12回のCLI描画は再実行していません。",
+  "video_source": "examples/pretty-mermaid-first-diagram/video/index.html",
+  "skill_license": "examples/pretty-mermaid-first-diagram/vendor/pretty-mermaid/LICENSE",
+  "applied_skills": [
+    {
+      "name": "Pretty Mermaid",
+      "source": "https://github.com/imxv/Pretty-mermaid-skills/blob/e234ab73c2992f03c36db04fd55ebb90abca9c45/SKILL.md",
+      "applied": "固定版のSKILL.mdのWorkflow、図の種類と出力形式の表、Authoring guidance、Validationと、references/DIAGRAM_TYPES.md・THEMES.md を読んでから記述した。表に従って、横に長い手順は flowchart LR、APIとのやり取りは sequenceDiagram、ジョブの状態は stateDiagram-v2 を選んだ。分岐と返答には「不備あり」「問題なし」「保存結果」のような矢印のラベルを付け、始まりと終わりは丸い端、判定はひし形、保存は円柱の形にした。状態名には、参照資料が使えると明記している日本語をそのまま使った。1枚に詰め込まず3枚に分け、どの図も矢印を5〜6本に収めた。テーマはGitHubの明暗の面向けとされる github-light と github-dark を選び、意味は色ではなくラベルで伝える。SVG・PNG・文字図の使い分けは、出力形式の表に沿って画面と動画で説明した。描画は原典CLIの scripts/render.mjs だけで行う手順にし、代わりのレンダラーや手描きのSVGは作っていない。原典CLIを実行し、3つの入力それぞれから明暗SVG・PNG・文字図を出力した。コマンド12回の終了とファイルを確認し、PNGを開いて日本語のラベル・矢印の向き・条件を記述と照合した。日本語の文字図には罫線のずれがあるため、その制限を表示した。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824",
+      "applied": "解説動画のソースを、window.seek(秒)がその時刻の完成した画面だけを描く契約で書いた。motionConfig（28秒・30fps・1280×720・posterTime 12.9・audioEventsなし）、renderConfigのサイズとFPSの反映、samples.json と assets/ の読み込みを待つ motionReady、書き出し中のプレビュー停止に従った。図は ../assets/ の実際のSVG・PNG・文字図を読み込み、SVGのラベルの位置からカメラの寄り先を求めて、記述の行から図の矢印へ線を引く。図を描き直した代わりの画像は使わず、ファイルがない場合は「未描画」と表示する。統合側でMP4を書き出し、コンタクトシート・代表フレーム・連続フレームを確認した。ブラウザーでは28秒の終端まで再生。任意時刻の描画は異なる順番と新しいページで同じ画像になった。 今回のvisual-r1は同じ時刻契約を使う新しい32秒の縦横無音紹介です。元の28秒と検査を分け、原出力と役割の構造を共有した新しいソースへ適用しました。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "原典を固定する",
+      "body": "imxv/Pretty-mermaid-skills のコミット e234ab7 で、SKILL.md・参照資料・MIT License を確かめました。作例の vendor/pretty-mermaid/ には SKILL.md・references・README・LICENSE を変更せずに置いています。描画スクリプトと依存は同梱せず、同じ固定版をcheckoutして npm ci --ignore-scripts で用意します。"
+    },
+    {
+      "title": "SKILL.mdと参照資料を読む",
+      "body": "図の種類と出力形式の表、短く具体的なラベルにする・分岐には矢印のラベルを付ける・大きな図は分ける・色だけで意味を伝えないといった記述の指針、描画後の確認の手順を読みました。構文は references/DIAGRAM_TYPES.md、テーマは THEMES.md で確かめています。"
+    },
+    {
+      "title": "3つの図を記述する",
+      "body": "申込の確認フロー（flowchart LR）、利用者・受付API・保存先のやり取り（sequenceDiagram）、ジョブの待機・実行中・完了・失敗（stateDiagram-v2）の3つを、日本語のラベルで inputs/ に書きました。不備があれば入力へ戻る、失敗したら再試行で待機へ戻る、のように、戻る矢印と条件が読めることを優先しています。"
+    },
+    {
+      "title": "原典CLIで書き出す",
+      "body": "固定した原典CLIを12回実行し、3つの .mmd それぞれから github-light と github-dark のSVG、幅1200のPNG、色なしの文字図を生成しました。SVGとPNGには Yu Gothic を指定。入力と出力のハッシュを残し、PNGの日本語、戻りの矢印、自己メッセージ、再試行の関係を原文と照合しています。"
+    },
+    {
+      "title": "読み比べる画面を作る",
+      "body": "元の記述と原典CLIの出力を並べ、矢印の行を選ぶと対応表の同じ行を示します。横長の流れ図は記述の下へ広く置き、狭い画面では図の中をスクロールしてラベルを読めるようにしました。ほかの図は広い画面で左右に並びます。ライト・ダーク・並べた表示、拡大、文字図、各形式の保存を備えます。"
+    },
+    {
+      "title": "構造を32秒の無音図解へ",
+      "body": "原典の本と依頼、作者の執筆と制作担当の実行、SVGからPNGへの経路と別の文字図経路、原文との別工程の照合を、新しいOpus5.5で図解しました。元の28秒紹介はlegacy、元ビューアはdeskへ保全。新しい図と縦横動画は別のQAで確認しました。"
+    }
+  ],
+  "limitations": [
+    "表示するのは制作時に書き出して保存した出力です。ページ上で図を描画したり、自分の .mmd を読み込んだりする機能はありません。",
+    "図の題材はすべて架空です。受付APIや保存先、ジョブの仕組みは作っていません。",
+    "原典の SKILL.md だけでは図を描けません。描画には固定版のリポジトリ（scripts/ と依存の beautiful-mermaid）と Node.js が必要です。npx skills add による導入は試していません。",
+    "確認したのは flowchart・sequenceDiagram・stateDiagram-v2 の3種類、github-light・github-dark の2テーマ、SVG・PNG・文字図です。class・ER・XY chart、ほかのテーマ、batch.mjs は扱っていません。",
+    "日本語を含む文字図では罫線がずれる箇所があり、端末やフォントによっても見え方が変わります。図を正確に共有するときはSVGやPNGを使ってください。",
+    "保存したSVGには、原典が付けたGoogle Fontsの参照が含まれます。単独のSVGとして開く環境では外部フォントを参照する場合があります。この作例の画像表示と動画は端末の日本語フォントで確認しています。",
+    "解説動画は音声なしです。",
+    "6部品は説明用整理で原典の共通スキーマではありません。元の1受領と新しい図/映像の受領、制作担当の事実整理・補正・検証を分けています。",
+    "元7資料はCRLFの配布原本を保持し、公式LFとは生bytesが異なります。CRLFだけを正規化した内容/Gitblobの一致と、追加4公式ソースのrawbytes一致を区別しました。",
+    "文字図はUnicode罫線を含みます。--format asciiで書き出しましたが、純ASCIIにする--use-asciiは使っていません。",
+    "ブラウザーの保存要求・同じ公開原本のbytes・実際に返却されたファイルの有無は分けて記録します。",
+    "実機iOS/Safari/VoiceOver、200%ズーム、人の審美的承認、意味/全入力/性能の保証、クリップボード再取得は未確認。"
+  ],
+  "sources": [
+    {
+      "label": "Pretty Mermaid SKILL.md（imxv/Pretty-mermaid-skills、固定版）",
+      "url": "https://github.com/imxv/Pretty-mermaid-skills/blob/e234ab73c2992f03c36db04fd55ebb90abca9c45/SKILL.md"
+    },
+    {
+      "label": "Pretty Mermaid のリポジトリ（固定版）",
+      "url": "https://github.com/imxv/Pretty-mermaid-skills/tree/e234ab73c2992f03c36db04fd55ebb90abca9c45"
+    },
+    {
+      "label": "Pretty Mermaid README（固定版）",
+      "url": "https://github.com/imxv/Pretty-mermaid-skills/blob/e234ab73c2992f03c36db04fd55ebb90abca9c45/README.md"
+    },
+    {
+      "label": "Mermaidの構文の参照資料 DIAGRAM_TYPES.md（固定版）",
+      "url": "https://github.com/imxv/Pretty-mermaid-skills/blob/e234ab73c2992f03c36db04fd55ebb90abca9c45/references/DIAGRAM_TYPES.md"
+    },
+    {
+      "label": "Pretty Mermaid LICENSE（MIT、固定版から作例に同梱）",
+      "url": "examples/pretty-mermaid-first-diagram/vendor/pretty-mermaid/LICENSE"
+    },
+    {
+      "label": "Motion Reel（Studio Yebisu、MIT）",
+      "url": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824"
+    },
+    {
+      "label": "作例の再現手順（README）",
+      "url": "examples/pretty-mermaid-first-diagram/README.md"
+    },
+    {
+      "label": "この作例の制作・確認記録",
+      "url": "data/production/pretty-mermaid-first-diagram.json"
+    },
+    {
+      "label": "元の記述・図・文字図の読み比べ",
+      "url": "examples/pretty-mermaid-first-diagram/desk.html#flow"
+    },
+    {
+      "label": "構造図と無音紹介の再現手順",
+      "url": "examples/pretty-mermaid-first-diagram/visual-guide.md"
+    },
+    {
+      "label": "新しい図と映像の確認範囲",
+      "url": "examples/pretty-mermaid-first-diagram/visual-verification.json"
+    }
+  ],
+  "license": "MIT",
+  "license_note": "この作例の画面構成・文言・Mermaidの記述・サンプル・映像ソースは 八百万図AIツールボックス の独自制作で、MIT License です。vendor/pretty-mermaid/ の SKILL.md と参照資料は上流の MIT License（Copyright (c) 2026 Beautiful-Mermaid Contributors）で、LICENSE を同梱しています。assets/ の図は、原典CLIが書き出した出力です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "catalog_entry": {
+    "id": "resource-pretty-mermaid",
+    "name": "Pretty Mermaid",
+    "tagline": "MermaidをSVGやPNGに変える図の描画ツール",
+    "category": "graphics",
+    "kind": "スキル",
+    "summary": "Mermaidで書いたフロー図やシーケンス図を、SVG、PNG、文字図へ書き出せます。READMEや設計書の図を、読みやすく配布しやすい形に整えられます。",
+    "use_case": "READMEや設計書のフロー図・シーケンス図を、配布しやすい形に整えたいとき。",
+    "tags": [
+      "画像",
+      "図解",
+      "Agent Skills"
+    ],
+    "workflow": [
+      "Mermaidのソースと用途を渡す",
+      "テーマと出力形式を選び、CLIで描画する",
+      "ラベル・矢印・出力ファイルを確認する"
+    ],
+    "requirements": [
+      "Node.jsとスキルの依存ライブラリ",
+      "対応する種類のMermaidソース"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/imxv/Pretty-mermaid-skills/blob/e234ab73c2992f03c36db04fd55ebb90abca9c45/LICENSE",
+    "license_note": "MIT。対応するMermaid構文・図の種類は原典で確認してください。",
+    "source_url": "https://github.com/imxv/Pretty-mermaid-skills/tree/e234ab73c2992f03c36db04fd55ebb90abca9c45",
+    "guide_url": "case.html?id=pretty-mermaid-first-diagram",
+    "example_url": "examples/pretty-mermaid-first-diagram/index.html",
+    "image": "media/pretty-mermaid-first-diagram.webp",
+    "readme_url": "https://github.com/imxv/Pretty-mermaid-skills/blob/e234ab73c2992f03c36db04fd55ebb90abca9c45/README.md",
+    "source_repository": "imxv/Pretty-mermaid-skills",
+    "source_commit": "e234ab73c2992f03c36db04fd55ebb90abca9c45",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。スキルは入口または代表の本文も参照しています。原典は確認時のコミットへ固定しています。",
+    "prompt": "Pretty Mermaid の原典（https://github.com/imxv/Pretty-mermaid-skills/tree/e234ab73c2992f03c36db04fd55ebb90abca9c45）を読んで、次を進めてください。\n申込フォームの入力、検証、保存、完了通知のフローをMermaidで書き、SVGとPNGにしてください。日本語ラベルが欠けていないか確認してください。\n入力、出力、実行した検証、未確認の点を記録してください。",
+    "verification_stage": "runtime-reviewed",
+    "verification": "元の3入力/12CLI実出力/1受領を保持。新Opus5.5の大きな構造図と32秒無音縦横紹介を、原典/役割/別経路/実ファイルに結んで検証しました。",
+    "reviewed_on": "2026-10-15"
+  },
+  "updated_on": "2026-10-21",
+  "video_portrait": "media/pretty-mermaid-first-diagram.mp4",
+  "video_landscape": "media/pretty-mermaid-first-diagram-wide.mp4",
+  "poster_portrait": "media/pretty-mermaid-first-diagram.webp",
+  "poster_landscape": "media/pretty-mermaid-first-diagram-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/pretty-mermaid-first-diagram-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/pretty-mermaid-first-diagram-landscape-credited-ja-v3.mp4"
+}

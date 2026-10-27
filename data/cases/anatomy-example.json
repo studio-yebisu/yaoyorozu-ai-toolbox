@@ -1,0 +1,152 @@
+{
+  "id": "anatomy-example",
+  "title": "Anatomy",
+  "title_lines": [
+    "APIの制限を、動く立体の装置で説明する"
+  ],
+  "category": "motion",
+  "summary": "技術の仕組みを、触れる立体図解で伝えるスキルです。今回はAPIのレート制限を、8個のトークンを補充・払い出しする装置で説明します。図と数値が同じモデルから動き、連続送信と待ち時間の違いを試せます。",
+  "model": "claude-opus-5-5",
+  "status": "produced",
+  "updated_on": "2026-10-22",
+  "demo": "examples/anatomy-example/index.html",
+  "video": "media/anatomy-example.mp4",
+  "poster": "media/anatomy-example.webp",
+  "video_portrait": "media/anatomy-example.mp4",
+  "poster_portrait": "media/anatomy-example.webp",
+  "video_landscape": "media/anatomy-example-wide.mp4",
+  "poster_landscape": "media/anatomy-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "skill": "examples/anatomy-example/vendor/anatomy/SKILL.md",
+  "skill_label": "Anatomyの原典SKILL.md",
+  "skill_description": "確認した固定版の手順・使い方",
+  "skill_license": "examples/anatomy-example/vendor/anatomy/LICENSE",
+  "samples": "examples/anatomy-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "入力と、今回保存したもの",
+  "samples_intro": "AnatomyのSKILL.mdと公式SVGキットを適用した独自の説明モデルです。実際のAPIには接続せず、サーバーの性能や通信結果を測っていません。",
+  "demo_description": "8件を送って空にし、もう1件を拒否させ、1秒進めて2個が戻る流れを操作できます。",
+  "demo_note": "AnatomyのSKILL.mdと公式SVGキットを適用した独自の説明モデルです。実際のAPIには接続せず、サーバーの性能や通信結果を測っていません。",
+  "request_intro": "固定版の原典と利用条件を読み、自分の用途へ置き換える依頼例です。今回の実行範囲は注意点に記録しています。",
+  "request": "（架空の依頼）\n社内の新人研修で、APIのレート制限を説明する図を作りたい。題材はトークンバケット。\n「一度に8件までは通るが、使い切ったら止まり、1秒ごとに2件分だけ戻る」ことが、数字の表ではなく、見て分かる卓上の装置として伝わるようにする。\n\n- 容量8、初期8、毎秒2枚の補充（上限8で止まる）。リクエスト1件で1枚使い、0枚なら拒否。\n- 操作：リクエストを1件送る／1秒進める／8件まとめて送る／リセット。いまの枚数・許可・拒否・経過秒を表示する。\n- 図の枚数と表示の数字は同じ状態から出す。実際のAPIには接続しない。\n- 使い道の例として、EC在庫APIや社内APIのレート制限を新人に説明する場面を書く。\n- Anatomy スキル（wheresryan22/anatomy、コミット 1482e8469b0a9e0d8cc18ea2740a01423d29ae80）の指示と kit を実際に使い、40〜80部品の Figure として作る。\n- 同じ図とモデルで、8枚が出ていき、止まり、1秒後に2枚戻ってまた通る無音24秒の動画ソースも作る。\n",
+  "video_source": "examples/anatomy-example/video/index.html",
+  "video_note": "24秒・無音。AnatomyのSKILL.mdと公式SVGキットを適用した独自の説明モデルです。実際のAPIには接続せず、サーバーの性能や通信結果を測っていません。",
+  "limitations": [
+    "この装置はトークンバケットを説明する独自モデルです。実在のAPIの動作・速度・実装を再現するものではありません。",
+    "WebGL、真の3D回転、原典の全監査スクリプトは今回の検証範囲に含みません。"
+  ],
+  "steps": [
+    {
+      "title": "技術を装置へ置き換える",
+      "body": "容量8、毎秒2個補充、1リクエストで1個消費という入力を固定。トークンの残量・受理・拒否を同じモデルで表示します。"
+    },
+    {
+      "title": "持ち帰る",
+      "body": "SVGの図、モデル、編集可能な画面と映像ソースを保存。社内研修や技術記事で、自分のAPIの条件に置き換える出発点にできます。"
+    },
+    {
+      "title": "最近の勢いを選定の参考に",
+      "body": "第三者集計 The Skill Leaderboard（2026-10-21時点、リポジトリ単位）：7日で約+9,000スター（+99.4%）。集計時点で作成13日。今日の総スター数とは混在させていません。"
+    }
+  ],
+  "sources": [
+    {
+      "label": "原典・確認した固定版",
+      "url": "https://github.com/wheresryan22/anatomy/tree/1482e8469b0a9e0d8cc18ea2740a01423d29ae80"
+    },
+    {
+      "label": "原典の利用条件",
+      "url": "https://github.com/wheresryan22/anatomy/blob/1482e8469b0a9e0d8cc18ea2740a01423d29ae80/LICENSE"
+    },
+    {
+      "label": "勢いの出典（第三者集計・2026-10-21・リポジトリ単位）",
+      "url": "https://www.skillleaderboard.com/"
+    },
+    {
+      "label": "日本語の再現手順と検証範囲",
+      "url": "examples/anatomy-example/README.md"
+    },
+    {
+      "label": "検証記録",
+      "url": "data/production/anatomy-example.json"
+    },
+    {
+      "label": "編集用ソース一式（ZIP）",
+      "url": "examples/anatomy-example/source.zip"
+    }
+  ],
+  "license": "MIT（独自コード）／完成メディアはクレジット条件",
+  "license_note": "AnatomyはMIT（Copyright 2026 Ryan）。同梱したキット・資料には原典LICENSEを保持。独自の装置・状態モデル・日本語説明は当サイトの制作です。 完成デモ・動画はmedia-rights.htmlのクレジット条件に従います。Xの投稿本文には@studio_yebisuの表記が必要です。",
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "Yaoyorozu AI ToolBox · @studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "applied_skills": [
+    {
+      "name": "Anatomy（固定版）",
+      "source": "https://github.com/wheresryan22/anatomy/tree/1482e8469b0a9e0d8cc18ea2740a01423d29ae80",
+      "applied": "AnatomyのSKILL.mdと公式SVGキットを適用した独自の説明モデルです。実際のAPIには接続せず、サーバーの性能や通信結果を測っていません。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel",
+      "applied": "編集可能な無音の図解映像。任意時刻描画と縦横の配置を使い、実行済みと説明用の範囲を分けます。"
+    }
+  ],
+  "catalog_entry": {
+    "id": "motion-anatomy",
+    "name": "Anatomy",
+    "tagline": "APIの制限を、動く立体の装置で説明する",
+    "category": "motion",
+    "kind": "スキル",
+    "summary": "技術の仕組みを、触れる立体図解で伝えるスキルです。今回はAPIのレート制限を、8個のトークンを補充・払い出しする装置で説明します。図と数値が同じモデルから動き、連続送信と待ち時間の違いを試せます。",
+    "use_case": "ECの在庫APIや社内APIのレート制限を、新人研修・設計レビュー・日本語の技術記事で説明したいとき。",
+    "tags": [
+      "Anatomy",
+      "日本語作例",
+      "仕組みの図解"
+    ],
+    "workflow": [
+      "説明する技術と数値を決める",
+      "仕組みに対応する実物風の装置を考える",
+      "同じ状態モデルでSVGと読み値を動かす",
+      "スマホ・キーボードと境界条件を確かめる"
+    ],
+    "requirements": [
+      "SKILL.mdを読めるコーディングAI",
+      "Node.js 20.10以上とローカルHTTP環境",
+      "図を確認できるChromeまたはChromium"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/wheresryan22/anatomy/blob/1482e8469b0a9e0d8cc18ea2740a01423d29ae80/LICENSE",
+    "license_note": "AnatomyはMIT（Copyright 2026 Ryan）。同梱したキット・資料には原典LICENSEを保持。独自の装置・状態モデル・日本語説明は当サイトの制作です。",
+    "source_url": "https://github.com/wheresryan22/anatomy/tree/1482e8469b0a9e0d8cc18ea2740a01423d29ae80",
+    "guide_url": "case.html?id=anatomy-example",
+    "example_url": "examples/anatomy-example/index.html",
+    "image": "media/anatomy-example.webp",
+    "readme_url": "https://github.com/wheresryan22/anatomy/blob/1482e8469b0a9e0d8cc18ea2740a01423d29ae80/README.md",
+    "source_repository": "wheresryan22/anatomy",
+    "source_commit": "1482e8469b0a9e0d8cc18ea2740a01423d29ae80",
+    "source_path": "SKILL.md",
+    "source_project": "curated",
+    "source_note": "AnatomyのSKILL.mdと公式SVGキットを適用した独自の説明モデルです。実際のAPIには接続せず、サーバーの性能や通信結果を測っていません。 第三者集計 The Skill Leaderboard（2026-10-21時点、リポジトリ単位）：7日で約+9,000スター（+99.4%）。集計時点で作成13日。今日の総スター数とは混在させていません。",
+    "prompt": "（架空の依頼）\n社内の新人研修で、APIのレート制限を説明する図を作りたい。題材はトークンバケット。\n「一度に8件までは通るが、使い切ったら止まり、1秒ごとに2件分だけ戻る」ことが、数字の表ではなく、見て分かる卓上の装置として伝わるようにする。\n\n- 容量8、初期8、毎秒2枚の補充（上限8で止まる）。リクエスト1件で1枚使い、0枚なら拒否。\n- 操作：リクエストを1件送る／1秒進める／8件まとめて送る／リセット。いまの枚数・許可・拒否・経過秒を表示する。\n- 図の枚数と表示の数字は同じ状態から出す。実際のAPIには接続しない。\n- 使い道の例として、EC在庫APIや社内APIのレート制限を新人に説明する場面を書く。\n- Anatomy スキル（wheresryan22/anatomy、コミット 1482e8469b0a9e0d8cc18ea2740a01423d29ae80）の指示と kit を実際に使い、40〜80部品の Figure として作る。\n- 同じ図とモデルで、8枚が出ていき、止まり、1秒後に2枚戻ってまた通る無音24秒の動画ソースも作る。\n",
+    "verification_stage": "runtime-reviewed",
+    "verification": "AnatomyのSKILL.mdと公式SVGキットを適用した独自の説明モデルです。実際のAPIには接続せず、サーバーの性能や通信結果を測っていません。",
+    "reviewed_on": "2026-10-22",
+    "momentum": {
+      "source": "https://www.skillleaderboard.com/",
+      "as_of": "2026-10-21",
+      "scope": "repository",
+      "third_party": true,
+      "note": "7日で約+9,000スター（+99.4%）。集計時点で作成13日。"
+    }
+  },
+  "video_download_portrait": "media/downloads/anatomy-example-portrait-credited-v4.mp4",
+  "video_download_landscape": "media/downloads/anatomy-example-landscape-credited-v4.mp4"
+}

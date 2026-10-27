@@ -1,0 +1,171 @@
+{
+  "id": "quartz-agent-console",
+  "title": "Quartz",
+  "category": "ui-ux",
+  "summary": "UIの設計指針、共通のCSS、React部品、検査ツールを揃えたデザインシステムです。エージェントのログや承認などを扱う管理画面を、統一した見た目で組み立てられます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/quartz-agent-console/index.html",
+  "video": "media/quartz-agent-console.mp4",
+  "poster": "media/quartz-agent-console.webp",
+  "skill": "examples/quartz-agent-console/vendor/quartz/SKILL.md",
+  "samples": "examples/quartz-agent-console/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "同じ3件の静的サンプルと、表示する入出力",
+  "samples_intro": "元のcompleted/tool-failed/waiting-inputと入力・出力の文章はそのままです。完了5/5段、合成404の失敗3/6段、原典URL待ち4/5段。秒数は架空で、AIや外部サービスの実行記録ではありません。同じIDから構造図を開き、実物のReact画面へ進めます。",
+  "demo_description": "指示書の8手順と依頼→同じ作者AIのReact/fixture執筆→制作担当の別工程の配置・点検・ビルド→body.quartzとQuartzPortalProviderの範囲・共通トークン・8部品→AppとTimelineの選択の戻り→同じ段の状態/入力/出力→サンプルJSONと実物の画面、を一枚の図で示します。3件・3段階・元の12段を選べます。",
+  "demo_note": "図の実行ログは全て静的なサンプルです。選択・再生でAI/ツール/通信/下書き保存を実行しません。元のReact画面では実物のQuartz部品を操作できます。JSONは元と同じfixtureをブラウザーへ渡すだけで、ディスク保存完了とは区別します。",
+  "request_intro": "Quartzの指示書と部品があるプロジェクトでAIへ渡す元の依頼文です。【】を用途と自分のログに置き換えます。記載のshadcn導入コマンドは今回未実行で、元制作では固定版の必要ファイルと依存を制作担当が手動配置しました。",
+  "video_note": "32秒・30fps・完全無音。縦720×1280と横1280×720を別配置で描きます。指示書・作者AI・制作担当・共通トークンと部品・Appへ戻る選択・JSONの受け渡しをつなぐ構造紹介です。元の推論/ビルド/lintは再実行していません。",
+  "video_source": "examples/quartz-agent-console/video/index.html",
+  "skill_license": "examples/quartz-agent-console/vendor/quartz/LICENSE",
+  "request": "Quartzデザインシステムで、エージェントの実行ログを読む画面を作ってください。\n\n準備：npx shadcn@latest add https://design.how/r/quartz/theme.json でテーマとQuartzのスキルを入れ、timeline・status・json-view・button・data-list・segmented-control・badge・page-header を https://design.how/r/quartz/<name>.json で追加してください。作る前にQuartzのSKILL.mdと、使う部品のページを読んでください。\n\n守ること：bodyにquartzクラスを付け、QuartzPortalProviderで包む。色・文字・寸法はQuartzのトークンとユーティリティだけを使う。状態はStatusの言葉で書く。TimelineはPanelの中や横に置かない。Timelineの矢印キー・Home・End・Enterの操作を保つ。\n\n画面の用途：どの段で止まったかと、その段が受け取った入力と返した出力を見分ける。\n実行ログ：【自分の実行ログのJSON。段ごとに名前・開始と終了のミリ秒・状態・入力・出力】\n完成条件：段を選ぶとその段の入力と出力がJSON viewに出る。390px幅と1280px幅で読める。npx shadcn@latest add https://design.how/r/quartz/lint.json で入れたlintを npx eslint -c quartz.eslint.config.mjs . で実行し、エラーがない。\n\n必要な原典URLや接続先がまだ渡されていない場合は、補わずに不足する入力を教えてください。",
+  "applied_skills": [
+    {
+      "name": "Quartz",
+      "source": "https://github.com/arla6ka/design.how/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md",
+      "applied": "固定版のSKILL.mdの全体ルールとAnti-slop、Timeline・JSON view・Status・Button・Badge・Data list・Segmented control・Panelの資料、PageHeaderのコードを読んでから組んだ。body に quartz クラスと QuartzPortalProvider、部品は vendor/quartz/ui の実物を直接読み込み、作例側のCSSは Tailwind と Quartz の styles.css の読み込みだけにした。Timelineは資料の規則どおりPanelに入れず白い作業面のまま置き、時間はミリ秒で渡して単位の選択を部品に任せた。待機中の段は status=\"waiting\" と短い待ちの言葉、失敗は失敗の段だけに付けた。JSON viewには段の名前を付けた label を渡し、10行未満の出力なので toolbar を外した。状態は色ではなく Status の言葉で書き、一画面に塗りの主ボタンを置かず、保存は secondary のボタンにした。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824",
+      "applied": "解説動画のソースを、window.seek(秒)がその時刻の完成した画面だけを描く契約で書いた。motionConfig（28秒・30fps・1280×720・posterTime 14・音声なし）、renderConfigのサイズ反映、撮影画像の読み込みを待つ motionReady、書き出し中のプレビュー停止に従った。実画面の場面には作例を撮影した画像を使い、画面を描き直した図は使っていない。統合側のレンダラーでMP4を書き出し、コンタクトシート・実フレーム・ブラウザで終端までの再生を確認した。任意時刻を異なる順に描画しても、同じ画像になる検査が通った。 今回のvisual-r1には同じ任意時刻の契約を新しい32秒の縦横無音図解へ適用。元の28秒と撮影/検査は保持し、新しい構造図/編集ソース/描画/再生を別に確認しました。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "原典を固定する",
+      "body": "Xの投稿（2026-10-14）は発見元として扱い、作者の公式GitHub arla6ka/design.how のコミット 1aaaa1b47ba5 で、Quartz の SKILL.md・部品のコード・MIT License を確かめました。作例には、使う部品と依存ファイルだけをこの固定版から置いています。"
+    },
+    {
+      "title": "SKILL.mdと部品の資料を読む",
+      "body": "全体ルール、生成UIにありがちな癖を禁じるAnti-slop、トークンの一覧を読み、Timeline・JSON view・Status・Button・Badge・Data list・Segmented control・Panel の資料と実装を確認しました。「TimelineはPanelに入れない」「時間はミリ秒で渡す」「状態は言葉で書く」などを、そのまま画面の決まりにしています。"
+    },
+    {
+      "title": "3件のサンプル実行ログを書く",
+      "body": "原典を読んで紹介文を作るエージェントを題材に、完了・ツール失敗・入力待ちの3件を samples.json に書きました。失敗の例では、ツールに渡した path から systems/ が抜けていて、出力は 404 です。入力と出力を並べると原因が読めるようにしました。秒数はサンプル値です。"
+    },
+    {
+      "title": "実物の部品で画面を組む",
+      "body": "Timeline の段を選ぶと、右（スマホでは下）に段の説明、種類と時間、入力と出力の JSON view が出ます。サンプルの切り替えとライト・ダークは Segmented control、記録の保存は Button です。URLの #completed などで開くサンプルを選べ、サンプルのJSONを保存できます。"
+    },
+    {
+      "title": "指示書と部品の構造を32秒の無音図解へ",
+      "body": "元のReact画面/3件の静的fixture/1受領を保ち、新しいOpus5.5で指示書→同じ作者→別工程の点検→スコープとトークン/部品→選択が戻るApp→実物とJSONを図解しました。元28秒はlegacy、新32秒は縦横の別配置です。新しい図と映像の操作/失敗復旧/描画/再生は、元の検査から分けて確認しました。"
+    }
+  ],
+  "limitations": [
+    "表示するのは事前に書いた3件のサンプル実行ログです。AIや外部サービスには接続しておらず、自分の実行ログを読み込む機能もありません。",
+    "画面の秒数はサンプル値で、実行速度や処理時間の計測ではありません。",
+    "shadcn CLI による自動導入は試していません。固定版から8つの部品と依存ファイルだけを読み込んでおり、Quartz のほかの部品や Blocks は検証していません。",
+    "失敗を直す再実行や、入力待ちに返事をする機能はありません。止まった状態と入出力を確かめる画面です。",
+    "Timeline や JSON view の内部の文言（Step、Failed、Copy JSON など）と読み上げの文言は、上流の英語のままです。",
+    "解説動画は音声なしです。",
+    "6要素は説明用整理で原典の共通スキーマではありません。新しいCanvasは説明図で、原典React部品の実行は保全したdesk.htmlです。",
+    "元の入力待ちfixtureは制作担当が承認待ちから原典URL不足へ置き換えた公開版を保持しています。元の1受領、新しい図/映像の受領、制作担当の補正・QAを分けています。",
+    "原典33ソースとLICENSEの34ファイルは元のCRLFを保持。公式LFと生bytesが違い、CRLFだけ正規化した内容/Gitblobが一致します。旧unchanged表記を34rawbytes一致とは扱いません。",
+    "小さい5/3/4段では仮想スクロール性能を実証していません。Portalの範囲はありますがポップアップを使う作例ではありません。",
+    "実機iOS/Safari/VoiceOver、200%ズーム、人の審美的承認、全入力/意味/使いやすさ/性能の保証、クリップボード再取得は未確認。",
+    "保存要求・同じ公開原本のbytes・ブラウザーからの返却ファイルの有無を分けて記録します。"
+  ],
+  "sources": [
+    {
+      "label": "Quartz SKILL.md（arla6ka/design.how、固定版）",
+      "url": "https://github.com/arla6ka/design.how/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md"
+    },
+    {
+      "label": "Quartz の部品とトークンのコード（固定版）",
+      "url": "https://github.com/arla6ka/design.how/tree/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz"
+    },
+    {
+      "label": "Quartz LICENSE（MIT、固定版から作例に同梱）",
+      "url": "examples/quartz-agent-console/vendor/quartz/LICENSE"
+    },
+    {
+      "label": "Quartz 公式ドキュメント（design.how）",
+      "url": "https://design.how/systems/quartz"
+    },
+    {
+      "label": "発見元のX投稿（@arlanoska、2026-10-14）",
+      "url": "https://x.com/arlanoska/status/2110425467996209244"
+    },
+    {
+      "label": "Motion Reel（Studio Yebisu、MIT）",
+      "url": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824"
+    },
+    {
+      "label": "作例の再ビルド手順（README）",
+      "url": "examples/quartz-agent-console/README.md"
+    },
+    {
+      "label": "同梱ソフトウェアの利用条件・Font Awesome Freeクレジット",
+      "url": "examples/quartz-agent-console/THIRD_PARTY_NOTICES.txt"
+    },
+    {
+      "label": "この作例の制作・確認記録",
+      "url": "data/production/quartz-agent-console.json"
+    },
+    {
+      "label": "保全した元のReact実画面",
+      "url": "examples/quartz-agent-console/desk.html#completed"
+    },
+    {
+      "label": "構造図と無音動画の再現手順",
+      "url": "examples/quartz-agent-console/visual-guide.md"
+    },
+    {
+      "label": "新しい図と映像の確認範囲",
+      "url": "examples/quartz-agent-console/visual-verification.json"
+    }
+  ],
+  "license": "MIT",
+  "license_note": "この作例の画面構成・文言・サンプル・映像ソースは 八百万図AIツールボックス の独自制作で、MIT License です。vendor/quartz/ の Quartz は上流の MIT License（Copyright (c) 2026 Arlan Marat）で、LICENSE を同梱しています。アイコンは Font Awesome Free の利用条件に従います。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "catalog_entry": {
+    "category": "ui-ux",
+    "source_project": "ui-ux",
+    "id": "quartz",
+    "name": "Quartz",
+    "tagline": "AIの管理画面を作るデザインシステム",
+    "kind": "スキル",
+    "summary": "UIの設計指針、共通のCSS、React部品、検査ツールを揃えたデザインシステムです。エージェントのログや承認などを扱う管理画面を、統一した見た目で組み立てられます。",
+    "use_case": "エージェントの実行ログ、承認、APIキー、リリースなど、AIを動かす側の管理画面。",
+    "tags": [
+      "Claude Code",
+      "デザインシステム",
+      "shadcn",
+      "AIエージェント",
+      "ダッシュボード"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/arla6ka/design.how/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/LICENSE",
+    "source_url": "https://github.com/arla6ka/design.how/blob/1aaaa1b47ba5a18b47b0ebcac684ade460c6823f/systems/quartz/SKILL.md",
+    "guide_url": "case.html?id=quartz-agent-console",
+    "example_url": "examples/quartz-agent-console/index.html",
+    "image": "media/quartz-agent-console.webp",
+    "skill_download": "examples/quartz-agent-console/vendor/quartz/SKILL.md",
+    "prompt": "Quartzで、エージェントの実行ログを読む画面を作ってください。npx shadcn@latest add https://design.how/r/quartz/theme.json でテーマとスキルを入れ、timeline・status・json-view などの部品を追加し、SKILL.mdと部品のページを読んでから組んでください。用途は【どの段で止まったかと入出力を見分ける】、実行ログは【自分のJSON】です。トークン以外の色や寸法を使わず、390px幅と1280px幅、キーボード操作も確認してください。",
+    "verification": "元の固定React部品/1受領/3静的fixtureを保持。新しい大きな構造図と32秒縦横無音紹介、元実部品の12段選択/JSON/キー操作、図と編集の失敗復旧と実動画を確認。ライブAI接続なし。",
+    "verification_stage": "runtime-reviewed",
+    "source_commit": "1aaaa1b47ba5a18b47b0ebcac684ade460c6823f"
+  },
+  "updated_on": "2026-10-22",
+  "title_lines": [
+    "AIの管理画面を作るデザインシステム"
+  ],
+  "video_portrait": "media/quartz-agent-console.mp4",
+  "video_landscape": "media/quartz-agent-console-wide.mp4",
+  "poster_portrait": "media/quartz-agent-console.webp",
+  "poster_landscape": "media/quartz-agent-console-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/quartz-agent-console-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/quartz-agent-console-landscape-credited-ja-v3.mp4"
+}

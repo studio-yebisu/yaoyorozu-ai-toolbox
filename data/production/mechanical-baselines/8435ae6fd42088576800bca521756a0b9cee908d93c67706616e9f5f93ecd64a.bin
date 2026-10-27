@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f7f3ea">
+  <title>好みを覚えて、次に引き出す。Mem0 OSS の作例（架空の2人）｜八百万図AIツールボックス</title>
+  <meta name="description" content="Mem0 のオープンソース版 Memory API に、架空の2人の好み7件を infer=False で保存し、検索・更新・削除・別プロセスでの読み直しを実行した保存済みの結果を、ひとつの大きな図で確かめる作例です。">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">本文へ移動</a>
+  <header class="brand">
+    <a href="../../case.html?id=mem0-example">← 作例の記事へ</a>
+    <span>MEM0 作例</span>
+  </header>
+
+  <main id="main">
+    <section class="intro" aria-labelledby="title">
+      <p class="eyebrow">MEM0 OSS ・ 好みの保存と検索</p>
+      <h1 id="title">好みを覚えて、<br>次に引き出す。</h1>
+      <p class="chips">
+        <span class="chip">保存済みの実行結果</span>
+        <span class="chip">架空の2人</span>
+      </p>
+      <div class="choices" role="group" aria-label="場面を選ぶ">
+        <button class="choice" type="button" data-case="M02" aria-pressed="false" disabled><span class="dot dot-aya" aria-hidden="true"></span>あや</button>
+        <button class="choice" type="button" data-case="M03" aria-pressed="false" disabled><span class="dot dot-ken" aria-hidden="true"></span>けん</button>
+        <button class="choice" type="button" data-case="M05" aria-pressed="false" disabled><span class="dot dot-warm" aria-hidden="true"></span>更新</button>
+        <button class="choice" type="button" data-case="M06" aria-pressed="false" disabled><span class="dot dot-trace" aria-hidden="true"></span>削除</button>
+        <button class="choice" type="button" data-case="M07" aria-pressed="false" disabled><span class="dot dot-again" aria-hidden="true"></span>開き直す</button>
+      </div>
+    </section>
+
+    <section class="experience" aria-labelledby="picture-h">
+      <h2 id="picture-h" class="visually-hidden">2人の好み・保存先・検索の関係の図</h2>
+      <div id="diagram" class="diagram" role="img" aria-label="架空の2人の好み、ひとつの保存先、検索の流れの図。記録を確かめるまで表示しません。"></div>
+      <noscript><p class="status">この図の表示には JavaScript が必要です。記録は <a href="outputs/memory-run.json">outputs/memory-run.json</a> と <a href="comparison.html">8場面の記録</a>で読めます。</p></noscript>
+
+      <p id="status" class="status" data-state="loading" role="status" aria-live="polite">保存済みの実行結果を確かめています…</p>
+      <button id="retry" class="retry" type="button" hidden>もう一度読み込む</button>
+
+      <p id="case-note" class="case-note" hidden><span id="case-note-text"></span> <a id="case-note-link" href="comparison.html">元の記録で見る</a></p>
+
+      <div class="result-actions">
+        <button id="compare" class="action primary" type="button" disabled>同じ問いをけんに</button>
+        <button id="save-record" class="action" type="button" disabled><span aria-hidden="true">↓</span> <span id="save-label">この場面の記録を保存</span></button>
+        <a id="original-link" class="action quiet" href="comparison.html">元の記録で見る</a>
+      </div>
+      <p id="caption" class="caption"></p>
+
+      <p id="action-status" class="action-status" role="status" aria-live="polite"></p>
+
+      <details class="scope">
+        <summary>この図で見ているもの（保存済みの実行結果・架空の2人）</summary>
+        <p>制作時に、固定版の Mem0（mem0ai/mem0 SDK 2.2.1）の Memory API を実際に呼んだ結果です。架空の「あや」と「けん」の好み7件を、渡した文のまま保存（infer=False）し、検索・更新・削除・別の Python プロセスでの読み直しを記録しました。ページを開いても Mem0・Python・モデル・AI は動かず、新しい保存や検索はできません。</p>
+        <p>図の短い言葉（「無音20秒」など）は、保存した本文を図のために縮めた見出しです。本文そのものは「この場面の入力と出力」で読めます。順位の数字は検索の並び順で、Mem0 スコアは確率ではありません。あやとけんの区画は検索範囲の指定で、認証ではありません。</p>
+      </details>
+    </section>
+
+    <div class="folds">
+      <details class="fold" id="facts-fold">
+        <summary>この場面の入力と出力</summary>
+        <p id="facts-intro">記録を読み込むと、選んだ場面の実際の値を表示します。</p>
+        <dl id="facts" class="facts"></dl>
+        <details class="raw">
+          <summary>生の JSON（input）</summary>
+          <pre id="raw-input" class="json" tabindex="0"></pre>
+        </details>
+        <details class="raw">
+          <summary>生の JSON（output）</summary>
+          <pre id="raw-output" class="json" tabindex="0"></pre>
+        </details>
+      </details>
+
+      <details class="fold" id="all">
+        <summary>8場面すべての記録</summary>
+        <p id="tally">記録を読み込むと、場面の一覧を表示します。</p>
+        <ul id="all-list" class="links"></ul>
+        <p>図にした5場面のほか、7件の保存（M01）・動画の好みだけの絞り込み（M04）・未登録の利用者と誤った呼び出し（M08）も、<a href="comparison.html">8場面の記録</a>で入力と出力を全文で読めます。</p>
+      </details>
+
+      <details class="fold" id="film">
+        <summary>動く概念図（32秒・無音）</summary>
+        <p>同じ図の部品が動いて、保存・検索・更新・削除・開き直しを見せます。音声はありません。</p>
+        <ul class="links">
+          <li><a href="../../media/mem0-example.mp4">縦の動画を見る</a></li>
+          <li><a href="../../media/mem0-example-wide.mp4">横の動画を見る</a></li>
+          <li><a href="video/index.html">映像の編集ソース</a></li>
+        </ul>
+      </details>
+
+      <details class="fold" id="request">
+        <summary>依頼文</summary>
+        <p>この作例を依頼した文です（<a href="request.txt">request.txt</a>）。</p>
+        <button id="copy" class="copy" type="button" disabled>依頼文をコピー</button>
+        <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+        <label id="fallback-label" class="fallback-label" for="fallback" hidden>自動でコピーできませんでした。下の全文を長押しして選び、コピーしてください。</label>
+        <textarea id="fallback" class="fallback" rows="8" readonly hidden></textarea>
+      </details>
+
+      <details class="fold" id="about">
+        <summary>この作例で確かめた範囲</summary>
+        <p>7件はすべて <code>Memory.add(..., infer=False)</code> で、渡した文を1件ずつそのまま保存しました。LLM による要点の抽出・統合・会話は使っていません。ベクトルは固定版の多言語埋め込みモデルが CPU で計算し、保存・検索・更新・削除・履歴は Mem0 の API が行いました。</p>
+        <p>検索の Mem0 スコアは並び順を決める値で、確率や確信度ではありません。図には順位だけを出しています。</p>
+        <p>あやとけんの分離は、アプリが渡す <code>filters={"user_id": ...}</code> による検索範囲の指定です。認証や権限の仕組みではありません。</p>
+        <p>更新（M05）は実行スクリプトが <code>Memory.update</code> を明示的に呼んだ結果です。削除（M06）は記録を取得・一覧・検索の対象から外す操作で、SQLite の履歴には削除前の本文と DELETE が残ります。ファイルからの物理的な消去は確かめていません。</p>
+        <p>開き直し（M07）は、最初のプロセスで保存先を閉じたあと、同じ保存先を新しい Python プロセスで開いた実際の記録です。ブラウザーでの再起動の再現ではありません。</p>
+        <ul class="links">
+          <li><a href="outputs/method.md">手順と読み方（method.md）</a></li>
+          <li><a href="README.md">README（再実行の手順）</a></li>
+        </ul>
+      </details>
+
+      <details class="fold" id="source">
+        <summary>原典・固定版・利用条件</summary>
+        <dl class="facts">
+          <div><dt>原典</dt><dd><a href="https://github.com/mem0ai/mem0/tree/0724291bd864cf807e88ee8981c8226644e8fb42">mem0ai/mem0</a>（SDK 2.2.1・Apache License 2.0・Copyright [2023] [Taranjeet Singh]）</dd></div>
+          <div><dt>固定コミット</dt><dd class="mono">0724291bd864cf807e88ee8981c8226644e8fb42</dd></div>
+          <div><dt>同梱</dt><dd>原典156ファイルを改変せずに置いています（<a href="vendor-lock.json">vendor-lock.json</a>・<a href="vendor/mem0/LICENSE">Mem0 の LICENSE</a>）。</dd></div>
+          <div><dt>参照したスキル</dt><dd><a href="vendor/mem0/skills/mem0/SKILL.md">Mem0 公式 SDK スキル</a>（主にホスト型 Platform）と、そこから案内される <a href="vendor/mem0/skills/mem0/client/python.md">Python SDK の Open Source / Self-Hosted の節</a>。Platform の API キー・ログイン・<code>mem0 init</code>・プラグイン・通信は使っていません。</dd></div>
+          <div><dt>埋め込み</dt><dd><a href="https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2/tree/e8f8c211226b894fcb81acc59f3b34ba3efd5f42">paraphrase-multilingual-MiniLM-L12-v2</a>（コミット e8f8c21・384次元・Apache-2.0）。重みは配布しません。</dd></div>
+          <div><dt>実行記録</dt><dd id="run-facts">記録を読み込むと表示します。</dd></div>
+        </dl>
+        <p>図のページと解説動画の映像は Claude Opus 5.5 が作りました。図に出す値は、制作時に原典の Memory API と埋め込みモデルが返したもので、元の実行スクリプト・記録・入力はそのまま再利用しています。架空の好み7件と8場面は制作側が実行前に固定しました。ページ・説明文・映像のコードは MIT License（<a href="LICENSE">LICENSE</a>・Copyright (c) 2026 Studio Yebisu）、<code>vendor/mem0/</code> は Apache License 2.0 です。</p>
+        <ul class="links">
+          <li><a href="source.zip">作例のソース一式（source.zip）</a></li>
+          <li><a href="comparison.html">8場面の記録（入力と出力の全文）</a></li>
+          <li><a href="outputs/memory-run.json">実行記録（JSON）</a></li>
+          <li><a href="run.py">実行スクリプト（run.py）</a></li>
+        </ul>
+      </details>
+    </div>
+  </main>
+
+  <footer class="footer">八百万図AIツールボックス · あや・けんと7件の好みはすべて架空です · 実在の人の記録や会話は含みません · Mem0 の公式の製品ではありません</footer>
+</body>
+</html>

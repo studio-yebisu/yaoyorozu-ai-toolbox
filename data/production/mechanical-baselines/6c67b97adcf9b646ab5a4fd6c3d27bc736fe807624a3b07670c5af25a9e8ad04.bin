@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>Agent Reach：AIが情報を読むための、手順書と接続点検キット｜八百万図AIツールボックス 作例</title>
+  <meta name="description" content="Agent Reachは、経路表・分野別手順の手順書と、doctorによる接続点検のキット。読み取りは既存のCLIが直接行います。GitHubとXの保存済みの実例で、中身・読む・まとめるを図で確かめられます。">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">本文へ移動</a>
+  <header class="top">
+    <a class="back" href="../../case.html?id=agent-reach-example">← 記事へ戻る</a>
+    <div class="theme" role="group" aria-label="表示の色">
+      <button type="button" data-theme-choice="light" aria-pressed="false" aria-label="明るい表示">明</button>
+      <button type="button" data-theme-choice="dark" aria-pressed="false" aria-label="暗い表示">暗</button>
+      <button type="button" data-theme-choice="system" aria-pressed="true" aria-label="端末の設定に合わせる">自動</button>
+    </div>
+  </header>
+  <p id="legacy" class="legacy" role="note" hidden></p>
+
+  <main id="main">
+    <h1 class="title"><span class="name">Agent Reach</span> <span class="def">AIが情報を読むための、手順書と接続点検キット</span></h1>
+    <p class="once">保存済みの流れを図解／新しい取得はしません</p>
+
+    <div class="lab">
+      <div class="lab-map">
+        <div class="stages" role="group" aria-label="図の段階">
+          <button type="button" data-stage="parts" aria-pressed="true" disabled>中身</button>
+          <button type="button" data-stage="read" aria-pressed="false" disabled>読む</button>
+          <button type="button" data-stage="sort" aria-pressed="false" disabled>まとめる</button>
+        </div>
+        <p id="stage-note" class="stage-note"></p>
+
+        <div class="map-box">
+          <div id="map" class="map" data-layout="tall" data-stage="parts" data-state="loading" role="group" aria-labelledby="map-title">
+            <h2 id="map-title" class="vh">Agent Reachの構造と、今回の保存済みの流れ</h2>
+            <svg class="links" viewBox="0 0 360 540" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+              <defs>
+                <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+                <marker id="ah-on" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
+              </defs>
+              <g id="link-layer"></g>
+            </svg>
+
+            <div class="o kit" data-o="kit"><span class="kit-label">Agent Reach</span></div>
+            <div class="o book" data-o="book">
+              <div class="page route-page" data-part="routing">
+                <p class="ph"><b>経路表</b><code>SKILL.md</code></p>
+                <ul class="rows" data-f="rows"></ul>
+              </div>
+              <div class="page ref-page" data-part="reference">
+                <p class="ph"><b>分野別手順</b><code>references/</code></p>
+                <ul class="refs" data-f="refs"></ul>
+              </div>
+            </div>
+            <div class="o gauge" data-o="gauge" data-part="doctor">
+              <p class="ph"><b>接続点検</b><code>doctor</code></p>
+              <svg class="dial" viewBox="0 0 100 56" aria-hidden="true" focusable="false">
+                <path d="M10 50A40 40 0 0 1 30.5 15.1" class="dial-off"/>
+                <path d="M31.6 14.5A40 40 0 0 1 68.4 14.5" class="dial-warn"/>
+                <path d="M69.5 15.1A40 40 0 0 1 90 50" class="dial-off"/>
+                <line x1="50" y1="50" x2="44" y2="19" class="needle"/>
+                <line x1="50" y1="50" x2="56" y2="19" class="needle"/>
+                <circle cx="50" cy="50" r="4" class="hub"/>
+                <text x="94" y="55" class="dial-ok">ok</text>
+              </svg>
+              <p class="gv"><b data-f="doctor"></b><code data-f="backend"></code></p>
+            </div>
+            <button type="button" class="o tab" data-o="tabRoute" data-part="routing" aria-pressed="true" disabled>経路表</button>
+            <button type="button" class="o tab" data-o="tabRef" data-part="reference" aria-pressed="false" disabled>分野別手順</button>
+            <button type="button" class="o tab tab-doctor" data-o="tabDoctor" data-part="doctor" aria-pressed="false" disabled>接続点検</button>
+
+            <div class="o task" data-o="task"><b>依頼</b><small>手順で読み、メモに</small></div>
+            <button type="button" class="o chip" data-o="urlG" data-route="github" aria-pressed="true" disabled><span class="chip-k">GitHub</span><span class="chip-v" data-f="repo"></span></button>
+            <button type="button" class="o chip" data-o="urlX" data-route="twitter" aria-pressed="false" disabled><span class="chip-k">X</span><span class="chip-v" data-f="post"></span></button>
+            <div class="o reader" data-o="reader"><span class="eye" aria-hidden="true"></span><span class="who"><b data-f="role"></b><small data-f="roleSub"></small></span></div>
+
+            <div class="o tool" data-o="toolG" data-route="github"><b>gh api</b><small data-f="ghVer"></small><em class="warn" data-f="warnG"></em></div>
+            <div class="o tool" data-o="toolX" data-route="twitter"><b>twitter-cli</b><small data-f="twVer"></small><em class="warn" data-f="warnX"></em></div>
+            <div class="o plat" data-o="platG" data-route="github"><b>GitHub</b><small data-f="srcG"></small></div>
+            <div class="o plat" data-o="platX" data-route="twitter"><b>X</b><small data-f="srcX"></small></div>
+            <div class="o mat" data-o="files" data-route="github"><span class="sheets" data-f="sheets" aria-hidden="true"></span><b data-f="filesLabel"></b><small class="names" data-f="names"></small></div>
+            <div class="o mat" data-o="post" data-route="twitter"><span class="sheets"><i class="rec"></i></span><b data-f="postLabel"></b><small data-f="postSub"></small></div>
+
+            <div class="o sort" data-o="sort"><p class="ph"><b>整理</b><small>取得のあと</small></p><div class="bins" data-f="bins"></div></div>
+            <div class="o memo" data-o="memo"><code data-f="memoName"></code><b class="mt" data-f="memoTitle"></b><span class="tabs" data-f="memoTabs"></span></div>
+
+            <p id="load" class="map-msg" role="status">13件の保存素材を照合しています…</p>
+            <div id="fail" class="map-msg fail" role="alert" hidden>
+              <p id="fail-msg"></p>
+              <button id="retry" type="button">もう一度読み込む</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta">
+          <a id="memo-dl" class="primary" role="link" aria-disabled="true" download="agent-reach-research-note.md">実際の根拠メモを保存</a>
+          <a class="secondary" href="desk.html#all">8枚の根拠を見る</a>
+        </div>
+        <p id="live" class="vh" role="status" aria-live="polite"></p>
+      </div>
+
+      <div id="readout" class="lab-read" hidden>
+        <section class="ro" aria-labelledby="ro-route-h">
+          <h2 id="ro-route-h"></h2>
+          <dl id="ro-route" class="facts"></dl>
+          <div id="ro-route-more"></div>
+        </section>
+        <section class="ro" aria-labelledby="ro-part-h">
+          <h2 id="ro-part-h"></h2>
+          <div id="ro-part"></div>
+        </section>
+      </div>
+    </div>
+
+    <section class="block" aria-labelledby="how-h">
+      <h2 id="how-h">使い方</h2>
+      <ol class="how">
+        <li>依頼とURLを、Agent Reachの手順書（SKILL.mdとreferences）と一緒にAIエージェントへ渡す。</li>
+        <li><code>agent-reach doctor --json</code> で接続の状態を見る。warnはokに読み替えない。</li>
+        <li>経路表と分野別手順から、対象に合う既存CLIの読み取り専用コマンドを選ぶ。</li>
+        <li>そのCLIで対象を実際に読み、取得元・ID・本文の有無を確かめる。</li>
+        <li>読んだ材料の整理やメモ作成は、別の作業として行う。</li>
+      </ol>
+      <p id="how-note" class="note"></p>
+    </section>
+
+    <section class="block" aria-labelledby="sorted-h">
+      <h2 id="sorted-h">整理の結果</h2>
+      <p id="sorted-intro" class="note"></p>
+      <div id="sorted" class="sorted"></div>
+      <p><a class="more" href="desk.html#all">保存結果ビューアで8枚の根拠を開く</a>（<a href="desk.html#source">原典</a>・<a href="desk.html#runtime">実取得</a>・<a href="desk.html#unknown">未確認</a>）</p>
+    </section>
+
+    <section class="block" aria-labelledby="req-h">
+      <h2 id="req-h">依頼文</h2>
+      <p class="note">今回の作例で使った依頼文です。3つの欄を埋め、Agent Reachの固定版を読めるAIエージェントに渡します。</p>
+      <div class="req-actions">
+        <button id="copy" type="button" disabled>依頼文をコピー</button>
+        <a href="request.txt" download="agent-reach-request.txt">request.txt を保存</a>
+      </div>
+      <p id="copy-status" class="note" role="status" aria-live="polite"></p>
+      <pre id="request" class="request" tabindex="0" aria-label="依頼文（読み取り専用）"></pre>
+    </section>
+
+    <section class="block" aria-labelledby="film-h">
+      <h2 id="film-h">32秒の概念図（無音）</h2>
+      <p class="note">同じ図形が動き、手順書と点検、既存CLIによる直接の読み取り、取得後の整理とメモを示します。音声はありません。</p>
+      <video id="film-portrait" class="film-portrait" src="../../media/agent-reach-example.mp4" poster="../../media/agent-reach-example.webp" controls preload="metadata" playsinline aria-label="Agent Reachの概念図。32秒・無音・縦長">
+        <a href="../../media/agent-reach-example.mp4">MP4を開く</a>
+      </video>
+      <p><a href="video/index.html">動画の編集ソース</a> · <a href="source.zip">作例のソース一式（source.zip）</a></p>
+    </section>
+
+    <section class="block details" aria-labelledby="det-h">
+      <h2 id="det-h">記録と条件</h2>
+      <details>
+        <summary>入力（inputs/brief.json）</summary>
+        <div id="d-brief" class="dbody"></div>
+      </details>
+      <details>
+        <summary>実行記録（outputs/collection.json）</summary>
+        <div id="d-collection" class="dbody"></div>
+      </details>
+      <details>
+        <summary>根拠の比較とメモ</summary>
+        <div id="d-compare" class="dbody"></div>
+      </details>
+      <details>
+        <summary>今回は試していないこと</summary>
+        <div id="d-scope" class="dbody"></div>
+      </details>
+      <details>
+        <summary>認証の扱いと、3つの部品の位置づけ</summary>
+        <div id="d-auth" class="dbody"></div>
+      </details>
+      <details>
+        <summary>照合した13件の保存素材</summary>
+        <div id="d-assets" class="dbody"></div>
+      </details>
+      <details>
+        <summary>横長の動画（32秒・無音）</summary>
+        <div class="dbody">
+          <video id="film-wide" class="film-wide" src="../../media/agent-reach-example-wide.mp4" controls preload="metadata" playsinline aria-label="Agent Reachの概念図。32秒・無音・横長">
+            <a href="../../media/agent-reach-example-wide.mp4">横長のMP4を開く</a>
+          </video>
+        </div>
+      </details>
+      <details>
+        <summary>出典とライセンス</summary>
+        <div class="dbody">
+          <p>Agent Reach原典：<a href="https://github.com/Panniantong/Agent-Reach/tree/94f06c1969dfc1834001269d79d3ad0972d9dee6">Panniantong/Agent-Reach @ 94f06c1</a>、MIT License、Copyright (c) 2025 Agent Eyes（<a href="vendor/agent-reach/LICENSE">同梱のLICENSE</a>）。</p>
+          <p>この作例のページ・図・動画・メモ：MIT License、Copyright (c) 2026 Studio Yebisu（<a href="LICENSE">LICENSE</a>）。</p>
+          <p>MITはAgent Reachとこの作例の条件です。X・GitHubなど接続先の規約、ghやtwitter-cliのライセンス、第三者の投稿の権利には及びません。紹介投稿の本文・返信・数値・画像は掲載していません。</p>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p><a href="../../case.html?id=agent-reach-example">記事へ戻る</a> · 八百万図AIツールボックス 作例 · 表示しているのは制作時に保存した記録です。</p>
+  </footer>
+  <noscript><p class="noscript">図と照合にはJavaScriptが必要です。<a href="outputs/research-note.md">根拠メモ</a>・<a href="desk.html">保存結果ビューア</a>は直接開けます。</p></noscript>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>解説映像：納品メモの操作を細かく直す（無音・28秒）| 八百万図AIツールボックス</title>
+<meta name="description" content="既存の納品メモ画面に Make Interfaces Feel Better を当てた作例を、保存した実際の画面と実出力で説明する28秒の無音映像。">
+<link rel="stylesheet" href="legacy.css">
+</head>
+<body>
+<header class="preview-head" data-preview-only>
+  <h1 class="vh">解説映像：納品メモの操作を細かく直す</h1>
+  <a href="../index.html">作例ページへ戻る</a>
+  <p>解説映像・無音・28秒・保存した実際の画面から編集</p>
+</header>
+<main class="preview" id="preview">
+<div class="stage-box" id="stage-box">
+<div class="stage" id="stage" role="region" aria-label="解説映像（無音・28秒）">
+
+  <!-- Persistent form frame: only saved browser PNGs, cropped and scaled by seek(t). -->
+  <div class="frame" id="frame">
+    <div class="frame-images" id="frame-images"></div>
+    <div class="mark mark-tint" id="mark-row"></div>
+    <div class="mark mark-tint" id="mark-option"></div>
+    <div class="mark mark-ring" id="mark-total"></div>
+    <div class="mark mark-ring" id="mark-check"></div>
+  </div>
+
+  <div class="scene" id="s1">
+    <p class="tag" id="s1-tag">修正前・作例用に作った入力の画面（実際の表示）</p>
+    <h2 class="h" id="s1-h"><span class="line">同じ処理を、</span><span class="line">操作しやすく。</span></h2>
+    <p class="copy" id="s1-copy"><span class="line">架空の納品メモ画面で、</span><span class="line">3件を選んでJSONに。</span></p>
+  </div>
+
+  <div class="scene" id="s2">
+    <p class="tag" id="s2-tag">修正後・Claude Opus 5.5 が Make Interfaces Feel Better を当てた実画面</p>
+    <h2 class="h" id="s2-h"><span class="line">押せる範囲を、</span><span class="line">行全体に。</span></h2>
+    <p class="copy" id="s2-copy"><span class="line">行のどこを押しても選べる。</span><span class="line">キーボードの位置は、</span><span class="line">緑の枠で見える。</span></p>
+  </div>
+  <div class="scene" id="s2-measure">
+    <p class="tag" id="s2-measure-label">1280px幅のブラウザーで実測（確認記録より）</p>
+    <p class="copy" id="s2-measure-value">行 82px・メモ 48px・ボタン 48px</p>
+  </div>
+
+  <div class="scene" id="s3">
+    <h2 class="h" id="s3-h">選んだ件数と時間が、ここで分かる。</h2>
+    <p class="copy" id="s3-copy"><span class="line">全3件・06:10 → 「入口の光」を外して 2件・04:35</span><span class="line">数字は等幅で、表示の幅は79pxのまま。</span></p>
+    <p class="tag" id="s3-tag">修正後・保存した2枚の実画面（全3件／2件）</p>
+  </div>
+
+  <div class="scene" id="s4">
+    <p class="tag" id="s4-tag">修正後・JSONを書き出した後の実画面（2件・メモあり）</p>
+    <h2 class="h" id="s4-h"><span class="line">ファイルを、</span><span class="line">ブラウザーへ渡す。</span></h2>
+    <p class="copy" id="s4-copy"><span class="line">表示は「渡しました」まで。</span><span class="line">保存はブラウザー側で確かめる。</span></p>
+  </div>
+  <div class="scene" id="s4-card">
+    <div class="json-card" id="json-card">
+      <p class="json-label">実出力・一部｜outputs/two.json</p>
+      <div class="json-lines" id="json-lines"></div>
+    </div>
+  </div>
+
+  <div class="scene" id="s5a">
+    <p class="tag" id="s5-tag">修正後・実際の画面</p>
+    <h2 class="h h-close" id="s5-h"><span class="line">今の画面と困る操作を、</span><span class="line">スキルと一緒に渡す。</span></h2>
+    <ol class="cues" id="s5-cues">
+      <li><span class="cue-num">1</span>今の画面のソース</li>
+      <li><span class="cue-num">2</span>困っている操作</li>
+      <li><span class="cue-num">3</span>quickレビュー・優先は3つまで</li>
+    </ol>
+  </div>
+  <div class="scene" id="s5b">
+    <p class="copy" id="s5-check">確かめるのは、実際の操作と出力ファイル。</p>
+    <p class="copy" id="s5-close">修正前・修正後は、Webの作例で試せます。</p>
+    <p class="note" id="s5-note"><span class="line">原典 Make Interfaces Feel Better @35545ea — MIT © 2026 Jakub Krehel ／ 作例・映像 © 2026 Studio Yebisu, MIT</span><span class="line">作例は架空データの静的ページ。開いてもAIは動かず、送信・動画変換・設定の保存もしません。</span></p>
+  </div>
+
+  <p class="film-foot"><span>保存した実際のブラウザー画面から編集した映像です（連続した録画ではありません）</span><span>無音</span></p>
+</div>
+</div>
+<div class="controls" id="controls" data-preview-only>
+  <button type="button" id="play" disabled>再生</button>
+  <label class="scrub"><span class="vh">再生位置（秒）</span><input id="scrub" type="range" min="0" max="28" step="0.01" value="0" disabled></label>
+  <output id="clock" for="scrub">0.0 / 28.0 秒</output>
+  <span class="silent">無音</span>
+</div>
+<p class="preview-status" id="preview-status" role="status" data-preview-only></p>
+</main>
+<script src="legacy.js"></script>
+</body>
+</html>

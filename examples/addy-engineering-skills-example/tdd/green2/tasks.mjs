@@ -1,4 +1,4 @@
-// Yaoyorozu AI ToolBox synthetic existing TODO. MIT.
+// 八百万図AIツールボックス synthetic existing TODO. MIT.
 function assertCutoff(cutoff) {
   const match = typeof cutoff === 'string' && /^(\d{4})-(\d{2})-(\d{2})$/.exec(cutoff);
   if (!match) throw new RangeError('INVALID_CUTOFF');

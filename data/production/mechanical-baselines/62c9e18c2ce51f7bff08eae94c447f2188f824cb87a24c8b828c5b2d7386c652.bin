@@ -1,0 +1,188 @@
+{
+  "id": "yomiyasu-before-after",
+  "title": "yomiyasu",
+  "title_lines": [
+    "意味と文体を保ちながら整える日本語推敲スキル"
+  ],
+  "category": "writing",
+  "summary": "原文、用途、残したい表現をAIに渡し、日本語の言い回しや文のつながりを整える指示書です。修正候補と点検結果を原文と比べながら、採用する表現を選べます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/yomiyasu-before-after/index.html",
+  "video": "media/yomiyasu-before-after.mp4",
+  "poster": "media/yomiyasu-before-after.webp",
+  "skill": "examples/yomiyasu-before-after/vendor/yomiyasu/SKILL.md",
+  "samples": "examples/yomiyasu-before-after/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "3件の原文と推敲後",
+  "samples_intro": "入力はこの作例のために用意した架空の文章で、結果はyomiyasuを読んだOpus 5.5の出力をそのまま保存したものです。直したのは名詞を重ねた言い回しなどの箇所だけで、自然な文はそのまま残しています。",
+  "demo_description": "「渡す・推敲・点検」で本・紙・条件の札が動きます。指示書の4原則と6部品の出典、保存済み3件の14条件と8変更、lintとdiffが返した候補を確認し、各作例の実JSONを保存できます。保全した全文比較ビューアにも進めます。",
+  "demo_note": "元のOpus5.5が固定版SKILL.mdと業務文書向け資料を読んで推敲した、架空の敬体日本語3件を再利用しています。元の文章の生成と、制作担当による6回のPython実行はやり直していません。このページではAIもPythonも実行しません。",
+  "request_intro": "yomiyasuのSKILL.mdを読み込めるAIに、次の文章を渡します。【】の部分を自分の文章と用途に置き換えて使ってください。",
+  "request": "yomiyasuのSKILL.mdと、文書に合うreferences（業務文書ならdomains/business.md、gemini-syntax.md、slop-catalog.md）を読んでから、次の日本語を推敲してください。\n\n守ること：主張、比重、言い切りの強さ、文の働きを変えない。原文にない主体・条件・数値・効果を足さない。常体・敬体は原文のまま。直す必要のない文は変えない。\n\n用途と読み手：【誰が、誰に、何のために書いた文章か】\n残すべき条件：【数値・期限・例外・否定など、必ず残す事実の一覧】\n原文：【推敲する文章】\n\n出力は、SKILL.mdの出力フォーマットどおり「書き直した本文」と「変えたところ」（元の表現 → 書き直し後の表現と短い理由）にしてください。確かめたい点があれば2点までにしてください。最後に、残すべき条件を一つずつ、推敲後のどの語句に残ったかを引用して示してください。",
+  "video_note": "32秒・30fps・無音。縦720×1280と横1280×720を別配置で描きます。本と入力が同じAIへ入り、同じ紙の言い回しが変わり、別のPythonのlintとdiffへ分かれ、原文との読み比べと保存済みJSONへつながります。例は架空の保存操作の説明で、アプリの保存や音声処理を動かした映像ではありません。音声トラックはありません。",
+  "video_source": "examples/yomiyasu-before-after/video/index.html",
+  "skill_license": "examples/yomiyasu-before-after/vendor/yomiyasu/LICENSE",
+  "applied_skills": [
+    {
+      "name": "yomiyasu",
+      "source": "https://github.com/nanaism/yomiyasu/blob/60bf877acebc86651e0b67d70112a66245f87758/skills/yomiyasu/SKILL.md",
+      "applied": "固定版のSKILL.mdの最優先ルール（主張・比重・言い切りの強さ・文の働き）、文書の立場と文末、情報の不増補、主語と目的語の明確化を読み、3件とも業務文書として references/domains/business.md を適用した。gemini-syntax.md の原則1（「〜を行う」より対象と動詞を直接つなぐ）と原則6、slop-catalog.md の硬い漢語の項に沿って、「実装を実施しました」「反映が実現されます」「再起動を実施する」「検証が行われていません」を動詞に戻した。完了の報告（実装しました）、システムの動作の説明（表示されません）、依頼（ご利用ください）、推量（可能性はあると考えています）の文末はそれぞれ保ち、原文に主体のない検証には主語を補っていない。お知らせの「なお」以降、操作説明の3文目、調査メモの3文目は自然な文なので変えていない。制作後に同梱のリンターと差分スクリプトを3件それぞれへ一度ずつ実行した。リンターの指摘はなく、差分が挙げた否定の言い換え・接続表現・文末の分類を原文と照合した。原文との照合では、管理者だけという対象、9月30日以前の除外、保存に失敗した場合の例外、人数・試用時間・未確認という限定を保っている。機械の指摘を点数や意味保証として扱っていない。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824",
+      "applied": "旧28秒の動画と元3件の推敲・6回のPython実行の記録を保全。今回、19素材を固定し、Opus5.5が指示書の4原則・入力・同じAI・別Pythonの2経路・原文との読み比べ・実JSONをつなぐ概念図と32秒無音映像の8原本を執筆しました。制作担当は小画面の保存操作、非表示制御、つなぎの出現数の説明を補正し、任意時刻・代表/連続フレーム・縦横MP4と公開導線を別に検証しました。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "指示書と点検道具の役割を見る",
+      "body": "SKILL.mdは主張・比重・言い切りの強さ・文の働きを保つよう求めます。参照資料には技術記事・業務文書・個人発信があり、今回は業務文書と構文・語彙の資料を使いました。指示書自体が文章を書き直すわけではありません。"
+    },
+    {
+      "title": "原文・用途・残す条件を同じAIへ渡す",
+      "body": "架空の機能のお知らせ、保存操作の説明、調査メモを、用途と読み手・残す条件と一緒に渡しました。元のOpus5.5が保存した出力は3件8変更。お知らせの「なお」以降、操作説明と調査メモの最後の文は変えていません。"
+    },
+    {
+      "title": "推敲後を別のPythonで点検する",
+      "body": "元の制作担当がlintへ推敲後を、diffへ原文と推敲後を--stance=説明で渡し、各件1回ずつ実行しました。lintのfindingsは3件とも空。diffのつなぎ2→1や文末の分類は見直し候補で、品質点数や意味の保証ではありません。研究メモもlogicに「ただし」の文があり、候補ゼロではありません。"
+    },
+    {
+      "title": "原文と読み比べ、保存した出力を使う",
+      "body": "14条件の原文と推敲後の引用を照合しました。管理者のみ、9月30日以前の除外、保存失敗時に画面へ残りディスクには書かれない条件、架空調査の未確認という限定を保った記録です。候補の後の追加推敲や人による承認の記録はありません。実JSONと全文比較を開いて確かめられます。"
+    }
+  ],
+  "limitations": [
+    "表示するのは制作時に保存した3件の結果です。ページ上でAIを実行したり、自分の文章を推敲したりする機能はありません。",
+    "文章と調査データはすべて架空です。調査メモの人数や時間は、実在の試用の結果ではありません。",
+    "3件とも敬体の業務文書です。技術記事向けの tech.md やエッセイ向けの essay.md の指針は試していません。",
+    "同梱のリンターと差分スクリプトは3件に実行していますが、指摘は見直し候補です。意味や文脈の保持を自動で保証するものではありません。",
+    "「残した条件」は制作時に原文と引用を照らし合わせた記録で、第三者によるレビューや意味保持の自動保証ではありません。",
+    "推敲の結果は、同じ依頼でも実行ごとに変わることがあります。",
+    "解説動画は音声なしです。",
+    "6部品と図の入力欄はこの作例の説明用整理で、原典の共通入力スキーマではありません。",
+    "新しいOpusの制作範囲は図と映像の8原本。制作側の事実構造・CLI出力の点数を省いた投影・既存3件のJSON包装・描画・検証・包装とは区別しています。",
+    "同梱原典15件のうち画像1件は公式Gitのバイトと一致し、14テキストは以前配布したCRLFを保持しています。公式LFと改行正規化した内容・Gitblobが一致します。旧記録の15件未改変という表現を、15件すべて公式と同じバイトという意味では使いません。",
+    "実機iOS/Safari/VoiceOver、200%ズーム、人による審美的承認、意味の同一性、クリップボード内容の再取得は未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "yomiyasu SKILL.md（nanaism/yomiyasu、固定版）",
+      "url": "https://github.com/nanaism/yomiyasu/blob/60bf877acebc86651e0b67d70112a66245f87758/skills/yomiyasu/SKILL.md"
+    },
+    {
+      "label": "yomiyasu のスキルと参照資料（固定版）",
+      "url": "https://github.com/nanaism/yomiyasu/tree/60bf877acebc86651e0b67d70112a66245f87758/skills/yomiyasu"
+    },
+    {
+      "label": "yomiyasu README（固定版）",
+      "url": "https://github.com/nanaism/yomiyasu/blob/60bf877acebc86651e0b67d70112a66245f87758/README.md"
+    },
+    {
+      "label": "yomiyasu LICENSE（MIT、固定版から作例に同梱）",
+      "url": "examples/yomiyasu-before-after/vendor/yomiyasu/LICENSE"
+    },
+    {
+      "label": "Unicode由来データの許諾通知（Unicode License V3、作例に同梱）",
+      "url": "examples/yomiyasu-before-after/vendor/yomiyasu/UNICODE-LICENSE.txt"
+    },
+    {
+      "label": "Motion Reel（Studio Yebisu、MIT）",
+      "url": "https://github.com/studio-yebisu/motion-reel/tree/56198544e69201b1c202e0c00fb90b568a729824"
+    },
+    {
+      "label": "原制作のREADME（全文比較と旧28秒映像の履歴）",
+      "url": "examples/yomiyasu-before-after/README.md"
+    },
+    {
+      "label": "この作例の制作・確認記録",
+      "url": "data/production/yomiyasu-before-after.json"
+    },
+    {
+      "label": "指示書・入力・同じAI・別Pythonの構造",
+      "url": "examples/yomiyasu-before-after/concept/structure.json"
+    },
+    {
+      "label": "元のPython点検出力（未使用の点数を省いた写し）",
+      "url": "examples/yomiyasu-before-after/concept/checks.json"
+    },
+    {
+      "label": "今回の概念図と無音映像の確認範囲",
+      "url": "examples/yomiyasu-before-after/visual-verification.json"
+    },
+    {
+      "label": "保全した原文と推敲後の全文比較",
+      "url": "examples/yomiyasu-before-after/desk.html"
+    },
+    {
+      "label": "現在の図と動画の再現手順",
+      "url": "examples/yomiyasu-before-after/visual-guide.md"
+    },
+    {
+      "label": "縦横動画の再現スクリプト",
+      "url": "examples/yomiyasu-before-after/render-visual.py"
+    }
+  ],
+  "license": "MIT",
+  "license_note": "この作例の画面構成・文言・サンプル・映像ソースは 八百万図AIツールボックス の独自制作で、MIT License です。vendor/yomiyasu/ の yomiyasu は上流の MIT License（Copyright (c) 2026 nanaism）で、LICENSE を同梱しています。検査スクリプトに含まれる Unicode 由来のデータには、同梱の UNICODE-LICENSE.txt（Unicode License V3）の通知が適用されます。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "catalog_entry": {
+    "id": "resource-yomiyasu",
+    "name": "yomiyasu",
+    "tagline": "意味と文体を保ちながら整える日本語推敲スキル",
+    "category": "writing",
+    "kind": "スキル",
+    "summary": "原文、用途、残したい表現をAIに渡し、日本語の言い回しや文のつながりを整える指示書です。修正候補と点検結果を原文と比べながら、採用する表現を選べます。",
+    "use_case": "技術記事、仕様書、PR説明などの日本語を読みやすく推敲したいとき。",
+    "tags": [
+      "文章",
+      "推敲",
+      "Agent Skills"
+    ],
+    "workflow": [
+      "原文と読者・用途を渡す",
+      "意味や言い切りの強さを保って推敲する",
+      "原文との差分で、主張・条件・比重が変わっていないか確認する"
+    ],
+    "requirements": [
+      "Agent Skillsを読める環境",
+      "推敲する原文と対象の読者"
+    ],
+    "license": "MIT",
+    "license_url": "https://github.com/nanaism/yomiyasu/blob/60bf877acebc86651e0b67d70112a66245f87758/LICENSE",
+    "license_note": "コードと文書はMIT。同梱Unicode由来データは別の許諾通知を確認してください。",
+    "source_url": "https://github.com/nanaism/yomiyasu/tree/60bf877acebc86651e0b67d70112a66245f87758/skills/yomiyasu",
+    "guide_url": "case.html?id=yomiyasu-before-after",
+    "example_url": "examples/yomiyasu-before-after/index.html",
+    "image": "media/yomiyasu-before-after.webp",
+    "skill_download": "examples/yomiyasu-before-after/vendor/yomiyasu/SKILL.md",
+    "readme_url": "https://github.com/nanaism/yomiyasu/blob/60bf877acebc86651e0b67d70112a66245f87758/README.md",
+    "source_repository": "nanaism/yomiyasu",
+    "source_commit": "60bf877acebc86651e0b67d70112a66245f87758",
+    "source_path": "skills/yomiyasu",
+    "source_project": "curated",
+    "source_note": "公開リポジトリのREADMEと利用条件を確認し、用途と最初の試し方を日本語で整理しました。スキルは入口または代表の本文も参照しています。原典は確認時のコミットへ固定しています。",
+    "prompt": "yomiyasu の原典（https://github.com/nanaism/yomiyasu/tree/60bf877acebc86651e0b67d70112a66245f87758/skills/yomiyasu）を読んで、次を進めてください。\n次に渡す日本語の技術説明を推敲してください。主張、数値、条件、言い切りの強さを保ち、変えた箇所と理由を短く示してください。\n入力、出力、実行した検証、未確認の点を記録してください。",
+    "verification_stage": "runtime-reviewed",
+    "verification": "固定60bf877の原典15件の内容を確認（画像1件は同じバイト、14テキストは元のCRLFと公式LFを区別）。元の架空業務文3件・8変更・14条件・6回のPython実行を保持。大きな図、実JSON保存、32秒縦横無音映像を新しく確認。品質や意味の保証、人の承認とは区別。",
+    "reviewed_on": "2026-10-18"
+  },
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "video_portrait": "media/yomiyasu-before-after.mp4",
+  "video_landscape": "media/yomiyasu-before-after-wide.mp4",
+  "poster_portrait": "media/yomiyasu-before-after.webp",
+  "poster_landscape": "media/yomiyasu-before-after-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/yomiyasu-before-after-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/yomiyasu-before-after-landscape-credited-ja-v3.mp4"
+}

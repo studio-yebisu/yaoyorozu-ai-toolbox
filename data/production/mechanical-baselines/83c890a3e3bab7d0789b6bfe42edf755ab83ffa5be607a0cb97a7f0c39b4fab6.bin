@@ -1,0 +1,299 @@
+{
+  "id": "3d-asset-server-example",
+  "title": "3D Asset Server",
+  "title_lines": [
+    "3D素材を探して取得するMCPツール"
+  ],
+  "category": "3d",
+  "summary": "3Dモデル、テクスチャ、HDRIを複数の素材サイトから検索し、選んだファイルを取得できます。AIエージェントから素材探しとダウンロードをまとめて進められます。",
+  "model": "claude-opus-5-5",
+  "status": "published",
+  "demo": "examples/3d-asset-server-example/index.html",
+  "video": "media/3d-asset-server-example.mp4",
+  "poster": "media/3d-asset-server-example.webp",
+  "skill": "examples/3d-asset-server-example/vendor/3d-asset-server/web/src/content/SKILL.md",
+  "skill_label": "3D素材の検索・取得スキル（固定版）",
+  "skill_description": "素材を探し、ライセンスと全容量を確認して、一式を取得する原典の手順を実際に適用しました。",
+  "samples": "examples/3d-asset-server-example/samples.json",
+  "sample_format": "input-output",
+  "samples_title": "8件の操作と、原典が返した結果",
+  "samples_intro": "8つの操作の要点です。各実デモで全入力・実結果・原典の例外、実ファイルと保存を確認できます。",
+  "demo_description": "大きな概念図で、3D Asset ServerのMarkdown指示書とツールの構造をたどれます。3手順と規則、依頼が同じAIへ入り実装となる関係、制作担当による別工程のNode実行、Poly HavenとFabの分岐、形式・ライセンス・全容量、取得した5ファイルと実3Dへのつながりを示します。1k取得・8kの予算停止・Fabの直接取得対象外を切り替え、元の実記録JSONを保存できます。元の8操作ビューアでは取得済みの木箱を回転・リセット・線表示し、モデル一式ZIPを保存できます。",
+  "demo_note": "この図は原典の構造と保存済み実記録の説明です。元Opusが実装を執筆し、制作担当がNodeで原典関数を実行しました。図を開いても外部検索・素材取得・AI実行は行いません。元の原典API8操作・ライブ取得・独立照合・明示offline replay・推論は再実行していません。6部品は今回の説明用整理です。",
+  "request_intro": "同じ手順を自分の素材探しで試すときの依頼文です。入力の欄（目的・配信元・User-Agent・予算・操作）を差し替え、固定版の 3D Asset Server を読めるAIや開発者に渡してください。",
+  "request": "Webの小さなシーンに置くCC0の木箱を、固定版 3D Asset Server の原典コードで探し、利用条件と容量を取得の前に確かめてから、実物のファイル一式を取得して3Dで確かめる作例を作ってください。原典の関数と Poly Haven が実際に返した値・例外・取得したファイルをそのまま保存し、スマホで読める日本語のページで、候補・利用条件・容量・予算で止まった例・取得した実物を確かめられるようにしてください。\n\n読む原典（固定版 arielshad/3d-asset-server f605df3425011bae55ade114c9e7b276f5b1297b・0.1.0・Apache-2.0）\n・スキル（検索→ファイルと容量の確認→取得の手順と規則）：https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/web/src/content/SKILL.md\n・エージェント向けの手引き：https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/web/src/content/AGENTS.md\n・検索と詳細（AssetService・UnknownProviderError・InvalidAssetIdError）：https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/src/core/service.ts\n・通信（createHttpClient・User-Agent）：https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/src/core/http.ts\n・選択と取得（selectFiles・totalBytes・expandFiles・downloadFiles）：https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/src/core/download.ts\n・配信元（Poly Haven・リンクだけの Fab）：https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/src/providers/polyhaven.ts ・ https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/src/providers/linked.ts\n・LICENSE：https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/LICENSE\n・素材の利用条件：https://polyhaven.com/license （Poly Haven の素材は CC0。ライブAPIは商用も含めて無料で、識別できる User-Agent と、出どころが Poly Haven であることの表示が条件）\n\n入力（ここを差し替える。実行の前に固定し、結果を見てから変えない）\n・目的：Webの小さなシーンに置く、CC0の木箱を1つ\n・配信元：polyhaven と fab の2つだけを有効にする\n・User-Agent：自分の作例を識別できる名前（この作例では Studio-Yebisu-3D-example/1.0 (+https://studio-yebisu.github.io/yaoyorozu-ai-toolbox/)）\n・予算：1回の取得で 4194304 バイト（4MiB）まで\n・操作：A01 検索（wooden crate・model・無料・3件）、A02 詳細と利用条件、A03 1k の glTF の選択と容量、A04 8k を予算付きで取得しようとする、A05 配信元の無いID、A06 未登録の配信元、A07 Fab だけを直接取得できるものに絞った検索、A08 1k の glTF 一式の取得\n・期待：選ぶ素材のID・ライセンス・作者・1k のファイル数と合計バイト数・止まる操作の例外の名前を、実行の前に別のファイルへ書く\n\n進め方\n1. 原典のソース・原典の build:server が出力した dist/ の JS・three・ロック・入力の SHA-256 を照合する。原典の package-lock.json どおり npm ci で依存を入れ、原典の build:server で dist/ を作る。照合の後でだけ、dist/ の AssetService・createHttpClient・polyhaven・fab・selectFiles・totalBytes・expandFiles・downloadFiles を読み込む。配信元や関数を書き直したり、代わりのものに差し替えたりしない\n2. ASSET_SERVER_USER_AGENT に識別できる User-Agent を入れてから原典の http を読み込み、createHttpClient の fetchImpl には Node の fetch を、レスポンスを複製して記録するだけの包みで渡す。内容や結果は変えない。通信の全文は公開しないフォルダーにだけ残す\n3. A01 は AssetService.search に入力をそのまま渡し、候補・ライセンス・作者・配信元ごとの状態（ok・link・skipped）と tookMs を残す。A02 は getAsset で利用条件・形式・ファイルを見る。Web の three.js には glTF を選ぶ\n4. A03 は selectFiles と totalBytes・expandFiles で、取得の前に glTF・bin・画像の全ファイルと合計を出す。A04 は 8k を maxBytes 4MiB で downloadFiles に渡し、通信の前に止まること・取得の通信が0件で保存フォルダーが作られないことを確かめ、原典の例外をそのまま残す\n5. A05・A06 は原典の InvalidAssetIdError・UnknownProviderError をそのまま残す。A07 は Fab が skipped（エラーではない）になり、Fab へ通信しないことを確かめる\n6. A08 は A03 と同じ選択を downloadFiles で非公開のフォルダーへ取得する。相対パスを保ち、ファイルを作り直したり圧縮し直したりしない。各ファイルのバイト数・SHA-256・MD5 を、Poly Haven の files API の size・md5 と通信の記録に照らす。glTF 2.0 として読み、buffer と画像の参照がすべて同じフォルダーの実ファイルを指すこと、アクセサーが buffer の中に収まること、メッシュと三角形の数を実ファイルから数える\n7. 結果を得た後でだけ期待のファイルと照らし合わせる。すべての確認が通ったときだけ、記録の JSON と取得した実ファイル、info・files API の応答を outputs/ に1回だけ書く。既にある記録は上書きしない。絶対パス・時刻・認証情報・カタログ全体の応答は公開しない。失敗したら非公開の証拠だけを残して止める\n\nページでできること\n・最初に A08 の取得した木箱を、取得したファイルそのものから three.js の GLTFLoader で3D表示する。読み込む前に全ファイルのバイト数と SHA-256 を記録と照合し、代わりの形やサムネイルは出さない。左右に回す・向きを戻す・線で見るのボタンで確かめられ、自動では回さない\n・作者・配布元・ライセンス（James Ray Cock / Poly Haven / CC0）と、「1k・glTF + bin + 3枚の画像・約2.17MiB」のような中身と容量を、記録の値から表示する\n・8件を選び、A01 の3件の候補と配信元ごとの状態、A04 の予算超過の実際の例外と超過したバイト数、A07 の skipped がエラーではないことを読む。A04 から A03・A08 へ移れる\n・各操作の入力と記録の JSON は折りたたみで全文を開ける。取得したファイルのバイト数・SHA-256・MD5 も開ける\n・記録・入力・ロックを取得し、固定版・SHA-256・8件の入力・確認の合否を照合してから表示する。合わなければ理由と「もう一度読み込む」だけを出す\n・選んだ1件の記録を JSON で保存し、A08 ではモデル一式の ZIP も保存でき、この依頼文をコピーできる\n・320px幅のスマホから1280px幅のパソコンまで横スクロールなし。操作部品は44px以上、入力欄の文字は16px以上。外部のフォント・CDN・計測・AI の呼び出しは使わず、Poly Haven のサイトの画像やロゴも読み込まない\n\n書かないこと\n・2つの配信元で試した結果を、原典が対応する全配信元を試したように書かない\n・既にある素材の検索と取得を、3Dモデルの生成として書かない。モデルを作った人と、コードや文章を書いた AI を混同しない\n・保存した記録を、ページを開いたときの最新の検索結果として書かない。tookMs や順位は再実行で変わる\n・公開サーバー 3d.shep.bot・HTTP API・MCP の通信路・Web 画面・アカウント・API キー・有料素材・Blender やゲームエンジンへの組み込みを試したように書かない\n・ファイルの一致と glTF の構造の確認を、見た目の品質や本番での性能の確認として書かない\n\n最後に、作ったファイル、実際に実行したコマンドとその結果、まだ確かめていない点を分けて書いてください。\n",
+  "applied_skills": [
+    {
+      "name": "brief-to-demo",
+      "source": "skills/brief-to-demo/SKILL.md",
+      "applied": "「Webの小さなシーンに置くCC0の木箱を、容量を見てから取得し、実物を3Dで確かめる」を、探す→利用条件を見る→取得前に全ファイルと容量を見る→予算で止まる例を見る→一式を取得する→実物を3Dで確かめる、の操作へ具体化しました。8件の操作と期待（素材のID・CC0・作者・1kの5ファイルと合計バイト数・止まる操作の例外の名前）は実行前に固定し、結果を見てから変えない設計です。"
+    },
+    {
+      "name": "3D素材の検索・取得スキル（3D Asset Server 原典・固定版）",
+      "source": "https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/web/src/content/SKILL.md",
+      "applied": "原典SKILL/AGENTSの短い語・type・無料/CC0・WebのglTF・取得前の全容量確認・一式の相対パス保持を実適用。固定版の実API8操作39確認、ライブAPI/CDN8リクエストで1モデル/5ファイルを取得。独立212照合と別Nodeの明示offline replay29確認で実ファイル全bytesを確認しました。"
+    },
+    {
+      "name": "Motion Reel",
+      "source": "examples/3d-asset-server-example/tools/motion-reel/render.mjs",
+      "applied": "新しい大きな概念図を32秒の無音縦横動画にし、25固定素材と7場面・任意時刻の描画・代表と連続フレーム・編集操作・実MP4を確認しました。旧28秒映像とそのQAは元制作として保存し、新映像の確認へ流用しません。"
+    }
+  ],
+  "steps": [
+    {
+      "title": "手順書と依頼をAIに渡す",
+      "body": "MarkdownのSKILLは検索→全ファイルと容量→取得の3手順と規則。元のAIはこれを依頼と一緒に読み、run.mjsと表示実装を執筆しました。手引きのMCP/RESTと、今回実際に使ったNodeのライブラリ呼び出しを分けて示します。"
+    },
+    {
+      "title": "原典APIを別工程で実行",
+      "body": "元制作担当がNodeで原典の関数を実行しました。2配信元のうちPoly HavenはAPIとファイル取得、Fabはリンクだけ。8操作・39確認と、別の独立照合・offline replayの実記録を保持しています。"
+    },
+    {
+      "title": "取得の前に一式と容量を確認",
+      "body": "1kのglTF・bin・画像3枚は2277087B。8kの118636175Bは4MiB枠を超え、downloadFilesがフォルダー作成と取得通信の前に停止した別の実記録です。自動的に1kへ切り替わった記録ではありません。"
+    },
+    {
+      "title": "保存済みの実物へつなぐ",
+      "body": "5ファイルの相対パスとハッシュを保ち、元のGLTFLoaderビューアとZIPを公開します。3DはJames Ray Cock制作・Poly HavenのCC0素材で、AIによるモデル生成ではありません。"
+    }
+  ],
+  "limitations": [
+    "有効にした配信元は Poly Haven（API で検索・取得）と Fab（リンクだけ）の2つです。原典が持つほかの配信元は試していません。Fab へは通信しません。",
+    "3Dモデルの生成はしていません。表示する木箱は James Ray Cock さんが制作し Poly Haven が CC0 で配布している既存の素材で、モデル（Claude Opus 5.5）が作ったものではありません。",
+    "公開サーバー 3d.shep.bot、HTTP API、MCP の通信路、原典の Web 画面、アカウント・API キー、有料素材、Blender やゲームエンジン・本番サイトへの組み込み、人による承認は使っていません。",
+    "検索の順位・件数・tookMs・メタデータは Poly Haven の側で変わりえます。保存した記録は実行したときの結果で、ページを開いたときの最新の検索ではありません。",
+    "確かめるのはファイルの一致と glTF の参照・構造です。見た目の品質や本番での性能の確認ではありません。",
+    "新しいNodeでの再確認は、初回に取得した実応答を使うオフライン再生です。ライブ検索をもう一度実行して同じ順位・時間が得られた、という確認ではありません。",
+    "新しい概念図と32秒無音動画は元の実行結果を説明する改修です。元の8操作・ライブAPI/CDN取得・独立212照合・明示offline replay29確認は再実行していません。元の推論と新しい図の執筆は別受領に分けています。",
+    "新しい図・編集ソース・スマートフォン配置・保存導線・MP4の確認は今回のvisual-verification.jsonに記録しました。実機iOS/Safari/VoiceOver、200%ズーム、人による審美的承認、ゲーム等の本番画質や性能、クリップボード内容の再取得は未確認です。"
+  ],
+  "sources": [
+    {
+      "label": "arielshad/3d-asset-server（固定コミット f605df3・0.1.0）",
+      "url": "https://github.com/arielshad/3d-asset-server/tree/f605df3425011bae55ade114c9e7b276f5b1297b"
+    },
+    {
+      "label": "3D Asset Server README（固定版）",
+      "url": "https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/README.md"
+    },
+    {
+      "label": "3D Asset Server LICENSE（Apache-2.0・固定版）",
+      "url": "https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/LICENSE"
+    },
+    {
+      "label": "3D素材の検索・取得スキル（web/src/content/SKILL.md・固定版）",
+      "url": "https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/web/src/content/SKILL.md"
+    },
+    {
+      "label": "エージェント向けの手引き（web/src/content/AGENTS.md・固定版）",
+      "url": "https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/web/src/content/AGENTS.md"
+    },
+    {
+      "label": "検索と詳細 AssetService（src/core/service.ts・固定版）",
+      "url": "https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/src/core/service.ts"
+    },
+    {
+      "label": "HTTP クライアント createHttpClient（src/core/http.ts・固定版）",
+      "url": "https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/src/core/http.ts"
+    },
+    {
+      "label": "選択と取得 selectFiles・totalBytes・expandFiles・downloadFiles（src/core/download.ts・固定版）",
+      "url": "https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/src/core/download.ts"
+    },
+    {
+      "label": "Poly Haven の配信元（src/providers/polyhaven.ts・固定版）",
+      "url": "https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/src/providers/polyhaven.ts"
+    },
+    {
+      "label": "リンクだけの配信元 Fab（src/providers/linked.ts・link.ts・固定版）",
+      "url": "https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/src/providers/linked.ts"
+    },
+    {
+      "label": "依存の固定（package-lock.json・固定版）",
+      "url": "https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/package-lock.json"
+    },
+    {
+      "label": "素材 Wooden Crate 01（James Ray Cock・Poly Haven）",
+      "url": "https://polyhaven.com/a/wooden_crate_01"
+    },
+    {
+      "label": "Poly Haven のライセンス（CC0）",
+      "url": "https://polyhaven.com/license"
+    },
+    {
+      "label": "Poly Haven Public API（ライブAPIの利用条件：識別できる User-Agent と出どころの表示）",
+      "url": "https://github.com/Poly-Haven/Public-API/blob/master/ToS.md"
+    },
+    {
+      "label": "three 0.180.0（npm の tgz・MIT）",
+      "url": "https://registry.npmjs.org/three/-/three-0.180.0.tgz"
+    },
+    {
+      "label": "8件の入力（input/asset-requests.json）",
+      "url": "examples/3d-asset-server-example/input/asset-requests.json"
+    },
+    {
+      "label": "実行前に決めた期待（input/expected.json）",
+      "url": "examples/3d-asset-server-example/input/expected.json"
+    },
+    {
+      "label": "実行スクリプト（run.mjs）",
+      "url": "examples/3d-asset-server-example/run.mjs"
+    },
+    {
+      "label": "3D表示（model-view.js）",
+      "url": "examples/3d-asset-server-example/model-view.js"
+    },
+    {
+      "label": "手順と読み方（outputs/method.md）",
+      "url": "examples/3d-asset-server-example/outputs/method.md"
+    },
+    {
+      "label": "8件の実行記録（outputs/asset-runs.json）",
+      "url": "examples/3d-asset-server-example/outputs/asset-runs.json"
+    },
+    {
+      "label": "Poly Haven の info・files API の実際の応答（outputs/api-info.json・api-files.json）",
+      "url": "examples/3d-asset-server-example/outputs/api-files.json"
+    },
+    {
+      "label": "原典・dist・three の115ファイルのハッシュ（vendor-lock.json）",
+      "url": "examples/3d-asset-server-example/vendor-lock.json"
+    },
+    {
+      "label": "同梱した 3D Asset Server の LICENSE",
+      "url": "examples/3d-asset-server-example/vendor/3d-asset-server/LICENSE"
+    },
+    {
+      "label": "同梱した three の LICENSE",
+      "url": "examples/3d-asset-server-example/vendor/three/LICENSE"
+    },
+    {
+      "label": "依頼文（request.txt）",
+      "url": "examples/3d-asset-server-example/request.txt"
+    },
+    {
+      "label": "README（再実行の手順）",
+      "url": "examples/3d-asset-server-example/README.md"
+    },
+    {
+      "label": "入力・実装・映像ソース一式",
+      "url": "examples/3d-asset-server-example/source.zip"
+    },
+    {
+      "label": "実モデル5ファイルのZIP",
+      "url": "examples/3d-asset-server-example/outputs/model-bundle.zip"
+    },
+    {
+      "label": "独立した原典・MD5・glTF実BIN照合",
+      "url": "examples/3d-asset-server-example/outputs/independent-checks.json"
+    },
+    {
+      "label": "新Nodeによる実応答のオフライン再生",
+      "url": "examples/3d-asset-server-example/outputs/reproduction-checks.json"
+    },
+    {
+      "label": "確認した範囲",
+      "url": "examples/3d-asset-server-example/verification.json"
+    },
+    {
+      "label": "映像の8素材とハッシュ",
+      "url": "examples/3d-asset-server-example/video/assets/data-hashes.json"
+    },
+    {
+      "label": "指示書とツールの構造",
+      "url": "examples/3d-asset-server-example/concept/structure.json"
+    },
+    {
+      "label": "保全した取得済み3Dと8実記録",
+      "url": "examples/3d-asset-server-example/desk.html"
+    },
+    {
+      "label": "新しい図と映像の確認",
+      "url": "examples/3d-asset-server-example/visual-verification.json"
+    },
+    {
+      "label": "原制作と改修・再現手順",
+      "url": "examples/3d-asset-server-example/visual-guide.md"
+    },
+    {
+      "label": "縦横動画の再現スクリプト",
+      "url": "examples/3d-asset-server-example/render-visual.py"
+    }
+  ],
+  "license": "MIT（独自作例）・Apache-2.0（3D Asset Server 原典）・MIT（three）・CC0（3Dモデル）",
+  "license_note": "作例のコード（run.mjs・model-view.js・ページ）・文章・入力・動画の編集ソースは MIT License（Copyright (c) 2026 Studio Yebisu）。vendor/3d-asset-server/ は arielshad/3d-asset-server の固定コミット f605df3 の原典と、その原典の build:server が出力した dist/ を改変せずに置いたもので Apache License 2.0、原典に含まれる Geist フォントは SIL Open Font License 1.1 です。vendor/three/ は npm の three 0.180.0 のファイルで MIT。取得した3Dモデル Wooden Crate 01 は James Ray Cock・Poly Haven の CC0 で、再配布でき帰属表示は不要ですが、作者と配布元を表示しています。Poly Haven のライブAPIは商用も含めて無料で、識別できる User-Agent と出どころの表示が条件です。八百万図AIツールボックス は Poly Haven の公式の製品・提携先ではありません。動画の制作に使う Motion Reel は MIT。再実行には npm ci（依存の取得）と Poly Haven への通信が要り、アカウント・API キー・課金は要りません。ソース制作に用いた Opus 5.5 の利用環境は別に必要です。 完成したデモ・説明動画は、クレジット表記を条件に商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu の記載が必須です。詳しい条件は media-rights.html を参照してください。",
+  "video_note": "32秒・縦720×1280／横1280×720・30fps。無音で音声トラックなし。指示書と入力が実装に合流し、別工程のツール実行から配信元・容量ゲート・実ファイルへ進む大きな図です。機能を実行した映像記録ではなく、保存した実記録と取得済み3Dの実表示領域を使う構造説明です。",
+  "video_source": "examples/3d-asset-server-example/video/index.html",
+  "skill_license": "examples/3d-asset-server-example/vendor/3d-asset-server/LICENSE",
+  "updated_on": "2026-10-21",
+  "verification_stage": "runtime-reviewed",
+  "runtime_review": {
+    "status": "technical_qa_complete",
+    "execution": "Original compiled library APIs;8operations/39checks;one real CC0 model/five files/2277087bytes;3PolyHavenAPI+5CDNrequests. Fab link-only, not contacted.",
+    "checks_total": 39,
+    "independent_checks": 212,
+    "offline_captured_response_replay_checks": 29,
+    "offline_replay_network_calls": 0,
+    "screen_review": "6widths/48case-width combinations; actual3D rotate/reset/wireframe, exports/copy/error recovery",
+    "video": "28seconds/silent/frame_review/decode/native_playback_passed",
+    "human_approval": false,
+    "model_scope": "Opus5.5 authored implementation/Japanese/film. Production froze inputs, acquired/built source, ran original APIs, independently checked, refined phone copy and packaged. The 3D model is James Ray Cock / Poly Haven / CC0, not Opus-generated."
+  },
+  "guide_url": "case.html?id=3d-asset-server-example",
+  "catalog_entry": {
+    "id": "resource-3d-asset-server",
+    "name": "3D Asset Server",
+    "tagline": "3D素材を探して取得するMCPツール",
+    "category": "3d",
+    "kind": "MCPツール",
+    "summary": "3Dモデル、テクスチャ、HDRIを複数の素材サイトから検索し、選んだファイルを取得できます。AIエージェントから素材探しとダウンロードをまとめて進められます。",
+    "use_case": "3Dシーンの素材探しと、ファイル取得までをエージェントから進めたいとき。",
+    "tags": [
+      "3D",
+      "素材",
+      "MCPツール"
+    ],
+    "workflow": [
+      "欲しい素材と利用条件を指定する",
+      "複数サイトの候補と個別ライセンスを比べる",
+      "選んだファイルを取得し、形式と帰属表示を確認する"
+    ],
+    "requirements": [
+      "対応するサーバーとMCPクライアント",
+      "素材ごとの配布条件と保存先"
+    ],
+    "license": "Apache-2.0",
+    "license_url": "https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/LICENSE",
+    "license_note": "サーバー本体はApache-2.0。検索結果の素材は個別ライセンスであり、すべて同じ条件ではありません。",
+    "source_url": "https://github.com/arielshad/3d-asset-server/tree/f605df3425011bae55ade114c9e7b276f5b1297b",
+    "guide_url": "case.html?id=3d-asset-server-example",
+    "readme_url": "https://github.com/arielshad/3d-asset-server/blob/f605df3425011bae55ade114c9e7b276f5b1297b/README.md",
+    "source_repository": "arielshad/3d-asset-server",
+    "source_commit": "f605df3425011bae55ade114c9e7b276f5b1297b",
+    "source_path": "",
+    "source_project": "curated",
+    "source_note": "固定f605df3/Apache2の原典スキルを実API8操作へ適用。Poly HavenのCC0木箱5files/2277087bytesを実取得。8kは4MiB枠で通信前停止、Fabはリンクのみ。独立212照合、別Nodeの明示offline replay29確認。全23配信元・hostedREST/MCP・3D生成・ゲーム組込は未実行。",
+    "prompt": "3D Asset Server の原典（https://github.com/arielshad/3d-asset-server/tree/f605df3425011bae55ade114c9e7b276f5b1297b）を読んで、次を進めてください。\n小さな森のシーンに使う木、岩、HDRIの候補を探してください。配布元、形式、利用条件を比べ、選んだ素材だけを保存する構成にしてください。\n入力、出力、実行した検証、未確認の点を記録してください。",
+    "verification_stage": "runtime-reviewed",
+    "verification": "元8操作と実取得・実3Dの記録を保全。今回、指示書/実装と実行/配信元/容量/実ファイルの概念構造を主役へ改修。新しい図と32秒無音縦横動画の検査はvisual-verification.json。実機iOS/Safari/VoiceOverと人の承認は未確認。",
+    "reviewed_on": "2026-10-17",
+    "updated_on": "2026-10-19"
+  },
+  "video_portrait": "media/3d-asset-server-example.mp4",
+  "video_landscape": "media/3d-asset-server-example-wide.mp4",
+  "poster_portrait": "media/3d-asset-server-example.webp",
+  "poster_landscape": "media/3d-asset-server-example-wide.webp",
+  "video_width": 720,
+  "video_height": 1280,
+  "video_license": {
+    "id": "LicenseRef-Yaoyorozu-Video-Credit",
+    "label": "クレジット表記必須（商用利用・編集・再配布OK）",
+    "url": "media-rights.html",
+    "credit": "引用元:八百万図AIツールボックス made by studio_yebisu",
+    "x_mention": "@studio_yebisu",
+    "effective_on": "2026-10-21"
+  },
+  "video_download_portrait": "media/downloads/3d-asset-server-example-portrait-credited-ja-v3.mp4",
+  "video_download_landscape": "media/downloads/3d-asset-server-example-landscape-credited-ja-v3.mp4"
+}
