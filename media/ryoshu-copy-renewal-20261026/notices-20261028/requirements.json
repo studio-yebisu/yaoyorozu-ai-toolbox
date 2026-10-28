@@ -1,0 +1,18 @@
+{
+  "scope": "video-source reproduction only; not app runtime requirements",
+  "python": "3.10+",
+  "packages": [
+    "Pillow",
+    "NumPy"
+  ],
+  "programs": [
+    "ffmpeg",
+    "ffprobe"
+  ],
+  "fonts": [
+    "NotoSansJP-VF.ttf",
+    "bahnschrift.ttf"
+  ],
+  "font_argument": "--fonts DIR",
+  "font_files_distributed": false
+}
