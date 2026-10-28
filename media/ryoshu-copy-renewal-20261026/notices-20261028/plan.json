@@ -1,0 +1,135 @@
+{
+  "plan": "ryoshu-1.4-film notice revision (ending insertion)",
+  "author_role": "Opus 5.5 creative director (visual / motion / sound). Japanese copy: Kimi K3.1 Pro (slots below). Host: auditor/integrator.",
+  "date": "2026-10-28",
+  "base": {
+    "path": "facts.json:base_path (ryoshu-promo-v1.4.0.mp4)",
+    "sha256": "910f3e24c44d7d50a56b0328443cd3172131d460d07d5d16729d5e5827bca0ab",
+    "immutable": true,
+    "video": "1920x1080, 30/1 fps CFR, 5369 frames (0..5368), H.264 High yuv420p",
+    "audio": "AAC LC 48 kHz stereo, 178.965 s, music+sfx only (no narration)"
+  },
+  "output": {
+    "path": "design/../build/ryoshu-promo-v1.4.0-notice.mp4 (NEW file; never overwrite the base or any published path)",
+    "frames": 6089,
+    "duration_s": 202.9667,
+    "fps": 30,
+    "note": "Release label stays v1.4.0 footage, notice-only revision; app latest is v1.4.2, no app/installer rebuild."
+  },
+
+  "frame_grid": {
+    "rule": "Frame n shows time n/30. A base scene boundary at time T starts at frame ceil(T*30). Base scene times carry a +0.0009 s offset (e.g. 161.9676), so boundaries land on frames 4860 and 5130.",
+    "base_notes_scene": {"out_s": [161.9676, 170.9676], "frames": [4860, 5129], "count": 270},
+    "base_end_scene": {"out_s": [170.9676, 178.9676], "frames": [5130, 5368], "count": 239}
+  },
+
+  "edit": {
+    "decision": "REPLACE the base 'notes' scene (frames 4860-5129, 9.0 s) with three new notice cards. Its three facts are not dropped: candidates + originals + tax judgment move to N2/N3; first-run internet moves to N1; plaintext CSV/originals moves to N2. This removes duplication instead of saying the same thing twice in a row.",
+    "segments": [
+      {"id": "A", "src": "base", "base_frames": [0, 4859], "out_frames": [0, 4859], "content": "opener .. bench-conditions incl. its 0.4 s fade-out; ALL UI footage and the full historical 100-case benchmark, untouched"},
+      {"id": "N", "src": "new render", "out_frames": [4860, 5849], "count": 990, "content": "notice cards N1, N2, N3"},
+      {"id": "B", "src": "base", "base_frames": [5130, 5368], "out_frames": [5850, 6088], "content": "end CTA (Ryoshu / tagline / URL / honesty note), untouched"}
+    ],
+    "offset_after_insert": {"frames": 720, "seconds": 24.0, "why": "24 s = 12 bars = 3 full 4-chord cycles at 120 bpm, so the base music grid and chord order line up again exactly where the base end audio resumes"},
+    "why_these_cuts": [
+      "Frame 4859 is the last frame of bench-conditions. That scene fades out over its last 0.4 s (cards._fade), so 4859 is effectively the bare background. Frame 5130 is the first frame of 'end', where every element starts at alpha 0 (ease_out from t=0), so it is also effectively bare background. Both joins are background-to-background, with no visible jump and no mid-animation cut.",
+      "The new cards render on the identical draw.background() image, so the field, gradient, dot grid and vignette stay continuous across both joins.",
+      "162.000 s (out frame 4860) is a bar boundary (bar 81) in the base music. The resume point lands on bar boundaries in both timelines (base 170.0 s maps to out 194.0 s)."
+    ],
+    "video_encode": "Decode the base and re-encode the whole output once with libx264 High, yuv420p, -crf 14 -preset slow, CFR 30, -movflags +faststart, BT.709 tags matching the base. Stream copy can't cut at 4860/5130 unless those are IDR frames. If ffprobe shows both are keyframes, a concat stream copy of A and B with only N encoded is allowed, but it isn't required.",
+    "preservation_qc": [
+      "Out frames 0-4859 against base frames 0-4859, and out 5850-6088 against base 5130-5368: per-frame PSNR >= 45 dB (Y) and SSIM >= 0.99. Report the min and mean.",
+      "Frame count is exactly 6089 and the audio duration is 6089/30 s within one AAC frame.",
+      "Benchmark text and values are not re-rendered. They exist only inside preserved segment A."
+    ]
+  },
+
+  "cards": {
+    "common": {
+      "renderer": "New module (e.g. src/film/notices.py) that reuses draw.py (background, put, fit, tw, th, palette) and cards._fade/_card_bg idioms. Draw only Kimi deck slots via put(). No literal Japanese in code.",
+      "fonts": "NotoSansJP-VF (jp) / Bahnschrift (lat), same as base",
+      "palette": "INK background; PAPER for main text; MUTED for kicker, labels and reference; VERMILION for numbers and the single accent rule; INDIGO only for the 'AI/assist' marker on N2. No GREEN (that colour means benchmark results).",
+      "left_margin_x": 300,
+      "type_scale_min_px": "Nothing under 28 px. Body 36-40 px, headings 56-60 px. No footnote-size text; the base's 17-20 px honesty sizes are not used here.",
+      "motion": "Subdued. Each element fades in with ease_out over 0.45 s and rises 14-18 px (dy). Stagger 0.35-0.5 s. No push-in, no camera, no pulsing. Card out: cards._fade (last 0.4 s). N1's in-fade follows the base fade-out, and N3's out-fade precedes the base end fade-in, so the joins are fade-through-background just like the base's own scene changes.",
+      "fit_rule": "Use fit(slot,'jp',w,size,minsize,maxw) with minsize >= 30 for body. If a Kimi line can't fit at minsize, that's a copy bug: return it to Kimi, don't shrink further."
+    },
+    "N1": {
+      "id": "notice-req",
+      "out_frames": [4860, 5249], "count": 390, "duration_s": 13.0,
+      "purpose": "Operating requirements, plain-language (not a spec sheet).",
+      "layout": [
+        {"slot": "req.kicker", "key": ["jp", 30, 700], "color": "MUTED", "xy": [300, 214], "t_in": 0.0},
+        {"slot": "req.heading", "key": ["jp", 60, 800], "color": "PAPER", "xy": [300, 262], "t_in": 0.1},
+        {"rows": ["req.os", "req.compute", "req.setup", "req.unmeasured"], "label_key": ["jp", 30, 700], "label_color": "MUTED", "label_x": 300,
+         "value_key": ["jp", 40, 700], "value_color": "PAPER", "value_x": 560, "y0": 420, "pitch": 104, "t_in": [0.8, 1.3, 1.8, 2.3],
+         "marker": "6x38 px rect at x=270 beside each row: VERMILION for os/compute/setup, MUTED for unmeasured (matches base runtime-card bars)"},
+        {"slot": "req.ref", "key": ["jp", 30, 600], "color": "MUTED", "xy": [300, 862], "t_in": 3.0},
+        {"slot": "req.ref.path", "key": ["lat", 32, "SemiBold"], "color": "PAPER", "xy": ["after req.ref + 20 px", 864], "t_in": 3.0, "text_is_literal": true}
+      ],
+      "reading_check": "Last reveal at 3.45 s, leaving 9.15 s of full hold for roughly 70-90 visible chars (about 9 chars/s plus a 1.5 s settle, with headroom for a second viewing)."
+    },
+    "N2": {
+      "id": "notice-role",
+      "out_frames": [5250, 5549], "count": 300, "duration_s": 10.0,
+      "purpose": "What Ryoshu does (assist) and what the user does (check originals, manage exported plaintext files).",
+      "layout": [
+        {"slot": "role.heading", "key": ["jp", 56, 800], "color": "PAPER", "xy": [300, 250], "t_in": 0.0},
+        {"slot": "role.assist", "key": ["jp", 40, 700], "color": "PAPER", "xy": [340, 400], "t_in": 0.7, "marker": "INDIGO 6x38 bar at x=300 (same assist/AI colour as the base overview)"},
+        {"slot": "role.check", "key": ["jp", 40, 700], "color": "PAPER", "xy": [340, 500], "t_in": 1.3, "marker": "VERMILION 6x38 bar at x=300 (human role colour, as in the base overview)"},
+        {"slot": "role.files", "key": ["jp", 34, 600], "color": "MUTED", "xy": [340, 620], "t_in": 1.9, "marker": "MUTED 6x32 bar"}
+      ],
+      "reading_check": "Last reveal at 2.35 s, leaving about 7.2 s of hold for 50-65 chars."
+    },
+    "N3": {
+      "id": "notice-tax",
+      "out_frames": [5550, 5849], "count": 300, "duration_s": 10.0,
+      "purpose": "Tax judgment and consultation belong with a tax professional. Ryoshu doesn't give tax advice, and 'confirmed' isn't approval.",
+      "layout": [
+        {"slot": "tax.heading", "key": ["jp", 56, 800], "color": "PAPER", "xy": [300, 300], "t_in": 0.0},
+        {"slot": "tax.body", "key": ["jp", 38, 600], "color": "PAPER", "xy": [300, 420], "t_in": 0.7, "lines": "up to 2 Kimi lines, separate slots tax.body.1 / tax.body.2, line pitch 64"},
+        {"slot": "tax.status", "key": ["jp", 34, 600], "color": "MUTED", "xy": [300, 600], "t_in": 1.5},
+        {"panel": "single rounded rect (_card_bg style, radius 22) behind heading+body, x 260..1660, y 270..560, fill white alpha 12, outline alpha 60; appears with the heading"}
+      ],
+      "reading_check": "Last reveal at 1.95 s, leaving about 7.6 s of hold for 55-70 chars. This is the most important card, so it gets the calmest layout."
+    }
+  },
+
+  "audio": {
+    "principle": "Music and SFX only, like the base. Everything is the base's own synthetic instruments from audio.py (NumPy, seeded). No samples, downloads or paid assets.",
+    "method": "Build an extended timeline dict from the edit manifest. Keep scenes, shots, events, captions and marks as they are for everything before 161.9676. Replace 'notes' with notice-req [161.9676,174.9676], notice-role [174.9676,184.9676], notice-tax [184.9676,194.9676]. Shift end to [194.9676,202.9676]; duration 202.9676. Run audio.make(tl) unchanged. Unknown scene ids default to role 'calm' through ROLE.get(...,'calm'), which is the same role as the replaced notes scene. The music loop draws rng in bar order with identical roles up to bar 84, so bars 81-84 are the base's own bars, and the global normalisation peak (in the groove section) doesn't change.",
+    "assembly": [
+      {"out_s": [0.0, 163.0], "source": "decoded base audio (PCM from AAC)"},
+      {"out_s": [163.0, 163.3], "xfade": "equal-power, base -> new render mix"},
+      {"out_s": [163.3, 194.3], "source": "new render 'mix' stem at the same out time"},
+      {"out_s": [194.3, 194.55], "xfade": "equal-power, new render -> decoded base at base time (out - 24.0), i.e. base 170.30-170.55, calm pad of chord index 1 in both; no SFX in the window"},
+      {"out_s": [194.55, 202.9667], "source": "decoded base audio from base 170.55 (keeps base whoosh 170.5676, impact + stamp 170.9676, final pad and plucks, tail fade)"}
+    ],
+    "sfx_in_insert": "From the new render as produced by cues(): whoosh 0.4 s before each card cut and an impact at each cut, the same grammar as every base graphic card. No ticks (no captions), no clicks.",
+    "qc": [
+      "In the 163.0-163.3 crossfade, the new mix and decoded base agree within 1.0 dB RMS (they're the same bars). Report the correlation.",
+      "No discontinuity: max sample-to-sample delta at both crossfade edges is below 2x the local median. Listen check at 162-164 and 193-196.",
+      "Full mix: no clipping, peak <= -0.5 dBFS, integrated loudness within 0.5 LU of the base. Encode AAC LC 48 kHz stereo at about 256 kbps."
+    ]
+  },
+
+  "copy_contract": {
+    "owner": "Kimi K3.1 Pro writes ALL Japanese, see design/kimi-handoff.md. Opus authors no final Japanese.",
+    "deck_file": "design/notice-deck.ja.json (Kimi output): {slot: text}, plus readme/site labels",
+    "literal_non_copy": {"req.ref.path": "github.com/studio-yebisu/ryoshu (docs/REQUIREMENTS.md)", "note": "Literal from the app repo structure. Kimi may choose the reference phrasing in req.ref; the path stays literal."},
+    "forbidden": "facts.json constraints.forbidden_claims, plus 'このPC' (use ローカルPC上), plus any RAM or disk number (including 2.5GB, which the card doesn't show at all), plus any new benchmark numbers",
+    "qc": "Code checks every rendered slot against the deck verbatim (Ctx.deck.mark) and writes a rendered-copy.json for the new cards in the same shape as input/source-v14/ryoshu-1.4-film.rendered-copy.json, with first_s/last_s in OUTPUT time. The preserved segments keep the base rendered-copy items, with times >= 171.0 shifted by +24.0 and the notes.* items removed."
+  },
+
+  "sync_labels": {
+    "README": "Video caption paragraph (README §実際の操作と検証結果を動画で見る): Kimi adds one short sentence saying the ending explains the operating requirements and the scope of assistance and tax consultation. The rest of the paragraph stays as it is.",
+    "site": "copy.ja.json links.movie currently says '約3分'. The new runtime is 3:23, so Kimi supplies the updated label.",
+    "publication": "Host decides URL/filename of the new MP4. Labels must not imply a new benchmark or app release."
+  },
+
+  "deliverables_for_implementer": [
+    "build/ryoshu-promo-v1.4.0-notice.mp4 (new)",
+    "build/notice.rendered-copy.json, build/notice.qc.json (PSNR/SSIM, audio checks, frame count, sha256 of base re-verified before and after)",
+    "contact sheet of out frames 4855-4865, 5245-5255, 5545-5555, 5845-5855 plus one mid-hold frame per card, for host review"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+ "renderer": "production/render_notices.py",
+ "python": "3.10+ with Pillow and NumPy only; ffmpeg + ffprobe on PATH (or --ffmpeg/--ffprobe). Run from the task root with -I.",
+ "fonts": "--fonts DIR containing NotoSansJP-VF.ttf and bahnschrift.ttf (default C:/Windows/Fonts)",
+ "stills": {
+  "argv": ["python", "-I", "production/render_notices.py", "--stills",
+           "--deck", "design/notice-deck.ja.json",
+           "--base", "<BASE_MP4: facts.json base_path>",
+           "--out", "production/out/stills-01"],
+  "notes": "--base is optional for stills; when given, the rendered background is compared to decoded base frames 4859 and 5130. --out must not exist.",
+  "writes": ["still-N1-notice-req-f5100.png", "still-N2-notice-role-f5430.png", "still-N3-notice-tax-f5730.png", "stills-contact.png", "layout-report.json"]
+ },
+ "final": {
+  "argv": ["python", "-I", "production/render_notices.py",
+           "--base", "<BASE_MP4: facts.json base_path>",
+           "--expect-sha256", "910f3e24c44d7d50a56b0328443cd3172131d460d07d5d16729d5e5827bca0ab",
+           "--deck", "design/notice-deck.ja.json",
+           "--manifest", "input/source-v14/ryoshu-1.4-film.edit-manifest.json",
+           "--base-copy", "input/source-v14/ryoshu-1.4-film.rendered-copy.json",
+           "--audio-source", "input/source-v14/src/film/audio.py",
+           "--threads", "4",
+           "--out", "build/notice-final-01"],
+  "output_mp4_relative_to_out": "ryoshu-promo-v1.4.0-notice.mp4",
+  "writes": ["ryoshu-promo-v1.4.0-notice.mp4", "notice.qc.json", "notice.rendered-copy.json", "ryoshu-promo-v1.4.0-notice.rendered-copy.json",
+             "layout-report.json", "boundary-4855-4865.png", "boundary-5245-5255.png", "boundary-5545-5555.png", "boundary-5845-5855.png",
+             "midhold-N1-f5100.png", "midhold-N2-f5430.png", "midhold-N3-f5730.png"],
+  "intermediates": "<out>/_work/notice.ffv1.mkv (lossless RGB FFV1, 990 frames) and <out>/_work/mix.f32.wav (float PCM); both deleted at the end unless --keep-intermediates. Nothing else is deleted.",
+  "encode": "one generation: libx264 High, preset slow, CRF 14, yuv420p, CFR 30, timescale 15360; AAC LC 48 kHz stereo 256 kb/s; +faststart; color tags copied from the base only if the base has them (it has none).",
+  "memory": "ffmpeg decoder/encoder threads capped by --threads (default 4), filter_complex_threads 2. Python peak is dominated by two audio syntheses (~1-2 GB)."
+ },
+ "expected": {
+  "frames": 6089,
+  "fps": 30,
+  "duration_s": 202.966667,
+  "video_segments": [
+   {"id": "A", "src": "base", "base_frames": [0, 4859], "out_frames": [0, 4859]},
+   {"id": "N1", "scene": "notice-req", "out_frames": [4860, 5249], "out_s": [162.0, 175.0]},
+   {"id": "N2", "scene": "notice-role", "out_frames": [5250, 5549], "out_s": [175.0, 185.0]},
+   {"id": "N3", "scene": "notice-tax", "out_frames": [5550, 5849], "out_s": [185.0, 195.0]},
+   {"id": "B", "src": "base", "base_frames": [5130, 5368], "out_frames": [5850, 6088]}
+  ],
+  "audio_out_s": {"base": [0.0, 163.0], "xfade_in": [163.0, 163.3], "new_synth": [163.3, 194.3], "xfade_out": [194.3, 194.55], "base_from_base_s_170_55": [194.55, 202.966667]}
+ },
+ "public_packaging": {
+  "include": ["production/render_notices.py", "production/audio.py (input/source-v14/src/film/audio.py copied byte-for-byte; sha256 701ac1991386cca18de4e9768dd4f8f7e58492d78d67c8fa5e36926d54266fe0)",
+              "production/invocation.json", "production/design-review.json", "design/plan.json", "design/notice-deck.ja.json",
+              "ryoshu-1.4-film.edit-manifest.json", "ryoshu-1.4-film.rendered-copy.json", "<out>/notice.qc.json and the JSON/PNG evidence"],
+  "exclude": ["_work intermediates", "the base MP4 (referenced by sha256)", "fonts (system fonts; pass --fonts)"],
+  "portability": "No absolute paths are embedded in code or in the written JSON (files are recorded by name + sha256). In packaging, point --audio-source at production/audio.py."
+ }
+}

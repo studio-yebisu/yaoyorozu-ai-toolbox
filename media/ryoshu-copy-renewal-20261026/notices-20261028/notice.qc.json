@@ -1,0 +1,473 @@
+{
+ "mode": "final",
+ "started_utc": "2026-10-28T09:42:43Z",
+ "not_performed": [
+  "audible listening of any part (not possible in this execution; host must listen at out 162-164 s and 193-196 s)",
+  "browser playback",
+  "human visual review of the contact sheets"
+ ],
+ "base": {
+  "name": "ryoshu-promo-v1.4.0.mp4",
+  "sha256_before": "910f3e24c44d7d50a56b0328443cd3172131d460d07d5d16729d5e5827bca0ab",
+  "expected": "910f3e24c44d7d50a56b0328443cd3172131d460d07d5d16729d5e5827bca0ab",
+  "matches_expected": true,
+  "color_tags": "untagged (no color tags written; RGB->YUV via ffmpeg default, same as the base encode)",
+  "sha256_after": "910f3e24c44d7d50a56b0328443cd3172131d460d07d5d16729d5e5827bca0ab",
+  "unchanged": true
+ },
+ "audio_source": {
+  "name": "audio.py",
+  "sha256": "701ac1991386cca18de4e9768dd4f8f7e58492d78d67c8fa5e36926d54266fe0"
+ },
+ "manifest_sha256": "0bc0c3a4f1e6151714c8cfe9a7d688cdeec79a3dfb6ca00d588e1f00f8126ed6",
+ "audio_build": {
+  "synth_seconds": 21.9,
+  "ext_timeline_scenes": [
+   [
+    "bench-conditions",
+    [
+     152.9676,
+     161.9676
+    ]
+   ],
+   [
+    "notice-req",
+    [
+     161.9676,
+     174.9676
+    ]
+   ],
+   [
+    "notice-role",
+    [
+     174.9676,
+     184.9676
+    ]
+   ],
+   [
+    "notice-tax",
+    [
+     184.9676,
+     194.9676
+    ]
+   ],
+   [
+    "end",
+    [
+     194.9676,
+     202.9676
+    ]
+   ]
+  ],
+  "ext_timeline_dropped_after_cut": {
+   "shots": 0,
+   "events": 0,
+   "captions": 0
+  },
+  "normalisation": {
+   "ext": {
+    "music_peak_prenorm": 0.6893521906988916,
+    "sfx_peak_prenorm": 0.6718951237631299
+   },
+   "base": {
+    "music_peak_prenorm": 0.6893521906988916,
+    "sfx_peak_prenorm": 0.7786746160808689
+   },
+   "music_peak_equal": true,
+   "sfx_peak_equal": false
+  },
+  "insert_cues_out_s": {
+   "whoosh": [
+    174.568,
+    184.568,
+    194.568
+   ],
+   "impact": [
+    161.9676,
+    174.9676,
+    184.9676,
+    194.9676
+   ],
+   "stamp": [
+    194.9676
+   ]
+  },
+  "ext_vs_base_synth_163_170": {
+   "max_abs_diff": 0.0
+  },
+  "base_synth_vs_decoded_base_full": {
+   "pearson": 0.99959
+  },
+  "alignment": {
+   "window_out_s": [
+    163.0,
+    166.0
+   ],
+   "best_lag_samples": 0,
+   "peak_corr": 0.99999,
+   "applied_lag_samples": 0
+  },
+  "xfade_in": {
+   "out_s": [
+    163.0,
+    163.3
+   ],
+   "rho_used": 0.99999,
+   "pearson_base_vs_new": 0.99999,
+   "rms_db_base": -25.516,
+   "rms_db_new": -25.508,
+   "rms_diff_db": 0.008,
+   "plan_within_1dB": true
+  },
+  "xfade_out": {
+   "out_s": [
+    194.3,
+    194.55
+   ],
+   "base_s": [
+    170.3,
+    170.55
+   ],
+   "rho_used": 0.2085,
+   "rms_db_new": -30.829,
+   "rms_db_base": -31.496
+  },
+  "base_tail_zero_padded_samples": 64,
+  "pcm_edges": [
+   {
+    "sample": 7824000,
+    "edge_max_delta_pm16": 0.004339,
+    "local_median_delta_pm50ms": 0.004274,
+    "local_p99_delta": 0.014433,
+    "local_max_delta_excl_edge": 0.019492,
+    "edge_le_local_max": true,
+    "plan_rule_edge_lt_2x_median": true
+   },
+   {
+    "sample": 7838400,
+    "edge_max_delta_pm16": 0.009656,
+    "local_median_delta_pm50ms": 0.003935,
+    "local_p99_delta": 0.013412,
+    "local_max_delta_excl_edge": 0.017313,
+    "edge_le_local_max": true,
+    "plan_rule_edge_lt_2x_median": false
+   },
+   {
+    "sample": 9326400,
+    "edge_max_delta_pm16": 0.003142,
+    "local_median_delta_pm50ms": 0.002532,
+    "local_p99_delta": 0.006772,
+    "local_max_delta_excl_edge": 0.008619,
+    "edge_le_local_max": true,
+    "plan_rule_edge_lt_2x_median": true
+   },
+   {
+    "sample": 9338400,
+    "edge_max_delta_pm16": 0.00384,
+    "local_median_delta_pm50ms": 0.002924,
+    "local_p99_delta": 0.008875,
+    "local_max_delta_excl_edge": 0.01263,
+    "edge_le_local_max": true,
+    "plan_rule_edge_lt_2x_median": true
+   }
+  ],
+  "pcm_peak_dbfs": -4.48,
+  "pcm_clipped_samples": 0,
+  "pcm_samples": 9742400
+ },
+ "notice_clip": {
+  "frames": 990,
+  "unique_frames_composed": 221,
+  "render_seconds": 9.0
+ },
+ "final_encode_argv": [
+  "ffmpeg",
+  "-nostdin",
+  "-v",
+  "error",
+  "-n",
+  "-threads",
+  "4",
+  "-i",
+  "ryoshu-promo-v1.4.0.mp4",
+  "-threads",
+  "4",
+  "-i",
+  "notice.ffv1.mkv",
+  "-threads",
+  "4",
+  "-i",
+  "ryoshu-promo-v1.4.0.mp4",
+  "-i",
+  "mix.f32.wav",
+  "-filter_complex",
+  "[0:v]trim=start_frame=0:end_frame=4860,setpts=PTS-STARTPTS,format=yuv420p,setsar=1[a];[1:v]trim=start_frame=0:end_frame=990,setpts=PTS-STARTPTS,format=yuv420p,setsar=1[n];[2:v]trim=start_frame=5130:end_frame=5369,setpts=PTS-STARTPTS,format=yuv420p,setsar=1[b];[a][n][b]concat=n=3:v=1:a=0,settb=1/30,setpts=N[v]",
+  "-filter_complex_threads",
+  "2",
+  "-map",
+  "[v]",
+  "-map",
+  "3:a:0",
+  "-c:v",
+  "libx264",
+  "-profile:v",
+  "high",
+  "-preset",
+  "slow",
+  "-crf",
+  "14",
+  "-pix_fmt",
+  "yuv420p",
+  "-threads",
+  "4",
+  "-fps_mode",
+  "cfr",
+  "-r",
+  "30",
+  "-video_track_timescale",
+  "15360",
+  "-c:a",
+  "aac",
+  "-b:a",
+  "256k",
+  "-ar",
+  "48000",
+  "-ac",
+  "2",
+  "-map_metadata",
+  "-1",
+  "-movflags",
+  "+faststart",
+  "ryoshu-promo-v1.4.0-notice.mp4"
+ ],
+ "final_encode_seconds": 50.7,
+ "output": {
+  "file": "ryoshu-promo-v1.4.0-notice.mp4",
+  "bytes": 29264780,
+  "sha256": "0d7315a1ad97514d5b57543f6bc64740ac0c1168c69f1ee5ad6d768eb1c8a95a",
+  "video": {
+   "codec_name": "h264",
+   "profile": "High",
+   "pix_fmt": "yuv420p",
+   "width": 1920,
+   "height": 1080,
+   "r_frame_rate": "30/1",
+   "nb_frames": "6089",
+   "nb_read_frames": "6089",
+   "duration": "202.966667",
+   "color_space": null,
+   "color_range": null
+  },
+  "audio": {
+   "codec_name": "aac",
+   "profile": "LC",
+   "sample_rate": "48000",
+   "channels": 2,
+   "duration": "202.966000",
+   "duration_ts": 9742368,
+   "bit_rate": "257871"
+  },
+  "faststart_moov_first": true,
+  "frame_count_ok": true,
+  "audio_duration_within_one_aac_frame": true
+ },
+ "preservation": {
+  "A": {
+   "out_frames": [
+    0,
+    4859
+   ],
+   "base_frames": [
+    0,
+    4859
+   ],
+   "psnr_frames": 4860,
+   "ssim_frames": 4860,
+   "psnr_y_min": 47.66,
+   "psnr_y_mean_finite": 58.86,
+   "psnr_y_inf_frames": 0,
+   "ssim_y_min": 0.998531,
+   "ssim_all_min": 0.997886,
+   "ssim_all_mean": 0.999661,
+   "plan_psnr_ge_45": true,
+   "plan_ssim_ge_0_99": true,
+   "frames_complete": true
+  },
+  "B": {
+   "out_frames": [
+    5850,
+    6088
+   ],
+   "base_frames": [
+    5130,
+    5368
+   ],
+   "psnr_frames": 239,
+   "ssim_frames": 239,
+   "psnr_y_min": 59.53,
+   "psnr_y_mean_finite": 62.437,
+   "psnr_y_inf_frames": 0,
+   "ssim_y_min": 0.999796,
+   "ssim_all_min": 0.99973,
+   "ssim_all_mean": 0.999855,
+   "plan_psnr_ge_45": true,
+   "plan_ssim_ge_0_99": true,
+   "frames_complete": true
+  }
+ },
+ "audio_output": {
+  "samples": 9743360,
+  "peak_dbfs": -4.484,
+  "clipped_samples": 0,
+  "plan_peak_le_minus_0_5": true,
+  "base_peak_dbfs": -4.48,
+  "edges_decoded": [
+   {
+    "sample": 7824000,
+    "edge_max_delta_pm16": 0.004329,
+    "local_median_delta_pm50ms": 0.004269,
+    "local_p99_delta": 0.014437,
+    "local_max_delta_excl_edge": 0.019511,
+    "edge_le_local_max": true,
+    "plan_rule_edge_lt_2x_median": true
+   },
+   {
+    "sample": 7838400,
+    "edge_max_delta_pm16": 0.009575,
+    "local_median_delta_pm50ms": 0.003927,
+    "local_p99_delta": 0.013401,
+    "local_max_delta_excl_edge": 0.017269,
+    "edge_le_local_max": true,
+    "plan_rule_edge_lt_2x_median": false
+   },
+   {
+    "sample": 9326400,
+    "edge_max_delta_pm16": 0.003156,
+    "local_median_delta_pm50ms": 0.002527,
+    "local_p99_delta": 0.006765,
+    "local_max_delta_excl_edge": 0.008603,
+    "edge_le_local_max": true,
+    "plan_rule_edge_lt_2x_median": true
+   },
+   {
+    "sample": 9338400,
+    "edge_max_delta_pm16": 0.003807,
+    "local_median_delta_pm50ms": 0.002924,
+    "local_p99_delta": 0.008865,
+    "local_max_delta_excl_edge": 0.012637,
+    "edge_le_local_max": true,
+    "plan_rule_edge_lt_2x_median": true
+   }
+  ],
+  "integrated_lufs": {
+   "output": -19.7,
+   "base": -19.3,
+   "plan_within_0_5LU": true
+  }
+ },
+ "joins_mean_abs_rgb_diff": {
+  "4859->4860": 0.5374,
+  "5249->5250": 0.2769,
+  "5549->5550": 0.7604,
+  "5849->5850": 0.5033
+ },
+ "background_continuity": {
+  "out4860_vs_base4859": 0.541,
+  "out5849_vs_base5130": 0.51,
+  "rendered_bg_vs_base4859": 1.7415,
+  "rendered_bg_vs_base5130": 1.7043
+ },
+ "rendered_copy": {
+  "notice_items": 20,
+  "all_verbatim": true,
+  "deck_slots_not_displayed": [],
+  "base_items_spanning_removed_range": []
+ },
+ "timings": {
+  "fps": 30,
+  "frames": 6089,
+  "duration_s": 202.966667,
+  "segments": [
+   {
+    "id": "A",
+    "src": "base",
+    "base_frames": [
+     0,
+     4859
+    ],
+    "out_frames": [
+     0,
+     4859
+    ]
+   },
+   {
+    "id": "N1",
+    "scene": "notice-req",
+    "out_frames": [
+     4860,
+     5249
+    ],
+    "out_s": [
+     162.0,
+     175.0
+    ]
+   },
+   {
+    "id": "N2",
+    "scene": "notice-role",
+    "out_frames": [
+     5250,
+     5549
+    ],
+    "out_s": [
+     175.0,
+     185.0
+    ]
+   },
+   {
+    "id": "N3",
+    "scene": "notice-tax",
+    "out_frames": [
+     5550,
+     5849
+    ],
+    "out_s": [
+     185.0,
+     195.0
+    ]
+   },
+   {
+    "id": "B",
+    "src": "base",
+    "base_frames": [
+     5130,
+     5368
+    ],
+    "out_frames": [
+     5850,
+     6088
+    ]
+   }
+  ],
+  "audio_out_s": {
+   "base": [
+    0.0,
+    163.0
+   ],
+   "xfade_in": [
+    163.0,
+    163.3
+   ],
+   "new": [
+    163.3,
+    194.3
+   ],
+   "xfade_out": [
+    194.3,
+    194.55
+   ],
+   "base_shifted_from_base_s": 170.55
+  }
+ },
+ "finished_utc": "2026-10-28T09:44:35Z"
+}

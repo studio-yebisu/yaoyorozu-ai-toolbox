@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "author": "Kimi K3.1 Pro",
+  "items": {
+    "req.kicker": "インストール前の確認",
+    "req.heading": "動作に必要な環境",
+    "req.os.label": "OS",
+    "req.os": "Windows 11 x64のみ",
+    "req.compute.label": "処理",
+    "req.compute": "OCR・科目候補はローカルPC上のCPU、専用GPU不要",
+    "req.setup.label": "初回準備",
+    "req.setup": "初回・更新はネット接続、環境とモデルを自動取得",
+    "req.unmeasured.label": "メモリ・保存",
+    "req.unmeasured": "最低メモリ・最低空き容量は未測定",
+    "req.ref": "動作要件の全文",
+    "role.heading": "Ryoshuの役割は補助",
+    "role.assist": "ローカルPC上で読み取り、科目候補・帳簿案・CSVを作成",
+    "role.check": "原本で日付・支払先・金額・科目を確認、結果は候補",
+    "role.files": "書き出したCSVと原本は平文。保管場所・共有先を管理してください",
+    "tax.heading": "税務判断はご自身と税理士で",
+    "tax.body.1": "申告前に、科目や経費算入を税理士にご相談ください",
+    "tax.body.2": "税務相談・申告は提供せず、税理士への自動送信もありません",
+    "tax.status": "「確認済み」は利用者の操作。税理士の承認や税法適合の保証ではない"
+  },
+  "labels": {
+    "readme.video.add": "終盤では、動作要件・補助の範囲・税務相談を説明しています。",
+    "site.links.movie": "紹介動画（v1.4・約3分半）"
+  },
+  "notes": "文字数優先で、N1のWindows 10未検証・ARM非対応、Python/Ollama/LM Studioの手動導入不要、セットアップと原本・DB・バックアップに必要な保存容量の内訳は省略。N2のローカル処理はセットアップ後の読み取り・候補作成を指す。N3の「申告」は、申告代理・申告書作成も提供しないことの省略表現。参照先は指定のREQUIREMENTS.mdで問題ない。"
+}

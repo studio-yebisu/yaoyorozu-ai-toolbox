@@ -1,0 +1,492 @@
+{
+ "deck": "notice-deck.ja.json",
+ "deck_sha256": "93ab1c65ae5918170fbb5c0be1e1f5327ade36bd72801904f81ad13318bd7f3f",
+ "font_dir": "C:/Windows/Fonts/",
+ "min_px": 30,
+ "safe_right_x": 1760,
+ "cards": {
+  "N1": {
+   "scene": "notice-req",
+   "elements": [
+    {
+     "slot": "req.kicker",
+     "text": "インストール前の確認",
+     "font": [
+      "jp",
+      700
+     ],
+     "planned_px": 30,
+     "used_px": 30,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 305,
+     "max_width_px": 1460,
+     "ink_box_xyxy": [
+      303,
+      220,
+      603,
+      249
+     ],
+     "right_limit_x": 1760,
+     "overflow": false,
+     "reveal_s": 0.0
+    },
+    {
+     "slot": "req.heading",
+     "text": "動作に必要な環境",
+     "font": [
+      "jp",
+      800
+     ],
+     "planned_px": 60,
+     "used_px": 60,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 484,
+     "max_width_px": 1460,
+     "ink_box_xyxy": [
+      303,
+      272,
+      782,
+      331
+     ],
+     "right_limit_x": 1760,
+     "overflow": false,
+     "reveal_s": 0.1
+    },
+    {
+     "slot": "req.os.label",
+     "text": "OS",
+     "font": [
+      "jp",
+      700
+     ],
+     "planned_px": 30,
+     "used_px": 30,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 47,
+     "max_width_px": 236,
+     "ink_box_xyxy": [
+      304,
+      440,
+      344,
+      462
+     ],
+     "right_limit_x": 536,
+     "overflow": false,
+     "reveal_s": 0.8
+    },
+    {
+     "slot": "req.os",
+     "text": "Windows 11 x64のみ",
+     "font": [
+      "jp",
+      700
+     ],
+     "planned_px": 40,
+     "used_px": 40,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 401,
+     "max_width_px": 1200,
+     "ink_box_xyxy": [
+      562,
+      429,
+      958,
+      465
+     ],
+     "right_limit_x": 1760,
+     "overflow": false,
+     "reveal_s": 0.8
+    },
+    {
+     "slot": "req.compute.label",
+     "text": "処理",
+     "font": [
+      "jp",
+      700
+     ],
+     "planned_px": 30,
+     "used_px": 30,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 64,
+     "max_width_px": 236,
+     "ink_box_xyxy": [
+      302,
+      540,
+      362,
+      569
+     ],
+     "right_limit_x": 536,
+     "overflow": false,
+     "reveal_s": 1.3
+    },
+    {
+     "slot": "req.compute",
+     "text": "OCR・科目候補はローカルPC上のCPU、専用GPU不要",
+     "font": [
+      "jp",
+      700
+     ],
+     "planned_px": 40,
+     "used_px": 40,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 992,
+     "max_width_px": 1200,
+     "ink_box_xyxy": [
+      564,
+      532,
+      1549,
+      571
+     ],
+     "right_limit_x": 1760,
+     "overflow": false,
+     "reveal_s": 1.3
+    },
+    {
+     "slot": "req.setup.label",
+     "text": "初回準備",
+     "font": [
+      "jp",
+      700
+     ],
+     "planned_px": 30,
+     "used_px": 30,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 124,
+     "max_width_px": 236,
+     "ink_box_xyxy": [
+      302,
+      644,
+      422,
+      674
+     ],
+     "right_limit_x": 536,
+     "overflow": false,
+     "reveal_s": 1.8
+    },
+    {
+     "slot": "req.setup",
+     "text": "初回・更新はネット接続、環境とモデルを自動取得",
+     "font": [
+      "jp",
+      700
+     ],
+     "planned_px": 40,
+     "used_px": 40,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 924,
+     "max_width_px": 1200,
+     "ink_box_xyxy": [
+      562,
+      635,
+      1481,
+      675
+     ],
+     "right_limit_x": 1760,
+     "overflow": false,
+     "reveal_s": 1.8
+    },
+    {
+     "slot": "req.unmeasured.label",
+     "text": "メモリ・保存",
+     "font": [
+      "jp",
+      700
+     ],
+     "planned_px": 30,
+     "used_px": 30,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 184,
+     "max_width_px": 236,
+     "ink_box_xyxy": [
+      305,
+      748,
+      481,
+      778
+     ],
+     "right_limit_x": 536,
+     "overflow": false,
+     "reveal_s": 2.3
+    },
+    {
+     "slot": "req.unmeasured",
+     "text": "最低メモリ・最低空き容量は未測定",
+     "font": [
+      "jp",
+      700
+     ],
+     "planned_px": 40,
+     "used_px": 40,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 644,
+     "max_width_px": 1200,
+     "ink_box_xyxy": [
+      563,
+      739,
+      1201,
+      779
+     ],
+     "right_limit_x": 1760,
+     "overflow": false,
+     "reveal_s": 2.3
+    },
+    {
+     "slot": "req.ref",
+     "text": "動作要件の全文",
+     "font": [
+      "jp",
+      600
+     ],
+     "planned_px": 30,
+     "used_px": 30,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 214,
+     "max_width_px": 1260,
+     "ink_box_xyxy": [
+      302,
+      868,
+      511,
+      898
+     ],
+     "right_limit_x": 1560,
+     "overflow": false,
+     "reveal_s": 3.0
+    },
+    {
+     "slot": "req.ref.path",
+     "text": "github.com/studio-yebisu/ryoshu (docs/REQUIREMENTS.md)",
+     "font": [
+      "lat",
+      "SemiBold"
+     ],
+     "planned_px": 32,
+     "used_px": 32,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 869,
+     "max_width_px": 1226,
+     "ink_box_xyxy": [
+      537,
+      867,
+      1399,
+      899
+     ],
+     "right_limit_x": 1760,
+     "overflow": false,
+     "reveal_s": 3.0
+    }
+   ],
+   "last_reveal_end_s": 3.45
+  },
+  "N2": {
+   "scene": "notice-role",
+   "elements": [
+    {
+     "slot": "role.heading",
+     "text": "Ryoshuの役割は補助",
+     "font": [
+      "jp",
+      800
+     ],
+     "planned_px": 56,
+     "used_px": 56,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 548,
+     "max_width_px": 1460,
+     "ink_box_xyxy": [
+      307,
+      260,
+      844,
+      321
+     ],
+     "right_limit_x": 1760,
+     "overflow": false,
+     "reveal_s": 0.0
+    },
+    {
+     "slot": "role.assist",
+     "text": "ローカルPC上で読み取り、科目候補・帳簿案・CSVを作成",
+     "font": [
+      "jp",
+      700
+     ],
+     "planned_px": 40,
+     "used_px": 40,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 1053,
+     "max_width_px": 1420,
+     "ink_box_xyxy": [
+      347,
+      407,
+      1390,
+      447
+     ],
+     "right_limit_x": 1760,
+     "overflow": false,
+     "reveal_s": 0.7
+    },
+    {
+     "slot": "role.check",
+     "text": "原本で日付・支払先・金額・科目を確認、結果は候補",
+     "font": [
+      "jp",
+      700
+     ],
+     "planned_px": 40,
+     "used_px": 40,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 964,
+     "max_width_px": 1420,
+     "ink_box_xyxy": [
+      342,
+      507,
+      1301,
+      547
+     ],
+     "right_limit_x": 1760,
+     "overflow": false,
+     "reveal_s": 1.3
+    },
+    {
+     "slot": "role.files",
+     "text": "書き出したCSVと原本は平文。保管場所・共有先を管理してください",
+     "font": [
+      "jp",
+      600
+     ],
+     "planned_px": 34,
+     "used_px": 34,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 1054,
+     "max_width_px": 1420,
+     "ink_box_xyxy": [
+      344,
+      626,
+      1390,
+      660
+     ],
+     "right_limit_x": 1760,
+     "overflow": false,
+     "reveal_s": 1.9
+    }
+   ],
+   "last_reveal_end_s": 2.35
+  },
+  "N3": {
+   "scene": "notice-tax",
+   "elements": [
+    {
+     "slot": "tax.heading",
+     "text": "税務判断はご自身と税理士で",
+     "font": [
+      "jp",
+      800
+     ],
+     "planned_px": 56,
+     "used_px": 56,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 732,
+     "max_width_px": 1320,
+     "ink_box_xyxy": [
+      303,
+      309,
+      1027,
+      364
+     ],
+     "right_limit_x": 1620,
+     "overflow": false,
+     "reveal_s": 0.0
+    },
+    {
+     "slot": "tax.body.1",
+     "text": "申告前に、科目や経費算入を税理士にご相談ください",
+     "font": [
+      "jp",
+      600
+     ],
+     "planned_px": 38,
+     "used_px": 38,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 916,
+     "max_width_px": 1320,
+     "ink_box_xyxy": [
+      305,
+      427,
+      1212,
+      464
+     ],
+     "right_limit_x": 1620,
+     "overflow": false,
+     "reveal_s": 0.7
+    },
+    {
+     "slot": "tax.body.2",
+     "text": "税務相談・申告は提供せず、税理士への自動送信もありません",
+     "font": [
+      "jp",
+      600
+     ],
+     "planned_px": 38,
+     "used_px": 38,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 1067,
+     "max_width_px": 1320,
+     "ink_box_xyxy": [
+      302,
+      491,
+      1364,
+      528
+     ],
+     "right_limit_x": 1620,
+     "overflow": false,
+     "reveal_s": 0.7
+    },
+    {
+     "slot": "tax.status",
+     "text": "「確認済み」は利用者の操作。税理士の承認や税法適合の保証ではない",
+     "font": [
+      "jp",
+      600
+     ],
+     "planned_px": 34,
+     "used_px": 34,
+     "shrunk": false,
+     "min_px_ok": true,
+     "advance_width_px": 1092,
+     "max_width_px": 1460,
+     "ink_box_xyxy": [
+      324,
+      607,
+      1388,
+      640
+     ],
+     "right_limit_x": 1760,
+     "overflow": false,
+     "reveal_s": 1.5
+    }
+   ],
+   "last_reveal_end_s": 1.95
+  }
+ },
+ "overflow_any": false,
+ "flagged_for_kimi": [],
+ "deck_lint_report_only": [],
+ "deck_unknown_slots_not_drawn": [],
+ "measured": true
+}
