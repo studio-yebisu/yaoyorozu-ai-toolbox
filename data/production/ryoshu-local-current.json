@@ -7,10 +7,10 @@
   },
   "case_record": {
     "path": "data/cases/ryoshu-local.json",
-    "sha256": "21e246d82543707b1763838f9a4bef8db3f61d7cf2dc4262c89efdc6c40eecc4"
+    "sha256": "927dfb925c7db475309d45ecb019c7475eb17fe7f2ca55fdcf6fbf9875710c3c"
   },
   "artifacts_sha256": {
-    "data/cases/ryoshu-local.json": "21e246d82543707b1763838f9a4bef8db3f61d7cf2dc4262c89efdc6c40eecc4",
+    "data/cases/ryoshu-local.json": "927dfb925c7db475309d45ecb019c7475eb17fe7f2ca55fdcf6fbf9875710c3c",
     "examples/ryoshu-local/.gitattributes": "8b9c3028d6467ff3be7c793141927841d70f47f52d0590677438f488ca154992",
     "examples/ryoshu-local/LICENSE": "6c3b3961e5dba25451125f285f2709dd212cb225f40d8e37ee1a8d48b1587d64",
     "examples/ryoshu-local/START.md": "2a922e2fce8475bd4c1e72c71bcfa1f7420c858259e56c7e3e4ecb692137c322",
@@ -129,9 +129,12 @@
     "media/ryoshu-local-wide.mp4": "c5100e7225a21124dd22b0f247b3ea1655f2963a95c1d9ca4e9ca904a9059540",
     "media/ryoshu-local-wide.webp": "b6061bb105f900ae69d07a290069f2b3ac360ede709d3abde196d12f634fd5d7",
     "media/ryoshu-local.mp4": "112fe7044dbb602ecfbf13d3e651bab4bc2322b6070b307501f0b4e0e9dfd09e",
-    "media/ryoshu-local.webp": "fb69719dabd8ab38af7f3272e706e8ab69d1fafe7a40d4152129e15ba4a1f80e"
+    "media/ryoshu-local.webp": "fb69719dabd8ab38af7f3272e706e8ab69d1fafe7a40d4152129e15ba4a1f80e",
+    "media/ryoshu-copy-renewal-20261026/v14-history/previous-current-launch-ui.json": "9ae3ff67bc79d146982bc5c576b7d0570758115ec0205f6c8a1ffc6a9b72f482",
+    "media/ryoshu-copy-renewal-20261026/launch-ui-provenance.json": "594d9f68d376dcf3dfb8bd4db54dee327a24f41214b280af9b64897137314693"
   },
   "provenance_artifacts_sha256": {
-    "media/ryoshu-copy-renewal-20261026/v14-current-provenance.json": "bba3056dd92a47681b9f5bb9ae3b6406e23cbf75feeb8eba0d892af6862bfe99"
+    "media/ryoshu-copy-renewal-20261026/v14-current-provenance.json": "bba3056dd92a47681b9f5bb9ae3b6406e23cbf75feeb8eba0d892af6862bfe99",
+    "media/ryoshu-copy-renewal-20261026/launch-ui-provenance.json": "594d9f68d376dcf3dfb8bd4db54dee327a24f41214b280af9b64897137314693"
   }
 }

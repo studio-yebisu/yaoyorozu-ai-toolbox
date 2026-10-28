@@ -32,7 +32,7 @@
   "request": "RyoshuのREADME・動作要件・モデルとMicrosoft実行環境の利用条件を読み、Windows 11 x64で準備してください。Ollamaは不要です。初回セットアップを実行し、Microsoft Visual C++の利用条件には明示的に同意が必要です。復元用パスワードは利用者が設定します。PDFや画像を取り込んだら、原本・読み取った内容・勘定科目の候補を見比べてください。領収書を外部AIへ送らないでください。読み取り結果と科目は候補なので、利用者が原本と照合し、税務上の最終判断は利用者と税理士が行います。CSVは件数・形式・プレビューを確かめて保存します。",
   "video_note": "現行の紹介動画は179秒で、Ryoshu v1.4の実操作と新しい100件の結果を収録しています。映像はOpus 5.5、表示する製品文案はKimiが制作しました。旧32秒の横版・縦版・クレジット付き版と、v0.4由来のCanvas図解は別の過去の素材です。",
   "video_source": "media/ryoshu-copy-renewal-20261026/source-v14/src/render.py",
-  "updated_on": "2026-10-27",
+  "updated_on": "2026-10-28",
   "license_note": "ページ・映像ソースのコードはMIT、MP4はサイトのクレジット条件です。Ryoshuのモデル重み等の条件は別です。",
   "steps": [
     {
@@ -239,5 +239,42 @@
     "reviewed_on": "2026-10-27"
   },
   "video_download_portrait": "media/ryoshu-copy-renewal-20261026/ryoshu-32s-portrait-credited-ja.mp4",
-  "video_download_landscape": "media/ryoshu-copy-renewal-20261026/ryoshu-32s-wide-credited-ja.mp4"
+  "video_download_landscape": "media/ryoshu-copy-renewal-20261026/ryoshu-32s-wide-credited-ja.mp4",
+  "primary_actions": [
+    {
+      "kind": "primary",
+      "label": "Windows版 v1.4.1をダウンロード",
+      "href": "https://github.com/studio-yebisu/ryoshu/releases/download/v1.4.1/Ryoshu-1.4.1-windows-x64-setup.exe"
+    },
+    {
+      "kind": "secondary",
+      "label": "GitHubリポジトリを開く",
+      "href": "https://github.com/studio-yebisu/ryoshu"
+    },
+    {
+      "kind": "secondary",
+      "label": "架空100件の検証記録を見る",
+      "href": "https://studio-yebisu.github.io/ryoshu/docs/testing/v1.4/"
+    }
+  ],
+  "primary_actions_note": "対象はWindows 11 x64です。インストーラーにはコード署名がないため、ReleaseページのSHA256SUMS.txtで照合してください。初回準備・更新ではインターネット接続と、モデル・Microsoftの利用条件への同意が必要です。領収書の読み取りと勘定科目の候補作成はローカルPC上で行います。",
+  "app_downloads": [
+    {
+      "label": "Windowsインストーラー v1.4.1",
+      "note": "コード署名はありません。初回準備ではモデル・Microsoftの利用条件を確認し、実行環境などをダウンロードします。",
+      "href": "https://github.com/studio-yebisu/ryoshu/releases/download/v1.4.1/Ryoshu-1.4.1-windows-x64-setup.exe"
+    },
+    {
+      "label": "導入手順をGitHubで見る",
+      "note": "インストーラーまたはソースZIPからの導入・更新手順を確認できます。",
+      "href": "https://github.com/studio-yebisu/ryoshu/blob/main/docs/INSTALL.md"
+    }
+  ],
+  "video_share_mode": "primary-current",
+  "video_share_copy": {
+    "save_label": "紹介動画をMP4で保存（約179秒）",
+    "intro_copy_label": "記事URL付き紹介文をコピー",
+    "intro_summary_label": "紹介文の下書きを表示",
+    "share_note": "保存したMP4にはクレジットが埋め込まれていないため、再利用時はクレジットを記載してください。「Xで紹介」では、記事URL・クレジット・メンション入りの投稿作成画面が開きます。自動では投稿されません。"
+  }
 }

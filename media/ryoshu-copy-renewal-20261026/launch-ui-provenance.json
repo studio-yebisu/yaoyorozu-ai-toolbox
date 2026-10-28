@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "case_id": "ryoshu-local",
+  "records": [
+    {
+      "role": "visual-execution",
+      "sha256": "804524c8fd1e068f631044a338b6a6add526a7f4c39e816da4e6a4563e4f7612",
+      "requested": "claude-opus-5-5",
+      "reported": [
+        "claude-opus-5-5"
+      ]
+    },
+    {
+      "role": "copy-execution",
+      "sha256": "b3e63ee68f39045e45610e9d3d8a2fac481ca575feb63d81fcb4000eaf85e97b",
+      "selected_alias": "kimi-code/k3.1-pro",
+      "configured_api_model_id": "k3.1-pro",
+      "identity_evidence": "runtime-catalog-selection-and-provider-mapping"
+    },
+    {
+      "role": "media-verification",
+      "sha256": "0e3ecf7e24eadcfc1c4881abc305b5403969ad314577a1abbdf278b076dcf642"
+    }
+  ]
+}
