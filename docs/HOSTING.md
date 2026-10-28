@@ -33,6 +33,8 @@ npm run prepare:cf                # .cloudflare/output/v0/ を生成し、.local
 npm run deploy:cf                 # cf deploy --prebuilt --mode production（要Cloudflare認証。トークン等はリポジトリに含めない）
 ```
 
+`python scripts/build.py` は公開内容をいったん `.local/build-staging/<一意の名前>/` に新規生成し、成功してから `dist/` と入れ替えます。生成・入れ替えに失敗しても既存の `dist/` はそのままで、中間出力は `.local/build-staging/` に名前付きのまま残ります（不要なら削除してかまいません）。入れ替え前の旧 `dist/` は `.local/build-history/<一意の名前>/` に退避され、新しい出力とバイト一致が確認できたファイルだけ重複除去されます。内容が変わった・消えた旧ファイルは非公開のまま保持されるため、古いレビュー画像や重複動画が公開物に混入しません。
+
 通常の公開は、承認済みの変更をmainへ反映してから `scripts/deploy-cloudflare.ps1` を実行します。公開元が未コミット、main以外、GitHubのmainと不一致の場合は停止します。同じコミットのGitHub Pages成功を待ち、ビルド・検査・Cloudflare公開と公開先のhealth revision一致まで確認します。
 
 `python scripts/pipeline.py publish <case-id> --deploy` も、対象限定のcommit・push後にこの処理を呼びます。GitHubだけ更新されてCloudflareが古いままになることを防ぎます。継続的な運用設定は `services/site/deployment.json` に保持し、現在の `r2_bucket` は `null` です。
