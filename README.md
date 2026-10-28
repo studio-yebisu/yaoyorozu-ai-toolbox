@@ -2,7 +2,7 @@
 
 AIスキルとツールを、用途・使い方・実作例から選ぶ日本語サイトです。画面・資料・映像の制作に加え、調査、文章、知識整理、音声、3D、ゲーム、開発、自動化、学習などを一つの入口で扱います。
 
-[統合サイト](https://studio-yebisu.github.io/yaoyorozu-ai-toolbox/) · [最初の作例](https://studio-yebisu.github.io/yaoyorozu-ai-toolbox/case.html?id=brief-to-demo)
+[統合サイト](https://yaoyorozu-ai-toolbox.riyun-aihara.workers.dev/) · [最初の作例](https://yaoyorozu-ai-toolbox.riyun-aihara.workers.dev/case.html?id=brief-to-demo)
 
 モデル紹介は、画像生成・音声合成・文字起こし・予測・記憶管理など、ツール用途の **OpenWeight** に統一します。**OpenLLM（汎用LLM）は収集・サーベイ・引用・掲載の対象に含めず、LLMの比較表や比較サイトへの誘導も追加しません。** 分類の正本は [data/categories.json](data/categories.json)、モデル紹介の正本は [data/open-models.json](data/open-models.json)。詳しい紹介は `open-models.html` で読めます。固定したモデルカード・利用条件と、説明用の図・外部の作例へのリンクを記録し、推論を実行した作例とは区別します。[掲載方針](docs/CURATION.md)も参照してください。
 
