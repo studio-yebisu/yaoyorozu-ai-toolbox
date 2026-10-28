@@ -243,8 +243,8 @@
   "primary_actions": [
     {
       "kind": "primary",
-      "label": "Windows版 v1.4.1をダウンロード",
-      "href": "https://github.com/studio-yebisu/ryoshu/releases/download/v1.4.1/Ryoshu-1.4.1-windows-x64-setup.exe"
+      "label": "Windows版 v1.4.2をダウンロード",
+      "href": "https://github.com/studio-yebisu/ryoshu/releases/download/v1.4.2/Ryoshu-1.4.2-windows-x64-setup.exe"
     },
     {
       "kind": "secondary",
@@ -255,14 +255,19 @@
       "kind": "secondary",
       "label": "架空100件の検証記録を見る",
       "href": "https://studio-yebisu.github.io/ryoshu/docs/testing/v1.4/"
+    },
+    {
+      "kind": "secondary",
+      "label": "紹介・ダウンロードページ",
+      "href": "https://studio-yebisu.github.io/ryoshu/"
     }
   ],
   "primary_actions_note": "対象はWindows 11 x64です。インストーラーにはコード署名がないため、ReleaseページのSHA256SUMS.txtで照合してください。初回準備・更新ではインターネット接続と、モデル・Microsoftの利用条件への同意が必要です。領収書の読み取りと勘定科目の候補作成はローカルPC上で行います。",
   "app_downloads": [
     {
-      "label": "Windowsインストーラー v1.4.1",
+      "label": "Windowsインストーラー v1.4.2",
       "note": "コード署名はありません。初回準備ではモデル・Microsoftの利用条件を確認し、実行環境などをダウンロードします。",
-      "href": "https://github.com/studio-yebisu/ryoshu/releases/download/v1.4.1/Ryoshu-1.4.1-windows-x64-setup.exe"
+      "href": "https://github.com/studio-yebisu/ryoshu/releases/download/v1.4.2/Ryoshu-1.4.2-windows-x64-setup.exe"
     },
     {
       "label": "導入手順をGitHubで見る",
