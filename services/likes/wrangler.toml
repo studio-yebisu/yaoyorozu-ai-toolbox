@@ -5,7 +5,7 @@ compatibility_date = "2026-10-26"
 preview_urls = false
 
 [vars]
-ALLOWED_ORIGINS = "https://studio-yebisu.github.io"
+ALLOWED_ORIGINS = "https://studio-yebisu.github.io,https://yaoyorozu-ai-toolbox.riyun-aihara.workers.dev"
 
 [[d1_databases]]
 binding = "DB"

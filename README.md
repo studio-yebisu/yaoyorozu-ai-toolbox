@@ -2,7 +2,7 @@
 
 AIスキルとツールを、用途・使い方・実作例から選ぶ日本語サイトです。画面・資料・映像の制作に加え、調査、文章、知識整理、音声、3D、ゲーム、開発、自動化、学習などを一つの入口で扱います。
 
-[統合サイト](https://studio-yebisu.github.io/yaoyorozu-ai-toolbox/) · [最初の作例](https://studio-yebisu.github.io/yaoyorozu-ai-toolbox/case.html?id=brief-to-demo)
+[統合サイト](https://yaoyorozu-ai-toolbox.riyun-aihara.workers.dev/) · [最初の作例](https://yaoyorozu-ai-toolbox.riyun-aihara.workers.dev/case.html?id=brief-to-demo)
 
 モデル紹介は、画像生成・音声合成・文字起こし・予測・記憶管理など、ツール用途の **OpenWeight** に統一します。**OpenLLM（汎用LLM）は収集・サーベイ・引用・掲載の対象に含めず、LLMの比較表や比較サイトへの誘導も追加しません。** 分類の正本は [data/categories.json](data/categories.json)、モデル紹介の正本は [data/open-models.json](data/open-models.json)。詳しい紹介は `open-models.html` で読めます。固定したモデルカード・利用条件と、説明用の図・外部の作例へのリンクを記録し、推論を実行した作例とは区別します。[掲載方針](docs/CURATION.md)も参照してください。
 
@@ -49,6 +49,10 @@ python scripts/serve.py
 ブラウザーで `http://127.0.0.1:8856/` を開きます。
 
 カタログの更新は `python scripts/sync_catalog.py`。既存3プロジェクトの固定したコミットから取り込みます。取り込んだ版と範囲は [data/import-manifest.json](data/import-manifest.json) に記録します。
+
+## 公開先と切り替え
+
+GitHub Pagesで公開しつつ、同じ `dist/` をCloudflare Workersへ段階的に移行します。25MiBを超えるファイルはGitHub Pagesのまま保持し、Workerが完全一致するパスだけ307で引き継ぎます（R2は未接続）。ビルド・梱包・デプロイ・ロールバックの手順と移行の検証方法は [ホスティングと切り替え](docs/HOSTING.md) を参照してください。GitHub Pagesのワークフローは旧URL・メディア・ロールバック用としてそのまま動かします。
 
 分野は [data/categories.json](data/categories.json) を正本とします。既存リポジトリの対応は `data/projects.json` として独立しています。原典を確認した追加紹介40件は [data/curated-resources.json](data/curated-resources.json) に保持し、同期で消さずにサイト生成時に統合します。各項目に用途、試し方、依頼文、必要な環境、利用条件、固定コミットを記録します。[紹介の追加方法](docs/CURATION.md)を参照してください。
 

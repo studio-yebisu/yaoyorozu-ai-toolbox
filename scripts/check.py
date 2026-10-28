@@ -149,7 +149,7 @@ def main():
                 brief = sample['brief']
                 for key in ('request', 'category', 'goal', 'inputs', 'skill_refs', 'deliverables', 'acceptance'):
                     assert brief.get(key), f'Missing brief field {key}'
-    forbidden = [p for p in DIST.rglob('*') if '.local' in p.parts or '.git' in p.parts or 'workspace' in p.parts]
+    forbidden = [p for p in DIST.rglob('*') if {'.local', '.git', 'workspace'} & set(p.relative_to(DIST).parts)]
     assert not forbidden, 'Private workspace leaked into publication'
     models_result = check_open_models(DIST)
     social_result = check_social_pages(DIST, cases)

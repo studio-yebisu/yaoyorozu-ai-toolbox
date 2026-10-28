@@ -10,6 +10,7 @@ from xml.etree import ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 MARKER = '<!-- Unified site navigation -->'
+BRAND = 'Yaoyorozu AI ToolBox'
 
 
 def site_map():
@@ -78,9 +79,14 @@ def canonical_metadata(text, canonical):
 
 def header(page, mapping, page_title=''):
     guide = next((g for g in mapping['guides'] if page.startswith(g['path'])), None)
-    current = 'guides' if guide or page == 'guides/index.html' else 'home' if page == 'index.html' else 'catalog' if page in ('case.html', 'open-models.html') else ''
-    links = ''.join(link(page, n['path'], n['label'], f' data-site-nav="{n["id"]}"' + ((' aria-current="location"' if guide else ' aria-current="page"') if current == n['id'] else '')) for n in mapping['navigation'])
-    brand = link(page, '', '八百万図AIツールボックス', ' class="sy-brand" aria-label="八百万図AIツールボックス ホーム"')
+    tabs = ''.join(link(page, n['path'], n['label'], f' data-site-nav="{n["id"]}"') for n in mapping['navigation'])
+    sites = ''.join(
+        link(page, g['path'], g['label'],
+             f' data-site-nav="{g["id"]}"'
+             + (' aria-current="' + ('page' if page == g['path'] + 'index.html' else 'location') + '"'
+                if guide and g['id'] == guide['id'] else ''))
+        for g in mapping['guides'])
+    brand = link(page, '', BRAND, f' class="sy-brand" aria-label="{BRAND} トップ"')
     crumb = ''
     if page != 'index.html':
         parts = [link(page, '', 'ホーム')]
@@ -92,8 +98,9 @@ def header(page, mapping, page_title=''):
             parts += [f'<span aria-current="page">{escape(label)}</span>']
         crumb = '<nav class="sy-breadcrumb" aria-label="現在地">' + '<span aria-hidden="true">/</span>'.join(parts) + '</nav>'
     return (MARKER + '<header class="sy-header"><div class="sy-header-inner">' + brand
-            + '<nav class="sy-nav" aria-label="サイト全体">' + links + '</nav></div></header>' + crumb,
-            '<nav class="sy-dock" aria-label="主な移動先">' + links + '</nav>')
+            + '<nav class="sy-nav" aria-label="サイト全体">' + tabs + '</nav>'
+            + '<nav class="sy-sites" aria-label="専門の案内サイト">' + sites + '</nav></div></header>' + crumb,
+            '<nav class="sy-dock" aria-label="主な移動先">' + tabs + sites + '</nav>')
 
 
 def footer(page, mapping):
@@ -111,11 +118,14 @@ def footer(page, mapping):
             specific += [('ATTRIBUTION.md', '出典・利用条件')]
         extra = '<nav aria-label="このガイドの案内">' + ''.join(link(page, guide['path'] + p, label) for p, label in specific)
         extra += f'<a href="https://github.com/studio-yebisu/yaoyorozu-ai-toolbox-{guide["id"]}">GitHubでソースを見る ↗</a></nav>'
-    updated = '<p class="sy-footer-note">カタログ更新日 <span data-updated>—</span></p>' if page == 'index.html' else ''
-    return ('<footer class="sy-footer"><div><p class="sy-footer-brand">八百万図AIツールボックス</p>'
-            '<p>つくりたいことから、道具と進め方を選ぶ。</p></div>'
-            '<nav aria-label="制作ガイド">' + guides + '</nav><nav aria-label="サイトの案内">' + information + '</nav>' + extra +
-            '<p class="sy-footer-note">スキル・ツールの利用条件は各原典をご確認ください。独自制作の動画はクレジット表記必須。Xでは @studio_yebisu を記載してください。</p>' + updated + '</footer>')
+    updated = '<p class="sy-footer-note">カタログ更新日　<span data-updated>—</span></p>' if page == 'index.html' else ''
+    return ('<footer class="sy-footer"><div><p class="sy-footer-brand">' + escape(BRAND) + '</p>'
+            '<p>掲載しているスキル・ツール・モデルの説明は、それぞれの原典をもとに日本語でまとめたものです。使うときは原典のライセンスと最新の説明を確かめてください。</p>'
+            '<p>独自制作の動画はクレジット表記必須。Xでは @studio_yebisu を記載してください。' + link(page, 'media-rights.html', '動画の利用条件') + '</p>'
+            + updated + '</div>'
+            '<nav aria-label="専門の案内サイト">' + guides + '<a href="https://github.com/studio-yebisu/yaoyorozu-ai-toolbox">Yaoyorozu AI ToolBox</a></nav>'
+            '<nav aria-label="サイトの案内">' + information + '</nav>' + extra
+            + '</footer>')
 
 
 class Regions(HTMLParser):

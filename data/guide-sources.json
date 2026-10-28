@@ -1,7 +1,7 @@
 {
   "motion": {
     "repository": "studio-yebisu/yaoyorozu-ai-toolbox-motion",
-    "revision": "8495543646e0928727f146d356857e522fa1f057",
+    "revision": "63d0496c153dfc55b7bc0ca27c2c1611b1f91dd2",
     "media_base": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-motion/",
     "scope": "public HTML, code assets and referenced runtime JSON; original media hosting retained",
     "files": [
@@ -12,8 +12,8 @@
       },
       {
         "path": "assets/previews.css",
-        "source_sha256": "866f27b4b27cd7fa6e89f20c969d4f1aba964ebd4f1be1ff9760e78d4b41052d",
-        "integrated_sha256": "866f27b4b27cd7fa6e89f20c969d4f1aba964ebd4f1be1ff9760e78d4b41052d"
+        "source_sha256": "f05b09036e3dc2fd58cf890895bcc4f7a0f4fab7f1b1e1736322a55d65098f34",
+        "integrated_sha256": "f05b09036e3dc2fd58cf890895bcc4f7a0f4fab7f1b1e1736322a55d65098f34"
       },
       {
         "path": "assets/previews.js",
@@ -22,8 +22,8 @@
       },
       {
         "path": "assets/site.css",
-        "source_sha256": "fda9f91717a09b158428b927d8957ed4c2c2942e7ef5d3adc9ccfc2a9f2443b1",
-        "integrated_sha256": "fda9f91717a09b158428b927d8957ed4c2c2942e7ef5d3adc9ccfc2a9f2443b1"
+        "source_sha256": "4d3147839ef8276a416f44522b7d998bd51459e688584f8cd5e43648996a2ebb",
+        "integrated_sha256": "4d3147839ef8276a416f44522b7d998bd51459e688584f8cd5e43648996a2ebb"
       },
       {
         "path": "assets/site.js",
@@ -42,13 +42,13 @@
       },
       {
         "path": "guide.html",
-        "source_sha256": "b8c4f93bc946b2eb94d51f095d0cc63c27335a57f10a19d4cbe746b224cfb128",
-        "integrated_sha256": "da3be8ad431fc95d0c8b468f85e580464d50296c04649ee25771317e83426baa"
+        "source_sha256": "307ef18b86cb51cc0e397183432b5b757427a735eb355edf835a500ab6aed889",
+        "integrated_sha256": "b5dbd6588b661d90165d50305d87bd40a68a8d1a09ec84726d35276ea8074b1a"
       },
       {
         "path": "index.html",
-        "source_sha256": "b8d61a497fd41b8eb6277473ef8ac9eb255bb45122d4a12e02cad03c06551d71",
-        "integrated_sha256": "9530ddc48744dd1ff900de84e005c7ed6bc984065a28d7f82c66b3b709151572"
+        "source_sha256": "efa5a467450af056f222c595f0ebf9e22dff3b6d85a525a2d1c1457cbb377193",
+        "integrated_sha256": "7ce2e56573cf00e2f6a6100423de994dcff85f1c9056358668433b3930441f87"
       },
       {
         "path": "LICENSE",
@@ -57,21 +57,21 @@
       },
       {
         "path": "projects.html",
-        "source_sha256": "91c2c82f93d8c2721bda01f5cc2cd91403811bd620b29a69f596b4c9f4b8a43d",
-        "integrated_sha256": "13677ebfaa54d28cc6a40f6d6d9bca87615bf87ee4d7f5130ea9d4f9d9cec549"
+        "source_sha256": "d56d660c9e165ffc58cc82198be1134a81411b7e5907141d867309c819154def",
+        "integrated_sha256": "ffa892e8621288b5c6891a3cb68a0671e687ba6de9f3eb2aa80eafe43d4bb661"
       }
     ]
   },
   "slides": {
     "repository": "studio-yebisu/yaoyorozu-ai-toolbox-slides",
-    "revision": "52b14e98e895dbf98069f125dde52476fccd2252",
+    "revision": "36bf9ec73cecc7b8a74227764f2474cecd0de994",
     "media_base": "https://studio-yebisu.github.io/yaoyorozu-ai-toolbox-slides/",
     "scope": "public HTML, code assets and referenced runtime JSON; original media hosting retained",
     "files": [
       {
         "path": "archive.html",
-        "source_sha256": "3cd42b8b2c0189c09b6ffed9a120eda7e26a65d220aa964ecb0d3a248a5636b2",
-        "integrated_sha256": "9e13351108ab8d2eba591cb4a7672af484ba377959c6a60697bf028b9be96982"
+        "source_sha256": "51d479cc99661e8faa52ffe4fad30c3ee2ac31449371f51a2f810790ffc15311",
+        "integrated_sha256": "197d17256600de8d8dba8eef2d43127b5ee074b91ed70819216e95b9617d1a67"
       },
       {
         "path": "assets/banner.svg",
@@ -90,8 +90,8 @@
       },
       {
         "path": "assets/case-studio.css",
-        "source_sha256": "7d80075aae3bdc265c02aa4e9d68b01993bdfc511582c7bf2b778796f4a97ba1",
-        "integrated_sha256": "7d80075aae3bdc265c02aa4e9d68b01993bdfc511582c7bf2b778796f4a97ba1"
+        "source_sha256": "81f92a61ab9fdadd6ee87f1d7d937fe99137e78a6e530f2d569e108112e4b167",
+        "integrated_sha256": "81f92a61ab9fdadd6ee87f1d7d937fe99137e78a6e530f2d569e108112e4b167"
       },
       {
         "path": "assets/case-studio.mjs",
@@ -115,8 +115,8 @@
       },
       {
         "path": "assets/catalog.css",
-        "source_sha256": "521de11ac5b00a4ea73abda017ebe95880a29b3ed94da2cf9ab07eac5c9aac3f",
-        "integrated_sha256": "521de11ac5b00a4ea73abda017ebe95880a29b3ed94da2cf9ab07eac5c9aac3f"
+        "source_sha256": "8a702eb19e80b45e6bfd8b3285ed77fafc564ab149dc60990d993a2f77393b83",
+        "integrated_sha256": "8a702eb19e80b45e6bfd8b3285ed77fafc564ab149dc60990d993a2f77393b83"
       },
       {
         "path": "assets/catalog.js",
@@ -135,8 +135,8 @@
       },
       {
         "path": "assets/font-atelier.css",
-        "source_sha256": "7da7d9062678dd50804445818e09c22457c9182a2a6a04b18e226af060ea4192",
-        "integrated_sha256": "7da7d9062678dd50804445818e09c22457c9182a2a6a04b18e226af060ea4192"
+        "source_sha256": "4d7f1571b327dc4bd9b3fc7fe85fef87201fb9d2fb286236db39153ac8a249cb",
+        "integrated_sha256": "4d7f1571b327dc4bd9b3fc7fe85fef87201fb9d2fb286236db39153ac8a249cb"
       },
       {
         "path": "assets/font-atelier.mjs",
@@ -160,8 +160,8 @@
       },
       {
         "path": "assets/repository-studio.css",
-        "source_sha256": "3c932d511712af79da1f174601e31c176e7942de8151550fe61c7e4699b6ad70",
-        "integrated_sha256": "3c932d511712af79da1f174601e31c176e7942de8151550fe61c7e4699b6ad70"
+        "source_sha256": "6d92b98bedf17af0538c2d20ffd9ec9ca9db9a22d7c71a1b7a62e32a6b681171",
+        "integrated_sha256": "6d92b98bedf17af0538c2d20ffd9ec9ca9db9a22d7c71a1b7a62e32a6b681171"
       },
       {
         "path": "assets/skill-effects.mjs",
@@ -180,23 +180,23 @@
       },
       {
         "path": "assets/studio.css",
-        "source_sha256": "4a5a4dead6aad4961333045f51b857aafe36a1b6bf6879f4a26b7df721e274ee",
-        "integrated_sha256": "6ee9ff32a77dfd1ceabf93ca077f00074ae789f4880f4b8a87093a58d0bf9c92"
+        "source_sha256": "4781dcb1bb13a735a472a015432d6b32a3007322f4c78b75a06e6264dd00006e",
+        "integrated_sha256": "6cf31abf86be47145313aa6249405a07e30b1f8a2f760e34b6c1a51787ff0836"
       },
       {
         "path": "assets/studio.mjs",
-        "source_sha256": "3b45545727158805c1783bb4f3c0c79d20df15f4733a75e50b456c9aee39f0c7",
-        "integrated_sha256": "947a232ede4f13e2d074f9a145c5d071822990d4bfb528a27bda2f0a13683c17"
+        "source_sha256": "1b95f93153f874925a06459f1a56904c25839211ca5ea1242060a8738b686d87",
+        "integrated_sha256": "ef309219181620dce426deacff38bec07d47369cbe7db662f7c268d13c80cea6"
       },
       {
         "path": "assets/yebisu-atelier.css",
-        "source_sha256": "0f4e2b71f2744a7f524cd6434d5effc30f066a4537a8a15e6651a2996e5dbc5e",
-        "integrated_sha256": "4c6c83d524b17fd50b6edc1878ceef4e2d6e79624c69afc089ab88ea34717322"
+        "source_sha256": "078b96ce924aeec425624adf7d87c5ef46d610b28d23725b8d6fcd2f895c95f8",
+        "integrated_sha256": "85b2eeaf5e2efcb429f7b1ed8cf7f524145e3e2b8aacde96d030a082142c65c9"
       },
       {
         "path": "case.html",
-        "source_sha256": "4c1e4f6dc558dfae28720945f97817df72cc0da4a28b64045c0dcefa43723fe6",
-        "integrated_sha256": "18e34040f0520d8d7dfc628ddaeca66b55dd03e00753b30e3c3f53aa9f41a157"
+        "source_sha256": "b0a38dabf11b8b35bad9208820534ecfe0bab9160c18c0b3291474aabc150fdb",
+        "integrated_sha256": "9a405681cf0d59488bfcb55203ed87483b1e30491f502ea71f13cf8c00397cc5"
       },
       {
         "path": "data/case-studies.json",
@@ -205,8 +205,8 @@
       },
       {
         "path": "data/decks.json",
-        "source_sha256": "0317744c1322a56269e11a00ffef067f3f0cb2d331ab62a1183c837e0dde520e",
-        "integrated_sha256": "0317744c1322a56269e11a00ffef067f3f0cb2d331ab62a1183c837e0dde520e"
+        "source_sha256": "e9361a1c864b87f59d90a170a8c2f5de679bb1c3ecb132abc1b9797307f84aaa",
+        "integrated_sha256": "e9361a1c864b87f59d90a170a8c2f5de679bb1c3ecb132abc1b9797307f84aaa"
       },
       {
         "path": "data/fonts.json",
@@ -270,13 +270,13 @@
       },
       {
         "path": "guide.html",
-        "source_sha256": "fb6192b68e1a033cda7fa307d631a69006ef612b97a34d8fcd2dd9c537eb67aa",
-        "integrated_sha256": "d9435af01626ff011e737e1339c23d5628ad2a82977ddce6825b1a4a6cd61cf4"
+        "source_sha256": "cb4db6666c89c2762a3e8ee5585fb68f2a5c8cba1bcb9e8f1666235d01928c41",
+        "integrated_sha256": "eee5d9c68a0f84b15d17e120b4bb448bcac5dd16bcddb857ce7dda047ef46c78"
       },
       {
         "path": "index.html",
-        "source_sha256": "7d31d8a0121dbac41be633a6b9100426414e17531a2f19743977175b5f405878",
-        "integrated_sha256": "50d04b51846a48ee6f4efcdf71a46c6cbb468ae57596c60b7521f75d6eb2e659"
+        "source_sha256": "86bc75836760d3bdd31172ad5f9d09d1f9f266e244ab6062bdcb3d6acbb8c4d6",
+        "integrated_sha256": "e76021c50e163c2a13be03882b62773fc9466e048e2e30bef2287afff71ae2ce"
       },
       {
         "path": "LICENSE",
@@ -285,23 +285,23 @@
       },
       {
         "path": "licenses.html",
-        "source_sha256": "068b4d920df5c5f3edab2018a26883df9dc92b00651d436da0b6b3da2f2c4c40",
-        "integrated_sha256": "97abd59a297bfa4e7871684f0a760f55117260c98e92075b04a8f965cfe8ad0e"
+        "source_sha256": "1eb9d6f23d89ae0859b96b1b54df39c876404a75758a1b61fb55036bc2714c1f",
+        "integrated_sha256": "309054f09f294b344d768b19f0af4687d63f4795c4e86448ad174d7541046651"
       },
       {
         "path": "projects.html",
-        "source_sha256": "66888737d8677a9dfd268a85e47353890b0fc5d58a4b17658059d062747cf35f",
-        "integrated_sha256": "4d33ca80724535eef32607119d54b511e5cde33c1c4dd62f7763ea629daa7e72"
+        "source_sha256": "0f8e0127f1e7df0f40be3abefb71a139c9a31b68613fb7e24388f448fb2d87a8",
+        "integrated_sha256": "f8d231752cf99e89f4720336673ac591d5b41a62e710a1e55a95ad2c4869416d"
       },
       {
         "path": "repository.html",
-        "source_sha256": "b423487ec2493b822256dd85418b9d48d6c0ce3c4979d316e9015e101a880cce",
-        "integrated_sha256": "899bb773b13d25608fbf9e44aa67cf5162f19426bf6a1ae53787cd527038b2c1"
+        "source_sha256": "6c9a1d1590228e041a1657ff5b29ca669a947db6f27dac17a20d66634690b407",
+        "integrated_sha256": "cb11add84b385abba8983e10fb1c20acf0d2eea331bd82192a606f879cd11d04"
       },
       {
         "path": "status.html",
-        "source_sha256": "8c91eca825f9b901b5c706539fc8740f7ec9c3b456a3da775d12c8388f8cbabf",
-        "integrated_sha256": "6de145408fbaee4b4dc7173c36ec97c5d97aeebf68be6ca1432cf842015b1b29"
+        "source_sha256": "26dc5c2a092cbce6c42941ff5896685e2b5a844893db799112f7893caf2fa968",
+        "integrated_sha256": "ef0edd2bcc3e41a7b7a80482b0527236f7762651977ae262b4da7110e58c7535"
       }
     ]
   }

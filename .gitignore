@@ -8,6 +8,7 @@ reviews/
 .openai/
 data/cases.json
 /skills/studio-yebisu/
+.cloudflare/
 
 # Local applications and authoring helpers are preserved separately.
 /apps/

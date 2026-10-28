@@ -1,0 +1,16 @@
+{
+  "name": "yaoyorozu-ai-toolbox",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Yaoyorozu AI ToolBox site packaging for Cloudflare Workers. The plain static build in dist/ (GitHub Pages) remains the source and rollback.",
+  "scripts": {
+    "test": "node --test services/site/worker.test.mjs scripts/prepare_cloudflare.test.mjs",
+    "prepare:cf": "node scripts/prepare_cloudflare.mjs",
+    "deploy:cf": "cf deploy --prebuilt --mode production"
+  },
+  "devDependencies": {
+    "@cloudflare/build-output-utils": "0.9.5",
+    "cf": "1.0.0-beta.23"
+  }
+}
