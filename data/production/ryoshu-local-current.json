@@ -7,10 +7,10 @@
   },
   "case_record": {
     "path": "data/cases/ryoshu-local.json",
-    "sha256": "bed83db66ab35942e91b394d9e021f9130960c38e88420264ed6ac2734266beb"
+    "sha256": "6e0fbc5ed8b27776a96ea2499a6dd2507bb9f34927b4cab5e1c840c6066bc880"
   },
   "artifacts_sha256": {
-    "data/cases/ryoshu-local.json": "bed83db66ab35942e91b394d9e021f9130960c38e88420264ed6ac2734266beb",
+    "data/cases/ryoshu-local.json": "6e0fbc5ed8b27776a96ea2499a6dd2507bb9f34927b4cab5e1c840c6066bc880",
     "examples/ryoshu-local/.gitattributes": "8b9c3028d6467ff3be7c793141927841d70f47f52d0590677438f488ca154992",
     "examples/ryoshu-local/LICENSE": "6c3b3961e5dba25451125f285f2709dd212cb225f40d8e37ee1a8d48b1587d64",
     "examples/ryoshu-local/START.md": "2a922e2fce8475bd4c1e72c71bcfa1f7420c858259e56c7e3e4ecb692137c322",
