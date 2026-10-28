@@ -30,11 +30,11 @@
   }
 
   if (page === 'index.html') {
-    const mainSections = new Set(['', '#top', '#main', '#guides', '#start', '#fields', '#howto']);
+    const sectionForHash = { '#cases': 'cases', '#fields': 'fields', '#catalog': 'catalog' };
     const updateNavigation = () => {
-      const section = location.hash === '#cases' ? 'cases' : mainSections.has(location.hash) ? 'home' : 'catalog';
+      const section = sectionForHash[location.hash] || '';
       for (const anchor of document.querySelectorAll('[data-site-nav]')) {
-        if (anchor.dataset.siteNav === section) anchor.setAttribute('aria-current', section === 'home' ? 'page' : 'location');
+        if (section && anchor.dataset.siteNav === section) anchor.setAttribute('aria-current', 'location');
         else anchor.removeAttribute('aria-current');
       }
     };

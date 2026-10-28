@@ -50,6 +50,10 @@ python scripts/serve.py
 
 カタログの更新は `python scripts/sync_catalog.py`。既存3プロジェクトの固定したコミットから取り込みます。取り込んだ版と範囲は [data/import-manifest.json](data/import-manifest.json) に記録します。
 
+## 公開先と切り替え
+
+GitHub Pagesで公開しつつ、同じ `dist/` をCloudflare Workersへ段階的に移行します。25MiBを超えるファイルはGitHub Pagesのまま保持し、Workerが完全一致するパスだけ307で引き継ぎます（R2は未接続）。ビルド・梱包・デプロイ・ロールバックの手順と移行の検証方法は [ホスティングと切り替え](docs/HOSTING.md) を参照してください。GitHub Pagesのワークフローは旧URL・メディア・ロールバック用としてそのまま動かします。
+
 分野は [data/categories.json](data/categories.json) を正本とします。既存リポジトリの対応は `data/projects.json` として独立しています。原典を確認した追加紹介40件は [data/curated-resources.json](data/curated-resources.json) に保持し、同期で消さずにサイト生成時に統合します。各項目に用途、試し方、依頼文、必要な環境、利用条件、固定コミットを記録します。[紹介の追加方法](docs/CURATION.md)を参照してください。
 
 紹介の原典確認と、実際の制作・実行確認は別です。追加40件は原典を確認した紹介から始め、Opus 5.5で作例と短い動画を順に制作しています。完成した項目は同じカタログIDのまま作例の記事へつなぎ、原典の実行範囲と確認記録を残します。最新の完成状況はサイトの作例一覧と各項目の確認記録を参照してください。

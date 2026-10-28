@@ -23,4 +23,5 @@ if($LASTEXITCODE -eq 1){
 }
 git push origin HEAD:main
 if($LASTEXITCODE -ne 0){throw 'Push failed.'}
-Write-Output 'Publication pushed. Verify the Pages deployment and its actual result URL.'
+& (Join-Path $PSScriptRoot 'deploy-cloudflare.ps1')
+Write-Output 'Publication pushed and Cloudflare health verified. Check the public article and media.'
