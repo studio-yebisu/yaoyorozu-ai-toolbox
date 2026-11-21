@@ -52,7 +52,7 @@ const DENIED_SEGMENTS = new Set(['.local', '.git', 'workspace', 'node_modules', 
 // Text surfaces that receive the site-owned URL rewrite. Everything else in
 // dist/ is byte-identical to the GitHub Pages build.
 const TRANSFORM_EXTENSIONS = new Set(['.html', '.htm', '.xml', '.txt', '.json', '.js', '.mjs', '.css', '.md', '.webmanifest']);
-const TRANSFORM_EXACT = new Set(['data/projects.json', 'data/social-cards.json', 'sitemap.xml', 'robots.txt']);
+const TRANSFORM_EXACT = new Set(['data/projects.json', 'data/social-cards.json', 'sitemap.xml', 'robots.txt', 'feed.xml']);
 
 // Never rewrite provenance: historical production receipts, factual case data,
 // licenses/attribution, and upstream source records keep their original URLs.

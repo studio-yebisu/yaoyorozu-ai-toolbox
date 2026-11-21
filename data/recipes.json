@@ -1,0 +1,293 @@
+{
+  "schema_version": 1,
+  "updated_on": "2026-11-21",
+  "recipes": [
+    {
+      "id": "web-ui-quality",
+      "title": "Webアプリ・UI設計〜テスト品質一式",
+      "goal": "画面・資料・図解をつくる",
+      "summary": "初稿の視覚設計からデザインシステム整備、操作感の磨き込み、設計レビュー・テスト品質の担保までを一気通貫で進めるスタック。",
+      "audience": "Webアプリや管理画面のUI設計から実装品質まで整えたい開発者・デザイナー",
+      "categories": ["ui-ux", "development"],
+      "tags": ["UI設計", "デザインシステム", "操作感", "テスト品質"],
+      "steps": [
+        {
+          "order": 1,
+          "role": "視覚方針・初稿の設計",
+          "item_id": "ui-ux-frontend-design",
+          "why": "書体・配色・余白の方向性を決め、汎用テンプレートに流れない初稿を立ち上げる。"
+        },
+        {
+          "order": 2,
+          "role": "デザインシステムの統制",
+          "item_id": "ui-ux-allonsy-design-system",
+          "why": "トークンとUI部品の規則を揃え、複数画面へ展開しても破綻しない土台を作る。"
+        },
+        {
+          "order": 3,
+          "role": "操作感と動きの調整",
+          "item_id": "resource-make-interfaces-feel-better",
+          "why": "押し心地・遷移・フォーカス挙動を実制作デモ付きの手順で洗練させる。"
+        },
+        {
+          "order": 4,
+          "role": "状態表示・操作画面の実装",
+          "item_id": "quartz",
+          "why": "進捗や実行状態を分かりやすく見せるコンソールUIの構成例を取り込む。"
+        },
+        {
+          "order": 5,
+          "role": "設計レビューとテスト品質の定着",
+          "item_id": "resource-addy-engineering-skills",
+          "why": "仕様確認・テスト計画・コードレビューの工程をスキルとして組み込む。"
+        }
+      ]
+    },
+    {
+      "id": "research-diagram-slides",
+      "title": "リサーチ〜図解〜プレゼン資料パイプライン",
+      "goal": "画面・資料・図解をつくる",
+      "summary": "Web情報の収集と本文抽出から、構造図の生成、HTMLスライド制作、編集可能なPowerPoint書き出しまでをつなぐ構成。",
+      "audience": "調査結果や技術構成を図解し、WebやPPTXの発表資料に仕上げたい企画・調査担当",
+      "categories": ["research", "graphics", "slides"],
+      "tags": ["Web収集", "図解", "Mermaid", "AIスライド", "PPTX"],
+      "steps": [
+        {
+          "order": 1,
+          "role": "対象Webページの収集",
+          "item_id": "resource-crawl4ai",
+          "why": "動的ページを含むWeb情報をMarkdown形式で収集し、調査素材を揃える。"
+        },
+        {
+          "order": 2,
+          "role": "記事本文のノイズ除去と抽出",
+          "item_id": "resource-defuddle",
+          "why": "ナビゲーションや広告を除き、資料の根拠に使う本文だけを清潔に取り出す。"
+        },
+        {
+          "order": 3,
+          "role": "構成図・フロー図の作図",
+          "item_id": "resource-pretty-mermaid",
+          "why": "整理した仕組みをMermaid図として描き、資料に載せる図解素材を用意する。"
+        },
+        {
+          "order": 4,
+          "role": "動きと編集性のあるHTMLスライド化",
+          "item_id": "slides-zarazhangrui-frontend-slides",
+          "why": "原稿と図解をもとに、ブラウザーでそのまま確認・手直しできるスライドを組む。"
+        },
+        {
+          "order": 5,
+          "role": "編集可能なPPTXファイルへの変換",
+          "item_id": "slides-hasasasa-html-to-editable-pptx",
+          "why": "配布や共同編集が必要な場合に、文字と図形を保ったPowerPoint形式へ変換する。"
+        }
+      ]
+    },
+    {
+      "id": "motion-explainer-stack",
+      "title": "解説動画・モーショングラフィック制作スタック",
+      "goal": "動画・音声・3Dをつくる",
+      "summary": "曖昧な企画を制作ブリーフに固め、Remotion中心の映像設計と動き部品の再利用を経て、最終書き出しまで仕上げる制作パイプライン。",
+      "audience": "ツール紹介・解説動画やプロダクトデモ動画をコードベースで作りたい制作者",
+      "categories": ["agents", "motion"],
+      "tags": ["解説動画", "Remotion", "モーショングラフィックス", "FFmpeg"],
+      "steps": [
+        {
+          "order": 1,
+          "role": "企画のブリーフ化と完成条件定義",
+          "item_id": "agents-brief-to-demo",
+          "why": "対象・伝えたい価値・必要なカットを制作前に整理し、手戻りを防ぐ。"
+        },
+        {
+          "order": 2,
+          "role": "Reactベースの動画構成",
+          "item_id": "motion-remotion",
+          "why": "シーンの尺・タイミング・テキスト差し替えをコンポーネントとして組む。"
+        },
+        {
+          "order": 3,
+          "role": "解説カットのテンプレート適用",
+          "item_id": "resource-motion-video-kit",
+          "why": "解説動画向けの定型レイアウトや画面遷移パターンを素早く導入する。"
+        },
+        {
+          "order": 4,
+          "role": "UI・図形のマイクロモーション追加",
+          "item_id": "resource-motion-primitives",
+          "why": "カードや見出しの出現に自然な緩急を付け、視線誘導を明確にする。"
+        },
+        {
+          "order": 5,
+          "role": "書き出し・尺・音声の最終整形",
+          "item_id": "motion-ffmpeg",
+          "why": "縦横比変換、音声合成結果との結合、配信規格に合わせたエンコードを行う。"
+        }
+      ]
+    },
+    {
+      "id": "audio-transcript-memory",
+      "title": "音声・文字起こし・知識メモリー連携パイプライン",
+      "goal": "動画・音声・3Dをつくる",
+      "summary": "実制作デモ済みのWhisper・Mem0と、OpenWeightの原典確認済み（推論未実行）モデルを組み合わせ、録音文字起こしから音声出力・記憶更新までの構成を比較検討するスタック。",
+      "audience": "会議録音の処理や音声応答、作業履歴の長期記憶を設計する開発者",
+      "categories": ["audio", "knowledge", "owm-tools"],
+      "tags": ["文字起こし", "音声合成", "長期記憶", "OpenWeight"],
+      "steps": [
+        {
+          "order": 1,
+          "role": "文字起こしの実行基準（実制作デモあり）",
+          "item_id": "resource-whisper",
+          "why": "ローカル環境での音声テキスト化を実動作デモ付きで確認した基準ツール。"
+        },
+        {
+          "order": 2,
+          "role": "話者分離付き文字起こし候補（OpenWeight・推論未実行）",
+          "item_id": "owm-moss-transcribe",
+          "why": "source-reviewed（未実行）：複数人録音の話者番号・時刻付き出力を比較検討する候補。利用時はモデルカード条件と手元音声での実測確認が必要。"
+        },
+        {
+          "order": 3,
+          "role": "音声合成・演出出力候補（OpenWeight・推論未実行）",
+          "item_id": "owm-ming-3-tts",
+          "why": "source-reviewed（未実行）：日本語を含む多言語音声合成・声設計の候補。実運用前に公式推論環境での音質・利用条件確認が必要。"
+        },
+        {
+          "order": 4,
+          "role": "長期記憶の保存・検索基盤（実制作デモあり）",
+          "item_id": "resource-mem0",
+          "why": "会話や文字起こしから抽出した事実を保存・検索する実制作デモ済みの記憶基盤。"
+        },
+        {
+          "order": 5,
+          "role": "記憶の追加・更新判断モデル候補（OpenWeight・推論未実行）",
+          "item_id": "owm-hy-memory",
+          "why": "source-reviewed（未実行）：Mem0等のメモリー基盤内で書き込み判断だけを担う専門モデル候補。実機推論は未検証のため事前評価を前提とする。"
+        }
+      ]
+    },
+    {
+      "id": "3d-cad-web-workflow",
+      "title": "3D素材取得〜CAD設計〜Web表示ワークフロー",
+      "goal": "動画・音声・3Dをつくる",
+      "summary": "既存3Dアセットの検索と画像からの3D生成、パラメトリックCAD設計、Three.jsでのWeb表示までを一つの流れにつなぐ構成。",
+      "audience": "3Dアセット準備やCAD試作、Web上での3Dビューアー実装を扱う制作者・エンジニア",
+      "categories": ["3d", "motion"],
+      "tags": ["3D素材", "CAD", "生成パイプライン", "Three.js"],
+      "steps": [
+        {
+          "order": 1,
+          "role": "既存3Dアセットの検索・取得",
+          "item_id": "resource-3d-asset-server",
+          "why": "MCP経由で既存3D素材を探して取得し、ゼロから作る手間を省く。"
+        },
+        {
+          "order": 2,
+          "role": "参考画像からの3Dモデル生成",
+          "item_id": "resource-assetfurnace",
+          "why": "既存素材に無い形状を、2D画像を入力にして3Dデータへ変換する。"
+        },
+        {
+          "order": 3,
+          "role": "寸法ベースのCAD形状設計",
+          "item_id": "resource-solidcraft",
+          "why": "機械部品や構造物など、精密な寸法・形状調整が必要なCADデータを作る。"
+        },
+        {
+          "order": 4,
+          "role": "自然文からのCADプロンプト試作（概念デモ）",
+          "item_id": "resource-text-to-cad",
+          "why": "文章指示からCAD形状のたたき台を作る流れを概念デモで確認する。"
+        },
+        {
+          "order": 5,
+          "role": "Webブラウザーでの3D表示と操作",
+          "item_id": "motion-three",
+          "why": "用意したGLB等の3DモデルをWebページ上で表示し、カメラや照明を制御する。"
+        }
+      ]
+    },
+    {
+      "id": "agent-automation-docs",
+      "title": "エージェント開発・自動化・業務文書処理スタック",
+      "goal": "開発・調査・自動化を進める",
+      "summary": "状態管理付きのエージェント設計からワークフロー接続、定型業務プラグイン連携、PDF生成とローカル証憑整理までをまとめた実務向けスタック。",
+      "audience": "社内業務の自動化やドキュメント生成・証憑管理の仕組みを作るチーム",
+      "categories": ["agents", "automation", "documents"],
+      "tags": ["エージェント", "自動化", "PDF生成", "業務文書"],
+      "steps": [
+        {
+          "order": 1,
+          "role": "状態遷移付きエージェントの設計",
+          "item_id": "resource-langgraph",
+          "why": "分岐・再試行・人手承認を含む実行グラフとしてエージェントの制御フローを組む。"
+        },
+        {
+          "order": 2,
+          "role": "ワークフローと外部連携の統合",
+          "item_id": "resource-dify",
+          "why": "複数の処理ステップやナレッジ参照をビジュアルなワークフローとしてまとめる。"
+        },
+        {
+          "order": 3,
+          "role": "部門別定型業務プラグインの活用",
+          "item_id": "resource-knowledge-work-plugins",
+          "why": "法務・営業・分析など役割ごとの定型タスク定義を土台として取り入れる。"
+        },
+        {
+          "order": 4,
+          "role": "提出・配布用PDFの作成",
+          "item_id": "resource-pdf-creator",
+          "why": "処理結果を体裁の整ったPDF文書として出力し、レイアウト崩れを防ぐ。"
+        },
+        {
+          "order": 5,
+          "role": "領収書・証憑データのローカル整理",
+          "item_id": "app-ryoshu",
+          "why": "機密を含む領収書PDFを外部送信せずローカル環境で仕分け・一覧化する。"
+        }
+      ]
+    },
+    {
+      "id": "learning-verification-analysis",
+      "title": "学習・技術検証・コード解析スターター",
+      "goal": "知識整理・文書・学習に使う",
+      "summary": "エージェントの評価ハーネス設計を学び、コード構造のグラフ化と検索・評価指標による検証、数値予測モデルの仕組み確認まで進める学習・検証セット。",
+      "audience": "AIシステムや既存コードの仕組みを把握し、定量的に検証したいエンジニア",
+      "categories": ["learning", "knowledge", "development", "owm-tools"],
+      "tags": ["技術検証", "コード解析", "評価", "ハーネス設計", "OpenWeight"],
+      "steps": [
+        {
+          "order": 1,
+          "role": "ハーネス設計の基礎を学ぶ",
+          "item_id": "resource-learn-harness-engineering",
+          "why": "エージェントの実行環境・制約・検証ループの組み立て方を体系的に把握する。"
+        },
+        {
+          "order": 2,
+          "role": "コード構造の記憶と高速検索",
+          "item_id": "resource-codebase-memory-mcp",
+          "why": "リポジトリ全体の関数・呼び出し関係をMCPで構造化し、把握時間を短縮する。"
+        },
+        {
+          "order": 3,
+          "role": "依存関係と処理構造のグラフ解析",
+          "item_id": "resource-graphify",
+          "why": "コードや構成要素のつながりを可視化し、影響範囲やボトルネックを捉える。"
+        },
+        {
+          "order": 4,
+          "role": "検索・応答品質の定量評価",
+          "item_id": "resource-ragas",
+          "why": "変更前後の出力品質を評価指標で比較し、改善の有無を根拠づける。"
+        },
+        {
+          "order": 5,
+          "role": "時系列予測モデルの入出力確認（OpenWeight・推論未実行）",
+          "item_id": "owm-timestral",
+          "why": "source-reviewed（未実行）：21段階の分位点予測の仕組みをモデルカードで確認する。適用時は手元の過去データでの誤差検証が必要。"
+        }
+      ]
+    }
+  ]
+}

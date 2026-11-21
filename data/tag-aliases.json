@@ -1,0 +1,27 @@
+{
+  "aliases": {
+    "pptx": ["PowerPoint", "パワーポイント", "スライド", "プレゼン", "発表資料", "slide", "slides"],
+    "html": ["HTML", "Web", "ウェブ", "ブラウザ", "ブラウザー", "browser", "Reveal.js"],
+    "diagram": ["図解", "ダイアグラム", "mermaid", "概念図", "チャート", "chart", "フロー図", "構成図"],
+    "motion": ["アニメーション", "動画", "remotion", "animation", "GSAP", "モーショングラフィックス", "映像", "timeline"],
+    "audio": ["音声", "TTS", "文字起こし", "whisper", "音声合成", "話者分離", "音楽", "効果音", "speech", "voice", "music", "sfx"],
+    "design system": ["デザインシステム", "UI", "UX", "画面設計", "コンポーネント", "component", "トークン", "タイポグラフィ", "配色"],
+    "mcp": ["MCPツール", "Model Context Protocol", "ツール連携"],
+    "pdf": ["PDF", "文書", "ドキュメント", "document", "markdown", "レポート", "帳票"],
+    "3d": ["3D", "CAD", "立体", "glTF", "Three.js", "WebGL", "シェーダー", "shader", "メッシュ"],
+    "agent": ["エージェント", "Agent Skills", "スキル", "自律実行", "ワークフロー", "オーケストレーション"],
+    "test": ["テスト", "開発", "レビュー", "検証", "review", "audit", "QA", "デバッグ"],
+    "openweight": ["OpenWeight", "重み公開", "ローカルモデル", "task-specialist", "特化モデル", "Hugging Face", "推論"],
+    "video": ["動画", "映像", "MP4", "アバター", "avatar", "動画編集", "ffmpeg", "レンダリング"],
+    "graphics": ["画像", "画像生成", "画像編集", "イラスト", "SVG", "Canvas", "グラフィック", "レイアウト"],
+    "research": ["調査", "Web収集", "クローラー", "検索", "search", "スクレイピング", "情報収集"],
+    "knowledge": ["知識", "記憶", "長期記憶", "memory", "RAG", "ナレッジ", "保存", "検索"],
+    "writing": ["文章", "翻訳", "推敲", "ライティング", "UXライティング", "校正"],
+    "automation": ["自動化", "連携", "ワークフロー", "パイプライン", "pipeline", "CLI"],
+    "games": ["ゲーム", "VFX", "演出", "パーティクル", "PixiJS", "WebGPU", "2D"],
+    "forecast": ["時系列予測", "予測", "データ", "グラフ", "分析", "forecasting"],
+    "accessibility": ["アクセシビリティ", "a11y", "キーボード", "スクリーンリーダー", "WCAG"],
+    "editorial": ["エディトリアル", "組版", "版面", "余白", "書体", "フォント", "font", "typography"],
+    "academic": ["論文", "数式", "研究", "LaTeX", "発表", "学会"]
+  }
+}

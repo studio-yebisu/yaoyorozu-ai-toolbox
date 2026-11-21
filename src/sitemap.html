@@ -4,12 +4,206 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>サイトマップ｜Yaoyorozu AI ToolBox</title>
-  <meta name="description" content="Yaoyorozu AI ToolBox全体の案内です。入口、制作ガイド、サイトの案内、分野ごとの道具の一覧から、目的のページへ移動できます。">
-  <meta name="color-scheme" content="light">
+  <meta name="description" content="Yaoyorozu AI ToolBox全体の案内です。入口、制作ガイド、サイトの案内、分野ごとの道具の一覧、全作例とOpenWeightモデルから目的のページへ移動できます。">
+  <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f2eee3">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .sitemap-directory {
+      padding-top: 2rem;
+      padding-bottom: 3.5rem;
+      border-top: 1px solid var(--sy-ink, var(--ink));
+    }
+    .sitemap-dir-head {
+      display: grid;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .sitemap-dir-head h2 {
+      margin: 0;
+      font-family: var(--sy-mincho, var(--mincho));
+      font-weight: 700;
+      font-size: clamp(1.375rem, 1.15rem + 1vw, 2rem);
+      line-height: 1.35;
+    }
+    .sitemap-dir-lead {
+      margin: 0;
+      max-width: 42em;
+      font-size: 0.95rem;
+      color: var(--sy-ink-soft, var(--ink-soft));
+    }
+    .sitemap-search-wrap {
+      max-width: 34rem;
+    }
+    .sitemap-search-status {
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--sy-ink-soft, var(--ink-soft));
+      font-variant-numeric: tabular-nums;
+    }
+    .sitemap-tools {
+      margin-bottom: 2rem;
+      padding: 1rem 1.125rem;
+      border: 1px solid var(--sy-rule, var(--rule));
+      background: var(--sy-field, var(--field));
+    }
+    .sitemap-tools h3 {
+      margin: 0 0 0.65rem;
+      font-family: var(--sy-mincho, var(--mincho));
+      font-size: 1.0625rem;
+      font-weight: 700;
+    }
+    .sitemap-tool-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .sitemap-tool-links a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+      padding: 0.35rem 0.85rem;
+      border: 1px solid var(--sy-ink, var(--ink));
+      background: var(--sy-paper, var(--paper));
+      color: var(--sy-ink, var(--ink));
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .sitemap-tool-links a:hover {
+      background: var(--sy-paper-deep, var(--paper-deep));
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+    .sitemap-blocks {
+      display: grid;
+      gap: 1.75rem;
+    }
+    .sitemap-block-title {
+      margin: 0 0 0.75rem;
+      padding-bottom: 0.375rem;
+      border-bottom: 1.5px solid var(--sy-ink, var(--ink));
+      font-family: var(--sy-mincho, var(--mincho));
+      font-size: 1.1875rem;
+      font-weight: 700;
+    }
+    .sitemap-cat-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+    .sitemap-cat-group {
+      border: 1px solid var(--sy-rule, var(--rule));
+      background: var(--sy-field, var(--field));
+    }
+    .sitemap-cat-group summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      min-height: 2.75rem;
+      padding: 0.65rem 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      list-style: none;
+    }
+    .sitemap-cat-group summary::-webkit-details-marker {
+      display: none;
+    }
+    .sitemap-cat-count {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--sy-ink-soft, var(--ink-soft));
+      font-variant-numeric: tabular-nums;
+    }
+    .sitemap-cat-group[open] summary {
+      border-bottom: 1px solid var(--sy-rule, var(--rule));
+      background: var(--sy-paper-deep, var(--paper-deep));
+    }
+    .sitemap-item-list {
+      list-style: none;
+      margin: 0;
+      padding: 0.25rem 1rem 0.5rem;
+      display: grid;
+      gap: 0.125rem;
+    }
+    .sitemap-item-list li {
+      border-bottom: 1px solid var(--sy-rule, var(--rule));
+    }
+    .sitemap-item-list li:last-child {
+      border-bottom: 0;
+    }
+    .sitemap-item-list a {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.25rem 1rem;
+      min-height: 2.75rem;
+      padding: 0.45rem 0;
+      text-decoration: none;
+    }
+    .sitemap-item-list a:hover .sitemap-item-name {
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+    .sitemap-item-name {
+      font-weight: 700;
+      color: var(--sy-ink, var(--ink));
+    }
+    .sitemap-item-meta {
+      font-size: 0.8125rem;
+      color: var(--sy-ink-soft, var(--ink-soft));
+    }
+    .sitemap-empty {
+      padding: 1.25rem;
+      border: 1px solid var(--sy-rule, var(--rule));
+      background: var(--sy-field, var(--field));
+    }
+    @media (min-width: 900px) {
+      .sitemap-cat-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+      }
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --paper: #17150f;
+        --paper-deep: #242118;
+        --field: #201d15;
+        --ink: #f2eee3;
+        --ink-soft: #c0b9a8;
+        --rule: rgba(242, 238, 227, 0.24);
+        --sy-paper: #17150f;
+        --sy-paper-deep: #242118;
+        --sy-field: #201d15;
+        --sy-ink: #f2eee3;
+        --sy-ink-soft: #c0b9a8;
+        --sy-rule: rgba(242, 238, 227, 0.24);
+        --sy-accent: #ff8a4c;
+      }
+    }
+    :root[data-theme="dark"] {
+      --paper: #17150f;
+      --paper-deep: #242118;
+      --field: #201d15;
+      --ink: #f2eee3;
+      --ink-soft: #c0b9a8;
+      --rule: rgba(242, 238, 227, 0.24);
+      --sy-paper: #17150f;
+      --sy-paper-deep: #242118;
+      --sy-field: #201d15;
+      --sy-ink: #f2eee3;
+      --sy-ink-soft: #c0b9a8;
+      --sy-rule: rgba(242, 238, 227, 0.24);
+      --sy-accent: #ff8a4c;
+    }
+  </style>
 </head>
-<body class="pg-sitemap">
+<body class="pg-sitemap" id="top">
   <a class="skip" href="#main">本文へ移動</a>
 
   <!-- SITE_HEADER -->
@@ -22,8 +216,180 @@
     </header>
 
     <!-- SITE_MAP -->
+
+    <section class="hub-band sitemap-directory" aria-labelledby="sitemap-search-heading">
+      <div class="sitemap-dir-head">
+        <p class="hub-kicker">QUICK DIRECTORY</p>
+        <h2 id="sitemap-search-heading">全ページ・全作例クイック検索</h2>
+        <p class="sitemap-dir-lead">完成した作例記事とOpenWeightモデルを分野別に探せます。キーワードを入れると一致したカテゴリが自動で開きます。</p>
+        <div class="search-box sitemap-search-wrap">
+          <label for="sitemap-q" class="search-label">作例・モデル・分野を絞り込む</label>
+          <input id="sitemap-q" type="search" autocomplete="off" placeholder="例：Remotion、PDF、音声、Whisper、MCP" data-sitemap-q>
+          <p class="sitemap-search-status" role="status" aria-live="polite" data-sitemap-status>一覧を読み込んでいます…</p>
+        </div>
+      </div>
+
+      <nav class="sitemap-tools" aria-label="スタジオツールへの移動">
+        <h3>スタジオツール・主な入口</h3>
+        <ul class="sitemap-tool-links">
+          <li><a href="finder.html">用途ファインダー・レシピ集</a></li>
+          <li><a href="workbench.html">ワークベンチ</a></li>
+          <li><a href="prompt-studio.html">依頼ブリーフ作成スタジオ</a></li>
+          <li><a href="guides/">制作ガイド一覧</a></li>
+          <li><a href="open-models.html">OpenWeight モデル</a></li>
+          <li><a href="media-rights.html">動画の利用条件</a></li>
+        </ul>
+      </nav>
+
+      <div class="sitemap-blocks">
+        <section aria-labelledby="sitemap-cases-heading">
+          <h3 id="sitemap-cases-heading" class="sitemap-block-title">解説・実作例ページ（分野別）</h3>
+          <div class="sitemap-cat-list" data-sitemap-cases></div>
+        </section>
+
+        <section aria-labelledby="sitemap-models-heading">
+          <h3 id="sitemap-models-heading" class="sitemap-block-title">OpenWeight モデル（用途特化）</h3>
+          <div class="sitemap-cat-list" data-sitemap-models></div>
+        </section>
+      </div>
+    </section>
   </main>
 
   <!-- SITE_FOOTER -->
+
+  <p class="sr-only" role="status" aria-live="polite" data-announce></p>
+  <script src="ui.js" defer></script>
+  <script>
+    (() => {
+      'use strict';
+      window.addEventListener('DOMContentLoaded', () => {
+        const {$, h, safeHref, loadJSON, norm} = window.SY;
+        const input = $('[data-sitemap-q]');
+        const statusEl = $('[data-sitemap-status]');
+        const casesRoot = $('[data-sitemap-cases]');
+        const modelsRoot = $('[data-sitemap-models]');
+        if (!input || !casesRoot || !modelsRoot) return;
+
+        const normText = typeof window.SY.normSearch === 'function' ? window.SY.normSearch : norm;
+        let allCases = [];
+        let allModels = [];
+        let catMap = Object.create(null);
+        let catOrder = [];
+
+        function renderDirectory() {
+          const rawQ = input.value.trim();
+          const q = normText(rawQ);
+          const filtering = Boolean(q);
+
+          const matchedCases = allCases.filter(item => {
+            if (!filtering) return true;
+            const catLabel = (catMap[item.category] && catMap[item.category].label) || item.category || '';
+            const hay = normText([item.id, item.title, item.summary, catLabel, item.category].join(' '));
+            return hay.includes(q);
+          });
+
+          const grouped = Object.create(null);
+          for (const item of matchedCases) {
+            const key = item.category || 'other';
+            if (!grouped[key]) grouped[key] = [];
+            grouped[key].push(item);
+          }
+
+          const keys = Object.keys(grouped).sort((a, b) => {
+            const ia = catOrder.indexOf(a);
+            const ib = catOrder.indexOf(b);
+            return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
+          });
+
+          if (!keys.length) {
+            casesRoot.replaceChildren(h('p', {class: 'sitemap-empty'}, '一致する作例記事がありません。'));
+          } else {
+            const groups = keys.map((catId, index) => {
+              const label = (catMap[catId] && catMap[catId].label) || catId;
+              const items = grouped[catId];
+              const list = h('ul', {class: 'sitemap-item-list'},
+                items.map(item => {
+                  const href = safeHref('case.html?id=' + encodeURIComponent(item.id));
+                  return h('li', {},
+                    h('a', {href},
+                      h('span', {class: 'sitemap-item-name'}, String(item.title || item.id)),
+                      h('span', {class: 'sitemap-item-meta'}, item.id)
+                    )
+                  );
+                })
+              );
+              const details = h('details', {class: 'sitemap-cat-group', open: filtering || index < 2},
+                h('summary', {},
+                  h('span', {}, label),
+                  h('span', {class: 'sitemap-cat-count'}, String(items.length) + '件')
+                ),
+                list
+              );
+              return details;
+            });
+            casesRoot.replaceChildren(...groups);
+          }
+
+          const matchedModels = allModels.filter(model => {
+            if (!filtering) return true;
+            const hay = normText([model.id, model.name, model.provider, model.task, model.headline, model.summary].join(' '));
+            return hay.includes(q);
+          });
+
+          if (!matchedModels.length) {
+            modelsRoot.replaceChildren(h('p', {class: 'sitemap-empty'}, '一致するOpenWeightモデルがありません。'));
+          } else {
+            const modelList = h('ul', {class: 'sitemap-item-list'},
+              matchedModels.map(model => {
+                const href = safeHref('open-models.html#' + encodeURIComponent(model.id));
+                return h('li', {},
+                  h('a', {href},
+                    h('span', {class: 'sitemap-item-name'}, String(model.name || model.id)),
+                    h('span', {class: 'sitemap-item-meta'}, String(model.task || '') + ' · ' + String(model.provider || ''))
+                  )
+                );
+              })
+            );
+            modelsRoot.replaceChildren(
+              h('details', {class: 'sitemap-cat-group', open: true},
+                h('summary', {},
+                  h('span', {}, 'OpenWeight 用途特化モデル'),
+                  h('span', {class: 'sitemap-cat-count'}, String(matchedModels.length) + '件')
+                ),
+                modelList
+              )
+            );
+          }
+
+          statusEl.textContent = filtering
+            ? '検索結果：作例 ' + matchedCases.length + '件 / OpenWeight ' + matchedModels.length + '件'
+            : '作例 ' + allCases.length + '件 · OpenWeightモデル ' + allModels.length + '件を掲載';
+        }
+
+        let composing = false;
+        input.addEventListener('compositionstart', () => { composing = true; });
+        input.addEventListener('compositionend', () => { composing = false; renderDirectory(); });
+        input.addEventListener('input', event => { if (!composing && !event.isComposing) renderDirectory(); });
+
+        Promise.allSettled([
+          loadJSON('data/categories.json'),
+          loadJSON('data/cases.json'),
+          loadJSON('data/open-models.json')
+        ]).then(([catsRes, casesRes, modelsRes]) => {
+          if (catsRes.status === 'fulfilled' && Array.isArray(catsRes.value && catsRes.value.categories)) {
+            catOrder = catsRes.value.categories.map(c => c.id);
+            for (const c of catsRes.value.categories) catMap[c.id] = c;
+          }
+          if (casesRes.status === 'fulfilled' && Array.isArray(casesRes.value && casesRes.value.cases)) {
+            allCases = casesRes.value.cases;
+          }
+          if (modelsRes.status === 'fulfilled' && Array.isArray(modelsRes.value && modelsRes.value.models)) {
+            allModels = modelsRes.value.models;
+          }
+          renderDirectory();
+        });
+      });
+    })();
+  </script>
 </body>
 </html>

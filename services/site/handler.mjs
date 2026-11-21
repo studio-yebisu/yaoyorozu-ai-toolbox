@@ -16,7 +16,11 @@ export const HEALTH_PATH = '/healthz';
 export const R2_BINDING_NAME = 'MEDIA';
 
 const ALLOWED_METHODS = new Set(['GET', 'HEAD']);
-const SECURITY_HEADERS = {'X-Content-Type-Options': 'nosniff'};
+const SECURITY_HEADERS = {
+  'X-Content-Type-Options': 'nosniff',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=()'
+};
 const NUL_CHARACTER = String.fromCharCode(0);
 // These statuses must not carry a message body; the Response constructor
 // throws otherwise, so passthrough and R2 paths drop bodies explicitly.
@@ -27,6 +31,27 @@ function applySecurityHeaders(headers) {
     if (!headers.has(name)) headers.set(name, value);
   }
   return headers;
+}
+
+function applyCacheHeaders(headers, decodedPath) {
+  if (headers.has('Cache-Control')) return headers;
+  if (decodedPath.startsWith('/data/') && decodedPath.endsWith('.json')) {
+    headers.set('Cache-Control', 'public, max-age=300, must-revalidate');
+  } else if (decodedPath.startsWith('/media/')) {
+    headers.set('Cache-Control', 'public, max-age=86400');
+  }
+  return headers;
+}
+
+function shouldServeCustom404(decodedPath) {
+  if (decodedPath === '/404.html') return false;
+  if (decodedPath.toLowerCase().startsWith('/media/')) return false;
+  const lastSegment = decodedPath.slice(decodedPath.lastIndexOf('/') + 1);
+  if (!lastSegment) return true;
+  const dot = lastSegment.lastIndexOf('.');
+  if (dot <= 0) return true;
+  const ext = lastSegment.slice(dot).toLowerCase();
+  return ext === '.html' || ext === '.htm';
 }
 
 function jsonResponse(data, method, status = 200) {
@@ -184,6 +209,9 @@ async function serveR2Object(request, env, method, key, bindingName) {
   if (httpEtag) headers.set('ETag', httpEtag);
   if (object.uploaded instanceof Date) headers.set('Last-Modified', object.uploaded.toUTCString());
   headers.set('Accept-Ranges', 'bytes');
+  if (!headers.has('Cache-Control') && key.startsWith('media/')) {
+    headers.set('Cache-Control', 'public, max-age=86400');
+  }
   applySecurityHeaders(headers);
   // Length and range headers are recomputed below from authoritative fields.
   headers.delete('Content-Length');
@@ -294,9 +322,28 @@ export function createSiteHandler({remoteAssets = [], r2Bucket = null, r2Keys = 
       }
 
       const response = await serve(request, env, ctx);
-      if (response.status === 404) return notFoundResponse(method);
-      // Attach our security headers without buffering the streamed body.
+      if (response.status === 404) {
+        if (response.body && typeof response.body.cancel === 'function') response.body.cancel().catch(() => {});
+        if (shouldServeCustom404(decoded)) {
+          const notFoundRequest = new Request(new URL('/404.html', url.origin), {method, headers: request.headers});
+          const page404 = await serve(notFoundRequest, env, ctx);
+          if (page404 && page404.status >= 200 && page404.status < 300) {
+            const headers = applySecurityHeaders(new Headers(page404.headers));
+            if (!headers.has('Content-Type')) headers.set('Content-Type', 'text/html; charset=utf-8');
+            headers.set('Cache-Control', 'no-store');
+            if (method === 'HEAD') {
+              if (page404.body && typeof page404.body.cancel === 'function') page404.body.cancel().catch(() => {});
+              return new Response(null, {status: 404, headers});
+            }
+            return new Response(page404.body, {status: 404, headers});
+          }
+          if (page404 && page404.body && typeof page404.body.cancel === 'function') page404.body.cancel().catch(() => {});
+        }
+        return notFoundResponse(method);
+      }
+      // Attach our security and cache headers without buffering the streamed body.
       const headers = applySecurityHeaders(new Headers(response.headers));
+      if (response.status >= 200 && response.status < 400) applyCacheHeaders(headers, decoded);
       if (response.body === null || NULL_BODY_STATUSES.has(response.status)) {
         return new Response(null, {status: response.status, statusText: response.statusText, headers});
       }

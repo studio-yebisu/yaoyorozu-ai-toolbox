@@ -163,6 +163,7 @@ test('URL policy helpers: transform allowlist and site_url validation', () => {
   assert.equal(shouldTransform('data/projects.json'), true);
   assert.equal(shouldTransform('data/social-cards.json'), true);
   assert.equal(shouldTransform('sitemap.xml'), true);
+  assert.equal(shouldTransform('feed.xml'), true);
   assert.equal(shouldTransform('data/production/receipt.json'), false);
   assert.equal(shouldTransform('data/cases.json'), false);
   assert.equal(shouldTransform('data/cases/c1.json'), false);
@@ -232,6 +233,20 @@ test('R2 opt-in: allowlists excluded files as exact bucket keys and binds MEDIA 
     writeFileSync(join(root, 'services', 'site', 'handler.mjs'), readFileSync(join(root, 'services', 'site', 'handler.mjs'), 'utf8') + '\n// touched\n');
     const rebuilt = await prepareCloudflare({root, siteUrl: CF_SITE, likesApiUrl: DEFAULT_LIKES_API_URL, r2Bucket: 'yaoyorozu-toolbox-media', now: NOW});
     assert.notEqual(rebuilt.worker.revision, r2.worker.revision, 'bundled Worker source must change the revision');
+  } finally {
+    rmSync(root, {recursive: true, force: true});
+  }
+});
+
+test('rewrites GITHUB_BASE inside feed.xml to the Cloudflare siteUrl', async () => {
+  const root = makeRoot();
+  try {
+    writeFileSync(join(root, 'dist', 'feed.xml'),
+      `<feed xmlns="http://www.w3.org/2005/Atom"><id>${OLD}</id><link rel="self" href="${OLD}feed.xml"/></feed>`);
+    await prepareCloudflare({root, siteUrl: CF_SITE, likesApiUrl: DEFAULT_LIKES_API_URL, r2Bucket: null, now: NOW});
+    const feed = readFileSync(join(root, '.cloudflare', 'output', 'v0', 'workers', 'default', 'assets', 'feed.xml'), 'utf8');
+    assert.ok(feed.includes(CF_SITE + 'feed.xml'));
+    assert.ok(!feed.includes(OLD));
   } finally {
     rmSync(root, {recursive: true, force: true});
   }

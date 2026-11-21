@@ -464,3 +464,58 @@ test('deployed bundle wiring: R2 mode serves generated keys from env.MEDIA and f
     rmSync(bundle, {recursive: true, force: true});
   }
 });
+
+test('security headers, cache control for data/media, and custom /404.html fallback', async () => {
+  const customFiles = new Map([
+    ['/index.html', {body: '<html>home</html>', type: 'text/html; charset=utf-8'}],
+    ['/404.html', {body: '<html><h1>404 Page</h1></html>', type: 'text/html; charset=utf-8'}],
+    ['/data/catalog.json', {body: '{"entries":[]}', type: 'application/json; charset=utf-8'}],
+    ['/data/custom-cache.json', {body: '{"ok":true}', type: 'application/json; charset=utf-8', cacheControl: 'no-store'}],
+    ['/media/demo.webp', {body: 'webp-bytes', type: 'image/webp'}]
+  ]);
+  const customHandler = createSiteHandler({
+    revision: REVISION,
+    assetFetch: async request => {
+      const pathname = new URL(request.url).pathname;
+      const entry = customFiles.get(pathname);
+      if (!entry) return new Response('missing', {status: 404});
+      const headers = {'Content-Type': entry.type};
+      if (entry.cacheControl) headers['Cache-Control'] = entry.cacheControl;
+      return new Response(request.method === 'HEAD' ? null : entry.body, {status: 200, headers});
+    }
+  });
+  const callCustom = (path, method = 'GET') => customHandler.fetch(new Request('https://host' + path, {method}), {});
+
+  const home = await callCustom('/index.html');
+  assert.equal(home.headers.get('X-Content-Type-Options'), 'nosniff');
+  assert.equal(home.headers.get('Referrer-Policy'), 'strict-origin-when-cross-origin');
+  assert.equal(home.headers.get('Permissions-Policy'), 'camera=(), microphone=(), geolocation=()');
+
+  const catalog = await callCustom('/data/catalog.json');
+  assert.equal(catalog.status, 200);
+  assert.equal(catalog.headers.get('Cache-Control'), 'public, max-age=300, must-revalidate');
+
+  const preset = await callCustom('/data/custom-cache.json');
+  assert.equal(preset.headers.get('Cache-Control'), 'no-store');
+
+  const media = await callCustom('/media/demo.webp');
+  assert.equal(media.headers.get('Cache-Control'), 'public, max-age=86400');
+
+  for (const path of ['/missing.html', '/nope/', '/unknown-route']) {
+    const res = await callCustom(path);
+    assert.equal(res.status, 404, path);
+    assert.equal(res.headers.get('Cache-Control'), 'no-store', path);
+    assert.equal(res.headers.get('Referrer-Policy'), 'strict-origin-when-cross-origin', path);
+    assert.equal(await res.text(), '<html><h1>404 Page</h1></html>', path);
+  }
+
+  const head404 = await callCustom('/missing.html', 'HEAD');
+  assert.equal(head404.status, 404);
+  assert.equal(await head404.text(), '');
+
+  for (const path of ['/media/missing.mp4', '/data/missing.json']) {
+    const res = await callCustom(path);
+    assert.equal(res.status, 404, path);
+    assert.match(await res.text(), /404 Not Found/, path);
+  }
+});

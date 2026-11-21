@@ -123,6 +123,7 @@
           Object.assign(state, values.get(id), {loaded: true, loading: false, token, error: ''});
           paint(state);
         });
+        window.dispatchEvent(new CustomEvent('sy:likeschange'));
       } catch (_) {
         batch.forEach((id, i) => {
           const state = stateFor(id);
@@ -156,6 +157,7 @@
       if (state.version !== version) return;
       Object.assign(state, result, {token, error: ''});
       channel?.postMessage({id});
+      window.dispatchEvent(new CustomEvent('sy:likeschange'));
     } catch (_) {
       if (state.version === version) state.error = '保存を確認できませんでした。もう一度お試しください。';
     } finally {
@@ -192,5 +194,32 @@
       schedule(state.id, true);
     }
   });
-  window.SY.likes = {create, caseID: item => item.catalog_entry?.id || 'case-' + item.id};
+  function refresh(scope = document) {
+    const root = scope || document;
+    const targets = [];
+    if (root.matches && root.matches('[data-like-id]')) targets.push(root);
+    targets.push(...root.querySelectorAll('[data-like-id]'));
+    for (const el of targets) {
+      const id = el.dataset.likeId;
+      if (!id) continue;
+      const state = stateFor(id);
+      paintOne(el, state);
+      if (!state.loaded && !state.loading && !state.pending) schedule(id);
+    }
+  }
+
+  function prefetch(ids) {
+    if (!Array.isArray(ids)) return;
+    for (const id of ids) {
+      if (typeof id === 'string' && id) schedule(id);
+    }
+  }
+
+  window.SY.likes = {
+    create,
+    refresh,
+    prefetch,
+    getCount: id => (states.has(id) ? states.get(id).count : null),
+    caseID: item => item.catalog_entry?.id || 'case-' + item.id
+  };
 })();

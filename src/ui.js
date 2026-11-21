@@ -54,6 +54,7 @@
   }
 
   const norm = value => String(value ?? '').normalize('NFKC').toLowerCase();
+  const normSearch = value => norm(value).replace(/[\u30a1-\u30f6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const scrollBehavior = () => (reduceMotion.matches ? 'auto' : 'smooth');
 
@@ -62,6 +63,156 @@
     if (!announcer) return;
     announcer.textContent = '';
     setTimeout(() => { announcer.textContent = message; }, 30);
+  }
+
+  /* ---------- Recent items (browser-local history) ---------- */
+
+  const RECENT_KEY = 'yaoyorozu-recent-v1';
+  const RECENT_MAX = 10;
+
+  function readRecent() {
+    try {
+      const raw = localStorage.getItem(RECENT_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return [];
+      const clean = [];
+      const seen = new Set();
+      for (const item of parsed) {
+        if (!item || typeof item !== 'object') continue;
+        const id = String(item.id || '').trim();
+        const title = String(item.title || '').trim();
+        const href = safeHref(item.href);
+        if (!id || !title || !href || seen.has(id)) continue;
+        seen.add(id);
+        clean.push({
+          id,
+          type: String(item.type || ''),
+          title,
+          href,
+          cat: String(item.cat || ''),
+          at: Number(item.at) || 0
+        });
+        if (clean.length >= RECENT_MAX) break;
+      }
+      return clean;
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function pushRecent(item) {
+    const current = readRecent();
+    if (!item || typeof item !== 'object') return current;
+    const id = String(item.id || '').trim();
+    const title = String(item.title || '').trim();
+    const href = safeHref(item.href);
+    if (!id || !title || !href) return current;
+    const entry = {
+      id,
+      type: String(item.type || ''),
+      title,
+      href,
+      cat: String(item.cat || ''),
+      at: Number(item.at) || Date.now()
+    };
+    const next = [entry, ...current.filter(existing => existing.id !== id)].slice(0, RECENT_MAX);
+    try {
+      localStorage.setItem(RECENT_KEY, JSON.stringify(next));
+    } catch (_) {
+      /* Storage unavailable or full; ignore silently. */
+    }
+    return next;
+  }
+
+  const recent = {list: readRecent, push: pushRecent};
+
+  /* ---------- Non-blocking status toast ---------- */
+
+  const TOAST_TTL = 3800;
+  let toastTimer = 0;
+
+  function clearToastTimer() {
+    if (toastTimer) {
+      clearTimeout(toastTimer);
+      toastTimer = 0;
+    }
+  }
+
+  function dismissToast() {
+    clearToastTimer();
+    const host = $('.sy-toast-host');
+    if (!host) return;
+    host.replaceChildren();
+    host.hidden = true;
+  }
+
+  function scheduleToastDismiss(host) {
+    clearToastTimer();
+    toastTimer = setTimeout(() => {
+      if (host.matches(':hover') || host.contains(document.activeElement)) return;
+      dismissToast();
+    }, TOAST_TTL);
+  }
+
+  function ensureToastHost() {
+    let host = $('.sy-toast-host');
+    if (host) return host;
+    host = h('div', {
+      class: 'sy-toast-host',
+      role: 'status',
+      'aria-live': 'polite',
+      'aria-atomic': 'true',
+      hidden: true
+    });
+    const pause = () => clearToastTimer();
+    const resume = () => {
+      if (!host.hidden && !host.matches(':hover') && !host.contains(document.activeElement)) {
+        scheduleToastDismiss(host);
+      }
+    };
+    host.addEventListener('pointerenter', pause);
+    host.addEventListener('pointerleave', resume);
+    host.addEventListener('focusin', pause);
+    host.addEventListener('focusout', () => queueMicrotask(resume));
+    document.body.append(host);
+    return host;
+  }
+
+  function toast(message, action) {
+    const text = String(message ?? '').trim();
+    if (!text) return;
+    const host = ensureToastHost();
+    let actionNode = null;
+    if (action && typeof action === 'object' && action.label) {
+      const label = String(action.label);
+      const href = action.href ? safeHref(action.href) : null;
+      if (href) {
+        actionNode = h('a', {class: 'sy-toast-action', href}, label);
+      } else if (typeof action.onClick === 'function') {
+        actionNode = h('button', {
+          type: 'button',
+          class: 'sy-toast-action',
+          onclick: event => {
+            action.onClick(event);
+            dismissToast();
+          }
+        }, label);
+      }
+    }
+    const closeBtn = h('button', {
+      type: 'button',
+      class: 'sy-toast-close',
+      'aria-label': '通知を閉じる',
+      onclick: dismissToast
+    }, '×');
+    const card = h('div', {class: 'sy-toast'},
+      h('span', {class: 'sy-toast-msg'}, text),
+      actionNode,
+      closeBtn);
+    host.replaceChildren(card);
+    host.hidden = false;
+    scheduleToastDismiss(host);
   }
 
   // Outline icons on a 24px grid, drawn with currentColor (1.5px stroke beside regular text).
@@ -95,10 +246,12 @@
 
   // Bottom bar: one row of up to four anchors. Each item is [label, href, iconName, external?].
   function setTabbar(items) {
-    const bar = $('[data-tabbar]');
+    const bar = $('[data-tabbar]') || $('.sy-dock');
     if (!bar) return;
-    const usable = items.filter(item => item && safeHref(item[1]));
+    const usable = (Array.isArray(items) ? items : []).filter(item => item && safeHref(item[1]));
     if (!usable.length) return;
+    bar.classList.add('is-contextual');
+    bar.setAttribute('data-tabbar-mode', 'contextual');
     bar.replaceChildren(...usable.slice(0, 4).map(([label, href, name]) =>
       h('a', {href: safeHref(href), class: 'tab'}, icon(name), h('span', {}, label))));
   }
@@ -107,15 +260,19 @@
   // software keyboard. No keyboard-height math: the class follows focus only.
   const TEXT_TYPES = /^(text|search|email|url|tel|number|password)$/i;
   const isEditable = el => Boolean(el) && (el.isContentEditable || el.tagName === 'TEXTAREA'
-    || (el.tagName === 'INPUT' && TEXT_TYPES.test(el.type || 'text') && !el.readOnly));
+    || (el.tagName === 'INPUT' && TEXT_TYPES.test(el.type || 'text') && !el.readOnly && !el.disabled));
   const rootEl = document.documentElement;
+  const syncEditing = () => rootEl.classList.toggle('is-editing', isEditable(document.activeElement));
   document.addEventListener('focusin', event => {
-    if (isEditable(event.target)) rootEl.classList.add('is-editing');
+    rootEl.classList.toggle('is-editing', isEditable(event.target));
   });
   document.addEventListener('focusout', () => {
     // Focus may move straight to another field; check after the move settles.
-    setTimeout(() => { if (!isEditable(document.activeElement)) rootEl.classList.remove('is-editing'); }, 0);
+    queueMicrotask(syncEditing);
   });
 
-  window.SY = {$, $$, h, safeHref, isExternal, displayUrl, joinLines, lineNodes, loadJSON, norm, reduceMotion, scrollBehavior, announce, icon, setTabbar};
+  window.SY = {
+    $, $$, h, safeHref, isExternal, displayUrl, joinLines, lineNodes, loadJSON,
+    norm, normSearch, reduceMotion, scrollBehavior, announce, icon, setTabbar, toast, recent
+  };
 })();

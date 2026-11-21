@@ -1,13 +1,111 @@
 /* Yaoyorozu AI ToolBox — open-weight models. Loaded by open-models.html and by the homepage for #models.
-   Every rule is scoped to .ow-* classes, body.ow-page or .ow-home, so shared classes keep their meaning.
+   Every rule is scoped to .ow-* classes, html.ow-root, body.ow-page or .ow-home, so shared classes keep their meaning.
    Mobile first; wider layouts at 600px, 900px and 1100px, matching styles.css. */
+
+/* ---------- Tokens & Dark Mode ---------- */
+
+html.ow-root {
+  --ow-accent: #b83900;
+  --ow-paper-hover: #2e2a21;
+  --ow-figure-bg: #fbf9f3;
+  --ow-figure-border: var(--ink);
+  --ow-pill-bg: var(--field);
+  --ow-open-bg: rgba(101, 114, 15, 0.12);
+  --ow-open-ink: #3f4b06;
+  --ow-open-border: rgba(101, 114, 15, 0.45);
+  --ow-gated-bg: var(--lime);
+  --ow-gated-ink: #17150f;
+  --ow-sticky-bg: var(--field);
+  --ow-backdrop: rgba(23, 21, 15, 0.62);
+  --ow-shadow: 0 24px 64px -20px rgba(0, 0, 0, 0.45);
+}
+
+@media (prefers-color-scheme: dark) {
+  html.ow-root:not([data-theme="light"]) {
+    --paper: #161410;
+    --paper-deep: #23201a;
+    --field: #1e1b16;
+    --ink: #f2eee3;
+    --ink-soft: #c5bea9;
+    --rule: rgba(242, 238, 227, 0.22);
+    --orange: #ff6b2b;
+    --lime: #cbef3a;
+
+    --ow-accent: #ff8a54;
+    --ow-paper-hover: #d8d2c3;
+    --ow-figure-bg: #fbf9f3;
+    --ow-figure-border: rgba(242, 238, 227, 0.36);
+    --ow-pill-bg: #26221c;
+    --ow-open-bg: rgba(203, 239, 58, 0.14);
+    --ow-open-ink: #d9f56c;
+    --ow-open-border: rgba(203, 239, 58, 0.42);
+    --ow-gated-bg: var(--lime);
+    --ow-gated-ink: #17150f;
+    --ow-sticky-bg: #1e1b16;
+    --ow-backdrop: rgba(0, 0, 0, 0.78);
+    --ow-shadow: 0 24px 64px -16px rgba(0, 0, 0, 0.75);
+  }
+}
+
+html.ow-root[data-theme="dark"] {
+  --paper: #161410;
+  --paper-deep: #23201a;
+  --field: #1e1b16;
+  --ink: #f2eee3;
+  --ink-soft: #c5bea9;
+  --rule: rgba(242, 238, 227, 0.22);
+  --orange: #ff6b2b;
+  --lime: #cbef3a;
+
+  --ow-accent: #ff8a54;
+  --ow-paper-hover: #d8d2c3;
+  --ow-figure-bg: #fbf9f3;
+  --ow-figure-border: rgba(242, 238, 227, 0.36);
+  --ow-pill-bg: #26221c;
+  --ow-open-bg: rgba(203, 239, 58, 0.14);
+  --ow-open-ink: #d9f56c;
+  --ow-open-border: rgba(203, 239, 58, 0.42);
+  --ow-gated-bg: var(--lime);
+  --ow-gated-ink: #17150f;
+  --ow-sticky-bg: #1e1b16;
+  --ow-backdrop: rgba(0, 0, 0, 0.78);
+  --ow-shadow: 0 24px 64px -16px rgba(0, 0, 0, 0.75);
+}
+
+html.ow-root[data-theme="dark"] body.ow-page .search-box input::placeholder { color: var(--ink-soft); }
+@media (prefers-color-scheme: dark) {
+  html.ow-root:not([data-theme="light"]) body.ow-page .search-box input::placeholder { color: var(--ink-soft); }
+}
+
+html.ow-root[data-theme="dark"] body.ow-page .item-save[aria-pressed="true"] {
+  color: #c8ea52;
+  border-color: rgba(200, 234, 82, 0.45);
+  background: rgba(200, 234, 82, 0.12);
+}
+html.ow-root[data-theme="dark"] body.ow-page .item-actions .like-button[aria-pressed="true"] {
+  color: #ff8e8f;
+  border-color: rgba(255, 142, 143, 0.45);
+  background: rgba(255, 142, 143, 0.12);
+}
+@media (prefers-color-scheme: dark) {
+  html.ow-root:not([data-theme="light"]) body.ow-page .item-save[aria-pressed="true"] {
+    color: #c8ea52;
+    border-color: rgba(200, 234, 82, 0.45);
+    background: rgba(200, 234, 82, 0.12);
+  }
+  html.ow-root:not([data-theme="light"]) body.ow-page .item-actions .like-button[aria-pressed="true"] {
+    color: #ff8e8f;
+    border-color: rgba(255, 142, 143, 0.45);
+    background: rgba(255, 142, 143, 0.12);
+  }
+}
 
 /* ---------- Shared ---------- */
 
 .ow-eyebrow {
   margin-bottom: 0.375rem;
   font-size: 0.75rem; font-weight: 700; line-height: 1.4; letter-spacing: 0.16em;
-  color: #b83900;
+  color: var(--ow-accent);
 }
 
 /* ---------- Homepage teaser (section#models.ow-home) ---------- */
@@ -26,10 +124,10 @@
   position: relative; display: flex; flex-direction: column; min-width: 0;
   background: var(--field); border: 1px solid var(--rule); border-top: 4px solid var(--ink);
 }
-.ow-home-frame { border-bottom: 1px solid var(--rule); background: #fbf9f3; }
+.ow-home-frame { border-bottom: 1px solid var(--rule); background: var(--ow-figure-bg); }
 .ow-home-frame img { width: 100%; height: auto; aspect-ratio: 880 / 540; }
 .ow-home-body { display: flex; flex-direction: column; gap: 0.125rem; padding: 0.75rem 1rem 1rem; min-width: 0; }
-.ow-home-task { font-size: 0.8125rem; font-weight: 700; line-height: 1.5; color: #b83900; }
+.ow-home-task { font-size: 0.8125rem; font-weight: 700; line-height: 1.5; color: var(--ow-accent); }
 .ow-home-name { font-size: 1.0625rem; font-weight: 700; line-height: 1.4; overflow-wrap: anywhere; }
 .ow-home-link { display: block; padding: 0.25rem 0; text-decoration: none; }
 /* The whole card is the link's hit area; the link stays one element for assistive tech. */
@@ -44,6 +142,7 @@
 /* ---------- Model page: no bottom bar here ---------- */
 
 html.ow-root { scroll-padding-bottom: 0; }
+html.has-ow-zoom { overflow: hidden; scrollbar-gutter: stable; }
 body.ow-page { padding-bottom: env(safe-area-inset-bottom); }
 .ow-page a, .ow-page button, .ow-page input, .ow-page summary { scroll-margin-bottom: 1rem; }
 
@@ -80,28 +179,45 @@ body.ow-page { padding-bottom: env(safe-area-inset-bottom); }
 }
 .ow-define-title { font-size: 0.875rem; font-weight: 700; line-height: 1.5; }
 .ow-define-text { margin-top: 0.25rem; font-family: var(--mincho); font-weight: 700; font-size: 1.125rem; line-height: 1.6; }
-.ow-define-points { display: grid; gap: 0.5rem; margin-top: 0.875rem; padding-top: 0.75rem; border-top: 1px solid var(--rule); font-size: 0.9375rem; }
-.ow-define-points li { display: grid; grid-template-columns: 1.25rem minmax(0, 1fr); gap: 0.5rem; align-items: baseline; }
-.ow-key { display: inline-block; width: 0.75rem; height: 0.75rem; transform: translateY(0.05em); }
-.ow-key-free { border: 2px solid var(--ink); }
-.ow-key-gpu { background: var(--orange); }
 
-/* ---------- Browse: search, fields, count ---------- */
+/* ---------- Browse: search, fields, facets, count ---------- */
 
 .ow-browse { padding-top: 1.75rem; padding-bottom: 3rem; border-top: 1px solid var(--ink); }
 .ow-browse:focus { outline: none; }
 .ow-browse-head { margin-bottom: 1.25rem; }
 .ow-note { margin-top: 0.375rem; max-width: 40em; font-size: 0.9375rem; color: var(--ink-soft); }
-.ow-tools { display: grid; gap: 1rem; }
+
+.ow-tools { display: grid; gap: 1rem; min-width: 0; }
+.ow-tools-top { display: grid; gap: 1rem; min-width: 0; }
 .ow-search { min-width: 0; }
+.ow-view-wrap { display: grid; gap: 0.375rem; min-width: 0; }
+.ow-view-switch { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
 .ow-fields { display: flex; flex-wrap: wrap; gap: 0.5rem; min-width: 0; }
-.ow-status-row {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 1rem;
-  margin-top: 1.25rem; padding-bottom: 0.25rem; border-bottom: 1px solid var(--ink);
+
+.ow-facets {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.875rem 1.25rem;
+  padding: 0.875rem 1rem; background: var(--field); border: 1px solid var(--rule);
+  min-width: 0;
 }
-.ow-status { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.125rem 0.75rem; min-height: 2.75rem; padding: 0.5rem 0; font-size: 0.875rem; color: var(--ink-soft); }
+.ow-facet-group { display: grid; gap: 0.375rem; min-width: 0; align-content: start; }
+.ow-facet-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; color: var(--ink-soft); }
+.ow-facet-pills { display: flex; flex-wrap: wrap; gap: 0.375rem; min-width: 0; }
+.ow-facet-chip {
+  min-height: 2.75rem; padding: 0.3125rem 0.6875rem;
+  font-size: 0.8125rem; line-height: 1.3;
+}
+
+.ow-status-row {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1rem;
+  margin-top: 1.25rem; padding-bottom: 0.375rem; border-bottom: 1px solid var(--ink);
+}
+.ow-status { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.125rem 0.75rem; min-height: 2.75rem; padding: 0.375rem 0; font-size: 0.875rem; color: var(--ink-soft); }
 .ow-status-main { color: var(--ink); font-size: 1rem; }
 .ow-status strong { margin-right: 0.125rem; font-family: var(--mincho); font-size: 1.5rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.ow-status-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
+.ow-toggle-all { min-height: 2.75rem; padding: 0.375rem 0.875rem; font-size: 0.8125rem; }
+.ow-toggle-all[aria-pressed="true"] { background: var(--paper-deep); }
 
 .ow-empty, .ow-error { padding: 2rem 0; max-width: var(--measure); border-bottom: 1px solid var(--ink); }
 .ow-empty p + p, .ow-error p + p { margin-top: 0.5rem; }
@@ -127,24 +243,64 @@ body.ow-page { padding-bottom: env(safe-area-inset-bottom); }
 
 .ow-card-head { position: relative; padding-right: 3rem; }
 .ow-kicker { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.125rem 0.75rem; font-size: 0.8125rem; line-height: 1.5; }
-.ow-num { font-family: var(--mincho); font-weight: 700; font-size: 1.375rem; line-height: 1; color: #b83900; font-variant-numeric: tabular-nums; }
+.ow-num { font-family: var(--mincho); font-weight: 700; font-size: 1.375rem; line-height: 1; color: var(--ow-accent); font-variant-numeric: tabular-nums; }
 .ow-task { font-weight: 700; }
 .ow-cat { display: inline-flex; align-items: center; gap: 0.375rem; color: var(--ink-soft); }
 .ow-cat::before { content: ""; width: 0.5rem; height: 0.5rem; flex: none; background: var(--ink-soft); }
-.ow-card:target .ow-num { padding: 0 0.25rem; background: var(--lime); color: var(--ink); }
+.ow-card:target .ow-num { padding: 0 0.25rem; background: var(--lime); color: #17150f; }
 .ow-name {
   margin-top: 0.375rem;
   font-size: clamp(1.375rem, 1.1rem + 1.2vw, 2rem); font-weight: 700; line-height: 1.25; letter-spacing: -0.005em;
   overflow-wrap: anywhere;
 }
-.ow-meta { display: flex; flex-wrap: wrap; gap: 0.25rem 0.625rem; margin-top: 0.375rem; font-size: 0.8125rem; line-height: 1.5; color: var(--ink-soft); }
-.ow-meta span { overflow-wrap: anywhere; }
-.ow-lic { padding: 0 0.375rem; border: 1px solid var(--ink-soft); color: var(--ink); }
-.ow-gated { padding: 0 0.375rem; background: var(--lime); color: var(--ink); font-weight: 700; }
+.ow-provider { margin-top: 0.25rem; font-size: 0.875rem; color: var(--ink-soft); overflow-wrap: anywhere; }
+
+/* Scannable Spec Pills */
+
+.ow-pills {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.375rem;
+  margin-top: 0.625rem; min-width: 0;
+}
+.ow-pill {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  min-height: 1.875rem; max-width: 100%; padding: 0.125rem 0.5rem;
+  border: 1px solid var(--rule); background: var(--ow-pill-bg); color: var(--ink);
+  font-size: 0.75rem; font-weight: 600; line-height: 1.4; overflow-wrap: anywhere;
+}
+.ow-pill-field { border-color: var(--ink-soft); }
+.ow-pill-open { background: var(--ow-open-bg); border-color: var(--ow-open-border); color: var(--ow-open-ink); }
+.ow-pill-gated { background: var(--ow-gated-bg); border-color: var(--ow-gated-ink); color: var(--ow-gated-ink); font-weight: 700; }
+.ow-pill-lic { border-color: var(--ink-soft); }
+.ow-pill-ex { color: var(--ink-soft); }
+.ow-pill-copy {
+  min-height: 2.75rem; padding: 0.25rem 0.625rem;
+  border: 1px solid var(--ink-soft); background: var(--ow-pill-bg); color: var(--ink);
+  cursor: pointer; text-align: left;
+}
+.ow-pill-code {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.75rem; font-weight: 600; overflow-wrap: anywhere; word-break: break-word;
+}
+.ow-copy-state {
+  flex: none; padding: 0.0625rem 0.375rem;
+  background: var(--paper-deep); color: var(--ink);
+  font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.02em;
+}
+.ow-pill-copy[data-copied="true"] .ow-copy-state { background: var(--lime); color: #17150f; }
+
 .ow-headline {
-  margin-top: 0.625rem; max-width: 22em;
+  margin-top: 0.75rem; max-width: 22em;
   font-family: var(--mincho); font-weight: 700;
   font-size: clamp(1.25rem, 1.05rem + 1vw, 1.875rem); line-height: 1.4;
+}
+.ow-card-actions {
+  display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0.5rem 0.75rem;
+  margin-top: 0.875rem; min-width: 0;
+}
+.ow-card-actions .item-actions-wrap { margin-top: 0; }
+.ow-brief-link {
+  min-height: 2.75rem; padding: 0.375rem 0.875rem;
+  border-radius: 999px; font-size: 0.8125rem; line-height: 1.3;
 }
 .ow-anchor {
   position: absolute; top: -0.5rem; right: -0.5rem;
@@ -155,14 +311,27 @@ body.ow-page { padding-bottom: env(safe-area-inset-bottom); }
 /* Diagram */
 
 .ow-figure { min-width: 0; }
-.ow-figure-frame { border: 1px solid var(--ink); background: #fbf9f3; }
+.ow-figure-frame {
+  border: 1px solid var(--ow-figure-border);
+  background: var(--ow-figure-bg);
+  padding: 0.25rem;
+}
+.ow-figure-zoom-btn {
+  display: block; width: 100%; padding: 0; border: 0; background: transparent;
+  cursor: zoom-in; text-align: left;
+}
 .ow-figure-frame img { width: 100%; height: auto; aspect-ratio: 880 / 540; }
-.ow-figure-missing { display: grid; place-items: center; aspect-ratio: 880 / 540; padding: 1rem; color: var(--ink-soft); text-align: center; }
+.ow-figure-missing { display: grid; place-items: center; aspect-ratio: 880 / 540; padding: 1rem; color: #4f4a3f; text-align: center; }
 .ow-figcap { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.75rem; padding-top: 0.5rem; font-size: 0.875rem; line-height: 1.5; color: var(--ink-soft); }
 .ow-figcap-tag { padding: 0.0625rem 0.45rem; background: var(--ink); color: var(--paper); font-weight: 700; font-size: 0.8125rem; }
 .ow-figcap-text { flex: 1 1 14em; min-width: 0; }
 .ow-figcap-links { display: flex; flex-wrap: wrap; gap: 0 1rem; }
-.ow-figcap-links a { display: inline-flex; align-items: center; min-height: 2.75rem; color: var(--ink); font-weight: 700; }
+.ow-figcap-links a,
+.ow-figcap-zoom {
+  display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0; border: 0; background: none;
+  color: var(--ink); font-weight: 700; text-decoration: underline; text-underline-offset: 0.22em;
+  cursor: pointer;
+}
 
 /* Body */
 
@@ -240,18 +409,138 @@ body.ow-page { padding-bottom: env(safe-area-inset-bottom); }
 .ow-sources li { display: flex; flex-direction: column; padding-bottom: 0.25rem; }
 .ow-d-check { padding: 0.75rem 0.875rem; background: var(--field); border-left: 3px solid var(--ink); }
 
-/* ---------- Phones: diagrams use the full width ---------- */
+/* ---------- Comparison Matrix ---------- */
+
+.ow-matrix-wrap { margin-top: 1.25rem; min-width: 0; max-width: 100%; }
+.ow-matrix-note { margin-bottom: 0.75rem; font-size: 0.875rem; color: var(--ink-soft); max-width: var(--measure); }
+.ow-matrix-scroll {
+  width: 100%; max-width: 100%; overflow-x: auto;
+  overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--ink); background: var(--field);
+}
+.ow-matrix-table {
+  width: 100%; min-width: 62rem; border-collapse: collapse;
+  font-size: 0.875rem; line-height: 1.55; text-align: left;
+}
+.ow-matrix-table th,
+.ow-matrix-table td {
+  padding: 0.75rem 0.875rem; border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+.ow-matrix-table thead th {
+  background: var(--paper-deep); border-bottom: 1px solid var(--ink);
+  font-size: 0.8125rem; font-weight: 700; white-space: nowrap;
+}
+.ow-matrix-sticky {
+  position: sticky; left: 0; z-index: 1;
+  background: var(--ow-sticky-bg); border-right: 1px solid var(--rule);
+  min-width: 11.5rem; max-width: 15.5rem;
+}
+.ow-matrix-table thead th.ow-matrix-sticky { z-index: 2; background: var(--paper-deep); }
+.ow-matrix-jump {
+  display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0.25rem 0;
+  border: 0; background: none; color: var(--ink); font-size: 0.9375rem; font-weight: 700;
+  text-align: left; text-decoration: underline; text-underline-offset: 0.22em;
+  overflow-wrap: anywhere; cursor: pointer;
+}
+.ow-matrix-id {
+  display: block; margin-top: 0.125rem;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.75rem; font-weight: 400; color: var(--ink-soft); overflow-wrap: anywhere;
+}
+.ow-matrix-hf {
+  display: inline-flex; align-items: center; min-height: 2.25rem; margin-top: 0.125rem;
+  font-size: 0.75rem; font-weight: 700; color: var(--ow-accent);
+}
+.ow-matrix-sub { display: block; margin-top: 0.125rem; font-size: 0.75rem; color: var(--ink-soft); }
+.ow-matrix-num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ow-matrix-env { min-width: 14rem; max-width: 20rem; }
+
+/* ---------- Zoom Lightbox (<dialog>) ---------- */
+
+.ow-zoom-dialog {
+  width: min(70rem, calc(100% - 1.5rem)); max-width: none;
+  max-height: calc(100vh - 1.5rem); max-height: calc(100dvh - 1.5rem);
+  margin: auto; padding: 0; border: 1px solid var(--ink);
+  background: var(--field); color: var(--ink); box-shadow: var(--ow-shadow);
+  overflow: hidden;
+}
+.ow-zoom-dialog::backdrop { background: var(--ow-backdrop); }
+.ow-zoom-sheet {
+  display: grid; grid-template-rows: auto minmax(0, 1fr);
+  max-height: calc(100vh - 1.5rem); max-height: calc(100dvh - 1.5rem);
+  overflow-y: auto; overscroll-behavior: contain;
+}
+.ow-zoom-bar {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 0.625rem 0.75rem 0.625rem 1.25rem;
+  border-bottom: 1px solid var(--ink); background: var(--paper);
+}
+.ow-zoom-head { min-width: 0; }
+.ow-zoom-eyebrow { font-size: 0.75rem; font-weight: 700; color: var(--ow-accent); }
+.ow-zoom-title { font-family: var(--mincho); font-weight: 700; font-size: 1.125rem; line-height: 1.35; overflow-wrap: anywhere; }
+.ow-zoom-close {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  min-height: 2.75rem; padding: 0 1rem;
+  border: 1px solid var(--ink); background: var(--field); color: var(--ink);
+  font-size: 0.875rem; font-weight: 700;
+}
+.ow-zoom-body { display: grid; gap: 1rem; padding: 1rem 1.25rem 1.5rem; }
+.ow-zoom-frame {
+  border: 1px solid var(--ow-figure-border); background: var(--ow-figure-bg);
+  padding: 0.5rem;
+}
+.ow-zoom-frame img { width: 100%; height: auto; aspect-ratio: 880 / 540; object-fit: contain; }
+.ow-zoom-details { display: grid; gap: 0.75rem; min-width: 0; }
+.ow-zoom-note { font-weight: 700; font-size: 0.9375rem; max-width: var(--measure); }
+.ow-zoom-alt { font-size: 0.9375rem; line-height: 1.75; color: var(--ink-soft); max-width: var(--measure); }
+.ow-zoom-disclaimer {
+  padding: 0.625rem 0.875rem; border-left: 3px solid var(--ink); background: var(--paper);
+  font-size: 0.8125rem; color: var(--ink-soft); max-width: var(--measure);
+}
+.ow-zoom-actions { display: flex; flex-wrap: wrap; gap: 0.625rem; }
+
+/* ---------- Toast & Clipboard Fallback ---------- */
+
+.ow-toast {
+  position: fixed; left: 50%; bottom: calc(1.25rem + env(safe-area-inset-bottom)); z-index: 60;
+  transform: translateX(-50%);
+  max-width: calc(100vw - 2rem); padding: 0.625rem 1rem;
+  background: var(--ink); color: var(--paper); border: 1px solid var(--paper);
+  font-size: 0.875rem; font-weight: 700; line-height: 1.4; text-align: center;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
+}
+.ow-copy-buffer {
+  position: fixed; top: 0; left: 0; width: 1px; height: 1px; padding: 0; border: 0;
+  opacity: 0; pointer-events: none;
+}
+
+/* ---------- Phones: diagrams and dialogs ---------- */
 
 @media (max-width: 599.98px) {
   .ow-figure { margin-left: calc(-1 * var(--pad-l)); margin-right: calc(-1 * var(--pad-r)); }
-  .ow-figure-frame { border-left: 0; border-right: 0; }
+  .ow-figure-frame { border-left: 0; border-right: 0; padding: 0.125rem 0; }
   .ow-figcap { padding-left: var(--pad-l); padding-right: var(--pad-r); }
+
+  .ow-zoom-dialog {
+    width: 100%; height: 100vh; height: 100dvh; max-height: none; margin: 0; border: 0;
+  }
+  .ow-zoom-sheet { height: 100%; max-height: none; padding-bottom: env(safe-area-inset-bottom); }
+  .ow-zoom-bar {
+    padding: max(0.5rem, env(safe-area-inset-top)) max(0.75rem, env(safe-area-inset-right)) 0.5rem max(1rem, env(safe-area-inset-left));
+  }
+  .ow-zoom-body {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
 }
 
 /* ---------- Wider phones and tablets ---------- */
 
 @media (min-width: 600px) {
   .ow-home-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+  .ow-facets { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .ow-flow { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; border-left: 0; }
   .ow-step { padding: 0.875rem 0 0; border-top: 2px solid var(--ink); }
   .ow-step::before { left: 0; top: -0.4375rem; }
@@ -260,7 +549,7 @@ body.ow-page { padding-bottom: env(safe-area-inset-bottom); }
     width: 0.625rem; height: 0.625rem; border-top: 2px solid var(--ink); border-right: 2px solid var(--ink);
     transform: rotate(45deg);
   }
-  .ow-fact { grid-template-columns: 7rem minmax(0, 1fr); gap: 1rem; align-items: baseline; }
+  .ow-fact { grid-template-columns: 7.5rem minmax(0, 1fr); gap: 1rem; align-items: baseline; }
 }
 
 /* ---------- Desktop ---------- */
@@ -273,7 +562,7 @@ body.ow-page { padding-bottom: env(safe-area-inset-bottom); }
     padding-top: 3rem; padding-bottom: 3rem;
   }
   .ow-browse { padding-top: 2.5rem; padding-bottom: 4rem; }
-  .ow-tools { grid-template-columns: minmax(16rem, 24rem) minmax(0, 1fr); align-items: end; gap: 1rem 2rem; }
+  .ow-tools-top { grid-template-columns: minmax(16rem, 26rem) auto; align-items: end; justify-content: space-between; gap: 1rem 2rem; }
   .ow-card { padding: 2.25rem 0 2.75rem; gap: 1.25rem; }
 }
 
@@ -297,7 +586,7 @@ body.ow-page { padding-bottom: env(safe-area-inset-bottom); }
 }
 @media (min-width: 1100px) and (min-height: 760px) {
   /* The diagram stays in view while the details open beside it. */
-  .ow-figure { position: sticky; top: calc(var(--header-h) + 1.25rem); }
+  .ow-figure { position: sticky; top: calc(var(--sy-header-actual-h, 4.5rem) + 1.5rem); }
 }
 
 /* ---------- Pointer hover and motion ---------- */
@@ -308,6 +597,9 @@ body.ow-page { padding-bottom: env(safe-area-inset-bottom); }
   .ow-anchor:hover { color: var(--ink); text-decoration: underline; }
   .ow-more > summary:hover .ow-more-label { text-decoration-thickness: 2px; }
   .ow-mast-back:hover { background: var(--paper-deep); }
+  .ow-pill-copy:hover { border-color: var(--ink); background: var(--paper-deep); }
+  .ow-zoom-close:hover { background: var(--paper-deep); }
+  .ow-matrix-jump:hover { color: var(--ow-accent); }
 }
 
 @media (prefers-reduced-motion: no-preference) {

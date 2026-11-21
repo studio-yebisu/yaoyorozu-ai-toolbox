@@ -10,9 +10,11 @@ import filecmp
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import sys
 from datetime import datetime, timezone
+import unicodedata
 import uuid
 from catalog import build_catalog
 from social_cards import build_social_pages
@@ -35,6 +37,202 @@ def publication_ignore(source, names):
     if Path(source).resolve() == (ROOT / 'data/production').resolve():
         ignored.update(HISTORICAL_BRANDING_RECEIPTS.intersection(names))
     return ignored
+
+
+STUDIO_TOOL_PAGES = (
+    {
+        'id': 'tool-finder',
+        'title': '用途ファインダー・レシピ',
+        'subtitle': 'やりたいことや条件から、組み合わせるスキル・ツール・レシピを絞り込む。',
+        'category': 'studio',
+        'category_label': 'スタジオ機能',
+        'kind': '道具選び',
+        'href': 'finder.html',
+        'tags': ['用途ファインダー', 'レシピ', '絞り込み', '検索'],
+    },
+    {
+        'id': 'tool-workbench',
+        'title': '道具箱ワークベンチ',
+        'subtitle': '保存したスキル・ツールを並べて比較し、作業メモや組み合わせを整理する。',
+        'category': 'studio',
+        'category_label': 'スタジオ機能',
+        'kind': 'ワークベンチ',
+        'href': 'workbench.html',
+        'tags': ['ワークベンチ', '比較', '保存', '組み合わせ'],
+    },
+    {
+        'id': 'tool-prompt-studio',
+        'title': '依頼ブリーフ作成',
+        'subtitle': '目的・入力・制約・完了条件を組み立てて、AIに渡す依頼ブリーフを整える。',
+        'category': 'studio',
+        'category_label': 'スタジオ機能',
+        'kind': 'ブリーフ作成',
+        'href': 'prompt-studio.html',
+        'tags': ['依頼文', 'ブリーフ', 'プロンプト', '完成条件'],
+    },
+    {
+        'id': 'tool-open-models',
+        'title': 'OpenWeight',
+        'subtitle': '画像・音声・文字起こし・予測など、用途に特化した重み公開モデルの一覧。',
+        'category': 'owm-tools',
+        'category_label': 'OpenWeight',
+        'kind': 'モデル一覧',
+        'href': 'open-models.html',
+        'tags': ['OpenWeight', '重み公開', '特化モデル'],
+    },
+    {
+        'id': 'tool-media-rights',
+        'title': '動画の利用条件',
+        'subtitle': '独自制作のデモ・説明動画の利用条件、必須クレジット、@studio_yebisu表記の案内。',
+        'category': 'studio',
+        'category_label': 'スタジオ案内',
+        'kind': '利用条件',
+        'href': 'media-rights.html',
+        'tags': ['動画', 'クレジット', 'ライセンス', '利用条件'],
+    },
+    {
+        'id': 'tool-sitemap',
+        'title': 'サイトマップ',
+        'subtitle': 'Yaoyorozu AI ToolBox全体の入口、制作ガイド、分野別カタログの一覧。',
+        'category': 'studio',
+        'category_label': 'スタジオ案内',
+        'kind': 'サイト案内',
+        'href': 'sitemap.html',
+        'tags': ['サイトマップ', '案内', '一覧'],
+    },
+)
+
+
+def _norm_text(value):
+    return ' '.join(unicodedata.normalize('NFKC', str(value or '')).lower().split())
+
+
+def _load_alias_groups(root):
+    alias_path = Path(root) / 'data/tag-aliases.json'
+    if not alias_path.is_file():
+        return []
+    raw = json.loads(alias_path.read_text('utf-8')).get('aliases', {})
+    groups = []
+    for key, synonyms in raw.items():
+        terms = []
+        seen = set()
+        for term in [key, *synonyms]:
+            normalized = _norm_text(term)
+            if normalized and normalized not in seen:
+                seen.add(normalized)
+                terms.append(normalized)
+        if terms:
+            groups.append(terms)
+    return groups
+
+
+def _term_matches(term, base_text, tag_set):
+    if term in tag_set:
+        return True
+    if re.fullmatch(r'[a-z0-9 _.-]+', term):
+        return bool(re.search(r'(?<![a-z0-9])' + re.escape(term) + r'(?![a-z0-9])', base_text))
+    return term in base_text
+
+
+def _build_search_text(fields, tags, alias_groups):
+    base_parts = [_norm_text(field) for field in fields if field]
+    base_text = ' '.join(part for part in base_parts if part)
+    tag_set = {_norm_text(tag) for tag in tags if tag}
+    extras = []
+    seen = set(base_text.split())
+    for group in alias_groups:
+        if any(_term_matches(term, base_text, tag_set) for term in group):
+            for term in group:
+                if term not in seen:
+                    seen.add(term)
+                    extras.append(term)
+    return base_text if not extras else f'{base_text} {" ".join(extras)}'
+
+
+def build_search_index(catalog, cases, root=ROOT):
+    """Build a unified normalized search index across catalog, cases, models, guides, and studio pages."""
+    root = Path(root)
+    alias_groups = _load_alias_groups(root)
+    category_labels = {cat['id']: cat['label'] for cat in catalog.get('categories', [])}
+    case_by_entry = {case.get('catalog_entry', {}).get('id'): case for case in cases if case.get('catalog_entry')}
+    items = []
+
+    for entry in catalog.get('entries', []):
+        if entry.get('resource_type') == 'open-weight-model':
+            item_type = 'model'
+        elif entry['id'] in case_by_entry or str(entry.get('guide_url', '')).startswith('case.html?id='):
+            item_type = 'case'
+        else:
+            item_type = 'catalog'
+        category_id = entry['category']
+        category_label = category_labels.get(category_id, '')
+        tags = entry.get('tags') or []
+        href = entry.get('guide_url') or (
+            f'case.html?id={case_by_entry[entry["id"]]["id"]}' if entry['id'] in case_by_entry else f'case.html?entry={entry["id"]}'
+        )
+        stage = entry.get('verification_stage') or ('case-published' if item_type == 'case' else 'catalog-listed')
+        items.append({
+            'id': entry['id'],
+            'type': item_type,
+            'title': entry['name'],
+            'subtitle': entry['summary'],
+            'category': category_id,
+            'category_label': category_label,
+            'kind': entry['kind'],
+            'stage': stage,
+            'href': href,
+            'search': _build_search_text(
+                [entry['id'], entry['name'], entry['summary'], category_id, category_label, entry['kind'],
+                 entry.get('use_case', ''), entry.get('license', ''), *tags],
+                tags,
+                alias_groups,
+            ),
+        })
+
+    site_map_path = root / 'data/site-map.json'
+    if site_map_path.is_file():
+        guides = json.loads(site_map_path.read_text('utf-8')).get('guides', [])
+        for guide in guides:
+            tags = ['制作ガイド', guide['id'], guide['label']]
+            items.append({
+                'id': 'guide-' + guide['id'],
+                'type': 'guide',
+                'title': guide['title'],
+                'subtitle': guide.get('description', ''),
+                'category': guide['id'],
+                'category_label': guide['label'],
+                'kind': '制作ガイド',
+                'stage': 'guide',
+                'href': guide['path'],
+                'search': _build_search_text(
+                    ['guide-' + guide['id'], guide['title'], guide.get('description', ''), guide['id'], guide['label'], '制作ガイド'],
+                    tags,
+                    alias_groups,
+                ),
+            })
+
+    for page in STUDIO_TOOL_PAGES:
+        items.append({
+            'id': page['id'],
+            'type': 'tool',
+            'title': page['title'],
+            'subtitle': page['subtitle'],
+            'category': page['category'],
+            'category_label': page['category_label'],
+            'kind': page['kind'],
+            'stage': 'studio-page',
+            'href': page['href'],
+            'search': _build_search_text(
+                [page['id'], page['title'], page['subtitle'], page['category'], page['category_label'], page['kind'], *page['tags']],
+                page['tags'],
+                alias_groups,
+            ),
+        })
+
+    return {
+        'updated_on': catalog.get('updated_on', ''),
+        'items': items,
+    }
 
 
 def render_publication(target, root=ROOT):
@@ -75,6 +273,8 @@ def render_publication(target, root=ROOT):
     if any(entry['id'] == 'agents-' + name for entry in catalog['entries'] for name in INTERNAL_SKILLS):
         raise ValueError('An internal skill was added to the public catalog')
     (target / 'data/catalog.json').write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + '\n', 'utf-8')
+    search_index = build_search_index(catalog, cases, root)
+    (target / 'data/search-index.json').write_text(json.dumps(search_index, ensure_ascii=False, indent=2) + '\n', 'utf-8')
     social_count = build_social_pages(target, cases)
     guides = target / 'guides'
     if guides.is_dir():

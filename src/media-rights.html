@@ -5,19 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>動画の利用とクレジット｜Yaoyorozu AI ToolBox</title>
   <meta name="description" content="独自制作のデモ・説明動画は、クレジット付きで商用利用・編集・再配布できます。Xの投稿本文には @studio_yebisu が必須です。">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f2eee3">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="share.css">
 </head>
-<body>
+<body class="pg-media-rights" id="top">
   <a class="skip" href="#main">本文へ移動</a>
-  <header class="masthead">
-    <a class="wordmark" href="./">Yaoyorozu AI ToolBox</a>
-    <nav class="masthead-nav" aria-label="サイト内"><a href="./#cases">ツールの一覧に戻る</a></nav>
-  </header>
-  <main id="main" class="rights-page">
+
+  <!-- SITE_HEADER -->
+
+  <main id="main" class="rights-page" tabindex="-1">
     <p class="intro-label">動画の利用条件</p>
     <h1>動画は、クレジット付きで<br>利用できます。</h1>
     <p class="rights-lead">商用利用・編集・再配布もOKです。<strong>クレジット表記を必須</strong>とします。</p>
+
     <section aria-labelledby="credit-heading">
       <h2 id="credit-heading">必須のクレジット</h2>
       <p>動画内、動画の近く、投稿本文または概要欄に、Yaoyorozu AI ToolBox と studio_yebisu を読み取れる形で表記してください。編集・抜粋した動画にも適用されます。</p>
@@ -25,11 +27,127 @@
       <p><strong>Xで利用・紹介する場合は、投稿本文への <a href="https://x.com/studio_yebisu">@studio_yebisu</a> の記載が必須です。</strong> 透かしに名前が入っていても、投稿本文にメンションを記載してください。</p>
       <p>各動画の「クレジットをコピー」「Xで紹介」から、表記と記事のリンクを入れた文面を作れます。</p>
     </section>
+
+    <section aria-labelledby="helper-heading">
+      <h2 id="helper-heading">1. クレジット＆X投稿文コピー支援</h2>
+      <p>利用する作例と書式を選ぶと、そのまま貼り付けられるクレジット文面とX投稿用リンクを作成できます。</p>
+      <div class="rights-helper" data-rights-helper>
+        <div class="rights-helper-controls">
+          <div class="rights-field">
+            <label for="rights-case-select">対象の作例・動画を選ぶ</label>
+            <select id="rights-case-select" class="rights-select" data-rights-case>
+              <option value="">汎用 / 任意の動画</option>
+            </select>
+          </div>
+          <fieldset class="rights-format-group">
+            <legend class="rights-format-legend">文面の書式を選ぶ</legend>
+            <div class="rights-format-options">
+              <label class="rights-format-opt">
+                <input type="radio" name="rights-format" value="line" checked data-rights-format>
+                <span>1行クレジット</span>
+              </label>
+              <label class="rights-format-opt">
+                <input type="radio" name="rights-format" value="two-line" data-rights-format>
+                <span>URL付き2行</span>
+              </label>
+              <label class="rights-format-opt">
+                <input type="radio" name="rights-format" value="description" data-rights-format>
+                <span>YouTube・note概要欄用</span>
+              </label>
+            </div>
+          </fieldset>
+        </div>
+        <pre class="video-credit" tabindex="0" aria-label="生成されたクレジット文" data-rights-preview>Yaoyorozu AI ToolBox · @studio_yebisu</pre>
+        <div class="rights-helper-actions">
+          <button type="button" class="btn btn-ink" data-rights-copy>コピー</button>
+          <a class="btn" href="https://x.com/intent/tweet?text=Yaoyorozu%20AI%20ToolBox%20%C2%B7%20%40studio_yebisu" target="_blank" rel="noopener noreferrer" data-rights-x>Xで投稿画面を開く ↗</a>
+        </div>
+        <p class="rights-status" role="status" aria-live="polite" data-rights-status></p>
+      </div>
+    </section>
+
+    <section aria-labelledby="matrix-heading">
+      <h2 id="matrix-heading">2. 利用可否マトリクス表</h2>
+      <p>独自制作のデモ・説明動画に関する代表的な利用形態と条件の整理です。</p>
+      <div class="rights-table-wrap">
+        <table class="rights-table">
+          <thead>
+            <tr>
+              <th scope="col">利用形態</th>
+              <th scope="col">可否</th>
+              <th scope="col">必須条件・補足</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">商用利用</th>
+              <td><span class="rights-badge is-ok">利用可</span></td>
+              <td>収益化チャンネル・企業紹介・クライアント資料等でも利用可能です。読み取れる形でクレジット表記を必ず添えてください。</td>
+            </tr>
+            <tr>
+              <th scope="row">編集・切り抜き</th>
+              <td><span class="rights-badge is-ok">利用可</span></td>
+              <td>トリミング・倍速・字幕追加・一部抜粋が可能です。抜粋版でも同じクレジット表記が適用されます。</td>
+            </tr>
+            <tr>
+              <th scope="row">再配布</th>
+              <td><span class="rights-badge is-ok">利用可</span></td>
+              <td>本条件およびクレジット表記を維持した状態で再配布できます。独占的権利を主張したり、利用条件を偽ったりしないでください。</td>
+            </tr>
+            <tr>
+              <th scope="row">Xでの紹介</th>
+              <td><span class="rights-badge is-note">条件付き可</span></td>
+              <td>投稿本文への <code>@studio_yebisu</code> の記載が必須です。動画に透かしが入っていても、必ず投稿本文へメンションを入れてください。</td>
+            </tr>
+            <tr>
+              <th scope="row">透かし除去時</th>
+              <td><span class="rights-badge is-note">補記で可</span></td>
+              <td>編集や画面構成により下端の帯が見えなくなる場合は、動画内・投稿本文・概要欄のいずれかに「Yaoyorozu AI ToolBox · @studio_yebisu」を補ってください。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <section aria-labelledby="download-heading">
       <h2 id="download-heading">保存する動画にもクレジットが残ります</h2>
       <p>ダウンロード用の縦向き・横向き動画には、下端の細い帯に「Yaoyorozu AI ToolBox」と「@studio_yebisu」を1行で記載しています。</p>
       <p>編集で透かしが見えなくなる場合は、動画内・投稿本文・概要欄等に同じクレジットを補ってください。記事へのリンクも添えると、元の説明と出典を確認できます。</p>
     </section>
+
+    <section aria-labelledby="layers-heading">
+      <h2 id="layers-heading">3. 3層ライセンス境界表</h2>
+      <p>当サイトで扱う素材・コード・モデルは、性質ごとに適用されるライセンスが分かれます。</p>
+      <div class="rights-table-wrap">
+        <table class="rights-table">
+          <thead>
+            <tr>
+              <th scope="col">レイヤー</th>
+              <th scope="col">対象範囲</th>
+              <th scope="col">適用される利用条件</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">独自制作動画</th>
+              <td>各作例の解説・デモ動画（横向き・縦向き・透かし付き保存版）</td>
+              <td>本ページおよび <a href="MEDIA-LICENSE.md">利用条件の全文</a>（クレジット表記必須・X投稿本文に <code>@studio_yebisu</code> 必須）。</td>
+            </tr>
+            <tr>
+              <th scope="row">紹介コード・スキル</th>
+              <td>紹介対象のリポジトリ、スキル定義、編集用プログラム、サイト実装</td>
+              <td><a href="LICENSE">ソフトウェアのライセンス</a> および各紹介元リポジトリのライセンス（MIT / Apache-2.0 等）。各記事の出典欄を確認してください。</td>
+            </tr>
+            <tr>
+              <th scope="row">OpenWeight重み・外部素材</th>
+              <td>学習済みモデルの重み、外部フォント・音楽・入力素材・第三者の商標等</td>
+              <td>各モデル・素材提供元の固有ライセンス（FLUX Kommunity License / Modified MIT / Apache-2.0 等）に従います。本条件が第三者の権利を追加許諾することはありません。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <section aria-labelledby="scope-heading">
       <h2 id="scope-heading">適用される範囲</h2>
       <p>当サイトの制作者が権利を有し、各作例の動画利用条件がこのページを参照する、独自制作のデモ・説明動画が対象です。縦向き・横向き・透かし付きの各版を含みます。</p>
@@ -37,9 +155,44 @@
       <p>法令上許諾なく認められる利用や、従前に別途許諾を受けた版の利用条件を変更するものではありません。本条件は当サイト独自の動画利用条件です。</p>
       <p><a href="MEDIA-LICENSE.md">利用条件の全文</a> · <a href="LICENSE">ソフトウェアのライセンス</a></p>
     </section>
+
+    <section aria-labelledby="faq-heading">
+      <h2 id="faq-heading">4. よくある質問</h2>
+      <div class="rights-faq">
+        <details>
+          <summary>透かし入りの動画をそのままXに投稿する場合も、本文に @studio_yebisu が必要ですか？</summary>
+          <p>はい、必須です。透かしに名前が入っていても、Xで利用・紹介する場合は投稿本文に @studio_yebisu を明記してください。</p>
+        </details>
+        <details>
+          <summary>動画の一部を切り抜いたり、解説ボイスや字幕を重ねたりして公開できますか？</summary>
+          <p>はい、編集・抜粋したうえでの利用が可能です。切り抜きやトリミングで下端の透かしが見えなくなる場合は、動画内・概要欄・投稿本文のいずれかに「Yaoyorozu AI ToolBox · @studio_yebisu」を記載してください。</p>
+        </details>
+        <details>
+          <summary>企業の製品紹介資料や、収益化されたYouTube動画の中でも使えますか？</summary>
+          <p>はい、商用利用も可能です。動画内、動画の近く、または概要欄に読み取れる形でクレジット表記を行ってください。</p>
+        </details>
+        <details>
+          <summary>紹介されているツール本体やOpenWeightモデルの重みも同じ条件で使えますか？</summary>
+          <p>いいえ、動画とツール・モデルは別条件です。コード・スキル・OpenWeightモデルの重みや外部素材には、それぞれ原典のライセンス条件が適用されます。各作例ページや <a href="open-models.html">OpenWeight一覧</a> で確認してください。</p>
+        </details>
+        <details>
+          <summary>クレジットに元記事のURLも含める必要がありますか？</summary>
+          <p>必須表記は「Yaoyorozu AI ToolBox · @studio_yebisu」（X投稿本文は @studio_yebisu）です。あわせて記事URLを添えていただくと、視聴者が元の解説や一次出典を確認しやすくなります。</p>
+        </details>
+      </div>
+    </section>
+
     <p class="rights-date">2026年10月21日制定 · Yaoyorozu AI ToolBox / studio_yebisu</p>
-    <a class="btn btn-line" href="./#cases">ツールを見る</a>
+    <div class="actions">
+      <a class="btn btn-ink" href="./#cases">ツールを見る</a>
+      <a class="btn" href="finder.html">用途ファインダーで探す</a>
+    </div>
   </main>
-  <footer class="colophon"><div class="colophon-main"><p class="wordmark wordmark-small">Yaoyorozu AI ToolBox</p><p>動画はクレジット表記必須。Xの投稿本文には @studio_yebisu を記載してください。</p></div></footer>
+
+  <!-- SITE_FOOTER -->
+
+  <p class="sr-only" role="status" aria-live="polite" data-announce></p>
+  <script src="ui.js" defer></script>
+  <script src="media-rights.js" defer></script>
 </body>
 </html>

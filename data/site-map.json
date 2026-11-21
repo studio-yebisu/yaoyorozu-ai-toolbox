@@ -10,6 +10,10 @@
     {"id": "motion", "label": "モーション", "title": "モーショングラフィック制作ガイド", "path": "guides/motion/", "start": "guides/motion/guide.html", "pages": ["index.html", "projects.html", "guide.html"], "description": "文字と図形を動かす。作例から制作の進め方を選ぶ。"}
   ],
   "information": [
+    {"label": "用途ファインダー・レシピ", "path": "finder.html"},
+    {"label": "道具箱ワークベンチ", "path": "workbench.html"},
+    {"label": "依頼ブリーフ作成", "path": "prompt-studio.html"},
+    {"label": "制作ガイド一覧", "path": "guides/"},
     {"label": "分野から探す", "path": "#fields"},
     {"label": "OpenWeight", "path": "open-models.html"},
     {"label": "動画の利用条件", "path": "media-rights.html"},

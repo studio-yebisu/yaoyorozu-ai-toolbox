@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>依頼ブリーフ作成スタジオ｜Yaoyorozu AI ToolBox</title>
+  <meta name="description" content="短い依頼を、目的・素材・仮定・未確定事項・参照道具（skill_refs）・完成条件が揃った11項目の制作ブリーフJSONと日本語プロンプトへ整理するローカル専用スタジオです。">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f2eee3">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="likes.css">
+  <link rel="stylesheet" href="item-actions.css">
+  <link rel="stylesheet" href="prompt-studio.css">
+</head>
+<body class="pg-prompt-studio" id="top">
+  <a class="skip" href="#main">本文へ移動</a>
+
+  <!-- SITE_HEADER -->
+
+  <main id="main" tabindex="-1">
+    <section class="ps-hero" aria-labelledby="ps-title">
+      <div class="ps-hero-top">
+        <div class="ps-hero-copy">
+          <p class="ps-kicker">BRIEF-TO-DEMO STUDIO</p>
+          <h1 id="ps-title" class="ps-title">依頼ブリーフ作成スタジオ</h1>
+          <p class="ps-lead">曖昧なひと言を、そのまま作業に渡せる「日本語の依頼プロンプト」と「11項目 brief.json」へ整えます。受け取っていない数値や条件は仮定（assumptions）へ分けて記録できます。</p>
+        </div>
+        <div class="ps-hero-actions">
+          <div class="ps-theme-switch" role="group" aria-label="表示テーマ">
+            <button type="button" class="ps-theme-btn" data-theme-choice="system" aria-pressed="true">端末</button>
+            <button type="button" class="ps-theme-btn" data-theme-choice="light" aria-pressed="false">明</button>
+            <button type="button" class="ps-theme-btn" data-theme-choice="dark" aria-pressed="false">暗</button>
+          </div>
+          <div class="ps-quick-links">
+            <a class="btn btn-line" href="workbench.html">道具箱ワークベンチへ</a>
+            <a class="btn btn-line" href="case.html?id=brief-to-demo">brief-to-demo の実例を見る</a>
+          </div>
+        </div>
+      </div>
+      <div class="ps-notice-bar">
+        <p class="ps-privacy">入力内容はブラウザー内だけで整形され、外部AIへ送信されません。</p>
+        <div class="ps-draft-bar">
+          <span class="ps-draft-status" role="status" aria-live="polite" data-draft-status>下書き未保存</span>
+          <button type="button" class="ps-btn-sm" data-save-draft>下書きを保存</button>
+          <button type="button" class="ps-btn-sm" data-load-draft hidden>保存済み下書きを復元</button>
+          <button type="button" class="ps-btn-sm ps-btn-danger" data-clear-draft>下書きをクリア</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="ps-context-banner" data-context-banner hidden aria-live="polite">
+      <p class="ps-context-msg" data-context-msg></p>
+      <button type="button" class="ps-btn-sm" data-dismiss-context>閉じる</button>
+    </section>
+
+    <div class="ps-shell" data-ps-root>
+      <div class="ps-error" data-ps-error hidden role="alert">
+        <h2 class="empty-title">カタログを読み込めませんでした</h2>
+        <p>分野やツール候補の読み込みに失敗しました。通信やローカルサーバーを確認して再読み込みしてください。</p>
+        <button type="button" class="btn btn-ink" data-ps-retry>再読み込み</button>
+      </div>
+
+      <div class="ps-split">
+        <form class="ps-form" data-ps-form novalidate>
+          <!-- Step 1 -->
+          <fieldset class="ps-step" aria-labelledby="step1-title">
+            <legend id="step1-title" class="ps-step-legend">
+              <span class="ps-step-num">STEP 1</span>
+              <span>分野とひと言依頼</span>
+            </legend>
+
+            <div class="ps-templates">
+              <p class="ps-field-label">3つの定番例から1クリックで始める</p>
+              <div class="ps-template-row" data-template-row></div>
+            </div>
+
+            <div class="ps-field">
+              <label class="ps-field-label" for="ps-category">分野（category）</label>
+              <div class="select-wrap">
+                <select id="ps-category" class="ps-select" name="category" data-field="category"></select>
+              </div>
+              <p class="ps-field-hint" data-cat-hint>欲しい成果物の種類から分野を選びます。</p>
+            </div>
+
+            <div class="ps-field">
+              <label class="ps-field-label" for="ps-request">短い依頼文（request）</label>
+              <textarea id="ps-request" class="ps-textarea" rows="3" name="request" data-field="request" placeholder="例：地域のイベント受付を、スマホでも迷わず使える画面にしたい"></textarea>
+            </div>
+          </fieldset>
+
+          <!-- Step 2 -->
+          <fieldset class="ps-step" aria-labelledby="step2-title">
+            <legend id="step2-title" class="ps-step-legend">
+              <span class="ps-step-num">STEP 2</span>
+              <span>使う道具を選ぶ（skill_refs・最大5件）</span>
+            </legend>
+
+            <div class="ps-selected-tools">
+              <div class="ps-selected-head">
+                <span class="ps-field-label">選択中の道具（<strong data-ref-count>0</strong>/5件）</span>
+                <button type="button" class="ps-btn-sm" data-import-saved-tools hidden>ワークベンチ保存済みから候補を見る</button>
+              </div>
+              <p class="ps-empty-inline" data-ref-empty>まだ道具が選ばれていません。下の候補から追加すると、原典URLとライセンスが自動でブリーフに入ります。</p>
+              <ul class="ps-ref-list" data-ref-list></ul>
+            </div>
+
+            <div class="ps-picker-box">
+              <div class="ps-picker-head">
+                <label class="ps-field-label" for="ps-tool-q">道具・モデルを検索して追加</label>
+                <button type="button" class="chip" data-filter-cat-only aria-pressed="true">選択中の分野を優先</button>
+              </div>
+              <input id="ps-tool-q" type="search" class="ps-input" placeholder="名前・用途・ライセンス・タグで検索" autocomplete="off" data-tool-q>
+              <p class="ps-picker-status" data-tool-status>読み込み中…</p>
+              <ul class="ps-tool-candidates" data-tool-candidates></ul>
+            </div>
+          </fieldset>
+
+          <!-- Step 3 -->
+          <fieldset class="ps-step" aria-labelledby="step3-title">
+            <legend id="step3-title" class="ps-step-legend">
+              <span class="ps-step-num">STEP 3</span>
+              <span>目的・対象・素材</span>
+            </legend>
+
+            <div class="ps-field">
+              <label class="ps-field-label" for="ps-goal">達成したいゴール（goal）</label>
+              <input id="ps-goal" type="text" class="ps-input" name="goal" data-field="goal" placeholder="例：初めての人がスマホで迷わず申し込みを完了できる状態にする">
+            </div>
+
+            <div class="ps-field">
+              <label class="ps-field-label" for="ps-audience">使う人・見る人（audience）</label>
+              <input id="ps-audience" type="text" class="ps-input" name="audience" data-field="audience" placeholder="例：イベントに初めて申し込む近隣住民（スマホ中心）">
+            </div>
+
+            <div class="ps-field">
+              <label class="ps-field-label" for="ps-inputs">渡す素材・一次資料（inputs・1行1項目）</label>
+              <textarea id="ps-inputs" class="ps-textarea" rows="3" name="inputs" data-field="inputs" placeholder="イベント名称・日時・会場（主催者から受け取る）&#10;受付で聞く項目一覧（氏名・連絡先・参加人数）"></textarea>
+              <p class="ps-field-hint">まだ手元にない素材は「（未提供・受取待ち）」のように区別して書くと混同を防げます。</p>
+            </div>
+
+            <div class="ps-field">
+              <label class="ps-field-label" for="ps-deliverables">欲しい成果物（deliverables・1行1項目）</label>
+              <textarea id="ps-deliverables" class="ps-textarea" rows="3" name="deliverables" data-field="deliverables" placeholder="360px幅から操作できる受付画面のHTML・CSS・JS一式&#10;入力・確認・完了の3画面"></textarea>
+            </div>
+          </fieldset>
+
+          <!-- Step 4 -->
+          <fieldset class="ps-step" aria-labelledby="step4-title">
+            <legend id="step4-title" class="ps-step-legend">
+              <span class="ps-step-num">STEP 4</span>
+              <span>前提条件・未確定事項・完成条件</span>
+            </legend>
+
+            <div class="ps-field">
+              <label class="ps-field-label" for="ps-assumptions">仮定・仮置きする条件（assumptions・1行1項目）</label>
+              <textarea id="ps-assumptions" class="ps-textarea" rows="3" name="assumptions" data-field="assumptions" placeholder="送信先サーバーは未定のため、今回はローカル完了表示までとする&#10;日時・会場は未提供のため、仮値と分かる表記にする"></textarea>
+            </div>
+
+            <div class="ps-field">
+              <label class="ps-field-label" for="ps-open-questions">着手前に確認したい未確定事項（open_questions・1行1項目）</label>
+              <textarea id="ps-open-questions" class="ps-textarea" rows="3" name="open_questions" data-field="open_questions" placeholder="申し込み時の必須項目にメールアドレスは必要か？&#10;定員超過時の案内文は用意されているか？"></textarea>
+            </div>
+
+            <div class="ps-field">
+              <label class="ps-field-label" for="ps-acceptance">完成条件（acceptance・1行1項目）</label>
+              <div class="ps-chip-box">
+                <p class="ps-field-hint">1タップで完成条件を追加（選択分野に合わせて提案）</p>
+                <div class="ps-accept-chips" data-accept-chips></div>
+              </div>
+              <textarea id="ps-acceptance" class="ps-textarea" rows="4" name="acceptance" data-field="acceptance" placeholder="320px〜1440px幅で横スクロールせずに完結する&#10;未入力エラー時は対象項目のすぐ近くに修正方法が出る"></textarea>
+            </div>
+
+            <div class="ps-field">
+              <label class="ps-field-label" for="ps-next-step">最初の一歩（next_step）</label>
+              <input id="ps-next-step" type="text" class="ps-input" name="next_step" data-field="next_step" placeholder="例：まず open_questions を確認し、skill_refs の SKILL.md とライセンスを読んで設計に着手する">
+            </div>
+          </fieldset>
+        </form>
+
+        <!-- Sticky Split Preview -->
+        <aside class="ps-preview-col" aria-labelledby="ps-preview-title">
+          <div class="ps-preview-card">
+            <div class="ps-preview-head">
+              <h2 id="ps-preview-title" class="ps-preview-title">出力プレビュー</h2>
+              <div class="ps-preview-tabs" role="tablist" aria-label="出力形式の切替">
+                <button type="button" role="tab" id="tab-prompt" aria-controls="out-prompt" aria-selected="true" class="ps-preview-tab" data-out-tab="prompt">日本語の依頼プロンプト</button>
+                <button type="button" role="tab" id="tab-json" aria-controls="out-json" aria-selected="false" tabindex="-1" class="ps-preview-tab" data-out-tab="json">brief.json（11項目）</button>
+              </div>
+            </div>
+
+            <div class="ps-schema-pills" data-schema-pills aria-label="11項目の入力状況"></div>
+
+            <div id="out-prompt" role="tabpanel" aria-labelledby="tab-prompt" data-out-panel="prompt">
+              <pre class="ps-code-preview" data-prompt-preview></pre>
+            </div>
+            <div id="out-json" role="tabpanel" aria-labelledby="tab-json" data-out-panel="json" hidden>
+              <pre class="ps-code-preview ps-mono" data-json-preview></pre>
+            </div>
+
+            <div class="ps-preview-actions">
+              <button type="button" class="btn btn-ink" data-copy-prompt>依頼文をコピー</button>
+              <button type="button" class="btn btn-line" data-copy-json>JSONをコピー</button>
+              <button type="button" class="btn btn-line" data-download-json>brief.json を保存</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- SITE_FOOTER -->
+
+  <div class="ps-toast-region" aria-live="polite" aria-atomic="true" data-ps-toast-region></div>
+  <p class="sr-only" role="status" aria-live="polite" data-announce></p>
+  <script src="ui.js"></script>
+  <script src="likes.js"></script>
+  <script src="item-actions.js"></script>
+  <script src="prompt-studio.js"></script>
+</body>
+</html>
