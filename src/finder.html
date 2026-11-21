@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>用途ファインダー・レシピ集｜Yaoyorozu AI ToolBox</title>
+  <meta name="description" content="つくりたい対象と優先条件からAIスキル・ツール・OpenWeightを絞り込み、目的別の組み合わせレシピをそのままワークベンチや依頼ブリーフ作成へ渡せます。">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f2eee3">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="likes.css">
+  <link rel="stylesheet" href="item-actions.css">
+  <link rel="stylesheet" href="finder.css">
+</head>
+<body class="pg-finder" id="top">
+  <a class="skip" href="#main">本文へ移動</a>
+
+  <!-- SITE_HEADER -->
+
+  <main id="main" class="finder-page" tabindex="-1">
+    <header class="finder-band finder-hero">
+      <p class="hub-kicker">USE-CASE FINDER &amp; RECIPES</p>
+      <h1 class="hub-page-title">用途ファインダー・レシピ集</h1>
+      <p class="hub-page-lead">つくりたい対象、優先したい条件、キーワードの3段階から該当する道具を絞り込みます。下段には複数の道具を順番に組み合わせた実践レシピ集をまとめています。</p>
+      <div class="finder-hero-actions">
+        <a class="btn btn-ink" href="#recipes">目的別レシピ集を見る</a>
+        <a class="btn" href="workbench.html">ワークベンチを開く</a>
+        <a class="btn" href="prompt-studio.html">依頼ブリーフ作成スタジオ</a>
+      </div>
+    </header>
+
+    <section class="finder-band" aria-labelledby="finder-heading">
+      <div class="section-head">
+        <h2 id="finder-heading" class="section-title">インタラクティブ用途ファインダー</h2>
+        <p class="section-note">選択した条件はURLに記録されます。そのまま共有やブックマークができます。</p>
+      </div>
+
+      <form class="finder-steps" role="search" aria-label="用途ファインダー" data-finder-form>
+        <fieldset class="finder-step">
+          <legend class="finder-step-legend"><span class="finder-step-num">STEP 1</span> 目的グループを選ぶ</legend>
+          <div class="finder-chips" data-goal-chips>
+            <button type="button" class="finder-chip" data-goal="" aria-pressed="true">すべて</button>
+            <button type="button" class="finder-chip" data-goal="ui-slides-graphics" aria-pressed="false">画面・資料・図解をつくる</button>
+            <button type="button" class="finder-chip" data-goal="video-audio-3d" aria-pressed="false">動画・音声・3Dをつくる</button>
+            <button type="button" class="finder-chip" data-goal="dev-research-auto" aria-pressed="false">開発・調査・自動化を進める</button>
+            <button type="button" class="finder-chip" data-goal="knowledge-docs-learn" aria-pressed="false">知識整理・文書・学習に使う</button>
+            <button type="button" class="finder-chip" data-goal="openweight" aria-pressed="false">用途特化モデル(OpenWeight)を探す</button>
+          </div>
+        </fieldset>
+
+        <fieldset class="finder-step">
+          <legend class="finder-step-legend"><span class="finder-step-num">STEP 2</span> 優先条件チップ</legend>
+          <div class="finder-chips" data-pref-chips>
+            <button type="button" class="finder-chip" data-pref="demo" aria-pressed="false">動画・デモ付きを優先</button>
+            <button type="button" class="finder-chip" data-kind="skill" aria-pressed="false">スキルを優先</button>
+            <button type="button" class="finder-chip" data-kind="tool" aria-pressed="false">ツール・ライブラリを優先</button>
+            <button type="button" class="finder-chip" data-pref="verified" aria-pressed="false">原典確認済み以上</button>
+          </div>
+        </fieldset>
+
+        <div class="finder-step">
+          <label for="finder-q" class="finder-step-legend"><span class="finder-step-num">STEP 3</span> 自由キーワード補助入力</label>
+          <div class="finder-search-row">
+            <input id="finder-q" type="search" name="q" autocomplete="off" enterkeyhint="search" placeholder="例：Remotion、PDF、文字起こし、デザインシステム" data-finder-q>
+            <button type="button" class="btn" data-finder-reset>条件をクリア</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="finder-tray" data-finder-tray hidden>
+        <p class="finder-tray-summary" data-finder-tray-summary></p>
+        <div class="finder-tray-actions">
+          <a class="btn btn-ink" href="workbench.html" data-tray-workbench hidden>ワークベンチで開く</a>
+          <button type="button" class="btn" data-tray-clear>選択を空にする</button>
+        </div>
+      </div>
+
+      <div class="finder-status-bar">
+        <p class="finder-status" role="status" aria-live="polite" data-finder-status>道具を読み込んでいます…</p>
+      </div>
+
+      <ol class="finder-results" aria-labelledby="finder-heading" data-finder-results></ol>
+
+      <div class="finder-empty" data-finder-empty hidden>
+        <p class="empty-title">条件に合う道具が見つかりませんでした。</p>
+        <p>キーワードを短くするか、条件をクリアして別の組み合わせをお試しください。</p>
+        <div class="actions">
+          <button type="button" class="btn btn-ink" data-finder-empty-reset>条件をクリアする</button>
+        </div>
+      </div>
+
+      <div class="finder-error" role="alert" data-finder-error hidden>
+        <p class="empty-title">カタログデータを読み込めませんでした。</p>
+        <p>通信状態を確認してから、ページを再読み込みしてください。</p>
+      </div>
+    </section>
+
+    <section id="recipes" class="finder-band" aria-labelledby="recipes-heading" tabindex="-1">
+      <div class="section-head">
+        <p class="hub-kicker">CURATED RECIPES</p>
+        <h2 id="recipes-heading" class="section-title">目的別ツール組み合わせレシピ集</h2>
+        <p class="section-note">実在する検証済みツール・スキル・OpenWeightモデルを手順順に組み合わせたレシピです。OpenWeightの推論未実行項目は区別して表記しています。</p>
+      </div>
+
+      <p class="finder-status" role="status" aria-live="polite" data-recipes-status>レシピを読み込んでいます…</p>
+      <ol class="recipe-list" aria-labelledby="recipes-heading" data-recipes-list></ol>
+    </section>
+  </main>
+
+  <!-- SITE_FOOTER -->
+
+  <p class="sr-only" role="status" aria-live="polite" data-announce></p>
+  <script src="ui.js" defer></script>
+  <script src="likes.js" defer></script>
+  <script src="item-actions.js" defer></script>
+  <script src="finder.js" defer></script>
+</body>
+</html>

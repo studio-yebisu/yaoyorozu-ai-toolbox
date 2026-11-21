@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>OpenWeight｜Yaoyorozu AI ToolBox</title>
   <meta name="description" content="画像・音声・文字起こし・予測など、ツール用途のOpenWeightを入出力の模式図と公式・作者の作例から選べるページ。必要な環境、注意点、公開されている重み、ライセンスの原文もまとめています。">
-  <meta name="color-scheme" content="light">
-  <meta name="theme-color" content="#f2eee3">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f2eee3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#161410" media="(prefers-color-scheme: dark)">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="likes.css">
   <link rel="stylesheet" href="item-actions.css">
@@ -38,6 +39,8 @@
         <h1 id="ow-title" class="ow-title">OpenWeight</h1>
         <p class="ow-lead" data-ow-intro>Xで紹介したモデルを、使いどころと入出力の図から選ぶ。</p>
         <div class="actions">
+          <a class="btn btn-ink" href="finder.html">用途ファインダー</a>
+          <a class="btn btn-line" href="workbench.html">ワークベンチで比較</a>
           <a class="btn btn-line" href="./#cases">スキル・ツールのページへ戻る</a>
         </div>
       </div>
@@ -55,16 +58,58 @@
       </header>
 
       <form class="ow-tools" role="search" data-ow-form>
-        <div class="search-box ow-search">
-          <label for="ow-q" class="search-label">キーワードで探す</label>
-          <input id="ow-q" type="search" name="q" autocomplete="off" enterkeyhint="search" placeholder="例：音声、画像、MIT、予測" aria-describedby="ow-status" data-ow-q>
+        <div class="ow-tools-top">
+          <div class="search-box ow-search">
+            <label for="ow-q" class="search-label">キーワードで探す <span class="kbd-hint">（<kbd>/</kbd> で入力）</span></label>
+            <input id="ow-q" type="search" name="q" autocomplete="off" enterkeyhint="search" placeholder="例：音声、画像、MIT、CUDA、PyTorch" aria-describedby="ow-status" data-ow-q>
+          </div>
+          <div class="ow-view-wrap" role="group" aria-label="表示形式">
+            <span class="ow-facet-label">表示</span>
+            <div class="ow-view-switch">
+              <button type="button" class="chip" data-ow-view="cards" aria-pressed="true">カード表示</button>
+              <button type="button" class="chip" data-ow-view="matrix" aria-pressed="false">比較マトリクス</button>
+            </div>
+          </div>
         </div>
-        <div class="ow-fields" role="group" aria-label="分野で絞り込む" data-ow-fields hidden></div>
+
+        <div class="ow-fields" role="group" aria-label="用途分野で絞り込む" data-ow-fields hidden></div>
+
+        <div class="ow-facets">
+          <div class="ow-facet-group" role="group" aria-label="取得条件で絞り込む">
+            <span class="ow-facet-label">取得条件</span>
+            <div class="ow-facet-pills">
+              <button type="button" class="chip ow-facet-chip" data-ow-access="all" aria-pressed="true">すべて</button>
+              <button type="button" class="chip ow-facet-chip" data-ow-access="open" aria-pressed="false">同意不要</button>
+              <button type="button" class="chip ow-facet-chip" data-ow-access="gated" aria-pressed="false">要同意</button>
+            </div>
+          </div>
+
+          <div class="ow-facet-group" role="group" aria-label="ライセンスで絞り込む">
+            <span class="ow-facet-label">ライセンス</span>
+            <div class="ow-facet-pills">
+              <button type="button" class="chip ow-facet-chip" data-ow-license="all" aria-pressed="true">すべて</button>
+              <button type="button" class="chip ow-facet-chip" data-ow-license="permissive" aria-pressed="false">MIT・Apache等</button>
+              <button type="button" class="chip ow-facet-chip" data-ow-license="conditional" aria-pressed="false">条件付き・独自</button>
+            </div>
+          </div>
+
+          <div class="ow-facet-group" role="group" aria-label="動作環境で絞り込む">
+            <span class="ow-facet-label">動作環境</span>
+            <div class="ow-facet-pills">
+              <button type="button" class="chip ow-facet-chip" data-ow-env="all" aria-pressed="true">すべて</button>
+              <button type="button" class="chip ow-facet-chip" data-ow-env="cpu" aria-pressed="false">CPU対応記載</button>
+              <button type="button" class="chip ow-facet-chip" data-ow-env="gpu" aria-pressed="false">GPU・CUDA記載</button>
+            </div>
+          </div>
+        </div>
       </form>
 
       <div class="ow-status-row">
         <p id="ow-status" class="ow-status" role="status" aria-live="polite" data-ow-status>モデルを読み込んでいます…</p>
-        <button type="button" class="text-btn" data-ow-reset hidden>絞り込みを外す</button>
+        <div class="ow-status-actions">
+          <button type="button" class="btn btn-line ow-toggle-all" data-ow-toggle-all aria-pressed="false" hidden>詳細をすべて開く</button>
+          <button type="button" class="text-btn" data-ow-reset hidden>絞り込みを外す</button>
+        </div>
       </div>
 
       <ol class="ow-list" aria-labelledby="ow-gallery-title" aria-busy="true" data-ow-list>
@@ -72,9 +117,11 @@
         <li class="ow-skel" aria-hidden="true"><span></span><span></span><span></span></li>
       </ol>
 
+      <div class="ow-matrix-wrap" data-ow-matrix hidden></div>
+
       <div class="ow-empty" data-ow-empty hidden>
         <p class="empty-title">当てはまるモデルがありません。</p>
-        <p>別の言葉で探すか、分野の絞り込みを外してください。</p>
+        <p>別の言葉で探すか、分野や条件の絞り込みを外してください。</p>
         <button type="button" class="btn btn-ink" data-ow-empty-reset>すべてのモデルを見る</button>
       </div>
 
@@ -88,6 +135,28 @@
       </div>
     </section>
   </main>
+
+  <dialog class="ow-zoom-dialog" data-ow-zoom aria-labelledby="ow-zoom-title">
+    <div class="ow-zoom-sheet">
+      <div class="ow-zoom-bar">
+        <div class="ow-zoom-head">
+          <p class="ow-zoom-eyebrow" data-ow-zoom-meta></p>
+          <h2 id="ow-zoom-title" class="ow-zoom-title" data-ow-zoom-title></h2>
+        </div>
+        <button type="button" class="ow-zoom-close" data-ow-zoom-close autofocus>閉じる</button>
+      </div>
+      <div class="ow-zoom-body">
+        <div class="ow-zoom-frame" data-ow-zoom-frame></div>
+        <div class="ow-zoom-details">
+          <p class="ow-zoom-note" data-ow-zoom-note></p>
+          <p class="ow-zoom-alt" data-ow-zoom-alt></p>
+          <p class="ow-zoom-disclaimer">仕組みを説明する模式図です。このサイト上でのモデル推論は未実行です。</p>
+          <div class="ow-zoom-actions" data-ow-zoom-actions></div>
+        </div>
+      </div>
+      <p class="sr-only" role="status" aria-live="polite" data-ow-zoom-live></p>
+    </div>
+  </dialog>
 
   <footer class="colophon">
     <p><a href="media-rights.html">独自制作動画の利用条件とクレジット</a></p>

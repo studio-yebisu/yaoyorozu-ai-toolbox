@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>道具箱ワークベンチ｜Yaoyorozu AI ToolBox</title>
+  <meta name="description" content="保存したAIスキル・ツール・OpenWeightモデルの整理、最大4件の並列比較、AGENTS.md向けMarkdown・まとめ依頼文・共有URLの作成をブラウザー内で完結できるワークベンチです。">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f2eee3">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="likes.css">
+  <link rel="stylesheet" href="item-actions.css">
+  <link rel="stylesheet" href="workbench.css">
+</head>
+<body class="pg-workbench" id="top">
+  <a class="skip" href="#main">本文へ移動</a>
+
+  <!-- SITE_HEADER -->
+
+  <main id="main" tabindex="-1">
+    <section class="wb-hero" aria-labelledby="wb-title">
+      <div class="wb-hero-top">
+        <div class="wb-hero-copy">
+          <p class="wb-kicker">WORKBENCH</p>
+          <h1 id="wb-title" class="wb-title">道具箱ワークベンチ</h1>
+          <p class="wb-lead">保存した道具の順番を並べ替えてメモを残し、最大4件を並べて比較。チーム共有や制作にそのまま使えるMarkdownとまとめ依頼文を、ブラウザー内だけで作成できます。</p>
+        </div>
+        <div class="wb-hero-actions">
+          <div class="wb-theme-switch" role="group" aria-label="表示テーマ">
+            <button type="button" class="wb-theme-btn" data-theme-choice="system" aria-pressed="true">端末</button>
+            <button type="button" class="wb-theme-btn" data-theme-choice="light" aria-pressed="false">明</button>
+            <button type="button" class="wb-theme-btn" data-theme-choice="dark" aria-pressed="false">暗</button>
+          </div>
+          <div class="wb-quick-links">
+            <a class="btn btn-line" href="prompt-studio.html">依頼ブリーフ作成スタジオへ</a>
+            <a class="btn btn-line" href="./#catalog">カタログを見る</a>
+          </div>
+        </div>
+      </div>
+      <p class="wb-privacy">ローカル動作：選んだ項目・メモ・出力はブラウザー内で処理され、外部AIや外部サーバーへ送信されません。</p>
+    </section>
+
+    <section class="wb-shared-banner" data-shared-banner hidden aria-live="polite">
+      <div class="wb-shared-banner-copy">
+        <strong data-shared-title>共有されたツールキットを表示しています</strong>
+        <p data-shared-desc>共有リンクから開いた一時表示です。手元のリストにはまだ追加されていません。</p>
+      </div>
+      <div class="wb-shared-banner-actions">
+        <button type="button" class="btn btn-ink" data-import-shared>自分の「あとで試す」にすべて取り込む</button>
+        <button type="button" class="btn btn-line" data-exit-shared>自分の保存リストに戻る</button>
+      </div>
+    </section>
+
+    <div class="wb-shell" data-wb-root>
+      <div class="wb-tabs-bar">
+        <div class="wb-tabs" role="tablist" aria-label="ワークベンチの表示切替">
+          <button type="button" role="tab" id="tab-kit" aria-controls="panel-kit" aria-selected="true" class="wb-tab" data-tab="kit">
+            <span>マイツールキット</span>
+            <span class="wb-tab-badge" data-kit-count>0</span>
+          </button>
+          <button type="button" role="tab" id="tab-compare" aria-controls="panel-compare" aria-selected="false" tabindex="-1" class="wb-tab" data-tab="compare">
+            <span>並列比較 (最大4件)</span>
+            <span class="wb-tab-badge" data-compare-count>0/4</span>
+          </button>
+          <button type="button" role="tab" id="tab-export" aria-controls="panel-export" aria-selected="false" tabindex="-1" class="wb-tab" data-tab="export">
+            <span>まとめ出力・共有</span>
+          </button>
+        </div>
+        <p class="wb-status-line" role="status" aria-live="polite" data-wb-status>カタログを読み込んでいます…</p>
+      </div>
+
+      <div class="wb-error" data-wb-error hidden role="alert">
+        <h2 class="empty-title">データを読み込めませんでした</h2>
+        <p>カタログデータの取得に失敗しました。通信やローカルサーバーの状態を確認してから、もう一度お試しください。</p>
+        <button type="button" class="btn btn-ink" data-wb-retry>再読み込み</button>
+      </div>
+
+      <section id="panel-kit" role="tabpanel" aria-labelledby="tab-kit" class="wb-panel" data-panel="kit">
+        <div class="wb-kit-layout">
+          <div class="wb-kit-main">
+            <div class="wb-panel-head">
+              <div>
+                <h2 class="wb-section-title">手順キットの組み立て</h2>
+                <p class="wb-section-note">↑ / ↓ で使う順番を並べ替え、道具ごとのメモを記録できます。メモと順番はこのブラウザーに自動保存されます。</p>
+              </div>
+              <div class="wb-panel-actions">
+                <button type="button" class="btn btn-line" data-clear-kit hidden>キットを空にする</button>
+              </div>
+            </div>
+
+            <div class="wb-presets" aria-labelledby="wb-presets-title">
+              <div class="wb-presets-head">
+                <h3 id="wb-presets-title" class="wb-sub-title">1クリックで始めるスターターセット</h3>
+                <span class="wb-hint-inline">現在のキットに追加または入れ替えてすぐ試せます</span>
+              </div>
+              <div class="wb-preset-grid" data-preset-list></div>
+            </div>
+
+            <div class="wb-kit-empty" data-kit-empty hidden>
+              <p class="empty-title">まだ道具が選ばれていません。</p>
+              <p>上のスターターセットを1クリックで読み込むか、右（スマホでは下）の検索ピッカーから好きな道具・OpenWeightモデルを追加してください。</p>
+            </div>
+
+            <ol class="wb-step-list" data-kit-list></ol>
+          </div>
+
+          <aside class="wb-picker" aria-labelledby="wb-picker-title">
+            <div class="wb-picker-head">
+              <h2 id="wb-picker-title" class="wb-sub-title">道具を追加する</h2>
+              <p class="wb-picker-sub" data-picker-total>全カタログから検索</p>
+            </div>
+            <div class="wb-picker-controls">
+              <label class="wb-field-label" for="wb-pick-q">キーワードで探す</label>
+              <input id="wb-pick-q" type="search" class="wb-input" placeholder="例：UI、Mermaid、音声、MIT" autocomplete="off" data-picker-q>
+              <label class="wb-field-label" for="wb-pick-cat">分野で絞る</label>
+              <div class="select-wrap">
+                <select id="wb-pick-cat" class="wb-select" data-picker-cat>
+                  <option value="all">すべての分野</option>
+                </select>
+              </div>
+            </div>
+            <ul class="wb-picker-list" data-picker-list></ul>
+            <div class="wb-picker-more-wrap">
+              <button type="button" class="btn btn-line wb-btn-full" data-picker-more hidden>さらに表示する</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="panel-compare" role="tabpanel" aria-labelledby="tab-compare" class="wb-panel" data-panel="compare" hidden>
+        <div class="wb-panel-head">
+          <div>
+            <h2 class="wb-section-title">並列比較マトリクス（最大4件）</h2>
+            <p class="wb-section-note">確認状況・ライセンス・必要な環境・使いどころ・動画やデモの有無を横並びで比べられます。</p>
+          </div>
+          <div class="wb-panel-actions">
+            <button type="button" class="btn btn-line" data-copy-compare-url>比較URLをコピー</button>
+            <button type="button" class="btn btn-line" data-clear-compare>比較をクリア</button>
+          </div>
+        </div>
+
+        <div class="wb-compare-slots" data-compare-slots aria-label="比較中の項目"></div>
+
+        <div class="wb-compare-add-bar">
+          <label class="wb-field-label" for="wb-compare-quick-select">キットやカタログから比較に追加</label>
+          <div class="wb-compare-add-row">
+            <div class="select-wrap wb-flex-1">
+              <select id="wb-compare-quick-select" class="wb-select" data-compare-select>
+                <option value="">追加する道具・モデルを選ぶ…</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-ink" data-compare-add-selected>比較に追加</button>
+          </div>
+        </div>
+
+        <div class="wb-compare-empty" data-compare-empty hidden>
+          <p class="empty-title">比較する道具がまだ選ばれていません。</p>
+          <p>「マイツールキット」で「比較に入れる」を押すか、上の選択欄から最大4件まで追加してください。</p>
+        </div>
+
+        <div class="wb-table-wrap" data-compare-table-wrap hidden>
+          <table class="wb-compare-table" data-compare-table></table>
+        </div>
+      </section>
+
+      <section id="panel-export" role="tabpanel" aria-labelledby="tab-export" class="wb-panel" data-panel="export" hidden>
+        <div class="wb-panel-head">
+          <div>
+            <h2 class="wb-section-title">まとめ出力・共有キット</h2>
+            <p class="wb-section-note">並べて整理したツールキットを、チーム共有・ドキュメント配置・AIへの依頼にそのまま使える形式へ書き出します。</p>
+          </div>
+        </div>
+
+        <div class="wb-export-grid">
+          <article class="wb-export-card">
+            <header class="wb-export-card-head">
+              <h3>1. 共有URLをつくる</h3>
+              <p>選んだ道具のID一覧をURLパラメータに埋め込みます（メモは含まれません）。</p>
+            </header>
+            <div class="wb-share-box">
+              <label class="wb-field-label" for="wb-share-items-url">ツールキット共有URL（?items=...）</label>
+              <div class="wb-copy-row">
+                <input id="wb-share-items-url" type="text" readonly class="wb-input wb-mono" data-share-items-url>
+                <button type="button" class="btn btn-ink" data-copy-items-url>URLをコピー</button>
+              </div>
+              <label class="wb-field-label" for="wb-share-compare-url">並列比較共有URL（?compare=...）</label>
+              <div class="wb-copy-row">
+                <input id="wb-share-compare-url" type="text" readonly class="wb-input wb-mono" data-share-compare-url>
+                <button type="button" class="btn btn-line" data-copy-compare-url-2>比較URLをコピー</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="wb-export-card">
+            <header class="wb-export-card-head">
+              <h3>2. まとめ依頼文（Prompt Bundle）を生成</h3>
+              <p>目的を1行で入力すると、Step順の道具・出典URL・ライセンス・メモを束ねた依頼文を作ります。</p>
+            </header>
+            <div class="wb-bundle-controls">
+              <label class="wb-field-label" for="wb-bundle-goal">今回の目的（1行）</label>
+              <input id="wb-bundle-goal" type="text" class="wb-input" placeholder="例：イベント案内ページをスマホ対応で設計し、図解を添えて仕上げたい" data-bundle-goal>
+            </div>
+            <pre class="wb-code-preview" data-bundle-preview></pre>
+            <div class="wb-export-actions">
+              <button type="button" class="btn btn-ink" data-copy-bundle>まとめ依頼文をコピー</button>
+              <a class="btn btn-line" href="prompt-studio.html" data-open-prompt-studio>依頼ブリーフ作成スタジオで詳しく作る</a>
+            </div>
+          </article>
+
+          <article class="wb-export-card wb-export-card-wide">
+            <header class="wb-export-card-head">
+              <div>
+                <h3>3. Markdown ツールキット出力</h3>
+                <p>AGENTS.md / TOOLS.md やチーム内Wikiに貼れる形式で書き出します。</p>
+              </div>
+              <div class="wb-md-mode" role="group" aria-label="Markdown形式">
+                <button type="button" class="chip" data-md-format="agents" aria-pressed="true">AGENTS.md / TOOLS.md 向け</button>
+                <button type="button" class="chip" data-md-format="team" aria-pressed="false">チーム共有リスト</button>
+              </div>
+            </header>
+            <pre class="wb-code-preview" data-md-preview></pre>
+            <div class="wb-export-actions">
+              <button type="button" class="btn btn-ink" data-copy-md>Markdownをコピー</button>
+              <button type="button" class="btn btn-line" data-download-md>toolkit.md を保存</button>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- SITE_FOOTER -->
+
+  <div class="wb-toast-region" aria-live="polite" aria-atomic="true" data-wb-toast-region></div>
+  <p class="sr-only" role="status" aria-live="polite" data-announce></p>
+  <script src="ui.js"></script>
+  <script src="likes.js"></script>
+  <script src="item-actions.js"></script>
+  <script src="workbench.js"></script>
+</body>
+</html>

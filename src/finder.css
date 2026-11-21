@@ -1,0 +1,467 @@
+/* Yaoyorozu AI ToolBox — Use-Case Finder & Curated Recipes (finder.html). */
+
+.finder-page {
+  --surface: var(--sy-field, var(--field, #fbf9f3));
+  --accent-text: var(--sy-accent, #b83900);
+  padding-bottom: 3.5rem;
+}
+
+.finder-band {
+  padding-top: 1.75rem;
+  padding-bottom: 2.25rem;
+  padding-left: max(var(--pad-l, var(--sy-gutter, 1.25rem)), calc((100% - var(--max, var(--sy-max, 80rem))) / 2));
+  padding-right: max(var(--pad-r, var(--sy-gutter, 1.25rem)), calc((100% - var(--max, var(--sy-max, 80rem))) / 2));
+  border-top: 1px solid var(--sy-ink, var(--ink));
+}
+
+.finder-hero {
+  border-top: 0;
+  padding-top: 1.5rem;
+  padding-bottom: 1.75rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.finder-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.finder-steps {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  border: 1px solid var(--sy-ink, var(--ink));
+  border-top: 4px solid var(--accent-text);
+  background: var(--surface);
+}
+
+.finder-step {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.finder-step + .finder-step {
+  padding-top: 1rem;
+  border-top: 1px solid var(--sy-rule, var(--rule));
+}
+
+.finder-step-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.625rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--sy-ink, var(--ink));
+}
+
+.finder-step-num {
+  display: inline-block;
+  padding: 0.05rem 0.45rem;
+  background: var(--sy-ink, var(--ink));
+  color: var(--sy-paper, var(--paper));
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+}
+
+.finder-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.finder-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0.4rem 0.875rem;
+  border: 1px solid var(--sy-ink, var(--ink));
+  border-radius: 0;
+  background: var(--sy-paper, var(--paper));
+  color: var(--sy-ink, var(--ink));
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+}
+
+.finder-chip[aria-pressed="true"] {
+  background: var(--sy-ink, var(--ink));
+  color: var(--sy-paper, var(--paper));
+  font-weight: 700;
+}
+
+.finder-search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  align-items: center;
+}
+
+.finder-search-row input {
+  flex: 1 1 16rem;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0.45rem 0.875rem;
+  border: 1.5px solid var(--sy-ink, var(--ink));
+  border-radius: 0;
+  background: var(--sy-paper, var(--paper));
+  color: var(--sy-ink, var(--ink));
+  font-size: 1rem;
+}
+
+.finder-status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-top: 1.25rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--sy-ink, var(--ink));
+}
+
+.finder-status {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--sy-ink, var(--ink));
+  font-variant-numeric: tabular-nums;
+}
+
+.finder-tray {
+  margin-top: 1rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--sy-ink, var(--ink));
+  background: var(--sy-paper-deep, var(--paper-deep));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.625rem 1rem;
+}
+
+.finder-tray-summary {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.finder-tray-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.finder-results {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.finder-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 1.125rem;
+  border: 1px solid var(--sy-rule, var(--rule));
+  border-top: 3px solid var(--sy-ink, var(--ink));
+  background: var(--surface);
+}
+
+.finder-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.625rem;
+  font-size: 0.8125rem;
+  color: var(--sy-ink-soft, var(--ink-soft));
+}
+
+.finder-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.08rem 0.45rem;
+  border: 1px solid var(--sy-rule, var(--rule));
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.45;
+  background: var(--sy-paper, var(--paper));
+  color: var(--sy-ink, var(--ink));
+}
+
+.finder-badge.is-demo {
+  background: var(--lime, #cbef3a);
+  border-color: #17150f;
+  color: #17150f;
+}
+
+.finder-badge.is-openweight {
+  border-color: var(--accent-text);
+  color: var(--accent-text);
+}
+
+.finder-badge.is-match {
+  border-style: dashed;
+}
+
+.finder-card-title {
+  margin: 0;
+  font-family: var(--sy-mincho, var(--mincho));
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.finder-card-title a {
+  text-decoration: none;
+}
+
+.finder-card-title a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.finder-card-summary {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+.finder-card-use {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--sy-ink-soft, var(--ink-soft));
+}
+
+.finder-reasons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.125rem;
+}
+
+.finder-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: auto;
+  padding-top: 0.625rem;
+  border-top: 1px solid var(--sy-rule, var(--rule));
+}
+
+.finder-card-actions .btn {
+  min-height: 2.75rem;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.finder-card-actions .btn[aria-pressed="true"] {
+  background: var(--sy-ink, var(--ink));
+  color: var(--sy-paper, var(--paper));
+}
+
+/* Recipes section */
+.recipe-list {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.recipe-card {
+  padding: 1.25rem;
+  border: 1px solid var(--sy-ink, var(--ink));
+  border-left: 4px solid var(--accent-text);
+  background: var(--surface);
+  display: grid;
+  gap: 0.875rem;
+}
+
+.recipe-card.is-goal-match {
+  box-shadow: inset 0 0 0 1px var(--accent-text);
+}
+
+.recipe-head {
+  display: grid;
+  gap: 0.375rem;
+}
+
+.recipe-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.625rem;
+  font-size: 0.8125rem;
+  color: var(--sy-ink-soft, var(--ink-soft));
+}
+
+.recipe-title {
+  margin: 0;
+  font-family: var(--sy-mincho, var(--mincho));
+  font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.625rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.recipe-summary {
+  margin: 0;
+  max-width: 46em;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.recipe-audience {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--sy-ink-soft, var(--ink-soft));
+}
+
+.recipe-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.625rem;
+  border-top: 1px solid var(--sy-rule, var(--rule));
+  padding-top: 0.875rem;
+}
+
+.recipe-step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.25rem 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--sy-rule, var(--rule));
+  background: var(--sy-paper, var(--paper));
+}
+
+.recipe-step-num {
+  font-family: var(--sy-mincho, var(--mincho));
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--accent-text);
+  white-space: nowrap;
+}
+
+.recipe-step-body {
+  min-width: 0;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.recipe-step-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.625rem;
+}
+
+.recipe-step-role {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--sy-ink-soft, var(--ink-soft));
+}
+
+.recipe-step-tool {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.recipe-step-why {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--sy-ink-soft, var(--ink-soft));
+}
+
+.recipe-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  padding-top: 0.25rem;
+}
+
+.finder-empty, .finder-error {
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+  border: 1px solid var(--sy-ink, var(--ink));
+  background: var(--surface);
+}
+
+.finder-page :focus-visible {
+  outline: 3px solid var(--sy-ink, var(--ink));
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px var(--lime, #cbef3a);
+}
+
+@media (min-width: 720px) {
+  .finder-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1080px) {
+  .finder-results {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .recipe-steps {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .recipe-step {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .finder-chip:not([aria-pressed="true"]):hover {
+    background: var(--sy-paper-deep, var(--paper-deep));
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #17150f;
+    --paper-deep: #242118;
+    --field: #201d15;
+    --ink: #f2eee3;
+    --ink-soft: #c0b9a8;
+    --rule: rgba(242, 238, 227, 0.24);
+    --sy-paper: #17150f;
+    --sy-paper-deep: #242118;
+    --sy-field: #201d15;
+    --sy-ink: #f2eee3;
+    --sy-ink-soft: #c0b9a8;
+    --sy-rule: rgba(242, 238, 227, 0.24);
+    --sy-accent: #ff8a4c;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper: #17150f;
+  --paper-deep: #242118;
+  --field: #201d15;
+  --ink: #f2eee3;
+  --ink-soft: #c0b9a8;
+  --rule: rgba(242, 238, 227, 0.24);
+  --sy-paper: #17150f;
+  --sy-paper-deep: #242118;
+  --sy-field: #201d15;
+  --sy-ink: #f2eee3;
+  --sy-ink-soft: #c0b9a8;
+  --sy-rule: rgba(242, 238, 227, 0.24);
+  --sy-accent: #ff8a4c;
+}

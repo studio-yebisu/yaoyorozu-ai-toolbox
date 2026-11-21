@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Yaoyorozu AI ToolBox｜用途から選ぶAIの道具箱</title>
   <meta name="description" content="Yaoyorozu AI ToolBoxは、AIスキルとツールを名前・用途・できることから探せる日本語カタログです。原典・ライセンス・確認状況を項目ごとにまとめています。">
-  <meta name="color-scheme" content="light">
-  <meta name="theme-color" content="#f2eee3">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f2eee3" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141311" media="(prefers-color-scheme: dark)">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="likes.css">
   <link rel="stylesheet" href="item-actions.css">
@@ -15,7 +16,7 @@
   <link rel="stylesheet" href="share.css">
 </head>
 <body class="home" id="top">
-  <a class="skip" href="#catalog">カタログへ移動</a>
+  <a class="skip" href="#main">メインコンテンツへ移動</a>
 
   <header class="masthead">
     <a class="wordmark" href="./" aria-label="Yaoyorozu AI ToolBox トップ">Yaoyorozu AI ToolBox</a>
@@ -31,21 +32,40 @@
     </nav>
   </header>
 
-  <main id="main">
+  <main id="main" tabindex="-1">
     <section class="intro" aria-labelledby="hero-title">
       <div class="intro-copy">
         <p class="intro-label">SKILLS · TOOLS · OPENWEIGHT</p>
         <h1 id="hero-title" class="intro-title"><span class="phrase">用途から、</span><span class="phrase">AIの道具を選ぶ。</span></h1>
         <p class="intro-lead">スキル・ツール・OpenWeightの使いどころとAIへの依頼文を、原典をもとに日本語でまとめています。</p>
+        <nav class="studio-strip" aria-label="制作スタジオの機能">
+          <a class="studio-link" href="finder.html"><span class="studio-link-title">用途ファインダー</span><span class="studio-link-sub">目的に合うレシピを探す</span></a>
+          <a class="studio-link" href="workbench.html"><span class="studio-link-title">保存・比較ワークベンチ</span><span class="studio-link-sub">比較表・メモ・キット出力</span></a>
+          <a class="studio-link" href="prompt-studio.html"><span class="studio-link-title">依頼ブリーフ作成</span><span class="studio-link-sub">依頼文のテンプレート調整</span></a>
+          <a class="studio-link" href="guides/"><span class="studio-link-title">制作ガイド</span><span class="studio-link-sub">UI・UX / スライド / モーション</span></a>
+          <a class="studio-link" href="open-models.html"><span class="studio-link-title">OpenWeight</span><span class="studio-link-sub">用途特化の重み公開モデル</span></a>
+        </nav>
       </div>
       <div class="intro-tools">
         <form class="search-box" role="search" aria-label="動画・デモを探す" action="./#cases" data-hero-form>
           <label for="hero-q" class="search-label">やりたいことや名前で探す</label>
           <div class="search-row">
-            <input id="hero-q" type="search" name="q" autocomplete="off" enterkeyhint="search" placeholder="例：スライド、図解、テスト" data-hero-q>
+            <div class="search-field">
+              <input id="hero-q" type="search" name="q" autocomplete="off" enterkeyhint="search" placeholder="例：スライド、図解、テスト" data-hero-q>
+              <button type="button" class="search-clear" data-hero-clear aria-label="検索文字を消す" hidden>×</button>
+            </div>
             <button type="submit" class="search-submit">探す</button>
           </div>
         </form>
+        <div class="intent-chips" role="group" aria-label="よく探される用途" data-intent-chips>
+          <span class="intent-label">よく探される用途</span>
+          <button type="button" class="intent-chip" data-intent-q="スライド">スライド</button>
+          <button type="button" class="intent-chip" data-intent-q="図解">図解・アニメ</button>
+          <button type="button" class="intent-chip" data-intent-q="音声">音声・文字起こし</button>
+          <button type="button" class="intent-chip" data-intent-q="MCP">MCP連携</button>
+          <button type="button" class="intent-chip" data-intent-q="テスト">開発・テスト</button>
+          <button type="button" class="intent-chip" data-intent-q="3D">3D・CAD</button>
+        </div>
         <dl class="tally" aria-label="掲載の内訳" data-tally>
           <div><dt>カタログ</dt><dd><span class="num" data-total>—</span>件</dd></div>
           <div><dt>分野</dt><dd><span class="num" data-cat-total>—</span></dd></div>
@@ -68,7 +88,7 @@
 
       <div class="saved-toolbar" hidden>
         <button class="saved-filter" type="button" aria-pressed="false" data-saved-only hidden>保存したもの <span class="saved-filter-count" data-saved-count>0</span></button>
-        <span class="saved-note">「あとで試す」はこのブラウザーに保存されます。</span>
+        <span class="saved-note">「あとで試す」はこのブラウザーに保存されます。<a href="workbench.html">ワークベンチで整理</a></span>
       </div>
       <div class="gallery-filter" role="group" aria-label="スキル・ツールを分野で絞り込む" data-gallery-chips hidden></div>
       <div class="gallery-query" data-gallery-query hidden></div>
@@ -86,6 +106,11 @@
           </div>
         </li>
       </ul>
+
+      <div class="gallery-more-wrap" data-gallery-more-wrap hidden>
+        <button type="button" class="btn btn-line" data-gallery-more></button>
+        <button type="button" class="text-btn" data-gallery-all>すべて表示</button>
+      </div>
 
       <div class="gallery-empty" data-gallery-empty hidden>
         <p class="empty-title">当てはまる項目がありません。</p>
@@ -147,6 +172,26 @@
               <button type="button" class="chip" data-kind="support" aria-pressed="false"><span class="mark mark-support" aria-hidden="true"></span>ツール・モデルなど<span class="chip-count" data-kind-count="support"></span></button>
             </div>
           </fieldset>
+          <fieldset class="filter">
+            <legend class="search-label">確認状況</legend>
+            <div class="chip-row">
+              <button type="button" class="chip" data-stage="all" aria-pressed="true">すべて</button>
+              <button type="button" class="chip" data-stage="runtime" aria-pressed="false">実制作デモ<span class="chip-count" data-stage-count="runtime"></span></button>
+              <button type="button" class="chip" data-stage="source" aria-pressed="false">原典・ガイド<span class="chip-count" data-stage-count="source"></span></button>
+              <button type="button" class="chip" data-stage="model" aria-pressed="false">OpenWeight<span class="chip-count" data-stage-count="model"></span></button>
+            </div>
+          </fieldset>
+          <div class="field-select">
+            <label for="sort" class="search-label">並び替え</label>
+            <div class="select-wrap">
+              <select id="sort" data-sort>
+                <option value="default">標準（収録順）</option>
+                <option value="updated">更新が新しい順</option>
+                <option value="likes">いいねが多い順</option>
+                <option value="name">名前順</option>
+              </select>
+            </div>
+          </div>
           <label class="chip chip-check">
             <input type="checkbox" data-with-case>
             <span>動画・デモのある項目だけ</span><span class="chip-count" data-case-count></span>
@@ -156,7 +201,15 @@
       </div>
 
       <div class="catalog-body">
-        <p id="result-status" class="result-status" role="status" aria-live="polite" data-status>カタログを読み込んでいます…</p>
+        <div class="catalog-head-bar">
+          <p id="result-status" class="result-status" role="status" aria-live="polite" data-status>カタログを読み込んでいます…</p>
+          <div class="view-toggle" role="group" aria-label="表示形式" data-view-toggle>
+            <button type="button" class="view-btn" data-view-mode="list" aria-pressed="true">リスト</button>
+            <button type="button" class="view-btn" data-view-mode="grid" aria-pressed="false">グリッド</button>
+          </div>
+        </div>
+        <div class="active-filters" data-active-filters hidden aria-label="適用中の絞り込み"></div>
+        <div class="top-tags" data-top-tags hidden role="group" aria-label="よく使われるタグ"></div>
         <p class="category-desc" data-cat-desc hidden></p>
 
         <ul class="entries" data-entries aria-busy="true" aria-labelledby="catalog-title"></ul>
@@ -193,6 +246,12 @@
       <a href="https://github.com/studio-yebisu/yaoyorozu-ai-toolbox">Yaoyorozu AI ToolBox</a>
     </nav>
   </footer>
+
+  <div class="studio-tray" data-studio-tray hidden role="region" aria-label="保存・比較ツール">
+    <button type="button" class="studio-tray-btn" data-tray-saved aria-pressed="false">保存 <span class="studio-tray-count" data-tray-saved-count>0</span></button>
+    <a class="studio-tray-link" href="workbench.html">ワークベンチ</a>
+    <a class="studio-tray-link is-compare" href="workbench.html" data-tray-compare-link hidden>比較 <span class="studio-tray-count" data-tray-compare-count>0</span>/4</a>
+  </div>
 
   <nav class="tabbar" aria-label="主な移動先" data-tabbar>
     <a class="tab" href="#top">

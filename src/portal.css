@@ -1,38 +1,128 @@
 /* Yaoyorozu AI ToolBox — unified site shell (portal) styles.
    Injected by the build on every treated page, after the page's own stylesheets.
-   Scope: everything here is gated to body[data-site-shell] so guide pages keep their
-   own typography; shared tokens use the --sy-* prefix. Mobile-first: 320px and 390px
-   are the base, the desktop nav takes over at 900px, matching styles.css breakpoints. */
+   Scope: everything here is gated to body[data-site-shell] (and html theme contracts)
+   so guide pages keep their own typography; shared tokens use the --sy-* prefix.
+   Mobile-first: 320px and 390px are the base, 600px expands gutters, desktop nav takes over at 900px. */
 
-:root {
-  --sy-paper: #f2eee3;
+:root,
+html[data-theme="light"] {
+  --paper: #f2eee3;
+  --surface: #fbf9f3;
+  --ink: #17150f;
+  --ink-soft: #4f4a3f;
+  --line: rgba(23, 21, 15, .14);
+  --line-strong: rgba(23, 21, 15, .28);
+  --accent-text: #b83900;
+  --accent-signal: #ff4f00;
+  --lime: #cbef3a;
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-pill: 999px;
+
+  --sy-paper: var(--paper);
   --sy-paper-deep: #e7e1d0;
-  --sy-field: #fbf9f3;
-  --sy-ink: #17150f;
-  --sy-ink-soft: #4f4a3f;
+  --sy-field: var(--surface);
+  --sy-ink: var(--ink);
+  --sy-ink-soft: var(--ink-soft);
   --sy-rule: rgba(23, 21, 15, 0.2);
-  --sy-accent: #b83900;
+  --sy-accent: var(--accent-text);
 
   /* Guide identity accents: 茜 (motion), 藍 (slides), 萌黄 (ui-ux). */
   --sy-c-motion: #b7282e;
   --sy-c-slides: #2f4d7d;
   --sy-c-uiux: #65720f;
 
-  --sy-focus: #cbef3a;
+  --sy-focus: var(--lime);
 
   --sy-mincho: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "BIZ UDPMincho", "Noto Serif JP", serif;
   --sy-sans: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", "YuGothic", "Meiryo", "Noto Sans JP", system-ui, sans-serif;
 
   --sy-max: 80rem;
   --sy-gutter: 1.25rem;
-  /* Two rows like styles.css --header-h: wordmark row + specialist guide row. */
-  --sy-header-h: 5.75rem;
+  --sy-header-h: 4.5rem;
   --sy-dock-h: 3.5rem;
+}
+
+html[data-theme="light"] { color-scheme: light; }
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #14120e;
+  --surface: #1d1a14;
+  --ink: #ece6d8;
+  --ink-soft: #b7afa0;
+  --line: rgba(236, 230, 216, .16);
+  --line-strong: rgba(236, 230, 216, .30);
+  --accent-text: #ff844d;
+  --accent-signal: #ff6b2b;
+  --lime: #c5e842;
+
+  --paper-deep: #27231b;
+  --field: #1d1a14;
+  --rule: rgba(236, 230, 216, 0.2);
+  --orange: #ff6b2b;
+  --muted: #b7afa0;
+
+  --sy-paper: #14120e;
+  --sy-paper-deep: #27231b;
+  --sy-field: #1d1a14;
+  --sy-ink: #ece6d8;
+  --sy-ink-soft: #b7afa0;
+  --sy-rule: rgba(236, 230, 216, 0.2);
+  --sy-accent: #ff844d;
+
+  --sy-c-motion: #f06d72;
+  --sy-c-slides: #7ca7ec;
+  --sy-c-uiux: #b7c93c;
+
+  --sy-focus: #c5e842;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #14120e;
+    --surface: #1d1a14;
+    --ink: #ece6d8;
+    --ink-soft: #b7afa0;
+    --line: rgba(236, 230, 216, .16);
+    --line-strong: rgba(236, 230, 216, .30);
+    --accent-text: #ff844d;
+    --accent-signal: #ff6b2b;
+    --lime: #c5e842;
+
+    --paper-deep: #27231b;
+    --field: #1d1a14;
+    --rule: rgba(236, 230, 216, 0.2);
+    --orange: #ff6b2b;
+    --muted: #b7afa0;
+
+    --sy-paper: #14120e;
+    --sy-paper-deep: #27231b;
+    --sy-field: #1d1a14;
+    --sy-ink: #ece6d8;
+    --sy-ink-soft: #b7afa0;
+    --sy-rule: rgba(236, 230, 216, 0.2);
+    --sy-accent: #ff844d;
+
+    --sy-c-motion: #f06d72;
+    --sy-c-slides: #7ca7ec;
+    --sy-c-uiux: #b7c93c;
+
+    --sy-focus: #c5e842;
+  }
+}
+
+@media (min-width: 600px) {
+  :root { --sy-gutter: 2rem; }
 }
 
 /* In-page anchors stop below the sticky shell header on every treated page. */
 html:has(body[data-site-shell]) {
-  scroll-padding-top: calc(var(--sy-header-h) + env(safe-area-inset-top) + 0.75rem);
+  scroll-padding-top: calc(var(--sy-header-actual-h, var(--sy-header-h)) + 1rem);
+}
+body[data-site-shell] :is(section[id], h1[id], h2[id], h3[id], a, button, input, select, textarea, summary) {
+  scroll-margin-top: calc(var(--sy-header-actual-h, var(--sy-header-h)) + 1rem);
 }
 @media (max-width: 899px) {
   html:has(body[data-site-shell]) {
@@ -64,7 +154,7 @@ body[data-site-shell] .sy-header-inner {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0 1rem;
+  gap: 0.25rem 0.375rem;
   max-width: var(--sy-max);
   margin-inline: auto;
   min-height: calc(var(--sy-header-h) + env(safe-area-inset-top));
@@ -75,26 +165,105 @@ body[data-site-shell] .sy-header-inner {
 }
 
 body[data-site-shell] .sy-brand {
+  order: 1;
   display: inline-flex;
   align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
   min-height: 2.75rem;
-  /* Same Latin wordmark treatment as styles.css; fluid so it fits a 320px screen. */
+  margin-right: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Same Latin wordmark treatment as styles.css; fluid so it fits a 320px screen alongside shell actions. */
   font-family: "Segoe UI", Arial, system-ui, sans-serif;
   font-weight: 700;
-  font-size: clamp(1rem, 4vw, 1.25rem);
+  font-size: clamp(0.875rem, 3.6vw, 1.25rem);
   line-height: 1.2;
   letter-spacing: -0.035em;
+  color: var(--sy-ink);
   text-decoration: none;
   white-space: nowrap;
 }
 
+body[data-site-shell] .sy-brand::before {
+  content: "";
+  width: 0.6875rem;
+  height: 0.6875rem;
+  flex: none;
+  border: 1.5px solid var(--sy-ink);
+  border-radius: 2px;
+  background: linear-gradient(135deg, var(--sy-accent) 0 55%, var(--sy-focus) 55% 100%);
+  box-shadow: 2px 2px 0 var(--sy-ink);
+}
+
 /* Main in-page navigation: desktop row beside the wordmark. Phones use the
    specialist guide row plus the bottom dock. */
-body[data-site-shell] .sy-nav { display: none; }
+body[data-site-shell] .sy-nav {
+  display: none;
+  order: 2;
+}
+
+body[data-site-shell] .sy-cmd-trigger,
+body[data-site-shell] .sy-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  flex: 0 0 auto;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--sy-field);
+  color: var(--sy-ink);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+body[data-site-shell] .sy-cmd-trigger { order: 3; }
+body[data-site-shell] .sy-theme-toggle { order: 4; }
+
+body[data-site-shell] :is(.sy-cmd-trigger, .sy-theme-toggle) svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+body[data-site-shell] .sy-kbd { display: none; }
+
+@media (max-width: 519px) {
+  body[data-site-shell] :is(.sy-cmd-trigger, .sy-theme-toggle) .sy-btn-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+@media (min-width: 520px) {
+  body[data-site-shell] .sy-header-inner { gap: 0.25rem 0.625rem; }
+  body[data-site-shell] :is(.sy-cmd-trigger, .sy-theme-toggle) {
+    padding: 0 0.75rem;
+  }
+}
 
 /* Specialist guides: one compact horizontally scrolling row at the top of every
    page and width (mirrors .masthead-sites), never a wrapped stack. */
 body[data-site-shell] .sy-sites {
+  order: 5;
   flex: 1 0 100%;
   display: flex;
   flex-wrap: nowrap;
@@ -102,9 +271,11 @@ body[data-site-shell] .sy-sites {
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scrollbar-width: thin;
+  border-top: 1px solid var(--line);
   font-size: 0.8125rem;
   font-weight: 600;
   line-height: 1.3;
+  color: var(--sy-ink);
 }
 
 body[data-site-shell] .sy-sites a {
@@ -112,6 +283,7 @@ body[data-site-shell] .sy-sites a {
   align-items: center;
   min-height: 2.75rem;
   min-width: 2.75rem;
+  color: var(--sy-ink);
   text-decoration: none;
   white-space: nowrap;
 }
@@ -121,7 +293,23 @@ body[data-site-shell] .sy-sites a[aria-current] {
   box-shadow: inset 0 -2px 0 var(--sy-accent);
 }
 
+body[data-site-shell] .sy-sites a[data-site-nav="ui-ux"][aria-current] {
+  color: var(--sy-c-uiux);
+  box-shadow: inset 0 -2px 0 var(--sy-c-uiux);
+}
+
+body[data-site-shell] .sy-sites a[data-site-nav="slides"][aria-current] {
+  color: var(--sy-c-slides);
+  box-shadow: inset 0 -2px 0 var(--sy-c-slides);
+}
+
+body[data-site-shell] .sy-sites a[data-site-nav="motion"][aria-current] {
+  color: var(--sy-c-motion);
+  box-shadow: inset 0 -2px 0 var(--sy-c-motion);
+}
+
 body[data-site-shell] .sy-header a:focus-visible,
+body[data-site-shell] .sy-header button:focus-visible,
 body[data-site-shell] .sy-dock a:focus-visible,
 body[data-site-shell] .sy-breadcrumb a:focus-visible,
 body[data-site-shell] .sy-guide-local a:focus-visible,
@@ -131,6 +319,13 @@ body[data-site-shell] .hub-card-more:focus-visible {
   outline: 3px solid var(--sy-ink);
   outline-offset: 2px;
   box-shadow: 0 0 0 5px var(--sy-focus);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body[data-site-shell] :is(.sy-cmd-trigger, .sy-theme-toggle):hover {
+    background: var(--sy-paper-deep);
+    border-color: var(--sy-ink);
+  }
 }
 
 /* ------------------------------------------------------------- breadcrumb */
@@ -192,6 +387,7 @@ body[data-site-shell] .sy-guide-local a {
   min-height: 2.75rem;
   padding: 0.25rem 0.875rem;
   border: 1px solid var(--sy-rule);
+  border-radius: var(--radius-pill);
   background: var(--sy-field);
   color: var(--sy-ink);
   font-size: 0.875rem;
@@ -200,6 +396,13 @@ body[data-site-shell] .sy-guide-local a {
 }
 
 body[data-site-shell] .sy-guide-local a:hover { background: var(--sy-paper-deep); }
+
+body[data-site-shell] .sy-guide-local a[aria-current] {
+  background: var(--sy-ink);
+  color: var(--sy-paper);
+  border-color: var(--sy-ink);
+  font-weight: 700;
+}
 
 /* ------------------------------------------------------------------- dock */
 
@@ -215,11 +418,29 @@ body[data-site-shell] .sy-dock {
   flex-wrap: nowrap;
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  scrollbar-width: thin;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
   background: var(--sy-paper);
   color: var(--sy-ink);
   border-top: 1px solid var(--sy-ink);
   padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+body[data-site-shell] .sy-dock::-webkit-scrollbar { display: none; }
+
+body[data-site-shell] .sy-dock[data-dock-overflow="right"] {
+  -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 2rem), transparent 100%);
+  mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 2rem), transparent 100%);
+}
+
+body[data-site-shell] .sy-dock[data-dock-overflow="left"] {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 2rem, #000 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 2rem, #000 100%);
+}
+
+body[data-site-shell] .sy-dock[data-dock-overflow="both"] {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 1.5rem, #000 calc(100% - 1.5rem), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 1.5rem, #000 calc(100% - 1.5rem), transparent 100%);
 }
 
 body[data-site-shell] .sy-dock a {
@@ -232,12 +453,45 @@ body[data-site-shell] .sy-dock a {
   min-width: 2.75rem;
   min-height: var(--sy-dock-h);
   padding: 0.25rem 0.75rem 0.375rem;
+  color: var(--sy-ink);
   font-size: 0.8125rem;
   line-height: 1.2;
   font-weight: 600;
   text-decoration: none;
   text-align: center;
   white-space: nowrap;
+}
+
+body[data-site-shell] .sy-dock.is-contextual {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  overflow-x: visible;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+body[data-site-shell] .sy-dock.is-contextual a {
+  min-width: 0;
+  padding: 0.25rem 0.25rem 0.375rem;
+}
+
+body[data-site-shell] .sy-dock.is-contextual a span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+body[data-site-shell] .sy-dock .icon {
+  width: 1.375rem;
+  height: 1.375rem;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 body[data-site-shell] .sy-dock a[aria-current] {
@@ -249,6 +503,32 @@ body[data-site-shell] .sy-dock a[aria-current] {
 
 /* While a text field has focus the dock steps aside, like the old tabbar. */
 html.is-editing body[data-site-shell] .sy-dock { display: none; }
+
+/* ------------------------------------------------------------------ toast */
+
+.sy-toast-host {
+  position: fixed;
+  left: max(var(--sy-gutter), env(safe-area-inset-left));
+  right: max(var(--sy-gutter), env(safe-area-inset-right));
+  bottom: calc(var(--sy-dock-h) + env(safe-area-inset-bottom) + 0.75rem);
+  z-index: 60;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+html.is-editing .sy-toast-host {
+  bottom: calc(env(safe-area-inset-bottom) + 0.75rem);
+}
+
+@media (min-width: 900px) {
+  .sy-toast-host {
+    left: auto;
+    right: max(var(--sy-gutter), env(safe-area-inset-right));
+    bottom: max(1.5rem, env(safe-area-inset-bottom));
+    justify-content: flex-end;
+  }
+}
 
 /* ----------------------------------------------------------------- footer */
 
@@ -279,6 +559,7 @@ body[data-site-shell] .sy-footer-brand {
   font-size: 1.25rem;
   line-height: 1.4;
   letter-spacing: -0.035em;
+  color: var(--sy-ink);
 }
 
 body[data-site-shell] .sy-footer nav {
@@ -317,6 +598,8 @@ body[data-site-shell] .sy-footer-note {
 @media (min-width: 900px) {
   :root { --sy-gutter: clamp(2rem, 4vw, 3.5rem); }
 
+  body[data-site-shell] .sy-header-inner { gap: 0.25rem 1rem; }
+
   body[data-site-shell] .sy-dock { display: none; }
 
   body[data-site-shell] .sy-nav {
@@ -346,6 +629,41 @@ body[data-site-shell] .sy-footer-note {
   body[data-site-shell] .sy-nav a[aria-current] {
     font-weight: 700;
     box-shadow: inset 0 -2px 0 var(--sy-accent);
+  }
+
+  body[data-site-shell] .sy-kbd {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.375rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    color: var(--sy-ink-soft);
+  }
+}
+
+@media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+  body[data-site-shell] :is(.sy-cmd-trigger, .sy-theme-toggle) {
+    min-height: 2.25rem;
+    padding: 0 0.75rem;
+  }
+}
+
+/* Short landscape phones: unpin sticky header and trim bottom dock height. */
+@media (max-height: 500px) and (orientation: landscape) {
+  :root { --sy-dock-h: 2.75rem; }
+  html:has(body[data-site-shell]) { scroll-padding-top: 1rem; }
+  body[data-site-shell] .sy-header { position: static; }
+  body[data-site-shell] .sy-dock a {
+    flex-direction: row;
+    gap: 0.375rem;
+    padding: 0.25rem 0.625rem;
+  }
+  body[data-site-shell] .sy-dock .icon {
+    width: 1.25rem;
+    height: 1.25rem;
   }
 }
 
@@ -397,6 +715,7 @@ body[data-site-shell] .hub-card {
   min-width: 0;
   padding: 1.125rem 1.125rem 1.25rem;
   background: var(--sy-field);
+  color: var(--sy-ink);
   border: 1px solid var(--sy-rule);
   border-top: 3px solid var(--hub-c, var(--sy-ink));
 }
@@ -525,6 +844,7 @@ body[data-site-shell] .hub-card-more::after { content: "→"; font-weight: 400; 
 body[data-site-shell] .hub-page-head {
   padding-top: 1.5rem;
   padding-bottom: 1.25rem;
+  color: var(--sy-ink);
 }
 
 body[data-site-shell] .hub-page-title {
@@ -572,7 +892,7 @@ body[data-site-shell] .sy-map-grid {
   padding-bottom: 3rem;
 }
 
-body[data-site-shell] .sy-map-group { min-width: 0; }
+body[data-site-shell] .sy-map-group { min-width: 0; color: var(--sy-ink); }
 
 body[data-site-shell] .sy-map-group h2 {
   margin: 0 0 0.25rem;

@@ -5,11 +5,160 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>制作ガイド｜Yaoyorozu AI ToolBox</title>
   <meta name="description" content="モーション・AIスライド・UI・UXの制作ガイドをひとつにまとめた一覧です。作りたいものごとに、選び方と進め方、確認済みのトピックを示し、道具のカタログの分野一覧とも対応づけています。">
-  <meta name="color-scheme" content="light">
+  <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#f2eee3">
   <link rel="stylesheet" href="../styles.css">
+  <style>
+    .hub-card-stats {
+      margin: 0.75rem 0 0;
+      padding: 0.5rem 0.65rem;
+      border: 1px solid var(--sy-rule, var(--rule));
+      background: var(--sy-paper, var(--paper));
+      font-size: 0.8125rem;
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--sy-ink-soft, var(--ink-soft));
+      font-variant-numeric: tabular-nums;
+    }
+    .hub-card-stats strong {
+      color: var(--sy-ink, var(--ink));
+    }
+    .hub-card-sublinks {
+      list-style: none;
+      margin: 0.65rem 0 0;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.375rem;
+    }
+    .hub-card-sublinks a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+      padding: 0.25rem 0.65rem;
+      border: 1px solid var(--sy-rule, var(--rule));
+      background: var(--sy-paper, var(--paper));
+      color: var(--sy-ink, var(--ink));
+      font-size: 0.8125rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .hub-card-sublinks a:hover {
+      background: var(--sy-paper-deep, var(--paper-deep));
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+    .guides-studio-hub {
+      margin-top: 1.5rem;
+      padding-top: 2rem;
+      padding-bottom: 2.5rem;
+      border-top: 1px solid var(--sy-ink, var(--ink));
+    }
+    .guides-studio-hub h2 {
+      margin: 0 0 0.5rem;
+      font-family: var(--sy-mincho, var(--mincho));
+      font-weight: 700;
+      font-size: clamp(1.375rem, 1.15rem + 0.9vw, 1.875rem);
+      line-height: 1.35;
+    }
+    .guides-studio-lead {
+      margin: 0 0 1.25rem;
+      max-width: 42em;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--sy-ink-soft, var(--ink-soft));
+    }
+    .guides-studio-grid {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.875rem;
+    }
+    .guides-studio-card {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      padding: 1rem 1.125rem;
+      border: 1px solid var(--sy-rule, var(--rule));
+      border-left: 4px solid var(--sy-accent, #b83900);
+      background: var(--sy-field, var(--field));
+    }
+    .guides-studio-card a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+      font-family: var(--sy-mincho, var(--mincho));
+      font-weight: 700;
+      font-size: 1.125rem;
+      text-decoration: none;
+    }
+    .guides-studio-card a::after {
+      content: " →";
+      font-family: var(--sy-sans, var(--sans));
+    }
+    .guides-studio-card a:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.22em;
+    }
+    .guides-studio-card p {
+      margin: 0.25rem 0 0;
+      font-size: 0.875rem;
+      line-height: 1.65;
+      color: var(--sy-ink-soft, var(--ink-soft));
+    }
+    @media (min-width: 700px) {
+      .guides-studio-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (min-width: 1050px) {
+      .guides-studio-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --paper: #17150f;
+        --paper-deep: #242118;
+        --field: #201d15;
+        --ink: #f2eee3;
+        --ink-soft: #c0b9a8;
+        --rule: rgba(242, 238, 227, 0.24);
+        --sy-paper: #17150f;
+        --sy-paper-deep: #242118;
+        --sy-field: #201d15;
+        --sy-ink: #f2eee3;
+        --sy-ink-soft: #c0b9a8;
+        --sy-rule: rgba(242, 238, 227, 0.24);
+        --sy-accent: #ff8a4c;
+        --sy-c-motion: #f26c6f;
+        --sy-c-slides: #85a9e6;
+        --sy-c-uiux: #b7c93d;
+      }
+    }
+    :root[data-theme="dark"] {
+      --paper: #17150f;
+      --paper-deep: #242118;
+      --field: #201d15;
+      --ink: #f2eee3;
+      --ink-soft: #c0b9a8;
+      --rule: rgba(242, 238, 227, 0.24);
+      --sy-paper: #17150f;
+      --sy-paper-deep: #242118;
+      --sy-field: #201d15;
+      --sy-ink: #f2eee3;
+      --sy-ink-soft: #c0b9a8;
+      --sy-rule: rgba(242, 238, 227, 0.24);
+      --sy-accent: #ff8a4c;
+      --sy-c-motion: #f26c6f;
+      --sy-c-slides: #85a9e6;
+      --sy-c-uiux: #b7c93d;
+    }
+  </style>
 </head>
-<body class="guides-index">
+<body class="guides-index" id="top">
   <a class="skip" href="#main">本文へ移動</a>
 
   <!-- SITE_HEADER -->
@@ -40,10 +189,16 @@
         <p class="hub-card-eyebrow">01 · MOTION</p>
         <h2 class="hub-card-title">モーション制作ガイド</h2>
         <p class="hub-card-goal">文字と図形を動かして、仕組みを伝える。作例から制作の進め方を選びます。</p>
+        <p class="hub-card-stats" data-guide-stats="motion">掲載件数を読み込み中…</p>
         <ul class="hub-card-topics">
           <li>動く作例から、スキルとツールの組み合わせを選ぶ</li>
           <li>チャットで短いアニメーションを作る</li>
           <li>HTML・React・Web UI・解説動画の4つのルート</li>
+        </ul>
+        <ul class="hub-card-sublinks" aria-label="モーションガイドの直通リンク">
+          <li><a href="motion/guide.html">制作の始め方</a></li>
+          <li><a href="motion/projects.html">作例とツール一覧</a></li>
+          <li><a href="motion/ATTRIBUTION.md">出典・利用条件</a></li>
         </ul>
         <a class="hub-card-cta" href="motion/">モーションガイドを読む</a>
         <a class="hub-card-more" href="../#motion">道具の一覧（モーション分野）を見る</a>
@@ -64,10 +219,17 @@
         <p class="hub-card-eyebrow">02 · SLIDES</p>
         <h2 class="hub-card-title">AIスライド制作ガイド</h2>
         <p class="hub-card-goal">原稿や資料から、伝わるスライドを作る。効果と形式からスキルを選びます。</p>
+        <p class="hub-card-stats" data-guide-stats="slides">掲載件数を読み込み中…</p>
         <ul class="hub-card-topics">
           <li>改善したい効果（動き・図解・変換など）から選ぶ</li>
           <li>PowerPoint・Web・PDFの形式で比べる</li>
           <li>書体の選び方と、AIへの依頼文の形</li>
+        </ul>
+        <ul class="hub-card-sublinks" aria-label="AIスライドガイドの直通リンク">
+          <li><a href="slides/guide.html">スライドの使い方</a></li>
+          <li><a href="slides/projects.html">ワークフロー</a></li>
+          <li><a href="slides/licenses.html">原典・利用条件</a></li>
+          <li><a href="slides/status.html">制作の状況</a></li>
         </ul>
         <a class="hub-card-cta" href="slides/">スライドガイドを読む</a>
         <a class="hub-card-more" href="../#slides">道具の一覧（AIスライド分野）を見る</a>
@@ -93,19 +255,125 @@
         <p class="hub-card-eyebrow">03 · UI・UX</p>
         <h2 class="hub-card-title">UI・UX制作ガイド</h2>
         <p class="hub-card-goal">見た目と操作を整える。目的から設計の手順を選びます。</p>
+        <p class="hub-card-stats" data-guide-stats="ui-ux">掲載件数を読み込み中…</p>
         <ul class="hub-card-topics">
           <li>目的に合う設計の手順を選ぶ</li>
           <li>デザインシステムと画面部品のスキル</li>
           <li>カタログの確認済みスキルと対応づけ</li>
+        </ul>
+        <ul class="hub-card-sublinks" aria-label="UI・UXガイドの直通リンク">
+          <li><a href="ui-ux/#catalog">スキル一覧</a></li>
+          <li><a href="ui-ux/examples/studio-desk/index.html">適用作例</a></li>
+          <li><a href="ui-ux/ATTRIBUTION.md">出典・利用条件</a></li>
         </ul>
         <a class="hub-card-cta" href="ui-ux/">UI・UXガイドを読む</a>
         <a class="hub-card-more" href="../#ui-ux">道具の一覧（UI・UX分野）を見る</a>
       </li>
     </ul>
 
+    <section class="hub-band guides-studio-hub" aria-labelledby="studio-hub-heading">
+      <p class="hub-kicker">STUDIO TOOLS</p>
+      <h2 id="studio-hub-heading">全分野・スタジオツールへの入口</h2>
+      <p class="guides-studio-lead">専門ガイドで進め方を掴んだら、用途別の道具探し、手元への組み合わせ整理、依頼ブリーフの作成へ直接移動できます。</p>
+      <ul class="guides-studio-grid">
+        <li class="guides-studio-card">
+          <a href="../finder.html">用途ファインダー・レシピ集</a>
+          <p>つくりたい対象や優先条件から道具を絞り込み、目的別の組み合わせレシピをそのまま開けます。</p>
+        </li>
+        <li class="guides-studio-card">
+          <a href="../workbench.html">ワークベンチ</a>
+          <p>選んだツールやレシピを手元の作業スタックとして並べ、実行順や組み合わせを整理します。</p>
+        </li>
+        <li class="guides-studio-card">
+          <a href="../prompt-studio.html">依頼ブリーフ作成スタジオ</a>
+          <p>カタログ掲載の道具をもとに、前提条件と完成条件をそろえた依頼文を作成します。</p>
+        </li>
+        <li class="guides-studio-card">
+          <a href="../open-models.html">OpenWeight モデル一覧</a>
+          <p>画像・音声・文字起こし・記憶管理など、用途が明確な重み公開モデルの仕組みと条件を確認できます。</p>
+        </li>
+        <li class="guides-studio-card">
+          <a href="../#fields">全17分野・カタログ一覧</a>
+          <p>専門3分野以外の調査・開発・3D・文書・自動化を含む全分野の一覧へ戻ります。</p>
+        </li>
+      </ul>
+    </section>
+
     <p class="hub-page-note">ガイドは進め方の案内、カタログは道具の一覧です。組み合わせて使うと、作りたいものから最短で試せます。各ガイドの末尾には、出典・利用条件・更新の記録を置いています。</p>
   </main>
 
   <!-- SITE_FOOTER -->
+
+  <script>
+    (() => {
+      'use strict';
+      const nodes = Array.from(document.querySelectorAll('[data-guide-stats]'));
+      if (!nodes.length) return;
+
+      async function readJson(path) {
+        const res = await fetch(path, {cache: 'no-cache'});
+        if (!res.ok) throw new Error(path + ' ' + res.status);
+        return res.json();
+      }
+
+      function renderCounts(catalogEntries, casesList) {
+        const entryTotals = Object.create(null);
+        for (const entry of catalogEntries) {
+          if (!entry || !entry.category) continue;
+          entryTotals[entry.category] = (entryTotals[entry.category] || 0) + 1;
+        }
+        const caseTotals = Object.create(null);
+        for (const item of casesList) {
+          if (!item || !item.category) continue;
+          caseTotals[item.category] = (caseTotals[item.category] || 0) + 1;
+        }
+        for (const node of nodes) {
+          const cat = node.dataset.guideStats;
+          const entriesCount = entryTotals[cat] || 0;
+          const casesCount = caseTotals[cat] || 0;
+          const strongEntries = document.createElement('strong');
+          strongEntries.textContent = String(entriesCount) + '件';
+          const strongCases = document.createElement('strong');
+          strongCases.textContent = String(casesCount) + '件';
+          node.replaceChildren(
+            'カタログ掲載 ',
+            strongEntries,
+            ' · 解説・実作例 ',
+            strongCases
+          );
+        }
+      }
+
+      Promise.allSettled([
+        readJson('../data/catalog.json'),
+        readJson('../data/curated-resources.json'),
+        readJson('../data/cases.json')
+      ]).then(([catRes, curRes, casesRes]) => {
+        const byId = Object.create(null);
+        if (catRes.status === 'fulfilled' && Array.isArray(catRes.value && catRes.value.entries)) {
+          for (const e of catRes.value.entries) byId[e.id] = e;
+        }
+        if (curRes.status === 'fulfilled' && Array.isArray(curRes.value && curRes.value.entries)) {
+          for (const e of curRes.value.entries) {
+            if (!byId[e.id]) byId[e.id] = e;
+          }
+        }
+        const casesList = casesRes.status === 'fulfilled' && Array.isArray(casesRes.value && casesRes.value.cases)
+          ? casesRes.value.cases
+          : [];
+        for (const c of casesList) {
+          if (c && c.catalog_entry && c.catalog_entry.id) {
+            byId[c.catalog_entry.id] = c.catalog_entry;
+          }
+        }
+        const entries = Object.values(byId);
+        if (!entries.length && !casesList.length) {
+          for (const node of nodes) node.textContent = '最新の掲載件数はカタログで確認できます。';
+          return;
+        }
+        renderCounts(entries, casesList);
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 /* Yaoyorozu AI ToolBox — home page case preview. A native <dialog> for one produced case: its responsive
    muted video, its local demo framed only on request, and its request text. Load after media.js, before
-   app.js. Exposes SY.casePreview.open(item, meta) where meta = {invoker, title, skill, category, href}.
+   app.js. Exposes SY.casePreview.open(item, meta) where meta = {invoker, title, skill, category, href, items?, index?}.
    Nothing here runs AI: the demo pages show samples produced in advance. */
 (() => {
   'use strict';
@@ -9,7 +9,6 @@
 
   // Only demo pages shipped with this site are framed; anything else stays a plain link.
   const LOCAL_DEMO = /^examples\/[A-Za-z0-9._-]+(?:\/[A-Za-z0-9._-]+)*\.html?(?:#[A-Za-z0-9._-]*)?$/;
-  const VIDEO_TYPES = {mp4: 'video/mp4', m4v: 'video/mp4', webm: 'video/webm', mov: 'video/quicktime'};
   const DEMO_NOTE = 'デモには事前に制作したサンプルを表示します。このページ上でAIは実行しません。';
   const SVG_NS = 'http://www.w3.org/2000/svg';
   const root = document.documentElement;
@@ -25,9 +24,17 @@
     }
   }
 
-  function videoType(url) {
-    const match = /\.([a-z0-9]+)(?:[?#]|$)/i.exec(url);
-    return (match && VIDEO_TYPES[match[1].toLowerCase()]) || null;
+  function svgIcon(paths) {
+    const svg = document.createElementNS(SVG_NS, 'svg');
+    for (const [key, value] of Object.entries({viewBox: '0 0 24 24', width: '24', height: '24', 'aria-hidden': 'true', focusable: 'false', class: 'icon'})) {
+      svg.setAttribute(key, value);
+    }
+    for (const d of paths) {
+      const path = document.createElementNS(SVG_NS, 'path');
+      path.setAttribute('d', d);
+      svg.append(path);
+    }
+    return svg;
   }
 
   // Existing demos are standalone pages. Keep their internal navigation in the frame, but let
@@ -73,17 +80,6 @@
     return result;
   }
 
-  function closeIcon() {
-    const svg = document.createElementNS(SVG_NS, 'svg');
-    for (const [key, value] of Object.entries({viewBox: '0 0 24 24', width: '24', height: '24', 'aria-hidden': 'true', focusable: 'false', class: 'icon'})) svg.setAttribute(key, value);
-    for (const d of ['M6 6l12 12', 'M18 6 6 18']) {
-      const path = document.createElementNS(SVG_NS, 'path');
-      path.setAttribute('d', d);
-      svg.append(path);
-    }
-    return svg;
-  }
-
   /* ---------- Dialog frame (built once, on first open) ---------- */
 
   let ui = null;
@@ -94,7 +90,16 @@
     const dialog = h('dialog', {class: 'preview', 'aria-labelledby': 'preview-title'});
     ui = {
       dialog,
-      close: h('button', {type: 'button', class: 'preview-close', autofocus: true}, closeIcon(), h('span', {}, '閉じる')),
+      bar: null,
+      barTitle: h('span', {class: 'preview-bar-title', 'aria-hidden': 'true'}),
+      prev: h('button', {type: 'button', class: 'preview-step', 'aria-label': '前の項目へ'},
+        svgIcon(['M15 6 9 12l6 6']), h('span', {class: 'preview-step-label'}, '前へ')),
+      pos: h('span', {class: 'preview-pos', 'data-preview-pos': ''}),
+      next: h('button', {type: 'button', class: 'preview-step', 'aria-label': '次の項目へ'},
+        h('span', {class: 'preview-step-label'}, '次へ'), svgIcon(['M9 6l6 6-6 6'])),
+      nav: null,
+      close: h('button', {type: 'button', class: 'preview-close', autofocus: true},
+        svgIcon(['M6 6l12 12', 'M18 6 6 18']), h('span', {}, '閉じる')),
       meta: h('p', {class: 'preview-meta'}),
       title: h('h2', {id: 'preview-title', class: 'preview-title'}),
       switcher: h('div', {class: 'preview-switch', role: 'group', 'aria-label': '表示するもの'}),
@@ -105,26 +110,38 @@
       share: h('div', {class: 'preview-share'}),
       summary: h('p', {class: 'preview-summary'}),
       itemActions: h('div', {class: 'preview-item-actions'}),
+      primaryActions: h('div', {class: 'preview-primary-actions', hidden: true}),
+      primaryNote: h('p', {class: 'preview-primary-note', hidden: true}),
       note: h('p', {class: 'preview-note'}, DEMO_NOTE),
       copy: h('button', {type: 'button', class: 'btn btn-ink'}, '依頼文をコピー'),
+      promptMeta: h('span', {class: 'preview-prompt-meta', hidden: true}),
+      studioLink: h('a', {class: 'btn btn-line'}, '依頼ブリーフで調整'),
       demoLink: h('a', {class: 'btn btn-line'}, 'デモを別ページで開く'),
       readLink: h('a', {class: 'btn btn-line'}, '記事を読む'),
       hint: h('p', {class: 'preview-hint'}),
       promptText: h('pre', {class: 'preview-prompt-text', tabindex: '0', 'aria-label': '依頼文'}),
       live: h('p', {class: 'sr-only', role: 'status', 'aria-live': 'polite'})
     };
-    ui.prompt = h('details', {class: 'preview-prompt'}, h('summary', {}, '依頼文を表示'), ui.promptText);
+    ui.nav = h('div', {class: 'preview-nav', role: 'group', 'aria-label': '前後の項目'}, ui.prev, ui.pos, ui.next);
+    ui.bar = h('div', {class: 'preview-bar'},
+      h('div', {class: 'preview-bar-main'}, ui.meta, ui.barTitle),
+      h('div', {class: 'preview-bar-controls'}, ui.nav, ui.close));
+    ui.prompt = h('details', {class: 'preview-prompt'},
+      h('summary', {}, '依頼文を表示'), ui.promptText);
     ui.switcher.append(ui.videoBtn, ui.demoBtn);
+    ui.copyRow = h('div', {class: 'preview-copy-row'}, ui.copy, ui.promptMeta);
     ui.sheet = h('div', {class: 'preview-sheet'},
-      h('div', {class: 'preview-bar'}, ui.meta, ui.close),
+      ui.bar,
       h('div', {class: 'preview-body'},
         ui.title,
         ui.summary,
         h('div', {class: 'preview-media'}, ui.switcher, ui.stage, ui.caption),
         h('div', {class: 'preview-info'},
           ui.itemActions,
+          ui.primaryActions,
+          ui.primaryNote,
           ui.note,
-          h('div', {class: 'preview-actions'}, ui.copy, ui.demoLink, ui.readLink),
+          h('div', {class: 'preview-actions'}, ui.copyRow, ui.studioLink, ui.demoLink, ui.readLink),
           ui.hint,
           ui.prompt),
         ui.share),
@@ -133,12 +150,17 @@
     document.body.append(dialog);
 
     ui.close.addEventListener('click', () => dialog.close());
+    ui.prev.addEventListener('click', () => step(-1));
+    ui.next.addEventListener('click', () => step(1));
     ui.videoBtn.addEventListener('click', () => show('media'));
     ui.demoBtn.addEventListener('click', () => {
       show('demo');
       say('デモを表示しました。枠の中で操作できます。');
     });
     ui.copy.addEventListener('click', copyRequest);
+    ui.sheet.addEventListener('scroll', () => {
+      ui.bar.classList.toggle('is-scrolled', ui.sheet.scrollTop > 72);
+    }, {passive: true});
 
     // A click that both starts and ends outside the sheet lands on the dialog itself: close.
     // Selecting text inside and releasing over the backdrop does not.
@@ -148,8 +170,20 @@
       if (event.target === dialog && pressedOutside) dialog.close();
       pressedOutside = false;
     });
-    // Native dialog makes the page inert; keep boundary Tab presses in the sheet as well.
+    // Native dialog makes the page inert; keep boundary Tab presses in the sheet as well,
+    // and let ArrowLeft/ArrowRight step between items when not focused in interactive media/inputs.
     dialog.addEventListener('keydown', event => {
+      if ((event.key === 'ArrowLeft' || event.key === 'ArrowRight')
+        && !event.ctrlKey && !event.metaKey && !event.altKey && !event.shiftKey) {
+        const active = document.activeElement;
+        if (!active || (!active.isContentEditable && !/^(INPUT|TEXTAREA|SELECT|VIDEO|AUDIO|IFRAME)$/.test(active.tagName))) {
+          if (current && Array.isArray(current.items) && current.items.length > 1) {
+            event.preventDefault();
+            step(event.key === 'ArrowRight' ? 1 : -1);
+            return;
+          }
+        }
+      }
       if (event.key !== 'Tab') return;
       const controls = Array.from(dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), summary, iframe, video[controls], [tabindex]:not([tabindex="-1"])'))
         .filter(el => {
@@ -158,6 +192,7 @@
         });
       const first = controls[0];
       const last = controls[controls.length - 1];
+      if (!first || !last) return;
       if ((event.shiftKey && document.activeElement === first) || (!event.shiftKey && document.activeElement === last)) {
         event.preventDefault();
         (event.shiftKey ? last : first).focus();
@@ -283,7 +318,57 @@
     }
   }
 
-  /* ---------- Open and close ---------- */
+  /* ---------- Navigation & Fill ---------- */
+
+  function updateStepper() {
+    const hasList = current && Array.isArray(current.items) && current.items.length > 1;
+    ui.nav.hidden = !hasList;
+    if (!hasList) return;
+    const total = current.items.length;
+    const idx = current.index;
+    ui.pos.textContent = (idx + 1) + ' / ' + total;
+    ui.prev.disabled = idx <= 0;
+    ui.next.disabled = idx >= total - 1;
+  }
+
+  function step(delta) {
+    if (!current || !Array.isArray(current.items) || current.items.length < 2) return;
+    const nextIdx = current.index + delta;
+    if (nextIdx < 0 || nextIdx >= current.items.length) return;
+    const entry = current.items[nextIdx];
+    if (!entry || !entry.item) return;
+    current.index = nextIdx;
+    current.item = entry.item;
+    current.meta = entry.meta;
+    stopMedia();
+    fill(entry.item, entry.meta);
+    show('media');
+    ui.sheet.scrollTop = 0;
+    ui.bar.classList.remove('is-scrolled');
+    say((nextIdx + 1) + '件目 / ' + current.items.length + '件：' + (entry.meta.skill || entry.meta.title));
+  }
+
+  function renderPrimaryActions(item) {
+    const actions = Array.isArray(item.primary_actions) ? item.primary_actions : [];
+    const links = [];
+    for (const act of actions) {
+      if (!act || typeof act.label !== 'string' || !act.label.trim()) continue;
+      const href = safeHref(act.href);
+      if (!href) continue;
+      const external = isExternal(href);
+      links.push(h('a', {
+        class: act.kind === 'primary' ? 'btn btn-ink' : 'btn btn-line',
+        href,
+        target: external ? '_blank' : null,
+        rel: external ? 'noopener noreferrer' : null
+      }, act.label.trim()));
+    }
+    ui.primaryActions.replaceChildren(...links);
+    ui.primaryActions.hidden = !links.length;
+    const note = typeof item.primary_actions_note === 'string' ? item.primary_actions_note.trim() : '';
+    ui.primaryNote.textContent = note;
+    ui.primaryNote.hidden = !links.length || !note;
+  }
 
   function fill(item, meta) {
     ui.share.replaceChildren(window.SY.videoShare.create(item));
@@ -291,11 +376,14 @@
     ui.meta.replaceChildren(...[
       meta.category ? h('span', {class: 'card-cat'}, meta.category) : null,
       item.updated_on ? h('span', {}, String(item.updated_on) + ' 更新') : null].filter(Boolean));
+    ui.barTitle.textContent = meta.skill ? (meta.skill + ' — ' + meta.title) : meta.title;
     ui.title.replaceChildren(...[
       meta.skill ? h('span', {class: 'preview-skill'}, meta.skill) : null,
       h('span', {class: 'preview-case'}, meta.title)].filter(Boolean));
     ui.summary.textContent = (item.catalog_entry && item.catalog_entry.summary) || lead(item.summary);
     ui.summary.hidden = !ui.summary.textContent;
+
+    renderPrimaryActions(item);
 
     const demo = safeHref(item.demo);
     const framed = localDemo(demo);
@@ -308,22 +396,59 @@
       ui.demoLink.textContent = isExternal(demo) ? 'デモを外部のページで開く' : 'デモを別ページで開く';
     }
     ui.readLink.href = meta.href;
+    const toolId = (item.catalog_entry && item.catalog_entry.id) || item.id;
+    const studioHref = toolId ? 'prompt-studio.html?tool=' + encodeURIComponent(toolId) : null;
+    ui.studioLink.hidden = !studioHref;
+    if (studioHref) ui.studioLink.href = studioHref;
 
     const hasRequest = typeof item.request === 'string' && item.request.trim() !== '';
     clearTimeout(labelTimer);
     ui.copy.textContent = '依頼文をコピー';
-    ui.copy.hidden = !hasRequest;
+    ui.copyRow.hidden = !hasRequest;
+    ui.promptMeta.hidden = !hasRequest;
+    if (hasRequest) {
+      const chars = item.request.length;
+      const lines = item.request.split(/\r?\n/).length;
+      ui.promptMeta.textContent = chars.toLocaleString('ja-JP') + '文字・' + lines + '行';
+    }
     ui.prompt.hidden = !hasRequest;
     ui.prompt.open = false;
     ui.promptText.textContent = hasRequest ? item.request : '';
     ui.hint.hidden = true;
     ui.live.textContent = '';
+
+    updateStepper();
+
+    if (window.SY.recent && typeof window.SY.recent.push === 'function') {
+      try {
+        window.SY.recent.push({
+          id: window.SY.likes.caseID(item),
+          type: 'case',
+          title: meta.skill || meta.title,
+          href: meta.href,
+          cat: meta.category || ''
+        });
+      } catch (_) { /* Optional recent history. */ }
+    }
   }
 
   function open(item, meta) {
     if (!ui) build();
     if (ui.dialog.open) return;
-    current = {item, meta, invoker: meta.invoker || document.activeElement, x: window.scrollX, y: window.scrollY};
+    const items = Array.isArray(meta.items) && meta.items.length ? meta.items : [{item, meta}];
+    let index = Number.isInteger(meta.index) && meta.index >= 0 && meta.index < items.length
+      ? meta.index
+      : items.findIndex(entry => entry && entry.item && entry.item.id === item.id);
+    if (index < 0) index = 0;
+    current = {
+      item,
+      meta,
+      items,
+      index,
+      invoker: meta.invoker || document.activeElement,
+      x: window.scrollX,
+      y: window.scrollY
+    };
     fill(item, meta);
     show('media');
     // The page keeps its scroll position and width; the reserved gutter stops a sideways jump.
@@ -331,6 +456,7 @@
     ui.dialog.showModal();
     window.SY.media.setFocus(ui.dialog);
     ui.sheet.scrollTop = 0;
+    ui.bar.classList.remove('is-scrolled');
     ui.close.focus({preventScroll: true});
   }
 
@@ -343,7 +469,10 @@
     root.classList.remove('has-preview');
     if (!state) return;
     if (window.scrollX !== state.x || window.scrollY !== state.y) window.scrollTo(state.x, state.y);
-    if (state.invoker && state.invoker.isConnected) {
+    const activeCard = state.item && document.querySelector('a[data-case-id="' + state.item.id.replace(/["\\]/g, '\\$&') + '"]');
+    if (activeCard && activeCard.isConnected) {
+      activeCard.focus({preventScroll: true});
+    } else if (state.invoker && state.invoker.isConnected) {
       state.invoker.focus({preventScroll: true});
     } else {
       // Unsaving inside the dialog can drop the invoking card while 「保存したもの」 is on; land on the gallery.
